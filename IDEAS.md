@@ -2,12 +2,13 @@ Ideas on how we'll solve future problems.
 
 Installation
 ------------
-We'll provide a simple was to install the application once downloaded, from the command line.
+We'll provide a simple way to install the application once downloaded, from the command line.
 
 e.g. php artisan getcandy:install
 
 It will ask if it's OK to track some annonymous stats and also whether they want to set-up a site license, for adding
-plugins etc down the line.
+plugins etc down the line. We could also potentially set-up an optional GetCandy Marketplace account at this point,
+with a password.
 
 
 Updating the main application
