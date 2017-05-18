@@ -9,22 +9,22 @@ class TopMenu extends Menu
     public function __construct()
     {
         $catalogueManagerItems = [
-            new NavItem('Products', 'cms_cm_products'),
-            new NavItem('Collections', 'cms_logout'),
-            new NavItem('Catalogues', 'cms_logout'),
-            new NavItem('Media', 'cms_logout'),
-            new NavItem('Attributes', 'cms_logout'),
-            new NavItem('Aliases', 'cms_logout')
+            new NavItem('Products', 'cm_products'),
+            new NavItem('Collections', 'dashboard'),
+            new NavItem('Catalogues', 'dashboard'),
+            new NavItem('Media', 'dashboard'),
+            new NavItem('Attributes', 'dashboard'),
+            new NavItem('Aliases', 'dashboard')
         ];
 
         $this->navItems = [
-            new NavItem('getcandy_cms::menus/top_menu.catalogue_manager', 'cms_logout', $catalogueManagerItems),
-            new NavItem('getcandy_cms::menus/top_menu.order_processing', 'cms_logout'),
-            new NavItem('getcandy_cms::menus/top_menu.marketing_suite', 'cms_logout', $catalogueManagerItems),
-            new NavItem('getcandy_cms::menus/top_menu.reports', 'cms_logout'),
-            new NavItem('getcandy_cms::menus/top_menu.settings', 'cms_logout')
+            new NavItem('menus/top_menu.catalogue_manager', 'dashboard', $catalogueManagerItems),
+            new NavItem('menus/top_menu.order_processing', 'dashboard'),
+            new NavItem('menus/top_menu.marketing_suite', 'dashboard', $catalogueManagerItems),
+            new NavItem('menus/top_menu.reports', 'dashboard'),
+            new NavItem('menus/top_menu.settings', 'dashboard')
         ];
 
-        $this->view = 'getcandy_cms::menus.top-menu';
+        $this->view = 'menus.top-menu';
     }
 }

@@ -10,14 +10,14 @@ class SideMenu extends Menu
     public function __construct()
     {
         $this->navItems = [
-            new NavItem('Products', 'cms_cm_products'),
-            new NavItem('Collections', 'cms_logout'),
-            new NavItem('Catalogues', 'cms_logout'),
-            new NavItem('Media', 'cms_logout'),
-            new NavItem('Attributes', 'cms_logout'),
-            new NavItem('Aliases', 'cms_logout')
+            new NavItem('Products', 'cm_products'),
+            new NavItem('Collections', 'dashboard'),
+            new NavItem('Catalogues', 'dashboard'),
+            new NavItem('Media', 'dashboard'),
+            new NavItem('Attributes', 'dashboard'),
+            new NavItem('Aliases', 'dashboard')
         ];
 
-        $this->view = 'getcandy_cms::menus.side-menu';
+        $this->view = 'menus.side-menu';
     }
 }

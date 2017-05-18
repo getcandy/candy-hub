@@ -6,6 +6,6 @@ class DashboardController extends Controller
 {
     public function getIndex()
     {
-        return view('getcandy_cms::dashboard');
+        return view('dashboard');
     }
 }

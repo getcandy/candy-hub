@@ -27,9 +27,21 @@ const app = new Vue({
 });
 
 
+window.axios.interceptors.response.use((response) => { // intercept the global error
+    return response
+  }, function (error) {
+    if (error.response.status === 401) {
+        window.location.href = '/login';
+        return;
+    }
+    // Do something with response error
+    return Promise.reject(error)
+  })
 
 
-/* Misc crap */
+
+
+/* Misc crap - need to remove!!! */
 
 // Clickable Table Row
 

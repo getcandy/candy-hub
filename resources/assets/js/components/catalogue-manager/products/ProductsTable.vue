@@ -6,11 +6,19 @@
             }
         },
         mounted() {
-            axios.get('/api-mocks/products.json').then(response => this.products = response.data.data);
+            this.loadProducts();
         },
         methods: {
             loadProduct: function (id) {
-                location.href = '/cms/catalogue-manager/products/1';
+                location.href = '/catalogue-manager/products/1';
+            },
+            loadProducts: function () {
+                this.products = [];
+                axios.get('/api/v1/products')
+                  .then(response => this.products = response.data.data)
+                  .catch(function (error) {
+                    console.log(error);
+                  });
             }
         }
     }
@@ -65,7 +73,7 @@
                   </div>
                 </div>
                 <div class="form-group col-xs-12 col-md-2">
-                  <button type="submit" class="btn btn-default btn-full"><i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search</button>
+                  <button type="submit" class="btn btn-default btn-full" @click.prevent="loadProducts();"><i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search</button>
                 </div>
               </div>
             </form>
@@ -115,7 +123,7 @@
                       <label :for="'prod' + p.id"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" :alt="p.name"></td>
+                  <td><img src="/images/placeholder/product.jpg" :alt="p.name"></td>
                   <td class="product">{{ p.name }}</td>
                   <td>All</td>
                   <td>All</td>

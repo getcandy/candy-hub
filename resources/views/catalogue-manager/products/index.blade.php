@@ -1,7 +1,7 @@
-@extends('getcandy_cms::layout')
+@extends('layout')
 
 @section('side_menu')
-    @include('getcandy_cms::catalogue-manager.partials.side-menu')
+    @include('catalogue-manager.partials.side-menu')
 @endsection
 
 @section('header_title')
@@ -114,7 +114,7 @@
                       <label for="prod1"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="{{ route('cms_cm_products_edit') }}"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="{{ route('cms_cm_products_edit') }}"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="{{ route('cms_cm_products_edit') }}">Aquacomb</td>
                   <td class="link" data-href="{{ route('cms_cm_products_edit') }}">All</td>
                   <td class="link" data-href="{{ route('cms_cm_products_edit') }}">All</td>
@@ -127,7 +127,7 @@
                       <label for="prod2"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>
@@ -140,7 +140,7 @@
                       <label for="prod3"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>
@@ -153,7 +153,7 @@
                       <label for="prod4"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>
@@ -166,7 +166,7 @@
                       <label for="prod5"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>
@@ -179,7 +179,7 @@
                       <label for="prod6"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>
@@ -192,7 +192,7 @@
                       <label for="prod7"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>
@@ -205,7 +205,7 @@
                       <label for="prod8"><span class="check"></span></label>
                     </div>
                   </td>
-                  <td class="link" data-href="product.html"><img src="/vendor/getcandy_cms/images/placeholder/product.jpg" alt="Aquacomb"></td>
+                  <td class="link" data-href="product.html"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
                   <td class="link product" data-href="product.html">Aquacomb</td>
                   <td class="link" data-href="product.html">All</td>
                   <td class="link" data-href="product.html">All</td>

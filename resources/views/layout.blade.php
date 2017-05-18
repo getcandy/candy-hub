@@ -23,7 +23,7 @@
         <hr>
         <nav class="side-nav">
           <ul>
-              <li><a href="{{ route('cms_logout') }}">Logout</a></li>
+              <li><a href="{{ route('logout') }}">Logout</a></li>
           </ul>
         </nav>
 

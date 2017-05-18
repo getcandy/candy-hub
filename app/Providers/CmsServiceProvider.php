@@ -4,6 +4,7 @@ namespace GetCandy\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Validator;
+use View;
 
 class CmsServiceProvider extends ServiceProvider
 {

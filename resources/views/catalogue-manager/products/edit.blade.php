@@ -1,7 +1,7 @@
-@extends('getcandy_cms::layout')
+@extends('layout')
 
 @section('side_menu')
-    @include('getcandy_cms::catalogue-manager.partials.side-menu')
+    @include('catalogue-manager.partials.side-menu')
 @endsection
 
 @section('header_title')

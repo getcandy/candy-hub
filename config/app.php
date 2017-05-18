@@ -180,6 +180,7 @@ return [
         // GetCandy\Providers\BroadcastServiceProvider::class,
         GetCandy\Providers\EventServiceProvider::class,
         GetCandy\Providers\RouteServiceProvider::class,
+        GetCandy\Providers\CmsServiceProvider::class,
 
     ],
 
