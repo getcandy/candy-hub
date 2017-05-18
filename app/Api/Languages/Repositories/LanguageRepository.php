@@ -13,6 +13,6 @@ class LanguageRepository
      */
     public function existsByCode($code)
     {
-        return Language::where('code', '=', $lang)->exists();
+        return Language::where('code', '=', $code)->exists();
     }
 }
