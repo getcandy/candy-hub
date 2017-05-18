@@ -14,6 +14,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'api_version' => 'v1',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -167,15 +169,17 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        GetCandy\Providers\AppServiceProvider::class,
+        GetCandy\Providers\AuthServiceProvider::class,
+        // GetCandy\Providers\BroadcastServiceProvider::class,
+        GetCandy\Providers\EventServiceProvider::class,
+        GetCandy\Providers\RouteServiceProvider::class,
 
     ],
 
