@@ -34,7 +34,7 @@ class ProductController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = $this->productManager->getPaginatedResults($request->per_page);
+        $paginator = $this->productManager->service()->dataGetPaginatedResults($request->per_page);
         // event(new ViewProductEvent(['hello' => 'there']));
         return $this->respondWithCollection($paginator, new ProductTransformer);
     }
@@ -47,7 +47,7 @@ class ProductController extends BaseController
     public function show($id)
     {
         try {
-            $product = $this->productManager->getByHashedId($id);
+            $product = $this->productManager->service()->dataGetByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
@@ -62,7 +62,7 @@ class ProductController extends BaseController
     public function store(CreateRequest $request)
     {
         try {
-            $result = $this->productManager->create($request->all());
+            $result = $this->productManager->service()->create($request->all());
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
@@ -78,7 +78,7 @@ class ProductController extends BaseController
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = $this->productManager->update($id, $request->all());
+            $result = $this->productManager->service()->update($id, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -98,7 +98,7 @@ class ProductController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = $this->productManager->delete($id);
+            $result = $this->productManager->service()->delete($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
