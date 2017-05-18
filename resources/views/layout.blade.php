@@ -7,14 +7,14 @@
 
     <title>GetCandy</title>
 
-    @include('getcandy_cms::partials.head')
+    @include('partials.head')
 
   </head>
   <body>
     <div class="wrap" id="app">
       <div class="sidebar">
 
-        @include('getcandy_cms::partials.top-menu')
+        @include('partials.top-menu')
 
         <div class="side-purple-overlay"></div>
 
@@ -49,7 +49,7 @@
     </div>
     <div class="main-purple-overlay"></div>
 
-    @include('getcandy_cms::partials.scripts')
+    @include('partials.scripts')
 
   </body>
 </html>

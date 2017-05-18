@@ -7,7 +7,7 @@
 
     <title>GetCandy</title>
 
-    <link rel="shortcut icon" type="image/png" href="/vendor/getcandy_cms/images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700" rel="stylesheet">
@@ -16,7 +16,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- GetCandy -->
-    <link href="/vendor/getcandy_cms/css/app.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -34,7 +34,7 @@
     <div class="row">
       <div class="col-xs-12 col-md-5">
         <div class="login-form">
-          <img src="/vendor/getcandy_cms/images/logo/getcandy.png" class="logo" alt="GetCandy">
+          <img src="/images/logo/getcandy.png" class="logo" alt="GetCandy">
 
           @if($errors->any())
             <div class="alert alert-danger">
@@ -77,7 +77,7 @@
           </form>
           <hr>
           <div class="text-center">
-            <a href="{{ route('cms_password.request') }}" title="Forgotten your password?">Forgot your password?</a>
+            <a href="{{ route('password.request') }}" title="Forgotten your password?">Forgot your password?</a>
           </div>
         </div>
       </div>
@@ -85,15 +85,7 @@
     </div>
   </div>
     <div class="main-purple-overlay"></div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="/vendor/getcandy_cms/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap Select -->
-    <script src="/vendor/getcandy_cms/js/bootstrap-select.min.js"></script>
-
-    <!-- Boostrap Datepicker -->
-    <script src="/vendor/getcandy_cms/js/bootstrap-datepicker.min.js"></script>
-
-    <script src="/vendor/getcandy_cms/js/app.js"></script>
+    <script src="/js/app.js"></script>
   </body>
 </html>

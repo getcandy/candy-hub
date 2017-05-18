@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Controllers\Cms\Auth;
 
-use GetCandy\Http\Controllers\Controller;
+use GetCandy\Http\Controllers\Cms\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller

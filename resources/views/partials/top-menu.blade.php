@@ -1,6 +1,6 @@
       <nav class="top-level">
         <div class="logo">
-          <img src="/vendor/getcandy_cms/images/logo/getcandy.png" alt="GetCandy">
+          <img src="/images/logo/getcandy.png" alt="GetCandy">
           <i class="fa fa-angle-right" aria-hidden="true"></i>
         </div>
 
