@@ -40,7 +40,7 @@ abstract class BaseRepository
     {
         $parsedIds = [];
         foreach ($ids as $hash) {
-            $parsedIds[] = $this->encoder->decodeId($hash);
+            $parsedIds[] = $this->model->decodeId($hash);
         }
         return $this->model->find($parsedIds);
     }
