@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Cms\Http\Controllers\CatalogueManager;
+namespace GetCandy\Http\Controllers\Cms\CatalogueManager;
 
 use GetCandy\Cms\Http\Controllers\Controller;
 

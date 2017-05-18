@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Cms\Http\Controllers;
+namespace GetCandy\Http\Controllers\Cms;
 
 class DashboardController extends Controller
 {
