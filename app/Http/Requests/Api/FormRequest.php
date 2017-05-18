@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Http\Requests;
+namespace GetCandy\Http\Requests\Api;
 
 use GetCandy\Exceptions\Api\AuthorizationException;
 use GetCandy\Exceptions\Api\ValidationException;

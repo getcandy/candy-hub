@@ -104,9 +104,4 @@ class ProductService
         }
         return $product->delete();
     }
-
-    public function getPaginatedResults($length)
-    {
-        return $this->productRepo->getPaginatedResults($length);
-    }
 }

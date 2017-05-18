@@ -9,7 +9,8 @@ class UpdateRequest extends FormRequest
 {
     public function authorize()
     {
-        return $this->user()->can('update', Product::class);
+        // return $this->user()->can('update', Product::class);
+        return true;
     }
 
     public function rules()

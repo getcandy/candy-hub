@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Products;
 
 use GetCandy\Api\Products\Services\ProductService;
+use GetCandy\Api\Products\Repositories\ProductRepository;
 
 class ProductManager
 {
@@ -11,15 +12,22 @@ class ProductManager
      */
     protected $productService;
 
-    public function __construct(ProductService $productService)
-    {
+    /**
+     * @var ProductRepository
+     */
+    protected $productRepo;
+
+    public function __construct(
+        ProductService $productService,
+        ProductRepository $productRepo
+    ) {
         $this->productService = $productService;
+        $this->productRepo = $productRepo;
     }
 
-    public function getPaginatedResults($length = 50)
-    {
-        return $this->productService->getPaginatedResults($length);
-    }
+    /*=======================================
+    =            Service Methods            =
+    =======================================*/
 
     public function update($id, array $data)
     {
@@ -35,4 +43,22 @@ class ProductManager
     {
         return $this->productService->deleteByHashedId($id);
     }
+
+    /*=====  End of Service Methods  ======*/
+
+    /*==========================================
+    =            Repository Methods            =
+    ==========================================*/
+
+    public function getPaginatedResults($length = 50)
+    {
+        return $this->productRepo->getPaginatedResults($length);
+    }
+
+    public function getByHashedId($id)
+    {
+        return $this->productRepo->getByHashedId($id);
+    }
+
+    /*=====  End of Repository Methods  ======*/
 }

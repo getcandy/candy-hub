@@ -6,9 +6,9 @@ namespace GetCandy\Http\Controllers\Api;
 use GetCandy\Api\Products\ProductManager;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
-use GetCandy\Http\Requests\Api\Requests\Products\CreateRequest;
-use GetCandy\Http\Requests\Api\Requests\Products\DeleteRequest;
-use GetCandy\Http\Requests\Api\Requests\Products\UpdateRequest;
+use GetCandy\Http\Requests\Api\Products\CreateRequest;
+use GetCandy\Http\Requests\Api\Products\DeleteRequest;
+use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Transformers\ProductTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -83,6 +83,8 @@ class ProductController extends BaseController
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
+        } catch (InvalidLanguageException $e) {
+            return $this->errorUnprocessable($e->getMessage());
         }
         return $this->respondWithItem($result, new ProductTransformer);
     }
@@ -96,7 +98,7 @@ class ProductController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = $this->productManager->deleteByHashedId($id);
+            $result = $this->productManager->delete($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
