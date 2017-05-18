@@ -5,8 +5,9 @@ namespace GetCandy\Api\Products\Services;
 use GetCandy\Api\Languages\LanguageManager;
 use GetCandy\Api\Products\Repositories\ProductRepository;
 use GetCandy\Exceptions\InvalidLanguageException;
+use GetCandy\Api\Scaffold\BaseService;
 
-class ProductService
+class ProductService extends BaseService
 {
     /**
      * @var LanguageService
@@ -16,14 +17,14 @@ class ProductService
     /**
      * @var ProductRepository
      */
-    protected $productRepo;
+    protected $repo;
 
     public function __construct(
         LanguageManager $languageManager,
-        ProductRepository $productRepo
+        ProductRepository $repo
     ) {
         $this->languageManager = $languageManager;
-        $this->productRepo = $productRepo;
+        $this->repo = $repo;
     }
 
     /**
@@ -39,7 +40,7 @@ class ProductService
      */
     public function update($id, $data)
     {
-        $product = $this->productRepo->getByHashedId($id);
+        $product = $this->repo->getByHashedId($id);
 
         if (! $product) {
             abort(404);
@@ -71,7 +72,7 @@ class ProductService
      */
     public function create(array $data)
     {
-        $product = $this->productRepo->getNew();
+        $product = $this->repo->getNew();
 
         foreach ($data['name'] as $lang => $value) {
             if (! $this->languageManager->existsByCode($lang)) {
@@ -98,7 +99,7 @@ class ProductService
      */
     public function deleteByHashedId($hashedId)
     {
-        $product = $this->productRepo->getByHashedId($hashedId);
+        $product = $this->repo->getByHashedId($hashedId);
         if (!$product) {
             abort(404);
         }
