@@ -98,7 +98,7 @@ class ProductController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = $this->productManager->deleteByHashedId($id);
+            $result = $this->productManager->delete($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
