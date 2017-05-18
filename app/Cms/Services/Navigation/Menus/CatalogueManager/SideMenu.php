@@ -10,12 +10,12 @@ class SideMenu extends Menu
     public function __construct()
     {
         $this->navItems = [
-            new NavItem('Products', 'cm_products'),
-            new NavItem('Collections', 'dashboard'),
-            new NavItem('Catalogues', 'dashboard'),
-            new NavItem('Media', 'dashboard'),
-            new NavItem('Attributes', 'dashboard'),
-            new NavItem('Aliases', 'dashboard')
+            new NavItem('Products', route('cm_products')),
+            new NavItem('Collections', route('dashboard')),
+            new NavItem('Catalogues', route('dashboard')),
+            new NavItem('Media', route('dashboard')),
+            new NavItem('Attributes', route('dashboard')),
+            new NavItem('Aliases', route('dashboard'))
         ];
 
         $this->view = 'menus.side-menu';

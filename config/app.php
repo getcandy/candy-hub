@@ -181,6 +181,7 @@ return [
         GetCandy\Providers\EventServiceProvider::class,
         GetCandy\Providers\RouteServiceProvider::class,
         GetCandy\Providers\CmsServiceProvider::class,
+        GetCandy\Providers\PluginServiceProvider::class,
 
     ],
 

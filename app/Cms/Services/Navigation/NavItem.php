@@ -22,7 +22,7 @@ class NavItem
 
     public function getUrl()
     {
-        return route($this->route);
+        return $this->route;
     }
 
     public function getSubItems()

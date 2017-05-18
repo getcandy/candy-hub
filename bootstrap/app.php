@@ -41,6 +41,8 @@ $app->singleton(
     GetCandy\Exceptions\Handler::class
 );
 
+$app->instance('composer_loader', $loader);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
