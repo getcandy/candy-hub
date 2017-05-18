@@ -1,0 +1,61 @@
+.table {
+  thead {
+    tr {
+      th {
+        font-weight: normal;
+        color: lighten($grey, 20%);
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      &.clickable {
+        cursor: pointer;
+        &:hover {
+          td {
+            background-color: lighten($blue, 60%);
+          }
+        }
+      }
+
+      &.selected {
+        td {
+          background-color: lighten($purple, 60%);
+        }
+      }
+
+      td {
+        position: relative;
+        vertical-align: middle;
+
+        &.product {
+          color: $blue;
+        }
+
+        &.publish-date {
+          em {
+            margin-right: 15px;
+          }
+        }
+        
+        img {
+          width: 60px;
+        }
+
+        .form-control, .btn {
+          height: 40px;
+        }
+
+        .btn {
+          font-size: 0.9em;
+        }
+
+        .checkbox {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

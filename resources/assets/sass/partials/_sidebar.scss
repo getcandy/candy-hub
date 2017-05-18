@@ -1,0 +1,218 @@
+.sidebar {
+  position: fixed;
+  z-index: 7;
+  height: 100vh;
+  width: 250px;
+  padding-left: 0;
+  padding-right: 0;
+  background: white;
+
+  .top-level {
+    position: relative;
+    cursor: pointer;
+    color: $purple;
+
+    .slide-out {
+      visibility: hidden;
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      left: 250px;
+      width: 0;
+      height: 90px;
+      background-color: white;
+      transition: width 1s ease 0s, visibility 0s linear 1s;
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+          position: relative;
+          z-index: 7;
+          visibility: hidden;
+          opacity: 0;
+          display: inline-block;
+          height: 90px;
+          top: -10px;
+
+
+          &.catalogue-manager {
+            transition: visibility 0s linear 1s, opacity 0.2s linear 1s, top 0.2s linear 1s;
+          }
+
+          &.order-processing {
+            transition: visibility 0s linear 0.8s, opacity 0.2s linear 0.8s, top 0.2s linear 0.8s;
+          }
+
+          &.marketing-suite {
+            transition: visibility 0s linear 0.6s, opacity 0.2s linear 0.6s, top 0.2s linear 0.6s;
+          }
+
+          &.reporting {
+            transition: visibility 0s linear 0.4s, opacity 0.2s linear 0.4s, top 0.2s linear 0.4s;
+          }
+
+          &.settings {
+            transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s, top 0.2s linear 0.2s;
+          }
+          
+          a {
+            padding-left: 30px;
+            padding-right: 30px;
+            font-size: 1.2em;
+            line-height: 90px;
+            color: $purple;
+
+            .fa {
+              margin-left: 5px;
+            }
+          }
+
+          .drop-menu {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            z-index: 7;
+            top: 70px;
+            left: 0;
+            width: 240px;
+            background: white;
+            transition: visibility 0s linear 0.4s, opacity 0.2s linear 0.2s, top 0.2s linear 0.2s;
+            
+            ul {
+              width: 100%;
+              
+              li {
+                display: block;
+                visibility: hidden;
+                height: 50px;
+                width: 100%;
+                transition: visibility 0s linear 0.2s;
+                
+                a {
+                  display: block;
+                  font-size: 1.1em;
+                  line-height: 50px;
+
+                  .fa {
+                    margin-left: 0;
+                    margin-right: 5px;
+                  }
+
+                  &:hover {
+                    background-color: darken(white, 4%);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &:hover {
+      
+      .slide-out {
+        visibility: visible;
+        overflow: visible;
+        width: 100vw;
+        transition: width 1s ease 0s, visibility 0.2s linear 0s;
+
+        li {
+          visibility: visible;
+          opacity: 1;
+          top: 0;
+
+          &.catalogue-manager {
+            transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s, top 0.2s linear 0.2s;
+          }
+
+          &.order-processing {
+            transition: visibility 0s linear 0.2s, opacity 0.3s linear 0.3s, top 0.2s linear 0.3s;
+          }
+
+          &.marketing-suite {
+            transition: visibility 0s linear 0.4s, opacity 0.4s linear 0.4s, top 0.2s linear 0.4s;
+          }
+
+          &.reporting {
+            transition: visibility 0s linear 0.6s, opacity 0.5s linear 0.5s, top 0.2s linear 0.5s;
+          }
+
+          &.settings {
+            transition: visibility 0s linear 0.8s, opacity 0.6s linear 0.6s, top 0.2s linear 0.6s;
+          }
+
+          &:hover {
+            .drop-menu {
+              visibility: visible;
+              opacity: 1;
+              top: 90px;
+              transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s, top 0.2s linear 0.2s;
+
+              ul {
+
+                li {
+                  visibility: visible;
+                  transition: visibility 0s linear 0.2s;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .logo {
+    padding: 15px;
+    height: 90px;
+
+    img {
+      width: 85%;
+      margin-top: 5px;
+    }
+
+    .fa {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      margin-top: -10px;
+      font-size: 1.4em;
+      animation-name: bounce;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+  }
+
+  .side-nav {
+    font-family: $lato;
+    font-size: 1.1em;
+
+    ul {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: block;
+        width: 100%;
+
+        a {
+          display: block;
+          width: 100%;
+          padding: 15px 60px;
+
+          &:hover, &:active {
+            color: white;
+            background-color: $purple;
+          }
+        }
+      }
+    }
+  }
+}

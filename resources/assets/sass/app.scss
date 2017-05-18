@@ -1,9 +1,23 @@
+// Third-party
+@import "vendor/bootstrap.min.css";
 
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import "vendor/bootstrap-datepicker3.min.css";
+@import "vendor/bootstrap-select.min.css";
 
-// Variables
-@import "variables";
+// Modules and Variables
+@import "partials/base";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// Partials
+@import "partials/general";
+@import "partials/login";
+
+@import "partials/buttons";
+@import "partials/forms";
+@import "partials/tabs";
+@import "partials/tables";
+@import "partials/filters";
+@import "partials/popovers";
+@import "partials/tooltips";
+
+@import "partials/sidebar";
+@import "partials/content-panel";

@@ -1,0 +1,159 @@
+// Buttons
+.btn {
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 1em;
+  border-radius: 0;
+
+  &.btn-full {
+    width: 100%;
+  }
+
+  &.btn-primary {
+    background-color: $purple;
+    &:hover {
+      background-color: lighten($purple, 5%);
+    }
+  }
+
+  &.btn-success {
+    background-color: $green;
+    &:hover {
+      background-color: lighten($green, 5%);
+    }
+  }
+
+  &.btn-info {
+    background-color: $blue;
+    &:hover {
+      background-color: lighten($blue, 5%);
+    }
+  }
+
+  &.btn-warning {
+    background-color: $orange;
+    &:hover {
+      background-color: lighten($orange, 5%);
+    }
+  }
+
+  &.btn-danger {
+    background-color: $red;
+    &:hover {
+      background-color: lighten($red, 5%);
+    }
+  }
+
+  &.btn-default {
+    color: $blue;
+    background-color: transparent;
+    border: 1px solid lighten($grey, 30%);
+
+    &:hover, &:active, &:focus {
+      background-color: lighten($grey, 62%);
+      border: 1px solid lighten($grey, 30%);
+    }
+
+    &.white {
+      color: white;
+      border: 1px solid white;
+
+      &:hover, &:active, &:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid white;
+      }
+    }
+  }
+
+  &.product-menu {
+    padding-left: 12.5px !important;
+    padding-right: 12.5px !important;
+
+    .hamburger {
+      position: relative;
+      display: inline-block;
+      height: 1px;
+      width: 26px;
+      margin-bottom: 5px;
+      background-color: white;
+
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        height: 1px;
+        width: 26px;
+        background-color: white;
+      }
+
+      &:before {
+        top: -7px;
+        left: 0;
+        transform: rotate(0deg);
+        transition: top 0.2s linear, transform 0.2s linear;
+      }
+
+      &:after {
+        top: 7px;
+        left: 0;
+        transform: rotate(0deg);
+        transition: top 0.2s linear, transform 0.2s linear;
+      }
+    }
+
+    &:hover {
+      .hamburger {
+        color: white;
+        text-decoration: none;
+
+        &:before {
+          top: -10px;
+          transition: top 0.2s linear;
+
+        }
+
+        &:after {
+          top: 10px;
+          transition: top 0.2s linear;
+        }
+      }
+    }
+
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+
+    &.active {
+      border-color: lighten($pink, 25%);
+
+      .hamburger {
+        background-color: transparent;
+        
+        &:before {
+          top: 0px;
+          transform: rotate(45deg);
+          transition: transform 0.2s linear;
+        }
+
+        &:after {
+          top: 0px;
+          transform: rotate(-45deg);
+          transition: transform 0.2s linear;
+        }
+      }
+    }
+  }
+
+  .fa-first {
+    margin-right: 5px;
+  }
+
+  .fa-last {
+    margin-left: 5px;
+  }
+}
+
+.btn-pop-over {
+  cursor: pointer;
+}

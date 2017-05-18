@@ -1,0 +1,187 @@
+// Forms
+label {
+  font-weight: normal;
+}
+
+.form-control {
+  height: 40px;
+  border-radius: 0;
+  border-color: lighten($grey, 30%);
+}
+
+// Inline Form 
+
+.form-inline {
+  .form-group {
+    margin-right: 10px;
+  }
+}
+
+// Bootstrap Select
+
+.bootstrap-select {
+  button {
+    .fa {
+      width: 15px;
+      margin-right: 10px;
+      text-align: center;
+    }
+  }
+
+  ul {
+    li {
+      .fa {
+        width: 15px;
+        margin-right: 10px;
+        text-align: center;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+
+// Select All 
+.bulk-options {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 3px 7px 7px;
+  border: 1px solid lighten($grey, 30%);
+  cursor: pointer;
+
+  > label {
+    position: relative;
+    z-index: 3;
+  }
+
+  .fa {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    color: $blue;
+  }
+
+  .bulk-actions {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    top: -1px;
+    left: -1px;
+    height: 32px;
+    background: white;
+
+    .border-inner {
+      display: inline-block;
+      height: 100%;
+      padding-left: 30px;
+      border: 1px solid lighten($grey, 30%);
+
+      .btn {
+        height: auto;
+        margin-right: -4px;
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 0.9em;
+        line-height: 32px;
+        border: 0;
+        border-left: 1px solid lighten($grey, 30%);
+
+        &:first-of-type {
+          margin-left: 30px;
+          border-right: 0;
+        }
+      }
+    }
+
+    .all-selected {
+      display: inline-block;
+      height: 100%;
+      margin-left: 15px;
+      background: white;
+    }
+  }
+
+  &.active {
+    > .fa {
+      color: white;
+    }
+
+    .bulk-actions {
+      display: block;
+    }
+  }
+}
+
+// Input Group
+.input-group-full {
+  width: 100%;
+}
+
+// Input Group Addons 
+.input-group-addon {
+  width: 40px;
+  color: lighten($grey, 45%);
+  background-color: transparent;
+  border-radius: 0;
+  border: 1px solid lighten($grey, 30%);
+}
+
+// Custom checkboxes
+
+.checkbox {
+  input[type="checkbox"] {
+    display: none;
+
+    + label { 
+      padding-left: 0;
+
+      span.check {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 15px;
+        height: 15px;
+        border: 1px solid lighten($grey, 30%);
+
+        &:after {
+          display: none;
+          content: '\f00c';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 14px;
+          height: 14px;
+          font-family: 'FontAwesome';
+          font-size: 0.85em;
+          text-align: center;
+          line-height: 14px;
+          color: $blue;
+        }
+      }
+
+      span.faux-label {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      span {
+        &:nth-child(2) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    &:checked {
+      + label {
+        span.check {
+          border-color: $blue;
+
+          &:after {
+            display: block;
+          }
+        }      
+      }
+    }
+  }
+}
