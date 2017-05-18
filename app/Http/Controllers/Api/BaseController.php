@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Http\Controllers;
+namespace GetCandy\Http\Controllers\Api;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller;
