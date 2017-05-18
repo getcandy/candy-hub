@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Requests\Api\Products;
 
-use GetCandy\Api\Http\Requests\FormRequest;
+use GetCandy\Http\Requests\Api\FormRequest;
 use GetCandy\Api\Models\Product;
 
 class UpdateRequest extends FormRequest
