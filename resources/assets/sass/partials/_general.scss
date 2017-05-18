@@ -1,0 +1,68 @@
+@keyframes bounce {
+  0% {
+    right: 20px; }
+  50% {
+    right: 15px; }
+  100% {
+    right: 20px; } 
+}
+
+body {
+  background-color: #eeeeee;
+  font-family: $lato;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+}
+
+a {
+  color: $blue;
+}
+
+.wrap {
+  display: block;
+  position: relative;
+}
+
+
+// Navigation Overlays
+
+.main-purple-overlay {
+  position: fixed;
+  z-index: 6;
+  top: 90px;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  background-color: $purple;
+  height: calc(100% - 90px);
+  width: 100vw;
+  transition: visibility 0s linear 0.4s, opacity 0.2s linear 0.2s;
+
+  &.active {
+    visibility: visible;
+    opacity: 0.6;
+    transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s;
+  }
+}
+
+.side-purple-overlay {
+  position: fixed;
+  z-index: 6;
+  top: 90px;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  background-color: $purple;
+  height: calc(100vh - 90px);
+  width: 250px;
+  transition: visibility 0s linear 0.4s, opacity 0.2s linear 0.2s;
+
+  &.active {
+    visibility: visible;
+    opacity: 0.6;
+    transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s;
+  }
+}

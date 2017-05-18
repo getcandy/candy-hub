@@ -1,0 +1,15 @@
+@mixin transition($transition){
+    -webkit-transition: $transition;
+    transition: $transition;
+}
+
+
+@mixin transition($transitions...){
+    $unfoldedTransitions: ();
+    @each $transition in $transitions{
+        $unfoldedTransitions: append($unfoldedTransitions, $transition, comma);
+    }
+
+    -webkit-transition: $unfoldedTransitions;
+    transition: $unfoldedTransitions;
+}

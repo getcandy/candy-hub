@@ -1,0 +1,29 @@
+.tooltip {
+  .tooltip-inner {
+    background-color: $purple;
+  }
+
+  &.top {
+    .tooltip-arrow {
+      border-top-color: $purple;
+    }
+  }
+
+  &.left {
+    .tooltip-arrow {
+      border-left-color: $purple;
+    }
+  }
+
+  &.bottom {
+    .tooltip-arrow {
+      border-bottom-color: $purple;
+    }
+  }
+
+  &.right {
+    .tooltip-arrow {
+      border-right-color: $purple;
+    }
+  }
+}
