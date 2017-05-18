@@ -25,10 +25,9 @@ class ProductManager
         $this->productRepo = $productRepo;
     }
 
-    public function getPaginatedResults($length = 50)
-    {
-        return $this->productRepo->getPaginatedResults($length);
-    }
+    /*=======================================
+    =            Service Methods            =
+    =======================================*/
 
     public function update($id, array $data)
     {
@@ -44,4 +43,22 @@ class ProductManager
     {
         return $this->productService->deleteByHashedId($id);
     }
+
+    /*=====  End of Service Methods  ======*/
+
+    /*==========================================
+    =            Repository Methods            =
+    ==========================================*/
+
+    public function getPaginatedResults($length = 50)
+    {
+        return $this->productRepo->getPaginatedResults($length);
+    }
+
+    public function getByHashedId($id)
+    {
+        return $this->productRepo->getByHashedId($id);
+    }
+
+    /*=====  End of Repository Methods  ======*/
 }
