@@ -13,6 +13,66 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+/**
+ * Channels
+ */
+Route::resource('channels', 'ChannelController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Products
+ */
+Route::resource('products', 'ProductController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Attribute Groups
+ */
+Route::put('attribute-groups/order', 'AttributeGroupController@reorder');
+Route::resource('attribute-groups', 'AttributeGroupController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Attributes
+ */
+Route::put('attributes/order', 'AttributeController@reorder');
+Route::resource('attributes', 'AttributeController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Languages
+ */
+Route::resource('languages', 'LanguageController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Currencies
+ */
+Route::resource('currencies', 'CurrencyController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Taxes
+ */
+Route::resource('taxes', 'TaxController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Plugins
+ */
+Route::post('/plugins/install', 'PluginController@postInstall');
+
+/**
+ * Users
+ */
+Route::get('users/current', 'UserController@getCurrentUser');
+Route::resource('users', 'UserController', [
+    'except' => ['edit', 'create']
+]);
