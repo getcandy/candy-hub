@@ -113,8 +113,6 @@ class AttributeGroupService extends BaseService
     {
         $group = $this->repo->getByHashedId($id);
 
-        dd($id);
-
         if (!$group) {
             abort(404);
         }
