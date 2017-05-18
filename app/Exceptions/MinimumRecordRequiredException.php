@@ -4,6 +4,6 @@ namespace GetCandy\Exceptions;
 
 use Exception;
 
-class InvalidLanguageException extends Exception
+class MinimumRecordRequiredException extends Exception
 {
 }
