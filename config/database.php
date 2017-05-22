@@ -77,7 +77,11 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
         ],
-
+        'testing' => [
+            'driver'   => 'sqlite',
+            'database' => storage_path('testing/database.sqlite'),
+            'prefix'   => '',
+        ]
     ],
 
     /*

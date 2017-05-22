@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Tests;
+namespace Tests;
 
 use GetCandy\Api\Models\Product;
 

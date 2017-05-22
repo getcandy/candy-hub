@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Tests;
+namespace Tests;
 
-use GetCandy\Api\Models\Tax;
+use GetCandy\Api\Taxes\Models\Tax;
 
 /**
  * @group failing

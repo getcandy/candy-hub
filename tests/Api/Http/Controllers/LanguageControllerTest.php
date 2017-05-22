@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Tests;
+namespace Tests;
 
-use GetCandy\Api\Models\Language;
+use GetCandy\Api\Languages\Models\Language;
 
 /**
  * @group controllers

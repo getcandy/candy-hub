@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Tests;
+namespace Tests;
 
-use GetCandy\Api\Models\Channel;
+use GetCandy\Api\Channels\Models\Channel;
 
 /**
  * @group controllers

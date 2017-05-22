@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Tests;
+namespace Tests;
 
-use GetCandy\Api\Models\Attribute;
+use GetCandy\Api\Attributes\Models\Attribute;
 
 /**
  * @group new

@@ -11,14 +11,14 @@ class TestingSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('GetCandy\Api\Database\Seeds\UserTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\AttributesTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\ProductFamilyTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\ChannelTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\LanguageTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\ProductTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\CurrencyTableSeeder');
-        $this->call('GetCandy\Api\Database\Seeds\TaxTableSeeder');
+        $this->call('UserTableSeeder');
+        $this->call('AttributesTableSeeder');
+        $this->call('ProductFamilyTableSeeder');
+        $this->call('ChannelTableSeeder');
+        $this->call('LanguageTableSeeder');
+        $this->call('ProductTableSeeder');
+        $this->call('CurrencyTableSeeder');
+        $this->call('TaxTableSeeder');
 
 
         $client = (new \Laravel\Passport\Client)->forceFill([
