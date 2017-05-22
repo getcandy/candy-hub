@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Http\Requests\Api\AttributeGroups;
+namespace GetCandy\Http\Requests\Api\Attributes;
 
 use Auth;
 use GetCandy\Http\Requests\FormRequest;
