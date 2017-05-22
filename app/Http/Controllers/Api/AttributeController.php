@@ -30,7 +30,7 @@ class AttributeController extends BaseController
      */
     public function index(Request $request)
     {
-        $attributes = $this->attributeManager->attributeService()->dataGetPaginatedResults($request->per_page);
+        $attributes = $this->attributeManager->attributes()->dataGetPaginatedResults($request->per_page);
         return $this->respondWithCollection($attributes, new AttributeTransformer);
     }
 
@@ -42,7 +42,7 @@ class AttributeController extends BaseController
     public function show($id)
     {
         try {
-            $attribute = $this->attributeManager->attributeService()->dataGetByHashedId($id);
+            $attribute = $this->attributeManager->attributes()->dataGetByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
@@ -56,14 +56,14 @@ class AttributeController extends BaseController
      */
     public function store(CreateRequest $request)
     {
-        $result = $this->attributeManager->attributeService()->create($request->all());
+        $result = $this->attributeManager->attributes()->create($request->all());
         return $this->respondWithItem($result, new AttributeTransformer);
     }
 
     public function reorder(ReorderRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributeService()->reorder($request->all());
+            $result = $this->attributeManager->attributes()->reorder($request->all());
         } catch (HttpException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (DuplicateValueException $e) {
@@ -81,7 +81,7 @@ class AttributeController extends BaseController
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributeService()->update($id, $request->all());
+            $result = $this->attributeManager->attributes()->update($id, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -99,7 +99,7 @@ class AttributeController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributeService()->deleteByHashedId($id);
+            $result = $this->attributeManager->attributes()->deleteByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

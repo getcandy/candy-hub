@@ -18,12 +18,12 @@ class AttributeManager
         $this->attributeGroupService = $attributeGroupService;
     }
 
-    public function attributeService()
+    public function attributes()
     {
         return $this->attributeService;
     }
 
-    public function attributeGroupService()
+    public function attributeGroups()
     {
         return $this->attributeGroupService;
     }
