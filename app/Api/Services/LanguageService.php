@@ -3,10 +3,10 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Repositories\Eloquent\LanguageRepository;
-use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Contracts\ServiceContract;
 use GetCandy\Exceptions\DuplicateValueException;
 
-class LanguageService extends BaseService
+class LanguageService extends BaseService implements ServiceContract
 {
     /**
      * @var LanguageRepository

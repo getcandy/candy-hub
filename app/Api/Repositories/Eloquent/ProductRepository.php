@@ -2,10 +2,10 @@
 
 namespace GetCandy\Api\Repositories\Eloquent;
 
+use GetCandy\Api\Contracts\RepositoryContract;
 use GetCandy\Api\Models\Product;
-use GetCandy\Api\Scaffold\BaseRepository;
 
-class ProductRepository extends BaseRepository
+class ProductRepository extends BaseRepository implements RepositoryContract
 {
     public function __construct()
     {

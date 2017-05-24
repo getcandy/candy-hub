@@ -4,7 +4,7 @@ namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\Attribute;
 use GetCandy\Api\Repositories\Eloquent\AttributeRepository;
-use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Contracts\ServiceContract;
 use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeService extends BaseService

@@ -5,10 +5,10 @@ namespace GetCandy\Api\Services;
 use DB;
 use GetCandy\Api\Models\AttributeGroup;
 use GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository;
-use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Contracts\ServiceContract;
 use GetCandy\Exceptions\DuplicateValueException;
 
-class AttributeGroupService extends BaseService
+class AttributeGroupService extends BaseService implements ServiceContract
 {
     /**
      * @var GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository

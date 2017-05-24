@@ -3,10 +3,10 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Repositories\Eloquent\ProductRepository;
+use GetCandy\Contracts\ServiceContract;
 use GetCandy\Exceptions\InvalidLanguageException;
-use GetCandy\Api\Scaffold\BaseService;
 
-class ProductService extends BaseService
+class ProductService extends BaseService implements ServiceContract
 {
     /**
      * @var ProductRepository

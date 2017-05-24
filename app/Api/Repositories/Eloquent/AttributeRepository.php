@@ -2,11 +2,11 @@
 
 namespace GetCandy\Api\Repositories\Eloquent;
 
+use GetCandy\Api\Contracts\RepositoryContract;
 use GetCandy\Api\Models\Attribute;
-use GetCandy\Api\Scaffold\BaseRepository;
 use Illuminate\Http\Request;
 
-class AttributeRepository extends BaseRepository
+class AttributeRepository extends BaseRepository implements RepositoryContract
 {
     public function __construct()
     {

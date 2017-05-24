@@ -2,10 +2,10 @@
 
 namespace GetCandy\Api\Repositories\Eloquent;
 
+use GetCandy\Api\Contracts\RepositoryContract;
 use GetCandy\Api\Models\AttributeGroup;
-use GetCandy\Api\Scaffold\BaseRepository;
 
-class AttributeGroupRepository extends BaseRepository
+class AttributeGroupRepository extends BaseRepository implements RepositoryContract
 {
     public function __construct()
     {
