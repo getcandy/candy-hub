@@ -7,6 +7,13 @@ use GetCandy\Api\Models\Language;
 
 class LanguageRepository extends BaseRepository implements RepositoryContract
 {
+
+    public function __construct()
+    {
+        $this->label = 'name';
+        $this->model = new Language();
+    }
+
     /**
      * Determines whether a language exists by a given code
      * @param  string $code

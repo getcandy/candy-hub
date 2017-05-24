@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Http\Requests\Languages;
+namespace GetCandy\Http\Requests\Api\Languages;
 
 use GetCandy\Http\Requests\Api\FormRequest;
 use GetCandy\Api\Models\Language;
