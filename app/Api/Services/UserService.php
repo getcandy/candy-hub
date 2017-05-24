@@ -27,10 +27,9 @@ class UserService
     public function create($data)
     {
         $user = new User();
-        $user->password = \Hash::make($data['password']);
+        $user->password = bcrypt($data['password']);
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->role = $data['role'];
         $user->save();
         return $user;
     }

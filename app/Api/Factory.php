@@ -9,6 +9,7 @@ use GetCandy\Api\Services\CurrencyService;
 use GetCandy\Api\Services\LanguageService;
 use GetCandy\Api\Services\ProductService;
 use GetCandy\Api\Services\TaxService;
+use GetCandy\Api\Services\UserService;
 
 class Factory
 {
@@ -47,6 +48,11 @@ class Factory
      */
     protected $taxes;
 
+    /**
+     * @var UserService
+     */
+    protected $users;
+
     public function __construct(
         AttributeGroupService $attributeGroups,
         AttributeService $attributes,
@@ -54,7 +60,8 @@ class Factory
         CurrencyService $currencies,
         LanguageService $languages,
         ProductService $products,
-        TaxService $taxes
+        TaxService $taxes,
+        UserService $users
     ) {
         $this->attributeGroups = $attributeGroups;
         $this->attributes = $attributeGroups;
@@ -63,6 +70,7 @@ class Factory
         $this->languages = $languages;
         $this->products = $products;
         $this->taxes = $taxes;
+        $this->users = $users;
     }
 
     public function attributes()
@@ -98,5 +106,10 @@ class Factory
     public function taxes()
     {
         return $this->taxes;
+    }
+
+    public function users()
+    {
+        return $this->users;
     }
 }
