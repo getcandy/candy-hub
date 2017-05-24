@@ -3,7 +3,7 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Repositories\Eloquent\ProductRepository;
-use GetCandy\Contracts\ServiceContract;
+use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Exceptions\InvalidLanguageException;
 
 class ProductService extends BaseService implements ServiceContract
