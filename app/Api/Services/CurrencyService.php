@@ -32,6 +32,7 @@ class CurrencyService extends BaseService
         $currency->name = $data['name'];
         $currency->code = $data['code'];
         $currency->enabled = $data['enabled'];
+        $currency->enabled = (bool) $data['enabled'];
         $currency->format = $data['format'];
         $currency->exchange_rate = $data['exchange_rate'];
 
