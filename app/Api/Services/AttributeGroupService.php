@@ -3,9 +3,9 @@
 namespace GetCandy\Api\Services;
 
 use DB;
+use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Api\Models\AttributeGroup;
 use GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository;
-use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeGroupService extends BaseService implements ServiceContract
@@ -110,7 +110,7 @@ class AttributeGroupService extends BaseService implements ServiceContract
      *
      * @return Boolean
      */
-    public function deleteByHashedId($id, $adopterId = null, $deleteAttributes = false)
+    public function delete($id, $adopterId = null, $deleteAttributes = false)
     {
         $group = $this->repo->getByHashedId($id);
 
