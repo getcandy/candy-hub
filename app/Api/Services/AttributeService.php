@@ -2,9 +2,9 @@
 
 namespace GetCandy\Api\Services;
 
+use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Api\Models\Attribute;
 use GetCandy\Api\Repositories\Eloquent\AttributeRepository;
-use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeService extends BaseService
