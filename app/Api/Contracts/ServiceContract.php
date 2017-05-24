@@ -13,10 +13,11 @@ interface ServiceContract
 
     /**
      * Updates a resource
+     * @param  string $hashedId
      * @param  array  $data [description]
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function update(array $data);
+    public function update($hashedId, array $data);
 
     /**
      * Deletes a resource
