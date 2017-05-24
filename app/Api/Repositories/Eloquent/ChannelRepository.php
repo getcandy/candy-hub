@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Repositories;
+namespace GetCandy\Api\Repositories\Eloquent;
 
 use GetCandy\Api\Contracts\RepositoryContract;
 use GetCandy\Api\Models\Channel;

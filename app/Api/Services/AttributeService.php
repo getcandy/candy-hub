@@ -123,7 +123,7 @@ class AttributeService extends BaseService
      *
      * @return Boolean
      */
-    public function deleteByHashedId($id)
+    public function delete($id)
     {
         $attribute = $this->attributeRepo->getByHashedId($id);
 

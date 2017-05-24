@@ -7,7 +7,7 @@ use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Api\Models\Channel;
 use GetCandy\Api\Repositories\Eloquent\ChannelRepository;
 
-class ChannelService implements ServiceContract
+class ChannelService extends BaseService implements ServiceContract
 {
     /**
      * @var GetCandy\Api\Repositories\ChannelRepository
@@ -38,6 +38,8 @@ class ChannelService implements ServiceContract
 
         if (!empty($data['default'])) {
             $this->setNewDefault($channel);
+        } else {
+            $channel->default = false;
         }
 
         $channel->save();

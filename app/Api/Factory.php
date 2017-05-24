@@ -6,6 +6,7 @@ use GetCandy\Api\Services\ProductService;
 use GetCandy\Api\Services\AttributeService;
 use GetCandy\Api\Services\AttributeGroupService;
 use GetCandy\Api\Services\LanguageService;
+use GetCandy\Api\Services\ChannelService;
 
 class Factory
 {
@@ -20,6 +21,11 @@ class Factory
     protected $attributeGroups;
 
     /**
+     * @var ChannelService
+     */
+    protected $channels;
+
+    /**
      * @var LanguageService
      */
     protected $languages;
@@ -32,11 +38,13 @@ class Factory
     public function __construct(
         AttributeGroupService $attributeGroups,
         AttributeService $attributes,
+        ChannelService $channels,
         LanguageService $languages,
         ProductService $products
     ) {
         $this->attributeGroups = $attributeGroups;
         $this->attributes = $attributeGroups;
+        $this->channels = $channels;
         $this->languages = $languages;
         $this->products = $products;
     }
@@ -49,6 +57,11 @@ class Factory
     public function attributeGroups()
     {
         return $this->attributeGroups;
+    }
+
+    public function channels()
+    {
+        return $this->channels;
     }
 
     public function languages()

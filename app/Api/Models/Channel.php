@@ -3,9 +3,12 @@
 namespace GetCandy\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use GetCandy\Api\Traits\Hashids;
 
 class Channel extends Model
 {
+    use Hashids;
+
     protected $hashids = 'channel';
 
     /**

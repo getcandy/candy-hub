@@ -13,9 +13,10 @@ class ProductRepository extends BaseRepository implements RepositoryContract
         $this->model = new Product();
     }
 
-    public function getPaginatedResults($length = 50)
+    public function getPaginatedResults($length = 50, $page = null)
     {
-        $paginator = $this->model->with(['attributes', 'attributes.group'])->paginate($length);
+        $paginator = $this->model->with(['attributes', 'attributes.group'])
+                        ->paginate($length, ['*'], 'page', $page);
         return $paginator;
     }
 }
