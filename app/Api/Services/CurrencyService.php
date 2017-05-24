@@ -3,19 +3,13 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\Currency;
-use GetCandy\Api\Repositories\Eloquent\CurrencyRepository;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 
 class CurrencyService extends BaseService
 {
-    /**
-     * @var GetCandy\Api\Repositories\CurrencyRepository
-     */
-    protected $repo;
-
-    public function __construct(CurrencyRepository $repo)
+    public function __construct()
     {
-        $this->repo = $repo;
+        $this->model = new Currency();
     }
 
     /**
@@ -42,7 +36,7 @@ class CurrencyService extends BaseService
             $currency->thousand_point = $data['thousand_point'];
         }
 
-        if (empty($data['default']) && !$this->repo->hasRecords()) {
+        if (empty($data['default']) && !$this->hasRecords()) {
             $currency->default = true;
         }
 
@@ -68,7 +62,7 @@ class CurrencyService extends BaseService
      */
     public function update($id, $data)
     {
-        $currency = $this->repo->getByHashedId($id);
+        $currency = $this->getByHashedId($id);
 
         if (!$currency) {
             abort(404);
@@ -82,12 +76,12 @@ class CurrencyService extends BaseService
 
         if ((isset($data['enabled']) && !$data['enabled']) && $currency->default) {
             // If we only have one record and we are trying to disable it, throw an exception
-            if ($this->repo->getEnabled()->count() == 1) {
+            if ($this->getEnabled()->count() == 1) {
                 throw new MinimumRecordRequiredException(
                     trans('getcandy_api::response.error.minimum_record')
                 );
             }
-            $newDefault = $this->repo->getNewSuggestedDefault();
+            $newDefault = $this->getNewSuggestedDefault();
             $this->setNewDefault($newDefault);
             $newDefault->save();
         }
@@ -109,13 +103,13 @@ class CurrencyService extends BaseService
      */
     public function deleteByHashedId($id)
     {
-        $currency = $this->repo->getByHashedId($id);
+        $currency = $this->getByHashedId($id);
 
         if (!$currency) {
             abort(404);
         }
 
-        if ($this->repo->getEnabled()->count() == 1) {
+        if ($this->getEnabled()->count() == 1) {
             throw new MinimumRecordRequiredException(
                 trans('getcandy_api::response.error.minimum_record')
             );
@@ -135,7 +129,7 @@ class CurrencyService extends BaseService
 
     protected function setNewDefault(&$model)
     {
-        if ($current = $this->currencyRepo->getDefaultRecord()) {
+        if ($current = $this->getDefaultRecord()) {
             $current->default = false;
             $current->save();
         }

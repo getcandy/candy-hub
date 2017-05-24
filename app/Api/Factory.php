@@ -64,7 +64,7 @@ class Factory
         UserService $users
     ) {
         $this->attributeGroups = $attributeGroups;
-        $this->attributes = $attributeGroups;
+        $this->attributes = $attributes;
         $this->channels = $channels;
         $this->currencies = $currencies;
         $this->languages = $languages;

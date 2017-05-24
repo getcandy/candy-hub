@@ -15,9 +15,9 @@ class ReorderRequest extends FormRequest
         return true;
     }
 
-    public function rules(AttributeManager $manager)
+    public function rules()
     {
-        $count = $manager->attributeGroupService()->dataCount();
+        $count = app('api')->attributeGroups()->count();
         return [
             'groups' => 'required|size:' . $count
         ];

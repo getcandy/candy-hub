@@ -3,22 +3,19 @@
 namespace GetCandy\Api\Services;
 
 use DB;
-use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Api\Models\AttributeGroup;
-use GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository;
 use GetCandy\Exceptions\DuplicateValueException;
 
-class AttributeGroupService extends BaseService implements ServiceContract
+class AttributeGroupService extends BaseService
 {
     /**
-     * @var GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository
+     * @var AttributeGroup
      */
-    protected $repo;
+    protected $model;
 
-    public function __construct(
-        AttributeGroupRepository $repo
-    ) {
-        $this->repo = $repo;
+    public function __construct()
+    {
+        $this->model = new AttributeGroup();
     }
 
     /**
@@ -26,16 +23,15 @@ class AttributeGroupService extends BaseService implements ServiceContract
      *
      * @param  array  $data
      *
-     * @return GetCandy\Api\Models\Attribute
+     * @return AttributeGroup
      */
     public function create(array $data)
     {
-        $group = $this->repo->model();
+        $group = $this->model;
         $group->name = $data['name'];
         $group->handle = str_slug($data['handle']);
-        $group->position = $this->repo->count() + 1;
+        $group->position = $this->model->count() + 1;
         $group->save();
-
         return $group;
     }
 
@@ -52,7 +48,7 @@ class AttributeGroupService extends BaseService implements ServiceContract
      */
     public function update($hashedId, array $data)
     {
-        $group = $this->repo->getByHashedId($hashedId);
+        $group = $this->getByHashedId($hashedId);
 
         if (!$group) {
             return null;
@@ -83,14 +79,14 @@ class AttributeGroupService extends BaseService implements ServiceContract
         $parsedGroups = [];
 
         foreach ($data['groups'] as $groupId => $position) {
-            $decodedId = $this->repo->model()->decodeId($groupId);
+            $decodedId = $this->getDecodedId($groupId);
             if (!$decodedId) {
                 abort(422, trans('getcandy_api::validation.attributes.groups.invalid_id', ['id' => $groupId]));
             }
             $parsedGroups[$decodedId] = $position;
         }
 
-        $groups = $this->repo->getByHashedIds(array_keys($data['groups']));
+        $groups = $this->getByHashedIds(array_keys($data['groups']));
 
         foreach ($groups as $group) {
             $group->position = $parsedGroups[$group->id];
@@ -112,18 +108,14 @@ class AttributeGroupService extends BaseService implements ServiceContract
      */
     public function delete($id, $adopterId = null, $deleteAttributes = false)
     {
-        $group = $this->repo->getByHashedId($id);
+        $group = $this->getByHashedId($id);
 
         if (!$group) {
             abort(404);
         }
 
-        if (!$adopterId && !$deleteAttributes) {
-            abort(400);
-        }
-
         if ($adopterId) {
-            $adopter = $this->repo->getByHashedId($adopterId);
+            $adopter = $this->getByHashedId($adopterId);
             if (!$adopter) {
                 abort(422);
             }
@@ -136,12 +128,15 @@ class AttributeGroupService extends BaseService implements ServiceContract
 
         $group->delete();
 
-        $i = 1;
 
-        foreach ($this->repo->getAllByPosition() as $group) {
-            $group->position = $i;
-            $i++;
-        }
+        \DB::transaction(function () {
+            $i = 1;
+            foreach ($this->model->orderBy('position', 'asc')->get() as $group) {
+                $group->position = $i;
+                $i++;
+                $group->save();
+            }
+        });
 
         return true;
     }

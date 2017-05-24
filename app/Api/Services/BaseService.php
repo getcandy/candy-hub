@@ -4,25 +4,54 @@ namespace GetCandy\Api\Services;
 
 abstract class BaseService
 {
-    public function __call($name, $arguments)
+    /**
+     * Returns model by a given hashed id
+     * @param  string $id
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function getByHashedId($id)
     {
-        $method = $this->normaliseMethodName($name);
-
-        switch (substr($name, 0, 4)) {
-            case 'data':
-                $class = $this->repo;
-                break;
-            default:
-                $class = $this;
-                break;
-        }
-        if (method_exists($class, $method)) {
-            return call_user_func_array([$class, $method], $arguments);
-        }
+        $id = $this->model->decodeId($id);
+        $result = $this->model->find($id);
+        return $result;
     }
 
-    private function normaliseMethodName($name)
+    /**
+     * Get a collection of models from given Hashed IDs
+     * @param  array  $ids
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getByHashedIds(array $ids)
     {
-        return camel_case(str_replace('data', '', $name));
+        $parsedIds = [];
+        foreach ($ids as $hash) {
+            $parsedIds[] = $this->model->decodeId($hash);
+        }
+        return $this->model->find($parsedIds);
+    }
+
+    public function count()
+    {
+        return (bool) $this->model->select('id')->get()->count();
+    }
+
+    public function getDecodedId($hash)
+    {
+        return $this->model->decodeId($hash);
+    }
+
+    public function getDefaultRecord()
+    {
+        return $this->model->where('default', '=', true)->first();
+    }
+
+    public function getPaginatedData($length = 50, $page = null)
+    {
+        return $this->model->paginate($length, ['*'], 'page', $page);
+    }
+
+    public function getNewSuggestedDefault()
+    {
+        return $this->model->where('default', '=', false)->where('enabled', '=', true)->first();
     }
 }

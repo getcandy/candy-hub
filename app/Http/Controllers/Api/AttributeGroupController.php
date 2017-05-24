@@ -20,7 +20,7 @@ class AttributeGroupController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->attributeGroups()->dataGetPaginatedResults($request->per_page);
+        $paginator = app('api')->attributeGroups()->getPaginatedData($request->per_page);
         return $this->respondWithCollection($paginator, new AttributeGroupTransformer);
     }
 
@@ -32,7 +32,7 @@ class AttributeGroupController extends BaseController
     public function show($id)
     {
         try {
-            $attribute = app('api')->attributeGroups()->dataGetByHashedId($id);
+            $attribute = app('api')->attributeGroups()->getByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
@@ -46,7 +46,7 @@ class AttributeGroupController extends BaseController
      */
     public function store(CreateRequest $request)
     {
-        $result = $this->attributeManager->attributeGroups()->create($request->all());
+        $result = app('api')->attributeGroups()->create($request->all());
         return $this->respondWithItem($result, new AttributeGroupTransformer);
     }
 
@@ -59,7 +59,7 @@ class AttributeGroupController extends BaseController
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributeGroups()->update($id, $request->all());
+            $result = app('api')->attributeGroups()->update($id, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -71,7 +71,7 @@ class AttributeGroupController extends BaseController
     public function reorder(ReorderRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributeGroups()->updateGroupPositions($request->all());
+            $result = app('api')->attributeGroups()->updateGroupPositions($request->all());
         } catch (HttpException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (DuplicateValueException $e) {
@@ -88,9 +88,9 @@ class AttributeGroupController extends BaseController
     public function destroy($id, Request $request)
     {
         try {
-            $result = $this->attributeManager
+            $result = app('api')
             ->attributeGroups()
-            ->deleteByHashedId(
+            ->delete(
                 $id,
                 $request->group_id,
                 $request->delete_attributes

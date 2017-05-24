@@ -3,20 +3,13 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\Tax;
-use GetCandy\Api\Repositories\Eloquent\TaxRepository;
 use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
 
 class TaxService extends BaseService
 {
-    /**
-     * @var GetCandy\Api\Repositories\TaxRepository
-     */
-    protected $repo;
-
-
-    public function __construct(TaxRepository $repo)
+    public function __construct()
     {
-        $this->repo = $repo;
+        $this->model = new Tax();
     }
 
     /**
@@ -32,7 +25,7 @@ class TaxService extends BaseService
         $tax->name = $data['name'];
         $tax->percentage = $data['percentage'];
 
-        if (empty($data['default']) && !$this->repo->hasRecords()) {
+        if (empty($data['default']) && !$this->count()) {
             $tax->default = true;
         } else {
             $tax->default = false;
@@ -58,7 +51,7 @@ class TaxService extends BaseService
      */
     public function update($id, $data)
     {
-        $tax = $this->repo->getByHashedId($id);
+        $tax = $this->getByHashedId($id);
 
         if (!$tax) {
             abort(404);
@@ -85,14 +78,14 @@ class TaxService extends BaseService
      */
     public function deleteByHashedId($id)
     {
-        $tax = $this->repo->getByHashedId($id);
+        $tax = $this->getByHashedId($id);
 
         if (!$tax) {
             abort(404);
         }
 
         if ($tax->default) {
-            $newDefault = $this->repo->getNewSuggestedDefault();
+            $newDefault = $this->getNewSuggestedDefault();
             $this->setNewDefault($newDefault);
             $newDefault->save();
         }
@@ -102,7 +95,7 @@ class TaxService extends BaseService
 
     protected function setNewDefault(&$model)
     {
-        if ($current = $this->repo->getDefaultRecord()) {
+        if ($current = $this->getDefaultRecord()) {
             $current->default = false;
             $current->save();
         }

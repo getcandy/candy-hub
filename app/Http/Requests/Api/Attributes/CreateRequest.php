@@ -4,7 +4,7 @@ namespace GetCandy\Http\Requests\Api\Attributes;
 
 use Auth;
 use GetCandy\Http\Requests\Api\FormRequest;
-use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Models\Attribute;
 
 class CreateRequest extends FormRequest
 {

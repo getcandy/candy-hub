@@ -3,7 +3,6 @@
 namespace GetCandy\Http\Requests\Api\Attributes;
 
 use Auth;
-use GetCandy\Attributes\Api\Models\AttributeGroup;
 use GetCandy\Http\Requests\Api\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -13,10 +12,10 @@ class UpdateRequest extends FormRequest
         // return $this->user()->can('update', AttributeGroup::class);
         return true;
     }
-    public function rules(AttributeGroup $model)
+    public function rules()
     {
         return [
-            'name' => 'required|unique:attribute_groups,name,' . $model->decodeId($this->attribute_group)
+            'name' => 'required|unique:attribute_groups,name,' . app('api')->attributeGroups()->getDecodedId($this->attribute_group)
         ];
     }
 }

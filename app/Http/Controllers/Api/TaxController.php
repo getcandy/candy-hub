@@ -3,70 +3,65 @@
 namespace GetCandy\Http\Controllers\Api;
 
 use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
-use GetCandy\Http\Requests\Api\Languages\CreateRequest;
-use GetCandy\Http\Requests\Api\Languages\DeleteRequest;
-use GetCandy\Http\Requests\Api\Languages\UpdateRequest;
-use GetCandy\Http\Transformers\Fractal\LanguageTransformer;
+use GetCandy\Http\Requests\Api\Taxes\CreateRequest;
+use GetCandy\Http\Requests\Api\Taxes\DeleteRequest;
+use GetCandy\Http\Requests\Api\Taxes\UpdateRequest;
+use GetCandy\Http\Transformers\Fractal\TaxTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class LanguageController extends BaseController
+class TaxController extends BaseController
 {
     /**
-     * Returns a listing of channels
+     * Returns a listing of currencies
      * @return Json
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->languages()->getPaginatedResults($request->per_page);
-        return $this->respondWithCollection($paginator, new LanguageTransformer);
+        $paginator = app('api')->taxes()->getPaginatedData($request->per_page);
+        return $this->respondWithCollection($paginator, new TaxTransformer);
     }
 
     /**
-     * Returns a single Language
+     * Handles the request to show a currency based on it's hashed ID
+     * @param  String $id
      * @return Json
      */
     public function show($id)
     {
         try {
-            $language = app('api')->languages()->getByHashedId($id);
+            $currency = app('api')->taxes()->getByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
-        return $this->respondWithItem($language, new LanguageTransformer);
+        return $this->respondWithItem($currency, new TaxTransformer);
     }
 
     /**
-     * Handles the request to create a new language
+     * Handles the request to create a new channel
      * @param  CreateRequest $request
      * @return Json
      */
     public function store(CreateRequest $request)
     {
-        $result = app('api')->languages()->create($request->all());
-        return $this->respondWithItem($result, new LanguageTransformer);
+        $result = app('api')->taxes()->create($request->all());
+        return $this->respondWithItem($result, new TaxTransformer);
     }
 
-    /**
-     * Handles the request to update  a language
-     * @param  String        $id
-     * @param  UpdateRequest $request
-     * @return Json
-     */
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = app('api')->languages()->update($id, $request->all());
+            $result = app('api')->taxes()->update($id, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
-        return $this->respondWithItem($result, new LanguageTransformer);
+        return $this->respondWithItem($result, new TaxTransformer);
     }
 
     /**
-     * Handles the request to delete a language
+     * Handles the request to delete a tax
      * @param  String        $id
      * @param  DeleteRequest $request
      * @return Json
@@ -74,7 +69,7 @@ class LanguageController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = app('api')->languages()->delete($id);
+            $result = app('api')->taxes()->deleteByHashedId($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {

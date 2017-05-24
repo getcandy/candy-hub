@@ -18,7 +18,7 @@ class ChannelController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->channels()->dataGetPaginatedResults($request->per_page);
+        $paginator = app('api')->channels()->getPaginatedData($request->per_page);
         return $this->respondWithCollection($paginator, new ChannelTransformer);
     }
 
@@ -30,7 +30,7 @@ class ChannelController extends BaseController
     public function show($id)
     {
         try {
-            $channel = app('api')->channels()->dataGetByHashedId($id);
+            $channel = app('api')->channels()->getByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

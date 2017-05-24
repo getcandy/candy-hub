@@ -3,19 +3,13 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\Language;
-use GetCandy\Api\Repositories\Eloquent\LanguageRepository;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 
 class LanguageService extends BaseService
 {
-    /**
-     * @var GetCandy\Api\Repositories\LanguageRepository
-     */
-    protected $repo;
-
-    public function __construct(LanguageRepository $repo)
+    public function __construct()
     {
-        $this->repo = $repo;
+        $this->model = new Language();
     }
 
     /**
@@ -30,7 +24,7 @@ class LanguageService extends BaseService
         $language = new Language();
         $language->name = $data['name'];
         $language->code = $data['code'];
-        if ((empty($data['default']) && !$this->repo->hasRecords()) || !empty($data['default'])) {
+        if ((empty($data['default']) && !$this->hasRecords()) || !empty($data['default'])) {
             $this->setNewDefault($language);
         }
 
@@ -52,7 +46,7 @@ class LanguageService extends BaseService
      */
     public function update($hashedId, $data)
     {
-        $language = $this->repo->getByHashedId($hashedId);
+        $language = $this->getByHashedId($hashedId);
 
         if (!$language) {
             abort(404);
@@ -77,7 +71,7 @@ class LanguageService extends BaseService
                     trans('getcandy_api::response.error.minimum_record')
                 );
             }
-            $newDefault = $this->repo->getNewSuggestedDefault();
+            $newDefault = $this->getNewSuggestedDefault();
             $this->setNewDefault($newDefault);
             $newDefault->save();
         }
@@ -99,19 +93,19 @@ class LanguageService extends BaseService
      */
     public function deleteByHashedId($id)
     {
-        $language = $this->repo->getByHashedId($id);
+        $language = $this->getByHashedId($id);
 
         if (!$language) {
             abort(404);
         }
 
-        if ($this->repo->getEnabled()->count() == 1) {
+        if ($this->getEnabled()->count() == 1) {
             throw new MinimumRecordRequiredException(
                 trans('getcandy_api::response.error.minimum_record')
             );
         }
 
-        if ($language->default && $newDefault = $this->repo->getNewSuggestedDefault()) {
+        if ($language->default && $newDefault = $this->getNewSuggestedDefault()) {
             $newDefault->default = true;
             $newDefault->save();
         }
@@ -119,9 +113,19 @@ class LanguageService extends BaseService
         return $language->delete();
     }
 
+    /**
+     * Determines whether a language exists by a given code
+     * @param  string $code
+     * @return boolean
+     */
+    public function existsByCode($code)
+    {
+        return $this->model->where('code', '=', $code)->exists();
+    }
+
     protected function setNewDefault(&$model)
     {
-        if ($current = $this->repo->getDefaultRecord()) {
+        if ($current = $this->getDefaultRecord()) {
             $current->default = false;
             $current->save();
         }

@@ -3,7 +3,6 @@
 namespace GetCandy\Http\Controllers\Api;
 
 // use GetCandy\Api\Events\ViewProductEvent;
-use GetCandy\Api\Products\ProductManager;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Requests\Api\Products\CreateRequest;
@@ -23,7 +22,7 @@ class ProductController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->products()->dataGetPaginatedResults($request->per_page);
+        $paginator = app('api')->products()->getPaginatedData($request->per_page);
         // event(new ViewProductEvent(['hello' => 'there']));
         return $this->respondWithCollection($paginator, new ProductTransformer);
     }
@@ -36,7 +35,7 @@ class ProductController extends BaseController
     public function show($id)
     {
         try {
-            $product = app('api')->products()->dataGetByHashedId($id);
+            $product = app('api')->products()->getByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

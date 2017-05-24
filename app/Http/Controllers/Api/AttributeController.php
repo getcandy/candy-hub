@@ -19,7 +19,7 @@ class AttributeController extends BaseController
      */
     public function index(Request $request)
     {
-        $attributes = app('api')->attributes()->dataGetPaginatedResults($request->per_page);
+        $attributes = app('api')->attributes()->getPaginatedData($request->per_page);
         return $this->respondWithCollection($attributes, new AttributeTransformer);
     }
 
@@ -31,7 +31,7 @@ class AttributeController extends BaseController
     public function show($id)
     {
         try {
-            $attribute = app('api')->attributes()->dataGetByHashedId($id);
+            $attribute = app('api')->attributes()->getByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
@@ -88,7 +88,7 @@ class AttributeController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = app('api')->attributes()->deleteByHashedId($id);
+            $result = app('api')->attributes()->delete($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

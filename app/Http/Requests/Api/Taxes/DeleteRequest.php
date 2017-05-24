@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Http\Requests\Taxes;
+namespace GetCandy\Http\Requests\Api\Taxes;
 
 use GetCandy\Http\Requests\Api\FormRequest;
 use GetCandy\Api\Models\Tax;

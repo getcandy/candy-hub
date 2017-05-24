@@ -2,21 +2,19 @@
 
 namespace GetCandy\Api\Services;
 
-use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Api\Models\Channel;
-use GetCandy\Api\Repositories\Eloquent\ChannelRepository;
 
-class ChannelService extends BaseService implements ServiceContract
+class ChannelService extends BaseService
 {
     /**
-     * @var GetCandy\Api\Repositories\ChannelRepository
+     * @var AttributeGroup
      */
-    protected $repo;
+    protected $model;
 
-    public function __construct(ChannelRepository $repo)
+    public function __construct()
     {
-        $this->repo = $repo;
+        $this->model = new Channel();
     }
 
     /**
@@ -32,7 +30,7 @@ class ChannelService extends BaseService implements ServiceContract
         $channel->name = $data['name'];
 
         // If this is the first channel, make it default
-        if (empty($data['default']) && !$this->repo->hasRecords()) {
+        if (empty($data['default']) && !$this->count()) {
             $channel->default = true;
         }
 
@@ -60,7 +58,7 @@ class ChannelService extends BaseService implements ServiceContract
      */
     public function update($hashedId, array $data)
     {
-        $channel = $this->repo->getByHashedId($hashedId);
+        $channel = $this->getByHashedId($hashedId);
 
         if (!$channel) {
             return null;
@@ -89,19 +87,19 @@ class ChannelService extends BaseService implements ServiceContract
      */
     public function delete($id)
     {
-        $channel = $this->repo->getByHashedId($id);
+        $channel = $this->getByHashedId($id);
 
         if (!$channel) {
             abort(404);
         }
 
-        if ($this->repo->model()->count() == 1) {
+        if ($this->model->count() == 1) {
             throw new MinimumRecordRequiredException(
                 trans('getcandy_api::response.error.minimum_record')
             );
         }
 
-        if ($channel->default && $newDefault = $this->repo->model()->first()) {
+        if ($channel->default && $newDefault = $this->model->first()) {
             $newDefault->default = true;
             $newDefault->save();
         }
@@ -115,7 +113,7 @@ class ChannelService extends BaseService implements ServiceContract
      */
     protected function setNewDefault(&$model)
     {
-        if ($current = $this->repo->getDefaultRecord()) {
+        if ($current = $this->getDefaultRecord()) {
             $current->default = false;
             $current->save();
         }

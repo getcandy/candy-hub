@@ -2,21 +2,14 @@
 
 namespace GetCandy\Api\Services;
 
-use GetCandy\Api\Contracts\ServiceContract;
-use GetCandy\Api\Repositories\Eloquent\ProductRepository;
+use GetCandy\Api\Models\Product;
 use GetCandy\Exceptions\InvalidLanguageException;
 
-class ProductService extends BaseService implements ServiceContract
+class ProductService extends BaseService
 {
-    /**
-     * @var ProductRepository
-     */
-    protected $repo;
-
-    public function __construct(
-        ProductRepository $repo
-    ) {
-        $this->repo = $repo;
+    public function __construct()
+    {
+        $this->model = new Product();
     }
 
     /**
@@ -32,14 +25,14 @@ class ProductService extends BaseService implements ServiceContract
      */
     public function update($hashedId, array $data)
     {
-        $product = $this->repo->getByHashedId($hashedId);
+        $product = $this->getByHashedId($hashedId);
 
         if (! $product) {
             abort(404);
         }
 
         foreach ($data['name'] as $lang => $value) {
-            if (! app('api')->languages()->dataExistsByCode($lang)) {
+            if (! app('api')->languages()->existsByCode($lang)) {
                 throw new InvalidLanguageException(trans('getcandy_api::response.error.invalid_lang', ['lang' => $lang]), 422);
             }
         }
@@ -64,10 +57,10 @@ class ProductService extends BaseService implements ServiceContract
      */
     public function create(array $data)
     {
-        $product = $this->repo->getNew();
+        $product = $this->model;
 
         foreach ($data['name'] as $lang => $value) {
-            if (! app('api')->languages()->dataExistsByCode($lang)) {
+            if (! app('api')->languages()->existsByCode($lang)) {
                 throw new InvalidLanguageException(trans('getcandy_api::response.error.invalid_lang', ['lang' => $lang]), 422);
             }
         }
@@ -91,7 +84,7 @@ class ProductService extends BaseService implements ServiceContract
      */
     public function delete($hashedId)
     {
-        $product = $this->repo->getByHashedId($hashedId);
+        $product = $this->getByHashedId($hashedId);
         if (!$product) {
             abort(404);
         }

@@ -3,18 +3,12 @@
 namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\User;
-use GetCandy\Api\Repositories\Eloquent\UserRepository;
 
 class UserService
 {
-    /**
-     * @var GetCandy\Api\Repositories\UserRepository
-     */
-    protected $repo;
-
-    public function __construct(UserRepository $repo)
+    public function __construct()
     {
-        $this->repo = $repo;
+        $this->model = new User();
     }
 
     /**

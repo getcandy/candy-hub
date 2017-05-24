@@ -4,20 +4,18 @@ namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Contracts\ServiceContract;
 use GetCandy\Api\Models\Attribute;
-use GetCandy\Api\Repositories\Eloquent\AttributeRepository;
 use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeService extends BaseService
 {
     /**
-     * @var AttributeRepository
+     * @var AttributeGroup
      */
-    protected $repo;
+    protected $model;
 
-    public function __construct(
-        AttributeRepository $repo
-    ) {
-        $this->repo = $repo;
+    public function __construct()
+    {
+        $this->model = new Attribute();
     }
 
     /**
@@ -29,7 +27,7 @@ class AttributeService extends BaseService
      */
     public function create(array $data)
     {
-        $attributeGroup = $this->repo->getByHashedId($data['group_id']);
+        $attributeGroup = app('api')->attributeGroups()->getByHashedId($data['group_id']);
 
         if (!$attributeGroup) {
             abort(400, 'Attribute group with ID "' . $data['group_id'] . '" doesn\'t exist');
@@ -49,7 +47,7 @@ class AttributeService extends BaseService
 
     protected function getNewPositionForGroup($groupId)
     {
-        $attribute = $this->attributeRepo->getLastItem($groupId);
+        $attribute = $this->getLastItem($groupId);
         return $attribute->position + 1;
     }
 
@@ -80,7 +78,7 @@ class AttributeService extends BaseService
             $parsedAttributes[$decodedId] = $position;
         }
 
-        $attributes = $this->attributeRepo->getByHashedIds(array_keys($data['attributes']));
+        $attributes = $this->getByHashedIds(array_keys($data['attributes']));
 
         foreach ($attributes as $attribute) {
             $attribute->position = $parsedAttributes[$attribute->id];
@@ -102,7 +100,7 @@ class AttributeService extends BaseService
      */
     public function update($hashedId, array $data)
     {
-        $attribute = $this->attributeRepo->getByHashedId($hashedId);
+        $attribute = $this->getByHashedId($hashedId);
 
         if (!$attribute) {
             abort(404);
@@ -125,12 +123,35 @@ class AttributeService extends BaseService
      */
     public function delete($id)
     {
-        $attribute = $this->attributeRepo->getByHashedId($id);
+        $attribute = $this->getByHashedId($id);
+
 
         if (!$attribute) {
             abort(404);
         }
 
         return $attribute->delete();
+    }
+
+    public function getAttributesForGroup($groupId)
+    {
+        return $this->model->where('group_id', '=', $groupId)->get();
+    }
+
+    public function getLastItem($groupId)
+    {
+        return $this->model->orderBy('position', 'desc')->where('group_id', '=', $groupId)->first();
+    }
+
+    public function nameExistsInGroup($value, $groupId, $attributeId = null)
+    {
+        $result = $this->model->where('name', '=', $value)
+                        ->where('group_id', '=', $groupId);
+
+        if ($attributeId) {
+            $result->where('id', '!=', $attributeId);
+        }
+
+        return !$result->exists();
     }
 }

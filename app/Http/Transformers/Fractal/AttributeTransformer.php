@@ -3,7 +3,7 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Models\Attribute;
-use GetCandy\Http\Transformers\AttributeGroupTransformer;
+use GetCandy\Http\Transformers\Fractal\AttributeGroupTransformer;
 use League\Fractal\TransformerAbstract;
 
 class AttributeTransformer extends TransformerAbstract
