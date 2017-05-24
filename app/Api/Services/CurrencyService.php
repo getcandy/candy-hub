@@ -4,7 +4,7 @@ namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\Currency;
 use GetCandy\Api\Repositories\Eloquent\CurrencyRepository;
-use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Exceptions\MinimumRecordRequiredException;
 
 class CurrencyService extends BaseService
 {
@@ -31,7 +31,6 @@ class CurrencyService extends BaseService
 
         $currency->name = $data['name'];
         $currency->code = $data['code'];
-        $currency->enabled = $data['enabled'];
         $currency->enabled = (bool) $data['enabled'];
         $currency->format = $data['format'];
         $currency->exchange_rate = $data['exchange_rate'];
@@ -69,7 +68,7 @@ class CurrencyService extends BaseService
      */
     public function update($id, $data)
     {
-        $currency = $this->currencyRepo->getByHashedId($id);
+        $currency = $this->repo->getByHashedId($id);
 
         if (!$currency) {
             abort(404);
@@ -83,12 +82,12 @@ class CurrencyService extends BaseService
 
         if ((isset($data['enabled']) && !$data['enabled']) && $currency->default) {
             // If we only have one record and we are trying to disable it, throw an exception
-            if ($this->currencyRepo->getEnabled()->count() == 1) {
+            if ($this->repo->getEnabled()->count() == 1) {
                 throw new MinimumRecordRequiredException(
                     trans('getcandy_api::response.error.minimum_record')
                 );
             }
-            $newDefault = $this->currencyRepo->getNewSuggestedDefault();
+            $newDefault = $this->repo->getNewSuggestedDefault();
             $this->setNewDefault($newDefault);
             $newDefault->save();
         }
@@ -110,13 +109,13 @@ class CurrencyService extends BaseService
      */
     public function deleteByHashedId($id)
     {
-        $currency = $this->currencyRepo->getByHashedId($id);
+        $currency = $this->repo->getByHashedId($id);
 
         if (!$currency) {
             abort(404);
         }
 
-        if ($this->currencyRepo->getEnabled()->count() == 1) {
+        if ($this->repo->getEnabled()->count() == 1) {
             throw new MinimumRecordRequiredException(
                 trans('getcandy_api::response.error.minimum_record')
             );
