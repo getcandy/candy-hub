@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Http\Transformers;
+namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Models\Attribute;
 use GetCandy\Http\Transformers\AttributeGroupTransformer;

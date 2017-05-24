@@ -6,7 +6,7 @@ use GetCandy\Http\Requests\Api\Attributes\CreateRequest;
 use GetCandy\Http\Requests\Api\Attributes\DeleteRequest;
 use GetCandy\Http\Requests\Api\Attributes\ReorderRequest;
 use GetCandy\Http\Requests\Api\Attributes\UpdateRequest;
-use GetCandy\Http\Transformers\AttributeTransformer;
+use GetCandy\Http\Transformers\Fractal\AttributeTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

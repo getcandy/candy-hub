@@ -9,7 +9,7 @@ use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Requests\Api\Products\CreateRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateRequest;
-use GetCandy\Http\Transformers\ProductTransformer;
+use GetCandy\Http\Transformers\Fractal\ProductTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;

@@ -3,11 +3,11 @@
 namespace GetCandy\Http\Controllers\Api;
 
 use GetCandy\Exceptions\DuplicateValueException;
-use GetCandy\Http\Transformers\AttributeGroupTransformer;
 use GetCandy\Http\Requests\Api\AttributeGroups\CreateRequest;
 use GetCandy\Http\Requests\Api\AttributeGroups\DeleteRequest;
 use GetCandy\Http\Requests\Api\AttributeGroups\ReorderRequest;
 use GetCandy\Http\Requests\Api\AttributeGroups\UpdateRequest;
+use GetCandy\Http\Transformers\Fractal\AttributeGroupTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
