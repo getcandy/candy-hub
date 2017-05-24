@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Channels\Models;
+namespace GetCandy\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

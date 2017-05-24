@@ -1,22 +1,23 @@
 <?php
 
-namespace GetCandy\Api\Attributes\Services;
+namespace GetCandy\Api\Services;
 
 use DB;
-use GetCandy\Exceptions\DuplicateValueException;
-use GetCandy\Api\Attributes\Models\AttributeGroup;
-use GetCandy\Api\Attributes\Repositories\AttributeGroupRepository;
+use GetCandy\Api\Models\AttributeGroup;
+use GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeGroupService extends BaseService
 {
     /**
-     * @var GetCandy\Api\Repositories\AttributeGroupRepository
+     * @var GetCandy\Api\Repositories\Eloquent\AttributeGroupRepository
      */
     protected $repo;
 
-    public function __construct(AttributeGroupRepository $repo)
-    {
+    public function __construct(
+        AttributeGroupRepository $repo
+    ) {
         $this->repo = $repo;
     }
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace GetCandy\Api\Attributes\Services;
+namespace GetCandy\Api\Services;
 
-use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Attributes\Repositories\AttributeRepository;
-use GetCandy\Exceptions\DuplicateValueException;
+use GetCandy\Api\Models\Attribute;
+use GetCandy\Api\Repositories\Eloquent\AttributeRepository;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeService extends BaseService
 {

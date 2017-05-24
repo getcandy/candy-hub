@@ -2,6 +2,7 @@
 
 namespace GetCandy\Providers;
 
+use GetCandy\Api\Factory;
 use Illuminate\Support\ServiceProvider;
 use Validator;
 
@@ -15,6 +16,10 @@ class ApiServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('unique_name_in_group', 'GetCandy\Api\Http\Validation\AttributeValidation@uniqueNameInGroup');
+
+        $this->app->bind('api', function ($app) {
+            return $app->make(Factory::class);
+        });
     }
 
     /**

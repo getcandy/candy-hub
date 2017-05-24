@@ -17,24 +17,13 @@ use Validator;
 class ProductController extends BaseController
 {
     /**
-     * @var ProductManager
-     */
-    protected $productManager;
-
-    public function __construct(
-        ProductManager $productManager
-    ) {
-        $this->productManager = $productManager;
-    }
-
-    /**
      * Handles the request to show all products
      * @param  Request $request
      * @return Json
      */
     public function index(Request $request)
     {
-        $paginator = $this->productManager->service()->dataGetPaginatedResults($request->per_page);
+        $paginator = app('api')->products()->dataGetPaginatedResults($request->per_page);
         // event(new ViewProductEvent(['hello' => 'there']));
         return $this->respondWithCollection($paginator, new ProductTransformer);
     }
@@ -47,7 +36,7 @@ class ProductController extends BaseController
     public function show($id)
     {
         try {
-            $product = $this->productManager->service()->dataGetByHashedId($id);
+            $product = app('api')->products()->dataGetByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
@@ -62,7 +51,7 @@ class ProductController extends BaseController
     public function store(CreateRequest $request)
     {
         try {
-            $result = $this->productManager->service()->create($request->all());
+            $result = app('api')->products()->create($request->all());
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
@@ -78,7 +67,7 @@ class ProductController extends BaseController
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = $this->productManager->service()->update($id, $request->all());
+            $result = app('api')->products()->update($id, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -98,7 +87,7 @@ class ProductController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = $this->productManager->service()->delete($id);
+            $result = app('api')->products()->delete($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {

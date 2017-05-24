@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Products\Models;
+namespace GetCandy\Api\Models;
 
-use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Models\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductFamily extends Model

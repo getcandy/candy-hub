@@ -2,7 +2,6 @@
 
 namespace GetCandy\Http\Controllers\Api;
 
-use GetCandy\Api\Attributes\AttributeManager;
 use GetCandy\Exceptions\DuplicateValueException;
 use GetCandy\Http\Transformers\AttributeGroupTransformer;
 use GetCandy\Http\Requests\Api\AttributeGroups\CreateRequest;
@@ -15,25 +14,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AttributeGroupController extends BaseController
 {
-
-    /**
-     * @var AttributeGroupService
-     */
-    protected $attributeManager;
-
-    public function __construct(
-        AttributeManager $attributeManager
-    ) {
-        $this->attributeManager = $attributeManager;
-    }
-
     /**
      * Returns a listing of channels
      * @return Json
      */
     public function index(Request $request)
     {
-        $paginator = $this->attributeManager->attributeGroups()->dataGetPaginatedResults($request->per_page);
+        $paginator = app('api')->attributeGroups()->dataGetPaginatedResults($request->per_page);
         return $this->respondWithCollection($paginator, new AttributeGroupTransformer);
     }
 
@@ -45,7 +32,7 @@ class AttributeGroupController extends BaseController
     public function show($id)
     {
         try {
-            $attribute = $this->attributeManager->attributeGroups()->dataGetByHashedId($id);
+            $attribute = app('api')->attributeGroups()->dataGetByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

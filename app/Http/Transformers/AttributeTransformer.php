@@ -2,9 +2,9 @@
 
 namespace GetCandy\Http\Transformers;
 
-use GetCandy\Api\Attributes\Models\Attribute;
-use League\Fractal\TransformerAbstract;
+use GetCandy\Api\Models\Attribute;
 use GetCandy\Http\Transformers\AttributeGroupTransformer;
+use League\Fractal\TransformerAbstract;
 
 class AttributeTransformer extends TransformerAbstract
 {

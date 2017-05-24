@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Attributes\Models;
+namespace GetCandy\Api\Models;
 
-use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Models\Product;
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Database\Eloquent\Model;
 

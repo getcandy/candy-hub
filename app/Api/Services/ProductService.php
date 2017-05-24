@@ -1,29 +1,21 @@
 <?php
 
-namespace GetCandy\Api\Products\Services;
+namespace GetCandy\Api\Services;
 
-use GetCandy\Api\Languages\LanguageManager;
-use GetCandy\Api\Products\Repositories\ProductRepository;
+use GetCandy\Api\Repositories\Eloquent\ProductRepository;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Api\Scaffold\BaseService;
 
 class ProductService extends BaseService
 {
     /**
-     * @var LanguageService
-     */
-    protected $languageManager;
-
-    /**
      * @var ProductRepository
      */
     protected $repo;
 
     public function __construct(
-        LanguageManager $languageManager,
         ProductRepository $repo
     ) {
-        $this->languageManager = $languageManager;
         $this->repo = $repo;
     }
 
@@ -47,7 +39,7 @@ class ProductService extends BaseService
         }
 
         foreach ($data['name'] as $lang => $value) {
-            if (! $this->languageManager->existsByCode($lang)) {
+            if (! app('api')->languages()->dataExistsByCode($lang)) {
                 throw new InvalidLanguageException(trans('getcandy_api::response.error.invalid_lang', ['lang' => $lang]), 422);
             }
         }
@@ -75,7 +67,7 @@ class ProductService extends BaseService
         $product = $this->repo->getNew();
 
         foreach ($data['name'] as $lang => $value) {
-            if (! $this->languageManager->existsByCode($lang)) {
+            if (! app('api')->languages()->dataExistsByCode($lang)) {
                 throw new InvalidLanguageException(trans('getcandy_api::response.error.invalid_lang', ['lang' => $lang]), 422);
             }
         }

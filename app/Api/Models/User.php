@@ -1,10 +1,10 @@
 <?php
 
-namespace GetCandy\Api\Auth\Models;
+namespace GetCandy\Api\Models;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use GetCandy\Api\Traits\Hashids;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable

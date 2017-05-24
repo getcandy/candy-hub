@@ -2,7 +2,6 @@
 
 namespace GetCandy\Http\Controllers\Api;
 
-use GetCandy\Api\Attributes\AttributeManager;
 use GetCandy\Http\Requests\Api\Attributes\CreateRequest;
 use GetCandy\Http\Requests\Api\Attributes\DeleteRequest;
 use GetCandy\Http\Requests\Api\Attributes\ReorderRequest;
@@ -13,16 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AttributeController extends BaseController
 {
-    /**
-     * @var AttributeManager
-     */
-    protected $attributeManager;
-
-    public function __construct(
-        AttributeManager $attributeManager
-    ) {
-        $this->attributeManager = $attributeManager;
-    }
 
     /**
      * Returns a listing of channels
@@ -30,7 +19,7 @@ class AttributeController extends BaseController
      */
     public function index(Request $request)
     {
-        $attributes = $this->attributeManager->attributes()->dataGetPaginatedResults($request->per_page);
+        $attributes = app('api')->attributes()->dataGetPaginatedResults($request->per_page);
         return $this->respondWithCollection($attributes, new AttributeTransformer);
     }
 
@@ -42,7 +31,7 @@ class AttributeController extends BaseController
     public function show($id)
     {
         try {
-            $attribute = $this->attributeManager->attributes()->dataGetByHashedId($id);
+            $attribute = app('api')->attributes()->dataGetByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
@@ -56,14 +45,14 @@ class AttributeController extends BaseController
      */
     public function store(CreateRequest $request)
     {
-        $result = $this->attributeManager->attributes()->create($request->all());
+        $result = app('api')->attributes()->create($request->all());
         return $this->respondWithItem($result, new AttributeTransformer);
     }
 
     public function reorder(ReorderRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributes()->reorder($request->all());
+            $result = app('api')->attributes()->reorder($request->all());
         } catch (HttpException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (DuplicateValueException $e) {
@@ -81,7 +70,7 @@ class AttributeController extends BaseController
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributes()->update($id, $request->all());
+            $result = app('api')->attributes()->update($id, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -99,7 +88,7 @@ class AttributeController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = $this->attributeManager->attributes()->deleteByHashedId($id);
+            $result = app('api')->attributes()->deleteByHashedId($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

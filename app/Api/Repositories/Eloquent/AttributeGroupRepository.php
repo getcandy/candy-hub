@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Attributes\Repositories;
+namespace GetCandy\Api\Repositories\Eloquent;
 
-use GetCandy\Api\Attributes\Models\AttributeGroup;
+use GetCandy\Api\Models\AttributeGroup;
 use GetCandy\Api\Scaffold\BaseRepository;
 
 class AttributeGroupRepository extends BaseRepository

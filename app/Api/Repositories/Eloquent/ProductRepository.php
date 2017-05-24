@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Products\Repositories;
+namespace GetCandy\Api\Repositories\Eloquent;
 
-use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Models\Product;
 use GetCandy\Api\Scaffold\BaseRepository;
 
 class ProductRepository extends BaseRepository

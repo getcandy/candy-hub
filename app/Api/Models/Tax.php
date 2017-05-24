@@ -1,15 +1,15 @@
 <?php
 
-namespace GetCandy\Api\Languages\Models;
+namespace GetCandy\Api\Models;
 
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Database\Eloquent\Model;
 
-class Language extends Model
+class Tax extends Model
 {
     use Hashids;
 
-    protected $hashids = 'language';
+    protected $hashids = 'tax';
 
     /**
      * The attributes that are mass assignable.
@@ -17,6 +17,8 @@ class Language extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'name', 'default'
+        'name',
+        'default',
+        'percentage'
     ];
 }

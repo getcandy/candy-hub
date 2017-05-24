@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Attributes\Models;
+namespace GetCandy\Api\Models;
 
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Database\Eloquent\Model;

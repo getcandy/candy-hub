@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Currencies\Models;
+namespace GetCandy\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

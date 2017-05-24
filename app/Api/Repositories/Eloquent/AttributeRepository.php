@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Attributes\Repositories;
+namespace GetCandy\Api\Repositories\Eloquent;
 
-use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Models\Attribute;
 use GetCandy\Api\Scaffold\BaseRepository;
 use Illuminate\Http\Request;
 

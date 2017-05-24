@@ -1,10 +1,10 @@
 <?php
 
-namespace GetCandy\Api\Products\Models;
+namespace GetCandy\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use GetCandy\Api\Products\Models\ProductFamily;
-use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Models\ProductFamily;
+use GetCandy\Api\Models\Attribute;
 use GetCandy\Api\Traits\Hashids;
 
 class Product extends Model

@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Languages\Repositories;
+namespace GetCandy\Api\Repositories\Eloquent;
 
-use GetCandy\Api\Languages\Models\Language;
+use GetCandy\Api\Models\Language;
 
 class LanguageRepository
 {
