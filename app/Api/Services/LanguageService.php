@@ -2,8 +2,8 @@
 
 namespace GetCandy\Api\Services;
 
-use GetCandy\Api\Repositories\Eloquent\LanguageRepository;
 use GetCandy\Api\Contracts\ServiceContract;
+use GetCandy\Api\Repositories\Eloquent\LanguageRepository;
 use GetCandy\Exceptions\DuplicateValueException;
 
 class LanguageService extends BaseService implements ServiceContract
@@ -17,5 +17,20 @@ class LanguageService extends BaseService implements ServiceContract
         LanguageRepository $repo
     ) {
         $this->repo = $repo;
+    }
+
+    public function create(array $data)
+    {
+        //
+    }
+
+    public function update($hashedId, array $data)
+    {
+        //
+    }
+
+    public function delete($id)
+    {
+        //
     }
 }
