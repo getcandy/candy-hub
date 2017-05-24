@@ -3,9 +3,8 @@
 namespace GetCandy\Api\Models;
 
 use GetCandy\Api\Models\Attribute;
-use Illuminate\Database\Eloquent\Model;
 
-class ProductFamily extends Model
+class ProductFamily extends BaseModel
 {
     protected $hashids = 'product_family';
 

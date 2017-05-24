@@ -2,13 +2,8 @@
 
 namespace GetCandy\Api\Models;
 
-use GetCandy\Api\Traits\Hashids;
-use Illuminate\Database\Eloquent\Model;
-
-class Tax extends Model
+class Tax extends BaseModel
 {
-    use Hashids;
-
     protected $hashids = 'tax';
 
     /**

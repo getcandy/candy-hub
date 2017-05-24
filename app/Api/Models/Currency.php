@@ -2,9 +2,7 @@
 
 namespace GetCandy\Api\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Currency extends Model
+class Currency extends BaseModel
 {
     protected $hashids = 'currency';
 

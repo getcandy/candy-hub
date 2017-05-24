@@ -3,12 +3,9 @@
 namespace GetCandy\Api\Models;
 
 use GetCandy\Api\Traits\Hashids;
-use Illuminate\Database\Eloquent\Model;
 
-class Language extends Model
+class Language extends BaseModel
 {
-    use Hashids;
-
     protected $hashids = 'language';
 
     /**

@@ -2,13 +2,8 @@
 
 namespace GetCandy\Api\Models;
 
-use GetCandy\Api\Traits\Hashids;
-use Illuminate\Database\Eloquent\Model;
-
-class AttributeGroup extends Model
+class AttributeGroup extends BaseModel
 {
-    use Hashids;
-
     protected $hashids = 'attribute_group';
 
     /**

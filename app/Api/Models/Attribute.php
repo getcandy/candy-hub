@@ -3,8 +3,6 @@
 namespace GetCandy\Api\Models;
 
 use GetCandy\Api\Models\Product;
-use GetCandy\Api\Traits\Hashids;
-use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
 {

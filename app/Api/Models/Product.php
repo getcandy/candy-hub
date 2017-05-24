@@ -2,15 +2,11 @@
 
 namespace GetCandy\Api\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use GetCandy\Api\Models\ProductFamily;
 use GetCandy\Api\Models\Attribute;
-use GetCandy\Api\Traits\Hashids;
 
-class Product extends Model
+class Product extends BaseModel
 {
-    use Hashids;
-
     protected $hashids = 'product';
 
     /**
