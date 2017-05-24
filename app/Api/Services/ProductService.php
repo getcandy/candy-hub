@@ -2,8 +2,8 @@
 
 namespace GetCandy\Api\Services;
 
-use GetCandy\Api\Repositories\Eloquent\ProductRepository;
 use GetCandy\Api\Contracts\ServiceContract;
+use GetCandy\Api\Repositories\Eloquent\ProductRepository;
 use GetCandy\Exceptions\InvalidLanguageException;
 
 class ProductService extends BaseService implements ServiceContract
@@ -30,9 +30,9 @@ class ProductService extends BaseService implements ServiceContract
      *
      * @return GetCandy\Api\Models\Product
      */
-    public function update($id, $data)
+    public function update($hashedId, array $data)
     {
-        $product = $this->repo->getByHashedId($id);
+        $product = $this->repo->getByHashedId($hashedId);
 
         if (! $product) {
             abort(404);
@@ -89,7 +89,7 @@ class ProductService extends BaseService implements ServiceContract
      *
      * @return Boolean
      */
-    public function deleteByHashedId($hashedId)
+    public function delete($hashedId)
     {
         $product = $this->repo->getByHashedId($hashedId);
         if (!$product) {
