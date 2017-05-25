@@ -18,10 +18,19 @@ class Product extends BaseModel
         'name', 'price'
     ];
 
+    /**
+     * Get the attributes associated to the product
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class)->withTimestamps();
     }
+
+    /**
+     * Get the related family
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function family()
     {
         return $this->belongsTo(ProductFamily::class, 'family_id');

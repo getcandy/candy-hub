@@ -32,9 +32,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
-
-    public function posts()
-    {
-        return $this->hasMany('App\Post');
-    }
 }

@@ -16,6 +16,10 @@ class AttributeGroup extends BaseModel
         'position',
     ];
 
+    /**
+     * Get the attributes associated to the group
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attributes()
     {
         return $this->hasMany(Attribute::class, 'group_id');
