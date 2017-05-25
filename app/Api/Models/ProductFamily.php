@@ -8,6 +8,8 @@ class ProductFamily extends BaseModel
 {
     protected $hashids = 'product_family';
 
+    protected $fillable = ['name'];
+
     /**
      * Get the products associated to the product family
      * @return Illuminate\Database\Eloquent\Relations\HasMany

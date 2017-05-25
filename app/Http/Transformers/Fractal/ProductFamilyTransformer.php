@@ -7,7 +7,9 @@ use League\Fractal\TransformerAbstract;
 
 class ProductFamilyTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [];
+    protected $availableIncludes = [
+        'products', 'attributes'
+    ];
 
     public function transform(ProductFamily $family)
     {
@@ -15,5 +17,15 @@ class ProductFamilyTransformer extends TransformerAbstract
             'id' => $family->encodedId(),
             'name' => $family->name
         ];
+    }
+
+    public function includeProducts(ProductFamily $family)
+    {
+        return $this->collection($family->products, new ProductTransformer);
+    }
+
+    public function includeAttributes(ProductFamily $family)
+    {
+        return $this->collection($family->attributes, new AttributeTransformer);
     }
 }

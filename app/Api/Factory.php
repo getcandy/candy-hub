@@ -8,6 +8,7 @@ use GetCandy\Api\Services\ChannelService;
 use GetCandy\Api\Services\CurrencyService;
 use GetCandy\Api\Services\LanguageService;
 use GetCandy\Api\Services\ProductService;
+use GetCandy\Api\Services\ProductFamilyService;
 use GetCandy\Api\Services\TaxService;
 use GetCandy\Api\Services\UserService;
 
@@ -44,6 +45,11 @@ class Factory
     protected $products;
 
     /**
+     * @var ProductFamilyService
+     */
+    protected $productFamilies;
+
+    /**
      * @var TaxService
      */
     protected $taxes;
@@ -60,6 +66,7 @@ class Factory
         CurrencyService $currencies,
         LanguageService $languages,
         ProductService $products,
+        ProductFamilyService $productFamilies,
         TaxService $taxes,
         UserService $users
     ) {
@@ -69,6 +76,7 @@ class Factory
         $this->currencies = $currencies;
         $this->languages = $languages;
         $this->products = $products;
+        $this->productFamilies = $productFamilies;
         $this->taxes = $taxes;
         $this->users = $users;
     }
@@ -101,6 +109,11 @@ class Factory
     public function products()
     {
         return $this->products;
+    }
+
+    public function productFamilies()
+    {
+        return $this->productFamilies;
     }
 
     public function taxes()
