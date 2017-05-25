@@ -14,8 +14,8 @@ class AddFamilyToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->integer('family_id')->unsigned()->nullable();
-            $table->foreign('family_id')->references('id')->on('product_families');
+            $table->integer('product_family_id')->unsigned()->nullable();
+            $table->foreign('product_family_id')->references('id')->on('product_families');
         });
     }
 
