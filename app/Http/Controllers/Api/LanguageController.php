@@ -19,7 +19,7 @@ class LanguageController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->languages()->getPaginatedResults($request->per_page);
+        $paginator = app('api')->languages()->getPaginatedData($request->per_page);
         return $this->respondWithCollection($paginator, new LanguageTransformer);
     }
 
