@@ -13,6 +13,18 @@ class ProductService extends BaseService
     }
 
     /**
+     * Creates a resource from the given data
+     *
+     * @param  string $id
+     *
+     * @return GetCandy\Api\Models\ProductFamily
+     */
+    public function create(array $data)
+    {
+
+    }
+
+    /**
      * Updates a resource from the given data
      *
      * @param  string $id
@@ -24,18 +36,6 @@ class ProductService extends BaseService
      * @return GetCandy\Api\Models\ProductFamily
      */
     public function update($hashedId, array $data)
-    {
-
-    }
-
-    /**
-     * Creates a resource from the given data
-     *
-     * @param  string $id
-     *
-     * @return GetCandy\Api\Models\ProductFamily
-     */
-    public function create(array $data)
     {
 
     }

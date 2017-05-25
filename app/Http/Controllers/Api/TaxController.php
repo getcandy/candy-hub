@@ -49,6 +49,12 @@ class TaxController extends BaseController
         return $this->respondWithItem($result, new TaxTransformer);
     }
 
+    /**
+     * Handles the request to update taxes
+     * @param  String        $id
+     * @param  UpdateRequest $request
+     * @return Json
+     */
     public function update($id, UpdateRequest $request)
     {
         try {
