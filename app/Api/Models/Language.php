@@ -14,4 +14,9 @@ class Language extends BaseModel
     protected $fillable = [
         'code', 'name', 'default'
     ];
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', '=', true);
+    }
 }

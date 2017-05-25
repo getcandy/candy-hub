@@ -14,4 +14,9 @@ class Currency extends BaseModel
     protected $fillable = [
         'code', 'name', 'enabled', 'format', 'exchange_rate', 'decimal_point', 'thousand_point', 'default',
     ];
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', '=', true);
+    }
 }
