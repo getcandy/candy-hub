@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Controllers\Api;
 
-use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Requests\Api\Channels\CreateRequest;
 use GetCandy\Http\Requests\Api\Channels\DeleteRequest;
 use GetCandy\Http\Requests\Api\Channels\UpdateRequest;
