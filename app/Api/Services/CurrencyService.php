@@ -36,7 +36,7 @@ class CurrencyService extends BaseService
             $currency->thousand_point = $data['thousand_point'];
         }
 
-        if (empty($data['default']) && !$this->hasRecords()) {
+        if (empty($data['default']) && !$this->model->count()) {
             $currency->default = true;
         }
 
