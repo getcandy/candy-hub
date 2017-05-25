@@ -68,9 +68,6 @@ class LanguageControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testStore()
     {
         $response = $this->post(
