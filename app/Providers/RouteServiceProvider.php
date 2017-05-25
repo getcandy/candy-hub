@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
 
-        Route::middleware(['auth:api'])
+        Route::middleware(['auth:api', 'api.language'])
             ->namespace('GetCandy\Http\Controllers\Api')
             ->prefix('api/' . config('app.api_version', 'v1'))
             ->group(base_path('routes/api.php'));
