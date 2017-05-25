@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Languages\Models\Language;
+use GetCandy\Api\Models\Language;
 
 /**
  * @group controllers
@@ -31,9 +31,6 @@ class LanguageControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * @group fail
-     */
     public function testUnauthorisedIndex()
     {
         $response = $this->get($this->url('languages'), [
@@ -71,6 +68,9 @@ class LanguageControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
+    /**
+     * 
+     */
     public function testStore()
     {
         $response = $this->post(

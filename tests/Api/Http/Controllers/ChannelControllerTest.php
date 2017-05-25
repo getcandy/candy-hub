@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Channels\Models\Channel;
+use GetCandy\Api\Models\Channel;
 
 /**
  * @group controllers
@@ -24,9 +24,6 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * @group fail
-     */
     public function testUnauthorisedIndex()
     {
         $response = $this->get($this->url('channels'), [
@@ -52,6 +49,9 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+    /**
+     * 
+     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('channels/123456'), [
@@ -159,6 +159,7 @@ class ChannelControllerTest extends TestCase
             [],
             ['Authorization' => 'Bearer ' . $this->accessToken()]
         );
+
         $this->assertEquals(422, $response->status());
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use GetCandy\Api\Taxes\Models\Tax;
+use GetCandy\Api\Models\Tax;
 
 /**
- * @group failing
+ * 
  * @group api
  */
 class TaxControllerTest extends TestCase
@@ -58,6 +58,9 @@ class TaxControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+    /**
+     * 
+     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('taxes/123456'), [

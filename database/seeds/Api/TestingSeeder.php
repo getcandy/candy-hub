@@ -11,7 +11,12 @@ class TestingSeeder extends Seeder
      */
     public function run()
     {
+
+        Artisan::call('migrate:refresh');
+
         $this->call('UserTableSeeder');
+
+
         $this->call('AttributesTableSeeder');
         $this->call('ProductFamilyTableSeeder');
         $this->call('ChannelTableSeeder');
@@ -19,7 +24,6 @@ class TestingSeeder extends Seeder
         $this->call('ProductTableSeeder');
         $this->call('CurrencyTableSeeder');
         $this->call('TaxTableSeeder');
-
 
         $client = (new \Laravel\Passport\Client)->forceFill([
             'name' => 'TestClient',
@@ -31,5 +35,6 @@ class TestingSeeder extends Seeder
         ]);
 
         $client->save();
+
     }
 }

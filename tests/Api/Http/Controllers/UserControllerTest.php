@@ -13,9 +13,7 @@ class UserControllerTest extends TestCase
     protected $baseStructure = [
         'id',
         'name',
-        'email',
-        'role',
-        'permissions'
+        'email'
     ];
 
     public function testIndex()
@@ -56,7 +54,6 @@ class UserControllerTest extends TestCase
         $response = $this->post($this->url('users'), [
                 'email' => 'dom@neondigital.co.uk',
                 'password' => 'passwosrd',
-                'role' => \GetCandy\Api\Roles\SuperUserRole::class,
                 'name' => 'Dom',
                 'password_confirmation' => 'password'
             ], [
@@ -79,7 +76,7 @@ class UserControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
 
         $response->assertJsonStructure([
-            'password', 'email', 'name', 'role'
+            'password', 'email', 'name'
         ]);
     }
 
@@ -88,14 +85,12 @@ class UserControllerTest extends TestCase
         \GetCandy\Api\Models\User::create([
                 'email' => 'person@neondigital.co.uk',
                 'password' => 'password',
-                'role' => \GetCandy\Api\Roles\SuperUserRole::class,
                 'name' => 'Person',
         ]);
 
         $response = $this->post($this->url('users'), [
                 'email' => 'person@neondigital.co.uk',
                 'password' => 'password',
-                'role' => \GetCandy\Api\Roles\SuperUserRole::class,
                 'name' => 'Person',
                 'password_confirmation' => 'password'
             ], [

@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Models\Attribute;
 
 /**
  * @group new
@@ -53,6 +53,9 @@ class AttributeControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+    /**
+     * 
+     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('attributes/123456'), [

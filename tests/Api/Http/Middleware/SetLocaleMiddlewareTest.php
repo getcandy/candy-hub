@@ -11,6 +11,10 @@ use GetCandy\Api\Services\Hashids\BaseService as HashidService;
  */
 class SetLocaleMiddlewareTest extends TestCase
 {
+
+    /**
+     * 
+     */
     public function testDefaultLanguage()
     {
         $response = $this->get($this->url('users'), [
@@ -20,6 +24,9 @@ class SetLocaleMiddlewareTest extends TestCase
         $response->assertJsonFragment(['lang' => 'en']);
     }
 
+    /**
+     * 
+     */
     public function testSetFrenchLanguage()
     {
         \GetCandy\Api\Models\Language::create([

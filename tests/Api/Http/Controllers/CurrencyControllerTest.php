@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Currencies\Models\Currency;
+use GetCandy\Api\Models\Currency;
 
 /**
  * @group controllers
@@ -21,6 +21,9 @@ class CurrencyControllerTest extends TestCase
         'default'
     ];
 
+    /**
+     * 
+     */
     public function testIndex()
     {
         $response = $this->get($this->url('currencies'), [
@@ -47,6 +50,9 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
+    /**
+     * 
+     */
     public function testShow()
     {
         // Get a channel
@@ -63,6 +69,9 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+    /**
+     * 
+     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('currencies/123456'), [
@@ -74,6 +83,9 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
+    /**
+     * 
+     */
     public function testStore()
     {
         $response = $this->post(

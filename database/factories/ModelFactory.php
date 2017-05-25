@@ -35,7 +35,7 @@ $factory->define(GetCandy\User::class, function (Faker\Generator $faker) {
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(\GetCandy\Api\Attributes\Models\AttributeGroup::class, function (Faker\Generator $faker, $data = []) {
+$factory->define(\GetCandy\Api\Models\AttributeGroup::class, function (Faker\Generator $faker, $data = []) {
     $name = ucfirst($faker->unique()->domainWord());
     return [
         'name' => $name,
@@ -44,7 +44,7 @@ $factory->define(\GetCandy\Api\Attributes\Models\AttributeGroup::class, function
     ];
 });
 
-$factory->define(\GetCandy\Api\Attributes\Models\Attribute::class, function (Faker\Generator $faker, $data = []) {
+$factory->define(\GetCandy\Api\Models\Attribute::class, function (Faker\Generator $faker, $data = []) {
 
     $name = ucfirst($faker->unique()->domainWord);
     return [
@@ -57,17 +57,17 @@ $factory->define(\GetCandy\Api\Attributes\Models\Attribute::class, function (Fak
     ];
 });
 
-$factory->define(\GetCandy\Api\Products\Models\ProductFamily::class, function (Faker\Generator $faker) {
+$factory->define(\GetCandy\Api\Models\ProductFamily::class, function (Faker\Generator $faker) {
     return [
         'name' => ucfirst($faker->domainWord)
     ];
 });
 
-$factory->define(\GetCandy\Api\Products\Models\Product::class, function (Faker\Generator $faker) {
+$factory->define(\GetCandy\Api\Models\Product::class, function (Faker\Generator $faker) {
     $name = ['en' => ucfirst($faker->domainWord), 'fr' => ucfirst($faker->domainWord)];
     return [
         'name' => json_encode($name),
         'price' => $faker->randomNumber(2),
-        'family_id' => \GetCandy\Api\Products\Models\ProductFamily::inRandomOrder()->first()->id
+        'family_id' => \GetCandy\Api\Models\ProductFamily::inRandomOrder()->first()->id
     ];
 });
