@@ -11,6 +11,7 @@ use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Validator;
 
 class ProductController extends BaseController
@@ -36,7 +37,7 @@ class ProductController extends BaseController
     {
         try {
             $product = app('api')->products()->getByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($product, new ProductTransformer);

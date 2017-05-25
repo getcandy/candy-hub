@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Attributes\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\AttributeTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AttributeController extends BaseController
 {
@@ -32,7 +33,7 @@ class AttributeController extends BaseController
     {
         try {
             $attribute = app('api')->attributes()->getByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($attribute, new AttributeTransformer);

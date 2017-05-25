@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Languages\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\LanguageTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LanguageController extends BaseController
 {
@@ -30,7 +31,7 @@ class LanguageController extends BaseController
     {
         try {
             $language = app('api')->languages()->getByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($language, new LanguageTransformer);

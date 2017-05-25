@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Channels\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\ChannelTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ChannelController extends BaseController
 {
@@ -31,7 +32,7 @@ class ChannelController extends BaseController
     {
         try {
             $channel = app('api')->channels()->getByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($channel, new ChannelTransformer);

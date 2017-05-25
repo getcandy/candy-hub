@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Taxes\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\TaxTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaxController extends BaseController
 {
@@ -31,7 +32,7 @@ class TaxController extends BaseController
     {
         try {
             $currency = app('api')->taxes()->getByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($currency, new TaxTransformer);
