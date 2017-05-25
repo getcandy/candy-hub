@@ -2,31 +2,78 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Channel;
+use GetCandy\Api\Models\ProductFamily;
 
 /**
  * @group controllers
+ * @group new
  * @group api
  */
-class ChannelControllerTest extends TestCase
+class ProductFamilyControllerTest extends TestCase
 {
+    protected $baseStructure = [
+        'id',
+        'name'
+    ];
+
     public function testIndex()
     {
-        $response = $this->get($this->url('channels'), [
+        $response = $this->get($this->url('product-families'), [
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
 
         $response->assertJsonStructure([
-            'data' => [['id', 'name', 'default']],
+            'data' => [$this->baseStructure],
             'meta' => ['pagination']
         ]);
 
         $this->assertEquals(200, $response->status());
     }
 
+    public function testIndexWithAttributes()
+    {
+        $url = $this->url('product-families', [
+            'includes' => 'attributes'
+        ]);
+
+        $response = $this->get($url, [
+            'Authorization' => 'Bearer ' . $this->accessToken()
+        ]);
+
+        $response->assertJsonStructure([
+            'data' => [[
+                'id',
+                'name',
+                'attributes' => [
+                    'data' => [
+                        ['id']
+                    ]
+                ],
+            ]],
+            'meta' => ['pagination']
+        ]);
+
+        $this->assertEquals(200, $response->status());
+    }
+
+    public function testAttributesDontShowByDefault()
+    {
+        $url = $this->url('product-families');
+
+        $response = $this->get($url, [
+            'Authorization' => 'Bearer ' . $this->accessToken()
+        ]);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assertTrue(empty($data['data'][0]['attribute_groups']));
+
+        $this->assertEquals(200, $response->status());
+    }
+
+
     public function testUnauthorisedIndex()
     {
-        $response = $this->get($this->url('channels'), [
+        $response = $this->get($this->url('products'), [
             'Authorization' => 'Bearer foo.bar.bing',
             'Accept' => 'application/json'
         ]);
@@ -35,15 +82,15 @@ class ChannelControllerTest extends TestCase
 
     public function testShow()
     {
-        // Get a channel
-        $id = Channel::first()->encodedId();
+        // Get a family
+        $id = ProductFamily::first()->encodedId();
 
-        $response = $this->get($this->url('channels/' . $id), [
+        $response = $this->get($this->url('product-families/' . $id), [
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
 
         $response->assertJsonStructure([
-            'data' => ['id', 'name', 'default']
+            'data' => $this->baseStructure
         ]);
 
         $this->assertEquals(200, $response->status());
@@ -51,7 +98,7 @@ class ChannelControllerTest extends TestCase
 
     public function testMissingShow()
     {
-        $response = $this->get($this->url('channels/123456'), [
+        $response = $this->get($this->url('product-families/123456'), [
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
 
@@ -60,13 +107,16 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
+    /**
+     * @group fail
+     * @return [type] [description]
+     */
     public function testStore()
     {
         $response = $this->post(
-            $this->url('channels'),
+            $this->url('product-families'),
             [
-                'name' => 'Neon',
-                'default' => true
+                'name' =>  'Shoes'
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -74,7 +124,7 @@ class ChannelControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'data' => ['id', 'name', 'default']
+            'data' => $this->baseStructure
         ]);
 
         $this->assertEquals(200, $response->status());
@@ -83,7 +133,7 @@ class ChannelControllerTest extends TestCase
     public function testInvalidStore()
     {
         $response = $this->post(
-            $this->url('channels'),
+            $this->url('product-families'),
             [],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -99,64 +149,47 @@ class ChannelControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $id = Channel::first()->encodedId();
-
+        $id = ProductFamily::first()->encodedId();
         $response = $this->put(
-            $this->url('channels/' . $id),
+            $this->url('product-families/' . $id),
             [
-                'name' => 'Neon',
+                'name' => 'Foo bar',
                 'default' => true
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
             ]
         );
-
-        $response->assertJsonStructure([
-            'data' => ['id', 'name', 'default']
-        ]);
-
         $this->assertEquals(200, $response->status());
     }
 
     public function testMissingUpdate()
     {
         $response = $this->put(
-            $this->url('channels/123123'),
+            $this->url('product-families/123123'),
             [
-                'name' => 'Neon',
-                'default' => true
+                'name' => 'Foo bar'
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
             ]
         );
+
         $this->assertEquals(404, $response->status());
     }
 
     public function testDestroy()
     {
-        $channel = Channel::create([
-            'name' => 'Etsy'
+        $product = ProductFamily::create([
+            'name' => "Cheese"
         ]);
 
         $response = $this->delete(
-            $this->url('channels/' . $channel->encodedId()),
+            $this->url('product-families/' . $product->encodedId()),
             [],
             ['Authorization' => 'Bearer ' . $this->accessToken()]
         );
+
         $this->assertEquals(204, $response->status());
-    }
-
-    public function testCannotDestroyLastChannel()
-    {
-        $id = Channel::first()->encodedId();
-        $response = $this->delete(
-            $this->url('channels/' . $id),
-            [],
-            ['Authorization' => 'Bearer ' . $this->accessToken()]
-        );
-
-        $this->assertEquals(422, $response->status());
     }
 }

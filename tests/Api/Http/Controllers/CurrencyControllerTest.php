@@ -21,9 +21,6 @@ class CurrencyControllerTest extends TestCase
         'default'
     ];
 
-    /**
-     * 
-     */
     public function testIndex()
     {
         $response = $this->get($this->url('currencies'), [
@@ -38,9 +35,6 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * @group fail
-     */
     public function testUnauthorisedIndex()
     {
         $response = $this->get($this->url('currencies'), [
@@ -50,9 +44,6 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * 
-     */
     public function testShow()
     {
         // Get a channel
@@ -69,9 +60,6 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('currencies/123456'), [
@@ -83,9 +71,6 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testStore()
     {
         $response = $this->post(
@@ -129,10 +114,6 @@ class CurrencyControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
-    /**
-     * @group foo
-     * @return [type] [description]
-     */
     public function testUpdate()
     {
         $id = Currency::first()->encodedId();

@@ -5,8 +5,8 @@ namespace Tests;
 use GetCandy\Api\Models\Tax;
 
 /**
- * 
  * @group api
+ * @group controllers
  */
 class TaxControllerTest extends TestCase
 {
@@ -30,9 +30,6 @@ class TaxControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * @group fail
-     */
     public function testUnauthorisedIndex()
     {
         $response = $this->get($this->url('taxes'), [
@@ -58,9 +55,6 @@ class TaxControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('taxes/123456'), [

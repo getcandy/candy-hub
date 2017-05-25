@@ -5,7 +5,6 @@ namespace Tests;
 use GetCandy\Api\Models\Attribute;
 
 /**
- * @group new
  * @group api
  */
 class AttributeControllerTest extends TestCase
@@ -24,10 +23,6 @@ class AttributeControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-/**
- * @group fail
- * @return [type] [description]
- */
     public function testUnauthorisedIndex()
     {
         $response = $this->get($this->url('attributes'), [
@@ -53,9 +48,6 @@ class AttributeControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('attributes/123456'), [

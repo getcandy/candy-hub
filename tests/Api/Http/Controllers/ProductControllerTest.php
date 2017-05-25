@@ -159,9 +159,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testMissingShow()
     {
         $response = $this->get($this->url('products/123456'), [
@@ -173,9 +170,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * 
-     */
     public function testStore()
     {
         $response = $this->post(
