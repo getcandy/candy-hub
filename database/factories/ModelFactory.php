@@ -68,6 +68,6 @@ $factory->define(\GetCandy\Api\Models\Product::class, function (Faker\Generator 
     return [
         'name' => json_encode($name),
         'price' => $faker->randomNumber(2),
-        'family_id' => \GetCandy\Api\Models\ProductFamily::inRandomOrder()->first()->id
+        'product_family_id' => \GetCandy\Api\Models\ProductFamily::inRandomOrder()->first()->id
     ];
 });
