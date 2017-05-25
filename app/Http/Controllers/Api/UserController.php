@@ -5,6 +5,7 @@ namespace GetCandy\Http\Controllers\Api;
 use GetCandy\Http\Transformers\Fractal\UserTransformer;
 use GetCandy\Http\Requests\Api\Users\CreateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends BaseController
 {
