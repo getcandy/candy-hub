@@ -119,7 +119,7 @@ class CurrencyService extends BaseService
         $currency->save();
 
         if ($currency->default) {
-            $newDefault = $this->currencyRepo->getNewSuggestedDefault();
+            $newDefault = $this->getNewSuggestedDefault();
             $this->setNewDefault($newDefault);
             $newDefault->save();
         }
