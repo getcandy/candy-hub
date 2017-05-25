@@ -12,7 +12,6 @@ use GetCandy\Http\Transformers\Fractal\ProductTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Validator;
 
 class ProductController extends BaseController
 {
