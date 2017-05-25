@@ -101,7 +101,7 @@ class CurrencyService extends BaseService
      *
      * @return Boolean
      */
-    public function deleteByHashedId($id)
+    public function delete($id)
     {
         $currency = $this->getByHashedId($id);
 
@@ -109,7 +109,7 @@ class CurrencyService extends BaseService
             abort(404);
         }
 
-        if ($this->getEnabled()->count() == 1) {
+        if ($this->model->enabled()->count() == 1) {
             throw new MinimumRecordRequiredException(
                 trans('getcandy_api::response.error.minimum_record')
             );
