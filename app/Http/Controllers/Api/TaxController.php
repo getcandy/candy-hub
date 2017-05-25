@@ -70,7 +70,7 @@ class TaxController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = app('api')->taxes()->deleteByHashedId($id);
+            $result = app('api')->taxes()->delete($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {

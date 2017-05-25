@@ -21,7 +21,7 @@ class ProductService extends BaseService
      * @throws Symfony\Component\HttpKernel\Exception
      * @throws GetCandy\Api\Exceptions\InvalidLanguageException
      *
-     * @return GetCandy\Api\Models\Product
+     * @return GetCandy\Api\Models\ProductFamily
      */
     public function update($hashedId, array $data)
     {
@@ -33,9 +33,7 @@ class ProductService extends BaseService
      *
      * @param  string $id
      *
-     * @throws GetCandy\Api\Exceptions\InvalidLanguageException
-     *
-     * @return GetCandy\Api\Models\Product
+     * @return GetCandy\Api\Models\ProductFamily
      */
     public function create(array $data)
     {
@@ -53,10 +51,10 @@ class ProductService extends BaseService
      */
     public function delete($hashedId)
     {
-        $product = $this->getByHashedId($hashedId);
-        if (!$product) {
+        $productFamily = $this->getByHashedId($hashedId);
+        if (!$productFamily) {
             abort(404);
         }
-        return $product->delete();
+        return $productFamily->delete();
     }
 }

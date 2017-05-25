@@ -117,23 +117,4 @@ class LanguageService extends BaseService
 
         return $language->delete();
     }
-
-    /**
-     * Determines whether a language exists by a given code
-     * @param  string $code
-     * @return boolean
-     */
-    public function existsByCode($code)
-    {
-        return $this->model->where('code', '=', $code)->exists();
-    }
-
-    protected function setNewDefault(&$model)
-    {
-        if ($current = $this->getDefaultRecord()) {
-            $current->default = false;
-            $current->save();
-        }
-        $model->default = true;
-    }
 }

@@ -106,17 +106,4 @@ class ChannelService extends BaseService
 
         return $channel->delete();
     }
-
-    /**
-     * Finds and sets a new default record based on whats available
-     * @param GetCandy\Api\Models\Channel &$model
-     */
-    protected function setNewDefault(&$model)
-    {
-        if ($current = $this->getDefaultRecord()) {
-            $current->default = false;
-            $current->save();
-        }
-        $model->default = true;
-    }
 }

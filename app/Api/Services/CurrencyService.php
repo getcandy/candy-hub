@@ -126,13 +126,4 @@ class CurrencyService extends BaseService
 
         return $currency->delete();
     }
-
-    protected function setNewDefault(&$model)
-    {
-        if ($current = $this->getDefaultRecord()) {
-            $current->default = false;
-            $current->save();
-        }
-        $model->default = true;
-    }
 }

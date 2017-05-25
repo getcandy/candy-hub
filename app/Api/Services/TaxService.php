@@ -76,7 +76,7 @@ class TaxService extends BaseService
      *
      * @return Boolean
      */
-    public function deleteByHashedId($id)
+    public function delete($id)
     {
         $tax = $this->getByHashedId($id);
 
