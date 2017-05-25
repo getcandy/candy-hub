@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Currencies\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\CurrencyTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CurrencyController extends BaseController
 {
@@ -30,8 +31,8 @@ class CurrencyController extends BaseController
     public function show($id)
     {
         try {
-            $currency = app('api')->currencies()->dataGetByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+            $currency = app('api')->currencies()->getByHashedId($id);
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($currency, new CurrencyTransformer);
