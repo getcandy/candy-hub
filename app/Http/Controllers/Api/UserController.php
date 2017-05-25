@@ -15,7 +15,7 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->users()->getPaginatedResults($request['per_page']);
+        $paginator = app('api')->users()->getPaginatedData($request['per_page']);
         return $this->respondWithCollection($paginator, new UserTransformer);
     }
 
