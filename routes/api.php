@@ -28,6 +28,13 @@ Route::resource('products', 'ProductController', [
 ]);
 
 /**
+ * Product families
+ */
+Route::resource('product-families', 'ProductFamilyController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
  * Attribute Groups
  */
 Route::put('attribute-groups/order', 'AttributeGroupController@reorder');
