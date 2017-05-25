@@ -76,7 +76,7 @@ class ProductTransformer extends TransformerAbstract
 
         $price = $price * $this->currency->exchange_rate;
         $price = number_format($price, 2, ($this->currency->decimal_point ?: ' '), ($this->currency->thousand_point ?: ' '));
-        $price = str_replace(':price', $price, $this->currency->format);
+        $price = str_replace('{price}', $price, $this->currency->format);
         return $price;
     }
 
