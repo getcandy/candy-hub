@@ -19,7 +19,7 @@ class CurrencyController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->currencies()->dataGetPaginatedResults($request->per_page);
+        $paginator = app('api')->currencies()->getPaginatedData($request->per_page);
         return $this->respondWithCollection($paginator, new CurrencyTransformer);
     }
 
@@ -70,7 +70,7 @@ class CurrencyController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = app('api')->currencies()->deleteByHashedId($id);
+            $result = app('api')->currencies()->delete($id);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
