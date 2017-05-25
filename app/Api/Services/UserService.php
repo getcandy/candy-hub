@@ -4,7 +4,7 @@ namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\User;
 
-class UserService
+class UserService extends BaseService
 {
     public function __construct()
     {
