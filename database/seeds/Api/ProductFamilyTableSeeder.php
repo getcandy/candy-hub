@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory;
-use GetCandy\Api\Products\Models\ProductFamily;
-use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Models\ProductFamily;
+use GetCandy\Api\Models\Attribute;
 
 class ProductFamilyTableSeeder extends Seeder
 {

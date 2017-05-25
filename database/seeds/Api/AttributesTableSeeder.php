@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory;
-use GetCandy\Api\Products\Models\Product;
-use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Attributes\Models\AttributeGroup;
+use GetCandy\Api\Models\Product;
+use GetCandy\Api\Models\Attribute;
+use GetCandy\Api\Models\AttributeGroup;
 
 class AttributesTableSeeder extends Seeder
 {

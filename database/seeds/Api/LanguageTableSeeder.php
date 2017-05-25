@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use GetCandy\Api\Languages\Models\Language;
+use GetCandy\Api\Models\Language;
 
 class LanguageTableSeeder extends Seeder
 {

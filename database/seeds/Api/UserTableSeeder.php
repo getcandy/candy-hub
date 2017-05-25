@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use Faker\Factory;
-use GetCandy\Api\Auth\Models\User;
+use GetCandy\Api\Models\User;
 
 class UserTableSeeder extends Seeder
 {
