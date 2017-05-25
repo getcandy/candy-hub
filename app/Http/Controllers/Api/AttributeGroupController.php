@@ -33,7 +33,7 @@ class AttributeGroupController extends BaseController
     {
         try {
             $attribute = app('api')->attributeGroups()->getByHashedId($id);
-        } catch (NotFoundHttpException $e) {
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithItem($attribute, new AttributeGroupTransformer);
