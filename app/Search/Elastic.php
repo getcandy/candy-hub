@@ -16,12 +16,22 @@ class Elastic implements SearchContract
         $this->client = $client;
     }
 
+    /**
+     * Sets the index to search on
+     * @param  string $index
+     * @return this
+     */
     public function index($index)
     {
         $this->index = $index;
         return $this;
     }
 
+    /**
+     * Searches the index
+     * @param  string $keywords
+     * @return array
+     */
     public function search($keywords)
     {
         $search = new \Elastica\Search($this->client);
@@ -37,14 +47,14 @@ class Elastic implements SearchContract
         $multiMatchQuery->setType('best_fields');
         $multiMatchQuery->setQuery($keywords);
         $multiMatchQuery->setTieBreaker(0.5);
-        $multiMatchQuery->setFuzziness(1);
+        $multiMatchQuery->setFuzziness(100);
 
         // $searchableFields = [
         //     "sku^10", "name^5", "name.english^4", "description^3", "description.english^2", "keywords", "keywords.english", "ean", "category_name", "category_name.english", "category_breadcrumb", "category_breadcrumb.english"
         // ];
 
         $searchableFields = [
-            "name^10", "name.english^4"
+            "name^5", "name.english^4"
         ];
 
         $multiMatchQuery->setFields($searchableFields);
@@ -59,14 +69,10 @@ class Elastic implements SearchContract
 
         $search->setQuery($query);
 
-        $this->resultSet = $search->search();
-
-        $maxScore = $this->resultSet->getResponse()->getData()['hits']['max_score'];
-
         $query
             ->setFrom(0)
             ->setSize(100)
-            ->setMinScore($maxScore * 0.5)  // We'll only grab results with a score of at least 50% of the first result
+            // ->setMinScore()  // We'll only grab results with a score of at least 50% of the first result
             ->setHighlight(array(
                 'pre_tags' => array('<em class="highlight">'),
                 'post_tags' => array('</em>'),
@@ -80,15 +86,14 @@ class Elastic implements SearchContract
                 ),
             ));
 
-        $this->resultSet = $search->search();
+        $results = $search->search();
 
-        // dump($this->resultSet);
-
-        $count = 0;
-
-        // echo "Query time: " . $this->resultSet->getTotalTime() . '<br>';
-        // echo "Hits: " . $this->resultSet->getTotalHits();
-
-        return $this->resultSet;
+        $ids = [];
+        if (count($results)) {
+            foreach ($results as $r) {
+                $ids[] = $r->getSource()['id'];
+            }
+        }
+        return $ids;
     }
 }
