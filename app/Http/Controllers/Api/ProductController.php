@@ -9,9 +9,10 @@ use GetCandy\Http\Requests\Api\Products\CreateRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductController extends BaseController
 {
@@ -71,6 +72,8 @@ class ProductController extends BaseController
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
+        } catch (HttpException $e) {
+            return $this->errorUnprocessable($e->getMessage());
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
