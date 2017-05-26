@@ -100,4 +100,15 @@ abstract class BaseService
     {
         return $this->model->where('code', '=', $code)->exists();
     }
+
+    /**
+     * Checks whether a record exists with the given hashed id
+     * @param  string $hashedId
+     * @return boolean
+     */
+    public function existsByHashedId($hashedId)
+    {
+        $id = $this->model->decodeId($hashedId);
+        return $this->model->where('id', '=', $id)->exists();
+    }
 }
