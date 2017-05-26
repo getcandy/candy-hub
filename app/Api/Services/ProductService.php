@@ -41,7 +41,15 @@ class ProductService extends BaseService
             $product->name = json_encode($data['name']);
         }
 
-        $product->save();
+        if (! empty($data['family_id'])) {
+            $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
+            if (! $family) {
+                abort(422);
+            }
+            $family->products()->save($product);
+        } else {
+            $product->save();
+        }
 
         return $product;
     }
@@ -68,7 +76,15 @@ class ProductService extends BaseService
         $product->name = json_encode($data['name']);
         $product->price = $data['price'];
 
-        $product->save();
+        if (! empty($data['family_id'])) {
+            $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
+            if (! $family) {
+                abort(422);
+            }
+            $family->products()->save($product);
+        } else {
+            $product->save();
+        }
 
         return $product;
     }
