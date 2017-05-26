@@ -26,6 +26,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'family_id' => 'required',
             'price' => 'required'
         ];
     }
