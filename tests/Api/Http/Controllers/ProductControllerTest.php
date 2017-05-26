@@ -3,6 +3,7 @@
 namespace Tests;
 
 use GetCandy\Api\Models\Product;
+use GetCandy\Api\Models\ProductFamily;
 
 /**
  * @group controllers
@@ -172,13 +173,18 @@ class ProductControllerTest extends TestCase
 
     public function testStore()
     {
+        $family = ProductFamily::create([
+            'name' => 'Foo bar'
+        ]);
+
         $response = $this->post(
             $this->url('products'),
             [
                 'name' =>  [
                     "en" => "Spring water"
                 ],
-                'price' => 10
+                'price' => 10,
+                'family_id' => $family->encodedId()
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -203,7 +209,7 @@ class ProductControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name', 'price'
+            'name', 'price', 'family_id'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -211,13 +217,18 @@ class ProductControllerTest extends TestCase
 
     public function testInvalidLanguageStore()
     {
+        $family = ProductFamily::create([
+            'name' => 'Foo bar'
+        ]);
+
         $response = $this->post(
             $this->url('products'),
             [
                 'name' =>  [
                     "es" => "Spring water"
                 ],
-                'price' => 10
+                'price' => 10,
+                'family_id' => $family->encodedId()
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
