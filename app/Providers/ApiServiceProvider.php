@@ -15,7 +15,7 @@ class ApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('unique_name_in_group', 'GetCandy\Api\Http\Validation\AttributeValidation@uniqueNameInGroup');
+        Validator::extend('unique_name_in_group', 'GetCandy\Http\Api\Validators\AttributeValidator@uniqueNameInGroup');
 
         $this->app->bind('api', function ($app) {
             return $app->make(Factory::class);
