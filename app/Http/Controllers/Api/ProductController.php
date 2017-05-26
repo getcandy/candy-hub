@@ -23,7 +23,7 @@ class ProductController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->products()->getPaginatedData($request->per_page);
+        $paginator = app('api')->products()->getPaginatedData($request->keywords, $request->per_page);
         // event(new ViewProductEvent(['hello' => 'there']));
         return $this->respondWithCollection($paginator, new ProductTransformer);
     }

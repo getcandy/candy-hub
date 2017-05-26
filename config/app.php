@@ -176,6 +176,7 @@ return [
          * Application Service Providers...
          */
         GetCandy\Providers\AppServiceProvider::class,
+        GetCandy\Providers\SearchServiceProvider::class,
         GetCandy\Providers\ApiServiceProvider::class,
         GetCandy\Providers\AuthServiceProvider::class,
         // GetCandy\Providers\BroadcastServiceProvider::class,

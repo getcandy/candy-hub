@@ -4,6 +4,7 @@ namespace GetCandy\Api\Services;
 
 use GetCandy\Api\Models\Product;
 use GetCandy\Exceptions\InvalidLanguageException;
+use GetCandy\Search\SearchContract;
 
 class ProductService extends BaseService
 {
@@ -105,5 +106,28 @@ class ProductService extends BaseService
             abort(404);
         }
         return $product->delete();
+    }
+
+    /**
+     * Gets paginated data for the record
+     * @param  integer $length How many results per page
+     * @param  int  $page   The page to start
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
+    {
+        if ($searchTerm) {
+            $results = app(SearchContract::class)->index('products')->search($searchTerm);
+            $ids = [];
+            if (count($results)) {
+                foreach ($results as $r) {
+                    $ids[] = $r->getSource()['id'];
+                }
+            }
+            $results = $this->model->whereIn('id', $ids);
+        } else {
+            $results = $this->model;
+        }
+        return $results->paginate($length, ['*'], 'page', $page);
     }
 }
