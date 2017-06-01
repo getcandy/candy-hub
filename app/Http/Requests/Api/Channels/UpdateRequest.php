@@ -3,7 +3,7 @@
 namespace GetCandy\Http\Requests\Api\Channels;
 
 use GetCandy\Http\Requests\Api\FormRequest;
-use GetCandy\Api\Models\Channel;
+use GetCandy\Api\Channels\Models\Channel;
 
 class UpdateRequest extends FormRequest
 {

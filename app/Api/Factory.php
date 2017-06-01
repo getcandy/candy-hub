@@ -2,15 +2,15 @@
 
 namespace GetCandy\Api;
 
-use GetCandy\Api\Services\AttributeGroupService;
-use GetCandy\Api\Services\AttributeService;
-use GetCandy\Api\Services\ChannelService;
-use GetCandy\Api\Services\CurrencyService;
-use GetCandy\Api\Services\LanguageService;
-use GetCandy\Api\Services\ProductService;
-use GetCandy\Api\Services\ProductFamilyService;
-use GetCandy\Api\Services\TaxService;
-use GetCandy\Api\Services\UserService;
+use GetCandy\Api\Attributes\Services\AttributeGroupService;
+use GetCandy\Api\Attributes\Services\AttributeService;
+use GetCandy\Api\Channels\Services\ChannelService;
+use GetCandy\Api\Currencies\Services\CurrencyService;
+use GetCandy\Api\Languages\Services\LanguageService;
+use GetCandy\Api\Products\Services\ProductService;
+use GetCandy\Api\Products\Services\ProductFamilyService;
+use GetCandy\Api\Taxes\Services\TaxService;
+use GetCandy\Api\Auth\Services\UserService;
 
 class Factory
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Scaffold;
 
-use Illuminate\Database\Eloquent\Model;
 use GetCandy\Api\Traits\Hashids;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseModel extends Model
 {

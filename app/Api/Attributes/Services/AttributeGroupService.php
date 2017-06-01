@@ -1,9 +1,10 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Attributes\Services;
 
 use DB;
-use GetCandy\Api\Models\AttributeGroup;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
+use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\DuplicateValueException;
 
 class AttributeGroupService extends BaseService

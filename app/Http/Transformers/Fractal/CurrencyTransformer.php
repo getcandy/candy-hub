@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\Currency;
+use GetCandy\Api\Currencies\Models\Currency;
 use League\Fractal\TransformerAbstract;
 
 class CurrencyTransformer extends TransformerAbstract

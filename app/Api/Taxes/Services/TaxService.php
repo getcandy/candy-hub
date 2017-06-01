@@ -1,9 +1,10 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Taxes\Services;
 
-use GetCandy\Api\Models\Tax;
 use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Api\Taxes\Models\Tax;
 
 class TaxService extends BaseService
 {

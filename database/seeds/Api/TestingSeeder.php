@@ -11,11 +11,9 @@ class TestingSeeder extends Seeder
      */
     public function run()
     {
-
         Artisan::call('migrate:refresh');
 
         $this->call('UserTableSeeder');
-
 
         $this->call('AttributesTableSeeder');
         $this->call('ProductFamilyTableSeeder');

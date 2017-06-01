@@ -1,8 +1,9 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Products\Services;
 
-use GetCandy\Api\Models\ProductFamily;
+use GetCandy\Api\Products\Models\ProductFamily;
+use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
 
 class ProductFamilyService extends BaseService

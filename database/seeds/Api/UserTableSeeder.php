@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use Faker\Factory;
-use GetCandy\Api\Models\User;
+use GetCandy\Api\Auth\Models\User;
 
 class UserTableSeeder extends Seeder
 {
@@ -14,7 +14,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $fake = Factory::create();
         User::create([
             'name' => 'Alec',
             'email' => 'alec@neondigital.co.uk',

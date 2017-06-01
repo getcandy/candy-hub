@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Product;
-use GetCandy\Api\Models\ProductFamily;
+use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Products\Models\ProductFamily;
 
 /**
  * @group controllers

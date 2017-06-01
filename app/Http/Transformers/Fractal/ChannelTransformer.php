@@ -2,9 +2,8 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\Channel;
+use GetCandy\Api\Channels\Models\Channel;
 use League\Fractal\TransformerAbstract;
-use GetCandy\Api\Services\Hashids\ChannelHashidService;
 
 class ChannelTransformer extends TransformerAbstract
 {

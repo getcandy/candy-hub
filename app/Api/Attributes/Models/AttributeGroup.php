@@ -1,6 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Attributes\Models;
+
+use GetCandy\Api\Scaffold\BaseModel;
 
 class AttributeGroup extends BaseModel
 {

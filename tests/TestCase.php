@@ -57,6 +57,7 @@ abstract class TestCase extends BaseTestCase
 
         $content = $this->getContent($response);
 
+
         $response->assertJsonStructure([
             'token_type',
             'expires_in',

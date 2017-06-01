@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Scaffold;
 
 abstract class BaseService
 {

@@ -1,8 +1,9 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Languages\Services;
 
-use GetCandy\Api\Models\Language;
+use GetCandy\Api\Languages\Models\Language;
+use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 
 class LanguageService extends BaseService

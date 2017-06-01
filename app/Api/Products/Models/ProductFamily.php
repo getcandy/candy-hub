@@ -1,11 +1,16 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Products\Models;
 
-use GetCandy\Api\Models\Attribute;
+use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Scaffold\BaseModel;
 
 class ProductFamily extends BaseModel
 {
+    /**
+     * The Hashid Channel for encoding the id
+     * @var string
+     */
     protected $hashids = 'product_family';
 
     protected $fillable = ['name'];

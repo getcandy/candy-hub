@@ -1,6 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Taxes\Models;
+
+use GetCandy\Api\Scaffold\BaseModel;
 
 class Tax extends BaseModel
 {

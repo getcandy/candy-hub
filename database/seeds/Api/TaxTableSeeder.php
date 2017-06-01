@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use GetCandy\Api\Models\Tax;
+use GetCandy\Api\Taxes\Models\Tax;
 
 class TaxTableSeeder extends Seeder
 {

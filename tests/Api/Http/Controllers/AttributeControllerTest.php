@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Attribute;
+use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
 
 /**
  * @group api
@@ -61,7 +62,7 @@ class AttributeControllerTest extends TestCase
 
     public function testStore()
     {
-        $group = \GetCandy\Api\Models\AttributeGroup::first();
+        $group = AttributeGroup::first();
 
         $response = $this->post(
             $this->url('attributes'),

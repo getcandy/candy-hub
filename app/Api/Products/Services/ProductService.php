@@ -1,8 +1,9 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Products\Services;
 
-use GetCandy\Api\Models\Product;
+use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Search\SearchContract;
 
@@ -117,13 +118,7 @@ class ProductService extends BaseService
     public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
     {
         if ($searchTerm) {
-            $results = app(SearchContract::class)->index('products')->search($searchTerm);
-            $ids = [];
-            if (count($results)) {
-                foreach ($results as $r) {
-                    $ids[] = $r->getSource()['id'];
-                }
-            }
+            $ids = app(SearchContract::class)->on(get_class($this->model))->search($searchTerm);
             $results = $this->model->whereIn('id', $ids);
         } else {
             $results = $this->model;

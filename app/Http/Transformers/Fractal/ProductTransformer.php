@@ -2,11 +2,11 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\AttributeGroup;
-use GetCandy\Api\Models\Currency;
-use GetCandy\Api\Models\Language;
-use GetCandy\Api\Models\Attribute;
-use GetCandy\Api\Models\Product;
+use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
+use GetCandy\Api\Currencies\Models\Currency;
+use GetCandy\Api\Languages\Models\Language;
+use GetCandy\Api\Products\Models\Product;
 use League\Fractal\TransformerAbstract;
 
 class ProductTransformer extends TransformerAbstract

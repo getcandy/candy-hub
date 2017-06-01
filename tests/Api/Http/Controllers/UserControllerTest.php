@@ -2,8 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Product;
-
+use GetCandy\Api\Auth\Models\User;
 /**
  * @group controllers
  * @group api
@@ -35,7 +34,6 @@ class UserControllerTest extends TestCase
         $response = $this->post($this->url('users'), [
                 'email' => 'dom@neondigital.co.uk',
                 'password' => 'password',
-                'role' => \GetCandy\Api\Roles\SuperUserRole::class,
                 'name' => 'Dom',
                 'password_confirmation' => 'password'
             ], [
@@ -82,10 +80,10 @@ class UserControllerTest extends TestCase
 
     public function testDuplicateEmailValidationErrorStore()
     {
-        \GetCandy\Api\Models\User::create([
-                'email' => 'person@neondigital.co.uk',
-                'password' => 'password',
-                'name' => 'Person',
+        User::create([
+            'email' => 'person@neondigital.co.uk',
+            'password' => 'password',
+            'name' => 'Person',
         ]);
 
         $response = $this->post($this->url('users'), [

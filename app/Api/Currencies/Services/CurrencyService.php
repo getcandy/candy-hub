@@ -1,8 +1,9 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Currencies\Services;
 
-use GetCandy\Api\Models\Currency;
+use GetCandy\Api\Currencies\Models\Currency;
+use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 
 class CurrencyService extends BaseService

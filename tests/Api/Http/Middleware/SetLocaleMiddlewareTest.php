@@ -29,7 +29,7 @@ class SetLocaleMiddlewareTest extends TestCase
      */
     public function testSetFrenchLanguage()
     {
-        \GetCandy\Api\Models\Language::create([
+        \GetCandy\Api\Languages\Models\Language::create([
             'code' => 'fr',
             'name' => 'French',
             'enabled' => 1,

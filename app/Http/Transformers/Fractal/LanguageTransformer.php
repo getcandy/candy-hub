@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\Language;
+use GetCandy\Api\Languages\Models\Language;
 use League\Fractal\TransformerAbstract;
 
 class LanguageTransformer extends TransformerAbstract

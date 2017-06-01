@@ -2,9 +2,8 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\AttributeGroup;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
 use League\Fractal\TransformerAbstract;
-use League\Fractal\ParamBag;
 
 class AttributeGroupTransformer extends TransformerAbstract
 {

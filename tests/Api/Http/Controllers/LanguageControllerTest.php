@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Language;
+use GetCandy\Api\Languages\Models\Language;
 
 /**
  * @group controllers
@@ -145,7 +145,7 @@ class LanguageControllerTest extends TestCase
 
     public function testUpdateUniqueCode()
     {
-        \GetCandy\Api\Models\Language::create([
+        Language::create([
             'name' => 'Foo',
             'code' => 'foo'
         ]);

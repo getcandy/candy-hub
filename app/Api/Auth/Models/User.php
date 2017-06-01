@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Auth\Models;
 
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Foundation\Auth\User as Authenticatable;

@@ -1,6 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Currencies\Models;
+
+use GetCandy\Api\Scaffold\BaseModel;
 
 class Currency extends BaseModel
 {

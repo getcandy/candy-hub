@@ -1,6 +1,8 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Channels\Models;
+
+use GetCandy\Api\Scaffold\BaseModel;
 
 class Channel extends BaseModel
 {

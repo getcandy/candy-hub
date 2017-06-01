@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Factory;
-use GetCandy\Api\Models\Channel;
+use GetCandy\Api\Channels\Models\Channel;
 use Illuminate\Database\Seeder;
 
 class ChannelTableSeeder extends Seeder

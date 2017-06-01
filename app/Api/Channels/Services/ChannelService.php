@@ -1,9 +1,10 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Channels\Services;
 
+use GetCandy\Api\Channels\Models\Channel;
+use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
-use GetCandy\Api\Models\Channel;
 
 class ChannelService extends BaseService
 {

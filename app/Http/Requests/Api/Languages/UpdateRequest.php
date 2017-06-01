@@ -3,7 +3,7 @@
 namespace GetCandy\Http\Requests\Api\Languages;
 
 use GetCandy\Http\Requests\Api\FormRequest;
-use GetCandy\Api\Models\Language;
+use GetCandy\Api\Languages\Models\Language;
 
 class UpdateRequest extends FormRequest
 {

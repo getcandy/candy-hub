@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Currency;
+use GetCandy\Api\Currencies\Models\Currency;
 
 /**
  * @group controllers

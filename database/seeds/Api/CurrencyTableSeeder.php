@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use GetCandy\Api\Models\Currency;
+use GetCandy\Api\Currencies\Models\Currency;
 
 class CurrencyTableSeeder extends Seeder
 {

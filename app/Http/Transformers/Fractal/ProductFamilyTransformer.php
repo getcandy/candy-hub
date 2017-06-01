@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\ProductFamily;
+use GetCandy\Api\Products\Models\ProductFamily;
 use League\Fractal\TransformerAbstract;
 
 class ProductFamilyTransformer extends TransformerAbstract

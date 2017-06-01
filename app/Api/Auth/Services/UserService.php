@@ -1,8 +1,9 @@
 <?php
 
-namespace GetCandy\Api\Services;
+namespace GetCandy\Api\Auth\Services;
 
-use GetCandy\Api\Models\User;
+use GetCandy\Api\Auth\Models\User;
+use GetCandy\Api\Scaffold\BaseService;
 
 class UserService extends BaseService
 {
@@ -16,7 +17,7 @@ class UserService extends BaseService
      *
      * @param  array  $data
      *
-     * @return GetCandy\Api\Models\User
+     * @return GetCandy\Api\Auth\Models\User
      */
     public function create($data)
     {

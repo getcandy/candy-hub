@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GetCandy\Api\Models\Tax;
+use GetCandy\Api\Taxes\Models\Tax;
 
 /**
  * @group api
@@ -88,7 +88,7 @@ class TaxControllerTest extends TestCase
 
     public function testStoreDuplicateValidationFail()
     {
-        \GetCandy\Api\Models\Tax::create([
+        Tax::create([
             'name' => 'Foo',
             'default' => false,
             'percentage' => 5

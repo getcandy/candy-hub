@@ -1,12 +1,14 @@
 <?php
 
-namespace GetCandy\Api\Models;
+namespace GetCandy\Api\Attributes\Models;
 
-use GetCandy\Api\Models\Product;
+use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Scaffold\BaseModel;
 
 class Attribute extends BaseModel
 {
     protected $hashids = 'attribute';
+
     /**
      * The attributes that are mass assignable.
      *

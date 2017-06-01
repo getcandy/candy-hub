@@ -2,8 +2,7 @@
 
 namespace GetCandy\Http\Transformers\Fractal;
 
-use GetCandy\Api\Models\User;
-use GetCandy\Api\Support\Roles;
+use GetCandy\Api\Auth\Models\User;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
