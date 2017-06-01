@@ -85,6 +85,7 @@ class ProductTransformer extends TransformerAbstract
         $name = json_decode($name, true);
         $locale = app()->getLocale();
 
+
         $requestLang = strtolower(app('request')->languages);
         if ($requestLang) {
             if ($requestLang != 'all') {

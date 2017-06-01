@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'GetCandy\Events\Event' => [
-            'GetCandy\Listeners\EventListener',
+        'GetCandy\Events\Products\ProductCreatedEvent' => [
+            'GetCandy\Listeners\Products\AddProductToIndexListener',
         ],
     ];
 

@@ -3,6 +3,7 @@
 namespace GetCandy\Console\Commands;
 
 use Illuminate\Console\Command;
+use GetCandy\Search\SearchContract;
 
 class ElasticIndexCommand extends Command
 {
@@ -11,7 +12,7 @@ class ElasticIndexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'elastic:index {--class=}';
+    protected $signature = 'elastic:index {--model=}';
 
     /**
      * The console command description.
@@ -37,18 +38,19 @@ class ElasticIndexCommand extends Command
      */
     public function handle()
     {
-        $model = $this->option('class');
+        $model = $this->option('model');
         $model = new $model;
 
-        $this->info('Deleting index...');
-        $model->deleteIndex();
+        $search = app(SearchContract::class);
 
-        $this->info('Reindexing...');
-
-        foreach ($model->get() as $model) {
-            $model->addToIndex();
+        if (!$search->hasIndexer($model)) {
+            $this->error("No Indexer found for {$model}");
         }
 
-        $this->info('Index!');
+        foreach ($model->get() as $model) {
+            $search->on($model)->index($model);
+            echo '.';
+        }
+        $this->info('Done!');
     }
 }

@@ -2,12 +2,15 @@
 
 namespace GetCandy\Search\Elastic\Indexers;
 
+use GetCandy\Api\Products\Models\Product;
+use Elastica\Document;
+
 class ProductIndexer extends BaseIndexer
 {
     /**
      * @var Product
      */
-    protected $model = \GetCandy\Api\Models\Product::class;
+    protected $model = Product::class;
 
     /**
      * @var string
@@ -15,16 +18,25 @@ class ProductIndexer extends BaseIndexer
     public $type = 'product';
 
     /**
-     * Adds the current model to the index
+     * Returns the Index document ready to be added
+     * @param  Product $product
+     * @return Document
      */
-    public function addToIndex()
+    public function getIndexDocument(Product $product)
     {
-        $model = $this->model();
-        $model->name = json_decode($model->name, true)['en'];
-        $doc = new Document($model->id, $model->toArray());
-        $index = $this->getIndex('getcandy');
-        $elasticaType = $index->getType($this->type);
-        $response = $elasticaType->addDocument($doc);
+        $data = $product->toArray();
+        $data['name'] = json_decode($product->name, true)['en'];
+        return new Document(
+            $product->id,
+            $data
+        );
+    }
+
+    public function rankings()
+    {
+        return [
+            "name^5", "name.english^4"
+        ];
     }
 
     /**

@@ -6,6 +6,7 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Search\SearchContract;
+use GetCandy\Events\Products\ProductCreatedEvent;
 
 class ProductService extends BaseService
 {
@@ -75,7 +76,9 @@ class ProductService extends BaseService
             }
         }
 
+
         $product->name = json_encode($data['name']);
+
         $product->price = $data['price'];
 
         if (! empty($data['family_id'])) {
@@ -87,6 +90,8 @@ class ProductService extends BaseService
         } else {
             $product->save();
         }
+
+        event(new ProductCreatedEvent($product));
 
         return $product;
     }
