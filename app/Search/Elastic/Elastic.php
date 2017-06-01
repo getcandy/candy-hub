@@ -1,29 +1,62 @@
 <?php
 
-namespace GetCandy\Search;
+namespace GetCandy\Search\Elastic;
 
 use Elastica\Client;
 use Elastica\Status;
 use Elastica\Type\Mapping;
+use GetCandy\Api\Products\Models\Product;
+use GetCandy\Search\Elastic\Indexers\ProductIndexer;
+use GetCandy\Search\SearchContract;
+use Illuminate\Database\Eloquent\Model;
 
 class Elastic implements SearchContract
 {
-    protected $index;
+    /**
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * @var Client
+     */
     protected $client;
+
+    /**
+     * @var mixed
+     */
+    protected $indexer;
+
+    /**
+     * @var array
+     */
+    protected $indexers = [
+        Product::class => ProductIndexer::class,
+    ];
 
     public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * Sets the index to search on
-     * @param  string $index
-     * @return this
-     */
-    public function index($index)
+    public function hasIndexer($model)
     {
-        $this->index = $index;
+        //..
+    }
+
+    public function index(Model $model)
+    {
+        $indexer = new $this->indexers[get_class($model)];
+        dd($indexer);
+    }
+
+    public function on($model)
+    {
+
+        if (empty($this->indexers[$model])) {
+            abort(400, "No indexer available for {$model}");
+        }
+        $this->indexer = new $this->indexers[$model];
         return $this;
     }
 
@@ -34,11 +67,15 @@ class Elastic implements SearchContract
      */
     public function search($keywords)
     {
+        if (!$this->indexer) {
+            abort(400, 'You need to set an indexer first');
+        }
+
         $search = new \Elastica\Search($this->client);
 
         $search
-            ->addIndex($this->index)
-            ->addType('eloquent')
+            ->addIndex('getcandy')
+            ->addType($this->indexer->type)
             ->setOption(\Elastica\Search::OPTION_TIMEOUT, '100ms')
             ->setOption(\Elastica\Search::OPTION_SEARCH_TYPE, \Elastica\Search::OPTION_SEARCH_TYPE_DFS_QUERY_THEN_FETCH);
 

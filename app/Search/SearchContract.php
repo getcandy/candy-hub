@@ -2,6 +2,8 @@
 
 namespace GetCandy\Search;
 
+use Illuminate\Database\Eloquent\Model;
+
 interface SearchContract
 {
     // public function autoSuggest();
@@ -14,4 +16,6 @@ interface SearchContract
      * @param  string $keywords
      */
     public function search($keywords);
+
+    public function index(Model $model);
 }

@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'client' => \GetCandy\Search\Elastic::class
+    'client' => \GetCandy\Search\Elastic\Elastic::class
 ];
