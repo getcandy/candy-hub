@@ -123,7 +123,7 @@ class ProductService extends BaseService
     public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
     {
         if ($searchTerm) {
-            $ids = app(SearchContract::class)->on(get_class($this->model))->search($searchTerm);
+            $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
             $results = $this->model->whereIn('id', $ids);
         } else {
             $results = $this->model;

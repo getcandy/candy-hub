@@ -40,6 +40,11 @@ class Elastic implements SearchContract
         $this->client = $client;
     }
 
+    public function against($types)
+    {
+        $this->indexer = $this->getIndexer($types);
+        return $this;
+    }
     /**
      * Checks whether an indexer exists
      * @param  mixed  $model
@@ -58,34 +63,18 @@ class Elastic implements SearchContract
      * @param  Model  $model
      * @return boolean
      */
-    public function index(Model $model)
+    public function indexObject(Model $model)
     {
-        $document = $this->indexer->getIndexDocument($model);
+        // Get the indexer.
+        $indexer = $this->getIndexer($model);
         $index = $this->getIndex('getcandy');
-        $elasticaType = $index->getType($this->indexer->type);
-        $response = $elasticaType->addDocument($document);
+        $elasticaType = $index->getType($indexer->type);
+        $response = $elasticaType->addDocument($indexer->getIndexDocument($model));
         return true;
     }
 
     /**
-     * Sets the indexer
-     * @param  mixed $model
-     * @return this
-     */
-    public function on($model)
-    {
-        if (is_object($model)) {
-            $model = get_class($model);
-        }
-        if (empty($this->indexers[$model])) {
-            abort(400, "No indexer available for {$model}");
-        }
-        $this->indexer = new $this->indexers[$model];
-        return $this;
-    }
-
-    /**
-     * Updatess the mappings for the model
+     * Updates the mappings for the model
      * @param  Elastica\Index $index
      * @return void
      */
@@ -143,6 +132,11 @@ class Elastic implements SearchContract
         return $index;
     }
 
+    public function with($searchterm)
+    {
+        return $this->search($searchterm);
+    }
+
     /**
      * Searches the index
      * @param  string $keywords
@@ -162,16 +156,11 @@ class Elastic implements SearchContract
             ->setOption(\Elastica\Search::OPTION_TIMEOUT, '100ms')
             ->setOption(\Elastica\Search::OPTION_SEARCH_TYPE, \Elastica\Search::OPTION_SEARCH_TYPE_DFS_QUERY_THEN_FETCH);
 
-
         $multiMatchQuery = new \Elastica\Query\MultiMatch();
         $multiMatchQuery->setType('best_fields');
         $multiMatchQuery->setQuery($keywords);
         $multiMatchQuery->setTieBreaker(0.5);
         $multiMatchQuery->setFuzziness(100);
-
-        // $searchableFields = [
-        //     "sku^10", "name^5", "name.english^4", "description^3", "description.english^2", "keywords", "keywords.english", "ean", "category_name", "category_name.english", "category_breadcrumb", "category_breadcrumb.english"
-        // ];
 
         $multiMatchQuery->setFields($this->indexer->rankings());
 
@@ -211,5 +200,21 @@ class Elastic implements SearchContract
             }
         }
         return $ids;
+    }
+
+    /**
+     * Gets the indexer for a model
+     * @param  mixed $model
+     * @return mixed
+     */
+    protected function getIndexer($model)
+    {
+        if (is_object($model)) {
+            $model = get_class($model);
+        }
+        if (!$this->hasIndexer($model)) {
+            abort(400, "No indexer available for {$model}");
+        }
+        return new $this->indexers[$model];
     }
 }

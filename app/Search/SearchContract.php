@@ -17,5 +17,5 @@ interface SearchContract
      */
     public function search($keywords);
 
-    public function index(Model $model);
+    public function indexObject(Model $model);
 }

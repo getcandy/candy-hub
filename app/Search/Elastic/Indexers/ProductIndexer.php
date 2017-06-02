@@ -15,7 +15,7 @@ class ProductIndexer extends BaseIndexer
     /**
      * @var string
      */
-    public $type = 'product';
+    public $type = 'products';
 
     /**
      * Returns the Index document ready to be added
