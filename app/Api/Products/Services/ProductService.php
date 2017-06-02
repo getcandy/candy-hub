@@ -76,7 +76,6 @@ class ProductService extends BaseService
             }
         }
 
-
         $product->name = json_encode($data['name']);
 
         $product->price = $data['price'];
@@ -90,6 +89,12 @@ class ProductService extends BaseService
         } else {
             $product->save();
         }
+
+        app('api')->pages()->create([
+            'slug' => str_slug($product->localename)
+        ], $product);
+        // Create a page for our new product
+        dd($product->localename);
 
         event(new ProductCreatedEvent($product));
 

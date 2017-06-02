@@ -4,13 +4,14 @@ namespace GetCandy\Api;
 
 use GetCandy\Api\Attributes\Services\AttributeGroupService;
 use GetCandy\Api\Attributes\Services\AttributeService;
+use GetCandy\Api\Auth\Services\UserService;
 use GetCandy\Api\Channels\Services\ChannelService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
 use GetCandy\Api\Languages\Services\LanguageService;
-use GetCandy\Api\Products\Services\ProductService;
+use GetCandy\Api\Pages\Services\PageService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
+use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Taxes\Services\TaxService;
-use GetCandy\Api\Auth\Services\UserService;
 
 class Factory
 {
@@ -40,6 +41,11 @@ class Factory
     protected $languages;
 
     /**
+     * @var PageService
+     */
+    protected $pages;
+
+    /**
      * @var ProductService
      */
     protected $products;
@@ -65,8 +71,9 @@ class Factory
         ChannelService $channels,
         CurrencyService $currencies,
         LanguageService $languages,
-        ProductService $products,
+        PageService $pages,
         ProductFamilyService $productFamilies,
+        ProductService $products,
         TaxService $taxes,
         UserService $users
     ) {
@@ -75,8 +82,9 @@ class Factory
         $this->channels = $channels;
         $this->currencies = $currencies;
         $this->languages = $languages;
-        $this->products = $products;
+        $this->pages = $pages;
         $this->productFamilies = $productFamilies;
+        $this->products = $products;
         $this->taxes = $taxes;
         $this->users = $users;
     }
@@ -104,6 +112,11 @@ class Factory
     public function languages()
     {
         return $this->languages;
+    }
+
+    public function pages()
+    {
+        return $this->pages;
     }
 
     public function products()

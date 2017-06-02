@@ -29,6 +29,7 @@ class ChannelService extends BaseService
     {
         $channel = new Channel();
         $channel->name = $data['name'];
+        $channel->handle = str_slug($channel->name);
 
         // If this is the first channel, make it default
         if (empty($data['default']) && !$this->count()) {

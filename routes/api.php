@@ -83,3 +83,8 @@ Route::get('users/current', 'UserController@getCurrentUser');
 Route::resource('users', 'UserController', [
     'except' => ['edit', 'create']
 ]);
+
+/**
+ * Pages
+ */
+Route::get('/pages/{channel}/{lang}/{slug?}', 'PageController@show');

@@ -15,6 +15,7 @@ class Channel extends BaseModel
      */
     protected $fillable = [
         'name',
+        'handle',
         'default'
     ];
 }
