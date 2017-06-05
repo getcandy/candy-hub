@@ -30,6 +30,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Artisan::call('db:seed', ['--class' => 'TestingSeeder']);
+        Artisan::call('passport:install');
     }
 
     protected function url($path, $query = null)
@@ -45,7 +46,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function accessToken()
     {
-        $client = Client::first();
+        $client = Client::where('password_client', '=', true)->first();
 
         $response = $this->post('/oauth/token', [
             'username' => 'alec@neondigital.co.uk',
@@ -56,7 +57,6 @@ abstract class TestCase extends BaseTestCase
         ], ['Accept' => 'application/json']);
 
         $content = $this->getContent($response);
-
 
         $response->assertJsonStructure([
             'token_type',
