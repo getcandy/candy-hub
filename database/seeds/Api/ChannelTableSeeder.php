@@ -15,6 +15,7 @@ class ChannelTableSeeder extends Seeder
     {
         Channel::create([
             'name' => 'Amazon',
+            'handle' => 'amazon',
             'default' => true
         ]);
     }

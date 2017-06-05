@@ -171,6 +171,10 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
+    /**
+     * @group fail
+     * @return [type] [description]
+     */
     public function testStore()
     {
         $family = ProductFamily::create([

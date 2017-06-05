@@ -30,7 +30,6 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Artisan::call('db:seed', ['--class' => 'TestingSeeder']);
-        Artisan::call('passport:install');
     }
 
     protected function url($path, $query = null)

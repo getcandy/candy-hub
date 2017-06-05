@@ -16,6 +16,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'unique:channels,name,'. $channel->decodeId($this->channel),
+            'handle' => 'unique:channels,handle,'. $channel->decodeId($this->channel),
         ];
     }
 }

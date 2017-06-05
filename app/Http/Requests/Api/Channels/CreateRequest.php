@@ -16,6 +16,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:channels,name',
+            'handle' => 'required|unique:channels,handle'
         ];
     }
 }

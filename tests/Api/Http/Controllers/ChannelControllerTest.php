@@ -33,6 +33,9 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
+    /**
+     * @group fail
+     */
     public function testShow()
     {
         // Get a channel
@@ -66,6 +69,7 @@ class ChannelControllerTest extends TestCase
             $this->url('channels'),
             [
                 'name' => 'Neon',
+                'handle' => 'neon',
                 'default' => true
             ],
             [
@@ -91,7 +95,7 @@ class ChannelControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name'
+            'name', 'handle'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -105,6 +109,7 @@ class ChannelControllerTest extends TestCase
             $this->url('channels/' . $id),
             [
                 'name' => 'Neon',
+                'neon' => 'neon',
                 'default' => true
             ],
             [
@@ -125,6 +130,7 @@ class ChannelControllerTest extends TestCase
             $this->url('channels/123123'),
             [
                 'name' => 'Neon',
+                'handle' => 'neon',
                 'default' => true
             ],
             [
@@ -137,7 +143,8 @@ class ChannelControllerTest extends TestCase
     public function testDestroy()
     {
         $channel = Channel::create([
-            'name' => 'Etsy'
+            'name' => 'Etsy',
+            'handle' => 'etsy'
         ]);
 
         $response = $this->delete(
