@@ -35,16 +35,14 @@ class PageService extends BaseService
         return $page;
     }
 
-    protected function getUniqueSlug($slug)
-    {
-        $suffixe = '1';
-        while ($this->model->where('slug', '=', $slug)->exists()) {
-            $slug = $slug . '-' . $suffixe;
-            ++$suffixe;
-        }
-        return $slug;
-    }
-
+    /**
+     * Finds a page based on it's channel, language and slug
+     * @param  string $channel
+     * @param  string $lang
+     * @param  string $slug
+     * @throws Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Mixed
+     */
     public function findPage($channel, $lang, $slug = null)
     {
 
@@ -75,5 +73,20 @@ class PageService extends BaseService
         };
 
         return $result->firstOrFail();
+    }
+
+    /**
+     * Gets a unique slug for a page
+     * @param  string $slug
+     * @return string
+     */
+    protected function getUniqueSlug($slug)
+    {
+        $suffixe = '1';
+        while ($this->model->where('slug', '=', $slug)->exists()) {
+            $slug = $slug . '-' . $suffixe;
+            ++$suffixe;
+        }
+        return $slug;
     }
 }
