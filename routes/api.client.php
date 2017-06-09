@@ -12,3 +12,4 @@
 
 $this->get('channels', 'ChannelController@index');
 $this->get('products', 'ProductController@index');
+$this->get('routes', 'RouteController@index');

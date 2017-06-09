@@ -1,13 +1,13 @@
 <?php
 
-namespace GetCandy\Api\Pages\Models;
+namespace GetCandy\Api\Routes\Models;
 
 use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Scaffold\BaseModel;
 
-class Page extends BaseModel
+class Route extends BaseModel
 {
     protected $hashids = 'main';
     /**

@@ -5,6 +5,7 @@ use Faker\Factory;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductFamily;
 use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Routes\Models\Route;
 
 class ProductTableSeeder extends Seeder
 {
@@ -98,6 +99,9 @@ class ProductTableSeeder extends Seeder
                 ]);
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
+                $product->route()->create([
+                    'slug' => str_slug(json_decode($product->name, true)['en'])
+                ]);
                 $product->save();
             }
         }

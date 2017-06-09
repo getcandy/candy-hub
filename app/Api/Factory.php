@@ -12,6 +12,7 @@ use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
+use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Taxes\Services\TaxService;
 
 class Factory
@@ -62,6 +63,11 @@ class Factory
     protected $productFamilies;
 
     /**
+     * @var RouteService
+     */
+    protected $routes;
+
+    /**
      * @var TaxService
      */
     protected $taxes;
@@ -81,6 +87,7 @@ class Factory
         PageService $pages,
         ProductFamilyService $productFamilies,
         ProductService $products,
+        RouteService $routes,
         TaxService $taxes,
         UserService $users
     ) {
@@ -93,6 +100,7 @@ class Factory
         $this->pages = $pages;
         $this->productFamilies = $productFamilies;
         $this->products = $products;
+        $this->routes = $routes;
         $this->taxes = $taxes;
         $this->users = $users;
     }

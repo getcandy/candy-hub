@@ -14,12 +14,56 @@ use Illuminate\Http\Request;
 */
 
 /**
+ * Attributes
+ */
+$this->put('attributes/order', 'AttributeController@reorder');
+$this->resource('attributes', 'AttributeController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Attribute Groups
+ */
+$this->put('attribute-groups/order', 'AttributeGroupController@reorder');
+$this->resource('attribute-groups', 'AttributeGroupController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
  * Channels
  */
 $this->resource('channels', 'ChannelController', [
     'except' => ['index', 'edit', 'create']
 ]);
 
+/**
+ * Currencies
+ */
+$this->resource('currencies', 'CurrencyController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Languages
+ */
+$this->resource('languages', 'LanguageController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Layouts
+ */
+$this->resource('layouts', 'LayoutController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Pages
+ */
+$this->get('/pages/{channel}/{lang}/{slug?}', 'PageController@show');
+$this->resource('pages', 'PageController', [
+    'except' => ['edit', 'create']
+]);
 
 /**
  * Products
@@ -36,33 +80,10 @@ $this->resource('product-families', 'ProductFamilyController', [
 ]);
 
 /**
- * Attribute Groups
+ * Routes
  */
-$this->put('attribute-groups/order', 'AttributeGroupController@reorder');
-$this->resource('attribute-groups', 'AttributeGroupController', [
-    'except' => ['edit', 'create']
-]);
-
-/**
- * Attributes
- */
-$this->put('attributes/order', 'AttributeController@reorder');
-$this->resource('attributes', 'AttributeController', [
-    'except' => ['edit', 'create']
-]);
-
-/**
- * Languages
- */
-$this->resource('languages', 'LanguageController', [
-    'except' => ['edit', 'create']
-]);
-
-/**
- * Currencies
- */
-$this->resource('currencies', 'CurrencyController', [
-    'except' => ['edit', 'create']
+$this->resource('routes', 'RouteController', [
+    'except' => ['index', 'edit', 'create']
 ]);
 
 /**
@@ -73,29 +94,9 @@ $this->resource('taxes', 'TaxController', [
 ]);
 
 /**
- * Plugins
- */
-$this->post('/plugins/install', 'PluginController@postInstall');
-
-/**
  * Users
  */
 $this->get('users/current', 'UserController@getCurrentUser');
 $this->resource('users', 'UserController', [
-    'except' => ['edit', 'create']
-]);
-
-/**
- * Pages
- */
-$this->get('/pages/{channel}/{lang}/{slug?}', 'PageController@show');
-$this->resource('pages', 'PageController', [
-    'except' => ['edit', 'create']
-]);
-
-/**
- * Layouts
- */
-$this->resource('layouts', 'LayoutController', [
     'except' => ['edit', 'create']
 ]);

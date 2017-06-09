@@ -5,6 +5,7 @@ namespace GetCandy\Api\Products\Models;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Pages\Models\Page;
+use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Indexable;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
@@ -70,5 +71,10 @@ class Product extends BaseModel
     public function layout()
     {
         return $this->belongsTo(Layout::class);
+    }
+
+    public function route()
+    {
+        return $this->morphOne(Route::class, 'element');
     }
 }
