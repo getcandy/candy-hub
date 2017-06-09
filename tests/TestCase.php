@@ -45,7 +45,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function accessToken()
     {
-        $client = Client::where('password_client', '=', true)->first();
+        $client = Client::first();
 
         $response = $this->post('/oauth/token', [
             'username' => 'alec@neondigital.co.uk',
