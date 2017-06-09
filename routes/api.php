@@ -88,3 +88,13 @@ Route::resource('users', 'UserController', [
  * Pages
  */
 Route::get('/pages/{channel}/{lang}/{slug?}', 'PageController@show');
+Route::resource('pages', 'PageController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Layouts
+ */
+$this->resource('layouts', 'LayoutController', [
+    'except' => ['edit', 'create']
+]);
