@@ -90,11 +90,20 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        app('api')->pages()->create([
-            'slug' => str_slug($product->localename)
-        ], $product);
-        // Create a page for our new product
-        dd($product->localename);
+        if (! is_array($data['slug'])) {
+            $data['slug'] = [app()->getLocale() => $data['slug']];
+        }
+
+        foreach ($data['slug'] as $lang => $slug) {
+            app('api')->pages()->create(
+                ['slug' => $slug],
+                $lang,
+                $data['layout_id'],
+                (! empty($data['channel_id']) ? $data['channel_id'] : null),
+                'product',
+                $product
+            );
+        }
 
         event(new ProductCreatedEvent($product));
 

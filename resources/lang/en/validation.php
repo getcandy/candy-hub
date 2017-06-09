@@ -88,7 +88,7 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
-    'hashid_is_valid' => 'Encoded ID doesn\'t exist for :attribute',
+    'hashid_is_valid' => 'The selected :attribute is invalid',
 
     /*
     |--------------------------------------------------------------------------

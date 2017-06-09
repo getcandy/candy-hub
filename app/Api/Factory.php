@@ -8,6 +8,7 @@ use GetCandy\Api\Auth\Services\UserService;
 use GetCandy\Api\Channels\Services\ChannelService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
 use GetCandy\Api\Languages\Services\LanguageService;
+use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
@@ -34,6 +35,11 @@ class Factory
      * @var CurrencyService
      */
     protected $currencies;
+
+    /**
+     * @var LayoutService
+     */
+    protected $layouts;
 
     /**
      * @var LanguageService
@@ -70,6 +76,7 @@ class Factory
         AttributeService $attributes,
         ChannelService $channels,
         CurrencyService $currencies,
+        LayoutService $layouts,
         LanguageService $languages,
         PageService $pages,
         ProductFamilyService $productFamilies,
@@ -81,6 +88,7 @@ class Factory
         $this->attributes = $attributes;
         $this->channels = $channels;
         $this->currencies = $currencies;
+        $this->layouts = $layouts;
         $this->languages = $languages;
         $this->pages = $pages;
         $this->productFamilies = $productFamilies;
@@ -89,53 +97,10 @@ class Factory
         $this->users = $users;
     }
 
-    public function attributes()
+    public function __call($name, $arguments)
     {
-        return $this->attributes;
-    }
-
-    public function attributeGroups()
-    {
-        return $this->attributeGroups;
-    }
-
-    public function channels()
-    {
-        return $this->channels;
-    }
-
-    public function currencies()
-    {
-        return $this->currencies;
-    }
-
-    public function languages()
-    {
-        return $this->languages;
-    }
-
-    public function pages()
-    {
-        return $this->pages;
-    }
-
-    public function products()
-    {
-        return $this->products;
-    }
-
-    public function productFamilies()
-    {
-        return $this->productFamilies;
-    }
-
-    public function taxes()
-    {
-        return $this->taxes;
-    }
-
-    public function users()
-    {
-        return $this->users;
+        if (property_exists($this, $name)) {
+            return $this->{$name};
+        }
     }
 }

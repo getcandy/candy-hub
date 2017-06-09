@@ -2,8 +2,9 @@
 
 namespace GetCandy\Api\Pages\Services;
 
-use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Pages\Models\Page;
+use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Exceptions\InvalidLanguageException;
 use Illuminate\Database\Eloquent\Model;
 
 class PageService extends BaseService
@@ -15,17 +16,69 @@ class PageService extends BaseService
 
     /**
      * Creates a page
-     * @param  array      $data
-     * @param  Model|null $relation
+     * @param  array                $data
+     * @param  string|Language      $languageCode
+     * @param  string|Layout        $layout
+     * @param  string|Channel       $channel
+     * @param  string               $type
+     * @param  Model|null           $relation
+     * @throws InvalidLanguageException
+     * @throws Symfony\Component\HttpKernel\Exception\HttpException
      * @return Page
      */
-    public function create(array $data, Model $relation = null)
+    public function create(array $data, $languageCode, $layout, $channel, $type = null, Model $relation = null)
     {
         $page = $this->model;
 
-        $data['slug'] = $this->getUniqueSlug($data['slug']);
-        $page->fill($data);
+        /**
+         * Figure out which language this page belongs to
+         */
+        if (! $languageCode instanceof Model) {
+            $language = app('api')->languages()->getEnabledByCode($languageCode);
+        } else {
+            $language = $languageCode;
+        }
 
+        if (! $language) {
+            throw new InvalidLanguageException(trans('response.error.invalid_lang', ['lang' => $languageCode]));
+        }
+
+        $page->language()->associate($language);
+
+        /**
+         * Sort out the layout for this page
+         */
+        if (! $layout instanceof Model) {
+            $layout = app('api')->layouts()->getByHashedId($layout);
+        }
+
+        if (! $layout) {
+            abort(400);
+        }
+
+        $page->layout()->associate($layout);
+
+        /**
+         * Sort out which channel this page belongs to
+         */
+
+        if (! $channel instanceof Model) {
+            if ($channel) {
+                $channel = app('api')->channels()->getByHashedId($channel);
+            } else {
+                $channel = app('api')->channels()->getDefaultRecord($channel);
+            }
+        }
+
+        if (!$channel) {
+            abort(400);
+        }
+
+        $page->channel()->associate($channel);
+
+        // Fill'er up!
+        $page->fill($data);
+        $page->type = $type ?: 'page';
         if ($relation) {
             $relation->page()->save($page);
         } else {
@@ -45,7 +98,6 @@ class PageService extends BaseService
      */
     public function findPage($channel, $lang, $slug = null)
     {
-
         if ($slug) {
             $result = $this->model->where(function ($q) use ($channel, $lang, $slug) {
                 $q->whereHas('channel', function ($q2) use ($channel) {

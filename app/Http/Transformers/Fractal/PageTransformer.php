@@ -15,6 +15,7 @@ class PageTransformer extends TransformerAbstract
     public function transform(Page $page)
     {
         return [
+            'id' => $page->encodedId(),
             'slug' => $page->slug,
             'seo_title' => $page->seo_title,
             'seo_description' => $page->seo_description
