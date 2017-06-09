@@ -33,7 +33,7 @@ $this->resource('attribute-groups', 'AttributeGroupController', [
  * Channels
  */
 $this->resource('channels', 'ChannelController', [
-    'except' => ['index', 'edit', 'create']
+    'except' => ['index', 'edit', 'create', 'show']
 ]);
 
 /**
@@ -83,8 +83,11 @@ $this->resource('product-families', 'ProductFamilyController', [
  * Routes
  */
 $this->resource('routes', 'RouteController', [
-    'except' => ['index', 'edit', 'create']
+    'except' => ['index', 'show', 'edit', 'create']
 ]);
+$this->get('routes/{slug}', [
+    'uses' => 'RouteController@show'
+])->where(['slug' => '.*']);
 
 /**
  * Taxes
