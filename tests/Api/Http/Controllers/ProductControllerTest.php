@@ -2,8 +2,13 @@
 
 namespace Tests;
 
+use GetCandy\Api\Layouts\Models\Layout;
+use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductFamily;
+use GetCandy\Events\ProductCreatedEvent;
+use GetCandy\Events\ProductUpdatedEvent;
+use Event;
 
 /**
  * @group controllers
@@ -171,15 +176,17 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * @group fail
-     * @return [type] [description]
-     */
     public function testStore()
     {
+
+        Event::fake();
+
         $family = ProductFamily::create([
             'name' => 'Foo bar'
         ]);
+
+        $page = Page::first()->encodedId();
+        $layout = Layout::first()->encodedId();
 
         $response = $this->post(
             $this->url('products'),
@@ -187,6 +194,9 @@ class ProductControllerTest extends TestCase
                 'name' =>  [
                     "en" => "Spring water"
                 ],
+                'slug' => 'spring-water',
+                'page_id' => $page,
+                'layout_id' => $layout,
                 'price' => 10,
                 'family_id' => $family->encodedId()
             ],
@@ -219,11 +229,18 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
+    /**
+     * @group fail
+     * @return [type] [description]
+     */
     public function testInvalidLanguageStore()
     {
         $family = ProductFamily::create([
             'name' => 'Foo bar'
         ]);
+
+        $page = Page::first()->encodedId();
+        $layout = Layout::first()->encodedId();
 
         $response = $this->post(
             $this->url('products'),
@@ -232,7 +249,10 @@ class ProductControllerTest extends TestCase
                     "es" => "Spring water"
                 ],
                 'price' => 10,
-                'family_id' => $family->encodedId()
+                'family_id' => $family->encodedId(),
+                'slug' => 'spring-water',
+                'page_id' => $page,
+                'layout_id' => $layout,
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -246,6 +266,8 @@ class ProductControllerTest extends TestCase
 
     public function testUpdate()
     {
+        Event::fake();
+
         $id = Product::first()->encodedId();
         $response = $this->put(
             $this->url('products/' . $id),
