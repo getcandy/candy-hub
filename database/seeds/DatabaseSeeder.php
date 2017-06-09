@@ -30,10 +30,12 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(AttributesTableSeeder::class);
         $this->call(ProductFamilyTableSeeder::class);
+        $this->call(CollectionTableSeeder::class);
         $this->call(ChannelTableSeeder::class);
         $this->call(LanguageTableSeeder::class);
         $this->call(ProductTableSeeder::class);
         $this->call(CurrencyTableSeeder::class);
         $this->call(TaxTableSeeder::class);
+        \Artisan::call('passport:install');
     }
 }
