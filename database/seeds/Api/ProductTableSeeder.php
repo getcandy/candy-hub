@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Products\Models\ProductFamily;
 use GetCandy\Api\Attributes\Models\Attribute;
 
 class ProductTableSeeder extends Seeder
@@ -16,25 +17,89 @@ class ProductTableSeeder extends Seeder
     {
         $language = \GetCandy\Api\Languages\Models\Language::first()->id;
 
-        $layout = \GetCandy\Api\Layouts\Models\Layout::create([
-            'name' => 'Test layout',
-            'handle' => 'test-layout'
+        $basic = \GetCandy\Api\Layouts\Models\Layout::create([
+            'name' => 'Basic product',
+            'handle' => 'basic-product'
         ])->id;
+
+        $featured = \GetCandy\Api\Layouts\Models\Layout::create([
+            'name' => 'Featured product',
+            'handle' => 'featured-product'
+        ])->id;
+
         $channel = \GetCandy\Api\Channels\Models\Channel::first()->id;
 
-        factory(Product::class, (app('env') == 'testing' ? 3 : 5000))->create()->each(function ($product) use ($layout, $language, $channel) {
-            $fake = \Faker\Factory::create();
-            $atts = Attribute::inRandomOrder()->take($fake->numberBetween(0, 2))->get();
-            $page = \GetCandy\Api\Pages\Models\Page::create([
-                'language_id' => $language,
-                'slug' => str_slug($product->name),
-                'layout_id' => $layout,
-                'channel_id' => $channel,
-                'type' => 'product',
-                'element_id' => $product->id,
-                'element_type' => Product::class
-            ]);
-            $product->attributes()->attach($atts);
-        });
+        $products = [
+            // Boots
+            'Shoes' => [
+                [
+                    'name' => json_encode(['en' => 'Black Bamboosh']),
+                    'layout' => $basic
+                ],
+                [
+                    'name' => json_encode(['en' => 'Camber Shoes']),
+                    'layout' => $featured
+                ],
+                [
+                    'name' => json_encode(['en' => 'Cross over sandals']),
+                    'layout' => $basic
+                ]
+            ],
+            'Bags' => [
+                // Bags
+                [
+                    'name' => json_encode(['en' => 'Knot leather bag']),
+                    'layout' => $basic
+                ],
+                [
+                    'name' => json_encode(['en' => 'Arizona bag']),
+                    'layout' => $featured
+                ],
+                [
+                    'name' => json_encode(['en' => 'Beet bag']),
+                    'layout' => $basic
+                ]
+            ],
+            'Jewellery' => [
+                [
+                    'name' => json_encode(['en' => 'Mesh watch']),
+                    'layout' => $basic
+                ],
+                [
+                    'name' => json_encode(['en' => '3 Square earrings']),
+                    'layout' => $featured
+                ],
+                [
+                    'name' => json_encode(['en' => 'Bird Brooch']),
+                    'layout' => $basic
+                ]
+            ],
+            'House items' => [
+                [
+                    'name' => json_encode(['en' => 'Feather dreamcatcher']),
+                    'layout' => $basic
+                ],
+                [
+                    'name' => json_encode(['en' => 'Driftwood fish']),
+                    'layout' => $featured
+                ],
+                [
+                    'name' => json_encode(['en' => 'Mirror Candleholder']),
+                    'layout' => $basic
+                ]
+            ]
+        ];
+
+        foreach ($products as $family => $products) {
+            $family = ProductFamily::where('name', '=', $family)->first();
+            foreach ($products as $data) {
+                $product = Product::create([
+                    'name' => $data['name']
+                ]);
+                $product->layout()->associate($data['layout']);
+                $product->family()->associate($family);
+                $product->save();
+            }
+        }
     }
 }

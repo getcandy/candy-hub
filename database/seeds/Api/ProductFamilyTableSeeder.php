@@ -14,10 +14,17 @@ class ProductFamilyTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(ProductFamily::class, 16)->create()->each(function ($family) {
-            $fake = \Faker\Factory::create();
-            $atts = Attribute::inRandomOrder()->take($fake->numberBetween(1, (Attribute::count() / $fake->numberBetween(2, 4))))->get();
-            $family->attributes()->attach($atts);
-        });
+        ProductFamily::create([
+            'name' => 'Shoes'
+        ]);
+        ProductFamily::create([
+            'name' => 'Bags'
+        ]);
+        ProductFamily::create([
+            'name' => 'Jewellery'
+        ]);
+        ProductFamily::create([
+            'name' => 'House items'
+        ]);
     }
 }

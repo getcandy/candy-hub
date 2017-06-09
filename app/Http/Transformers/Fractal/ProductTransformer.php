@@ -14,7 +14,7 @@ class ProductTransformer extends TransformerAbstract
     protected $attributeGroups;
 
     protected $availableIncludes = [
-        'attribute_groups', 'family'
+        'attribute_groups', 'family', 'layout'
     ];
 
     protected $currency;
@@ -23,10 +23,14 @@ class ProductTransformer extends TransformerAbstract
     {
         $response = [
             'id' => $product->encodedId(),
-            'name' => $this->getName($product->name),
-            'price' => $this->getPrice($product->price)
+            'name' => $this->getName($product->name)
         ];
         return $response;
+    }
+
+    public function includeLayout(Product $product)
+    {
+        return $this->item($product->layout, new LayoutTransformer);
     }
 
     public function includeFamily(Product $product)
@@ -56,29 +60,29 @@ class ProductTransformer extends TransformerAbstract
         return $this->collection($attributeGroups, new AttributeGroupTransformer);
     }
 
-    protected function setCurrency($currency)
-    {
-        $this->currency = $currency;
-        return $this;
-    }
+    // protected function setCurrency($currency)
+    // {
+    //     $this->currency = $currency;
+    //     return $this;
+    // }
 
-    protected function getPrice($price)
-    {
-        while (!$this->currency) {
-            $this->setCurrency(Currency::where('default', '=', true)->first());
-            if (app('request')->currency) {
-                $currency = Currency::where('code', '=', strtoupper(app('request')->currency))->first();
-                if ($currency) {
-                    $this->setCurrency($currency);
-                }
-            }
-        }
+    // protected function getPrice($price)
+    // {
+    //     while (!$this->currency) {
+    //         $this->setCurrency(Currency::where('default', '=', true)->first());
+    //         if (app('request')->currency) {
+    //             $currency = Currency::where('code', '=', strtoupper(app('request')->currency))->first();
+    //             if ($currency) {
+    //                 $this->setCurrency($currency);
+    //             }
+    //         }
+    //     }
 
-        $price = $price * $this->currency->exchange_rate;
-        $price = number_format($price, 2, ($this->currency->decimal_point ?: ' '), ($this->currency->thousand_point ?: ' '));
-        $price = str_replace('{price}', $price, $this->currency->format);
-        return $price;
-    }
+    //     $price = $price * $this->currency->exchange_rate;
+    //     $price = number_format($price, 2, ($this->currency->decimal_point ?: ' '), ($this->currency->thousand_point ?: ' '));
+    //     $price = str_replace('{price}', $price, $this->currency->format);
+    //     return $price;
+    // }
 
     protected function getName($name)
     {

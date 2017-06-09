@@ -3,10 +3,12 @@
 namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Indexable;
-use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
+use GetCandy\Api\Layouts\Models\Layout;
 
 class Product extends BaseModel
 {
@@ -29,14 +31,6 @@ class Product extends BaseModel
         'name', 'price'
     ];
 
-    public function getLocalenameAttribute()
-    {
-        $name = json_decode($this->name, true);
-        if (empty($name[config('app.locale')])) {
-            return null;
-        }
-        return $name[config('app.locale')];
-    }
     /**
      * Get the attributes associated to the product
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -44,6 +38,15 @@ class Product extends BaseModel
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class)->withTimestamps();
+    }
+
+    /**
+     * Get the attributes associated to the product
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function collections()
+    {
+        return $this->belongsToMany(Collection::class)->withTimestamps();
     }
 
     /**
@@ -55,8 +58,17 @@ class Product extends BaseModel
         return $this->belongsTo(ProductFamily::class, 'product_family_id');
     }
 
+    /**
+     * Get the products page
+     * @return Illuminate\Database\Eloquent\Relations\MorphOne
+     */
     public function page()
     {
         return $this->morphOne(Page::class, 'element');
+    }
+
+    public function layout()
+    {
+        return $this->belongsTo(Layout::class);
     }
 }

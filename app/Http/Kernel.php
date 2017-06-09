@@ -63,5 +63,7 @@ class Kernel extends HttpKernel
         'guest' => \GetCandy\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'api.language' => \GetCandy\Http\Middleware\SetLocaleMiddleware::class,
+        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     ];
 }
