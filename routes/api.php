@@ -17,21 +17,22 @@ use Illuminate\Http\Request;
  * Channels
  */
 Route::resource('channels', 'ChannelController', [
-    'except' => ['edit', 'create']
+    'except' => ['index', 'edit', 'create']
 ]);
+
 
 /**
  * Products
  */
 Route::resource('products', 'ProductController', [
-    'except' => ['edit', 'create']
+    'except' => ['index', 'edit', 'create']
 ]);
 
 /**
  * Product families
  */
 Route::resource('product-families', 'ProductFamilyController', [
-    'except' => ['edit', 'create']
+    'except' => ['index', 'edit', 'create']
 ]);
 
 /**
