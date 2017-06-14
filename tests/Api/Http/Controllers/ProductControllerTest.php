@@ -18,8 +18,7 @@ class ProductControllerTest extends TestCase
 {
     protected $baseStructure = [
         'id',
-        'name',
-        'price'
+        'name'
     ];
 
     public function testIndex()
@@ -36,6 +35,10 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+    /**
+     * @group fail
+     * @return [type] [description]
+     */
     public function testIndexWithAttributes()
     {
         $url = $this->url('products', [
@@ -50,7 +53,6 @@ class ProductControllerTest extends TestCase
             'data' => [[
                 'id',
                 'name',
-                'price',
                 'attribute_groups' => [
                     'data' => [
                         [
@@ -97,7 +99,6 @@ class ProductControllerTest extends TestCase
             'data' => [[
                 'id',
                 'name',
-                'price',
                 'family' => ['data' => ['id']]
             ]],
             'meta' => ['pagination']
@@ -120,7 +121,6 @@ class ProductControllerTest extends TestCase
             'data' => [[
                 'id',
                 'name',
-                'price',
                 'attribute_groups' => [
                     'data' => [
                         [
@@ -178,14 +178,12 @@ class ProductControllerTest extends TestCase
 
     public function testStore()
     {
-
         Event::fake();
 
         $family = ProductFamily::create([
             'name' => 'Foo bar'
         ]);
 
-        $page = Page::first()->encodedId();
         $layout = Layout::first()->encodedId();
 
         $response = $this->post(
@@ -194,11 +192,9 @@ class ProductControllerTest extends TestCase
                 'name' =>  [
                     "en" => "Spring water"
                 ],
+                'family_id' => $family->encodedId(),
                 'slug' => 'spring-water',
-                'page_id' => $page,
                 'layout_id' => $layout,
-                'price' => 10,
-                'family_id' => $family->encodedId()
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -223,7 +219,7 @@ class ProductControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name', 'price', 'family_id'
+            'name', 'family_id'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -239,7 +235,6 @@ class ProductControllerTest extends TestCase
             'name' => 'Foo bar'
         ]);
 
-        $page = Page::first()->encodedId();
         $layout = Layout::first()->encodedId();
 
         $response = $this->post(
@@ -248,10 +243,8 @@ class ProductControllerTest extends TestCase
                 'name' =>  [
                     "es" => "Spring water"
                 ],
-                'price' => 10,
                 'family_id' => $family->encodedId(),
                 'slug' => 'spring-water',
-                'page_id' => $page,
                 'layout_id' => $layout,
             ],
             [
@@ -305,7 +298,6 @@ class ProductControllerTest extends TestCase
     {
         $product = Product::create([
             'name' =>  json_encode(['en' => "Spanish"]),
-            'price' => 50
         ]);
 
         $response = $this->delete(
