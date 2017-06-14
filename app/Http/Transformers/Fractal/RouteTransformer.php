@@ -15,7 +15,8 @@ class RouteTransformer extends TransformerAbstract
     {
         return [
             'id' => $route->encodedId(),
-            'slug' => $route->slug
+            'slug' => $route->slug,
+            'type' => str_slug(class_basename($route->element_type))
         ];
     }
 
