@@ -18,6 +18,7 @@ class CreateRoutesTable extends Migration
             $table->morphs('element');
             $table->boolean('default')->default(true);
             $table->string('slug')->unique();
+            $table->string('locale')->default(\App::getLocale());
             $table->timestamps();
         });
     }
