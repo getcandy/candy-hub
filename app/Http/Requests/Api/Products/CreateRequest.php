@@ -27,10 +27,7 @@ class CreateRequest extends FormRequest
         return [
             'name' => 'required',
             'family_id' => 'required|hashid_is_valid:product_families',
-            'layout_id' => 'required|hashid_is_valid:layouts',
-            // 'channel_id' => 'required|hashid_is_valid:channels',
-            'price' => 'required',
-            'slug' => 'required'
+            'layout_id' => 'required|hashid_is_valid:layouts'
         ];
     }
 }
