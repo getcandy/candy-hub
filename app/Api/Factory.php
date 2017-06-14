@@ -5,6 +5,7 @@ namespace GetCandy\Api;
 use GetCandy\Api\Attributes\Services\AttributeGroupService;
 use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
+use GetCandy\Api\Categories\Services\CategoryService;
 use GetCandy\Api\Channels\Services\ChannelService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
 use GetCandy\Api\Languages\Services\LanguageService;
@@ -26,6 +27,11 @@ class Factory
      * @var AttributeGroupService
      */
     protected $attributeGroups;
+
+    /**
+     * @var CategoryService
+     */
+    protected $categories;
 
     /**
      * @var ChannelService
@@ -80,10 +86,11 @@ class Factory
     public function __construct(
         AttributeGroupService $attributeGroups,
         AttributeService $attributes,
+        CategoryService $categories,
         ChannelService $channels,
         CurrencyService $currencies,
-        LayoutService $layouts,
         LanguageService $languages,
+        LayoutService $layouts,
         PageService $pages,
         ProductFamilyService $productFamilies,
         ProductService $products,
@@ -93,10 +100,11 @@ class Factory
     ) {
         $this->attributeGroups = $attributeGroups;
         $this->attributes = $attributes;
+        $this->categories = $categories;
         $this->channels = $channels;
         $this->currencies = $currencies;
-        $this->layouts = $layouts;
         $this->languages = $languages;
+        $this->layouts = $layouts;
         $this->pages = $pages;
         $this->productFamilies = $productFamilies;
         $this->products = $products;
