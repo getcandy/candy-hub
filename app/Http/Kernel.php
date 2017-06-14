@@ -45,6 +45,7 @@ class Kernel extends HttpKernel
             \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
             'throttle:60,1',
             'bindings',
+            \Barryvdh\Cors\HandleCors::class
         ]
     ];
 
@@ -64,6 +65,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'api.language' => \GetCandy\Http\Middleware\SetLocaleMiddleware::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
-        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class
     ];
 }
