@@ -34,58 +34,58 @@ class ProductTableSeeder extends Seeder
             // Boots
             'Shoes' => [
                 [
-                    'name' => json_encode(['en' => 'Black Bamboosh']),
+                    'name' => json_encode(['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh']),
                     'layout' => $basic
                 ],
                 [
-                    'name' => json_encode(['en' => 'Camber Shoes']),
+                    'name' => json_encode(['en' => 'Camber Shoes', 'sv' => 'Camber Skor']),
                     'layout' => $featured
                 ],
                 [
-                    'name' => json_encode(['en' => 'Cross over sandals']),
+                    'name' => json_encode(['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler']),
                     'layout' => $basic
                 ]
             ],
             'Bags' => [
                 // Bags
                 [
-                    'name' => json_encode(['en' => 'Knot leather bag']),
+                    'name' => json_encode(['en' => 'Knot leather bag', 'sv' => 'Knot läderväska']),
                     'layout' => $basic
                 ],
                 [
-                    'name' => json_encode(['en' => 'Arizona bag']),
+                    'name' => json_encode(['en' => 'Arizona bag', 'sv' => 'Arizona väska']),
                     'layout' => $featured
                 ],
                 [
-                    'name' => json_encode(['en' => 'Beet bag']),
+                    'name' => json_encode(['en' => 'Beet bag', 'sv' => 'Köttväska']),
                     'layout' => $basic
                 ]
             ],
             'Jewellery' => [
                 [
-                    'name' => json_encode(['en' => 'Mesh watch']),
+                    'name' => json_encode(['en' => 'Mesh watch', 'sv' => 'Mesh klocka']),
                     'layout' => $basic
                 ],
                 [
-                    'name' => json_encode(['en' => '3 Square earrings']),
+                    'name' => json_encode(['en' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen']),
                     'layout' => $featured
                 ],
                 [
-                    'name' => json_encode(['en' => 'Bird Brooch']),
+                    'name' => json_encode(['en' => 'Bird Brooch', 'sv' => 'Fågelbrosch']),
                     'layout' => $basic
                 ]
             ],
             'House items' => [
                 [
-                    'name' => json_encode(['en' => 'Feather dreamcatcher']),
+                    'name' => json_encode(['en' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare']),
                     'layout' => $basic
                 ],
                 [
-                    'name' => json_encode(['en' => 'Driftwood fish']),
+                    'name' => json_encode(['en' => 'Driftwood fish', 'sv' => 'Driftwood fisk']),
                     'layout' => $featured
                 ],
                 [
-                    'name' => json_encode(['en' => 'Mirror Candleholder']),
+                    'name' => json_encode(['en' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare']),
                     'layout' => $basic
                 ]
             ]
@@ -99,9 +99,14 @@ class ProductTableSeeder extends Seeder
                 ]);
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
-                $product->route()->create([
-                    'slug' => str_slug(json_decode($product->name, true)['en'])
-                ]);
+
+                foreach (json_decode($product->name, true) as $locale => $name) {
+                    $product->route()->create([
+                        'default' => true,
+                        'slug' => str_slug($name),
+                        'locale' => $locale
+                    ]);
+                }
                 $product->save();
             }
         }
