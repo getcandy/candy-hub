@@ -149,13 +149,30 @@ trait Fractal
         if (app('request')->includes) {
             $this->parseIncludes(app('request')->includes);
         }
-        $collection = $paginator->getCollection();
+
+        if ($paginator instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $collection = $paginator->getCollection();
+        } else {
+            $collection = $paginator;
+        }
 
         $resource = new Collection($collection, $callback);
 
-        $resource->setMeta(['lang' => app()->getLocale()]);
+        $meta = [
+            'lang' => app()->getLocale()
+        ];
 
-        $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
+        if (app('env') != 'production') {
+            $meta['profile'] = app('debugbar')->getData();
+        }
+
+        $resource->setMeta($meta);
+
+
+        if ($paginator instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
+        }
+
         $rootScope = app()->fractal->createData($resource);
 
         return $this->respondWithArray($rootScope->toArray());
