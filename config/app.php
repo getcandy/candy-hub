@@ -171,7 +171,8 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-
+        Barryvdh\Cors\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
