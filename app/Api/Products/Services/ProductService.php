@@ -78,7 +78,8 @@ class ProductService extends BaseService
 
         $product->name = json_encode($data['name']);
 
-        $product->price = $data['price'];
+        $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
+        $product->layout()->associate($layout);
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
@@ -90,22 +91,15 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        if (! is_array($data['slug'])) {
-            $data['slug'] = [app()->getLocale() => $data['slug']];
+        foreach (json_decode($product->name, true) as $locale => $name) {
+            $product->route()->create([
+                'default' => true,
+                'slug' => str_slug($name),
+                'locale' => $locale
+            ]);
         }
 
-        foreach ($data['slug'] as $lang => $slug) {
-            app('api')->pages()->create(
-                ['slug' => $slug],
-                $lang,
-                $data['layout_id'],
-                (! empty($data['channel_id']) ? $data['channel_id'] : null),
-                'product',
-                $product
-            );
-        }
-
-        event(new ProductCreatedEvent($product));
+        // event(new ProductCreatedEvent($product));
 
         return $product;
     }
