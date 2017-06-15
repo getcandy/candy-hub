@@ -7,9 +7,8 @@ use GetCandy\Api\Attributes\Models\AttributeGroup;
 use GetCandy\Api\Currencies\Models\Currency;
 use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Products\Models\Product;
-use League\Fractal\TransformerAbstract;
 
-class ProductTransformer extends TransformerAbstract
+class ProductTransformer extends BaseTransformer
 {
     protected $attributeGroups;
 
@@ -23,8 +22,17 @@ class ProductTransformer extends TransformerAbstract
     {
         $response = [
             'id' => $product->encodedId(),
-            'name' => $this->getName($product->name)
+            'name' => $this->getLocalisedName($product->name),
         ];
+
+        if ($product->attribute_data) {
+            $attribute_data = [];
+            foreach (json_decode($product->attribute_data, true) as $handle => $attribute) {
+                $attribute_data[$handle] = $this->getLocalisedName($attribute);
+            }
+            $response['attribute_data'] = $attribute_data;
+        }
+
         return $response;
     }
 
@@ -83,26 +91,4 @@ class ProductTransformer extends TransformerAbstract
     //     $price = str_replace('{price}', $price, $this->currency->format);
     //     return $price;
     // }
-
-    protected function getName($name)
-    {
-        $name = json_decode($name, true);
-        $locale = app()->getLocale();
-
-
-        $requestLang = strtolower(app('request')->languages);
-        if ($requestLang) {
-            if ($requestLang != 'all') {
-                // $languages = explode(',', $requestLang);
-                // foreach ($)
-            }
-        } else {
-            if (!empty($name[$locale])) {
-                $name = $name[$locale];
-            } else {
-                $name = $name[$defaultLocale];
-            }
-        }
-        return $name;
-    }
 }
