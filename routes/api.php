@@ -85,9 +85,7 @@ $this->resource('product-families', 'ProductFamilyController', [
 $this->resource('routes', 'RouteController', [
     'except' => ['index', 'show', 'edit', 'create']
 ]);
-$this->get('routes/{slug}', [
-    'uses' => 'RouteController@show'
-])->where(['slug' => '.*']);
+
 
 /**
  * Taxes
