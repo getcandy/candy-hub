@@ -35,10 +35,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * @group fail
-     * @return [type] [description]
-     */
     public function testIndexWithAttributes()
     {
         $url = $this->url('products', [
@@ -181,7 +177,7 @@ class ProductControllerTest extends TestCase
         Event::fake();
 
         $family = ProductFamily::create([
-            'name' => 'Foo bar'
+            'name' => ['en' => 'Foo bar']
         ]);
 
         $layout = Layout::first()->encodedId();
@@ -193,7 +189,6 @@ class ProductControllerTest extends TestCase
                     "en" => "Spring water"
                 ],
                 'family_id' => $family->encodedId(),
-                'slug' => 'spring-water',
                 'layout_id' => $layout,
             ],
             [
@@ -225,14 +220,10 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
-    /**
-     * @group fail
-     * @return [type] [description]
-     */
     public function testInvalidLanguageStore()
     {
         $family = ProductFamily::create([
-            'name' => 'Foo bar'
+            'name' => ['en' => 'Foo bar']
         ]);
 
         $layout = Layout::first()->encodedId();
@@ -297,7 +288,7 @@ class ProductControllerTest extends TestCase
     public function testDestroy()
     {
         $product = Product::create([
-            'name' =>  json_encode(['en' => "Spanish"]),
+            'name' =>  ['en' => "Spanish"],
         ]);
 
         $response = $this->delete(

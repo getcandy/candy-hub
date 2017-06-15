@@ -14,7 +14,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:product_families,name',
+            'name' => 'array|valid_locales|required',
         ];
     }
 }

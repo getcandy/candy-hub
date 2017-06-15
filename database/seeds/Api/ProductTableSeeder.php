@@ -34,80 +34,78 @@ class ProductTableSeeder extends Seeder
             // Boots
             'Shoes' => [
                 [
-                    'name' => json_encode(['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh']),
+                    'name' => ['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Leather', 'sv' => 'Läder']])
+                    'attribute_data' => ['material' => ['en' => 'Leather', 'sv' => 'Läder']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Camber Shoes', 'sv' => 'Camber Skor']),
+                    'name' => ['en' => 'Camber Shoes', 'sv' => 'Camber Skor'],
                     'layout' => $featured,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Suede']])
+                    'attribute_data' => ['material' => ['en' => 'Suede']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler']),
+                    'name' => ['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Suede']])
+                    'attribute_data' => ['material' => ['en' => 'Suede']]
                 ]
             ],
             'Bags' => [
                 // Bags
                 [
-                    'name' => json_encode(['en' => 'Knot leather bag', 'sv' => 'Knot läderväska']),
+                    'name' => ['en' => 'Knot leather bag', 'sv' => 'Knot läderväska'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Leather', 'sv' => 'Läder']])
+                    'attribute_data' => ['material' => ['en' => 'Leather', 'sv' => 'Läder']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Arizona bag', 'sv' => 'Arizona väska']),
+                    'name' => ['en' => 'Arizona bag', 'sv' => 'Arizona väska'],
                     'layout' => $featured,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Leather']])
+                    'attribute_data' => ['material' => ['en' => 'Leather']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Beet bag', 'sv' => 'Köttväska']),
+                    'name' => ['en' => 'Beet bag', 'sv' => 'Köttväska'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Cotton', 'sv' => 'Bomull']])
+                    'attribute_data' => ['material' => ['en' => 'Cotton', 'sv' => 'Bomull']]
                 ]
             ],
             'Jewellery' => [
                 [
-                    'name' => json_encode(['en' => 'Mesh watch', 'sv' => 'Mesh klocka']),
+                    'name' => ['en' => 'Mesh watch', 'sv' => 'Mesh klocka'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Stainless Steel']])
+                    'attribute_data' => ['material' => ['en' => 'Stainless Steel']]
                 ],
                 [
-                    'name' => json_encode(['en' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen']),
+                    'name' => ['en' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen'],
                     'layout' => $featured,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Silver']])
+                    'attribute_data' => ['material' => ['en' => 'Silver']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Bird Brooch', 'sv' => 'Fågelbrosch']),
+                    'name' => ['en' => 'Bird Brooch', 'sv' => 'Fågelbrosch'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Silver']])
+                    'attribute_data' => ['material' => ['en' => 'Silver']]
                 ]
             ],
             'House items' => [
                 [
-                    'name' => json_encode(['en' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare']),
+                    'name' => ['en' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Leather, Feathers, Wool']])
+                    'attribute_data' => ['material' => ['en' => 'Leather, Feathers, Wool']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Driftwood fish', 'sv' => 'Driftwood fisk']),
+                    'name' => ['en' => 'Driftwood fish', 'sv' => 'Driftwood fisk'],
                     'layout' => $featured,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Wood']])
+                    'attribute_data' => ['material' => ['en' => 'Wood']]
                 ],
                 [
-                    'name' => json_encode(['en' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare']),
+                    'name' => ['en' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare'],
                     'layout' => $basic,
-                    'attribute_data' => json_encode(['material' => ['en' => 'Glass, Metal']])
+                    'attribute_data' => ['material' => ['en' => 'Glass, Metal']]
                 ]
             ]
         ];
-
         $i = 1;
         foreach ($products as $family => $products) {
             $family = ProductFamily::find($i);
             foreach ($products as $data) {
-                //
                 $product = Product::create([
                     'name' => $data['name'],
                     'attribute_data' => $data['attribute_data']
@@ -119,7 +117,7 @@ class ProductTableSeeder extends Seeder
                 $product->family()->associate($family);
                 $product->attributes()->attach($attribute);
 
-                foreach (json_decode($product->name, true) as $locale => $name) {
+                foreach ($product->name as $locale => $name) {
                     $product->route()->create([
                         'default' => true,
                         'slug' => str_slug($name),

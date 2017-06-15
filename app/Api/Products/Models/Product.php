@@ -4,16 +4,17 @@ namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
-use GetCandy\Api\Layouts\Models\Layout;
 
 class Product extends BaseModel
 {
-    use Indexable;
+    use Indexable, HasTranslations;
 
     public $transformer = ProductTransformer::class;
 

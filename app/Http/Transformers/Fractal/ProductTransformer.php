@@ -27,7 +27,7 @@ class ProductTransformer extends BaseTransformer
 
         if ($product->attribute_data) {
             $attribute_data = [];
-            foreach (json_decode($product->attribute_data, true) as $handle => $attribute) {
+            foreach ($product->attribute_data as $handle => $attribute) {
                 $attribute_data[$handle] = $this->getLocalisedName($attribute);
             }
             $response['attribute_data'] = $attribute_data;

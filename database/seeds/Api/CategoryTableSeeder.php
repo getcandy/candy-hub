@@ -14,46 +14,46 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
         $fashion = Category::create([
-            'name' => json_encode(['en' => 'Fashion', 'sv' => 'Mode'])
+            'name' => ['en' => 'Fashion', 'sv' => 'Mode']
         ]);
 
         $fashion->children()->create([
-            'name' => json_encode(['en' => 'Tops & Blouses', 'sv' => 'Toppar & Blusar'])
+            'name' => ['en' => 'Tops & Blouses', 'sv' => 'Toppar & Blusar']
         ]);
         $fashion->children()->create([
-            'name' => json_encode(['en' => 'Knitwear', 'sv' => 'Stickat'])
+            'name' => ['en' => 'Knitwear', 'sv' => 'Stickat']
         ]);
         $fashion->children()->create([
-            'name' => json_encode(['en' => 'Cardigans & Wraps'])
+            'name' => ['en' => 'Cardigans & Wraps']
         ]);
         $acc = $fashion->children()->create([
-            'name' => json_encode(['en' => 'Accessories', 'sv' => 'Tillbehör'])
+            'name' => ['en' => 'Accessories', 'sv' => 'Tillbehör']
         ]);
 
         $thing = new Category();
 
-        $thing->name = json_encode(['en' => 'Eye lashes', 'sv' => 'Ögonfransar']);
+        $thing->name = ['en' => 'Eye lashes', 'sv' => 'Ögonfransar'];
 
         $thing->appendToNode($acc)->save();
 
         $fashion->children()->create([
-            'name' => json_encode(['en' => 'Coats & Jackets', 'sv' => 'Jackor'])
+            'name' => ['en' => 'Coats & Jackets', 'sv' => 'Jackor']
         ]);
         $fashion->children()->create([
-            'name' => json_encode(['en' => 'Dresses & Skirts', 'sv' => 'Klänningar & Kjolar'])
+            'name' => ['en' => 'Dresses & Skirts', 'sv' => 'Klänningar & Kjolar']
         ]);
 
         Category::create([
-            'name' => json_encode(['en' => 'Shoes', 'sv' => 'Skor'])
+            'name' => ['en' => 'Shoes', 'sv' => 'Skor']
         ]);
         Category::create([
-            'name' => json_encode(['en' => 'Bags', 'sv' => 'påsar'])
+            'name' => ['en' => 'Bags', 'sv' => 'påsar']
         ]);
         Category::create([
-            'name' => json_encode(['en' => 'Jewellery', 'sv' => 'Smycke'])
+            'name' => ['en' => 'Jewellery', 'sv' => 'Smycke']
         ]);
         Category::create([
-            'name' => json_encode(['en' => 'House', 'sv' => 'Hem'])
+            'name' => ['en' => 'House', 'sv' => 'Hem']
         ]);
     }
 }

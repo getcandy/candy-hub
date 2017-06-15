@@ -29,6 +29,7 @@ class ProductFamilyControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+
     public function testIndexWithAttributes()
     {
         $url = $this->url('product-families', [
@@ -44,9 +45,7 @@ class ProductFamilyControllerTest extends TestCase
                 'id',
                 'name',
                 'attributes' => [
-                    'data' => [
-                        ['id']
-                    ]
+                    'data'
                 ],
             ]],
             'meta' => ['pagination']
@@ -106,16 +105,12 @@ class ProductFamilyControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * @group fail
-     * @return [type] [description]
-     */
     public function testStore()
     {
         $response = $this->post(
             $this->url('product-families'),
             [
-                'name' =>  'Shoes'
+                'name' =>  ['en' => 'Shoes']
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -152,7 +147,7 @@ class ProductFamilyControllerTest extends TestCase
         $response = $this->put(
             $this->url('product-families/' . $id),
             [
-                'name' => 'Foo bar',
+                'name' => ['en' => 'Foo bar'],
                 'default' => true
             ],
             [
@@ -180,7 +175,7 @@ class ProductFamilyControllerTest extends TestCase
     public function testDestroy()
     {
         $product = ProductFamily::create([
-            'name' => "Cheese"
+            'name' => ['en' => "Cheese"]
         ]);
 
         $response = $this->delete(

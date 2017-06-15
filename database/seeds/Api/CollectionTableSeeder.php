@@ -14,10 +14,10 @@ class CollectionTableSeeder extends Seeder
     public function run()
     {
         Collection::create([
-            'name' => json_encode(['en' => 'Early Sale', 'sv' => 'Tidig försäljning'])
+            'name' => ['en' => 'Early Sale', 'sv' => 'Tidig försäljning']
         ]);
         Collection::create([
-            'name' => json_encode(['en' => 'House'])
+            'name' => ['en' => 'House']
         ]);
     }
 }

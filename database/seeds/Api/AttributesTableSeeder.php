@@ -17,7 +17,7 @@ class AttributesTableSeeder extends Seeder
     {
 
         $group = AttributeGroup::create([
-            'name' => json_encode(['en' => 'General', 'sv' => 'Allmän']),
+            'name' => ['en' => 'General', 'sv' => 'Allmän'],
             'handle' => 'general',
             'position' => 1
         ]);

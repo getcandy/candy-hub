@@ -33,9 +33,6 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
     }
 
-    /**
-     * @group fail
-     */
     public function testShow()
     {
         // Get a channel

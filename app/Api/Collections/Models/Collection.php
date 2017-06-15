@@ -2,11 +2,14 @@
 
 namespace GetCandy\Api\Collections\Models;
 
-use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasTranslations;
 
 class Collection extends BaseModel
 {
+    use HasTranslations;
+
     protected $hashids = 'channel';
 
     /**

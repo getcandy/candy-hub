@@ -9,6 +9,16 @@ abstract class BaseModel extends Model
 {
     use Hashids;
 
+    public function setAttributeDataAttribute($value)
+    {
+        $this->attributes['attribute_data'] = json_encode($value);
+    }
+
+    public function getAttributeDataAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
     /**
      * Scope a query to only include enabled.
      *

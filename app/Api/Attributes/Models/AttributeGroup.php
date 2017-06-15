@@ -3,9 +3,12 @@
 namespace GetCandy\Api\Attributes\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasTranslations;
 
 class AttributeGroup extends BaseModel
 {
+    use HasTranslations;
+
     protected $hashids = 'attribute_group';
 
     /**

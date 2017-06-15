@@ -205,6 +205,7 @@ class LanguageControllerTest extends TestCase
 
     public function testCannotDestroyLastChannel()
     {
+        Language::first()->delete();
         $id = Language::first()->encodedId();
         $response = $this->delete(
             $this->url('languages/' . $id),
