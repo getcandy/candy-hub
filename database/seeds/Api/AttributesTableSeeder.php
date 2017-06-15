@@ -17,27 +17,17 @@ class AttributesTableSeeder extends Seeder
     {
         $fake = \Faker\Factory::create();
 
-        for ($i=1; $i < 7; $i++) {
-            $name = $fake->unique()->domainWord;
-            $model = AttributeGroup::create([
-                'name' => ucfirst($name),
-                'handle' => str_slug($name),
-                'position' => $i
-            ]);
-        }
+        $group = AttributeGroup::create([
+            'name' => json_encode(['en' => 'General', 'sv' => 'Allmän']),
+            'handle' => 'general',
+            'position' => 1
+        ]);
 
-        $fake = \Faker\Factory::create();
-
-        foreach (AttributeGroup::all() as $group) {
-            for ($i=1; $i < $fake->numberBetween(2, 7); $i++) {
-                $name = $fake->unique()->name;
-                $attribute = Attribute::create([
-                    'name' => ucfirst($name),
-                    'group_id' => $group->id,
-                    'handle' => str_slug($name),
-                    'position' => $i
-                ]);
-            }
-        }
+        Attribute::create([
+            'name' => json_encode(['en' => 'Material', 'sv' => 'Väv']),
+            'group_id' => $group->id,
+            'handle' => 'material',
+            'position' => 1
+        ]);
     }
 }

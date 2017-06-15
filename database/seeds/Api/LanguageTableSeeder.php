@@ -17,5 +17,11 @@ class LanguageTableSeeder extends Seeder
             'name' => 'English',
             'default' => true
         ]);
+
+        Language::create([
+            'code' => 'sv',
+            'name' => 'Svenska',
+            'default' => true
+        ]);
     }
 }

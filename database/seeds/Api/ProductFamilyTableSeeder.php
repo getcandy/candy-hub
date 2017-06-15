@@ -15,16 +15,16 @@ class ProductFamilyTableSeeder extends Seeder
     public function run()
     {
         ProductFamily::create([
-            'name' => 'Shoes'
+            'name' => json_encode(['en' => 'Shoes', 'sv' => 'Skodon'])
         ]);
         ProductFamily::create([
-            'name' => 'Bags'
+            'name' => json_encode(['en' => 'Bags', 'sv' => 'Väska'])
         ]);
         ProductFamily::create([
-            'name' => 'Jewellery'
+            'name' => json_encode(['en' => 'Jewellery', 'sv' => 'Smycke'])
         ]);
         ProductFamily::create([
-            'name' => 'House items'
+            'name' => json_encode(['en' => 'House items', 'sv' => 'Husartiklar'])
         ]);
     }
 }

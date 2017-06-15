@@ -17,7 +17,7 @@ class CreateAttributesTable extends Migration
             $table->increments('id');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('attribute_groups');
-            $table->string('name');
+            $table->json('name');
             $table->string('handle')->unique();
             $table->integer('position');
             $table->boolean('variant')->nullable();

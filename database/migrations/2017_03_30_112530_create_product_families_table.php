@@ -15,7 +15,7 @@ class CreateProductFamiliesTable extends Migration
     {
         Schema::create('product_families', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->json('name');
             $table->timestamps();
         });
     }
