@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Products\Models\ProductFamily;
-use League\Fractal\TransformerAbstract;
 
-class ProductFamilyTransformer extends TransformerAbstract
+class ProductFamilyTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         'products', 'attributes'

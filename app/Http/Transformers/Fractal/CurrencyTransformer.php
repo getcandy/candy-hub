@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Currencies\Models\Currency;
-use League\Fractal\TransformerAbstract;
 
-class CurrencyTransformer extends TransformerAbstract
+class CurrencyTransformer extends BaseTransformer
 {
     protected $availableIncludes = [];
 

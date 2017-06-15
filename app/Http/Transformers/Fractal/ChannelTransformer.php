@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Channels\Models\Channel;
-use League\Fractal\TransformerAbstract;
 
-class ChannelTransformer extends TransformerAbstract
+class ChannelTransformer extends BaseTransformer
 {
     protected $availableIncludes = [];
 

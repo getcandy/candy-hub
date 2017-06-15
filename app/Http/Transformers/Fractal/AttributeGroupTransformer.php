@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Attributes\Models\AttributeGroup;
-use League\Fractal\TransformerAbstract;
 
-class AttributeGroupTransformer extends TransformerAbstract
+class AttributeGroupTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         'attributes'
@@ -15,7 +14,7 @@ class AttributeGroupTransformer extends TransformerAbstract
     {
         return [
             'id' => $group->encodedId(),
-            'name' => $group->name,
+            'name' => $this->getLocalisedName($group->name),
             'handle' => $group->handle,
             'position' => (string) $group->position
         ];

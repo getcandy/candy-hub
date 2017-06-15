@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Routes\Models\Route;
-use League\Fractal\TransformerAbstract;
 
-class RouteTransformer extends TransformerAbstract
+class RouteTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         'element'

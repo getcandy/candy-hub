@@ -5,7 +5,7 @@ namespace GetCandy\Http\Transformers\Fractal;
 use GetCandy\Api\Auth\Models\User;
 use League\Fractal\TransformerAbstract;
 
-class UserTransformer extends TransformerAbstract
+class UserTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         'store'

@@ -4,9 +4,8 @@ namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Http\Transformers\Fractal\AttributeGroupTransformer;
-use League\Fractal\TransformerAbstract;
 
-class PageTransformer extends TransformerAbstract
+class PageTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         'element'

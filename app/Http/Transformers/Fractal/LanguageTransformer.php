@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Languages\Models\Language;
-use League\Fractal\TransformerAbstract;
 
-class LanguageTransformer extends TransformerAbstract
+class LanguageTransformer extends BaseTransformer
 {
     protected $availableIncludes = [];
 

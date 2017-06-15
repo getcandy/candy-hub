@@ -3,9 +3,8 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Layouts\Models\Layout;
-use League\Fractal\TransformerAbstract;
 
-class LayoutTransformer extends TransformerAbstract
+class LayoutTransformer extends BaseTransformer
 {
     protected $availableIncludes = [];
 

@@ -3,16 +3,15 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use GetCandy\Api\Categories\Models\Category;
-use League\Fractal\TransformerAbstract;
 
-class CategoryTransformer extends TransformerAbstract
+class CategoryTransformer extends BaseTransformer
 {
 
     public function transform(Category $category)
     {
         $data = [
             'id' => $category->encodedId(),
-            'name' => $category->name,
+            'name' => $this->getLocalisedName($category->name),
             'depth' => $category->depth
         ];
 
