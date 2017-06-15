@@ -3,7 +3,7 @@
 namespace GetCandy\Http\Controllers\Cms\Auth;
 
 use GetCandy\User;
-use GetCandy\Http\Controllers\Controller;
+use GetCandy\Http\Controllers\Cms\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

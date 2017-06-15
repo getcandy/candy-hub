@@ -17,7 +17,8 @@ class CreateRequest extends FormRequest
     {
         return [
             'group_id' => 'required',
-            'name' => 'required|unique:attributes,name',
+            'name' => 'array|required|valid_locales',
+            'handle' => 'required|unique:attributes,handle'
         ];
     }
 }

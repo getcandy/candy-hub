@@ -4,9 +4,12 @@ namespace GetCandy\Api\Attributes\Models;
 
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasTranslations;
 
 class Attribute extends BaseModel
 {
+    use HasTranslations;
+
     protected $hashids = 'attribute';
 
     /**

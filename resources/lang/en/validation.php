@@ -89,6 +89,7 @@ return [
     'url'                  => 'The :attribute format is invalid.',
 
     'hashid_is_valid' => 'The selected :attribute is invalid',
+    'valid_locales' => 'Invalid locale',
 
     /*
     |--------------------------------------------------------------------------

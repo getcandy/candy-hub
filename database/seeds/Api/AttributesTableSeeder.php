@@ -15,7 +15,6 @@ class AttributesTableSeeder extends Seeder
      */
     public function run()
     {
-        $fake = \Faker\Factory::create();
 
         $group = AttributeGroup::create([
             'name' => json_encode(['en' => 'General', 'sv' => 'Allmän']),
@@ -23,11 +22,11 @@ class AttributesTableSeeder extends Seeder
             'position' => 1
         ]);
 
-        Attribute::create([
-            'name' => json_encode(['en' => 'Material', 'sv' => 'Väv']),
-            'group_id' => $group->id,
-            'handle' => 'material',
-            'position' => 1
-        ]);
+        $attribute = new Attribute();
+        $attribute->name = ['en' => 'Material', 'sv' => 'Väv'];
+        $attribute->handle = 'material';
+        $attribute->position = 1;
+        $attribute->group_id = $group->id;
+        $attribute->save();
     }
 }

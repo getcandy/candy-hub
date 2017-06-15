@@ -6,7 +6,6 @@ use GetCandy\Api\Products\Models\ProductFamily;
 
 /**
  * @group controllers
- * @group new
  * @group api
  */
 class ProductFamilyControllerTest extends TestCase

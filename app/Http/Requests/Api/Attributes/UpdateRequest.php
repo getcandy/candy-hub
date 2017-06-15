@@ -14,8 +14,14 @@ class UpdateRequest extends FormRequest
     }
     public function rules()
     {
+        $decodedId = app('api')->attributes()->getDecodedId($this->attribute);
         return [
-            'name' => 'required|unique:attribute_groups,name,' . app('api')->attributeGroups()->getDecodedId($this->attribute_group)
+            'name' => 'required|array|valid_locales',
+            'filterable' => 'boolean',
+            'searchable' => 'boolean',
+            'position' => 'integer',
+            'variant' => 'boolean',
+            'handle' => 'unique:attributes,handle,'.$decodedId
         ];
     }
 }

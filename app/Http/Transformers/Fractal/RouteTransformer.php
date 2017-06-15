@@ -14,8 +14,10 @@ class RouteTransformer extends BaseTransformer
     {
         return [
             'id' => $route->encodedId(),
+            'default' => (bool) $route->default,
+            'locale' => $route->locale,
             'slug' => $route->slug,
-            'type' => str_slug(class_basename($route->element_type))
+            'type' => str_slug(class_basename($route->element_type)),
         ];
     }
 

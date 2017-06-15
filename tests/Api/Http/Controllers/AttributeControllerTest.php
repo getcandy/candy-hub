@@ -6,7 +6,7 @@ use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 
 /**
- * @group api
+ * @group new
  */
 class AttributeControllerTest extends TestCase
 {
@@ -67,7 +67,8 @@ class AttributeControllerTest extends TestCase
         $response = $this->post(
             $this->url('attributes'),
             [
-                'name' => 'Neon',
+                'name' => ['en' => 'Neon'],
+                'handle' => 'neon',
                 'group_id' => $group->encodedId()
             ],
             [
@@ -80,5 +81,45 @@ class AttributeControllerTest extends TestCase
         ]);
 
         $this->assertEquals(200, $response->status());
+    }
+
+    public function testInvalidStore()
+    {
+        $group = AttributeGroup::first();
+
+        $response = $this->post(
+            $this->url('attributes'),
+            [],
+            [
+                'Authorization' => 'Bearer ' . $this->accessToken()
+            ]
+        );
+
+        $response->assertJsonStructure([
+            'name', 'group_id', 'handle'
+        ]);
+
+        $this->assertEquals(422, $response->status());
+    }
+    public function testInvalidLanguageStore()
+    {
+        $group = AttributeGroup::first();
+
+        $response = $this->post(
+            $this->url('attributes'),
+            [
+                'name' => ['dk' => 'Neon'],
+                'group_id' => $group->encodedId()
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->accessToken()
+            ]
+        );
+
+        $response->assertJsonStructure([
+            'name'
+        ]);
+
+        $this->assertEquals(422, $response->status());
     }
 }

@@ -35,11 +35,11 @@ class AttributeService extends BaseService
 
         $result = $attributeGroup->attributes()->create([
             'name' => $data['name'],
-            'handle' => str_slug($data['name']),
+            'handle' => $data['handle'],
             'position' => $this->getNewPositionForGroup($attributeGroup->id),
-            'variant' => !empty($data['variant']) ? $data['variant'] : null,
-            'searchable' => !empty($data['searchable']) ? $data['searchable'] : null,
-            'filterable' => !empty($data['filterable']) ? $data['filterable'] : null
+            'variant' => !empty($data['variant']) ? $data['variant'] : false,
+            'searchable' => !empty($data['searchable']) ? $data['searchable'] : false,
+            'filterable' => !empty($data['filterable']) ? $data['filterable'] : false
         ]);
 
         return $result;

@@ -118,4 +118,14 @@ class LanguageService extends BaseService
 
         return $language->delete();
     }
+
+    /**
+     * Checks all locales in the array exist
+     * @param  array  $locales
+     * @return boolean
+     */
+    public function allLocalesExist(array $locales)
+    {
+        return $this->model->whereIn('code', $locales)->count() == count($locales);
+    }
 }

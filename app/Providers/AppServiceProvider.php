@@ -2,6 +2,7 @@
 
 namespace GetCandy\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager;
 
@@ -14,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Validator::extend('valid_locales', 'GetCandy\Http\Validators\Api\LocaleValidator@validate');
     }
 
     /**

@@ -16,7 +16,6 @@ class ReorderRequest extends FormRequest
 
     public function rules(AttributeManager $manager)
     {
-        dd($manager);
         $count = $repo->count();
         return [
             'groups' => 'required|size:' . $count

@@ -14,7 +14,7 @@ class ProductFamilyTransformer extends BaseTransformer
     {
         return [
             'id' => $family->encodedId(),
-            'name' => $family->name
+            'name' => $this->getLocalisedName($family->name)
         ];
     }
 
