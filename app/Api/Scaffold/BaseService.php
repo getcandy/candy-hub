@@ -111,4 +111,29 @@ abstract class BaseService
         $id = $this->model->decodeId($hashedId);
         return $this->model->where('id', '=', $id)->exists();
     }
+
+    protected function getDataList()
+    {
+        return $this->model->get();
+    }
+
+    protected function prepareAttributeData($attribute, array $data)
+    {
+        $structure = [];
+        $languagesArray = [];
+
+        // Get our languages
+        $languages = app('api')->languages()->getDataList();
+        foreach ($languages as $lang) {
+            $languagesArray[$lang->code] = '';
+        }
+        // Get our channels
+        $channels = app('api')->channels()->getDataList();
+        foreach ($channels as $channel) {
+            $structure[$channel->handle] = $languagesArray;
+        }
+
+        $structure = array_replace($structure, $data);
+        return $structure;
+    }
 }

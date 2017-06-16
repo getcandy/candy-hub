@@ -20,7 +20,8 @@ class AttributeTransformer extends BaseTransformer
             'position' => (string) $attribute->position,
             'filterable' => (bool) $attribute->filterable,
             'variant' => (bool) $attribute->variant,
-            'searchable' => (bool) $attribute->searchable
+            'searchable' => (bool) $attribute->searchable,
+            'localised' => (bool) $attribute->translatable
         ];
     }
 

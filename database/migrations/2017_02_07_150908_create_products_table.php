@@ -15,8 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
-            $table->json('name');
-            $table->json('attribute_data')->nullable();
+            $table->json('attribute_data');
             $table->timestamps();
         });
     }

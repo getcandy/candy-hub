@@ -28,100 +28,213 @@ class ProductTableSeeder extends Seeder
             'handle' => 'featured-product'
         ])->id;
 
-        $channel = \GetCandy\Api\Channels\Models\Channel::first()->id;
-
         $products = [
             // Boots
             'Shoes' => [
                 [
-                    'name' => ['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh'],
                     'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Leather', 'sv' => 'Läder']]
+                    'attribute_data' => [
+                        'name' => ['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh'],
+                        'material' => [
+                            'en' => 'Leather',
+                            'sv' => 'Läder'
+                        ],
+                        'description' => [
+                            'ecommerce' => [
+                                'en' => 'Moroccan babouche made from butter-soft black leather with slim rubber soles. Indoor wear recommended.',
+                                'sv' => 'Marockansk babouche tillverkad av smörmjuk svart läder med smala gummisulor. Inomslitage rekommenderas'
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ]
+                        ]
+                    ]
                 ],
                 [
-                    'name' => ['en' => 'Camber Shoes', 'sv' => 'Camber Skor'],
                     'layout' => $featured,
-                    'attribute_data' => ['material' => ['en' => 'Suede']]
+                    'attribute_data' => [
+                        'name' => ['en' => 'Camber Shoes', 'sv' => 'Camber Skor'],
+                        'material' => [
+                            'en' => 'Suede',
+                            'sv' => 'Mockaskinn'
+                        ],
+                        'description' => [
+                            'ecommerce' => [
+                                'en' => 'Slip-on soft pink suede brogues toughened up with comfortable crepe soles and leather lining. Penelope Chilvers.',
+                                'sv' => 'Slip-on mjuka rosa suede brogues härdade med bekväma crepe sulor och läderfodral. Penelope Chilvers.'
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ]
+                        ]
+                    ]
                 ],
                 [
-                    'name' => ['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler'],
                     'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Suede']]
+                    'attribute_data' => [
+                        'name' => ['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler'],
+                        'material' => [
+                            'en' => 'Suede',
+                            'sv' => 'Mockaskinn'
+                        ],
+                        'description' => [
+                            'ecommerce' => [
+                                'en' => 'Sleek slides with wide cross-over straps made from chunky-ribbed leather and suede. With padded leather footbed and grooved rubber soles.',
+                                'sv' => 'Snygga glidbanor med breda överkantsremmar av chunky-ribbet läder och mocka. Med vadderade läderfotbäddar och räfflade gummisulor.'
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ]
+                        ]
+                    ]
                 ]
             ],
             'Bags' => [
                 // Bags
                 [
-                    'name' => ['en' => 'Knot leather bag', 'sv' => 'Knot läderväska'],
                     'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Leather', 'sv' => 'Läder']]
+                    'attribute_data' => [
+                        'name' => ['en' => 'Knot leather bag', 'sv' => 'Knot läderväska'],
+                        'material' => [
+                            'en' => 'Leather',
+                            'sv' => 'Läder'
+                        ],
+                        'description' => [
+                            'ecommerce' => [
+                                'en' => 'Sleek suede bag with chunky rolled leather strap and exaggerated knots at either end. Closes with zip across the top and has interior pockets.',
+                                'sv' => ''
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ]
+                        ]
+                    ]
                 ],
                 [
-                    'name' => ['en' => 'Arizona bag', 'sv' => 'Arizona väska'],
                     'layout' => $featured,
-                    'attribute_data' => ['material' => ['en' => 'Leather']]
+                    'attribute_data' => [
+                        'name' => ['en' => 'Arizona bag', 'sv' => 'Arizona väska'],
+                        'material' => [
+                            'en' => 'Leather',
+                            'sv' => 'Läder'
+                        ],
+                        'description' => [
+                            'ecommerce' => [
+                                'en' => 'Artisan crafted cross body bag made from waxy umber leather with a wide buckled strap and deep front flap. Lined in twill with interior pockets. ',
+                                'sv' => ''
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ]
+                        ]
+                    ]
                 ],
                 [
-                    'name' => ['en' => 'Beet bag', 'sv' => 'Köttväska'],
                     'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Cotton', 'sv' => 'Bomull']]
+                    'attribute_data' => [
+                        'name' => ['en' => 'Beet bag', 'sv' => 'Köttväska'],
+                        'material' => [
+                            'en' => 'Cotton',
+                            'sv' => 'Bomull'
+                        ],
+                        'description' => [
+                            'ecommerce' => [
+                                'en' => 'Capacious beach bag with room for just about anything. Cut from geometric-print cotton with fully lined interior and single zip pocket. Tie closure.',
+                                'sv' => ''
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ]
+                        ]
+                    ]
                 ]
             ],
-            'Jewellery' => [
-                [
-                    'name' => ['en' => 'Mesh watch', 'sv' => 'Mesh klocka'],
-                    'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Stainless Steel']]
-                ],
-                [
-                    'name' => ['en' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen'],
-                    'layout' => $featured,
-                    'attribute_data' => ['material' => ['en' => 'Silver']]
-                ],
-                [
-                    'name' => ['en' => 'Bird Brooch', 'sv' => 'Fågelbrosch'],
-                    'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Silver']]
-                ]
-            ],
-            'House items' => [
-                [
-                    'name' => ['en' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare'],
-                    'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Leather, Feathers, Wool']]
-                ],
-                [
-                    'name' => ['en' => 'Driftwood fish', 'sv' => 'Driftwood fisk'],
-                    'layout' => $featured,
-                    'attribute_data' => ['material' => ['en' => 'Wood']]
-                ],
-                [
-                    'name' => ['en' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare'],
-                    'layout' => $basic,
-                    'attribute_data' => ['material' => ['en' => 'Glass, Metal']]
-                ]
-            ]
+            // 'Jewellery' => [
+            //     [
+            //         'name' => ['en' => 'Mesh watch', 'sv' => 'Mesh klocka'],
+            //         'layout' => $basic,
+            //         'attribute_data' => ['material' => ['en' => 'Stainless Steel']]
+            //     ],
+            //     [
+            //         'name' => ['en' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen'],
+            //         'layout' => $featured,
+            //         'attribute_data' => ['material' => ['en' => 'Silver']]
+            //     ],
+            //     [
+            //         'name' => ['en' => 'Bird Brooch', 'sv' => 'Fågelbrosch'],
+            //         'layout' => $basic,
+            //         'attribute_data' => ['material' => ['en' => 'Silver']]
+            //     ]
+            // ],
+            // 'House items' => [
+            //     [
+            //         'name' => ['en' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare'],
+            //         'layout' => $basic,
+            //         'attribute_data' => ['material' => ['en' => 'Leather, Feathers, Wool']]
+            //     ],
+            //     [
+            //         'name' => ['en' => 'Driftwood fish', 'sv' => 'Driftwood fisk'],
+            //         'layout' => $featured,
+            //         'attribute_data' => ['material' => ['en' => 'Wood']]
+            //     ],
+            //     [
+            //         'name' => ['en' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare'],
+            //         'layout' => $basic,
+            //         'attribute_data' => ['material' => ['en' => 'Glass, Metal']]
+            //     ]
+            // ]
         ];
         $i = 1;
+        $attributes = Attribute::get();
         foreach ($products as $family => $products) {
             $family = ProductFamily::find($i);
             foreach ($products as $data) {
                 $product = Product::create([
-                    'name' => $data['name'],
                     'attribute_data' => $data['attribute_data']
                 ]);
 
-                $attribute = Attribute::first();
+                foreach ($attributes as $att) {
+                    $product->attributes()->attach($att);
+                }
 
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
-                $product->attributes()->attach($attribute);
 
-                foreach ($product->name as $locale => $name) {
+                foreach ($product->attribute_data['name'] as $locale => $name) {
                     $product->route()->create([
                         'default' => true,
                         'slug' => str_slug($name),
-                        'locale' => $locale
+                        'locale' => app()->getLocale()
                     ]);
                 }
                 $product->save();

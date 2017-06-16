@@ -11,8 +11,10 @@ class ProductsController extends Controller
         return view('catalogue-manager.products.index');
     }
 
-    public function getEdit()
+    public function getEdit($id)
     {
-        return view('catalogue-manager.products.edit');
+        return view('catalogue-manager.products.edit', [
+            'id' => $id
+        ]);
     }
 }

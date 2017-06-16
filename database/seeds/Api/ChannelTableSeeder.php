@@ -14,9 +14,19 @@ class ChannelTableSeeder extends Seeder
     public function run()
     {
         Channel::create([
-            'name' => 'Website',
-            'handle' => 'website',
+            'name' => 'Ecommerce',
+            'handle' => 'ecommerce',
             'default' => true
+        ]);
+        Channel::create([
+            'name' => 'Mobile',
+            'handle' => 'mobile',
+            'default' => false
+        ]);
+        Channel::create([
+            'name' => 'Print',
+            'handle' => 'print',
+            'default' => false
         ]);
     }
 }

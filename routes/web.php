@@ -29,4 +29,4 @@ Route::post('password/reset', 'Cms\Auth\ResetPasswordController@reset');
 Route::get('dashboard', 'Cms\DashboardController@getIndex')->middleware('auth')->name('dashboard');
 
 Route::get('catalogue-manager/products', 'Cms\CatalogueManager\ProductsController@getIndex')->middleware('auth')->name('cm_products');
-Route::get('catalogue-manager/products/1', 'Cms\CatalogueManager\ProductsController@getEdit')->middleware('auth')->name('cm_products_edit');
+Route::get('catalogue-manager/products/{id}', 'Cms\CatalogueManager\ProductsController@getEdit')->middleware('auth')->name('cm_products_edit');

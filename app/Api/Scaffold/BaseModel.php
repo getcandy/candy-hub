@@ -4,6 +4,7 @@ namespace GetCandy\Api\Scaffold;
 
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Database\Eloquent\Model;
+use GetCandy\Api\Routes\Models\Route;
 
 abstract class BaseModel extends Model
 {
@@ -39,5 +40,10 @@ abstract class BaseModel extends Model
     public function scopeDefault($query)
     {
         return $query->where('default', '=', true);
+    }
+
+    public function routes()
+    {
+        return $this->morphMany(Route::class, 'element');
     }
 }

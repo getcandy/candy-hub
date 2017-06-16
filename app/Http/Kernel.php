@@ -42,10 +42,8 @@ class Kernel extends HttpKernel
             'bindings',
         ],
         'api:client' => [
-            \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
             'throttle:60,1',
-            'bindings',
-            \Barryvdh\Cors\HandleCors::class
+            'bindings'
         ]
     ];
 

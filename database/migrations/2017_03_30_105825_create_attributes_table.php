@@ -20,9 +20,12 @@ class CreateAttributesTable extends Migration
             $table->json('name');
             $table->string('handle')->unique();
             $table->integer('position');
-            $table->boolean('variant')->nullable();
-            $table->boolean('searchable')->nullable();
-            $table->boolean('filterable')->nullable();
+            $table->boolean('variant')->default(false);
+            $table->boolean('searchable')->default(false);
+            $table->boolean('filterable')->default(false);
+            $table->boolean('system')->default(false);
+            $table->boolean('channeled')->default(false);
+            $table->boolean('translatable')->default(false);
             $table->timestamps();
 
             $table->index(['handle']);

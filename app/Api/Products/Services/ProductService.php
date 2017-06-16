@@ -70,13 +70,14 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        foreach ($data['name'] as $lang => $value) {
-            if (! app('api')->languages()->existsByCode($lang)) {
-                throw new InvalidLanguageException(trans('getcandy_api::response.error.invalid_lang', ['lang' => $lang]), 422);
-            }
+// dd($data);
+        $attributeData = [];
+
+        foreach ($data['attributes'] as $attribute => $values) {
+            $attributeData[$attribute] = $this->prepareAttributeData($attribute, $values);
         }
 
-        $product->name = $data['name'];
+        $product->attribute_data = $attributeData;
 
         $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
         $product->layout()->associate($layout);
@@ -89,14 +90,6 @@ class ProductService extends BaseService
             $family->products()->save($product);
         } else {
             $product->save();
-        }
-
-        foreach ($product->name as $locale => $name) {
-            $product->route()->create([
-                'default' => true,
-                'slug' => str_slug($name),
-                'locale' => $locale
-            ]);
         }
 
         // event(new ProductCreatedEvent($product));

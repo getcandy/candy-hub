@@ -10,7 +10,7 @@
         },
         methods: {
             loadProduct: function (id) {
-                location.href = '/catalogue-manager/products/1';
+                location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts: function () {
                 this.products = [];
@@ -124,7 +124,7 @@
                     </div>
                   </td>
                   <td><img src="/images/placeholder/product.jpg" :alt="p.name"></td>
-                  <td class="product">{{ p.name }}</td>
+                  <td class="product">{{ p.attribute_data.name }}</td>
                   <td>All</td>
                   <td>All</td>
                   <td>Spa Care</td>

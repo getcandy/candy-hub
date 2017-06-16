@@ -7,11 +7,15 @@ use GetCandy\Api\Categories\Models\Category;
 class CategoryTransformer extends BaseTransformer
 {
 
+    protected $availableIncludes = [
+        'routes'
+    ];
+
     public function transform(Category $category)
     {
         $data = [
             'id' => $category->encodedId(),
-            'name' => $this->getLocalisedName($category->name),
+            'attribute_data' => $category->attribute_data,
             'depth' => $category->depth
         ];
 
@@ -27,5 +31,10 @@ class CategoryTransformer extends BaseTransformer
         $data['children'] = $children;
 
         return $data;
+    }
+
+    public function includeRoutes(Category $category)
+    {
+        return $this->collection($category->routes, new RouteTransformer);
     }
 }

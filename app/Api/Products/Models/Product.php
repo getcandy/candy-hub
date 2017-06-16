@@ -14,7 +14,7 @@ use GetCandy\Http\Transformers\Fractal\ProductTransformer;
 
 class Product extends BaseModel
 {
-    use Indexable, HasTranslations;
+    use Indexable;
 
     public $transformer = ProductTransformer::class;
 

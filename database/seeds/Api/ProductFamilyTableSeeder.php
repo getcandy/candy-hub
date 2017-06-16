@@ -14,17 +14,114 @@ class ProductFamilyTableSeeder extends Seeder
      */
     public function run()
     {
-        ProductFamily::create([
-            'name' => ['en' => 'Shoes', 'sv' => 'Skodon']
+        $atts = Attribute::where('group_id', '=', 1)->get();
+
+        $fam = ProductFamily::create([
+            'attribute_data' => [
+                'name' => [
+                    'en' => 'Shoes',
+                    'sv' => 'Skodon'
+                ],
+                'description' => [
+                    'ecommerce' => [
+                        'en' => 'Look at our shoes',
+                        'sv' => 'Titta på våra skor'
+                    ],
+                    'mobile' => [
+                        'en' => 'Just a tap away from some shoes',
+                        'sv' => 'Bara en kran från några skor'
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
+                ]
+            ]
         ]);
-        ProductFamily::create([
-            'name' => ['en' => 'Bags', 'sv' => 'Väska']
+
+        foreach ($atts as $att) {
+            $fam->attributes()->attach($att);
+        }
+
+        $fam = ProductFamily::create([
+            'attribute_data' => [
+                'name' => [
+                    'en' => 'Bags',
+                    'sv' => 'Påsar'
+                ],
+                'description' => [
+                    'ecommerce' => [
+                        'en' => 'Buy a bag online',
+                        'sv' => 'Köp en väska online'
+                    ],
+                    'mobile' => [
+                        'en' => 'A bag for your phone',
+                        'sv' => 'En väska till din telefon'
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
+                ]
+            ]
         ]);
-        ProductFamily::create([
-            'name' => ['en' => 'Jewellery', 'sv' => 'Smycke']
+
+        foreach ($atts as $att) {
+            $fam->attributes()->attach($att);
+        }
+
+        $fam = ProductFamily::create([
+            'attribute_data' => [
+                'name' => [
+                    'en' => 'Jewellery',
+                    'sv' => 'Smycke'
+                ],
+                'description' => [
+                    'ecommerce' => [
+                        'en' => 'The finest jewellery online',
+                        'sv' => 'De finaste smycken'
+                    ],
+                    'mobile' => [
+                        'en' => '',
+                        'sv' => ''
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
+                ]
+            ]
         ]);
-        ProductFamily::create([
-            'name' => ['en' => 'House items', 'sv' => 'Husartiklar']
+
+        foreach ($atts as $att) {
+            $fam->attributes()->attach($att);
+        }
+
+        $fam = ProductFamily::create([
+            'attribute_data' => [
+                'name' => [
+                    'en' => 'House items',
+                    'sv' => 'Husartiklar'
+                ],
+                'description' => [
+                    'ecommerce' => [
+                        'en' => 'Decorate your home from stuff on our website',
+                        'sv' => 'Dekorera ditt hem från saker på vår hemsida'
+                    ],
+                    'mobile' => [
+                        'en' => 'Just a tap away from awesome stuff for your house',
+                        'sv' => 'Bara en kran från fantastiska saker till ditt hus'
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
+                ]
+            ]
         ]);
+
+        foreach ($atts as $att) {
+            $fam->attributes()->attach($att);
+        }
     }
 }

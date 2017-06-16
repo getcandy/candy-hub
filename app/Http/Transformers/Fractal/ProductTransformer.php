@@ -22,16 +22,8 @@ class ProductTransformer extends BaseTransformer
     {
         $response = [
             'id' => $product->encodedId(),
-            'name' => $this->getLocalisedName($product->name),
+            'attribute_data' => $product->attribute_data,
         ];
-
-        if ($product->attribute_data) {
-            $attribute_data = [];
-            foreach ($product->attribute_data as $handle => $attribute) {
-                $attribute_data[$handle] = $this->getLocalisedName($attribute);
-            }
-            $response['attribute_data'] = $attribute_data;
-        }
 
         return $response;
     }
