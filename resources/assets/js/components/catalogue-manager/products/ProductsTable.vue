@@ -9,16 +9,15 @@
             this.loadProducts();
         },
         methods: {
-            loadProduct: function (id) {
+            loadProduct: id => {
                 location.href = '/catalogue-manager/products/' + id;
             },
-            loadProducts: function () {
-                this.products = [];
-                axios.get('/api/v1/products')
-                  .then(response => this.products = response.data.data)
-                  .catch(function (error) {
-                    console.log(error);
-                  });
+            loadProducts () {
+              axios.get('/api/v1/products')
+                .then(response => this.products = response.data.data)
+                .catch(function (error) {
+                  console.log(error);
+              });
             }
         }
     }
