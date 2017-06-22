@@ -34,15 +34,11 @@ class ProductService extends BaseService
             abort(404);
         }
 
-        foreach ($data['name'] as $lang => $value) {
-            if (! app('api')->languages()->existsByCode($lang)) {
-                throw new InvalidLanguageException(trans('getcandy_api::response.error.invalid_lang', ['lang' => $lang]), 422);
-            }
+        foreach ($data['attributes'] as $attribute => $values) {
+            $attributeData[$attribute] = $this->prepareAttributeData($attribute, $values);
         }
 
-        if (! empty($data['name'])) {
-            $product->name = $data['name'];
-        }
+        $product->attribute_data = $attributeData;
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);

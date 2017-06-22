@@ -17,12 +17,28 @@ require('./classes/Form');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+/**
+ * Generic components
+ */
+
+Vue.component('candy-tabs', require('./components/elements/tabs/CandyTabs.vue'));
+Vue.component('candy-tab', require('./components/elements/tabs/CandyTab.vue'));
+Vue.component('candy-button', require('./components/elements/Button.vue'));
+
+/**
+ * Form Components
+ */
+Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
+Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
+
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
+Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
+
+window.Event = new Vue();
 
 const app = new Vue({
     el: '#app',
     data: {
-
     }
 });
 
