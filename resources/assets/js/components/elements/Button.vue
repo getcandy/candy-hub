@@ -15,10 +15,13 @@
     export default {
         data() {
             return {
-                jobs: [],
+                job: null,
                 className: 'btn btn-success',
                 processing: false
             }
+        },
+        mounted () {
+            Event.$on('tab-change', tab => this.job = tab);
         },
         props: {
             event: {
@@ -28,26 +31,17 @@
         },
         methods : {
             fire () {
-                this.toggleState(true);
-                Event.$emit(this.event);
+                console.log(this.job);
+                // dispatcher.dispatch(this.job).then(response => console.log('success!')).catch(error => console.log(error));
             },
-            toggleState (firing) {
-                this.className = firing ? 'btn btn-primary' : 'btn btn-success';
-                this.processing = firing;
-            },
-            processRequest (data) {
-                this.jobs.push(data);
-                this.jobs.forEach(job => {
-                    axios({
-                      method: job.method,
-                      url: job.url,
-                      data: job.data
-                    }).then(response => this.toggleState(false));
-                });
+            save() {
+                console.log('Started Saving a button...');
+                for (let $i=0; $i<=1000000000; $i++) {
+                    //
+                }
+                console.log('Saving button done.');
+                return true;
             }
-        },
-        mounted () {
-            Event.$on(this.event + '-request', (data) => this.processRequest(data))
         }
     }
 </script>

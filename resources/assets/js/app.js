@@ -7,9 +7,12 @@
 
 require('./bootstrap');
 
+require("babel-core/register");
+require("babel-polyfill");
 
 require('./classes/Errors');
 require('./classes/Form');
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,8 +36,12 @@ Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
 
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
+Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
 
 window.Event = new Vue();
+
+var Dispatcher = require('./classes/Dispatcher');
+window.dispatcher = new Dispatcher();
 
 const app = new Vue({
     el: '#app',

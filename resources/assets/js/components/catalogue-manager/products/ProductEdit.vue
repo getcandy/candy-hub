@@ -15,30 +15,68 @@
         created() {
           this.loadProduct(this.productId);
         },
+        /**
+         * Fires when the component has been mounted
+         * @return void
+         */
         mounted() {
-          Event.$on('save-product', () => this.saveProduct());
+
+          
+
+          dispatcher.add('product-details', {
+            component: this,
+            method: 'saveProductDetails'
+          });
+
+          dispatcher.add('product-availability', {
+            component: this,
+            method: 'saveProductAvailability'
+          });
+
         },
         methods: {
+          /**
+           * Decorates the data ready for the template to use
+           * @param  {Object} data
+           * @return
+           */
           decorate (data) {
             this.attribute_groups = data.attribute_groups.data;
             this.product = data;
             this.product.attributes = this.product.attribute_data;
           },
-          saveProduct() {
-            Event.$emit('save-product-request', {
-              url: '/api/v1/products/' + this.productId,
-              method: 'put',
-              data: this.product
-            });
+          /**
+           * Saves the product details
+           * @return {Boolean}
+           */
+          saveProductDetails() {
+            console.log('Saving a product details...');
+            return true;
           },
+          /**
+           * Saves the product availability
+           * @return {[type]} [description]
+           */
+          saveProductAvailability() {
+            console.log('Saving product availability');
+          },
+          /**
+           * 
+           * axios({
+              method: 'put',
+              url: '/api/v1/products/' + this.productId,
+              data: this.product
+            }).then(response => console.log(response))
+           * @param  {[type]} id [description]
+           * @return {[type]}    [description]
+           */
           loadProduct (id) {
             axios.get('/api/v1/products/' + id, {
               params: {
                 includes : 'family,attribute_groups,attribute_groups.attributes,layout'
               }
-            })
-            .then(response => this.decorate(response.data.data))
-            .catch(error => console.log(error));
+            }).then(response => this.decorate(response.data.data))
+              .catch(error => console.log(error));
           }
         }
     }
@@ -47,33 +85,28 @@
 <template>
   <div>
     <candy-tabs>
-      <candy-tab name="Product Details" :selected="true">
+      <candy-tab name="Product Details" handle="product-details" :selected="true">
 
         <candy-tabs nested="true">
           <template v-for="(group, index) in attribute_groups">
             <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-              <div class="form-group" v-for="input in group.attributes.data">
-                <label>
-                  {{ input.name }}
-                </label>
-                <input type="text" class="form-control" v-model="product['attribute_data'][input.handle]['en']">
-              </div>
+                <candy-product-details></candy-product-details>
             </candy-tab>
           </template>
         </candy-tabs>
 
       </candy-tab>
 
-      <candy-tab name="Availability &amp; Pricing">
+      <candy-tab name="Availability &amp; Pricing" handle="product-availability">
         <h1>Availability &amp; Pricing</h1>
       </candy-tab>
 
       <candy-tab name="Collections">
-        <h1>Collections</h1>
+        <candy-product-details></candy-product-details>
       </candy-tab>
 
       <candy-tab name="Associations">
-        <h1>Associations</h1>
+        <candy-product-details></candy-product-details>
       </candy-tab>
 
     </candy-tabs>

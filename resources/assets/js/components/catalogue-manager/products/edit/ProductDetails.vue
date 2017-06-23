@@ -1,9 +1,6 @@
 <template>
-    <div role="tabpanel" :class="{ 'active' : isActive, 'tab-pane' : true }" :id="href">
-        <div class="sub-panel" v-if="!isNested">
-            <slot></slot>
-        </div>
-        <slot v-else></slot>
+    <div>
+        Foo bar
     </div>
 </template>
 
@@ -17,8 +14,7 @@
         },
         props: {
             name: {
-                type: String,
-                required: true
+                type: String
             },
             handle: {
                 type: String,
@@ -29,13 +25,9 @@
             }
         },
         computed: {
-            href() {
-                return '#' + this.name.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '');
-            }
         },
         mounted() {
-            this.isNested = this.$parent.nested;
-            this.isActive = this.selected;
+            Event.$emit('tab-change', this);
         }
     }
 </script>

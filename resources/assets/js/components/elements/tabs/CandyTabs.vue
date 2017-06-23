@@ -31,7 +31,13 @@
         methods: {
             selectTab(selectedTab) {
                 this.tabs.forEach(tab => {
-                    tab.isActive = (tab.name == selectedTab.name);
+                    if (tab.name == selectedTab.name) {
+                        tab.isActive = true;
+                        console.log(tab);
+                        Event.$emit('tab-change', tab);
+                    } else {
+                        tab.isActive = false;
+                    }
                 });
             }
         },
