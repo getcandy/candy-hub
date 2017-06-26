@@ -20,27 +20,14 @@
                 processing: false
             }
         },
-        mounted () {
+        created () {
             Event.$on('tab-change', tab => this.job = tab);
-        },
-        props: {
-            event: {
-                type: String,
-                required: true
-            },
+            Event.$on('notification', finished => this.processing = !finished);
         },
         methods : {
             fire () {
-                console.log(this.job);
-                // dispatcher.dispatch(this.job).then(response => console.log('success!')).catch(error => console.log(error));
-            },
-            save() {
-                console.log('Started Saving a button...');
-                for (let $i=0; $i<=1000000000; $i++) {
-                    //
-                }
-                console.log('Saving button done.');
-                return true;
+                this.processing = true;
+                dispatcher.dispatch(this.job);
             }
         }
     }

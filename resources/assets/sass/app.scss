@@ -4,6 +4,8 @@
 @import "vendor/bootstrap-datepicker3.min.css";
 @import "vendor/bootstrap-select.min.css";
 
+@import "_variables";
+
 // Modules and Variables
 @import "partials/base";
 
@@ -18,6 +20,7 @@
 @import "partials/filters";
 @import "partials/popovers";
 @import "partials/tooltips";
+@import "partials/notification-bar";
 
 @import "partials/sidebar";
 @import "partials/content-panel";

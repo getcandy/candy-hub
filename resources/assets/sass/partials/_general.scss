@@ -25,7 +25,9 @@ a {
   display: block;
   position: relative;
 }
-
+#app {
+  position: static;
+}
 
 // Navigation Overlays
 

@@ -13,10 +13,12 @@ class Dispatcher {
     dispatch(handle) {
         return new Promise((resolve, reject) => {
             let ref = this[handle];
+            console.log(ref);
             if (!ref) {
                 reject();
             }
-            ref.component[ref.method]();
+            console.log(ref);
+            ref.save();
             resolve();
         });
     }

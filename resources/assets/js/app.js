@@ -27,6 +27,7 @@ require('./classes/Form');
 Vue.component('candy-tabs', require('./components/elements/tabs/CandyTabs.vue'));
 Vue.component('candy-tab', require('./components/elements/tabs/CandyTab.vue'));
 Vue.component('candy-button', require('./components/elements/Button.vue'));
+Vue.component('candy-notification', require('./components/elements/NotificationBar.vue'));
 
 /**
  * Form Components

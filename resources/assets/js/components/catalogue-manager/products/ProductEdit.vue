@@ -1,3 +1,7 @@
+<!--
+  Product Edit
+  This component is responsible for displaying the product edit page.
+ -->
 <script>
     export default {
         data () {
@@ -15,25 +19,6 @@
         created() {
           this.loadProduct(this.productId);
         },
-        /**
-         * Fires when the component has been mounted
-         * @return void
-         */
-        mounted() {
-
-          
-
-          dispatcher.add('product-details', {
-            component: this,
-            method: 'saveProductDetails'
-          });
-
-          dispatcher.add('product-availability', {
-            component: this,
-            method: 'saveProductAvailability'
-          });
-
-        },
         methods: {
           /**
            * Decorates the data ready for the template to use
@@ -46,29 +31,8 @@
             this.product.attributes = this.product.attribute_data;
           },
           /**
-           * Saves the product details
-           * @return {Boolean}
-           */
-          saveProductDetails() {
-            console.log('Saving a product details...');
-            return true;
-          },
-          /**
-           * Saves the product availability
-           * @return {[type]} [description]
-           */
-          saveProductAvailability() {
-            console.log('Saving product availability');
-          },
-          /**
-           * 
-           * axios({
-              method: 'put',
-              url: '/api/v1/products/' + this.productId,
-              data: this.product
-            }).then(response => console.log(response))
-           * @param  {[type]} id [description]
-           * @return {[type]}    [description]
+           * Loads the product by its encoded ID
+           * @param  {String} id
            */
           loadProduct (id) {
             axios.get('/api/v1/products/' + id, {
@@ -86,15 +50,13 @@
   <div>
     <candy-tabs>
       <candy-tab name="Product Details" handle="product-details" :selected="true">
-
         <candy-tabs nested="true">
           <template v-for="(group, index) in attribute_groups">
             <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                <candy-product-details></candy-product-details>
+                <candy-product-details :group="group" :product="product"></candy-product-details>
             </candy-tab>
           </template>
         </candy-tabs>
-
       </candy-tab>
 
       <candy-tab name="Availability &amp; Pricing" handle="product-availability">
@@ -102,11 +64,9 @@
       </candy-tab>
 
       <candy-tab name="Collections">
-        <candy-product-details></candy-product-details>
       </candy-tab>
 
       <candy-tab name="Associations">
-        <candy-product-details></candy-product-details>
       </candy-tab>
 
     </candy-tabs>

@@ -46,9 +46,10 @@
         </div>
 
       </div>
+      <candy-notification></candy-notification>
     </div>
     <div class="main-purple-overlay"></div>
-
+    
     @include('partials.scripts')
 
   </body>

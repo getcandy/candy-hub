@@ -1,0 +1,24 @@
+.notification-bar {
+    position: absolute;
+    bottom:0;
+    padding:1.5em 4%;
+    width:100%;
+    color:#fff;
+    z-index: 500;
+    .icon {
+        display: inline-block;
+        width:30px;
+        height:30px;
+        line-height: 30px;
+        background-color:rgba(#000, .3);
+        margin-right: 10px;
+        border-radius:50%;
+        text-align: center;
+    }
+    &.success {
+        background-color: $brand-success;
+    }
+    &.error {
+        background-color:$brand-danger;
+    }
+}
