@@ -152,15 +152,22 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
+    /**
+     * @group failing
+     */
     public function testCannotDestroyLastChannel()
     {
         $id = Channel::first()->encodedId();
+
+
+        dd(Channel::offset(1)->get());
         $response = $this->delete(
             $this->url('channels/' . $id),
             [],
             ['Authorization' => 'Bearer ' . $this->accessToken()]
         );
 
+        dd($response);
         $this->assertEquals(422, $response->status());
     }
 }

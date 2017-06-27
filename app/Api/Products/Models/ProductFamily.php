@@ -16,7 +16,7 @@ class ProductFamily extends BaseModel
      */
     protected $hashids = 'product_family';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['attribute_data'];
 
     public function products()
     {

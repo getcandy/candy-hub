@@ -13,12 +13,13 @@ use Event;
 /**
  * @group controllers
  * @group api
+ * @group products
  */
 class ProductControllerTest extends TestCase
 {
     protected $baseStructure = [
         'id',
-        'name'
+        'attribute_data' => ['name']
     ];
 
     public function testIndex()
@@ -48,7 +49,7 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'attribute_groups' => [
                     'data' => [
                         [
@@ -94,7 +95,7 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'family' => ['data' => ['id']]
             ]],
             'meta' => ['pagination']
@@ -116,7 +117,7 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'attribute_groups' => [
                     'data' => [
                         [
@@ -172,12 +173,16 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
+    /**
+     * @group fail
+     * @return [type] [description]
+     */
     public function testStore()
     {
         Event::fake();
 
         $family = ProductFamily::create([
-            'name' => ['en' => 'Foo bar']
+            'attribute_data' => ['name' => ['en' => 'Foo bar']]
         ]);
 
         $layout = Layout::first()->encodedId();
@@ -185,8 +190,12 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'name' =>  [
-                    "en" => "Spring water"
+                'attributes' =>  [
+                    'name' => [
+                        "ecommerce" => [
+                            "en" => "Spring water"
+                        ]
+                    ]
                 ],
                 'family_id' => $family->encodedId(),
                 'layout_id' => $layout,
@@ -214,7 +223,7 @@ class ProductControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name', 'family_id'
+            'attributes', 'family_id'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -231,8 +240,12 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'name' =>  [
-                    "es" => "Spring water"
+                'attribute_data' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
                 ],
                 'family_id' => $family->encodedId(),
                 'slug' => 'spring-water',
@@ -248,6 +261,9 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
+    /**
+     * @group failing
+     */
     public function testUpdate()
     {
         Event::fake();
@@ -256,8 +272,12 @@ class ProductControllerTest extends TestCase
         $response = $this->put(
             $this->url('products/' . $id),
             [
-                'name' => [
-                    'en' => 'Foo bar'
+                'attribute_data' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
                 ],
                 'default' => true
             ],
@@ -273,9 +293,13 @@ class ProductControllerTest extends TestCase
         $response = $this->put(
             $this->url('products/123123'),
             [
-                'name' => [
-                    'en' => 'Foo bar'
-                ]
+                'attribute_data' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ],
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -288,7 +312,13 @@ class ProductControllerTest extends TestCase
     public function testDestroy()
     {
         $product = Product::create([
-            'name' =>  ['en' => "Spanish"],
+            'attribute_data' => [
+                'name' =>  [
+                    'ecommerce' => [
+                        'en' => 'Foo'
+                    ]
+                ]
+            ]
         ]);
 
         $response = $this->delete(

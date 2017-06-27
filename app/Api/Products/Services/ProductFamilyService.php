@@ -41,7 +41,7 @@ class ProductFamilyService extends BaseService
     public function update($hashedId, array $data)
     {
         $family = $this->getByHashedId($hashedId);
-        $family->name = $data['name'];
+        $family->attribute_data = $data['name'];
         $family->save();
         return $family;
     }
