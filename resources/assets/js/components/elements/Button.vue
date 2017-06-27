@@ -27,7 +27,9 @@
         methods : {
             fire () {
                 this.processing = true;
-                this.job.save();
+                if (!this.job.save()) {
+                    this.processing = false;
+                }
             }
         }
     }

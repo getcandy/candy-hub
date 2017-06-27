@@ -9,7 +9,7 @@
               {{ input.name }}
             </label>
             <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['en']">
-            <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']">
+            <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']" v-if="translating">
             <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span>
         </div>
     </div>
@@ -20,7 +20,7 @@
         data() {
             return {
                 update: apiRequest,
-                errors: []
+                translating: false
             }
         },
         props: {
@@ -30,8 +30,6 @@
             product: {
                 type: Object
             }
-        },
-        computed: {
         },
         methods: {
             save() {

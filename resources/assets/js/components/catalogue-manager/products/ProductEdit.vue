@@ -49,14 +49,23 @@
 <template>
   <div>
     <candy-tabs>
+
       <candy-tab name="Product Details" handle="product-details" :selected="true">
+
         <candy-tabs nested="true">
+
           <template v-for="(group, index) in attribute_groups">
+
             <candy-tab :name="group.name" :selected="index == 0 ? true : false">
+
                 <candy-product-details :group="group" :product="product"></candy-product-details>
+
             </candy-tab>
+
           </template>
+
         </candy-tabs>
+
       </candy-tab>
 
       <candy-tab name="Availability &amp; Pricing" handle="product-availability">

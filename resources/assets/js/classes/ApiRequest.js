@@ -13,7 +13,12 @@ class ApiRequest {
         }
     }
 
-    addErrors(errors) {
+    /**
+     * Record the new errors.
+     *
+     * @param {object} errors
+     */
+    record(errors) {
         this.errors = errors;
     }
 
@@ -36,7 +41,7 @@ class ApiRequest {
             });
         })
         .catch(error => {
-            this.errors = error.response.data;
+            this.record(errors);
             Event.$emit('notification', {
                 level: 'error',
                 message: 'Whoops'
