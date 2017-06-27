@@ -21,13 +21,13 @@
             }
         },
         created () {
-            Event.$on('tab-change', tab => this.job = tab);
+            Event.$on('current-tab', tab => this.job = tab);
             Event.$on('notification', finished => this.processing = !finished);
         },
         methods : {
             fire () {
                 this.processing = true;
-                dispatcher.dispatch(this.job);
+                this.job.save();
             }
         }
     }

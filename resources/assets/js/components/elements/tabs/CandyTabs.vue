@@ -33,7 +33,7 @@
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
                         tab.isActive = true;
-                        Event.$emit('tab-change', tab);
+                        Event.$emit('current-tab', tab);
                     } else {
                         tab.isActive = false;
                     }

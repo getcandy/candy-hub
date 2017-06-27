@@ -10,6 +10,7 @@
             </label>
             <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['en']">
             <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']">
+            <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span>
         </div>
     </div>
 </template>
@@ -18,6 +19,8 @@
     export default {
         data() {
             return {
+                update: apiRequest,
+                errors: []
             }
         },
         props: {
@@ -32,20 +35,11 @@
         },
         methods: {
             save() {
-                axios({
-                  method: 'put',
-                  url: '/api/v1/products/' + this.product.id,
-                  data: this.product
-                }).then(function (response) {
-                  Event.$emit('notification', {
-                    level: 'success'
-                  });
-                });
+                this.update.send('put', '/products/' + this.product.id, this.product);
             }
         },
         mounted() {
-            dispatcher.add('product-details', this);
-            Event.$emit('tab-change', 'product-details');
+            Event.$emit('current-tab', this);
         }
     }
 </script>

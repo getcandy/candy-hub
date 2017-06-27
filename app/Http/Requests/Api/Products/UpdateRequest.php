@@ -16,7 +16,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'required|array',
+            'attribute_data' => 'required|array',
+            'attribute_data.name.en' => 'required',
             'family_id' => 'hashid_is_valid:product_families'
         ];
     }
