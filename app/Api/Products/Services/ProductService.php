@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Products\Services;
 
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Search\SearchContract;
@@ -87,9 +88,22 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        // event(new ProductCreatedEvent($product));
+        $this->createVariant($product, ['sku' => $data['sku']]);
 
+        // event(new ProductCreatedEvent($product));
         return $product;
+    }
+
+    /**
+     * Creates a product variant
+     * @param  Product $product
+     * @param  array   $data
+     * @return ProductVariant
+     */
+    public function createVariant(Product $product, array $data = [])
+    {
+        $data['attribute_data'] = $product->attribute_data;
+        return $product->variants()->create($data);
     }
 
     /**
@@ -125,6 +139,11 @@ class ProductService extends BaseService
         return $results->paginate($length, ['*'], 'page', $page);
     }
 
+    /**
+     * Gets the attributes from a given products id
+     * @param  string $id
+     * @return array
+     */
     public function getAttributes($id)
     {
         $id = $this->getDecodedId($id);
