@@ -1,8 +1,11 @@
 // Third-party
-@import "vendor/bootstrap.min.css";
 
-@import "vendor/bootstrap-datepicker3.min.css";
-@import "vendor/bootstrap-select.min.css";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min";
+@import "node_modules/bootstrap-select/sass/bootstrap-select";
+@import "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min";
+@import "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput";
+@import "vendor/flags";
 
 @import "_variables";
 
@@ -21,6 +24,6 @@
 @import "partials/popovers";
 @import "partials/tooltips";
 @import "partials/notification-bar";
-
+@import "partials/modals";
 @import "partials/sidebar";
 @import "partials/content-panel";

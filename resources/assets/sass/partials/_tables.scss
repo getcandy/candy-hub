@@ -38,9 +38,13 @@
             margin-right: 15px;
           }
         }
-        
+
         img {
           width: 60px;
+
+          &.img-sm {
+            width: 50px;
+          }
         }
 
         .form-control, .btn {
@@ -49,6 +53,10 @@
 
         .btn {
           font-size: 0.9em;
+
+          &.btn-action {
+            font-size: 1.1em;
+          }
         }
 
         .checkbox {
@@ -57,5 +65,35 @@
         }
       }
     }
+  }
+
+  &.association-table {
+    thead, tbody {
+      display: block;
+
+      tr {
+        display: table;
+        width: 868px;
+      }
+    }
+
+    tbody {
+      @extend thead;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 300px;
+
+      tr {
+        display: table;
+        width: 856px;
+      }
+    }
+  }
+}
+
+.faux-table {
+  &.row {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
   }
 }

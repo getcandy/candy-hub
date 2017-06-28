@@ -1,4 +1,12 @@
-// Forms
+/* Forms */
+.form-group {
+  .help-txt {
+    display: block;
+    font-size: 0.9em;
+    color: lighten($grey, 15%);
+  }
+}
+
 label {
   font-weight: normal;
 }
@@ -7,9 +15,37 @@ label {
   height: 40px;
   border-radius: 0;
   border-color: lighten($grey, 30%);
+
+  &:disabled {
+    cursor: text;
+  }
 }
 
-// Inline Form 
+.bootstrap-tagsinput {
+  display: block;
+  width: 100%;
+  padding: 6px 6px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  @extend .form-control;
+
+  input {
+    border: 0;
+    outline: none;
+  }
+}
+
+/* Inline Form */
 
 .form-inline {
   .form-group {
@@ -17,7 +53,7 @@ label {
   }
 }
 
-// Bootstrap Select
+/* Bootstrap Select */
 
 .bootstrap-select {
   button {
@@ -41,7 +77,8 @@ label {
 }
 
 
-// Select All 
+/* Select All */
+
 .bulk-options {
   position: relative;
   display: inline-block;
@@ -113,12 +150,23 @@ label {
   }
 }
 
-// Input Group
+/* Input Group */
+
 .input-group-full {
   width: 100%;
 }
 
-// Input Group Addons 
+.input-group {
+  .bootstrap-select {
+    &.input-group-btn {
+      padding: 0;
+      border: 0;
+    }
+  }
+}
+
+/* Input Group Addons */
+
 .input-group-addon {
   width: 40px;
   color: lighten($grey, 45%);
@@ -127,13 +175,13 @@ label {
   border: 1px solid lighten($grey, 30%);
 }
 
-// Custom checkboxes
+/* Custom checkboxes */
 
 .checkbox {
   input[type="checkbox"] {
     display: none;
 
-    + label { 
+    + label {
       padding-left: 0;
 
       span.check {
@@ -180,8 +228,115 @@ label {
           &:after {
             display: block;
           }
-        }      
+        }
       }
+    }
+  }
+}
+
+/* Product Layout Select */
+
+.radio-layout {
+  position: relative;
+  display: block;
+  width: 600px;
+  margin: 0 auto 30px;
+  border: 1px solid #eee;
+
+  input[type="radio"] {
+    display: none;
+
+    +label {
+      opacity: 0.5;
+      width: 100%;
+      margin-bottom: 0;
+      cursor: pointer;
+
+      .title {
+        position: relative;
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 1.4em;
+        border-bottom: 1px solid #eee;
+
+          .btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 47px;
+            height: 100%;
+            font-size: 0.8em;
+            line-height: 34px;
+            border-color: #eee;
+            border-top: 0;
+            border-right: 0;
+            border-bottom: 0;
+          }
+      }
+
+      .layout {
+        float: left;
+        width: 169px;
+        height: 150px;
+        padding-left: 10px;
+        padding-bottom: 10px;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      .layout-content {
+        float: right;
+        width: calc(100% - 169px);
+        padding-left: 15px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+      }
+
+      .description {
+        display: block;
+      }
+    }
+
+    &:checked {
+      + label {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* Toggle */
+
+.toggle {
+  label {
+    display: block;
+  }
+
+  .bootstrap-switch {
+    .bootstrap-switch-primary {
+      background-color: $purple;
+    }
+  }
+}
+
+/* Tags */
+
+.bootstrap-tagsinput {
+  input {
+    line-height: 28px;
+  }
+
+  .tag {
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 26px;
+
+    [data-value] {
+      font-weight: 300;
     }
   }
 }

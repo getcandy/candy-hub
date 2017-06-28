@@ -47,28 +47,145 @@
 </script>
 
 <template>
-  <div>
-    <candy-tabs>
-      <candy-tab name="Product Details" handle="product-details" :selected="true">
-        <candy-tabs nested="true">
-          <template v-for="(group, index) in attribute_groups">
-            <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                <candy-product-details :group="group" :product="product"></candy-product-details>
-            </candy-tab>
-          </template>
-        </candy-tabs>
-      </candy-tab>
+  <candy-tabs>
+    <candy-tab name="Product Details" handle="product-details" :selected="true">
+      <candy-tabs nested="true">
+        <template v-for="(group, index) in attribute_groups">
+          <candy-tab :name="group.name" :selected="index == 0 ? true : false">
+              <candy-product-details :group="group" :product="product"></candy-product-details>
+          </candy-tab>
+        </template>
 
-      <candy-tab name="Availability &amp; Pricing" handle="product-availability">
-        <h1>Availability &amp; Pricing</h1>
-      </candy-tab>
+        <div class="row">
+          <div class="col-xs-12 col-md-11">
+            <div class="form-inline">
+              <div class="form-group">
+                <label class="sr-only">Store Channels</label>
+                <select class="form-control selectpicker">
+                  <option data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
+                  <option data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
+                  <option data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="sr-only">Language</label>
+                <select class="form-control selectpicker">
+                  <option data-content="<span class='flag-icon flag-icon-gb'></span> English" selected>English</option>
+                  <option data-content="<span class='flag-icon flag-icon-fr'></span> French">French</option>
+                  <option data-content="<span class='flag-icon flag-icon-de'></span> German">German</option>
+                </select>
+              </div>
+              <button class="btn btn-default">Translate</button>
+            </div>
+            <hr>
+            <div class="form-group">
+              <label>
+                Name
+                <em class="help-txt">Helper text, use this if a field needs some explanation or an example entry.</em>
+              </label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control" rows="8"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="form-group">
+                  <label>Date</label>
+                  <div class="input-group input-group-full date" data-provide="datepicker">
+                    <span class="input-group-addon">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </span>
+                    <label class="sr-only" for="search">Date</label>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
 
-      <candy-tab name="Collections">
-      </candy-tab>
+              <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="form-group">
+                  <label>Time</label>
+                  <div class="input-group input-group-full">
+                    <span class="input-group-addon">
+                      <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    </span>
+                    <select class="form-control selectpicker">
+                      <option disabled selected value>Select a time</option>
+                      <option>12:00 am</option>
+                      <option>12:30 am</option>
+                      <option>1:00 am</option>
+                      <option>1:30 am</option>
+                      <option>2:00 am</option>
+                      <option>2:30 am</option>
+                      <option>3:00 am</option>
+                      <option>Etc.</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>
+                Numeric Field
+              </label>
+              <input type="number" class="form-control">
+            </div>
 
-      <candy-tab name="Associations">
-      </candy-tab>
+            <div class="form-group">
+              <label>Standard Dropdown</label>
+              <select class="form-control selectpicker">
+                <option disabled selected value>Select an Option</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+              </select>
+            </div>
 
-    </candy-tabs>
-  </div>
+            <div class="form-group">
+              <label>Search Dropdown</label>
+              <select class="form-control selectpicker" data-live-search="true">
+                <option disabled selected value>Select an Option</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Multiple Select Dropdown</label>
+              <select class="form-control selectpicker" multiple="">
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+              </select>
+            </div>
+
+            <div class="form-group toggle">
+              <label>Toggle</label>
+              <input type="checkbox">
+            </div>
+
+          </div>
+        </div>
+      </candy-tabs>
+    </candy-tab>
+
+    <candy-tab name="Media">
+    </candy-tab>
+
+    <candy-tab name="Availability &amp; Pricing" handle="product-availability">
+      <h1>Availability &amp; Pricing</h1>
+    </candy-tab>
+
+    <candy-tab name="Associations">
+    </candy-tab>
+
+    <candy-tab name="Display">
+    </candy-tab>
+
+    <candy-tab name="URLS">
+    </candy-tab>
+
+  </candy-tabs>
 </template>

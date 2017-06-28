@@ -4,7 +4,7 @@
   50% {
     right: 15px; }
   100% {
-    right: 20px; } 
+    right: 20px; }
 }
 
 body {
@@ -25,11 +25,9 @@ a {
   display: block;
   position: relative;
 }
-#app {
-  position: static;
-}
 
-// Navigation Overlays
+
+/* Navigation Overlays */
 
 .main-purple-overlay {
   position: fixed;
@@ -66,5 +64,151 @@ a {
     visibility: visible;
     opacity: 0.6;
     transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s;
+  }
+}
+
+/* SEO Preview */
+
+.seo-preview {
+  font-family: arial, sans-serif;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .title {
+    font-size: 18px;
+    color: #1a0dab;
+    line-height: 21px;
+  }
+
+  .url {
+    display: block;
+    word-wrap: break-word;
+    color: #006621;
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .description {
+    display: block;
+    color: #545454;
+    line-height: 18px;
+    font-size: 13px
+  }
+}
+
+/* Variants */
+
+.variant-option-img {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: #f6f6f6;
+  border: 1px solid #eee;
+
+  .change-img {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80px;
+    -webkit-transform: translateX(-50%) translatey(-50%);
+    -moz-transform: translateX(-50%) translatey(-50%);
+    -ms-transform: translateX(-50%) translatey(-50%);
+    transform: translateX(-50%) translatey(-50%);
+    vertical-align: middle;
+
+    .icon {
+      display: block;
+      font-size: 3.5em;
+      margin-bottom: 10px;
+    }
+  }
+
+  &:hover {
+    color: $purple;
+    border-color: darken(#eee, 7%);
+  }
+}
+
+/* Variant List Navigation */
+
+.variant-list {
+  margin: 20px 0 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #eee;
+
+  li {
+    border-left: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+  }
+
+  a {
+    display: block;
+    padding: 10px;
+    background-color: #f6f6f6;
+
+    &:hover {
+      background-color: white;
+    }
+
+    &.active {
+      background-color: white;
+    }
+  }
+
+  .variant-img {
+    display: inline-block;
+    vertical-ailgn: middle;
+
+    img {
+      width: 50px;
+    }
+  }
+
+  .variant-options {
+    @extend .variant-img;
+    margin-left: 15px;
+  }
+}
+
+/* Media */
+
+/* Dropzone.js */
+
+.dropzone {
+  position: relative;
+  width: 100%;
+  margin-top: 15px;
+  text-align: center;
+  border: 2px dashed $purple;
+  background-color: #f6f6f6;
+
+  .media-box {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80px;
+    color: $purple;
+    -webkit-transform: translateX(-50%) translatey(-50%);
+    -moz-transform: translateX(-50%) translatey(-50%);
+    -ms-transform: translateX(-50%) translatey(-50%);
+    transform: translateX(-50%) translatey(-50%);
+    vertical-align: middle;
+
+    .icon {
+      display: block;
+      font-size: 3.5em;
+      margin-bottom: 10px;
+    }
   }
 }

@@ -57,7 +57,7 @@
           &.settings {
             transition: visibility 0s linear 0.2s, opacity 0.2s linear 0.2s, top 0.2s linear 0.2s;
           }
-          
+
           a {
             padding-left: 30px;
             padding-right: 30px;
@@ -80,17 +80,17 @@
             width: 240px;
             background: white;
             transition: visibility 0s linear 0.4s, opacity 0.2s linear 0.2s, top 0.2s linear 0.2s;
-            
+
             ul {
               width: 100%;
-              
+
               li {
                 display: block;
                 visibility: hidden;
                 height: 50px;
                 width: 100%;
                 transition: visibility 0s linear 0.2s;
-                
+
                 a {
                   display: block;
                   font-size: 1.1em;
@@ -113,7 +113,7 @@
     }
 
     &:hover {
-      
+
       .slide-out {
         visibility: visible;
         overflow: visible;

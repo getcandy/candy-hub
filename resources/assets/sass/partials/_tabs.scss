@@ -1,10 +1,22 @@
-// Tabs
+/* Tabs */
 .nav-tabs {
   width: 100%;
   background: rgba(190, 190, 190, 0.15);
 
   li {
     font-size: 1.1em;
+
+    .badge {
+      width: 19px;
+      height: 19px;
+      margin-top: -5px;
+      margin-left: 5px;
+      padding: 0;
+      font-size: 0.7em;
+      line-height: 19px;
+      border-radius: 50%;
+      background-color: #662d91;
+    }
 
     a {
       padding: 20px 30px;
@@ -70,6 +82,10 @@
         border-bottom: 0;
       }
     }
+  }
+
+  &.media-upload {
+    padding: 15px;
   }
 }
 

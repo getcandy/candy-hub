@@ -1,10 +1,17 @@
-// Buttons
+/* Buttons */
 .btn {
   height: 40px;
   padding-left: 20px;
   padding-right: 20px;
   font-size: 1em;
   border-radius: 0;
+
+  &.btn-action {
+    width: 40px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
 
   &.btn-full {
     width: 100%;
@@ -129,7 +136,7 @@
 
       .hamburger {
         background-color: transparent;
-        
+
         &:before {
           top: 0px;
           transform: rotate(45deg);
@@ -154,6 +161,38 @@
   }
 }
 
+a {
+  &.btn {
+    line-height: 28px;
+  }
+}
+
 .btn-pop-over {
   cursor: pointer;
+}
+
+// Drop Down
+
+.dropdown-toggle {
+  padding-left: 15px;
+
+  .flag-icon {
+    margin-right: 5px;
+  }
+
+  .filter-option {
+    font-size: 14px;
+  }
+}
+
+.dropdown-menu {
+  .flag-icon {
+    margin-right: 5px;
+  }
+
+  .disabled {
+    .glyphicon {
+      display: none;
+    }
+  }
 }
