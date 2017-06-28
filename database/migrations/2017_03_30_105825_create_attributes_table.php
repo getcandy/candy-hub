@@ -25,9 +25,14 @@ class CreateAttributesTable extends Migration
             $table->boolean('filterable')->default(false);
             $table->boolean('system')->default(false);
             $table->boolean('channeled')->default(false);
-            $table->boolean('translatable')->default(false);
+            $table->boolean('translatable')->default(true);
+            $table->enum(
+                'type',
+                ['text', 'richtext', 'select', 'radio', 'checkbox', 'checkbox_group', 'radio_group']
+            )->default('text');
+            $table->boolean('required')->default(false);
+            $table->json('lookups')->nullable();
             $table->timestamps();
-
             $table->index(['handle']);
         });
     }

@@ -66,7 +66,6 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-// dd($data);
         $attributeData = [];
 
         foreach ($data['attributes'] as $attribute => $values) {
@@ -97,9 +96,7 @@ class ProductService extends BaseService
      * Deletes a resource by its given hashed ID
      *
      * @param  string $id
-     *
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
      * @return Boolean
      */
     public function delete($hashedId)
@@ -126,5 +123,30 @@ class ProductService extends BaseService
             $results = $this->model;
         }
         return $results->paginate($length, ['*'], 'page', $page);
+    }
+
+    public function getAttributes($id)
+    {
+        $id = $this->getDecodedId($id);
+        $attributes = [];
+
+        if (!$id) {
+            return [];
+        }
+
+        $product = $this->model
+            ->with(['attributes', 'family', 'family.attributes'])
+            ->find($id);
+
+        foreach ($product->family->attributes as $attribute) {
+            $attributes[$attribute->handle] = $attribute;
+        }
+
+        // Direct attributes override family ones
+        foreach ($product->attributes as $attribute) {
+            $attributes[$attribute->handle] = $attribute;
+        }
+
+        return $attributes;
     }
 }
