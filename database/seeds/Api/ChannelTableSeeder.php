@@ -18,15 +18,17 @@ class ChannelTableSeeder extends Seeder
             'handle' => 'ecommerce',
             'default' => true
         ]);
-        Channel::create([
-            'name' => 'Mobile',
-            'handle' => 'mobile',
-            'default' => false
-        ]);
-        Channel::create([
-            'name' => 'Print',
-            'handle' => 'print',
-            'default' => false
-        ]);
+        if (getenv('APP_ENV') != 'testing') {
+            Channel::create([
+                'name' => 'Mobile',
+                'handle' => 'mobile',
+                'default' => false
+            ]);
+            Channel::create([
+                'name' => 'Print',
+                'handle' => 'print',
+                'default' => false
+            ]);
+        }
     }
 }

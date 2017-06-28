@@ -105,15 +105,18 @@ class ProductFamilyControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * @group failing
-     */
     public function testStore()
     {
         $response = $this->post(
             $this->url('product-families'),
             [
-                'name' =>  ['en' => 'Shoes']
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ],
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -144,16 +147,19 @@ class ProductFamilyControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
-    /**
-     * @group failing
-     */
     public function testUpdate()
     {
         $id = ProductFamily::first()->encodedId();
         $response = $this->put(
             $this->url('product-families/' . $id),
             [
-                'attribute_data' => ['name' => ['en' => "Cheese"]],
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ],
                 'default' => true
             ],
             [
@@ -162,15 +168,19 @@ class ProductFamilyControllerTest extends TestCase
         );
         $this->assertEquals(200, $response->status());
     }
-    /**
-     * @group failing
-     */
+
     public function testMissingUpdate()
     {
         $response = $this->put(
             $this->url('product-families/123123'),
             [
-                'attribute_data' => ['name' => ['en' => "Cheese"]]
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ]
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -183,7 +193,13 @@ class ProductFamilyControllerTest extends TestCase
     public function testDestroy()
     {
         $product = ProductFamily::create([
-            'attribute_data' => ['name' => ['en' => "Cheese"]]
+            'attribute_data' => [
+                'name' =>  [
+                    'ecommerce' => [
+                        'en' => 'Foo'
+                    ]
+                ]
+            ]
         ]);
 
         $response = $this->delete(

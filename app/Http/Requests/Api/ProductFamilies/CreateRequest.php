@@ -14,7 +14,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'array|valid_locales|required',
+            'attributes' => 'array|required',
         ];
     }
 }

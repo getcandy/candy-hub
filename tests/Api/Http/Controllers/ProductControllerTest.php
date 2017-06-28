@@ -232,7 +232,7 @@ class ProductControllerTest extends TestCase
     public function testInvalidLanguageStore()
     {
         $family = ProductFamily::create([
-            'name' => ['en' => 'Foo bar']
+            'attribute_data' => ['name' => ['ecommerce' => ['en' => 'Foo bar']]]
         ]);
 
         $layout = Layout::first()->encodedId();
@@ -240,7 +240,7 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'attribute_data' => [
+                'attributes' => [
                     'name' =>  [
                         'ecommerce' => [
                             'en' => 'Foo'
@@ -257,13 +257,9 @@ class ProductControllerTest extends TestCase
         );
 
         $this->assertHasErrorFormat($response);
-
         $this->assertEquals(422, $response->status());
     }
 
-    /**
-     * @group failing
-     */
     public function testUpdate()
     {
         Event::fake();
@@ -272,7 +268,7 @@ class ProductControllerTest extends TestCase
         $response = $this->put(
             $this->url('products/' . $id),
             [
-                'attribute_data' => [
+                'attributes' => [
                     'name' =>  [
                         'ecommerce' => [
                             'en' => 'Foo'
@@ -285,6 +281,7 @@ class ProductControllerTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->accessToken()
             ]
         );
+
         $this->assertEquals(200, $response->status());
     }
 
@@ -293,7 +290,7 @@ class ProductControllerTest extends TestCase
         $response = $this->put(
             $this->url('products/123123'),
             [
-                'attribute_data' => [
+                'attributes' => [
                     'name' =>  [
                         'ecommerce' => [
                             'en' => 'Foo'
