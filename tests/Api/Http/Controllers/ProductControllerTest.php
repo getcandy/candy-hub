@@ -173,10 +173,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-    /**
-     * @group fail
-     * @return [type] [description]
-     */
     public function testStore()
     {
         Event::fake();
@@ -197,6 +193,7 @@ class ProductControllerTest extends TestCase
                         ]
                     ]
                 ],
+                'sku' => 'Foo',
                 'family_id' => $family->encodedId(),
                 'layout_id' => $layout,
             ],
@@ -247,6 +244,7 @@ class ProductControllerTest extends TestCase
                         ]
                     ]
                 ],
+                'sku' => 'Foo',
                 'family_id' => $family->encodedId(),
                 'slug' => 'spring-water',
                 'layout_id' => $layout,
@@ -264,17 +262,24 @@ class ProductControllerTest extends TestCase
     {
         Event::fake();
 
-        $id = Product::first()->encodedId();
+        $productId = Product::first()->encodedId();
+
+        $attributes = app('api')->products()->getAttributes($productId);
+        $defaultChannel = app('api')->channels()->getDefaultRecord();
+        $defaultLanguage = app('api')->languages()->getDefaultRecord();
+
+        $data = [];
+
+        foreach ($attributes as $attribute) {
+            if ($attribute->required) {
+                $data[$attribute->handle][$defaultChannel->handle][$defaultLanguage->code] = 'Foo';
+            }
+        }
+
         $response = $this->put(
-            $this->url('products/' . $id),
+            $this->url('products/' . $productId),
             [
-                'attributes' => [
-                    'name' =>  [
-                        'ecommerce' => [
-                            'en' => 'Foo'
-                        ]
-                    ]
-                ],
+                'attributes' => $data,
                 'default' => true
             ],
             [
