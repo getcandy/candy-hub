@@ -7,13 +7,6 @@
 
 require('./bootstrap');
 
-require('bootstrap-datepicker');
-require('bootstrap-select');
-require('bootstrap-switch');
-require('bootstrap-tagsinput');
-require('dropzone');
-require('list.js');
-
 require("babel-core/register");
 require("babel-polyfill");
 
@@ -47,9 +40,6 @@ Vue.component('candy-product-edit', require('./components/catalogue-manager/prod
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
 
 window.Event = new Vue();
-
-var Dispatcher = require('./classes/Dispatcher');
-window.dispatcher = new Dispatcher();
 
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
