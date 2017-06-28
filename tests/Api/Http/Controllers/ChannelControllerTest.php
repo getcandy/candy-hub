@@ -155,6 +155,7 @@ class ChannelControllerTest extends TestCase
     public function testCannotDestroyLastChannel()
     {
         $id = Channel::first()->encodedId();
+
         $response = $this->delete(
             $this->url('channels/' . $id),
             [],

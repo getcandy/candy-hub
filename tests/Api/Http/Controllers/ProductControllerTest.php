@@ -13,12 +13,13 @@ use Event;
 /**
  * @group controllers
  * @group api
+ * @group products
  */
 class ProductControllerTest extends TestCase
 {
     protected $baseStructure = [
         'id',
-        'name'
+        'attribute_data' => ['name']
     ];
 
     public function testIndex()
@@ -48,7 +49,7 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'attribute_groups' => [
                     'data' => [
                         [
@@ -94,7 +95,7 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'family' => ['data' => ['id']]
             ]],
             'meta' => ['pagination']
@@ -116,7 +117,7 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'attribute_groups' => [
                     'data' => [
                         [
@@ -177,7 +178,7 @@ class ProductControllerTest extends TestCase
         Event::fake();
 
         $family = ProductFamily::create([
-            'name' => ['en' => 'Foo bar']
+            'attribute_data' => ['name' => ['en' => 'Foo bar']]
         ]);
 
         $layout = Layout::first()->encodedId();
@@ -185,9 +186,14 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'name' =>  [
-                    "en" => "Spring water"
+                'attributes' =>  [
+                    'name' => [
+                        "ecommerce" => [
+                            "en" => "Spring water"
+                        ]
+                    ]
                 ],
+                'sku' => 'Foo',
                 'family_id' => $family->encodedId(),
                 'layout_id' => $layout,
             ],
@@ -214,7 +220,7 @@ class ProductControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name', 'family_id'
+            'attributes', 'family_id'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -223,7 +229,7 @@ class ProductControllerTest extends TestCase
     public function testInvalidLanguageStore()
     {
         $family = ProductFamily::create([
-            'name' => ['en' => 'Foo bar']
+            'attribute_data' => ['name' => ['ecommerce' => ['en' => 'Foo bar']]]
         ]);
 
         $layout = Layout::first()->encodedId();
@@ -231,9 +237,14 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'name' =>  [
-                    "es" => "Spring water"
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
                 ],
+                'sku' => 'Foo',
                 'family_id' => $family->encodedId(),
                 'slug' => 'spring-water',
                 'layout_id' => $layout,
@@ -244,7 +255,6 @@ class ProductControllerTest extends TestCase
         );
 
         $this->assertHasErrorFormat($response);
-
         $this->assertEquals(422, $response->status());
     }
 
@@ -252,19 +262,31 @@ class ProductControllerTest extends TestCase
     {
         Event::fake();
 
-        $id = Product::first()->encodedId();
+        $productId = Product::first()->encodedId();
+
+        $attributes = app('api')->products()->getAttributes($productId);
+        $defaultChannel = app('api')->channels()->getDefaultRecord();
+        $defaultLanguage = app('api')->languages()->getDefaultRecord();
+
+        $data = [];
+
+        foreach ($attributes as $attribute) {
+            if ($attribute->required) {
+                $data[$attribute->handle][$defaultChannel->handle][$defaultLanguage->code] = 'Foo';
+            }
+        }
+
         $response = $this->put(
-            $this->url('products/' . $id),
+            $this->url('products/' . $productId),
             [
-                'name' => [
-                    'en' => 'Foo bar'
-                ],
+                'attributes' => $data,
                 'default' => true
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
             ]
         );
+
         $this->assertEquals(200, $response->status());
     }
 
@@ -273,9 +295,13 @@ class ProductControllerTest extends TestCase
         $response = $this->put(
             $this->url('products/123123'),
             [
-                'name' => [
-                    'en' => 'Foo bar'
-                ]
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ],
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -288,7 +314,13 @@ class ProductControllerTest extends TestCase
     public function testDestroy()
     {
         $product = Product::create([
-            'name' =>  ['en' => "Spanish"],
+            'attribute_data' => [
+                'name' =>  [
+                    'ecommerce' => [
+                        'en' => 'Foo'
+                    ]
+                ]
+            ]
         ]);
 
         $response = $this->delete(

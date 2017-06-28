@@ -102,7 +102,7 @@ class LanguageControllerTest extends TestCase
         $response->assertJsonStructure([
             'name', 'code'
         ]);
-
+        
         $this->assertEquals(422, $response->status());
     }
 

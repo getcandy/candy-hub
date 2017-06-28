@@ -23,7 +23,7 @@ class ProductFamilyService extends BaseService
     public function create(array $data)
     {
         $family = $this->model;
-        $family->name = $data['name'];
+        $family->attribute_data = $data['attributes'];
         $family->save();
         return $family;
     }
@@ -41,7 +41,7 @@ class ProductFamilyService extends BaseService
     public function update($hashedId, array $data)
     {
         $family = $this->getByHashedId($hashedId);
-        $family->name = $data['name'];
+        $family->attribute_data = $data['attributes'];
         $family->save();
         return $family;
     }

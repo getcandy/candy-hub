@@ -15,7 +15,7 @@ class UpdateRequest extends FormRequest
     public function rules(ProductFamily $family)
     {
         return [
-            'name' => 'required|unique:product_families,name,' . $family->decodeId($this->id),
+            'attributes' => 'required|array',
         ];
     }
 }

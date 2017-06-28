@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Traits;
 
 use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
 
 trait Attributable
 {
@@ -13,6 +14,11 @@ trait Attributable
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class)->withTimestamps();
+    }
+
+    public function attributeGroup()
+    {
+        return $this->hasOne(AttributeGroup::class)->withTimestamps();
     }
 
     public function attribute($handle, $channel = null)

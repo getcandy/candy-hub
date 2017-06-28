@@ -35,4 +35,22 @@ class Attribute extends BaseModel
     {
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
+
+    /**
+     * Sets the name attribute to a json string
+     * @param array $value
+     */
+    public function setLookupsAttribute(array $value)
+    {
+        if (is_array($value)) {
+            $this->attributes['lookups'] = json_encode($value);
+        } else {
+            $this->attributes['lookups'] = $value;
+        }
+    }
+
+    public function getLookupsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }

@@ -69,7 +69,7 @@ $this->resource('pages', 'PageController', [
  * Products
  */
 $this->resource('products', 'ProductController', [
-    'except' => ['index', 'edit', 'create']
+    'except' => ['edit', 'create']
 ]);
 
 /**

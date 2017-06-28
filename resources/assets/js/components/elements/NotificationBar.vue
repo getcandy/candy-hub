@@ -2,7 +2,7 @@
     <div>
         <div class="notification-bar animated fadeIn flash" :class="classname" v-if="isActive">
             <div class="animated bounceInUp">
-              <span class="icon"><i class="fa fa-check"></i></span> {{ message }}
+              <span class="icon"><i class="fa" :class="icon"></i></span> {{ message }}
             </div>
         </div>
     </div>
@@ -14,7 +14,8 @@
             return {
                 message: 'Changes Saved',
                 classname: 'success',
-                isActive: false
+                isActive: false,
+                icon: 'fa-check'
             }
         },
         mounted() {
@@ -25,7 +26,7 @@
                 this.isActive = true;
                 this.classname = data.level;
                 this.message = data.message ? data.message : this.message;
-
+                this.icon = data.level == 'error' ? 'fa-times' : this.icon;
                 setTimeout(() => this.classname = 'fadeOut', 2000);
                 setTimeout(() => this.isActive = false, 5000);
             }

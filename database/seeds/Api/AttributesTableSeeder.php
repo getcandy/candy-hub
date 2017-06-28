@@ -26,14 +26,28 @@ class AttributesTableSeeder extends Seeder
         $attribute->handle = 'name';
         $attribute->position = 1;
         $attribute->group_id = $group->id;
+        $attribute->required = true;
         $attribute->save();
 
         $attribute = new Attribute();
         $attribute->name = ['en' => 'Description', 'sv' => 'Beskrivning'];
         $attribute->handle = 'description';
-        $attribute->position = 1;
+        $attribute->position = 2;
         $attribute->group_id = $group->id;
         $attribute->channeled = 1;
+        $attribute->required = true;
+        $attribute->save();
+
+        $attribute = new Attribute();
+        $attribute->name = ['en' => 'Orientation', 'sv' => 'Orientering'];
+        $attribute->handle = 'orientation';
+        $attribute->position = 3;
+        $attribute->group_id = $group->id;
+        $attribute->type = 'select';
+        $attribute->lookups = [
+            ['value' => 'landscape', 'label' => 'Landscape'],
+            ['value' => 'portrait', 'label' => 'Portrait'],
+        ];
         $attribute->save();
 
         $group = AttributeGroup::create([

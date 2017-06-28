@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Products\Services;
 
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Search\SearchContract;
@@ -66,7 +67,6 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-// dd($data);
         $attributeData = [];
 
         foreach ($data['attributes'] as $attribute => $values) {
@@ -88,18 +88,29 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        // event(new ProductCreatedEvent($product));
+        $this->createVariant($product, ['sku' => $data['sku']]);
 
+        // event(new ProductCreatedEvent($product));
         return $product;
+    }
+
+    /**
+     * Creates a product variant
+     * @param  Product $product
+     * @param  array   $data
+     * @return ProductVariant
+     */
+    public function createVariant(Product $product, array $data = [])
+    {
+        $data['attribute_data'] = $product->attribute_data;
+        return $product->variants()->create($data);
     }
 
     /**
      * Deletes a resource by its given hashed ID
      *
      * @param  string $id
-     *
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
      * @return Boolean
      */
     public function delete($hashedId)
@@ -126,5 +137,35 @@ class ProductService extends BaseService
             $results = $this->model;
         }
         return $results->paginate($length, ['*'], 'page', $page);
+    }
+
+    /**
+     * Gets the attributes from a given products id
+     * @param  string $id
+     * @return array
+     */
+    public function getAttributes($id)
+    {
+        $id = $this->getDecodedId($id);
+        $attributes = [];
+
+        if (!$id) {
+            return [];
+        }
+
+        $product = $this->model
+            ->with(['attributes', 'family', 'family.attributes'])
+            ->find($id);
+
+        foreach ($product->family->attributes as $attribute) {
+            $attributes[$attribute->handle] = $attribute;
+        }
+
+        // Direct attributes override family ones
+        foreach ($product->attributes as $attribute) {
+            $attributes[$attribute->handle] = $attribute;
+        }
+
+        return $attributes;
     }
 }

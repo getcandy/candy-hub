@@ -13,7 +13,7 @@ class ProductVariant extends BaseModel
      */
     protected $hashids = 'product';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['attribute_data', 'sku'];
 
 
     public function product()

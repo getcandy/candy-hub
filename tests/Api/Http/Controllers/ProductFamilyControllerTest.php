@@ -12,7 +12,7 @@ class ProductFamilyControllerTest extends TestCase
 {
     protected $baseStructure = [
         'id',
-        'name'
+        'attribute_data' => ['name']
     ];
 
     public function testIndex()
@@ -43,7 +43,7 @@ class ProductFamilyControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [[
                 'id',
-                'name',
+                'attribute_data' => ['name'],
                 'attributes' => [
                     'data'
                 ],
@@ -110,7 +110,13 @@ class ProductFamilyControllerTest extends TestCase
         $response = $this->post(
             $this->url('product-families'),
             [
-                'name' =>  ['en' => 'Shoes']
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ],
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -135,7 +141,7 @@ class ProductFamilyControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name'
+            'attributes'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -147,7 +153,13 @@ class ProductFamilyControllerTest extends TestCase
         $response = $this->put(
             $this->url('product-families/' . $id),
             [
-                'name' => ['en' => 'Foo bar'],
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ],
                 'default' => true
             ],
             [
@@ -162,7 +174,13 @@ class ProductFamilyControllerTest extends TestCase
         $response = $this->put(
             $this->url('product-families/123123'),
             [
-                'name' => 'Foo bar'
+                'attributes' => [
+                    'name' =>  [
+                        'ecommerce' => [
+                            'en' => 'Foo'
+                        ]
+                    ]
+                ]
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -175,7 +193,13 @@ class ProductFamilyControllerTest extends TestCase
     public function testDestroy()
     {
         $product = ProductFamily::create([
-            'name' => ['en' => "Cheese"]
+            'attribute_data' => [
+                'name' =>  [
+                    'ecommerce' => [
+                        'en' => 'Foo'
+                    ]
+                ]
+            ]
         ]);
 
         $response = $this->delete(

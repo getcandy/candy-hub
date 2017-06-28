@@ -51,6 +51,9 @@ window.Event = new Vue();
 var Dispatcher = require('./classes/Dispatcher');
 window.dispatcher = new Dispatcher();
 
+var ApiRequest = require('./classes/ApiRequest');
+window.apiRequest = new ApiRequest();
+
 const app = new Vue({
     el: '#app',
     data: {
