@@ -9,16 +9,26 @@ class UpdateRequest extends FormRequest
 {
     public function authorize()
     {
-        // return $this->user()->can('update', Product::class);
         return true;
     }
 
     public function rules()
     {
-        return [
-            'attributes' => 'required|array',
-            'attributes.*.*' => 'required|array',
+        $ruleset = [
             'family_id' => 'hashid_is_valid:product_families'
         ];
+
+        $attributes = app('api')->products()->getAttributes($this->product);
+        $defaultChannel = app('api')->channels()->getDefaultRecord();
+        $defaultLanguage = app('api')->languages()->getDefaultRecord();
+
+        foreach ($attributes as $attribute) {
+            if ($attribute->required) {
+                $rulestring = 'attributes.' . $attribute->handle . '.' . $defaultChannel->handle . '.' . $defaultLanguage->code;
+                $ruleset[$rulestring] = 'required';
+            }
+        }
+
+        return $ruleset;
     }
 }

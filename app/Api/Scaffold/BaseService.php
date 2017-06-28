@@ -117,10 +117,33 @@ abstract class BaseService
         return $this->model->get();
     }
 
+    /**
+     * Gets the attributes related to the model
+     * @return Collection
+     */
+    public function getAttributes($id)
+    {
+        return $this->model->attributes()->get();
+    }
+
+    /**
+     * Prepares the attribute data for saving to the datbase
+     * @param  string $attribute
+     * @param  array  $data
+     * @return array
+     */
     protected function prepareAttributeData($attribute, array $data)
     {
         $structure = [];
         $languagesArray = [];
+
+        $valueMapping = [];
+
+        foreach ($data as $channel => $values) {
+            foreach ($values as $lang => $value) {
+                $valueMapping[$channel . '.' . $lang] = $value;
+            }
+        }
 
         // Get our languages
         $languages = app('api')->languages()->getDataList();
@@ -133,7 +156,10 @@ abstract class BaseService
             $structure[$channel->handle] = $languagesArray;
         }
 
-        $structure = array_replace($structure, $data);
+        foreach ($valueMapping as $map => $value) {
+            array_set($structure, $map, $value);
+        }
+
         return $structure;
     }
 }
