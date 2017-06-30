@@ -60,7 +60,7 @@
     </candy-tab>
 
     <candy-tab name="Media">
-
+      <candy-media></candy-media>
     </candy-tab>
 
     <candy-tab name="Availability &amp; Pricing" handle="product-availability">
@@ -69,14 +69,19 @@
           <candy-pricing-variants></candy-pricing-variants>
         </candy-tab>
         <candy-tab name="Inventory" handle="inventory">
+          <candy-inventory></candy-inventory>
         </candy-tab>
         <candy-tab name="Shipping" handle="shipping">
+          <candy-shipping></candy-shipping>
         </candy-tab>
         <candy-tab name="Channels" handle="channels">
+          <candy-channels></candy-channels>
         </candy-tab>
         <candy-tab name="Customer Groups" handle="customer-groups">
+          <candy-customer-groups></candy-customer-groups>
         </candy-tab>
         <candy-tab name="Discounts" handle="discounts">
+          <candy-discounts></candy-discounts>
         </candy-tab>
       </candy-tabs>
     </candy-tab>
@@ -84,46 +89,56 @@
     <candy-tab name="if Variant" handle="if-variant">
       <candy-tabs nested="true">
         <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true">
-
+          <candy-variants></candy-variants>
+        </candy-tab>
+        <candy-tab name="Edit Variant" handle="edit-variant_variants-added">
+          <!-- This tab needs to be hidden from the sub navigation -->
+          <candy-edit-variant></candy-edit-variant>
         </candy-tab>
         <candy-tab name="Channels" handle="channels_variants-added">
-
+          <candy-channels></candy-channels>
         </candy-tab>
         <candy-tab name="Customer Groups" handle="customer-groups_variants-added">
-
+          <candy-customer-groups></candy-customer-groups>
         </candy-tab>
         <candy-tab name="Discounts" handle="discounts_variants-added">
-
+          <candy-discounts></candy-discounts>
         </candy-tab>
       </candy-tabs>
+      <candy-avalability-pricing-modals></candy-avalability-pricing-modals>
     </candy-tab>
 
     <candy-tab name="Associations">
       <candy-tabs nested="true">
         <candy-tab name="Categories" handle="categories" :selected="true">
           <!-- Tab will require counter to show how many category associations this product has -->
+          <candy-categories></candy-categories>
         </candy-tab>
         <candy-tab name="Collections" handle="collections">
           <!-- Tab will require counter to show how many collection associations this product has -->
+          <candy-collections></candy-collections>
         </candy-tab>
         <candy-tab name="Products" handle="products">
-
+          <candy-products></candy-products>
         </candy-tab>
       </candy-tabs>
+      <candy-association-modals></candy-association-modals>
     </candy-tab>
 
     <candy-tab name="Display">
+      <candy-display></candy-display>
     </candy-tab>
 
     <candy-tab name="URLS">
       <candy-tabs nested="true">
         <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-
+          <candy-locale-urls></candy-locale-urls>
         </candy-tab>
         <candy-tab name="Redirects" handle="redirects">
-
+          <candy-redirects></candy-redirects>
         </candy-tab>
       </candy-tabs>
+      <candy-url-modals></candy-url-modals>
     </candy-tab>
 
   </candy-tabs>

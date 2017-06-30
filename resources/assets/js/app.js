@@ -45,7 +45,48 @@ Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
+
+/**
+ * Media
+ */
+Vue.component('candy-media', require('./components/catalogue-manager/products/edit/media/Media.vue'));
+
+/**
+ * Avalability & Pricing
+ */
 Vue.component('candy-pricing-variants', require('./components/catalogue-manager/products/edit/availability-pricing/PricingVariants.vue'));
+Vue.component('candy-inventory', require('./components/catalogue-manager/products/edit/availability-pricing/Inventory.vue'));
+Vue.component('candy-shipping', require('./components/catalogue-manager/products/edit/availability-pricing/Shipping.vue'));
+Vue.component('candy-channels', require('./components/catalogue-manager/products/edit/availability-pricing/Channels.vue'));
+Vue.component('candy-customer-groups', require('./components/catalogue-manager/products/edit/availability-pricing/CustomerGroups.vue'));
+Vue.component('candy-discounts', require('./components/catalogue-manager/products/edit/availability-pricing/Discounts.vue'));
+Vue.component('candy-avalability-pricing-modals', require('./components/catalogue-manager/products/edit/availability-pricing/Modals.vue'));
+
+/**
+ * if Variants
+ */
+Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
+Vue.component('candy-edit-variant', require('./components/catalogue-manager/products/edit/availability-pricing/EditVariant.vue'));
+
+/**
+ * Associations
+ */
+Vue.component('candy-categories', require('./components/catalogue-manager/products/edit/associations/Categories.vue'));
+Vue.component('candy-collections', require('./components/catalogue-manager/products/edit/associations/Collections.vue'));
+Vue.component('candy-products', require('./components/catalogue-manager/products/edit/associations/Products.vue'));
+Vue.component('candy-association-modals', require('./components/catalogue-manager/products/edit/associations/Modals.vue'));
+
+/**
+ * Display
+ */
+Vue.component('candy-display', require('./components/catalogue-manager/products/edit/display/Display.vue'));
+
+/**
+ * URLS
+ */
+Vue.component('candy-locale-urls', require('./components/catalogue-manager/products/edit/urls/LocaleURLs.vue'));
+Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
+Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
 
 window.Event = new Vue();
 
