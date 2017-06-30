@@ -6,7 +6,6 @@
  */
 
 require('./bootstrap');
-
 require('bootstrap-select');
 require('bootstrap-datepicker');
 require('bootstrap-switch');
@@ -19,6 +18,7 @@ require('babel-polyfill');
 
 require('./classes/Errors');
 require('./classes/Form');
+
 
 
 /**
