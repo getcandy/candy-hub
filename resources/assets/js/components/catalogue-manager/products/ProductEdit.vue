@@ -47,37 +47,33 @@
 </script>
 
 <template>
-  <div>
-    <candy-tabs>
+  <candy-tabs>
+    <candy-tab name="Product Details" handle="product-details" :selected="true">
+      <candy-tabs nested="true">
+        <template v-for="(group, index) in attribute_groups">
+          <candy-tab :name="group.name" :selected="index == 0 ? true : false">
+              <candy-product-details :group="group" :product="product"></candy-product-details>
+          </candy-tab>
+        </template>
 
-      <candy-tab name="Product Details" handle="product-details" :selected="true">
+      </candy-tabs>
+    </candy-tab>
 
-        <candy-tabs nested="true">
+    <candy-tab name="Media">
+    </candy-tab>
 
-          <template v-for="(group, index) in attribute_groups">
+    <candy-tab name="Availability &amp; Pricing" handle="product-availability">
+      <h1>Availability &amp; Pricing</h1>
+    </candy-tab>
 
-            <candy-tab :name="group.name" :selected="index == 0 ? true : false">
+    <candy-tab name="Associations">
+    </candy-tab>
 
-                <candy-product-details :group="group" :product="product"></candy-product-details>
+    <candy-tab name="Display">
+    </candy-tab>
 
-            </candy-tab>
+    <candy-tab name="URLS">
+    </candy-tab>
 
-          </template>
-
-        </candy-tabs>
-
-      </candy-tab>
-
-      <candy-tab name="Availability &amp; Pricing" handle="product-availability">
-        <h1>Availability &amp; Pricing</h1>
-      </candy-tab>
-
-      <candy-tab name="Collections">
-      </candy-tab>
-
-      <candy-tab name="Associations">
-      </candy-tab>
-
-    </candy-tabs>
-  </div>
+  </candy-tabs>
 </template>
