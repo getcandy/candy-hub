@@ -30,9 +30,9 @@
                 <label>
                   {{ input.name }}
                 </label>
-                <input type="text" class="form-control" :value="getValue(input.handle)">
+               <!-- <input type="text" class="form-control" :value="getValue(input.handle)">
                 <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']" v-if="translating">
-                <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span>
+                <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span> -->
             </div>
         </div>
     </div>

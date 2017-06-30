@@ -66,22 +66,17 @@
     <candy-tab name="Availability &amp; Pricing" handle="product-availability">
       <candy-tabs nested="true">
         <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
-
+          <candy-pricing-variants></candy-pricing-variants>
         </candy-tab>
         <candy-tab name="Inventory" handle="inventory">
-
         </candy-tab>
         <candy-tab name="Shipping" handle="shipping">
-
         </candy-tab>
         <candy-tab name="Channels" handle="channels">
-
         </candy-tab>
         <candy-tab name="Customer Groups" handle="customer-groups">
-
         </candy-tab>
         <candy-tab name="Discounts" handle="discounts">
-
         </candy-tab>
       </candy-tabs>
     </candy-tab>
