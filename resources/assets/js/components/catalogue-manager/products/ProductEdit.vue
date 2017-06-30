@@ -126,7 +126,7 @@
 
         </candy-tab>
         <candy-tab name="Redirects" handle="redirects">
-        
+
         </candy-tab>
       </candy-tabs>
     </candy-tab>

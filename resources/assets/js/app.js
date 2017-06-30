@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+
 require('bootstrap-select');
 require('bootstrap-datepicker');
 require('bootstrap-switch');
@@ -13,8 +14,8 @@ require('bootstrap-tagsinput');
 require('list.js');
 require('dropzone');
 
-require("babel-core/register");
-require("babel-polyfill");
+require('babel-core/register');
+require('babel-polyfill');
 
 require('./classes/Errors');
 require('./classes/Form');
