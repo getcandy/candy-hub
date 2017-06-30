@@ -45,6 +45,7 @@ Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
+Vue.component('candy-pricing-variants', require('./components/catalogue-manager/products/edit/availability-pricing/PricingVariants.vue'));
 
 window.Event = new Vue();
 
