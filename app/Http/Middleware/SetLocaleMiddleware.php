@@ -18,9 +18,10 @@ class SetLocaleMiddleware
     public function handle($request, Closure $next)
     {
         $locale = $request->header('accept-language');
+
         if (!$locale) {
             $locale = app('api')->languages()->getDefaultRecord()->code;
-        } elseif ($locale != 'en-us,en;q=0.5' && $locale != 'en-GB,en-US;q=0.8,en;q=0.6') {
+        } elseif ($locale != 'en-us,en;q=0.5' && $locale != 'en-GB,en-US;q=0.8,en;q=0.6' && $locale != 'en-gb') {
             $requestedLocale = app('api')->languages()->getEnabledByCode($locale);
             if (!$requestedLocale) {
                 return $this->errorWrongArgs(trans('getcandy_api::response.error.invalid_lang', ['lang' => $locale]));
