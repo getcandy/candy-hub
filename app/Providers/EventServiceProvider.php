@@ -4,6 +4,8 @@ namespace GetCandy\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use GetCandy\Events\General\AttributesUpdatedEvent;
+use GetCandy\Listeners\General\UpdateAttributableDataListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -13,9 +15,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'GetCandy\Events\Products\ProductCreatedEvent' => [
-            'GetCandy\Listeners\Products\AddProductToIndexListener',
-        ],
+        AttributesUpdatedEvent::class => [
+            UpdateAttributableDataListener::class
+        ]
     ];
 
     /**

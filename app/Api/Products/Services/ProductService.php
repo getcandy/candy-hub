@@ -35,11 +35,7 @@ class ProductService extends BaseService
             abort(404);
         }
 
-        foreach ($data['attributes'] as $attribute => $values) {
-            $attributeData[$attribute] = $this->prepareAttributeData($attribute, $values);
-        }
-
-        $product->attribute_data = $attributeData;
+        $product->attribute_data = $this->parseAttributeData($data['attributes']);
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
@@ -70,7 +66,7 @@ class ProductService extends BaseService
         $attributeData = [];
 
         foreach ($data['attributes'] as $attribute => $values) {
-            $attributeData[$attribute] = $this->prepareAttributeData($attribute, $values);
+            $attributeData[$attribute] = $this->parseAttributeData($values);
         }
 
         $product->attribute_data = $attributeData;

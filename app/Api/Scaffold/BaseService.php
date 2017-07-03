@@ -2,6 +2,8 @@
 
 namespace GetCandy\Api\Scaffold;
 
+use GetCandy\Events\General\AttributesUpdatedEvent;
+
 abstract class BaseService
 {
     /**
@@ -128,22 +130,42 @@ abstract class BaseService
 
     /**
      * Prepares the attribute data for saving to the datbase
-     * @param  string $attribute
      * @param  array  $data
      * @return array
      */
-    protected function prepareAttributeData($attribute, array $data)
+    public function parseAttributeData(array $data)
+    {
+
+
+        $valueMapping = [];
+        $structure = $this->getDataMapping();
+
+        foreach ($data as $attribute => $values) {
+            // Do this so we can reset the structure without hitting DB again
+            $newData[$attribute] = $structure;
+            foreach ($values as $channel => $content) {
+                foreach ($content as $lang => $value) {
+                    $valueMapping[$attribute][$channel . '.' . $lang] = $value;
+                }
+            }
+            foreach ($valueMapping as $attribute => $value) {
+                foreach ($value as $map => $value) {
+                    array_set($newData[$attribute], $map, $value);
+                }
+            }
+        }
+        return $newData;
+    }
+
+
+    /**
+     * Gets the current attribute data mapping
+     * @return Array
+     */
+    public function getDataMapping()
     {
         $structure = [];
         $languagesArray = [];
-
-        $valueMapping = [];
-
-        foreach ($data as $channel => $values) {
-            foreach ($values as $lang => $value) {
-                $valueMapping[$channel . '.' . $lang] = $value;
-            }
-        }
 
         // Get our languages
         $languages = app('api')->languages()->getDataList();
@@ -156,10 +178,29 @@ abstract class BaseService
             $structure[$channel->handle] = $languagesArray;
         }
 
-        foreach ($valueMapping as $map => $value) {
-            array_set($structure, $map, $value);
+        return $structure;
+    }
+
+    /**
+     * Updates the attributes for a model
+     * @param  String  $model
+     * @param  array  $data
+     * @return Model
+     */
+    public function updateAttributes($id, array $data)
+    {
+        $ids = [];
+
+        $model = $this->getByHashedId($id);
+
+        foreach ($data['attributes'] as $attribute) {
+            $ids[] = app('api')->attributes()->getDecodedId($attribute);
         }
 
-        return $structure;
+        $model->attributes()->sync($ids);
+
+        event(new AttributesUpdatedEvent($model));
+
+        return $model;
     }
 }

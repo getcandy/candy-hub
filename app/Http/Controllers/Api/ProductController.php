@@ -8,6 +8,7 @@ use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Requests\Api\Products\CreateRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateRequest;
+use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -68,6 +69,28 @@ class ProductController extends BaseController
     {
         try {
             $result = app('api')->products()->update($id, $request->all());
+        } catch (MinimumRecordRequiredException $e) {
+            return $this->errorUnprocessable($e->getMessage());
+        } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        } catch (HttpException $e) {
+            return $this->errorUnprocessable($e->getMessage());
+        } catch (InvalidLanguageException $e) {
+            return $this->errorUnprocessable($e->getMessage());
+        }
+        return $this->respondWithItem($result, new ProductTransformer);
+    }
+
+    /**
+     * Handles the request to update a products attributes
+     * @param  String        $id
+     * @param  UpdateRequest $request
+     * @return Json
+     */
+    public function updateAttributes($product, UpdateAttributesRequest $request)
+    {
+        try {
+            $result = app('api')->products()->updateAttributes($product, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {

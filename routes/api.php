@@ -68,6 +68,7 @@ $this->resource('pages', 'PageController', [
 /**
  * Products
  */
+$this->post('products/{product}/attributes', 'ProductController@updateAttributes');
 $this->resource('products', 'ProductController', [
     'except' => ['edit', 'create']
 ]);

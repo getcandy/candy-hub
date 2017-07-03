@@ -28,16 +28,29 @@ class ProductTableSeeder extends Seeder
             'handle' => 'featured-product'
         ])->id;
 
+
         $products = [
             // Boots
             'Shoes' => [
                 [
                     'layout' => $basic,
                     'attribute_data' => [
-                        'name' => ['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh'],
-                        'material' => [
-                            'en' => 'Leather',
-                            'sv' => 'Läder'
+                        'name' => [
+                            'ecommerce' => [
+                                ['en' => 'Black Bamboosh', 'sv' => 'Svart Bamboosh']
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'material' => [
+                                'en' => 'Leather',
+                                'sv' => 'Läder'
+                            ]
                         ],
                         'description' => [
                             'ecommerce' => [
@@ -58,7 +71,23 @@ class ProductTableSeeder extends Seeder
                 [
                     'layout' => $featured,
                     'attribute_data' => [
-                        'name' => ['en' => 'Camber Shoes', 'sv' => 'Camber Skor'],
+                        'name' => [
+                            'ecommerce' => [
+                                ['en' => 'Camber Shoes', 'sv' => 'Camber Skor'],
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'material' => [
+                                'en' => 'Leather',
+                                'sv' => 'Läder'
+                            ]
+                        ],
                         'material' => [
                             'en' => 'Suede',
                             'sv' => 'Mockaskinn'
@@ -82,7 +111,23 @@ class ProductTableSeeder extends Seeder
                 [
                     'layout' => $basic,
                     'attribute_data' => [
-                        'name' => ['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler'],
+                        'name' => [
+                            'ecommerce' => [
+                                ['en' => 'Cross over sandals', 'sv' => 'Korsa över sandaler'],
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'material' => [
+                                'en' => 'Leather',
+                                'sv' => 'Läder'
+                            ]
+                        ],
                         'material' => [
                             'en' => 'Suede',
                             'sv' => 'Mockaskinn'
@@ -109,7 +154,23 @@ class ProductTableSeeder extends Seeder
                 [
                     'layout' => $basic,
                     'attribute_data' => [
-                        'name' => ['en' => 'Knot leather bag', 'sv' => 'Knot läderväska'],
+                        'name' => [
+                            'ecommerce' => [
+                                ['en' => 'Knot leather bag', 'sv' => 'Knot läderväska'],
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'material' => [
+                                'en' => 'Leather',
+                                'sv' => 'Läder'
+                            ]
+                        ],
                         'material' => [
                             'en' => 'Leather',
                             'sv' => 'Läder'
@@ -133,7 +194,23 @@ class ProductTableSeeder extends Seeder
                 [
                     'layout' => $featured,
                     'attribute_data' => [
-                        'name' => ['en' => 'Arizona bag', 'sv' => 'Arizona väska'],
+                        'name' => [
+                            'ecommerce' => [
+                                ['en' => 'Arizona bag', 'sv' => 'Arizona väska']
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'material' => [
+                                'en' => 'Leather',
+                                'sv' => 'Läder'
+                            ]
+                        ],
                         'material' => [
                             'en' => 'Leather',
                             'sv' => 'Läder'
@@ -157,7 +234,23 @@ class ProductTableSeeder extends Seeder
                 [
                     'layout' => $basic,
                     'attribute_data' => [
-                        'name' => ['en' => 'Beet bag', 'sv' => 'Köttväska'],
+                        'name' => [
+                            'ecommerce' => [
+                                ['en' => 'Beet bag', 'sv' => 'Köttväska']
+                            ],
+                            'mobile' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'print' => [
+                                'en' => '',
+                                'sv' => ''
+                            ],
+                            'material' => [
+                                'en' => 'Leather',
+                                'sv' => 'Läder'
+                            ]
+                        ],
                         'material' => [
                             'en' => 'Cotton',
                             'sv' => 'Bomull'
@@ -230,12 +323,15 @@ class ProductTableSeeder extends Seeder
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
 
-                foreach ($product->attribute_data['name'] as $locale => $name) {
-                    $product->route()->create([
-                        'default' => true,
-                        'slug' => str_slug($name),
-                        'locale' => app()->getLocale()
-                    ]);
+                foreach ($product->attribute_data['name'] as $channel => $data) {
+
+                    if ($channel == 'ecommerce') {
+                        $product->route()->create([
+                            'default' => true,
+                            'slug' => str_slug($data[0]['en']),
+                            'locale' => app()->getLocale()
+                        ]);
+                    }
                 }
                 $product->save();
             }
