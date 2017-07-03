@@ -133,16 +133,33 @@ class AttributeService extends BaseService
         return $attribute->delete();
     }
 
+    /**
+     * Returns attributes for a group
+     * @param  String $groupId
+     * @return Collection
+     */
     public function getAttributesForGroup($groupId)
     {
         return $this->model->where('group_id', '=', $groupId)->get();
     }
 
+    /**
+     * Gets the last attribute for a groupo
+     * @param  String $groupId
+     * @return null|Attribute
+     */
     public function getLastItem($groupId)
     {
         return $this->model->orderBy('position', 'desc')->where('group_id', '=', $groupId)->first();
     }
 
+    /**
+     * Checks whether a attribute name exists in a group
+     * @param  String $value
+     * @param  String $groupId
+     * @param  String $attributeId
+     * @return Boolean
+     */
     public function nameExistsInGroup($value, $groupId, $attributeId = null)
     {
         $result = $this->model->where('name', '=', $value)
