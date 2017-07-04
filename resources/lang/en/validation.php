@@ -119,6 +119,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'groups' => [
+            'dupe_position' => 'Duplicate position',
+            'invalid_id' => 'The group id :id is invalid'
+        ]
+    ],
 
 ];

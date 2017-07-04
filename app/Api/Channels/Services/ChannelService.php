@@ -97,7 +97,7 @@ class ChannelService extends BaseService
 
         if ($this->model->count() == 1) {
             throw new MinimumRecordRequiredException(
-                trans('getcandy_api::response.error.minimum_record')
+                trans('response.error.minimum_record')
             );
         }
 

@@ -74,7 +74,7 @@ class LanguageService extends BaseService
             // If we only have one record and we are trying to disable it, throw an exception
             if ($this->model->enabled()->count() == 1) {
                 throw new MinimumRecordRequiredException(
-                    trans('getcandy_api::response.error.minimum_record')
+                    trans('response.error.minimum_record')
                 );
             }
             $newDefault = $this->getNewSuggestedDefault();
@@ -107,7 +107,7 @@ class LanguageService extends BaseService
 
         if ($this->model->enabled()->count() == 1) {
             throw new MinimumRecordRequiredException(
-                trans('getcandy_api::response.error.minimum_record')
+                trans('response.error.minimum_record')
             );
         }
 
