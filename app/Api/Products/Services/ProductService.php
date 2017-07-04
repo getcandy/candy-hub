@@ -63,13 +63,7 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        $attributeData = [];
-
-        foreach ($data['attributes'] as $attribute => $values) {
-            $attributeData[$attribute] = $this->parseAttributeData($values);
-        }
-
-        $product->attribute_data = $attributeData;
+        $product->attribute_data = $this->parseAttributeData($data['attributes']);
 
         $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
         $product->layout()->associate($layout);
