@@ -5,9 +5,12 @@ namespace GetCandy\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use GetCandy\Api\Traits\Fractal;
 
 class Handler extends ExceptionHandler
 {
+    use Fractal;
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -44,6 +47,30 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->headers->get('accept-language') || $request->ajax()) {
+            $statusCode = $exception->getStatusCode();
+            switch ($statusCode) {
+                case 400:
+                    $response = $this->errorWrongArgs();
+                    break;
+                case 401:
+                    $response = $this->errorUnauthorized();
+                    break;
+                case 403:
+                    $response = $this->errorForbidden();
+                    break;
+                case 404:
+                    $response = $this->errorNotFound();
+                    break;
+                case 500:
+                    $response = $this->errorInternalError();
+                    break;
+                default:
+                    $response = $this->setStatus($statusCode)->respondWithError($exception->getMessage());
+                    break;
+            }
+            return $response;
+        }
         return parent::render($request, $exception);
     }
 

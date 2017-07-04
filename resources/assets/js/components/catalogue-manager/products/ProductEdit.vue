@@ -35,12 +35,9 @@
            * @param  {String} id
            */
           loadProduct (id) {
-            axios.get('/api/v1/products/' + id, {
-              params: {
-                includes : 'family,attribute_groups,attribute_groups.attributes,layout'
-              }
-            }).then(response => this.decorate(response.data.data))
-              .catch(error => console.log(error));
+            apiRequest.send('get', '/products/' + this.productId, {}, {
+              includes : 'family,attribute_groups,attribute_groups.attributes,layout'
+            }).then(response => this.decorate(response.data.data));
           }
         }
     }
@@ -55,7 +52,6 @@
               <candy-product-details :group="group" :product="product"></candy-product-details>
           </candy-tab>
         </template>
-
       </candy-tabs>
     </candy-tab>
 

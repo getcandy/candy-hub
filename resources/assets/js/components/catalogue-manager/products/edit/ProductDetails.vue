@@ -59,27 +59,10 @@
                 this.update.send('put', '/products/' + this.product.id, this.product);
             },
             getValue(handle) {
-                if (!this.product.attribute_data[handle]) {
-                    this.product.attribute_data[handle] = {
-                        ecommerce : {
-                            en: '',
-                            sv: ''
-                        },
-                        mobile : {
-                            en: '',
-                            sv: ''
-                        },
-                        print : {
-                            en: '',
-                            sv: ''
-                        }
-                    };
-                }
                 return this.product.attribute_data[handle]['ecommerce']['en'];
             }
         },
         mounted() {
-            console.log(this.product.attribute_data);
             Event.$emit('current-tab', this);
         }
     }

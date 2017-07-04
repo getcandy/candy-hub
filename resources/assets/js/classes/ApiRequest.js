@@ -1,6 +1,5 @@
 'use strict';
 
-
 class ApiRequest {
 
     constructor() {
@@ -28,24 +27,13 @@ class ApiRequest {
      * @param  {String} path
      * @param  {Object} data
      */
-    send(method, path, data) {
-        axios({
-          method: method,
-          url: this.getUrl(path),
-          data: data,
-          headers: {'Accept': 'application/json'}
-        })
-        .then(response => {
-            Event.$emit('notification', {
-                level: 'success'
-            });
-        })
-        .catch(error => {
-            this.record(errors);
-            Event.$emit('notification', {
-                level: 'error',
-                message: 'Whoops'
-            });
+    send(method, path, data, params) {
+        return axios({
+            method: method,
+            url: this.getUrl(path),
+            data: data,
+            params: params,
+            headers: {'Accept': 'application/json'}
         });
     }
     /**
