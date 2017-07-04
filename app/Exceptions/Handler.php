@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (($request->headers->get('accept-language') || $request->ajax()) && $exception instanceof HttpException) {
+        if (($request->headers->get('accept-content') || $request->ajax()) && $exception instanceof HttpException) {
             $statusCode = $exception->getStatusCode();
             switch ($statusCode) {
                 case 400:
