@@ -13,6 +13,7 @@
 $this->get('categories', 'CategoryController@index');
 $this->get('channels', 'ChannelController@index');
 $this->get('channels/{id}', 'ChannelController@show');
+$this->get('collections', 'CollectionController@index');
 
 $this->get('product-families', 'ProductFamilyController@index');
 $this->get('routes', 'RouteController@index');
