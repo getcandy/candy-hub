@@ -31,11 +31,11 @@ class CollectionController extends BaseController
     public function show($id)
     {
         try {
-            $channel = app('api')->channels()->getByHashedId($id);
+            $channel = app('api')->collections()->getByHashedId($id);
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
-        return $this->respondWithItem($channel, new ChannelTransformer);
+        return $this->respondWithItem($channel, new CollectionTransformer);
     }
 
     /**
@@ -45,8 +45,8 @@ class CollectionController extends BaseController
      */
     public function store(CreateRequest $request)
     {
-        $result = app('api')->channels()->create($request->all());
-        return $this->respondWithItem($result, new ChannelTransformer);
+        $result = app('api')->collections()->create($request->all());
+        return $this->respondWithItem($result, new CollectionTransformer);
     }
 
     /**
@@ -58,13 +58,11 @@ class CollectionController extends BaseController
     public function update($id, UpdateRequest $request)
     {
         try {
-            $result = app('api')->channels()->update($id, $request->all());
-        } catch (MinimumRecordRequiredException $e) {
-            return $this->errorUnprocessable($e->getMessage());
+            $result = app('api')->collections()->update($id, $request->all());
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }
-        return $this->respondWithItem($result, new ChannelTransformer);
+        return $this->respondWithItem($result, new CollectionTransformer);
     }
 
     /**
@@ -77,9 +75,7 @@ class CollectionController extends BaseController
     {
 
         try {
-            $result = app('api')->channels()->delete($id);
-        } catch (MinimumRecordRequiredException $e) {
-            return $this->errorUnprocessable($e->getMessage());
+            $result = app('api')->collections()->delete($id);
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         }

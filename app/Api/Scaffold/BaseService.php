@@ -115,7 +115,7 @@ abstract class BaseService
         return $this->model->where('id', '=', $id)->exists();
     }
 
-    protected function getDataList()
+    public function getDataList()
     {
         return $this->model->get();
     }

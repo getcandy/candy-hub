@@ -27,7 +27,7 @@ class CollectionService extends BaseService
      */
     public function create(array $data)
     {
-        $chancollectionnel = $this->model;
+        $collection = $this->model;
         $collection->attribute_data = $data['attributes'];
         $collection->save();
         return $collection;
@@ -46,7 +46,7 @@ class CollectionService extends BaseService
     public function update($hashedId, array $data)
     {
         $collection = $this->getByHashedId($hashedId);
-        $collection->fill($data);
+        $collection->attribute_data = $data['attributes'];
         $collection->save();
         return $collection;
     }

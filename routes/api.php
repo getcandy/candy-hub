@@ -37,6 +37,14 @@ $this->resource('channels', 'Channels\ChannelController', [
 ]);
 
 /**
+ * Channels
+ */
+$this->resource('collections', 'Collections\CollectionController', [
+    'except' => ['index', 'edit', 'create', 'show']
+]);
+
+
+/**
  * Currencies
  */
 $this->resource('currencies', 'Currencies\CurrencyController', [
