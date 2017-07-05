@@ -7,8 +7,8 @@ use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Requests\Api\Products\CreateRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
-use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
+use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\ProductTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -93,6 +93,8 @@ class ProductController extends BaseController
             $result = app('api')->products()->updateAttributes($product, $request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
         } catch (NotFoundHttpException $e) {
             return $this->errorNotFound();
         } catch (HttpException $e) {
