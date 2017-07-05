@@ -1,21 +1,22 @@
 <template>
     <div>
-        <input type="text" v-model="value" class="form-control">
-        {{ value }}
+        <input type="text" :value="value" class="form-control">
     </div>
 </template>
 
 <script>
     export default {
-        data() {
-            return {
-                value: null
+
+        props: {
+            value: {
+                type: String
             }
         },
-        props: {
-        },
-        mounted () {
-
+        data() {
+            return {
+                input: ''
+            }
         }
+
     }
 </script>

@@ -41,6 +41,8 @@ Vue.component('candy-notification', require('./components/elements/NotificationB
  */
 Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
 Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
+Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
+Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
 
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
@@ -109,7 +111,7 @@ window.axios.interceptors.response.use((response) => { // intercept the global e
     }
     // Do something with response error
     return Promise.reject(error)
-  })
+  });
 
 
 
