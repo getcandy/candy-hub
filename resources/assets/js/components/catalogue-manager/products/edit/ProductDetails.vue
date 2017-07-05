@@ -9,9 +9,9 @@
               <div class="form-group">
                 <label class="sr-only">Store Channels</label>
                 <select class="form-control selectpicker">
-                  <option data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
-                  <option data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
-                  <option data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
+                  <option value="0" data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
+                  <option value="1" data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
+                  <option value="2" data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
                 </select>
               </div>
               <div class="form-group">
@@ -33,20 +33,22 @@
                     <label :for="input.handle">{{ input.name }}</label>
 
                     <div class="form-group">
-                        <candy-select :value="getValue(input.handle)" :options="input.lookups" v-if="input.type == 'select'"></candy-select>
-                        <candy-textarea :value="getValue(input.handle)" v-else-if="input.type == 'textarea'"></candy-textarea>
-                        <candy-input :value="getValue(input.handle)" v-else-if="input.type == 'text'"></candy-input>
+                        <candy-select v-model="attributes[input.handle]" :value="getValue(input.handle)" :options="input.lookups" :required="input.required" v-if="input.type == 'select'"></candy-select>
+                        <candy-textarea v-model="attributes[input.handle]" :value="getValue(input.handle)" :required="input.required" v-else-if="input.type == 'textarea'"></candy-textarea>
+                        <candy-input v-model="attributes[input.handle].ecommerce.en" :value="getValue(input.handle)" :required="input.required" v-else-if="input.type == 'text'"></candy-input>
                     </div>
 
                 </div>
 
-                <!--<label>
+                <!--
+                <label>
                   {{ input.name }}
-                </label>-->
+                </label>
 
-               <!-- <input type="text" class="form-control" :value="getValue(input.handle)">
+                <input type="text" class="form-control" :value="getValue(input.handle)">
                 <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']" v-if="translating">
-                <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span> -->
+                <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span>
+                -->
             </div>
         </div>
     </div>
@@ -57,7 +59,8 @@
         data() {
             return {
                 update: apiRequest,
-                translating: false
+                translating: false,
+                attributes: this.product.attribute_data
             }
         },
         props: {
@@ -70,17 +73,16 @@
         },
         methods: {
             save() {
-                this.update.send('put', '/products/' + this.product.id, this.product);
+                //this.update.send('put', '/products/' + this.product.id, this.product);
+                this.update.send('put', '/products/' + this.product.id, this.attributes);
             },
-            getValue(handle, language = 'en') {
+            getValue(handle, filter = 'ecommerce', language = 'en') {
 
-                //return this.product.attribute_data[handle][language];
-
-                console.log(this.product.attribute_data[handle].en);
-
-                //return this.product.attribute_data[handle][en];
-
-                //console.log(this.group.attributes.data[2])
+                if(this.product.attribute_data[handle] && this.product.attribute_data[handle][filter] && this.product.attribute_data[handle][filter][language]){
+                    return this.product.attribute_data[handle][filter][language];
+                }else if (this.product.attribute_data[handle] && !this.product.attribute_data[handle][filter] && this.product.attribute_data[handle][language]){
+                    return this.product.attribute_data[handle][language];
+                }
 
             },
             cl(data) {
