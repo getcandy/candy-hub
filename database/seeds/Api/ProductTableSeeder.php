@@ -46,11 +46,11 @@ class ProductTableSeeder extends Seeder
                             'print' => [
                                 'en' => '',
                                 'sv' => ''
-                            ],
-                            'material' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
                             ]
+                        ],
+                        'material' => [
+                            'en' => 'Leather',
+                            'sv' => 'Läder'
                         ],
                         'description' => [
                             'ecommerce' => [
@@ -82,10 +82,6 @@ class ProductTableSeeder extends Seeder
                             'print' => [
                                 'en' => '',
                                 'sv' => ''
-                            ],
-                            'material' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
                             ]
                         ],
                         'material' => [
@@ -122,10 +118,6 @@ class ProductTableSeeder extends Seeder
                             'print' => [
                                 'en' => '',
                                 'sv' => ''
-                            ],
-                            'material' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
                             ]
                         ],
                         'material' => [
@@ -165,10 +157,6 @@ class ProductTableSeeder extends Seeder
                             'print' => [
                                 'en' => '',
                                 'sv' => ''
-                            ],
-                            'material' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
                             ]
                         ],
                         'material' => [
@@ -205,10 +193,6 @@ class ProductTableSeeder extends Seeder
                             'print' => [
                                 'en' => '',
                                 'sv' => ''
-                            ],
-                            'material' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
                             ]
                         ],
                         'material' => [
@@ -245,10 +229,6 @@ class ProductTableSeeder extends Seeder
                             'print' => [
                                 'en' => '',
                                 'sv' => ''
-                            ],
-                            'material' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
                             ]
                         ],
                         'material' => [
@@ -324,7 +304,6 @@ class ProductTableSeeder extends Seeder
                 $product->family()->associate($family);
 
                 foreach ($product->attribute_data['name'] as $channel => $data) {
-
                     if ($channel == 'ecommerce') {
                         $product->route()->create([
                             'default' => true,

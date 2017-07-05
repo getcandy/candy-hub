@@ -19,8 +19,19 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'en' => 'Shoes',
-                    'sv' => 'Skodon'
+                    'name' => [
+                        'ecommerce' => [
+                            ['en' => 'Shoes', 'sv' => 'Skodon']
+                        ],
+                        'mobile' => [
+                            'en' => '',
+                            'sv' => ''
+                        ],
+                        'print' => [
+                            'en' => '',
+                            'sv' => ''
+                        ]
+                    ]
                 ],
                 'description' => [
                     'ecommerce' => [
