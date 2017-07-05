@@ -16,74 +16,74 @@ use Illuminate\Http\Request;
 /**
  * Attributes
  */
-$this->put('attributes/order', 'AttributeController@reorder');
-$this->resource('attributes', 'AttributeController', [
+$this->put('attributes/order', 'Attributes\AttributeController@reorder');
+$this->resource('attributes', 'Attributes\AttributeController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Attribute Groups
  */
-$this->put('attribute-groups/order', 'AttributeGroupController@reorder');
-$this->resource('attribute-groups', 'AttributeGroupController', [
+$this->put('attribute-groups/order', 'Attributes\AttributeGroupController@reorder');
+$this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Channels
  */
-$this->resource('channels', 'ChannelController', [
+$this->resource('channels', 'Channels\ChannelController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
 
 /**
  * Currencies
  */
-$this->resource('currencies', 'CurrencyController', [
+$this->resource('currencies', 'Currencies\CurrencyController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Languages
  */
-$this->resource('languages', 'LanguageController', [
+$this->resource('languages', 'Languages\LanguageController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Layouts
  */
-$this->resource('layouts', 'LayoutController', [
+$this->resource('layouts', 'Layouts\LayoutController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Pages
  */
-$this->get('/pages/{channel}/{lang}/{slug?}', 'PageController@show');
-$this->resource('pages', 'PageController', [
+$this->get('/pages/{channel}/{lang}/{slug?}', 'Pages\PageController@show');
+$this->resource('pages', 'Pages\PageController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Products
  */
-$this->post('products/{product}/attributes', 'ProductController@updateAttributes');
-$this->resource('products', 'ProductController', [
+$this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
+$this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Product families
  */
-$this->resource('product-families', 'ProductFamilyController', [
+$this->resource('product-families', 'Products\ProductFamilyController', [
     'except' => ['index', 'edit', 'create']
 ]);
 
 /**
  * Routes
  */
-$this->resource('routes', 'RouteController', [
+$this->resource('routes', 'Routes\RouteController', [
     'except' => ['index', 'show', 'edit', 'create']
 ]);
 
@@ -91,14 +91,14 @@ $this->resource('routes', 'RouteController', [
 /**
  * Taxes
  */
-$this->resource('taxes', 'TaxController', [
+$this->resource('taxes', 'Taxes\TaxController', [
     'except' => ['edit', 'create']
 ]);
 
 /**
  * Users
  */
-$this->get('users/current', 'UserController@getCurrentUser');
-$this->resource('users', 'UserController', [
+$this->get('users/current', 'Users\UserController@getCurrentUser');
+$this->resource('users', 'Users\UserController', [
     'except' => ['edit', 'create']
 ]);
