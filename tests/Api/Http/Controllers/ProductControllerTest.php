@@ -178,9 +178,7 @@ class ProductControllerTest extends TestCase
     {
         Event::fake();
 
-        $family = ProductFamily::create([
-            'attribute_data' => ['name' => ['en' => 'Foo bar']]
-        ]);
+        $family = ProductFamily::first();
 
         $layout = Layout::first()->encodedId();
 
@@ -291,9 +289,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    /**
-     * @group new
-     */
     public function testAttributeUpdate()
     {
         Event::fake();

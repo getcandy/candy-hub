@@ -26,17 +26,10 @@ class UpdateAttributableDataListener
      */
     public function handle(AttributesUpdatedEvent $event)
     {
+        // We do this to trigger the mutator and give us an array
+        // with any extra attributes
         $model = $event->model;
-        $data = $model->attribute_data;
-        $mapping = app('api')->attributes()->getDataMapping($data);
-
-        foreach ($model->attributes as $attribute) {
-            if (empty($data[$attribute->handle])) {
-                $data[$attribute->handle] = $mapping;
-            }
-        }
-
-        $model->attribute_data = $data;
+        $model->attribute_data = $model->attribute_data;
         $model->save();
     }
 }

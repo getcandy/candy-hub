@@ -34,4 +34,16 @@ trait Attributable
     {
         return $this->attribute('name');
     }
+
+    public function getAttributeDataAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function setAttributeDataAttribute($val)
+    {
+        $this->attributes['attribute_data'] = json_encode(
+            app('api')->attributes()->parseAttributeData($val)
+        );
+    }
 }

@@ -35,7 +35,7 @@ class ProductService extends BaseService
             abort(404);
         }
 
-        $product->attribute_data = $this->parseAttributeData($data['attributes']);
+        $product->attribute_data = $data['attributes'];
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
@@ -63,7 +63,7 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        $product->attribute_data = $this->parseAttributeData($data['attributes']);
+        $product->attribute_data = $data['attributes'];
 
         $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
         $product->layout()->associate($layout);

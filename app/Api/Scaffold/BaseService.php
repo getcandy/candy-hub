@@ -115,7 +115,7 @@ abstract class BaseService
         return $this->model->where('id', '=', $id)->exists();
     }
 
-    protected function getDataList()
+    public function getDataList()
     {
         return $this->model->get();
     }
@@ -127,59 +127,6 @@ abstract class BaseService
     public function getAttributes($id)
     {
         return $this->model->attributes()->get();
-    }
-
-    /**
-     * Prepares the attribute data for saving to the datbase
-     * @param  array  $data
-     * @return array
-     */
-    public function parseAttributeData(array $data)
-    {
-
-
-        $valueMapping = [];
-        $structure = $this->getDataMapping();
-
-        foreach ($data as $attribute => $values) {
-            // Do this so we can reset the structure without hitting DB again
-            $newData[$attribute] = $structure;
-            foreach ($values as $channel => $content) {
-                foreach ($content as $lang => $value) {
-                    $valueMapping[$attribute][$channel . '.' . $lang] = $value;
-                }
-            }
-            foreach ($valueMapping as $attribute => $value) {
-                foreach ($value as $map => $value) {
-                    array_set($newData[$attribute], $map, $value);
-                }
-            }
-        }
-        return $newData;
-    }
-
-
-    /**
-     * Gets the current attribute data mapping
-     * @return Array
-     */
-    public function getDataMapping()
-    {
-        $structure = [];
-        $languagesArray = [];
-
-        // Get our languages
-        $languages = app('api')->languages()->getDataList();
-        foreach ($languages as $lang) {
-            $languagesArray[$lang->code] = '';
-        }
-        // Get our channels
-        $channels = app('api')->channels()->getDataList();
-        foreach ($channels as $channel) {
-            $structure[$channel->handle] = $languagesArray;
-        }
-
-        return $structure;
     }
 
     /**
@@ -204,5 +151,80 @@ abstract class BaseService
         event(new AttributesUpdatedEvent($model));
 
         return $model;
+    }
+
+    /**
+     * Prepares the attribute data for saving to the datbase
+     * @param  array  $data
+     * @return array
+     */
+    public function parseAttributeData(array $data)
+    {
+        $valueMapping = [];
+        $structure = $this->getDataMapping();
+
+        foreach ($data as $attribute => $values) {
+            // Do this so we can reset the structure without hitting DB again
+            $newData[$attribute] = $structure;
+            foreach ($values as $channel => $content) {
+                foreach ($content as $lang => $value) {
+                    $valueMapping[$attribute][$channel . '.' . $lang] = $value;
+
+                }
+            }
+            foreach ($valueMapping as $attribute => $value) {
+                foreach ($value as $map => $value) {
+                    array_set($newData[$attribute], $map, $value);
+                }
+            }
+        }
+        return $newData;
+    }
+
+    public function validateAttributeData(array $data)
+    {
+        foreach ($data as $attribute => $structure) {
+            if (!$this->validateStructure($this->getDataMapping(), $structure)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected function validateStructure(array $structure = null, $data = null)
+    {
+        foreach ($structure as $key => $value) {
+            if (is_array($value)) {
+                if (!array_key_exists($key, $data)) {
+                    return false;
+                }
+            } else {
+                return array_key_exists($value, $data);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Gets the current attribute data mapping
+     * @return Array
+     */
+    public function getDataMapping()
+    {
+        $structure = [];
+        $languagesArray = [];
+
+        // Get our languages
+        $languages = app('api')->languages()->getDataList();
+        foreach ($languages as $lang) {
+            $languagesArray[$lang->code] = '';
+        }
+        // Get our channels
+        $channels = app('api')->channels()->getDataList();
+        foreach ($channels as $channel) {
+            $structure[$channel->handle] = $languagesArray;
+        }
+
+        return $structure;
     }
 }
