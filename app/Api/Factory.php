@@ -16,6 +16,7 @@ use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Taxes\Services\TaxService;
 
+
 class Factory
 {
     /**
@@ -115,8 +116,11 @@ class Factory
 
     public function __call($name, $arguments)
     {
-        if (property_exists($this, $name)) {
-            return $this->{$name};
+        if (!property_exists($this, $name)) {
+            throw new \GetCandy\Exceptions\InvalidServiceException(trans('exceptions.invalid_service', [
+                'service' => $name
+            ]), 1);
         }
+        return $this->{$name};
     }
 }
