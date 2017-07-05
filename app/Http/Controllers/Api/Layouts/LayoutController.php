@@ -4,7 +4,7 @@ namespace GetCandy\Http\Controllers\Api\Layouts;
 
 use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Controllers\Api\BaseController;
-use GetCandy\Http\Transformers\Fractal\Layouts\LanguageTransformer;
+use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
