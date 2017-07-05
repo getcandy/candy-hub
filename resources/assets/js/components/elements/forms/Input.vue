@@ -12,7 +12,7 @@
                 type: String
             },
             required: {
-                type: String
+                type: Boolean
             }
         },
         methods: {

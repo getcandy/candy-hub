@@ -33,22 +33,19 @@
                     <label :for="input.handle">{{ input.name }}</label>
 
                     <div class="form-group">
-                        <candy-select v-model="attributes[input.handle]" :value="getValue(input.handle)" :options="input.lookups" :required="input.required" v-if="input.type == 'select'"></candy-select>
-                        <candy-textarea v-model="attributes[input.handle]" :value="getValue(input.handle)" :required="input.required" v-else-if="input.type == 'textarea'"></candy-textarea>
-                        <candy-input v-model="attributes[input.handle].ecommerce.en" :value="getValue(input.handle)" :required="input.required" v-else-if="input.type == 'text'"></candy-input>
+                        <div v-if="input.type == 'text'">
+                            <candy-input v-model="attributes[input.handle].ecommerce.en" :value="getValue(input.handle)" :required="input.required"></candy-input>
+                        </div>
+                        <div v-else-if="input.type == 'select'">
+                            <candy-select v-model="attributes[input.handle]" :value="getValue(input.handle)" :options="input.lookups" :required="input.required"></candy-select>
+                        </div>
+                        <div v-else-if="input.type == 'textarea'">
+                            <candy-textarea v-model="attributes[input.handle]" :value="getValue(input.handle)" :required="input.required"></candy-textarea>
+                        </div>
                     </div>
 
                 </div>
 
-                <!--
-                <label>
-                  {{ input.name }}
-                </label>
-
-                <input type="text" class="form-control" :value="getValue(input.handle)">
-                <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']" v-if="translating">
-                <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span>
-                -->
             </div>
         </div>
     </div>
@@ -73,21 +70,18 @@
         },
         methods: {
             save() {
-                //this.update.send('put', '/products/' + this.product.id, this.product);
-                this.update.send('put', '/products/' + this.product.id, this.attributes);
+                this.update.send('put', '/products/' + this.product.id, { 'attributes' : this.attributes }).then(response => {
+                    Event.$emit('notification', {
+                        level: 'success'
+                    });
+                });
             },
             getValue(handle, filter = 'ecommerce', language = 'en') {
 
                 if(this.product.attribute_data[handle] && this.product.attribute_data[handle][filter] && this.product.attribute_data[handle][filter][language]){
                     return this.product.attribute_data[handle][filter][language];
-                }else if (this.product.attribute_data[handle] && !this.product.attribute_data[handle][filter] && this.product.attribute_data[handle][language]){
-                    return this.product.attribute_data[handle][language];
                 }
 
-            },
-            cl(data) {
-                // Temp delete just used for console log
-                console.log(data);
             }
         },
         mounted() {
