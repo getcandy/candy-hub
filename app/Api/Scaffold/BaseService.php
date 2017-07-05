@@ -128,4 +128,28 @@ abstract class BaseService
     {
         return $this->model->attributes()->get();
     }
+
+    /**
+     * Updates the attributes for a model
+     * @param  String  $model
+     * @param  array  $data
+     * @throws Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Model
+     */
+    public function updateAttributes($id, array $data)
+    {
+        $ids = [];
+
+        $model = $this->getByHashedId($id);
+
+        foreach ($data['attributes'] as $attribute) {
+            $ids[] = app('api')->attributes()->getDecodedId($attribute);
+        }
+
+        $model->attributes()->sync($ids);
+
+        event(new AttributesUpdatedEvent($model));
+
+        return $model;
+    }
 }

@@ -19,18 +19,17 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'name' => [
-                        'ecommerce' => [
-                            ['en' => 'Shoes', 'sv' => 'Skodon']
-                        ],
-                        'mobile' => [
-                            'en' => '',
-                            'sv' => ''
-                        ],
-                        'print' => [
-                            'en' => '',
-                            'sv' => ''
-                        ]
+                    'ecommerce' => [
+                        'en' => 'Shoes',
+                        'sv' => 'Skodon'
+                    ],
+                    'mobile' => [
+                        'en' => '',
+                        'sv' => ''
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
                     ]
                 ],
                 'description' => [
@@ -50,6 +49,7 @@ class ProductFamilyTableSeeder extends Seeder
             ]
         ]);
 
+
         foreach ($atts as $att) {
             $fam->attributes()->attach($att);
         }
@@ -57,8 +57,18 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'en' => 'Bags',
-                    'sv' => 'Påsar'
+                    'ecommerce' => [
+                        'en' => 'Bags',
+                        'sv' => 'Påsar'
+                    ],
+                    'mobile' => [
+                        'en' => '',
+                        'sv' => ''
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
                 ],
                 'description' => [
                     'ecommerce' => [
@@ -84,8 +94,18 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'en' => 'Jewellery',
-                    'sv' => 'Smycke'
+                    'ecommerce' => [
+                        'en' => 'Jewellery',
+                        'sv' => 'Smycke'
+                    ],
+                    'mobile' => [
+                        'en' => '',
+                        'sv' => ''
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
                 ],
                 'description' => [
                     'ecommerce' => [
@@ -111,8 +131,18 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'en' => 'House items',
-                    'sv' => 'Husartiklar'
+                    'ecommerce' => [
+                        'en' => 'House items',
+                        'sv' => 'Husartiklar'
+                    ],
+                    'mobile' => [
+                        'en' => '',
+                        'sv' => ''
+                    ],
+                    'print' => [
+                        'en' => '',
+                        'sv' => ''
+                    ]
                 ],
                 'description' => [
                     'ecommerce' => [
@@ -130,6 +160,7 @@ class ProductFamilyTableSeeder extends Seeder
                 ]
             ]
         ]);
+
 
         foreach ($atts as $att) {
             $fam->attributes()->attach($att);

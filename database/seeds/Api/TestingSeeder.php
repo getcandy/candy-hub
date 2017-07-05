@@ -33,6 +33,5 @@ class TestingSeeder extends Seeder
         ]);
 
         $client->save();
-
     }
 }

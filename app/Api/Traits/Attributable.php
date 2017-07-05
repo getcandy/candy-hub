@@ -35,6 +35,11 @@ trait Attributable
         return $this->attribute('name');
     }
 
+    public function getAttributeDataAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
     public function setAttributeDataAttribute($val)
     {
         $this->attributes['attribute_data'] = json_encode($this->parseAttributeData($val));
@@ -56,6 +61,7 @@ trait Attributable
             foreach ($values as $channel => $content) {
                 foreach ($content as $lang => $value) {
                     $valueMapping[$attribute][$channel . '.' . $lang] = $value;
+
                 }
             }
             foreach ($valueMapping as $attribute => $value) {

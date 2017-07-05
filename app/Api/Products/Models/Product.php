@@ -10,11 +10,12 @@ use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
+use GetCandy\Api\Traits\Attributable;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 
 class Product extends BaseModel
 {
-    use Indexable;
+    use Indexable, Attributable;
 
     public $transformer = ProductTransformer::class;
 
