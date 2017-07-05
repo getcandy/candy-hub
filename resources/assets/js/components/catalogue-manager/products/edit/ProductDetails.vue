@@ -27,9 +27,23 @@
             <hr>
 
             <div class="form-group" v-for="input in group.attributes.data">
-                <label>
+
+                <div class="form-group">
+
+                    <label :for="input.handle">{{ input.name }}</label>
+
+                    <div class="form-group">
+                        <candy-select :value="getValue(input.handle)" :options="input.lookups" v-if="input.type == 'select'"></candy-select>
+                        <candy-textarea :value="getValue(input.handle)" v-else-if="input.type == 'textarea'"></candy-textarea>
+                        <candy-input :value="getValue(input.handle)" v-else-if="input.type == 'text'"></candy-input>
+                    </div>
+
+                </div>
+
+                <!--<label>
                   {{ input.name }}
-                </label>
+                </label>-->
+
                <!-- <input type="text" class="form-control" :value="getValue(input.handle)">
                 <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']" v-if="translating">
                 <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span> -->
@@ -58,8 +72,20 @@
             save() {
                 this.update.send('put', '/products/' + this.product.id, this.product);
             },
-            getValue(handle) {
-                return this.product.attribute_data[handle]['ecommerce']['en'];
+            getValue(handle, language = 'en') {
+
+                //return this.product.attribute_data[handle][language];
+
+                console.log(this.product.attribute_data[handle].en);
+
+                //return this.product.attribute_data[handle][en];
+
+                //console.log(this.group.attributes.data[2])
+
+            },
+            cl(data) {
+                // Temp delete just used for console log
+                console.log(data);
             }
         },
         mounted() {
