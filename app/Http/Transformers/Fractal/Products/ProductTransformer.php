@@ -11,6 +11,7 @@ use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
 
 class ProductTransformer extends BaseTransformer
 {
