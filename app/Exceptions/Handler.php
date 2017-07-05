@@ -67,7 +67,7 @@ class Handler extends ExceptionHandler
                     $response = $this->errorInternalError();
                     break;
                 default:
-                    $response = $this->setStatus($statusCode)->respondWithError($exception->getMessage());
+                    $response = $this->setStatusCode($statusCode)->respondWithError($exception->getMessage());
                     break;
             }
             return $response;
