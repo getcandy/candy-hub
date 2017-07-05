@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use GetCandy\Api\Traits\Fractal;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,7 +48,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($request->headers->get('accept-language') || $request->ajax()) {
+        if (($request->headers->get('accept-content') || $request->ajax()) && $exception instanceof HttpException) {
             $statusCode = $exception->getStatusCode();
             switch ($statusCode) {
                 case 400:

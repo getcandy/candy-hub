@@ -9,6 +9,7 @@ abstract class BaseService
     /**
      * Returns model by a given hashed id
      * @param  string $id
+     * @throws  Illuminate\Database\Eloquent\ModelNotFoundException
      * @return Illuminate\Database\Eloquent\Model
      */
     public function getByHashedId($id)
@@ -185,6 +186,7 @@ abstract class BaseService
      * Updates the attributes for a model
      * @param  String  $model
      * @param  array  $data
+     * @throws Illuminate\Database\Eloquent\ModelNotFoundException
      * @return Model
      */
     public function updateAttributes($id, array $data)

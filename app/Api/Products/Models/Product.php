@@ -10,7 +10,7 @@ use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
-use GetCandy\Http\Transformers\Fractal\ProductTransformer;
+use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 
 class Product extends BaseModel
 {

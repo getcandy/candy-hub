@@ -7,6 +7,7 @@ use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
 use GetCandy\Api\Categories\Services\CategoryService;
 use GetCandy\Api\Channels\Services\ChannelService;
+use GetCandy\Api\Collections\Services\CollectionService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
 use GetCandy\Api\Languages\Services\LanguageService;
 use GetCandy\Api\Layouts\Services\LayoutService;
@@ -88,6 +89,7 @@ class Factory
         AttributeService $attributes,
         CategoryService $categories,
         ChannelService $channels,
+        CollectionService $collections,
         CurrencyService $currencies,
         LanguageService $languages,
         LayoutService $layouts,
@@ -102,6 +104,7 @@ class Factory
         $this->attributes = $attributes;
         $this->categories = $categories;
         $this->channels = $channels;
+        $this->collections = $collections;
         $this->currencies = $currencies;
         $this->languages = $languages;
         $this->layouts = $layouts;
@@ -115,8 +118,11 @@ class Factory
 
     public function __call($name, $arguments)
     {
-        if (property_exists($this, $name)) {
-            return $this->{$name};
+        if (!property_exists($this, $name)) {
+            throw new \GetCandy\Exceptions\InvalidServiceException(trans('exceptions.invalid_service', [
+                'service' => $name
+            ]), 1);
         }
+        return $this->{$name};
     }
 }
