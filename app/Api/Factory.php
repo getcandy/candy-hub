@@ -7,6 +7,7 @@ use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
 use GetCandy\Api\Categories\Services\CategoryService;
 use GetCandy\Api\Channels\Services\ChannelService;
+use GetCandy\Api\Collections\Services\CollectionService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
 use GetCandy\Api\Languages\Services\LanguageService;
 use GetCandy\Api\Layouts\Services\LayoutService;
@@ -15,7 +16,6 @@ use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Taxes\Services\TaxService;
-
 
 class Factory
 {
@@ -89,6 +89,7 @@ class Factory
         AttributeService $attributes,
         CategoryService $categories,
         ChannelService $channels,
+        CollectionService $collections,
         CurrencyService $currencies,
         LanguageService $languages,
         LayoutService $layouts,
@@ -103,6 +104,7 @@ class Factory
         $this->attributes = $attributes;
         $this->categories = $categories;
         $this->channels = $channels;
+        $this->collections = $collections;
         $this->currencies = $currencies;
         $this->languages = $languages;
         $this->layouts = $layouts;
