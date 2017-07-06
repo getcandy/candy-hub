@@ -225,6 +225,32 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
+    public function testInvalidStoreAttributesFormating()
+    {
+        $response = $this->post(
+            $this->url('products'),
+            [
+                'attributes' => [
+                    'name' => [
+                        'ecommerce' => [
+                            'ecommerce' => [
+                                'en' => 'Foo'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->accessToken()
+            ]
+        );
+        $response->assertJsonStructure([
+            'attributes'
+        ]);
+
+        $this->assertEquals(422, $response->status());
+    }
+
     // public function testInvalidLanguageStore()
     // {
     //     $family = ProductFamily::create([
