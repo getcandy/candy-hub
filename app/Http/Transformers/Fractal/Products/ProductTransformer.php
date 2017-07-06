@@ -43,6 +43,16 @@ class ProductTransformer extends BaseTransformer
         return $this->item($product->family, new ProductFamilyTransformer);
     }
 
+    /**
+     * Includes any collections associated to the product
+     * @param  Product $product
+     * @return League\Fractal\Resource\Collection
+     */
+    public function includeCollections(Product $product)
+    {
+        return $this->collection($product->collections, new CollectionTransformer);
+    }
+
     public function getAttributeGroups()
     {
         if (!$this->attributeGroups) {

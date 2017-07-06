@@ -164,4 +164,25 @@ class ProductService extends BaseService
 
         return $attributes;
     }
+
+    /**
+     * Updates the collections for a product
+     * @param  String  $model
+     * @param  array  $data
+     * @throws Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Model
+     */
+    public function updateCollections($id, array $data)
+    {
+        $ids = [];
+
+        $product = $this->getByHashedId($id);
+
+        foreach ($data['collections'] as $attribute) {
+            $ids[] = app('api')->collections()->getDecodedId($attribute);
+        }
+
+        $product->collections()->sync($ids);
+        return $product;
+    }
 }
