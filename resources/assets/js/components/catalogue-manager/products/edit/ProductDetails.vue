@@ -6,23 +6,22 @@
     <div class="row">
         <div class="col-xs-12 col-md-11">
             <div class="form-inline">
-              <div class="form-group">
-                <label class="sr-only">Store Channels</label>
-                <select class="form-control selectpicker">
-                  <option value="0" data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
-                  <option value="1" data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
-                  <option value="2" data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="sr-only">Language</label>
-                <select class="form-control selectpicker">
-                  <option data-content="<span class='flag-icon flag-icon-gb'></span> English" selected>English</option>
-                  <option data-content="<span class='flag-icon flag-icon-fr'></span> French">French</option>
-                  <option data-content="<span class='flag-icon flag-icon-de'></span> German">German</option>
-                </select>
-              </div>
-              <button class="btn btn-default">Translate</button>
+                <div class="form-group">
+                    <label class="sr-only">Store Channels</label>
+                    <select class="form-control selectpicker" v-model="channel">
+                        <option value="0" data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
+                        <option value="1" data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
+                        <option value="2" data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">Language</label>
+                    <select class="form-control selectpicker" v-model="language">
+                        <option value="en" data-content="<span class='flag-icon flag-icon-gb'></span> English" selected>English</option>
+                        <option value="sv" data-content="<span class='flag-icon flag-icon-sv'></span> Swedish">Swedish</option>
+                    </select>
+                </div>
+                <button class="btn btn-default">Translate</button>
             </div>
             <hr>
 
@@ -32,15 +31,46 @@
 
                     <label :for="input.handle">{{ input.name }}</label>
 
-                    <div class="form-group">
-                        <div v-if="input.type == 'text'">
-                            <candy-input v-model="attributes[input.handle].ecommerce.en" :value="getValue(input.handle)" :required="input.required"></candy-input>
+
+                    <div id="original-data">
+                        <div v-if="input.type == 'text'" class="form-group">
+
+                            <candy-input v-model="attributes[input.handle][channel][defaultLanguage]" :required="input.required"></candy-input>
+                            <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+
                         </div>
-                        <div v-else-if="input.type == 'select'">
-                            <candy-select v-model="attributes[input.handle]" :value="getValue(input.handle)" :options="input.lookups" :required="input.required"></candy-select>
+                        <div v-else-if="input.type == 'select'" class="form-group">
+
+                            <candy-select v-model="attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-select>
+                            <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+
                         </div>
-                        <div v-else-if="input.type == 'textarea'">
-                            <candy-textarea v-model="attributes[input.handle]" :value="getValue(input.handle)" :required="input.required"></candy-textarea>
+                        <div v-else-if="input.type == 'textarea'" class="form-group">
+
+                            <candy-textarea v-model="attributes[input.handle]" :required="input.required"></candy-textarea>
+                            <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+
+                        </div>
+                    </div>
+
+                    <div id="translated-data" v-if="defaultLanguage !== language">
+                        <div v-if="input.type == 'text'" class="form-group">
+
+                            <candy-input v-model="attributes[input.handle][channel][language]" :value="getValue(input.handle)" :required="input.required"></candy-input>
+                            <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, language))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+
+                        </div>
+                        <div v-else-if="input.type == 'select'" class="form-group">
+
+                            <candy-select v-model="attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-select>
+                            <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, language))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+
+                        </div>
+                        <div v-else-if="input.type == 'textarea'" class="form-group">
+
+                            <candy-textarea v-model="attributes[input.handle]" :required="input.required"></candy-textarea>
+                            <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, language))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+
                         </div>
                     </div>
 
@@ -57,7 +87,10 @@
             return {
                 update: apiRequest,
                 translating: false,
-                attributes: this.product.attribute_data
+                attributes: this.product.attribute_data,
+                channel: 'ecommerce',
+                defaultLanguage: 'en',
+                language: 'en'
             }
         },
         props: {
@@ -70,17 +103,21 @@
         },
         methods: {
             save() {
-                this.update.send('put', '/products/' + this.product.id, { 'attributes' : this.attributes }).then(response => {
-                    Event.$emit('notification', {
-                        level: 'success'
+                this.update.send('put', '/products/' + this.product.id, { 'attributes' : this.attributes })
+                    .then(response => {
+                        Event.$emit('notification', {
+                            level: 'success'
+                        });
+                    })
+                    .catch(errors => {
+                        this.update.record(errors.response.data);
                     });
-                });
-            },
-            getValue(handle, filter = 'ecommerce', language = 'en') {
 
-                if(this.product.attribute_data[handle] && this.product.attribute_data[handle][filter] && this.product.attribute_data[handle][filter][language]){
-                    return this.product.attribute_data[handle][filter][language];
-                }
+            },
+            getValue(handle, channel, lang) {
+
+                // need to tidy
+                return 'attributes.'+ handle +'.'+ channel +'.'+ lang;
 
             }
         },

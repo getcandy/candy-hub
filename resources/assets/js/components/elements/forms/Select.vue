@@ -1,7 +1,7 @@
 <template>
     <div>
-        <select class="form-control">
-            <option v-for="option in options" :value="option.value" :required="required">{{ option.label }}</option>
+        <select class="form-control" :required="required" @input="updateValue($event.target.value)">
+            <option v-for="option in options" :value="option.value">{{ option.label }}</option>
         </select>
     </div>
 </template>
@@ -20,7 +20,7 @@
             }
         },
         methods: {
-            updateInputValue(value) {
+            updateValue(value) {
                 this.$emit('input', value)
             }
         }

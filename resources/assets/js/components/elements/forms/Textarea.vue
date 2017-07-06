@@ -1,21 +1,23 @@
 <template>
     <div>
-        <textarea class="form-control" :value="foo" @input="updateInputValue($event.target.value)">{{ value }}</textarea>
+        <textarea class="form-control" rows="8" :value="value" @input="updateValue($event.target.value)">{{ value }}</textarea>
     </div>
 </template>
 
 <script>
     export default {
         props: {
-            foo: {
+            value: {
                 type: String
+            },
+            required: {
+                type: Boolean
             }
         },
         methods: {
-            updateInputValue(foo) {
-                this.$emit('input', foo)
+            updateValue: function (value) {
+                this.$emit('input', value);
             }
         }
-
     }
 </script>

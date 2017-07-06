@@ -19,8 +19,6 @@ require('babel-polyfill');
 require('./classes/Errors');
 require('./classes/Form');
 
-
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -43,6 +41,8 @@ Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
 Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
 Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
 Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
+Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
+Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
 
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
