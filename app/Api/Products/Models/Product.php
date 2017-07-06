@@ -38,15 +38,6 @@ class Product extends BaseModel
      * Get the attributes associated to the product
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function attributes()
-    {
-        return $this->belongsToMany(Attribute::class)->withTimestamps();
-    }
-
-    /**
-     * Get the attributes associated to the product
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
     public function collections()
     {
         return $this->belongsToMany(Collection::class)->withTimestamps();

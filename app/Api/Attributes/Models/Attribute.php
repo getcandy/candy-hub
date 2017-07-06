@@ -31,9 +31,12 @@ class Attribute extends BaseModel
         return $this->belongsTo(AttributeGroup::class);
     }
 
-    public function products()
+    /**
+     * Get all of the tags for the post.
+     */
+    public function attributables()
     {
-        return $this->belongsToMany(Product::class)->withTimestamps();
+        return $this->hasMany(Attributable::class);
     }
 
     /**
