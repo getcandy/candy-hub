@@ -3,9 +3,19 @@
 namespace GetCandy\Api\Scaffold;
 
 use GetCandy\Events\General\AttributesUpdatedEvent;
+use GetCandy\Jobs\Attributes\SyncAttributeDataJob;
 
 abstract class BaseService
 {
+
+    protected $with = [];
+
+    public function with(array $data)
+    {
+        $this->with = $data;
+        return $this;
+    }
+
     /**
      * Returns model by a given hashed id
      * @param  string $id
@@ -30,7 +40,7 @@ abstract class BaseService
         foreach ($ids as $hash) {
             $parsedIds[] = $this->model->decodeId($hash);
         }
-        return $this->model->find($parsedIds);
+        return $this->model->with($this->with)->find($parsedIds);
     }
 
     /**
@@ -139,92 +149,48 @@ abstract class BaseService
     public function updateAttributes($id, array $data)
     {
         $ids = [];
-
         $model = $this->getByHashedId($id);
-
+        $updatedData = $model->attribute_data;
         foreach ($data['attributes'] as $attribute) {
             $ids[] = app('api')->attributes()->getDecodedId($attribute);
         }
-
         $model->attributes()->sync($ids);
-
-        event(new AttributesUpdatedEvent($model));
-
         return $model;
     }
 
     /**
-     * Prepares the attribute data for saving to the datbase
+     * Validates the integrity of the attribute data
      * @param  array  $data
-     * @return array
+     * @return boolean
      */
-    public function parseAttributeData(array $data)
-    {
-        $valueMapping = [];
-        $structure = $this->getDataMapping();
-
-        foreach ($data as $attribute => $values) {
-            // Do this so we can reset the structure without hitting DB again
-            $newData[$attribute] = $structure;
-            foreach ($values as $channel => $content) {
-                foreach ($content as $lang => $value) {
-                    $valueMapping[$attribute][$channel . '.' . $lang] = $value;
-
-                }
-            }
-            foreach ($valueMapping as $attribute => $value) {
-                foreach ($value as $map => $value) {
-                    array_set($newData[$attribute], $map, $value);
-                }
-            }
-        }
-        return $newData;
-    }
-
     public function validateAttributeData(array $data)
     {
         foreach ($data as $attribute => $structure) {
-            if (!$this->validateStructure($this->getDataMapping(), $structure)) {
+            if (!$this->validateStructure($this->model->getDataMapping(), $structure)) {
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Checks the structure of an array against another
+     * @param  array|null $structure
+     * @param  array|null     $data
+     * @return boolean
+     */
     protected function validateStructure(array $structure = null, $data = null)
     {
         foreach ($structure as $key => $value) {
             if (is_array($value)) {
-                if (!array_key_exists($key, $data)) {
+                if (!is_array($data) || !array_key_exists($key, $data)) {
                     return false;
                 }
+                return $this->validateStructure($structure[$key], $data[$key]);
             } else {
-                return array_key_exists($value, $data);
+                return isset($data[$key]);
             }
         }
         return true;
-    }
-
-    /**
-     * Gets the current attribute data mapping
-     * @return Array
-     */
-    public function getDataMapping()
-    {
-        $structure = [];
-        $languagesArray = [];
-
-        // Get our languages
-        $languages = app('api')->languages()->getDataList();
-        foreach ($languages as $lang) {
-            $languagesArray[$lang->code] = '';
-        }
-        // Get our channels
-        $channels = app('api')->channels()->getDataList();
-        foreach ($channels as $channel) {
-            $structure[$channel->handle] = $languagesArray;
-        }
-
-        return $structure;
     }
 }

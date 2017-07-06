@@ -23,7 +23,10 @@ class AttributeValidator
 
     public function validateData($attribute, $value, $parameters, $validator)
     {
-        $classname = camel_case($attribute);
+        if (!is_array($value) || empty($parameters[0])) {
+            return false;
+        }
+        $classname = camel_case($parameters[0]);
         return app('api')->{$classname}()->validateAttributeData($value);
     }
 }

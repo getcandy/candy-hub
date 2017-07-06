@@ -51,6 +51,21 @@ class AttributeService extends BaseService
         return $attribute->position + 1;
     }
 
+    public function getAttributables(array $hashedIds, $type = null)
+    {
+        $ids = [];
+        foreach ($hashedIds as $hash) {
+            $ids[] = $this->model->decodeId($hash);
+        }
+        $query = $this->model->with(['attributables', 'attributables.records']);
+        if ($type) {
+            $query = $this->model->with(['attributables' => function ($query) use ($type) {
+                $query->where('attributable_type', '=', $type);
+            }, 'attributables.records']);
+        }
+        return $query->find($ids);
+    }
+
     /**
      * Updates the positions of attributes
      * @param  array  $data

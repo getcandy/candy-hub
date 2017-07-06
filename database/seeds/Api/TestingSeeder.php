@@ -17,6 +17,7 @@ class TestingSeeder extends Seeder
 
         $this->call('AttributesTableSeeder');
         $this->call('ProductFamilyTableSeeder');
+        $this->call('CollectionTableSeeder');
         $this->call('ChannelTableSeeder');
         $this->call('LanguageTableSeeder');
         $this->call('ProductTableSeeder');

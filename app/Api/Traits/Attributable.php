@@ -7,13 +7,13 @@ use GetCandy\Api\Attributes\Models\AttributeGroup;
 
 trait Attributable
 {
+
     /**
-     * Get the attributes associated to the product family
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * Get all of the tags for the post.
      */
     public function attributes()
     {
-        return $this->belongsToMany(Attribute::class)->withTimestamps();
+        return $this->morphToMany(Attribute::class, 'attributable');
     }
 
     public function attributeGroup()
@@ -43,7 +43,58 @@ trait Attributable
     public function setAttributeDataAttribute($val)
     {
         $this->attributes['attribute_data'] = json_encode(
-            app('api')->attributes()->parseAttributeData($val)
+            $this->parseAttributeData($val)
         );
+    }
+
+    /**
+     * Prepares the attribute data for saving to the datbase
+     * @param  array  $data
+     * @return array
+     */
+    public function parseAttributeData(array $data)
+    {
+        $valueMapping = [];
+        $structure = $this->getDataMapping();
+
+        foreach ($data as $attribute => $values) {
+            // Do this so we can reset the structure without hitting DB again
+            $newData[$attribute] = $structure;
+            foreach ($values as $channel => $content) {
+                foreach ($content as $lang => $value) {
+                    $valueMapping[$attribute][$channel . '.' . $lang] = $value;
+
+                }
+            }
+            foreach ($valueMapping as $attribute => $value) {
+                foreach ($value as $map => $value) {
+                    array_set($newData[$attribute], $map, $value);
+                }
+            }
+        }
+        return $newData;
+    }
+
+    /**
+     * Gets the current attribute data mapping
+     * @return Array
+     */
+    public function getDataMapping()
+    {
+        $structure = [];
+        $languagesArray = [];
+
+        // Get our languages
+        $languages = app('api')->languages()->getDataList();
+        foreach ($languages as $lang) {
+            $languagesArray[$lang->code] = '';
+        }
+        // Get our channels
+        $channels = app('api')->channels()->getDataList();
+        foreach ($channels as $channel) {
+            $structure[$channel->handle] = $languagesArray;
+        }
+
+        return $structure;
     }
 }
