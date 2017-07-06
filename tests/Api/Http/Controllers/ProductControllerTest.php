@@ -116,7 +116,7 @@ class ProductControllerTest extends TestCase
     {
         $product = Product::first();
 
-        $collections = Collection::first();
+        $collections = Collection::take(2)->get();
 
         $ids = [];
 
