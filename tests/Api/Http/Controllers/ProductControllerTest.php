@@ -2,14 +2,16 @@
 
 namespace Tests;
 
+use Event;
+use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductFamily;
+use GetCandy\Events\General\AttributesUpdatedEvent;
 use GetCandy\Events\ProductCreatedEvent;
 use GetCandy\Events\ProductUpdatedEvent;
-use GetCandy\Events\General\AttributesUpdatedEvent;
-use Event;
 
 /**
  * @group controllers
@@ -79,6 +81,60 @@ class ProductControllerTest extends TestCase
         $data = json_decode($response->getContent(), true);
 
         $this->assertTrue(empty($data['data'][0]['attribute_groups']));
+
+        $this->assertEquals(200, $response->status());
+    }
+
+    public function testUpdateAttributes()
+    {
+        $product = Product::first();
+
+        $attributes = Attribute::limit(2)->offset(2)->get();
+
+        $ids = [];
+
+        foreach ($attributes as $attribute) {
+            $ids[] = $attribute->encodedId();
+        }
+
+        $response = $this->post(
+            $this->url('products/' . $product->encodedId() . '/attributes'),
+            [
+                'attributes' =>  $ids,
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->accessToken()
+            ]
+        );
+
+        $data = json_decode($response->getContent(), true);
+
+        $this->assertEquals(200, $response->status());
+    }
+
+    public function testUpdateCollections()
+    {
+        $product = Product::first();
+
+        $collections = Collection::first();
+
+        $ids = [];
+
+        foreach ($collections as $collection) {
+            $ids[] = $collection->encodedId();
+        }
+
+        $response = $this->post(
+            $this->url('products/' . $product->encodedId() . '/collections'),
+            [
+                'collections' =>  $ids,
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->accessToken()
+            ]
+        );
+
+        $data = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->status());
     }
@@ -225,8 +281,16 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
+    /**
+     * @group fail
+     * @return [type] [description]
+     */
     public function testInvalidStoreAttributesFormating()
     {
+        $family = ProductFamily::first();
+
+        $layout = Layout::first()->encodedId();
+
         $response = $this->post(
             $this->url('products'),
             [
@@ -238,12 +302,16 @@ class ProductControllerTest extends TestCase
                             ]
                         ]
                     ]
-                ]
+                ],
+                'sku' => 'Foo',
+                'family_id' => $family->encodedId(),
+                'layout_id' => $layout,
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
             ]
         );
+
         $response->assertJsonStructure([
             'attributes'
         ]);
