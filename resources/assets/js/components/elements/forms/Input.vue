@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="text" :value="value" class="form-control">
+        <input type="text" :value="value" @input="updateValue($event.target.value)" class="form-control" :required="required">
     </div>
 </template>
 
@@ -10,13 +10,15 @@
         props: {
             value: {
                 type: String
+            },
+            required: {
+                type: Boolean
             }
         },
-        data() {
-            return {
-                input: ''
+        methods: {
+            updateValue: function (value) {
+                this.$emit('input', value);
             }
         }
-
     }
 </script>

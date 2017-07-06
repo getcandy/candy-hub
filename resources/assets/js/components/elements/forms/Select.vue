@@ -1,7 +1,7 @@
 <template>
     <div>
         <select class="form-control">
-            <option v-for="option in options" :value="option.value">{{ option.label }}</option>
+            <option v-for="option in options" :value="option.value" :required="required">{{ option.label }}</option>
         </select>
     </div>
 </template>
@@ -9,18 +9,20 @@
 <script>
     export default {
         props: {
-            input: {
-                type: Object
-            },
             options: {
                 type: Array
             },
             value: {
                 type: String
+            },
+            required: {
+                type: Boolean
             }
         },
-        created() {
-            //console.log(this.options)
-         }
+        methods: {
+            updateInputValue(value) {
+                this.$emit('input', value)
+            }
+        }
     }
 </script>
