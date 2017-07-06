@@ -149,22 +149,20 @@ abstract class BaseService
     public function updateAttributes($id, array $data)
     {
         $ids = [];
-
         $model = $this->getByHashedId($id);
         $updatedData = $model->attribute_data;
-
         foreach ($data['attributes'] as $attribute) {
             $ids[] = app('api')->attributes()->getDecodedId($attribute);
         }
-
         $model->attributes()->sync($ids);
-
-        dispatch(new SyncAttributeDataJob($data['attributes'], get_class($model)));
-
         return $model;
     }
 
-
+    /**
+     * Validates the integrity of the attribute data
+     * @param  array  $data
+     * @return boolean
+     */
     public function validateAttributeData(array $data)
     {
         foreach ($data as $attribute => $structure) {
@@ -175,15 +173,22 @@ abstract class BaseService
         return true;
     }
 
+    /**
+     * Checks the structure of an array against another
+     * @param  array|null $structure
+     * @param  array|null     $data
+     * @return boolean
+     */
     protected function validateStructure(array $structure = null, $data = null)
     {
         foreach ($structure as $key => $value) {
             if (is_array($value)) {
-                if (!array_key_exists($key, $data)) {
+                if (!is_array($data) || !array_key_exists($key, $data)) {
                     return false;
                 }
+                return $this->validateStructure($structure[$key], $data[$key]);
             } else {
-                return array_key_exists($value, $data);
+                return isset($data[$key]);
             }
         }
         return true;
