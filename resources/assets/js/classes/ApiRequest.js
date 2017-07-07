@@ -51,7 +51,6 @@ class ApiRequest {
 
 
         return new Promise((resolve, reject) => {
-
             axios({
                 method: method,
                 url: this.getUrl(path),
@@ -61,14 +60,10 @@ class ApiRequest {
             })
             .then(response => {
                 this.onSuccess(response.data);
-
                 resolve(response.data);
             })
             .catch(error => {
-
-                console.log(error);
-                //this.onFail(error.response.data);
-
+                this.onFail(error.response.data);
                 reject(error);
             });
 

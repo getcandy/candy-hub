@@ -26,8 +26,6 @@
            * @return
            */
           decorate (data) {
-
-              console.log(data);
             this.attribute_groups = data.attribute_groups.data;
             this.product = data;
             this.product.attributes = this.product.attribute_data;
@@ -39,7 +37,15 @@
           loadProduct (id) {
             apiRequest.send('get', '/products/' + this.productId, {}, {
               includes : 'family,attribute_groups,attribute_groups.attributes,layout'
-            }).then(response => this.decorate(response.data.data));
+            }).then(response => {
+              // The problem was trying to pass response.data.data when we were already passing response.data in
+              // the ApiRequest class.
+                this.decorate(response.data);
+              }).catch(error => {
+                // It seems that if something goes wrong in the above code (within the .then()) will trigger this aswell
+                // The whole decorate thing might not be the best way to approach things, so if you can think of a better
+                // way to do it then by all means...
+            });
           }
         }
     }
