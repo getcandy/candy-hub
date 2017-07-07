@@ -4,6 +4,7 @@ namespace GetCandy\Http\Transformers\Fractal\Categories;
 
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 
 class CategoryTransformer extends BaseTransformer
 {

@@ -6,7 +6,6 @@ use GetCandy\Api\Routes\Models\Route;
 
 /**
  * @group api
- * @group new
  * @group controllers
  */
 class RouteControllerTest extends TestCase
@@ -37,9 +36,29 @@ class RouteControllerTest extends TestCase
     public function testShow()
     {
         // Get a channel
-        $id = Route::first()->encodedId();
+        $route = Route::first();
 
-        $response = $this->get($this->url('routes/' . $id), [
+        $response = $this->get($this->url('routes/' . $route->slug), [
+            'Authorization' => 'Bearer ' . $this->accessToken()
+        ]);
+
+        $response->assertJsonStructure([
+            'data' => ['id', 'default', 'locale', 'slug', 'type']
+        ]);
+
+        $this->assertEquals(200, $response->status());
+    }
+
+    public function testShowWithElement()
+    {
+        // Get a channel
+        $route = Route::first();
+
+        $url = $this->url('routes/' . $route->slug, [
+            'includes' => 'element'
+        ]);
+
+        $response = $this->get($url, [
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
 
@@ -55,9 +74,7 @@ class RouteControllerTest extends TestCase
         $response = $this->get($this->url('routes/123456'), [
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
-
         $this->assertHasErrorFormat($response);
-
         $this->assertEquals(404, $response->status());
     }
 }

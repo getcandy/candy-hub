@@ -11,6 +11,11 @@ class ChannelTransformer extends BaseTransformer
         'routes'
     ];
 
+    /**
+     * Decorates the attribute object for viewing
+     * @param  Attribute $product
+     * @return Array
+     */
     public function transform(Channel $channel)
     {
         return [
