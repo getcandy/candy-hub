@@ -12,6 +12,11 @@ class RouteService extends BaseService
         $this->model = new Route;
     }
 
+    /**
+     * Gets a route by a given slug
+     * @param  string $slug
+     * @return Route
+     */
     public function getBySlug($slug)
     {
         $route = $this->model->where('slug', '=', $slug)->firstOrFail();
