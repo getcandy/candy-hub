@@ -8,7 +8,6 @@
             }
         },
         mounted() {
-          console.log(this.variants);
           this.attributes.push({
               name: ' ',
               value: ' '
@@ -20,9 +19,6 @@
               name: ' ',
               value: ' '
             });
-          },
-          addVariant(option) {
-            console.log(option.name);
           },
           removeAttribute(index) {
             if (this.attributes.length == 1) {
