@@ -26,99 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
-              </a>
-            </td>
-            <td><input type="text" class="form-control" value="12kg"></td>
-            <td><input type="text" class="form-control" value="Red"></td>
-            <td>
-              <div class="input-group input-group-full">
-                <span class="input-group-addon">&pound;</span>
-                <input type="number" class="form-control">
-              </div>
-            </td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="number" class="form-control" value="1"></td>
-            <td width="120">
-              <div class="btn-group">
-                <a href="#editVariants" class="btn btn-default" aria-controls="channels" role="tab" data-toggle="tab">Edit</a>
-                <button type="button" class="btn btn-default btn-action"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
-              </a>
-            </td>
-            <td><input type="text" class="form-control" value="12kg"></td>
-            <td><input type="text" class="form-control" value="Red"></td>
-            <td>
-              <div class="input-group input-group-full">
-                <span class="input-group-addon">&pound;</span>
-                <input type="number" class="form-control">
-              </div>
-            </td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="number" class="form-control" value="1"></td>
-            <td width="120">
-              <div class="btn-group">
-                <a href="#editVariants" class="btn btn-default" aria-controls="channels" role="tab" data-toggle="tab">Edit</a>
-                <button type="button" class="btn btn-default btn-action"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
-              </a>
-            </td>
-            <td><input type="text" class="form-control" value="12kg"></td>
-            <td><input type="text" class="form-control" value="Red"></td>
-            <td>
-              <div class="input-group input-group-full">
-                <span class="input-group-addon">&pound;</span>
-                <input type="number" class="form-control">
-              </div>
-            </td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="number" class="form-control" value="1"></td>
-            <td width="120">
-              <div class="btn-group">
-                <a href="#editVariants" class="btn btn-default" aria-controls="channels" role="tab" data-toggle="tab">Edit</a>
-                <button type="button" class="btn btn-default btn-action"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
-              </a>
-            </td>
-            <td><input type="text" class="form-control" value="12kg"></td>
-            <td><input type="text" class="form-control" value="Red"></td>
-            <td>
-              <div class="input-group input-group-full">
-                <span class="input-group-addon">&pound;</span>
-                <input type="number" class="form-control">
-              </div>
-            </td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="number" class="form-control" value="1"></td>
-            <td width="120">
-              <div class="btn-group">
-                <a href="#editVariants" class="btn btn-default" aria-controls="channels" role="tab" data-toggle="tab">Edit</a>
-                <button type="button" class="btn btn-default btn-action"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
+          <tr v-for="v in variants">
             <td>
               <a href="" data-toggle="modal" data-target="#variantImage">
                 <img src="img/placeholder/product.jpg" alt="Aquacomb">
@@ -152,6 +60,11 @@
         data() {
             return {
             }
+        },
+        props: {
+          variants: {
+            type: Object
+          }
         }
     }
 </script>
