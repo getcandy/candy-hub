@@ -26,6 +26,8 @@
            * @return
            */
           decorate (data) {
+
+              console.log(data);
             this.attribute_groups = data.attribute_groups.data;
             this.product = data;
             this.product.attributes = this.product.attribute_data;
