@@ -8,6 +8,7 @@
             return {
               product: [],
               attribute_groups: [],
+              variants: [],
             }
         },
         props: {
@@ -29,6 +30,7 @@
             this.attribute_groups = data.attribute_groups.data;
             this.product = data;
             this.product.attributes = this.product.attribute_data;
+            this.variants = this.product.variants.data;
           },
           /**
            * Loads the product by its encoded ID
@@ -36,7 +38,7 @@
            */
           loadProduct (id) {
             apiRequest.send('get', '/products/' + this.productId, {}, {
-              includes : 'family,attribute_groups,attribute_groups.attributes,layout'
+              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants'
             }).then(response => {
               // The problem was trying to pass response.data.data when we were already passing response.data in
               // the ApiRequest class.
@@ -90,10 +92,10 @@
       </candy-tabs>
     </candy-tab>
 
-    <candy-tab name="if Variant" handle="if-variant">
+    <candy-tab name="if Variant" handle="if-variant" v-if="this.variants.length">
       <candy-tabs nested="true">
         <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true">
-          <candy-variants></candy-variants>
+          <candy-variants :variants="variants"></candy-variants>
         </candy-tab>
         <candy-tab name="Edit Variant" handle="edit-variant_variants-added">
           <!-- This tab needs to be hidden from the sub navigation -->
@@ -111,6 +113,7 @@
       </candy-tabs>
       <candy-avalability-pricing-modals></candy-avalability-pricing-modals>
     </candy-tab>
+
 
     <candy-tab name="Associations">
       <candy-tabs nested="true">
