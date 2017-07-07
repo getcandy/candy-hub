@@ -5,7 +5,7 @@ namespace GetCandy\Api\Traits;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 
-trait Attributable
+trait HasAttributes
 {
 
     /**
