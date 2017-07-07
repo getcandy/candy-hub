@@ -38,16 +38,7 @@ class ProductService extends BaseService
         $product->attribute_data = $data['attributes'];
 
         if (! empty($data['family_id'])) {
-            // This keeps the data mapping up to date, we don't go through the sync
-            // job since it's only one record.
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
-            $data = $product->attribute_data;
-            foreach ($family->attributes()->get() as $attribute) {
-                if (empty($product->attribute_data[$attribute->handle])) {
-                    $data[$attribute->handle] = $product->getDataMapping();
-                }
-                $product->attribute_data = $data;
-            }
             $family->products()->save($product);
         } else {
             $product->save();
