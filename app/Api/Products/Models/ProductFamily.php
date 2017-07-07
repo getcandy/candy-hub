@@ -4,11 +4,11 @@ namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasTranslations;
-use GetCandy\Api\Traits\Attributable;
+use GetCandy\Api\Traits\HasAttributes;
 
 class ProductFamily extends BaseModel
 {
-    use Attributable;
+    use HasAttributes;
 
     /**
      * The Hashid Channel for encoding the id

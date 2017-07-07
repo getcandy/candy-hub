@@ -5,7 +5,7 @@ namespace GetCandy\Api\Traits;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 
-trait Attributable
+trait HasAttributes
 {
 
     /**
@@ -83,7 +83,6 @@ trait Attributable
     {
         $structure = [];
         $languagesArray = [];
-
         // Get our languages
         $languages = app('api')->languages()->getDataList();
         foreach ($languages as $lang) {
@@ -94,7 +93,6 @@ trait Attributable
         foreach ($channels as $channel) {
             $structure[$channel->handle] = $languagesArray;
         }
-
         return $structure;
     }
 }

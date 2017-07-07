@@ -4,11 +4,11 @@ namespace GetCandy\Api\Categories\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
 use Kalnoy\Nestedset\NodeTrait;
-use GetCandy\Api\Traits\Attributable;
+use GetCandy\Api\Traits\HasAttributes;
 
 class Category extends BaseModel
 {
-    use NodeTrait, Attributable;
+    use NodeTrait, HasAttributes;
 
     protected $hashids = 'main';
 }
