@@ -14,7 +14,7 @@ class RouteService extends BaseService
 
     public function getBySlug($slug)
     {
-        $route = $this->model->where('slug', '=', $slug)->first();
+        $route = $this->model->where('slug', '=', $slug)->firstOrFail();
 
         app()->setLocale($route->locale);
 
