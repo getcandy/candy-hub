@@ -6,7 +6,6 @@ use GetCandy\Api\Routes\Models\Route;
 
 /**
  * @group api
- * @group new
  * @group controllers
  */
 class RouteControllerTest extends TestCase
