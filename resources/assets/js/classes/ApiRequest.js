@@ -11,7 +11,6 @@ class ApiRequest {
     }
 
     getError(field) {
-
         if (this.errors[field]) {
             return this.errors[field][0];
         }
@@ -50,18 +49,48 @@ class ApiRequest {
      */
     send(method, path, data, params) {
 
-        this.clearError();
 
-        return axios({
-            method: method,
-            url: this.getUrl(path),
-            data: data,
-            params: params,
-            headers: {'Accept': 'application/json'}
-        })
+        return new Promise((resolve, reject) => {
 
+            axios({
+                method: method,
+                url: this.getUrl(path),
+                data: data,
+                params: params,
+                headers: {'Accept': 'application/json'}
+            })
+            .then(response => {
+                this.onSuccess(response.data);
+
+                resolve(response.data);
+            })
+            .catch(error => {
+
+                console.log(error);
+                //this.onFail(error.response.data);
+
+                reject(error);
+            });
+
+        });
+
+        /*
+         return axios({
+             method: method,
+             url: this.getUrl(path),
+             data: data,
+             params: params,
+             headers: {'Accept': 'application/json'}
+         })*/
     }
 
+    onSuccess(response){
+        this.clearError();
+    }
+
+    onFail(response){
+        this.update.record(response);
+    }
 
     /**
      * Generates a useable URL for the request

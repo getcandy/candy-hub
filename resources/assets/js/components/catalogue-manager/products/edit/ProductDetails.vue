@@ -108,9 +108,6 @@
                         Event.$emit('notification', {
                             level: 'success'
                         });
-                    })
-                    .catch(errors => {
-                        this.update.record(errors.response.data);
                     });
 
             },
