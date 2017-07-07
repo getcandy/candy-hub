@@ -49,7 +49,6 @@ class ApiRequest {
      */
     send(method, path, data, params) {
 
-
         return new Promise((resolve, reject) => {
             axios({
                 method: method,
@@ -69,14 +68,6 @@ class ApiRequest {
 
         });
 
-        /*
-         return axios({
-             method: method,
-             url: this.getUrl(path),
-             data: data,
-             params: params,
-             headers: {'Accept': 'application/json'}
-         })*/
     }
 
     onSuccess(response){
@@ -84,7 +75,7 @@ class ApiRequest {
     }
 
     onFail(response){
-        this.update.record(response);
+        this.record(response);
     }
 
     /**
