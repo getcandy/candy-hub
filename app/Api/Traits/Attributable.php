@@ -83,7 +83,6 @@ trait Attributable
     {
         $structure = [];
         $languagesArray = [];
-
         // Get our languages
         $languages = app('api')->languages()->getDataList();
         foreach ($languages as $lang) {
@@ -94,7 +93,6 @@ trait Attributable
         foreach ($channels as $channel) {
             $structure[$channel->handle] = $languagesArray;
         }
-
         return $structure;
     }
 }
