@@ -45,7 +45,7 @@ class ProductTransformer extends BaseTransformer
 
     /**
      * Includes the layout associated to the product
-     * @param  Product $product [description]
+     * @param  Product $product
      * @return League\Fractal\Resource\Collection
      */
     public function includeLayout(Product $product)

@@ -11,6 +11,11 @@ class AttributeTransformer extends BaseTransformer
         'group'
     ];
 
+    /**
+     * Decorates the attribute object for viewing
+     * @param  Attribute $product
+     * @return Array
+     */
     public function transform(Attribute $attribute)
     {
         return [
