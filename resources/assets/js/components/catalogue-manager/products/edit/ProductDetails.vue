@@ -29,32 +29,36 @@
 
                 <label :for="input.handle">{{ input.name }}</label>
 
-                <div v-if="input.type == 'text'" class="form-group">
+                <div v-if="input.type == 'text'" :class="{ 'translating': translating, 'form-group': true }">
 
-                    <candy-input v-model="product.attributes[input.handle][channel][defaultLanguage]" :required="input.required"></candy-input>
-                    <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+                    <div class="original-lang">
+                        <candy-input v-model="product.attributes[input.handle][channel][defaultLanguage]" :required="input.required"></candy-input>
+                        <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+                    </div>
 
-                    <candy-input v-if="translating" v-model="product.attributes[input.handle][channel][selectedLanguage]" :value="getValue(input.handle)" :required="input.required"></candy-input>
-                    <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, selectedLanguage))" v-text="update.getError(getValue(input.handle, channel, selectedLanguage))"></span>
+                    <div class="translated-lang">
+                        <candy-input v-if="translating" v-model="product.attributes[input.handle][channel][selectedLanguage]" :value="getValue(input.handle)" :required="input.required"></candy-input>
+                        <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, selectedLanguage))" v-text="update.getError(getValue(input.handle, channel, selectedLanguage))"></span>
+                    </div>
 
                 </div>
-                <div v-else-if="input.type == 'select'" class="form-group">
+                <div v-else-if="input.type == 'select'" class="form-group" :class="{ 'translating': translating, 'form-group': true }">
 
                     <candy-select v-model="product.attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-select>
-                    <!--<candy-select v-model="product.attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-select>-->
 
                     <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
-                    <!--<span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, language))" v-text="update.getError(getValue(input.handle, channel, language))"></span>-->
 
                 </div>
-                <div v-else-if="input.type == 'textarea'" class="form-group">
+                <div v-else-if="input.type == 'textarea'" class="form-group" :class="{ 'translating': translating, 'form-group': true }">
+                    <div class="original-lang">
+                        <candy-textarea v-model="product.attributes[input.handle]" :required="input.required"></candy-textarea>
+                        <candy-textarea v-model="product.attributes[input.handle]" :required="input.required"></candy-textarea>
+                    </div>
 
-                    <candy-textarea v-model="product.attributes[input.handle]" :required="input.required"></candy-textarea>
-                    <!--<candy-textarea v-model="product.attributes[input.handle]" :required="input.required"></candy-textarea>-->
-
-                    <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
-                    <!--<span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, language))" v-text="update.getError(getValue(input.handle, channel, language))"></span>-->
-
+                    <div class="translated-lang">
+                        <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, defaultLanguage))" v-text="update.getError(getValue(input.handle, channel, defaultLanguage))"></span>
+                        <span class="text-danger" v-if="update.hasError(getValue(input.handle, channel, language))" v-text="update.getError(getValue(input.handle, channel, language))"></span>
+                    </div>
                 </div>
 
             </div>

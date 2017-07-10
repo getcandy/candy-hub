@@ -16013,6 +16013,32 @@ label {
   background-color: #662d91;
 }
 
+/* Animation */
+
+.translated-lang {
+  opacity: 0;
+}
+
+.translating {
+  width: 100%;
+  float: left;
+}
+
+.translating .original-lang {
+  width: 50%;
+  float: left;
+  padding-right: 2px;
+}
+
+.translating .translated-lang {
+  width: 50%;
+  float: left;
+  padding-left: 2px;
+  opacity: 1;
+  /* For Safari 3.1 to 6.0 */
+  transition: opacity 2s;
+}
+
 /* Tags */
 
 .bootstrap-tagsinput input {
