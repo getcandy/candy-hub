@@ -19,9 +19,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="route in routes.data">
+                <tr v-for="route in routes">
                   <td><input type="text" class="form-control" :value="route.slug"></td>
-                  <td><span class="flag-icon flag-icon-gb"></span></td>
+                  <td><span class="flag-icon" :class="getFlag(route.locale)"></span></td>
                   <td><em v-if="route.default">Default</em></td>
                   <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#deleteURL"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
                 </tr>
@@ -40,7 +40,12 @@
         },
         props: {
           routes: {
-            type: Object
+            type: Array
+          }
+        },
+        methods: {
+          getFlag: function(locale) {
+            return 'flag-icon-' + locale;
           }
         }
     }

@@ -9,6 +9,7 @@
               product: [],
               attribute_groups: [],
               variants: [],
+              routes: []
             }
         },
         props: {
@@ -31,6 +32,7 @@
             this.product = data;
             this.product.attributes = this.product.attribute_data;
             this.variants = this.product.variants.data;
+            this.routes = this.product.routes.data;
           },
           /**
            * Loads the product by its encoded ID
@@ -139,7 +141,7 @@
     <candy-tab name="URLS">
       <candy-tabs nested="true">
         <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-          <candy-locale-urls :routes="product.routes"></candy-locale-urls>
+          <candy-locale-urls :routes="routes"></candy-locale-urls>
         </candy-tab>
         <candy-tab name="Redirects" handle="redirects">
           <candy-redirects></candy-redirects>
