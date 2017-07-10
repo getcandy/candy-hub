@@ -10,6 +10,7 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeTransformer;
+use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Collections\CollectionTransformer;
 use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
@@ -25,7 +26,7 @@ class ProductTransformer extends BaseTransformer
      * @var Array
      */
     protected $availableIncludes = [
-        'attribute_groups', 'family', 'layout', 'variants', 'collections'
+        'attribute_groups', 'family', 'layout', 'variants', 'collections', 'routes'
     ];
 
     /**
@@ -113,5 +114,10 @@ class ProductTransformer extends BaseTransformer
     public function includeVariants(Product $product)
     {
         return $this->collection($product->variants, new ProductVariantTransformer);
+    }
+
+    public function includeRoutes(Product $product)
+    {
+        return $this->collection($product->routes, new RouteTransformer);
     }
 }

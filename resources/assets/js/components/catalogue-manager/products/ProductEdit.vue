@@ -38,7 +38,7 @@
            */
           loadProduct (id) {
             apiRequest.send('get', '/products/' + this.productId, {}, {
-              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants'
+              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes'
             }).then(response => {
               // The problem was trying to pass response.data.data when we were already passing response.data in
               // the ApiRequest class.
@@ -139,7 +139,7 @@
     <candy-tab name="URLS">
       <candy-tabs nested="true">
         <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-          <candy-locale-urls></candy-locale-urls>
+          <candy-locale-urls :routes="product.routes"></candy-locale-urls>
         </candy-tab>
         <candy-tab name="Redirects" handle="redirects">
           <candy-redirects></candy-redirects>

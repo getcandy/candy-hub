@@ -71,6 +71,11 @@ class Product extends BaseModel
         return $this->morphOne(Route::class, 'element');
     }
 
+    public function routes()
+    {
+        return $this->morphMany(Route::class, 'element');
+    }
+
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
