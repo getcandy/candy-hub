@@ -42,9 +42,7 @@ trait HasAttributes
 
     public function setAttributeDataAttribute($val)
     {
-        $this->attributes['attribute_data'] = json_encode(
-            $this->parseAttributeData($val)
-        );
+        $this->attributes['attribute_data'] = json_encode($val);
     }
 
     /**
@@ -63,7 +61,6 @@ trait HasAttributes
             foreach ($values as $channel => $content) {
                 foreach ($content as $lang => $value) {
                     $valueMapping[$attribute][$channel . '.' . $lang] = $value;
-
                 }
             }
             foreach ($valueMapping as $attribute => $value) {
