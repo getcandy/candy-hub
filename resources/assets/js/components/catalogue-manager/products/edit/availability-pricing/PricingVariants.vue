@@ -88,7 +88,7 @@
             <tbody>
               <tr v-for="(attribute, index) in attributes">
                 <td width="30%">
-                  <input type="text" class="form-control" v-model="attribute.name" :keyUp="addVariant(attribute)">
+                  <input type="text" class="form-control" v-model="attribute.name">
                 </td>
                 <td width="60%"><input type="text" class="form-control" v-model="attribute.value"></td>
                 <td align="right"><button class="btn btn-sm btn-default btn-action delete-row" @click="removeAttribute(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
