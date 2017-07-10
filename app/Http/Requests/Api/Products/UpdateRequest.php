@@ -15,7 +15,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         $ruleset = [
-            'family_id' => 'hashid_is_valid:product_families'
+            'family_id' => 'hashid_is_valid:product_families',
+            'attributes' => 'valid_structure:products'
         ];
 
         $attributes = app('api')->products()->getAttributes($this->product);
