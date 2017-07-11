@@ -74,7 +74,7 @@
     <candy-tab name="Availability &amp; Pricing" handle="product-availability">
       <candy-tabs nested="true">
         <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
-          <candy-pricing-variants></candy-pricing-variants>
+          <candy-pricing-variants :product="product"></candy-pricing-variants>
         </candy-tab>
         <candy-tab name="Inventory" handle="inventory">
           <candy-inventory></candy-inventory>
