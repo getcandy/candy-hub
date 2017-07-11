@@ -17,8 +17,25 @@ class CreateProductVariantsTable extends Migration
             $table->increments('id');
             $table->integer('product_id')->unsigned()->nullable();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->json('options')->nullable();
             $table->string('sku')->unique();
+            $table->json('options')->nullable();
+            $table->decimal('price', 10, 5)->unsigned();
+            $table->integer('stock')->unsigned();
+            $table->boolean('backorder')->default(false);
+            $table->boolean('requires_shipping')->default(true);
+
+            // Weights and stuff
+            $table->decimal('weight_amount', 5, 5)->default(0.00)->unsigned();
+            $table->string('weight_unit')->default('cm');
+            $table->decimal('height_amount', 5, 5)->default(0.00)->unsigned();
+            $table->string('height_unit')->default('cm');
+            $table->decimal('width_amount', 5, 5)->default(0.00)->unsigned();
+            $table->string('width_unit')->default('cm');
+            $table->decimal('depth_amount', 5, 5)->default(0.00)->unsigned();
+            $table->string('depth_unit')->default('cm');
+            $table->decimal('volume_amount', 5, 5)->default(0.00)->unsigned();
+            $table->string('volume_unit')->default('cm');
+
             $table->timestamps();
         });
     }

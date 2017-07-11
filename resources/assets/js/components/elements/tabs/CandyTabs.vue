@@ -40,6 +40,11 @@
                 });
             }
         },
+        computed: {
+            filteredTabs() {
+                return this.$children;
+            }
+        },
         created() {
             this.tabs = this.$children;
         }

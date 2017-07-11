@@ -94,14 +94,10 @@
       </candy-tabs>
     </candy-tab>
 
-    <candy-tab name="if Variant" handle="if-variant" v-if="this.variants.length">
+    <candy-tab name="Variants" handle="if-variant" v-if="this.variants.length">
       <candy-tabs nested="true">
         <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true">
-          <candy-variants :variants="variants"></candy-variants>
-        </candy-tab>
-        <candy-tab name="Edit Variant" handle="edit-variant_variants-added">
-          <!-- This tab needs to be hidden from the sub navigation -->
-          <candy-edit-variant></candy-edit-variant>
+          <candy-edit-variant :variants="variants"></candy-edit-variant>
         </candy-tab>
         <candy-tab name="Channels" handle="channels_variants-added">
           <candy-channels></candy-channels>

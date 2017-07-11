@@ -1,5 +1,5 @@
 <template>
-    <div role="tabpanel" :class="{ 'active' : isActive, 'tab-pane' : true }" :id="href">
+    <div role="tabpanel" :class="{ 'active' : isActive, 'tab-pane' : true, 'hidden' : hidden }" :id="href">
         <div class="sub-panel" v-if="!isNested">
             <slot></slot>
         </div>
@@ -25,6 +25,9 @@
                 default: ''
             },
             selected: {
+                default: false
+            },
+            hidden: {
                 default: false
             }
         },

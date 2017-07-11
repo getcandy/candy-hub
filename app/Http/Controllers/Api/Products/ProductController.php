@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Products\CreateRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateCollectionsRequest;
+use GetCandy\Http\Requests\Api\Products\CreateVariantsRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -92,6 +93,18 @@ class ProductController extends BaseController
     {
         try {
             $result = app('api')->products()->updateAttributes($product, $request->all());
+        } catch (HttpException $e) {
+            return $this->errorUnprocessable($e->getMessage());
+        } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($result, new ProductTransformer);
+    }
+
+    public function createVariants($product, CreateVariantsRequest $request)
+    {
+        try {
+            $result = app('api')->products()->createVariants($product, $request->variants);
         } catch (HttpException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {

@@ -1,12 +1,32 @@
+<script>
+    export default {
+        data() {
+            return {
+              current: {}
+            }
+        },
+        created() {
+          this.current = this.variants[0];
+        },
+        methods: {
+          selectVariant(index, event) {
+            this.current = this.variants[index];
+          }
+        },
+        props: {
+          variants: {
+            type: Array
+          }
+        }
+    }
+</script>
+
 <template>
   <div class="row">
     <div class="col-xs-12 col-md-11">
       <div class="row">
         <div class="col-xs-12 col-sm-6">
-          <h4>Variant Title</h4>
-        </div>
-        <div class="col-xs-12 col-sm-6 text-right">
-          <a href="#variantsPricing" class="btn btn-primary" aria-controls="channels" role="tab" data-toggle="tab">Back to product</a>
+          <h4>Variants</h4>
         </div>
       </div>
       <hr>
@@ -17,14 +37,12 @@
           <hr>
           <div class="row">
             <div class="col-xs-12 col-md-8">
-              <div class="form-group">
-                <label>Option Name</label>
-                <input type="text" class="form-control" value="Red">
-              </div>
-              <div class="form-group">
-                <label>Option Name</label>
-                <input type="text" class="form-control" value="12kg">
-              </div>
+              <template v-for="(value, label, index) in current.options">
+                <div class="form-group">
+                  <label>{{ label }}</label>
+                  <input type="text" class="form-control" :value="value">
+                </div>
+              </template>
             </div>
             <div class="col-xs-12 col-md-4">
               <a href="" class="variant-option-img">
@@ -49,7 +67,7 @@
                 <label>Price</label>
                 <div class="input-group input-group-full">
                   <span class="input-group-addon">&pound;</span>
-                  <input type="number" class="form-control">
+                  <input type="number" class="form-control" v-model="current.price">
                 </div>
               </div>
             </div>
@@ -93,13 +111,13 @@
             <div class="col-xs-6 col-md-5">
               <div class="form-group">
                 <label>SKU</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" v-model="current.sku">
               </div>
             </div>
             <div class="col-xs-12 col-md-5">
               <div class="form-group">
                 <label>Quantity</label>
-                <input type="number" class="form-control">
+                <input type="number" class="form-control" v-model="current.inventory">
               </div>
             </div>
             <div class="col-xs-12 col-md-2">
@@ -224,54 +242,18 @@
           </div>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-8">
-          <h4>Variants</h4>
           <ul class="variant-list">
-            <li>
-              <a href="#" class="active" title="">
-                <div class="variant-img">
+            <li v-for="(v, index) in variants">
+              <a href="#" @click="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
+                <div class="variant-img" v-if="v.image">
                   <img src="img/placeholder/product.jpg" alt="Aquacomb">
                 </div>
-                <div class="variant-options">Option, Option</div>
-              </a>
-            </li>
-            <li>
-              <a href="#" title="">
-                <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                <i aria-hidden="true" class="fa fa-picture-o icon" v-else></i>
+                <div class="variant-options">
+                  <template v-for="(option, label, index) in v.options">
+                    {{ label }} {{ option }},
+                  </template>
                 </div>
-                <div class="variant-options">Option, Option</div>
-              </a>
-            </li>
-            <li>
-              <a href="#" title="">
-                <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
-                </div>
-                <div class="variant-options">Option, Option</div>
-              </a>
-            </li>
-            <li>
-              <a href="#" title="">
-                <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
-                </div>
-                <div class="variant-options">Option, Option</div>
-              </a>
-            </li>
-            <li>
-              <a href="#" title="">
-                <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
-                </div>
-                <div class="variant-options">Option, Option</div>
-              </a>
-            </li>
-            <li>
-              <a href="#" title="">
-                <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
-                </div>
-                <div class="variant-options">Option, Option</div>
               </a>
             </li>
           </ul>
@@ -280,12 +262,3 @@
     </div>
   </div>
 </template>
-
-<script>
-    export default {
-        data() {
-            return {
-            }
-        }
-    }
-</script>

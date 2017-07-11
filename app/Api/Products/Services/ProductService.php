@@ -176,4 +176,25 @@ class ProductService extends BaseService
         $product->collections()->sync($ids);
         return $product;
     }
+
+    /**
+     * Creates variants for a product
+     * @param  String $id
+     * @param  array  $variant
+     * @return boolean
+     */
+    public function createVariants($id, array $variants)
+    {
+        $product = $this->getByHashedId($id);
+
+        foreach ($variants as $newVariant) {
+            $product->variants()->create([
+                'price' => $newVariant['price'],
+                'sku' => $newVariant['sku'],
+                'stock' => $newVariant['inventory'],
+                'options' => $newVariant['data']
+            ]);
+        }
+        dd($product);
+    }
 }

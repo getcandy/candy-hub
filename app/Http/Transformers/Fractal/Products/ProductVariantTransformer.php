@@ -19,7 +19,31 @@ class ProductVariantTransformer extends BaseTransformer
         $response = [
             'id' => $variant->encodedId(),
             'sku' => $variant->sku,
-            'attribute_data' => $variant->attribute_data
+            'backorder' => (bool) $variant->backorder,
+            'requires_shipping' => (bool) $variant->requires_shipping,
+            'price' => $variant->price,
+            'inventory' => $variant->stock,
+            'weight' => [
+                'amount' => $variant->weight_amount,
+                'unit' => $variant->weight_unit
+            ],
+            'height' => [
+                'amount' => $variant->height_amount,
+                'unit' => $variant->height_unit
+            ],
+            'width' => [
+                'amount' => $variant->width_amount,
+                'unit' => $variant->width_unit
+            ],
+            'depth' => [
+                'amount' => $variant->depth_amount,
+                'unit' => $variant->depth_unit
+            ],
+            'volumne' => [
+                'amount' => $variant->volume_amount,
+                'unit' => $variant->volume_unit
+            ],
+            'options' => $variant->options
         ];
 
         return $response;

@@ -1,3 +1,25 @@
+<script>
+    export default {
+        data() {
+            return {
+              columns: []
+            }
+        },
+        mounted() {
+          this.variants.forEach(variant => {
+            let options = variant.options;
+            let keys = Object.keys(options);
+            this.columns = this.columns.concat(keys).unique();
+          });
+        },
+        props: {
+          variants: {
+            type: Array
+          }
+        }
+    }
+</script>
+
 <template>
   <div class="row">
     <div class="col-xs-12 col-md-11">
@@ -18,8 +40,7 @@
         <thead>
           <tr>
             <th></th>
-            <th>Size</th>
-            <th>Color</th>
+            <th v-for="col in columns">{{ col }}</th>
             <th>Price</th>
             <th>SKU</th>
             <th colspan="2">Inventory</th>
@@ -32,16 +53,17 @@
                 <img src="img/placeholder/product.jpg" alt="Aquacomb">
               </a>
             </td>
-            <td><input type="text" class="form-control" value="12kg"></td>
-            <td><input type="text" class="form-control" value="Red"></td>
+            <td v-for="option in v.options">
+              <input type="text" class="form-control" :value="option">
+            </td>
             <td>
               <div class="input-group input-group-full">
                 <span class="input-group-addon">&pound;</span>
-                <input type="number" class="form-control">
+                <input type="number" class="form-control" :value="v.price">
               </div>
             </td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="number" class="form-control" value="1"></td>
+            <td><input type="text" class="form-control" :value="v.sku"></td>
+            <td><input type="number" class="form-control" :value="v.inventory"></td>
             <td width="120">
               <div class="btn-group">
                 <a href="#editVariants" class="btn btn-default" aria-controls="channels" role="tab" data-toggle="tab">Edit</a>
@@ -54,17 +76,3 @@
     </div>
   </div>
 </template>
-
-<script>
-    export default {
-        data() {
-            return {
-            }
-        },
-        props: {
-          variants: {
-            type: Object
-          }
-        }
-    }
-</script>

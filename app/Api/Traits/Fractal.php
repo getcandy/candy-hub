@@ -133,6 +133,16 @@ trait Fractal
 
         $resource = new Item($item, $callback);
 
+        $meta = [
+            'lang' => app()->getLocale()
+        ];
+
+        if (app('env') != 'production') {
+            $meta['profile'] = app('debugbar')->getData();
+        }
+
+        $resource->setMeta($meta);
+
         $rootScope = app()->fractal->createData($resource);
 
         return $this->respondWithArray($rootScope->toArray());
