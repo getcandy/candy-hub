@@ -40,6 +40,7 @@ Vue.component('candy-modal', require('./components/elements/Modal.vue'));
  */
 Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
 Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
+Vue.component('candy-taggable', require('./components/elements/forms/Taggable.vue'));
 Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
 Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
 Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
