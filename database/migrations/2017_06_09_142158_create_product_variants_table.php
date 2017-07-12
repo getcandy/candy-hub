@@ -26,7 +26,7 @@ class CreateProductVariantsTable extends Migration
 
             // Weights and stuff
             $table->decimal('weight_value', 10, 5)->default(0.00)->unsigned();
-            $table->string('weight_unit')->default('cm');
+            $table->string('weight_unit')->default('kg');
             $table->decimal('height_value', 10, 5)->default(0.00)->unsigned();
             $table->string('height_unit')->default('cm');
             $table->decimal('width_value', 10, 5)->default(0.00)->unsigned();
@@ -34,7 +34,7 @@ class CreateProductVariantsTable extends Migration
             $table->decimal('depth_value', 10, 5)->default(0.00)->unsigned();
             $table->string('depth_unit')->default('cm');
             $table->decimal('volume_value', 10, 5)->default(0.00)->unsigned();
-            $table->string('volume_unit')->default('cm');
+            $table->string('volume_unit')->default('l');
 
             $table->timestamps();
         });
