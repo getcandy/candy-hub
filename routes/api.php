@@ -74,11 +74,18 @@ $this->resource('pages', 'Pages\PageController', [
 ]);
 
 /**
+ * Product variants
+ */
+$this->resource('products/variants', 'Products\ProductVariantController', [
+    'except' => ['edit', 'create', 'store']
+]);
+$this->post('products/{product}/variants', 'Products\ProductVariantController@store');
+
+/**
  * Products
  */
 $this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
 $this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
-$this->post('products/{product}/variants', 'Products\ProductController@createVariants');
 $this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
