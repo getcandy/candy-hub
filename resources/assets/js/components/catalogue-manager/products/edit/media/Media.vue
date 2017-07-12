@@ -25,8 +25,8 @@
             <tbody>
               <tr>
                 <td>
-                  <a href="img/placeholder/product.jpg" class="fresco">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <a href="/images/placeholder/product.jpg" class="fresco">
+                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                   </a>
                 </td>
                 <td><input type="text" class="form-control"></td>
@@ -37,8 +37,8 @@
               </tr>
               <tr>
                 <td>
-                  <a href="img/placeholder/product.jpg" class="fresco">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <a href="/images/placeholder/product.jpg" class="fresco">
+                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                   </a>
                 </td>
                 <td><input type="text" class="form-control"></td>
@@ -49,7 +49,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="img/file-types/pdf.svg" alt="PDF">
+                  <img src="/images/file-types/pdf.svg" alt="PDF">
                 </td>
                 <td><input type="text" class="form-control"></td>
                 <td><input type="text" class="form-control"></td>
@@ -59,7 +59,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="img/file-types/xls.svg" alt="XLS">
+                  <img src="/images/file-types/xls.svg" alt="XLS">
                 </td>
                 <td><input type="text" class="form-control"></td>
                 <td><input type="text" class="form-control"></td>
@@ -69,8 +69,8 @@
               </tr>
               <tr>
                 <td>
-                  <a href="img/placeholder/product.jpg" class="fresco">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <a href="/images/placeholder/product.jpg" class="fresco">
+                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                   </a>
                 </td>
                 <td><input type="text" class="form-control"></td>
@@ -88,12 +88,17 @@
     </div>
     <div class="sub-nav media-upload">
       <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
-      <div class="dropzone">
+      <form id="id_dropzone" 
+      class="dropzone" 
+      action="/ajax_file_upload_handler/"
+      enctype="multipart/form-data" 
+      method="post">
+        
         <div class="media-box">
           <i class="fa fa-upload icon" aria-hidden="true"></i>
           <p>Drop files here or click to upload</p>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>

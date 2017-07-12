@@ -20,13 +20,13 @@
         </thead>
         <tbody>
           <tr>
-            <td width="80"><img src="img/placeholder/product.jpg" alt="Aquacomb"></td>
+            <td width="80"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
             <td>Collection</td>
             <td><input type="text" class="form-control" value="/aquacomb/" disabled></td>
             <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeCollection"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
           </tr>
           <tr>
-            <td width="80"><img src="img/placeholder/product.jpg" alt="Aquacomb"></td>
+            <td width="80"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
             <td>Collection</td>
             <td><input type="text" class="form-control" value="/aquacomb/" disabled></td>
             <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeCollection"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
