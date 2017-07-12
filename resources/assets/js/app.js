@@ -57,6 +57,8 @@ Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
+Vue.component('candy-product-attributes', require('./components/catalogue-manager/products/edit/details/ProductAttributes.vue'));
+Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
 
 /**
  * Media
@@ -78,7 +80,7 @@ Vue.component('candy-avalability-pricing-modals', require('./components/catalogu
  * if Variants
  */
 Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
-Vue.component('candy-edit-variant', require('./components/catalogue-manager/products/edit/availability-pricing/EditVariant.vue'));
+Vue.component('candy-edit-variants', require('./components/catalogue-manager/products/edit/variants/EditVariants.vue'));
 
 /**
  * Associations
@@ -105,11 +107,22 @@ window.Event = new Vue();
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
 
+
+var CandyHelpers = {};
+
+CandyHelpers.install = function (Vue, options) {
+  Vue.capitalize = function (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+}
+
 const app = new Vue({
     el: '#app',
     data: {
-    }
+    },
 });
+
+Vue.use(CandyHelpers);
 
 
 window.axios.interceptors.response.use((response) => { // intercept the global error
