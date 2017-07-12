@@ -1,10 +1,10 @@
 <?php
 
-namespace GetCandy\Http\Requests\Api\Products;
+namespace GetCandy\Http\Requests\Api\ProductVariants;
 
 use GetCandy\Http\Requests\Api\FormRequest;
 
-class CreateVariantsRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

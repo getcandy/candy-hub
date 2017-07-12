@@ -101,18 +101,6 @@ class ProductController extends BaseController
         return $this->respondWithItem($result, new ProductTransformer);
     }
 
-    public function createVariants($product, CreateVariantsRequest $request)
-    {
-        try {
-            $result = app('api')->products()->createVariants($product, $request->variants);
-        } catch (HttpException $e) {
-            return $this->errorUnprocessable($e->getMessage());
-        } catch (NotFoundHttpException $e) {
-            return $this->errorNotFound();
-        }
-        return $this->respondWithItem($result, new ProductTransformer);
-    }
-
     /**
      * Handles the request to update a products collections
      * @param  String        $id

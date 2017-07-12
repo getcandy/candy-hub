@@ -12,7 +12,9 @@ use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 
 class ProductVariantTransformer extends BaseTransformer
 {
-    protected $availableIncludes = [];
+    protected $availableIncludes = [
+        'product'
+    ];
 
     public function transform(ProductVariant $variant)
     {
@@ -24,28 +26,33 @@ class ProductVariantTransformer extends BaseTransformer
             'price' => $variant->price,
             'inventory' => $variant->stock,
             'weight' => [
-                'value' => $variant->weight_amount,
+                'value' => $variant->weight_value,
                 'unit' => $variant->weight_unit
             ],
             'height' => [
-                'value' => $variant->height_amount,
+                'value' => $variant->height_value,
                 'unit' => $variant->height_unit
             ],
             'width' => [
-                'value' => $variant->width_amount,
+                'value' => $variant->width_value,
                 'unit' => $variant->width_unit
             ],
             'depth' => [
-                'value' => $variant->depth_amount,
+                'value' => $variant->depth_value,
                 'unit' => $variant->depth_unit
             ],
             'volume' => [
-                'value' => $variant->volume_amount,
+                'value' => $variant->volume_value,
                 'unit' => $variant->volume_unit
             ],
             'options' => $variant->options
         ];
 
         return $response;
+    }
+
+    public function includeProduct(ProductVariant $variant)
+    {
+        return $this->item($variant->product, new ProductTransformer);
     }
 }
