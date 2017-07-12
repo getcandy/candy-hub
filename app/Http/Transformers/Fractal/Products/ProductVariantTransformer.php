@@ -24,23 +24,23 @@ class ProductVariantTransformer extends BaseTransformer
             'price' => $variant->price,
             'inventory' => $variant->stock,
             'weight' => [
-                'amount' => $variant->weight_amount,
+                'value' => $variant->weight_amount,
                 'unit' => $variant->weight_unit
             ],
             'height' => [
-                'amount' => $variant->height_amount,
+                'value' => $variant->height_amount,
                 'unit' => $variant->height_unit
             ],
             'width' => [
-                'amount' => $variant->width_amount,
+                'value' => $variant->width_amount,
                 'unit' => $variant->width_unit
             ],
             'depth' => [
-                'amount' => $variant->depth_amount,
+                'value' => $variant->depth_amount,
                 'unit' => $variant->depth_unit
             ],
-            'volumne' => [
-                'amount' => $variant->volume_amount,
+            'volume' => [
+                'value' => $variant->volume_amount,
                 'unit' => $variant->volume_unit
             ],
             'options' => $variant->options
