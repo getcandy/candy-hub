@@ -6,7 +6,7 @@
     export default {
         data () {
             return {
-              product: [],
+              product: {},
               attribute_groups: [],
               variants: [],
               routes: []
@@ -42,13 +42,8 @@
             apiRequest.send('get', '/products/' + this.productId, {}, {
               includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes'
             }).then(response => {
-              // The problem was trying to pass response.data.data when we were already passing response.data in
-              // the ApiRequest class.
                 this.decorate(response.data);
               }).catch(error => {
-                // It seems that if something goes wrong in the above code (within the .then()) will trigger this aswell
-                // The whole decorate thing might not be the best way to approach things, so if you can think of a better
-                // way to do it then by all means...
             });
           }
         }
@@ -58,13 +53,7 @@
 <template>
   <candy-tabs>
     <candy-tab name="Product Details" handle="product-details" :selected="true">
-      <candy-tabs nested="true">
-        <template v-for="(group, index) in attribute_groups">
-          <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-              <candy-product-details :group="group" :product="product"></candy-product-details>
-          </candy-tab>
-        </template>
-      </candy-tabs>
+      <candy-product-details :product="product" :groups="attribute_groups"></candy-product-details>
     </candy-tab>
 
     <candy-tab name="Media">
@@ -95,21 +84,7 @@
     </candy-tab>
 
     <candy-tab name="Variants" handle="if-variant" v-if="this.variants.length">
-      <candy-tabs nested="true">
-        <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true">
-          <candy-edit-variant :variants="variants"></candy-edit-variant>
-        </candy-tab>
-        <candy-tab name="Channels" handle="channels_variants-added">
-          <candy-channels></candy-channels>
-        </candy-tab>
-        <candy-tab name="Customer Groups" handle="customer-groups_variants-added">
-          <candy-customer-groups></candy-customer-groups>
-        </candy-tab>
-        <candy-tab name="Discounts" handle="discounts_variants-added">
-          <candy-discounts></candy-discounts>
-        </candy-tab>
-      </candy-tabs>
-      <candy-avalability-pricing-modals></candy-avalability-pricing-modals>
+      <candy-product-variants :variants="variants"></candy-product-variants>
     </candy-tab>
 
 

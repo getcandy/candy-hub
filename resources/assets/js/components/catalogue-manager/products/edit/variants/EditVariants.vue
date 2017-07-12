@@ -51,7 +51,7 @@
               <template v-for="(value, label, index) in current.options">
                 <div class="form-group">
                   <label>{{ capitalize(label) }}</label>
-                  <input type="text" class="form-control" :value="value">
+                  <input type="text" class="form-control" v-model="current.options[label]">
                 </div>
               </template>
             </div>
