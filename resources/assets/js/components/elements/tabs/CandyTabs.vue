@@ -33,7 +33,11 @@
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
                         tab.isActive = true;
-                        Event.$emit('current-tab', tab);
+                        let component = tab;
+                        if (tab.$children[0]) {
+                            component = tab.$children[0];
+                        }
+                        Event.$emit('current-tab', component);
                     } else {
                         tab.isActive = false;
                     }

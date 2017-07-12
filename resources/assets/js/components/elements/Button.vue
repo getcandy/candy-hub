@@ -26,6 +26,7 @@
         },
         methods : {
             fire () {
+                console.log(this.job);
                 this.processing = true;
                 if (!this.job.save()) {
                     this.processing = false;
