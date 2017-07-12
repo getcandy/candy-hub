@@ -16399,12 +16399,13 @@ label {
 }
 
 .notification-bar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   padding: 1.5em 4%;
   width: 100%;
   color: #fff;
   z-index: 500;
+  background-color: #2ab27b;
 }
 
 .notification-bar .icon {
@@ -16423,7 +16424,7 @@ label {
 }
 
 .notification-bar.error {
-  background-color: #bf5329;
+  background-color: #fc636b;
 }
 
 .modal-content {

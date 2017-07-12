@@ -27,7 +27,7 @@
                 this.classname = data.level;
                 this.message = data.message ? data.message : this.message;
                 this.icon = data.level == 'error' ? 'fa-times' : this.icon;
-                setTimeout(() => this.classname = 'fadeOut', 2000);
+                setTimeout(() => this.classname = this.classname + ' fadeOut', 2000);
                 setTimeout(() => this.isActive = false, 5000);
             }
         }

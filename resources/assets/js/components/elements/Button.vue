@@ -22,15 +22,12 @@
         },
         created () {
             Event.$on('current-tab', tab => this.job = tab);
-            Event.$on('notification', finished => this.processing = !finished);
+            Event.$on('notification', finished => this.processing = false);
         },
         methods : {
             fire () {
-                console.log(this.job);
                 this.processing = true;
-                if (!this.job.save()) {
-                    this.processing = false;
-                }
+                this.job.save();
             }
         }
     }

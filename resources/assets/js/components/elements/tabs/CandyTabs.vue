@@ -33,11 +33,9 @@
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
                         tab.isActive = true;
-                        let component = tab;
-                        if (tab.$children[0]) {
-                            component = tab.$children[0];
+                        if (tab.$children[0] && !tab.isNested) {
+                            Event.$emit('current-tab', tab.$children[0]);
                         }
-                        Event.$emit('current-tab', component);
                     } else {
                         tab.isActive = false;
                     }

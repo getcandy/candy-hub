@@ -23,6 +23,11 @@
                         Event.$emit('notification', {
                             level: 'success'
                         });
+                    }).catch(response => {
+                        Event.$emit('notification', {
+                            level: 'error',
+                            message: 'Missing / Invalid fields'
+                        });
                     });
             }
         },
