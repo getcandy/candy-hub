@@ -79,8 +79,6 @@ class ProductVariantController extends BaseController
         return $this->respondWithItem($result, new ProductVariantTransformer);
     }
 
-
-
     /**
      * Handles the request to delete a product family
      * @param  String        $id
