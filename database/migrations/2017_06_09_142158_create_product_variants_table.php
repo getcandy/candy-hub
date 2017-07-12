@@ -25,15 +25,15 @@ class CreateProductVariantsTable extends Migration
             $table->boolean('requires_shipping')->default(true);
 
             // Weights and stuff
-            $table->decimal('weight_value', 5, 5)->default(0.00)->unsigned();
+            $table->decimal('weight_value', 10, 5)->default(0.00)->unsigned();
             $table->string('weight_unit')->default('cm');
-            $table->decimal('height_value', 5, 5)->default(0.00)->unsigned();
+            $table->decimal('height_value', 10, 5)->default(0.00)->unsigned();
             $table->string('height_unit')->default('cm');
-            $table->decimal('width_value', 5, 5)->default(0.00)->unsigned();
+            $table->decimal('width_value', 10, 5)->default(0.00)->unsigned();
             $table->string('width_unit')->default('cm');
-            $table->decimal('depth_value', 5, 5)->default(0.00)->unsigned();
+            $table->decimal('depth_value', 10, 5)->default(0.00)->unsigned();
             $table->string('depth_unit')->default('cm');
-            $table->decimal('volume_value', 5, 5)->default(0.00)->unsigned();
+            $table->decimal('volume_value', 10, 5)->default(0.00)->unsigned();
             $table->string('volume_unit')->default('cm');
 
             $table->timestamps();
