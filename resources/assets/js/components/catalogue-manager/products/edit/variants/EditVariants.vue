@@ -17,11 +17,34 @@
           },
           capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+          },
+          convertToCm(measurement) {
+            let rate = 1;
+            if (measurement.unit == 'mm') {
+              rate = 0.1;
+            } else if (measurement.unit == 'in') {
+              rate = 2.54;
+            }
+            return measurement.value * rate;
           }
         },
         computed: {
           volume() {
-            return this.current.weight.value;
+            // Convert height to cm...
+            let height = this.convertToCm(this.current.height);
+            let width = this.convertToCm(this.current.width);
+            let depth = this.convertToCm(this.current.depth);
+
+            console.log(height);
+            console.log(width);
+            console.log(depth);
+            let cmsquared = height * width * depth;
+            // If volume is ml, we're fine as cm > ml is 1:1
+            // otherwise convert it to liters
+            if (this.current.volume.unit == 'l') {
+              return cmsquared / 1000;
+            }
+            return cmsquared;
           }
         },
         props: {

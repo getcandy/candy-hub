@@ -1,5 +1,11 @@
 <script>
     export default {
+        data() {
+            return {
+                request: apiRequest,
+                current: {}
+            }
+        },
         props: {
             product: {
                type: Object
@@ -13,7 +19,19 @@
         },
         methods: {
             save() {
-                alert('Save them!');
+                this.variants.forEach(variant => {
+                    this.request.send('put', '/products/variants/' + variant.id, variant)
+                    .then(response => {
+                        Event.$emit('notification', {
+                            level: 'success'
+                        });
+                    }).catch(response => {
+                        Event.$emit('notification', {
+                            level: 'error',
+                            message: 'Missing / Invalid fields'
+                        });
+                    });
+                });
             }
         }
     }
