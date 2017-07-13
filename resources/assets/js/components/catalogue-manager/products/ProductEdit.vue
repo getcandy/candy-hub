@@ -21,6 +21,11 @@
         created() {
           this.loadProduct(this.productId);
         },
+        mounted() {
+          Event.$on('product-updated', event => {
+            this.loadProduct();
+          });
+        },
         methods: {
           /**
            * Decorates the data ready for the template to use
@@ -61,41 +66,17 @@
     </candy-tab>
 
     <candy-tab name="Availability &amp; Pricing" handle="product-availability">
-      <candy-tabs nested="true">
-        <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
-          <candy-pricing-variants :product="product"></candy-pricing-variants>
-        </candy-tab>
-        <candy-tab name="Inventory" handle="inventory">
-          <candy-inventory></candy-inventory>
-        </candy-tab>
-        <candy-tab name="Shipping" handle="shipping">
-          <candy-shipping></candy-shipping>
-        </candy-tab>
-        <candy-tab name="Channels" handle="channels">
-          <candy-channels></candy-channels>
-        </candy-tab>
-        <candy-tab name="Customer Groups" handle="customer-groups">
-          <candy-customer-groups></candy-customer-groups>
-        </candy-tab>
-        <candy-tab name="Discounts" handle="discounts">
-          <candy-discounts></candy-discounts>
-        </candy-tab>
-      </candy-tabs>
+      <candy-product-availability :variants="variants" :product="product"></candy-product-availability>
     </candy-tab>
-
-    <candy-tab name="Variants" handle="if-variant" v-if="this.variants.length">
-      <candy-product-variants :variants="variants"></candy-product-variants>
-    </candy-tab>
-
 
     <candy-tab name="Associations">
       <candy-tabs nested="true">
         <candy-tab name="Categories" handle="categories" :selected="true">
-          <!-- Tab will require counter to show how many category associations this product has -->
+        - Tab will require counter to show how many category associations this product has
           <candy-categories></candy-categories>
         </candy-tab>
         <candy-tab name="Collections" handle="collections">
-          <!-- Tab will require counter to show how many collection associations this product has -->
+          Tab will require counter to show how many collection associations this product has
           <candy-collections></candy-collections>
         </candy-tab>
         <candy-tab name="Products" handle="products">
@@ -103,7 +84,7 @@
         </candy-tab>
       </candy-tabs>
       <candy-association-modals></candy-association-modals>
-    </candy-tab>
+    </candy-tab> 
 
     <candy-tab name="Display">
       <candy-display></candy-display>

@@ -19,16 +19,16 @@
         methods: {
             save() {
                 this.request.send('put', '/products/' + this.product.id, { 'attributes' : this.product.attributes })
-                    .then(response => {
-                        Event.$emit('notification', {
-                            level: 'success'
-                        });
-                    }).catch(response => {
-                        Event.$emit('notification', {
-                            level: 'error',
-                            message: 'Missing / Invalid fields'
-                        });
+                .then(response => {
+                    Event.$emit('notification', {
+                        level: 'success'
                     });
+                }).catch(response => {
+                    Event.$emit('notification', {
+                        level: 'error',
+                        message: 'Missing / Invalid fields'
+                    });
+                });
             }
         },
         mounted() {

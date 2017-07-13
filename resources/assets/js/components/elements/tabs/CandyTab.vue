@@ -1,9 +1,6 @@
 <template>
     <div role="tabpanel" :class="{ 'active' : isActive, 'tab-pane' : true, 'hidden' : hidden }" :id="href">
-        <div class="sub-panel" v-if="!isNested">
-            <slot></slot>
-        </div>
-        <slot v-else></slot>
+        <slot></slot>
     </div>
 </template>
 

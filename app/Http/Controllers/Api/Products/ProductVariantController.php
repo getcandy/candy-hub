@@ -88,10 +88,10 @@ class ProductVariantController extends BaseController
     public function destroy($id, DeleteRequest $request)
     {
         try {
-            $result = app('api')->productFamilies()->delete($id);
-        } catch (MinimumRecordRequiredException $e) {
-            return $this->errorUnprocessable($e->getMessage());
+            $result = app('api')->productVariants()->delete($id);
         } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithNoContent();

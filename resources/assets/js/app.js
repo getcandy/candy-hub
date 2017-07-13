@@ -9,23 +9,9 @@ require('./bootstrap');
 require('babel-core/register');
 require('babel-polyfill');
 
-
-
 require('./classes/Errors');
 require('./classes/Form');
 
-
-Array.prototype.unique = function() {
-    var a = this.concat();
-    for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
-        }
-    }
-
-    return a;
-};
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -75,13 +61,13 @@ Vue.component('candy-channels', require('./components/catalogue-manager/products
 Vue.component('candy-customer-groups', require('./components/catalogue-manager/products/edit/availability-pricing/CustomerGroups.vue'));
 Vue.component('candy-discounts', require('./components/catalogue-manager/products/edit/availability-pricing/Discounts.vue'));
 Vue.component('candy-avalability-pricing-modals', require('./components/catalogue-manager/products/edit/availability-pricing/Modals.vue'));
+Vue.component('candy-product-availability', require('./components/catalogue-manager/products/edit/ProductAvailability.vue'));
 
 /**
  * if Variants
  */
-Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
 Vue.component('candy-edit-variants', require('./components/catalogue-manager/products/edit/variants/EditVariants.vue'));
-
+Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/variants/CreateVariant.vue'));
 /**
  * Associations
  */
