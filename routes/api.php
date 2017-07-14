@@ -33,7 +33,7 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
  * Channels
  */
 $this->resource('channels', 'Channels\ChannelController', [
-    'except' => ['index', 'edit', 'create', 'show']
+    'except' => ['edit', 'create', 'show']
 ]);
 
 /**

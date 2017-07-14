@@ -11,7 +11,7 @@
 */
 
 $this->get('categories', 'Categories\CategoryController@index');
-$this->get('channels', 'Channels\ChannelController@index');
+// $this->get('channels', 'Channels\ChannelController@index');
 $this->get('channels/{id}', 'Channels\ChannelController@show');
 $this->get('collections', 'Collections\CollectionController@index');
 $this->get('collections/{id}', 'Collections\CollectionController@show');
