@@ -27,10 +27,8 @@
             }
         },
         mounted() {
-            // let vm = this;
             $('.selectpicker').selectpicker('render');
             $(this.$el).on('changed.bs.select', (event, clickedIndex, newValue, oldValue) => {
-                // console.log(event.target.value);
                 this.$emit('input', $(this.$el).find("option:selected").val());
             });
         },
