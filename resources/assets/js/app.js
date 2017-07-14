@@ -12,6 +12,13 @@ require('babel-polyfill');
 require('./classes/Errors');
 require('./classes/Form');
 
+window.Datepicker = require('bootstrap-datepicker');
+require('bootstrap-select');
+require('bootstrap-switch');
+require('bootstrap-tagsinput');
+window.Dropzone = require('dropzone');
+window.List = require('list.js');
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -54,7 +61,6 @@ Vue.component('candy-media', require('./components/catalogue-manager/products/ed
 /**
  * Avalability & Pricing
  */
-Vue.component('candy-pricing-variants', require('./components/catalogue-manager/products/edit/availability-pricing/PricingVariants.vue'));
 Vue.component('candy-inventory', require('./components/catalogue-manager/products/edit/availability-pricing/Inventory.vue'));
 Vue.component('candy-shipping', require('./components/catalogue-manager/products/edit/availability-pricing/Shipping.vue'));
 Vue.component('candy-channels', require('./components/catalogue-manager/products/edit/availability-pricing/Channels.vue'));
@@ -66,8 +72,8 @@ Vue.component('candy-product-availability', require('./components/catalogue-mana
 /**
  * if Variants
  */
-Vue.component('candy-edit-variants', require('./components/catalogue-manager/products/edit/variants/EditVariants.vue'));
-Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/variants/CreateVariant.vue'));
+Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
+Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/availability-pricing/CreateVariant.vue'));
 /**
  * Associations
  */
@@ -125,6 +131,7 @@ window.axios.interceptors.response.use((response) => { // intercept the global e
 
 
 
+
 /* Misc crap - need to remove!!! */
 
 // Clickable Table Row
@@ -133,24 +140,6 @@ $(".clickable .link").click(function() {
 });
 
 // Adding /Removing table row for product options
-
-$('.add-variant-option').bind('click', function(){
-  $('<tr><td width="30%"><input type="text" class="form-control"></td><td width="60%"><input type="text" class="form-control" data-role="tagsinput"></td><td align="right"><button class="btn btn-sm btn-default btn-action delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td></tr>').insertBefore($(this).closest('tr'));
-  $('.delete-row').bind('click', function(){
-    $(this).closest('tr').remove();
-  });
-});
-
-$('.edit_add-variant-option').bind('click', function(){
-  $('<tr><td><input type="text" class="form-control" value="Option Name"></td><td width="60%"><input type="text" class="form-control" data-role="tagsinput" value="Need to edit jQuery to fire tagsinput script on additional line"></td><td align="right"><button class="btn btn-sm btn-default btn-action delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td></tr>').insertBefore($(this).closest('tr'));
-  $('.delete-row').bind('click', function(){
-    $(this).closest('tr').remove();
-  });
-});
-
-$('.delete-row').bind('click', function(){
-  $(this).closest('tr').remove();
-});
 
 // Navigation Purple Overlay
 $('.top-level').hover (

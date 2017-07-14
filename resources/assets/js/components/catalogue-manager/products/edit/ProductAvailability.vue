@@ -30,7 +30,7 @@
     <div>
         <candy-tabs nested="true">
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
-                <candy-edit-variants :variants="variants" :product="product" v-if="this.variants.length"></candy-edit-variants>
+                <candy-variants :variants="variants" :product="product" v-if="this.variants.length"></candy-variants>
                 <candy-avalability-pricing-modals></candy-avalability-pricing-modals>
             </candy-tab>
             <candy-tab name="Inventory" handle="inventory">

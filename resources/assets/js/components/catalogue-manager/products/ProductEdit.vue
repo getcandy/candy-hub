@@ -60,7 +60,6 @@
     <candy-tab name="Product Details" handle="product-details" :selected="true">
       <candy-product-details :product="product" :groups="attribute_groups"></candy-product-details>
     </candy-tab>
-
     <candy-tab name="Media">
       <candy-media></candy-media>
     </candy-tab>

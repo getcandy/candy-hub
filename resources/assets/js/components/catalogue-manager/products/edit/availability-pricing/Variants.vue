@@ -76,14 +76,19 @@
     <div class="row">
       <div class="col-xs-12 col-md-11">
         <div class="row">
-          <div class="col-xs-12 col-sm-6">
-            <h4>Product Availability</h4>
-            <candy-create-variant :product="product" :showModal="createVariant"></candy-create-variant>
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-md-8">
+                <h4>Product Availability</h4>
+              </div>
+              <div class="col-md-4 text-right">
+                <candy-create-variant :product="product" :showModal="createVariant"></candy-create-variant>
+              </div>
+            </div>
           </div>
         </div>
         <hr>
         <div class="col-md-12">
-          <button class="btn btn-primary" @click="createVariant = true">Create one</button>
         </div>
         <div class="row">
           <div class="col-xs-12" :class="{'col-md-8 col-md-push-4': variants.length > 1}">
@@ -221,7 +226,7 @@
                   </label>
                   <div class="input-group input-group-full">
                     <input type="number" class="form-control" v-model="current.weight.value">
-                    <candy-select :options="['lb', 'oz', 'kg', 'g']" v-model="current.weight.unit"></candy-select>
+                    <candy-select :options="['lb', 'oz', 'kg', 'g']" v-model="current.weight.unit" :addon="true"></candy-select>
                   </div>
                 </div>
               </div>
@@ -237,7 +242,7 @@
                   </label>
                   <div class="input-group input-group-full">
                     <input type="number" class="form-control" v-model="current.height.value">
-                    <candy-select :options="['cm','mm', 'in']" v-model="current.height.unit"></candy-select>
+                    <candy-select :options="['cm','mm', 'in']" v-model="current.height.unit" :addon="true"></candy-select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -247,7 +252,7 @@
                   </label>
                   <div class="input-group input-group-full">
                     <input type="number" class="form-control" v-model="current.width.value">
-                    <candy-select :options="['cm','mm', 'in']" v-model="current.width.unit"></candy-select>
+                    <candy-select :options="['cm','mm', 'in']" v-model="current.width.unit" :addon="true"></candy-select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -257,7 +262,7 @@
                   </label>
                   <div class="input-group input-group-full">
                     <input type="number" class="form-control" v-model="current.depth.value">
-                    <candy-select :options="['cm','mm', 'in']" v-model="current.depth.unit"></candy-select>
+                    <candy-select :options="['cm','mm', 'in']" v-model="current.depth.unit" :addon="true"></candy-select>
                   </div>
                 </div>
                 <div class="form-group">

@@ -3,6 +3,7 @@
         data() {
             return {
               request: {},
+              modalOpen: false,
               options: [
                 {
                   name: ' ',
@@ -21,10 +22,10 @@
             default: false
           }
         },
+        created() {
+          this.modalOpen = this.showModal;
+        },
         methods: {
-          isObject(variant) {
-            return variant === Object(variant) && Object.prototype.toString.call(variant) !== '[object Array]';
-          },
           save() {
               apiRequest.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants})
               .then(response => {
@@ -42,6 +43,10 @@
                   });
               });
           },
+          /**
+           * Generates the variants
+           * @return {Array}
+           */
           generateVariants() {
             let optionValues = [];
             this.variants = [];
@@ -85,6 +90,11 @@
               });
             });
           },
+          /**
+           * Gets all the possible combinations for the variants
+           * @param  {Array} arraysToCombine
+           * @return {Array}
+           */
           getAllCombinations(arraysToCombine) {
               var divisors = [];
               for (var i = arraysToCombine.length - 1; i >= 0; i--) {
@@ -109,12 +119,19 @@
               }
               return combinations;
           },
+          /**
+           * Adds an option
+           */
           addOption() {
             this.options.push({
               name: ' ',
               value: []
             });
           },
+          /**
+           * Removes an option
+           * @param  {Int} index
+           */
           removeOption(index) {
             if (this.options.length == 1) {
               alert('You must have at least one');
@@ -123,6 +140,10 @@
             this.options.splice(index, 1);
             this.generateVariants();
           },
+          /**
+           * Removes a variant from the list
+           * @param  {int} index
+           */
           removeVariant(index) {
             this.variants.splice(index, 1);
           }
@@ -132,7 +153,8 @@
 
 <template>
   <div>
-    <candy-modal title="Create variant" v-show="showModal" @closed="true">
+    <button class="btn btn-primary" @click="modalOpen = true">Add new variant</button>
+    <candy-modal title="Create variant" v-show="modalOpen" @closed="modalOpen = false">
       <div slot="body">
         <table class="table">
           <thead>
