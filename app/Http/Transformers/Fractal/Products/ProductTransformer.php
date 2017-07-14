@@ -124,6 +124,7 @@ class ProductTransformer extends BaseTransformer
 
     public function includeChannels(Product $product)
     {
-        return $this->collection($product->channels, new ChannelTransformer);
+        $channels = app('api')->channels()->getChannelsWithAvailabilty($product);
+        return $this->collection($channels, new ChannelTransformer);
     }
 }

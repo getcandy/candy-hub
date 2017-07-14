@@ -4,36 +4,20 @@
             return {
                 request: apiRequest,
                 current: {},
-                channels: []
+                channels: [],
+                productChannels: []
             }
         },
         props: ['variants', 'product'],
+        watch: {
+          channels() {
+            alert('het');
+          }
+        },
         mounted() {
-            this.loadChannels();
+          this.channels = this.product.channels.data;
         },
         methods: {//product.channels.data[0].visible
-            loadChannels() {
-                this.request.send('get', '/channels').then(response => {
-                    this.channels = response.data
-                });
-            },
-            channelAvailability(name) {
-              if (this.product.channels) {
-                this.product.channels.data.forEach(channel => {
-                  if (channel.name == name) {
-                    console.log(channel.visible);
-                    return channel.visible;
-                  }
-                });
-              }
-              // this.product.channels.data.forEach(channel => {
-              //   if (channel.name == name) {
-              //     console.log(channel);
-              //     return channel.visible;
-              //   }
-              // });
-              return true;
-            },
             save() {
                 this.variants.forEach(variant => {
                     this.request.send('put', '/products/variants/' + variant.id, variant)
@@ -56,7 +40,7 @@
     <div>
         <candy-tabs nested="true"  v-if="product">
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
-                <candy-variants :variants="variants" :product="product" v-if="this.variants.length"></candy-variants>
+                <candy-variants :variants="variants" :product="product"></candy-variants>
                 <candy-avalability-pricing-modals></candy-avalability-pricing-modals>
             </candy-tab>
             <candy-tab name="Channels" handle="channels">
@@ -72,18 +56,19 @@
                           <th>Publish Date</th>
                         </tr>
                       </thead>
-                      {{ channels }}
                       <tbody>
                         <tr v-for="channel in channels">
                           <td>{{ channel.name }}</td>
                           <td>
                             <div class="checkbox">
-                              {{ product.channels }}
-                              <input id="storefrontVisible" type="checkbox">
-                              <label for="storefrontVisible"><span class="check"></span></label>
+                              <input :id="'CH' + channel.id" type="checkbox" v-model="channel.visible">
+                              <label :for="'CH' + channel.id"><span class="check"></span></label>
                             </div>
                           </td>
-                          <td class="publish-date"><a href="#" class="btn-pop-over"><i class="fa fa-calendar-o" aria-hidden="true"></i></a></td>
+                          <td class="publish-date">
+                            {{ channel.published_at.date|formatDate }}
+                            <a href="#" class="btn-pop-over"><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
+                          </td>
                         </tr>
                       </tbody>
                     </table>

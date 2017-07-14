@@ -18,21 +18,13 @@ class ChannelTransformer extends BaseTransformer
      */
     public function transform(Channel $channel)
     {
-        
-
-        if ($channel->pivot) {
-            $data[$channel->encodedId()] = [
-                'name' => $channel->name,
-                'visible' => (bool) $channel->pivot->visible,
-                'published_at' =>  \Carbon\Carbon::parse($channel->pivot->published_at)
-            ];
-        } else {
-            $data = [
-                'id' => $channel->encodedId(),
-                'name' => $channel->name,
-                'default' => (bool) $channel->default
-            ];
-        }
+        $data = [
+            'id' => $channel->encodedId(),
+            'name' => $channel->name,
+            'default' => (bool) $channel->default,
+            'visible' => $channel->visible,
+            'published_at' => \Carbon\Carbon::parse($channel->published_at)
+        ];
 
         return $data;
     }

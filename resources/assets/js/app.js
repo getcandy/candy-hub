@@ -108,6 +108,14 @@ CandyHelpers.install = function (Vue, options) {
   }
 }
 
+window.moment = require('moment');
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('MM/DD/YYYY hh:mm')
+  }
+});
+
 const app = new Vue({
     el: '#app',
     data: {

@@ -26,6 +26,7 @@
     "vue2-selectize": "^1.1.4"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0"
+    "babel-polyfill": "^6.23.0",
+    "moment": "^2.18.1"
   }
 }
