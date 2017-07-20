@@ -28,7 +28,7 @@
         </thead>
         <tbody>
           <tr>
-            <td width="80"><img src="img/placeholder/product.jpg" alt="Aquacomb"></td>
+            <td width="80"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
             <td>AquaComb</td>
             <td><input type="text" class="form-control" value="/aquacomb/" disabled></td>
             <td><span class="label label-primary">Upsell</span></td>

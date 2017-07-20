@@ -229,7 +229,7 @@
             <li>
               <a href="#" class="active" title="">
                 <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                 </div>
                 <div class="variant-options">Option, Option</div>
               </a>
@@ -237,7 +237,7 @@
             <li>
               <a href="#" title="">
                 <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                 </div>
                 <div class="variant-options">Option, Option</div>
               </a>
@@ -245,7 +245,7 @@
             <li>
               <a href="#" title="">
                 <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                 </div>
                 <div class="variant-options">Option, Option</div>
               </a>
@@ -253,7 +253,7 @@
             <li>
               <a href="#" title="">
                 <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                 </div>
                 <div class="variant-options">Option, Option</div>
               </a>
@@ -261,7 +261,7 @@
             <li>
               <a href="#" title="">
                 <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                 </div>
                 <div class="variant-options">Option, Option</div>
               </a>
@@ -269,7 +269,7 @@
             <li>
               <a href="#" title="">
                 <div class="variant-img">
-                  <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                 </div>
                 <div class="variant-options">Option, Option</div>
               </a>

@@ -29,7 +29,7 @@
           <tr>
             <td>
               <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                <img src="/images/placeholder/product.jpg" alt="Aquacomb">
               </a>
             </td>
             <td><input type="text" class="form-control" value="12kg"></td>
@@ -52,7 +52,7 @@
           <tr>
             <td>
               <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                <img src="/images/placeholder/product.jpg" alt="Aquacomb">
               </a>
             </td>
             <td><input type="text" class="form-control" value="12kg"></td>
@@ -75,7 +75,7 @@
           <tr>
             <td>
               <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                <img src="/images/placeholder/product.jpg" alt="Aquacomb">
               </a>
             </td>
             <td><input type="text" class="form-control" value="12kg"></td>
@@ -98,7 +98,7 @@
           <tr>
             <td>
               <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                <img src="/images/placeholder/product.jpg" alt="Aquacomb">
               </a>
             </td>
             <td><input type="text" class="form-control" value="12kg"></td>
@@ -121,7 +121,7 @@
           <tr>
             <td>
               <a href="" data-toggle="modal" data-target="#variantImage">
-                <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                <img src="/images/placeholder/product.jpg" alt="Aquacomb">
               </a>
             </td>
             <td><input type="text" class="form-control" value="12kg"></td>

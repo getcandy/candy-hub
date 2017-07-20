@@ -25,7 +25,7 @@
               </thead>
               <tbody class="list">
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 1</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -36,7 +36,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 2</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -47,7 +47,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 3</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -58,7 +58,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 4</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -69,7 +69,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 2</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -80,7 +80,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 3</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -91,7 +91,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 4</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -102,7 +102,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 4</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -113,7 +113,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 4</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
@@ -124,7 +124,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="50"><img src="img/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
+                  <td width="50"><img src="/images/placeholder/product.jpg" alt="Aquacomb" class="img-sm"></td>
                   <td width="40%" class="name">Category 4</td>
                   <td width="40%"><input type="text" class="form-control" value="/aquacomb/" disabled></td>
                   <td align="right">
