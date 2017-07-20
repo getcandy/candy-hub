@@ -88,12 +88,17 @@
     </div>
     <div class="sub-nav media-upload">
       <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
-      <div class="dropzone">
+      <form id="id_dropzone" 
+      class="dropzone" 
+      action="/ajax_file_upload_handler/"
+      enctype="multipart/form-data" 
+      method="post">
+        
         <div class="media-box">
           <i class="fa fa-upload icon" aria-hidden="true"></i>
           <p>Drop files here or click to upload</p>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>

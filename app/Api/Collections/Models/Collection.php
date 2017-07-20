@@ -5,10 +5,11 @@ namespace GetCandy\Api\Collections\Models;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasTranslations;
+use GetCandy\Api\Traits\HasAttributes;
 
 class Collection extends BaseModel
 {
-    use HasTranslations;
+    use HasAttributes;
 
     protected $hashids = 'channel';
 
@@ -18,6 +19,7 @@ class Collection extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'attribute_data'
     ];
 
     public function products()

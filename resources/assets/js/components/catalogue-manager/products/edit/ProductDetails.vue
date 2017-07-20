@@ -1,86 +1,49 @@
-<!--
-  Product Details
-  This component is responsible for saving product details
- -->
-<template>
-    <div class="row">
-        <div class="col-xs-12 col-md-11">
-            <div class="form-inline">
-              <div class="form-group">
-                <label class="sr-only">Store Channels</label>
-                <select class="form-control selectpicker">
-                  <option data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
-                  <option data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
-                  <option data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="sr-only">Language</label>
-                <select class="form-control selectpicker">
-                  <option data-content="<span class='flag-icon flag-icon-gb'></span> English" selected>English</option>
-                  <option data-content="<span class='flag-icon flag-icon-fr'></span> French">French</option>
-                  <option data-content="<span class='flag-icon flag-icon-de'></span> German">German</option>
-                </select>
-              </div>
-              <button class="btn btn-default">Translate</button>
-            </div>
-            <hr>
-
-            <div class="form-group" v-for="input in group.attributes.data">
-                <label>
-                  {{ input.name }}
-                </label>
-               <!-- <input type="text" class="form-control" :value="getValue(input.handle)">
-                <input type="text" class="form-control" v-model="product.attribute_data[input.handle]['sv']" v-if="translating">
-                <span class="text-danger" v-text="update.getError('attribute_data.' + input.handle + '.en')"></span> -->
-            </div>
-        </div>
-    </div>
-</template>
-
-<script>
+ <script>
     export default {
         data() {
             return {
-                update: apiRequest,
-                translating: false
+                request: apiRequest
             }
         },
         props: {
-            group: {
-                type: Object
-            },
             product: {
-                type: Object
+               type: Object
+            },
+            groups: {
+                type: Array,
+                default() {
+                    return [];
+                }
             }
         },
         methods: {
             save() {
-                this.update.send('put', '/products/' + this.product.id, this.product);
-            },
-            getValue(handle) {
-                if (!this.product.attribute_data[handle]) {
-                    this.product.attribute_data[handle] = {
-                        ecommerce : {
-                            en: '',
-                            sv: ''
-                        },
-                        mobile : {
-                            en: '',
-                            sv: ''
-                        },
-                        print : {
-                            en: '',
-                            sv: ''
-                        }
-                    };
-                }
-                return this.product.attribute_data[handle]['ecommerce']['en'];
+                this.request.send('put', '/products/' + this.product.id, { 'attributes' : this.product.attributes })
+                .then(response => {
+                    Event.$emit('notification', {
+                        level: 'success'
+                    });
+                }).catch(response => {
+                    Event.$emit('notification', {
+                        level: 'error',
+                        message: 'Missing / Invalid fields'
+                    });
+                });
             }
         },
         mounted() {
-            console.log(this.product.attribute_data);
             Event.$emit('current-tab', this);
         }
     }
 </script>
+<template>
+    <div>
+        <candy-tabs nested="true">
+            <template v-for="(group, index) in groups">
+                <candy-tab :name="group.name" :selected="index == 0 ? true : false">
+                    <candy-product-attributes :group="group" :product="product" :request="request"></candy-product-attributes>
+                </candy-tab>
+            </template>
+        </candy-tabs>
+    </div>
+</template>

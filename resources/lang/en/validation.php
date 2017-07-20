@@ -90,6 +90,7 @@ return [
 
     'hashid_is_valid' => 'The selected :attribute is invalid',
     'valid_locales' => 'Invalid locale',
+    'valid_structure' => 'The :attribute structure is invalid',
 
     /*
     |--------------------------------------------------------------------------
@@ -119,6 +120,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'groups' => [
+            'dupe_position' => 'Duplicate position',
+            'invalid_id' => 'The group id :id is invalid'
+        ]
+    ],
 
 ];

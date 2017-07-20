@@ -74,7 +74,7 @@ class AttributeGroupService extends BaseService
     {
         // Test for duplicates without hitting the database
         if (count($data['groups']) > count(array_unique($data['groups']))) {
-            throw new DuplicateValueException(trans('getcandy_api::validation.attributes.groups.dupe_position'), 1);
+            throw new DuplicateValueException(trans('validation.attributes.groups.dupe_position'), 1);
         }
 
         $parsedGroups = [];
@@ -82,7 +82,7 @@ class AttributeGroupService extends BaseService
         foreach ($data['groups'] as $groupId => $position) {
             $decodedId = $this->getDecodedId($groupId);
             if (!$decodedId) {
-                abort(422, trans('getcandy_api::validation.attributes.groups.invalid_id', ['id' => $groupId]));
+                abort(422, trans('validation.attributes.groups.invalid_id', ['id' => $groupId]));
             }
             $parsedGroups[$decodedId] = $position;
         }

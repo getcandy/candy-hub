@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Http\Api\Validators;
+namespace GetCandy\Http\Validators\Api;
 
-class AttributeValidation
+class AttributeValidator
 {
     /**
      * Validates the name for an attribute doesn't exist in the same group
@@ -19,5 +19,14 @@ class AttributeValidation
         }
         $attributeId = empty($parameters[1]) ? null : $parameters[1];
         return app('api')->attributes()->nameExistsInGroup($value, $parameters[0], $attributeId);
+    }
+
+    public function validateData($attribute, $value, $parameters, $validator)
+    {
+        if (!is_array($value) || empty($parameters[0])) {
+            return false;
+        }
+        $classname = camel_case($parameters[0]);
+        return app('api')->{$classname}()->validateAttributeData($value);
     }
 }

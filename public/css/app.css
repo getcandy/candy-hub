@@ -8472,7 +8472,7 @@ button.close {
 }
 
 /*!
- * Datepicker for Bootstrap v1.7.0 (https://github.com/uxsolutions/bootstrap-datepicker)
+ * Datepicker for Bootstrap v1.7.1 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
@@ -16013,6 +16013,32 @@ label {
   background-color: #662d91;
 }
 
+/* Animation */
+
+.translated-lang {
+  opacity: 0;
+}
+
+.translating {
+  width: 100%;
+  float: left;
+}
+
+.translating .original-lang {
+  width: 50%;
+  float: left;
+  padding-right: 2px;
+}
+
+.translating .translated-lang {
+  width: 50%;
+  float: left;
+  padding-left: 2px;
+  opacity: 1;
+  /* For Safari 3.1 to 6.0 */
+  transition: opacity 2s;
+}
+
 /* Tags */
 
 .bootstrap-tagsinput input {
@@ -16373,12 +16399,13 @@ label {
 }
 
 .notification-bar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   padding: 1.5em 4%;
   width: 100%;
   color: #fff;
   z-index: 500;
+  background-color: #2ab27b;
 }
 
 .notification-bar .icon {
@@ -16397,7 +16424,7 @@ label {
 }
 
 .notification-bar.error {
-  background-color: #bf5329;
+  background-color: #fc636b;
 }
 
 .modal-content {

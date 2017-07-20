@@ -33,13 +33,6 @@ window.axios.defaults.headers.common = {
 };
 
 
-window.Datepicker = require('bootstrap-datepicker');
-require('bootstrap-select');
-require('bootstrap-switch');
-require('bootstrap-tagsinput');
-window.Dropzone = require('dropzone');
-window.List = require('list.js');
-
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -55,3 +48,15 @@ window.List = require('list.js');
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+Array.prototype.unique = function() {
+    var a = this.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+};

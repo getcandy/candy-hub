@@ -3,6 +3,7 @@
 namespace GetCandy\Http\Transformers\Fractal;
 
 use League\Fractal\TransformerAbstract;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseTransformer extends TransformerAbstract
 {

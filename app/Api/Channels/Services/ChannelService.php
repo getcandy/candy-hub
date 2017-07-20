@@ -97,7 +97,7 @@ class ChannelService extends BaseService
 
         if ($this->model->count() == 1) {
             throw new MinimumRecordRequiredException(
-                trans('getcandy_api::response.error.minimum_record')
+                trans('response.error.minimum_record')
             );
         }
 
@@ -107,5 +107,19 @@ class ChannelService extends BaseService
         }
 
         return $channel->delete();
+    }
+
+    public function getChannelsWithAvailabilty($product)
+    {
+        $channels = $this->model->with(['products' => function ($q) {
+            $q->where('products.id', 1);
+        }]);
+        $channels = $channels->get();
+        foreach ($channels as $channel) {
+            $product = $channel->products->first();
+            $channel->published_at = $product ? $product->pivot->published_at : null;
+            $channel->visible = $product ? (bool) $product->pivot->visible : false;
+        }
+        return $channels;
     }
 }

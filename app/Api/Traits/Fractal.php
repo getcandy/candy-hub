@@ -45,7 +45,7 @@ trait Fractal
     */
     public function errorForbidden($message = null)
     {
-        return $this->setStatusCode(403)->respondWithError(($message ?: trans('getcandy_api::response.error.forbidden')));
+        return $this->setStatusCode(403)->respondWithError(($message ?: trans('response.error.forbidden')));
     }
 
     /**
@@ -54,7 +54,7 @@ trait Fractal
     */
     public function errorInternalError($message = null)
     {
-        return $this->setStatusCode(500)->respondWithError(($message ?: trans('getcandy_api::response.error.internal')));
+        return $this->setStatusCode(500)->respondWithError(($message ?: trans('response.error.internal')));
     }
      /**
      * Generates a Response with a 401 HTTP header and a given message.
@@ -63,7 +63,7 @@ trait Fractal
      */
     public function errorUnauthorized($message = null)
     {
-        return $this->setStatusCode(401)->respondWithError(($message ?: trans('getcandy_api::response.error.unauthorized')));
+        return $this->setStatusCode(401)->respondWithError(($message ?: trans('response.error.unauthorized')));
     }
 
     /**
@@ -73,7 +73,7 @@ trait Fractal
      */
     public function errorWrongArgs($message = null)
     {
-        return $this->setStatusCode(400)->respondWithError(($message ?: trans('getcandy_api::response.error.wrong_args')));
+        return $this->setStatusCode(400)->respondWithError(($message ?: trans('response.error.wrong_args')));
     }
 
     /**
@@ -83,7 +83,7 @@ trait Fractal
     */
     public function errorNotFound($message = null)
     {
-        return $this->setStatusCode(404)->respondWithError(($message ?: trans('getcandy_api::response.error.not_found')));
+        return $this->setStatusCode(404)->respondWithError(($message ?: trans('response.error.not_found')));
     }
 
     public function errorUnprocessable($data)
@@ -108,7 +108,7 @@ trait Fractal
     protected function respondWithError($message = null)
     {
         if ($this->statusCode == 200) {
-            trigger_error(trans('getcandy_api::response.error.200'));
+            trigger_error(trans('response.error.200'));
         }
 
         return $this->respondWithArray([
@@ -132,6 +132,16 @@ trait Fractal
         }
 
         $resource = new Item($item, $callback);
+
+        $meta = [
+            'lang' => app()->getLocale()
+        ];
+
+        if (app('env') != 'production') {
+            $meta['profile'] = app('debugbar')->getData();
+        }
+
+        $resource->setMeta($meta);
 
         $rootScope = app()->fractal->createData($resource);
 

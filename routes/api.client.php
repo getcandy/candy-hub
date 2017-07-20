@@ -10,12 +10,14 @@
 |
 */
 
-$this->get('categories', 'CategoryController@index');
-$this->get('channels', 'ChannelController@index');
-$this->get('channels/{id}', 'ChannelController@show');
+$this->get('categories', 'Categories\CategoryController@index');
+// $this->get('channels', 'Channels\ChannelController@index');
+$this->get('channels/{id}', 'Channels\ChannelController@show');
+$this->get('collections', 'Collections\CollectionController@index');
+$this->get('collections/{id}', 'Collections\CollectionController@show');
 
-$this->get('product-families', 'ProductFamilyController@index');
-$this->get('routes', 'RouteController@index');
+$this->get('product-families', 'Products\ProductFamilyController@index');
+$this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
-    'uses' => 'RouteController@show'
+    'uses' => 'Routes\RouteController@show'
 ])->where(['slug' => '.*']);

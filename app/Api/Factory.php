@@ -7,12 +7,14 @@ use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
 use GetCandy\Api\Categories\Services\CategoryService;
 use GetCandy\Api\Channels\Services\ChannelService;
+use GetCandy\Api\Collections\Services\CollectionService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
 use GetCandy\Api\Languages\Services\LanguageService;
 use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
+use GetCandy\Api\Products\Services\ProductVariantService;
 use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Taxes\Services\TaxService;
 
@@ -69,6 +71,11 @@ class Factory
     protected $productFamilies;
 
     /**
+     * @var ProductVariantService
+     */
+    protected $productVariants;
+
+    /**
      * @var RouteService
      */
     protected $routes;
@@ -88,11 +95,13 @@ class Factory
         AttributeService $attributes,
         CategoryService $categories,
         ChannelService $channels,
+        CollectionService $collections,
         CurrencyService $currencies,
         LanguageService $languages,
         LayoutService $layouts,
         PageService $pages,
         ProductFamilyService $productFamilies,
+        ProductVariantService $productVariants,
         ProductService $products,
         RouteService $routes,
         TaxService $taxes,
@@ -102,12 +111,14 @@ class Factory
         $this->attributes = $attributes;
         $this->categories = $categories;
         $this->channels = $channels;
+        $this->collections = $collections;
         $this->currencies = $currencies;
         $this->languages = $languages;
         $this->layouts = $layouts;
         $this->pages = $pages;
         $this->productFamilies = $productFamilies;
         $this->products = $products;
+        $this->productVariants = $productVariants;
         $this->routes = $routes;
         $this->taxes = $taxes;
         $this->users = $users;
@@ -115,8 +126,11 @@ class Factory
 
     public function __call($name, $arguments)
     {
-        if (property_exists($this, $name)) {
-            return $this->{$name};
+        if (!property_exists($this, $name)) {
+            throw new \GetCandy\Exceptions\InvalidServiceException(trans('exceptions.invalid_service', [
+                'service' => $name
+            ]), 1);
         }
+        return $this->{$name};
     }
 }

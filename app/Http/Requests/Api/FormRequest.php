@@ -45,7 +45,7 @@ abstract class FormRequest extends IlluminateFormRequest
      */
     protected function failedAuthorization()
     {
-        throw new AuthorizationException(trans('getcandy_api::response.error.unauthorized'));
+        throw new AuthorizationException(trans('response.error.unauthorized'));
     }
 
     protected function prepareForValidation()

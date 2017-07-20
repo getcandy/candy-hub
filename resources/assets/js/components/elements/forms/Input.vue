@@ -1,21 +1,23 @@
 <template>
     <div>
-        <input type="text" v-model="value" class="form-control">
-        {{ value }}
+        <input type="text" :value="value" @input="updateValue($event.target.value)" class="form-control" :required="required">
     </div>
 </template>
 
 <script>
     export default {
-        data() {
-            return {
-                value: null
+        props: {
+            value: {
+                type: String
+            },
+            required: {
+                type: Boolean
             }
         },
-        props: {
-        },
-        mounted () {
-
+        methods: {
+            updateValue: function (value) {
+                this.$emit('input', value);
+            }
         }
     }
 </script>

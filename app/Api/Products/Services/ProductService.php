@@ -35,17 +35,10 @@ class ProductService extends BaseService
             abort(404);
         }
 
-        foreach ($data['attributes'] as $attribute => $values) {
-            $attributeData[$attribute] = $this->prepareAttributeData($attribute, $values);
-        }
-
-        $product->attribute_data = $attributeData;
+        $product->attribute_data = $data['attributes'];
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
-            if (! $family) {
-                abort(422);
-            }
             $family->products()->save($product);
         } else {
             $product->save();
@@ -67,13 +60,7 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        $attributeData = [];
-
-        foreach ($data['attributes'] as $attribute => $values) {
-            $attributeData[$attribute] = $this->prepareAttributeData($attribute, $values);
-        }
-
-        $product->attribute_data = $attributeData;
+        $product->attribute_data = $data['attributes'];
 
         $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
         $product->layout()->associate($layout);
@@ -167,5 +154,26 @@ class ProductService extends BaseService
         }
 
         return $attributes;
+    }
+
+    /**
+     * Updates the collections for a product
+     * @param  String  $model
+     * @param  array  $data
+     * @throws Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Model
+     */
+    public function updateCollections($id, array $data)
+    {
+        $ids = [];
+
+        $product = $this->getByHashedId($id);
+
+        foreach ($data['collections'] as $attribute) {
+            $ids[] = app('api')->collections()->getDecodedId($attribute);
+        }
+
+        $product->collections()->sync($ids);
+        return $product;
     }
 }

@@ -51,6 +51,21 @@ class AttributeService extends BaseService
         return $attribute->position + 1;
     }
 
+    public function getAttributables(array $hashedIds, $type = null)
+    {
+        $ids = [];
+        foreach ($hashedIds as $hash) {
+            $ids[] = $this->model->decodeId($hash);
+        }
+        $query = $this->model->with(['attributables', 'attributables.records']);
+        if ($type) {
+            $query = $this->model->with(['attributables' => function ($query) use ($type) {
+                $query->where('attributable_type', '=', $type);
+            }, 'attributables.records']);
+        }
+        return $query->find($ids);
+    }
+
     /**
      * Updates the positions of attributes
      * @param  array  $data
@@ -65,7 +80,7 @@ class AttributeService extends BaseService
 
         // Test for duplicates without hitting the database
         if (count($data['attributes']) > count(array_unique($data['attributes']))) {
-            throw new DuplicateValueException(trans('getcandy_api::validation.attributes.groups.dupe_position'), 1);
+            throw new DuplicateValueException(trans('validation.attributes.groups.dupe_position'), 1);
         }
 
         $parsedAttributes = [];
@@ -73,7 +88,7 @@ class AttributeService extends BaseService
         foreach ($data['attributes'] as $attributeId => $position) {
             $decodedId = (new Attribute)->decodeId($attributeId);
             if (!$decodedId) {
-                abort(422, trans('getcandy_api::validation.attributes.groups.invalid_id', ['id' => $attributeId]));
+                abort(422, trans('validation.attributes.groups.invalid_id', ['id' => $attributeId]));
             }
             $parsedAttributes[$decodedId] = $position;
         }
@@ -133,16 +148,33 @@ class AttributeService extends BaseService
         return $attribute->delete();
     }
 
+    /**
+     * Returns attributes for a group
+     * @param  String $groupId
+     * @return Collection
+     */
     public function getAttributesForGroup($groupId)
     {
         return $this->model->where('group_id', '=', $groupId)->get();
     }
 
+    /**
+     * Gets the last attribute for a groupo
+     * @param  String $groupId
+     * @return null|Attribute
+     */
     public function getLastItem($groupId)
     {
         return $this->model->orderBy('position', 'desc')->where('group_id', '=', $groupId)->first();
     }
 
+    /**
+     * Checks whether a attribute name exists in a group
+     * @param  String $value
+     * @param  String $groupId
+     * @param  String $attributeId
+     * @return Boolean
+     */
     public function nameExistsInGroup($value, $groupId, $attributeId = null)
     {
         $result = $this->model->where('name', '=', $value)

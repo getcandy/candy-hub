@@ -15,7 +15,7 @@ class UpdateRequest extends FormRequest
     public function rules(ProductFamily $family)
     {
         return [
-            'attributes' => 'required|array',
+            'attributes' => 'array|required',
         ];
     }
 }

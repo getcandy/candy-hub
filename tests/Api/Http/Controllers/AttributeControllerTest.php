@@ -5,9 +5,6 @@ namespace Tests;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 
-/**
- * @group new
- */
 class AttributeControllerTest extends TestCase
 {
     public function testIndex()
