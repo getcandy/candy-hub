@@ -8472,7 +8472,7 @@ button.close {
 }
 
 /*!
- * Datepicker for Bootstrap v1.7.1 (https://github.com/uxsolutions/bootstrap-datepicker)
+ * Datepicker for Bootstrap v1.7.0 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
@@ -15930,6 +15930,79 @@ label {
   display: block;
 }
 
+/* Custom radio */
+
+.custom-radio-group {
+  margin-bottom: 15px;
+}
+
+.custom-radio-group .group-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+
+/* Custom radio
+-- Search Toggle */
+
+.toggle-radio {
+  display: inline-block;
+  margin-right: -4px;
+}
+
+.toggle-radio input[type="radio"] {
+  display: none;
+}
+
+.toggle-radio input[type="radio"] + label {
+  position: relative;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 1em;
+  line-height: 39px;
+  border: 1px solid #a2a1a1;
+  cursor: pointer;
+}
+
+.toggle-radio input[type="radio"] + label span.check {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+}
+
+.toggle-radio input[type="radio"] + label span.check:after {
+  display: none;
+  content: '\f00c';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  font-family: 'FontAwesome';
+  font-size: 0.85em;
+  text-align: center;
+  line-height: 14px;
+  color: white;
+}
+
+.toggle-radio input[type="radio"] + label span.faux-label {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.toggle-radio input[type="radio"]:checked + label {
+  color: white;
+  background-color: #662d91;
+  border-color: #58277e;
+}
+
+.toggle-radio input[type="radio"]:checked + label span.check:after {
+  display: block;
+}
+
 /* Product Layout Select */
 
 .radio-layout {
@@ -16232,6 +16305,10 @@ label {
   width: 856px;
 }
 
+.table.association-table.variants-table tbody {
+  height: 200px;
+}
+
 .faux-table.row {
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -16429,6 +16506,10 @@ label {
 
 .modal-content {
   border-radius: 0;
+}
+
+.modal-content .modal-header {
+  text-align: left;
 }
 
 .sidebar {

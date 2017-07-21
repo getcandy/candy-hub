@@ -156,7 +156,7 @@
     <button class="btn btn-primary" @click="modalOpen = true">Add new variant</button>
     <candy-modal title="Create variant" v-show="modalOpen" @closed="modalOpen = false">
       <div slot="body">
-        <table class="table">
+        <table class="table association-table variants-table">
           <thead>
             <tr>
               <th>Option name</th>
@@ -173,15 +173,17 @@
               </td>
               <td align="right"><button class="btn btn-sm btn-default btn-action delete-row" @click="removeOption(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
             </tr>
+          </tbody>
+          <tfooter>
             <tr>
               <td colspan="3"><button type="button" class="btn btn-default add-variant-option" @click="addOption">Add another option</button><button class="btn btn-success" @click="generateVariants()">Generate variants</button></td>
             </tr>
-          </tbody>
+          </tfooter>
         </table>
 
         <hr>
         <p>Modify generated variants ({{ variants.length }})</p>
-        <table class="table association-table">
+        <table class="table association-table variants-table">
           <thead>
             <tr>
               <th>Variant</th>
@@ -206,7 +208,7 @@
                   <input type="text" class="form-control" v-model="variant.sku" required>
                 </td>
                 <td width="10%"><input type="number" class="form-control" v-model="variant.inventory"></td>
-                <td><button @click="removeVariant(index)">X</button></td>
+                <td><button class="btn btn-sm btn-default" @click="removeVariant(index)"><i class="fa fa-times" aria-hidden="true"></i></button></td>
               </tr>
           </tbody>
         </table>
