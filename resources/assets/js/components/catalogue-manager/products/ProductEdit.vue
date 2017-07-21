@@ -27,7 +27,7 @@
           Event.$on('product-updated', event => {
             this.loadProduct();
           });
-          Event.$on('product-channel-update', visible => {
+          Event.$on('product_visibility', visible => {
             this.viewable = visible;
           });
         },
@@ -65,8 +65,8 @@
   <div>
       <template v-if="loaded">
 
-        <div class="alert alert-warning" v-if="!viewable"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be purchased - <a href="#">click here to fix this</a></div>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be viewed - <a href="#">click here to fix this</a></div>
+        <div class="alert alert-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be purchased - <a href="#">click here to fix this</a></div>
+        <div class="alert alert-danger" v-if="!viewable"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be viewed - <a href="#">click here to fix this</a></div>
 
         <transition name="fade">
           <candy-tabs >

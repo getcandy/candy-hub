@@ -40,7 +40,19 @@
                         tab.isActive = false;
                     }
                 });
+            },
+            selectTabByName(name) {
+                this.tabs.forEach(tab => {
+                    if (tab.name == name) {
+                        this.selectTab(tab);
+                    }
+                });
             }
+        },
+        mounted() {
+            Event.$on('select-tab', tab => {
+                this.selectTabByName(tab);
+            });
         },
         computed: {
             filteredTabs() {

@@ -5,13 +5,24 @@
                 request: apiRequest,
                 current: {},
                 channels: [],
+                foo: '',
                 productChannels: []
             }
         },
         props: ['variants', 'product'],
         watch: {
-          channels() {
-            alert('het');
+          channels: {
+            handler(channels, oldVal) {
+              let visibleCount = 0;
+              channels.forEach(channel => {
+                if (channel.visible) {
+                  visibleCount++;
+                }
+              });
+              // If there are no visible channels checked
+              Event.$emit('product_visibility', !((channels.length - visibleCount) == channels.length));
+            },
+            deep: true
           }
         },
         mounted() {
@@ -66,7 +77,9 @@
                             </div>
                           </td>
                           <td class="publish-date">
-                            {{ channel.published_at.date|formatDate }}
+                            <input type="text" v-model="foo">
+                            <span v-if="channel.published_at.date">{{ channel.published_at.date|formatDate }}</span>
+                            <span class="text-muted" v-else>Undefined</span>
                             <a href="#" class="btn-pop-over"><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
                           </td>
                         </tr>
