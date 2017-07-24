@@ -13,6 +13,7 @@ require('./classes/Errors');
 require('./classes/Form');
 
 window.Datepicker = require('bootstrap-datepicker');
+require('bootstrap-datetimepicker-npm');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
@@ -225,9 +226,6 @@ $("[data-toggle='tooltip']").tooltip();
 $('[data-toggle="popover"]').popover()
 
 // Date Picker
-$('.date').datepicker({
-    format: 'dd/mm/yyyy'
-});
 
 // Switch
 $(".toggle input").bootstrapSwitch();

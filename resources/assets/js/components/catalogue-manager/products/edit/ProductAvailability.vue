@@ -88,10 +88,8 @@
                             </div>
                           </td>
                           <td class="publish-date">
-                            <input type="text" v-model="foo">
-                            <span v-if="channel.published_at.date">{{ channel.published_at.date|formatDate }}</span>
-                            <span class="text-muted" v-else>Undefined</span>
-                            <a href="#" class="btn-pop-over"><i class="fa fa-calendar-o" aria-hidden="true"></i></a>
+                            {{ channel.published_at.date }}
+                            <candy-date :value="channel.published_at.date"></candy-date>
                           </td>
                         </tr>
                       </tbody>
