@@ -8472,7 +8472,7 @@ button.close {
 }
 
 /*!
- * Datepicker for Bootstrap v1.7.0 (https://github.com/uxsolutions/bootstrap-datepicker)
+ * Datepicker for Bootstrap v1.7.1 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
@@ -16100,6 +16100,19 @@ label {
 
 .bootstrap-tagsinput .tag [data-value] {
   font-weight: 300;
+}
+
+/* Translating Forms */
+
+.translating .language-one {
+  width: 49%;
+  float: left;
+}
+
+.translating .language-two {
+  width: 49%;
+  float: left;
+  margin-left: 10px;
 }
 
 /* Tabs */
