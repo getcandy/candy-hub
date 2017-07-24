@@ -61,6 +61,20 @@
                 message: 'Missing / Invalid fields'
               });
             });
+
+                // this.variants.forEach(variant => {
+                //     this.request.send('put', '/products/variants/' + variant.id, variant)
+                //     .then(response => {
+                //         Event.$emit('notification', {
+                //             level: 'success'
+                //         });
+                //     }).catch(response => {
+                //         Event.$emit('notification', {
+                //             level: 'error',
+                //             message: 'Missing / Invalid fields'
+                //         });
+                //     });
+                // });
           }
         },
         components: {
