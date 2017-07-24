@@ -44,6 +44,18 @@ class ProductService extends BaseService
             $product->save();
         }
 
+        if (!empty($data['channels'])) {
+            $channelData = [];
+            foreach ($data['channels']['data'] as $channel) {
+                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
+                $channelData[$channelModel->id] = [
+                    'visible' => $channel['visible'],
+                    'published_at' => \Carbon\Carbon::parse($channel['published_at']['date'])
+                ];
+            }
+            $product->channels()->sync($channelData);
+        }
+
         return $product;
     }
 
