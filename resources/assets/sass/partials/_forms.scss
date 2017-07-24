@@ -234,6 +234,84 @@ label {
   }
 }
 
+/* Custom radio */
+
+.custom-radio-group {
+  margin-bottom: 15px;
+
+  .group-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+  }
+}
+
+/* Custom radio
+-- Search Toggle */
+
+.toggle-radio {
+  display: inline-block;
+  margin-right: -4px;
+
+  input[type="radio"] {
+    display: none;
+
+    + label {
+      position: relative;
+      height: 40px;
+      padding-left: 30px;
+      padding-right: 30px;
+      font-size: 1em;
+      line-height: 39px;
+      border: 1px solid lighten($grey, 30%);
+      cursor: pointer;
+
+      span.check {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 15px;
+        height: 15px;
+
+        &:after {
+          display: none;
+          content: '\f00c';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 14px;
+          height: 14px;
+          font-family: 'FontAwesome';
+          font-size: 0.85em;
+          text-align: center;
+          line-height: 14px;
+          color: white;
+        }
+      }
+
+      span.faux-label {
+        display: inline-block;
+        margin-right: 15px;
+      }
+    }
+
+    &:checked {
+      + label {
+        color: white;
+        background-color: $purple;
+        border-color: darken($purple, 5%);
+
+        span.check {
+
+          &:after {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
 /* Product Layout Select */
 
 .radio-layout {

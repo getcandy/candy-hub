@@ -4,6 +4,7 @@ namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Routes\Models\Route;
@@ -71,8 +72,22 @@ class Product extends BaseModel
         return $this->morphOne(Route::class, 'element');
     }
 
+    public function routes()
+    {
+        return $this->morphMany(Route::class, 'element');
+    }
+
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    /**
+     * Get the attributes associated to the product
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class)->withPivot('visible', 'published_at');
     }
 }

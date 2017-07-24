@@ -9,6 +9,7 @@ use GetCandy\Http\Requests\Api\Products\CreateRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateCollectionsRequest;
+use GetCandy\Http\Requests\Api\Products\CreateVariantsRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

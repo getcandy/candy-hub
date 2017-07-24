@@ -19,20 +19,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><input type="text" class="form-control" value="/aquacomb/"></td>
-                  <td><span class="flag-icon flag-icon-gb"></span></td>
-                  <td><em>Default</em></td>
-                  <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#deleteURL"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-                </tr>
-                <tr>
-                  <td><input type="text" class="form-control" value="/peigne-aqua/"></td>
-                  <td colspan="2"><span class="flag-icon flag-icon-fr"></span></td>
-                  <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#deleteURL"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-                </tr>
-                <tr>
-                  <td><input type="text" class="form-control" value="/aquakamm/"></td>
-                  <td colspan="2"><span class="flag-icon flag-icon-de"></span></td>
+                <tr v-for="route in routes">
+                  <td><input type="text" class="form-control" :value="route.slug"></td>
+                  <td><span class="flag-icon" :class="getFlag(route.locale)"></span></td>
+                  <td><em v-if="route.default">Default</em></td>
                   <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#deleteURL"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
                 </tr>
               </tbody>
@@ -47,6 +37,16 @@
         data() {
             return {
             }
+        },
+        props: {
+          routes: {
+            type: Array
+          }
+        },
+        methods: {
+          getFlag: function(locale) {
+            return 'flag-icon-' + locale;
+          }
         }
     }
 </script>

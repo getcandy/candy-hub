@@ -33,11 +33,30 @@
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
                         tab.isActive = true;
-                        Event.$emit('current-tab', tab);
+                        if (tab.$children[0] && !tab.isNested) {
+                            Event.$emit('current-tab', tab.$children[0]);
+                        }
                     } else {
                         tab.isActive = false;
                     }
                 });
+            },
+            selectTabByName(name) {
+                this.tabs.forEach(tab => {
+                    if (tab.name == name) {
+                        this.selectTab(tab);
+                    }
+                });
+            }
+        },
+        mounted() {
+            Event.$on('select-tab', tab => {
+                this.selectTabByName(tab);
+            });
+        },
+        computed: {
+            filteredTabs() {
+                return this.$children;
             }
         },
         created() {

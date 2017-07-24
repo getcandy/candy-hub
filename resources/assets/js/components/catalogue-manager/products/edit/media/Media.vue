@@ -5,12 +5,32 @@
         <div class="col-xs-12 col-md-11">
           <h4>Media</h4>
           <hr>
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary">All Media</button>
-            <button type="button" class="btn btn-default">Images</button>
-            <button type="button" class="btn btn-default">Files</button>
+
+          <div class="custom-radio-group">
+            <span class="group-label">Toggle Media:</span>
+            <div class="toggle-radio">
+              <input type="radio" name="media" id="allMedia" value="allMedia" checked="checked">
+              <label for="allMedia">
+                <span class="check"></span>
+                <span class="faux-label">All Media</span>
+              </label>
+            </div>
+            <div class="toggle-radio">
+              <input type="radio" name="media" id="images" value="images">
+              <label for="images">
+                <span class="check"></span>
+                <span class="faux-label">Images</span>
+              </label>
+            </div>
+            <div class="toggle-radio">
+              <input type="radio" name="media" id="files" value="files">
+              <label for="files">
+                <span class="check"></span>
+                <span class="faux-label">Files</span>
+              </label>
+            </div>
           </div>
-          <p><em>Toggle filter, custom radio inputs</em></p>
+
           <table class="table">
             <thead>
               <tr>
@@ -25,8 +45,8 @@
             <tbody>
               <tr>
                 <td>
-                  <a href="img/placeholder/product.jpg" class="fresco">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <a href="/images/placeholder/product.jpg" class="fresco">
+                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                   </a>
                 </td>
                 <td><input type="text" class="form-control"></td>
@@ -37,8 +57,8 @@
               </tr>
               <tr>
                 <td>
-                  <a href="img/placeholder/product.jpg" class="fresco">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <a href="/images/placeholder/product.jpg" class="fresco">
+                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                   </a>
                 </td>
                 <td><input type="text" class="form-control"></td>
@@ -49,7 +69,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="img/file-types/pdf.svg" alt="PDF">
+                  <img src="/images/file-types/pdf.svg" alt="PDF">
                 </td>
                 <td><input type="text" class="form-control"></td>
                 <td><input type="text" class="form-control"></td>
@@ -59,7 +79,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="img/file-types/xls.svg" alt="XLS">
+                  <img src="/images/file-types/xls.svg" alt="XLS">
                 </td>
                 <td><input type="text" class="form-control"></td>
                 <td><input type="text" class="form-control"></td>
@@ -69,8 +89,8 @@
               </tr>
               <tr>
                 <td>
-                  <a href="img/placeholder/product.jpg" class="fresco">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <a href="/images/placeholder/product.jpg" class="fresco">
+                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
                   </a>
                 </td>
                 <td><input type="text" class="form-control"></td>
@@ -88,12 +108,17 @@
     </div>
     <div class="sub-nav media-upload">
       <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
-      <div class="dropzone">
+      <form id="id_dropzone" 
+      class="dropzone" 
+      action="/ajax_file_upload_handler/"
+      enctype="multipart/form-data" 
+      method="post">
+        
         <div class="media-box">
           <i class="fa fa-upload icon" aria-hidden="true"></i>
           <p>Drop files here or click to upload</p>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>

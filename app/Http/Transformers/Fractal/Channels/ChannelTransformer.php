@@ -18,11 +18,15 @@ class ChannelTransformer extends BaseTransformer
      */
     public function transform(Channel $channel)
     {
-        return [
+        $data = [
             'id' => $channel->encodedId(),
             'name' => $channel->name,
-            'default' => (bool) $channel->default
+            'default' => (bool) $channel->default,
+            'visible' => $channel->visible,
+            'published_at' => \Carbon\Carbon::parse($channel->published_at)
         ];
+
+        return $data;
     }
 
     public function includeRoutes(Channel $channel)

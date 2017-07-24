@@ -10,13 +10,39 @@
         </div>
       </div>
       <hr>
-      <div class="btn-group">
-        <button type="button" class="btn btn-default">Show All</button>
-        <button type="button" class="btn btn-default">Upsells</button>
-        <button type="button" class="btn btn-default">Cross-sells</button>
-        <button type="button" class="btn btn-default">Alternate</button>
-        <p><em>Toggle filter, custom radio inputs</em></p>
+
+      <div class="custom-radio-group">
+        <span class="group-label">Toggle Product Association:</span>
+        <div class="toggle-radio">
+          <input type="radio" name="products" id="showAll" value="showAll" checked="checked">
+          <label for="showAll">
+            <span class="check"></span>
+            <span class="faux-label">Show All</span>
+          </label>
+        </div>
+        <div class="toggle-radio">
+          <input type="radio" name="products" id="upsells" value="upsells">
+          <label for="upsells">
+            <span class="check"></span>
+            <span class="faux-label">Upsells</span>
+          </label>
+        </div>
+        <div class="toggle-radio">
+          <input type="radio" name="products" id="crossSells" value="crossSells">
+          <label for="crossSells">
+            <span class="check"></span>
+            <span class="faux-label">Cross-sells</span>
+          </label>
+        </div>
+        <div class="toggle-radio">
+          <input type="radio" name="products" id="alternate" value="alternate">
+          <label for="alternate">
+            <span class="check"></span>
+            <span class="faux-label">Alternate</span>
+          </label>
+        </div>
       </div>
+
       <table id="productAssociations" class="table">
         <thead>
           <tr>
@@ -28,7 +54,7 @@
         </thead>
         <tbody>
           <tr>
-            <td width="80"><img src="img/placeholder/product.jpg" alt="Aquacomb"></td>
+            <td width="80"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
             <td>AquaComb</td>
             <td><input type="text" class="form-control" value="/aquacomb/" disabled></td>
             <td><span class="label label-primary">Upsell</span></td>

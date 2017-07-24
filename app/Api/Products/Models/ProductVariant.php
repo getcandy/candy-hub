@@ -15,11 +15,20 @@ class ProductVariant extends BaseModel
      */
     protected $hashids = 'product';
 
-    protected $fillable = ['attribute_data', 'sku'];
+    protected $fillable = ['options', 'price', 'sku', 'stock'];
 
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getOptionsAttribute($val)
+    {
+        return json_decode($val, true);
+    }
+    public function setOptionsAttribute($val)
+    {
+        $this->attributes['options'] = json_encode($val);
     }
 }

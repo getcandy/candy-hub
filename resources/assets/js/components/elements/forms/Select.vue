@@ -1,9 +1,12 @@
 <template>
-    <div>
-        <select class="form-control" :required="required" @input="updateValue($event.target.value)">
-            <option v-for="option in options" :value="option.value">{{ option.label }}</option>
+
+        <select class="selectpicker" :class="{'input-group-addon' : addon}" :required="required" @input="updateValue($event.target.value)" :value="value">
+            <option value disabled>Please select</option>
+            <option v-for="option in options" :value="option.value ? option.value : option">
+                {{ option.label ? option.label : option }}
+            </option>
         </select>
-    </div>
+
 </template>
 
 <script>
@@ -17,7 +20,17 @@
             },
             required: {
                 type: Boolean
+            },
+            addon: {
+                type: Boolean,
+                default: false
             }
+        },
+        mounted() {
+            $('.selectpicker').selectpicker('render');
+            $(this.$el).on('changed.bs.select', (event, clickedIndex, newValue, oldValue) => {
+                this.$emit('input', $(this.$el).find("option:selected").val());
+            });
         },
         methods: {
             updateValue(value) {
