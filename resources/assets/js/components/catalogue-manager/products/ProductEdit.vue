@@ -111,7 +111,6 @@
                   <candy-redirects></candy-redirects>
                 </candy-tab>
               </candy-tabs>
-              <candy-url-modals></candy-url-modals>
             </candy-tab>
           </candy-tabs>
         </transition>
