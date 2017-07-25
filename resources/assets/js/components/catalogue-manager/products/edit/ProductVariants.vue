@@ -1,4 +1,4 @@
-sd zzzzzzdxx               <script>
+<script>
     export default {
         data() {
             return {

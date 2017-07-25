@@ -37,11 +37,15 @@
     }
 </script>
 <template>
-    <candy-tabs nested="true">
-        <template v-for="(group, index) in groups">
-            <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                <candy-product-attributes :group="group" :product="product" :request="request"></candy-product-attributes>
-            </candy-tab>
-        </template>
-    </candy-tabs>
+    <div>
+        <candy-tabs nested="true">
+
+            <template v-for="(group, index) in groups">
+                <candy-tab :name="group.name" :selected="index == 0 ? true : false">
+                    <candy-product-attributes :group="group" :product="product" :request="request"></candy-product-attributes>
+                </candy-tab>
+            </template>
+
+        </candy-tabs>
+    </div>
 </template>
