@@ -38,8 +38,6 @@
                         purchasableCount++;
                       }
                   });
-                  console.log(groups.length);
-                  console.log(purchasableCount);
                   Event.$emit('product_purchasable', !((groups.length - purchasableCount) == groups.length));
               },
               deep: true

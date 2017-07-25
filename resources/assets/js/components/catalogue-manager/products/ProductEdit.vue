@@ -109,7 +109,7 @@
             <candy-tab name="URLS">
               <candy-tabs nested="true">
                 <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                  <candy-locale-urls :routes="routes"></candy-locale-urls>
+                  <candy-locale-urls :routes="routes" :product="product"></candy-locale-urls>
                 </candy-tab>
                 <candy-tab name="Redirects" handle="redirects">
                   <candy-redirects></candy-redirects>
