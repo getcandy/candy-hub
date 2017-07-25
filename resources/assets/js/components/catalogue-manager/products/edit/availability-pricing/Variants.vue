@@ -30,7 +30,6 @@
                   Event.$emit('notification', {
                       level: 'success'
                   });
-                  window.scrollTo(0, 0);
                   this.variants.splice(index, 1);
                   this.current = this.variants[0];
               }).catch(response => {
@@ -282,7 +281,7 @@
           <div class="col-xs-12 col-md-4 col-md-pull-8" v-if="variants.length > 1">
             <ul class="variant-list">
               <li v-for="(v, index) in variants">
-                <a href="#" @click="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
+                <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
                   <div class="variant-img" v-if="v.image">
                     <img src="img/placeholder/product.jpg" alt="Aquacomb">
                   </div>
