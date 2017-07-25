@@ -43,6 +43,17 @@ $this->resource('collections', 'Collections\CollectionController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
 
+/**
+ * Customers
+ */
+
+$this->resource('customers/groups', 'Customers\CustomerGroupController', [
+    'except' => ['edit', 'create', 'show']
+]);
+
+$this->resource('customers', 'Customers\CustomerController', [
+    'except' => ['index', 'edit', 'create', 'show']
+]);
 
 /**
  * Currencies

@@ -9,6 +9,8 @@ use GetCandy\Api\Categories\Services\CategoryService;
 use GetCandy\Api\Channels\Services\ChannelService;
 use GetCandy\Api\Collections\Services\CollectionService;
 use GetCandy\Api\Currencies\Services\CurrencyService;
+use GetCandy\Api\Customers\Services\CustomerService;
+use GetCandy\Api\Customers\Services\CustomerGroupService;
 use GetCandy\Api\Languages\Services\LanguageService;
 use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
@@ -44,6 +46,11 @@ class Factory
      * @var CurrencyService
      */
     protected $currencies;
+
+    /**
+     * @var CustomerService
+     */
+    protected $customers;
 
     /**
      * @var LayoutService
@@ -97,6 +104,8 @@ class Factory
         ChannelService $channels,
         CollectionService $collections,
         CurrencyService $currencies,
+        CustomerService $customers,
+        CustomerGroupService $customerGroups,
         LanguageService $languages,
         LayoutService $layouts,
         PageService $pages,
@@ -113,6 +122,8 @@ class Factory
         $this->channels = $channels;
         $this->collections = $collections;
         $this->currencies = $currencies;
+        $this->customers = $customers;
+        $this->customerGroups = $customerGroups;
         $this->languages = $languages;
         $this->layouts = $layouts;
         $this->pages = $pages;
