@@ -2,6 +2,7 @@
 
 namespace GetCandy\Api\Auth\Models;
 
+use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -32,4 +33,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function groups()
+    {
+        return $this->belongsToMany(CustomerGroup::class);
+    }
 }

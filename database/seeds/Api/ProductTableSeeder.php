@@ -1,11 +1,12 @@
 <?php
 
+use GetCandy\Api\Customers\Models\CustomerGroup;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductFamily;
 use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Routes\Models\Route;
+use GetCandy\Api\Products\Models\ProductVariant;
 
 class ProductTableSeeder extends Seeder
 {
@@ -362,6 +363,17 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => $data['attribute_data']
                 ]);
 
+                $productVariant = new ProductVariant;
+
+                $productVariant->options = [];
+                $productVariant->sku = str_random(8);
+                $productVariant->stock = 1;
+                $productVariant->price = 40;
+
+                $product->customerGroups()->sync([
+                    1 => ['visible' => true, 'purchasable' => true]
+                ]);
+                
                 foreach ($attributes as $att) {
                     $product->attributes()->attach($att);
                 }
@@ -379,6 +391,8 @@ class ProductTableSeeder extends Seeder
                     }
                 }
                 $product->save();
+
+                $product->variants()->save($productVariant);
             }
             $i++;
         }

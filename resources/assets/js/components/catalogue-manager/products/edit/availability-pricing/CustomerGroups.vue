@@ -8,7 +8,7 @@
           <tr>
             <th>Group</th>
             <th>Visible</th>
-            <th>Purchaseable</th>
+            <th>Purchasable</th>
           </tr>
         </thead>
         <tbody>

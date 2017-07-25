@@ -55,7 +55,17 @@ class ProductService extends BaseService
             }
             $product->channels()->sync($channelData);
         }
-
+        if (!empty($data['customer_groups'])) {
+            $groupData = [];
+            foreach ($data['customer_groups']['data'] as $group) {
+                $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
+                $groupData[$groupModel->id] = [
+                    'visible' => $group['visible'],
+                    'purchasable' => $group['purchasable']
+                ];
+            }
+            $product->customerGroups()->sync($groupData);
+        }
         return $product;
     }
 

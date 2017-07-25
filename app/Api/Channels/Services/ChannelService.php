@@ -109,12 +109,11 @@ class ChannelService extends BaseService
         return $channel->delete();
     }
 
-    public function getChannelsWithAvailabilty($product)
+    public function getChannelsWithAvailability($product)
     {
-        $channels = $this->model->with(['products' => function ($q) {
-            $q->where('products.id', 1);
-        }]);
-        $channels = $channels->get();
+        $channels = $this->model->with(['products' => function ($q) use ($product) {
+            $q->where('products.id', $product->id);
+        }])->get();
         foreach ($channels as $channel) {
             $product = $channel->products->first();
             $channel->published_at = $product ? $product->pivot->published_at : null;

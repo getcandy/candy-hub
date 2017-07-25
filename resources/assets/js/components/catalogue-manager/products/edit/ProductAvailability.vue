@@ -1,12 +1,18 @@
 <script>
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
     export default {
         data() {
             return {
                 request: apiRequest,
                 current: {},
                 channels: [],
-                foo: '',
-                productChannels: []
+                productChannels: [],
+                customerGroups: [],
+                flatPickrConfig: {
+                  enableTime: true,
+                  minDate: new Date()
+                }
             }
         },
         props: ['variants', 'product'],
@@ -23,10 +29,25 @@
               Event.$emit('product_visibility', !((channels.length - visibleCount) == channels.length));
             },
             deep: true
+          },
+          customerGroups: {
+              handler(groups, oldVal) {
+                  let purchasableCount = 0;
+                  groups.forEach(group => {
+                      if (group.purchasable) {
+                        purchasableCount++;
+                      }
+                  });
+                  console.log(groups.length);
+                  console.log(purchasableCount);
+                  Event.$emit('product_purchasable', !((groups.length - purchasableCount) == groups.length));
+              },
+              deep: true
           }
         },
         mounted() {
           this.channels = this.product.channels.data;
+          this.customerGroups = this.product.customer_groups.data;
         },
         methods: {//product.channels.data[0].visible
           save() {
@@ -40,21 +61,10 @@
                 message: 'Missing / Invalid fields'
               });
             });
-
-                // this.variants.forEach(variant => {
-                //     this.request.send('put', '/products/variants/' + variant.id, variant)
-                //     .then(response => {
-                //         Event.$emit('notification', {
-                //             level: 'success'
-                //         });
-                //     }).catch(response => {
-                //         Event.$emit('notification', {
-                //             level: 'error',
-                //             message: 'Missing / Invalid fields'
-                //         });
-                //     });
-                // });
           }
+        },
+        components: {
+          flatPickr
         }
     }
 </script>
@@ -88,8 +98,7 @@
                             </div>
                           </td>
                           <td class="publish-date">
-                            {{ channel.published_at.date }}
-                            <candy-date :value="channel.published_at.date"></candy-date>
+                            <flat-pickr v-model="channel.published_at.date" :config="flatPickrConfig"></flat-pickr>
                           </td>
                         </tr>
                       </tbody>
@@ -98,7 +107,38 @@
                 </div>
             </candy-tab>
             <candy-tab name="Customer Groups" handle="customer-groups">
-              <candy-customer-groups></candy-customer-groups>
+                <div class="row">
+                    <div class="col-xs-12 col-md-11">
+                        <h4>Customer Groups</h4>
+                        <hr>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Group</th>
+                                    <th>Visible</th>
+                                    <th>Purchasable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="group in customerGroups">
+                                    <td>{{ group.name }}</td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input :id="'CGV' + group.id" type="checkbox" v-model="group.visible">
+                                            <label :for="'CGV' + group.id"><span class="check"></span></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input :id="'CGP' + group.id" type="checkbox" v-model="group.purchasable">
+                                            <label :for="'CGP' + group.id"><span class="check"></span></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </candy-tab>
             <candy-tab name="Discounts" handle="discounts">
               <candy-discounts></candy-discounts>

@@ -5,6 +5,7 @@ namespace GetCandy\Api\Products\Models;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Channels\Models\Channel;
+use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Routes\Models\Route;
@@ -89,5 +90,10 @@ class Product extends BaseModel
     public function channels()
     {
         return $this->belongsToMany(Channel::class)->withPivot('visible', 'published_at');
+    }
+
+    public function customerGroups()
+    {
+        return $this->belongsToMany(CustomerGroup::class)->withPivot(['visible', 'purchasable']);
     }
 }
