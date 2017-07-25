@@ -6,6 +6,7 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
+use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
 use GetCandy\Events\Products\ProductCreatedEvent;
 use Illuminate\Database\Eloquent\Model;
@@ -76,7 +77,7 @@ class ProductService extends BaseService
 
         $product->routes()->create([
             'locale' => $data['locale'],
-            'slug' => $data['url'],
+            'slug' => $data['slug'],
             'default' => false
         ]);
 
@@ -127,12 +128,10 @@ class ProductService extends BaseService
         return $product->variants()->create($data);
     }
 
+
     /**
-     * Deletes a resource by its given hashed ID
-     *
-     * @param  string $hashedId
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @return Boolean
+     * @param $hashedId
+     * @return mixed
      */
     public function delete($hashedId)
     {
