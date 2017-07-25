@@ -51,30 +51,16 @@
         },
         methods: {//product.channels.data[0].visible
           save() {
-            this.request.send('put', '/products/' + this.product.id, this.product).then(response => {
-              Event.$emit('notification', {
-                level: 'success'
+              this.request.send('put', '/products/' + this.product.id, this.product).then(response => {
+                  Event.$emit('notification', {
+                      level: 'success'
+                  });
+              }).catch(response => {
+                  Event.$emit('notification', {
+                      level: 'error',
+                      message: 'Missing / Invalid fields'
+                  });
               });
-            }).catch(response => {
-              Event.$emit('notification', {
-                level: 'error',
-                message: 'Missing / Invalid fields'
-              });
-            });
-
-                // this.variants.forEach(variant => {
-                //     this.request.send('put', '/products/variants/' + variant.id, variant)
-                //     .then(response => {
-                //         Event.$emit('notification', {
-                //             level: 'success'
-                //         });
-                //     }).catch(response => {
-                //         Event.$emit('notification', {
-                //             level: 'error',
-                //             message: 'Missing / Invalid fields'
-                //         });
-                //     });
-                // });
           }
         },
         components: {
