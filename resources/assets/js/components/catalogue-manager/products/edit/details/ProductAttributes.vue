@@ -8,9 +8,7 @@
                 channelOne: 'ecommerce',
                 languageTwo: 'sv',
                 channelTwo: 'ecommerce',
-                channels: [{label: 'Storefront', value: 'ecommerce', content: '<i class=\'fa fa-shopping-cart\'></i> Storefront'},
-                    {label: 'eBay', value: 'print', content: '<i class=\'fa fa-shopping-bag\'></i> eBay'},
-                    {label: 'Facebook', value: 'mobile', content: '<i class=\'fa fa-facebook\'></i> Facebook'}]
+                channels: []
             }
         },
         props: {
@@ -51,7 +49,15 @@
                 return preHandle + handle + channel;
             }
             return preHandle + handle + channel + lang;
-
+        },
+        mounted() {
+            CandyEvent.$emit('current-tab', this);
+            this.product.channels.data.forEach(channel => {
+                this.channels.push({
+                    label: channel.name,
+                    value: channel.handle
+                });
+            });
         }
     }
 </script>
@@ -68,7 +74,7 @@
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <label class="sr-only">Store Channels</label>
-                                        <candy-select :options="channels" v-model="channelOne"></candy-select>
+                                        <candy-select :options="channels" v-model="channelOne" v-if="channels.length"></candy-select>
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only">Language</label>
@@ -83,7 +89,7 @@
                                     <div class="form-group">
                                         <div v-show="translating">
                                             <label class="sr-only">Store Channels</label>
-                                            <candy-select :options="channels" v-model="channelTwo"></candy-select>
+                                            <candy-select :options="channels" v-model="channelTwo" v-if="channels.length"></candy-select>
                                         </div>
                                     </div>
                                     <div class="form-group">
