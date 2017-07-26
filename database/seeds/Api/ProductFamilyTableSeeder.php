@@ -20,30 +20,30 @@ class ProductFamilyTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Shoes',
-                        'sv' => 'Skodon'
+                        'gb' => 'Shoes',
+                        'se' => 'Skodon'
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
-                        'en' => 'Look at our shoes',
-                        'sv' => 'Titta på våra skor'
+                        'gb' => 'Look at our shoes',
+                        'se' => 'Titta på våra skor'
                     ],
                     'mobile' => [
-                        'en' => 'Just a tap away from some shoes',
-                        'sv' => 'Bara en kran från några skor'
+                        'gb' => 'Just a tap away from some shoes',
+                        'se' => 'Bara en kran från några skor'
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ]
             ]
@@ -58,30 +58,30 @@ class ProductFamilyTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Bags',
-                        'sv' => 'Påsar'
+                        'gb' => 'Bags',
+                        'se' => 'Påsar'
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
-                        'en' => 'Buy a bag online',
-                        'sv' => 'Köp en väska online'
+                        'gb' => 'Buy a bag online',
+                        'se' => 'Köp en väska online'
                     ],
                     'mobile' => [
-                        'en' => 'A bag for your phone',
-                        'sv' => 'En väska till din telefon'
+                        'gb' => 'A bag for your phone',
+                        'se' => 'En väska till din telefon'
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ]
             ]
@@ -95,30 +95,30 @@ class ProductFamilyTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Jewellery',
-                        'sv' => 'Smycke'
+                        'gb' => 'Jewellery',
+                        'se' => 'Smycke'
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
-                        'en' => 'The finest jewellery online',
-                        'sv' => 'De finaste smycken'
+                        'gb' => 'The finest jewellery online',
+                        'se' => 'De finaste smycken'
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ]
             ]
@@ -132,30 +132,30 @@ class ProductFamilyTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'House items',
-                        'sv' => 'Husartiklar'
+                        'gb' => 'House items',
+                        'se' => 'Husartiklar'
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
-                        'en' => 'Decorate your home from stuff on our website',
-                        'sv' => 'Dekorera ditt hem från saker på vår hemsida'
+                        'gb' => 'Decorate your home from stuff on our website',
+                        'se' => 'Dekorera ditt hem från saker på vår hemsida'
                     ],
                     'mobile' => [
-                        'en' => 'Just a tap away from awesome stuff for your house',
-                        'sv' => 'Bara en kran från fantastiska saker till ditt hus'
+                        'gb' => 'Just a tap away from awesome stuff for your house',
+                        'se' => 'Bara en kran från fantastiska saker till ditt hus'
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ]
             ]

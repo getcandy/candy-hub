@@ -56,8 +56,8 @@
                     response.data.forEach(lang => {
                         this.languages.push({
                             label: lang.name,
-                            value: lang.code,
-                            content: '<span class=\'flag-icon flag-icon-' + lang.code + '\'></span> ' + lang.name
+                            value: lang.iso,
+                            content: '<span class=\'flag-icon flag-icon-' + lang.iso + '\'></span> ' + lang.name
                         });
                     });
                 });
@@ -122,7 +122,7 @@
           <candy-tab name="URLS">
             <candy-tabs nested="true">
               <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                <candy-locale-urls :routes="routes" :product="product"></candy-locale-urls>
+                <candy-locale-urls :languages="languages" :routes="routes" :product="product"></candy-locale-urls>
               </candy-tab>
               <candy-tab name="Redirects" handle="redirects">
                 <candy-redirects></candy-redirects>

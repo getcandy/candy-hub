@@ -24,7 +24,8 @@ class LanguageService extends BaseService
     {
         $language = new Language();
         $language->name = $data['name'];
-        $language->code = $data['code'];
+        $language->lang = $data['lang'];
+        $language->iso = $data['iso'];
         if ((empty($data['default']) && !$this->model->count()) || !empty($data['default'])) {
             $this->setNewDefault($language);
         }
@@ -62,8 +63,11 @@ class LanguageService extends BaseService
             $language->name = $data['name'];
         }
 
-        if (!empty($data['code'])) {
-            $language->code = $data['code'];
+        if (!empty($data['lang'])) {
+            $language->lang = $data['lang'];
+        }
+        if (!empty($data['iso'])) {
+            $language->iso = $data['iso'];
         }
 
         if (!empty($data['default'])) {

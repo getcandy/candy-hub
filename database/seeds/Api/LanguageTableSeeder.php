@@ -13,15 +13,24 @@ class LanguageTableSeeder extends Seeder
     public function run()
     {
         Language::create([
-            'code' => 'en',
+            'lang' => 'en',
+            'iso' => 'gb',
             'name' => 'English',
             'default' => true
         ]);
 
         Language::create([
-            'code' => 'sv',
-            'name' => 'Svenska',
-            'default' => true
+            'lang' => 'sv',
+            'iso' => 'se',
+            'name' => 'Sverige',
+            'default' => false
+        ]);
+
+        Language::create([
+            'lang' => 'fr',
+            'iso' => 'fr',
+            'name' => 'Français',
+            'default' => false
         ]);
     }
 }

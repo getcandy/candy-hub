@@ -4,7 +4,7 @@
             return {
                 test: 'default',
                 translating: false,
-                languageOne: 'en',
+                languageOne: 'gb',
                 channelOne: 'ecommerce',
                 languageTwo: 'sv',
                 channelTwo: 'ecommerce',
