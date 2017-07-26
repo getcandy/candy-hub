@@ -15896,6 +15896,7 @@ label {
   width: 15px;
   height: 15px;
   border: 1px solid #a2a1a1;
+  border-radius: 3px;
 }
 
 .checkbox input[type="checkbox"] + label span.check:after {
