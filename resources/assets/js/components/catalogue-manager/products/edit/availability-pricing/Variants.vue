@@ -2,70 +2,70 @@
     export default {
         data() {
             return {
-              current: {},
-              currentIndex: 0,
-              createVariant: false
+                current: {},
+                currentIndex: 0,
+                createVariant: false
             }
         },
         props: {
-          product: {
-            type: Object
-          },
-          variants: {
-            type: Array
-          }
+            product: {
+                type: Object
+            },
+            variants: {
+                type: Array
+            }
         },
         created() {
-          this.current = this.variants[0];
+            this.current = this.variants[0];
         },
         methods: {
-          selectVariant(index) {
-            this.current = this.variants[index];
-            this.currentIndex = index;
-          },
-          deleteVariant(index) {
-            if (confirm('Are you sure you want to delete this variant?')) {
-              apiRequest.send('delete', '/products/variants/' + this.variants[index].id)
-              .then(response => {
-                  CandyEvent.$emit('notification', {
-                      level: 'success'
-                  });
-                  this.variants.splice(index, 1);
-                  this.current = this.variants[0];
-              }).catch(response => {
-                  CandyEvent.$emit('notification', {
-                      level: 'error',
-                      message: 'An error occurred, please refresh and try again'
-                  });
-              });
+            selectVariant(index) {
+                this.current = this.variants[index];
+                this.currentIndex = index;
+            },
+            deleteVariant(index) {
+                if (confirm('Are you sure you want to delete this variant?')) {
+                    apiRequest.send('delete', '/products/variants/' + this.variants[index].id)
+                        .then(response => {
+                            CandyEvent.$emit('notification', {
+                                level: 'success'
+                            });
+                            this.variants.splice(index, 1);
+                            this.current = this.variants[0];
+                        }).catch(response => {
+                        CandyEvent.$emit('notification', {
+                            level: 'error',
+                            message: 'An error occurred, please refresh and try again'
+                        });
+                    });
+                }
+            },
+            capitalize(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+            convertToCm(measurement) {
+                let rate = 1;
+                if (measurement.unit == 'mm') {
+                    rate = 0.1;
+                } else if (measurement.unit == 'in') {
+                    rate = 2.54;
+                }
+                return measurement.value * rate;
             }
-          },
-          capitalize(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-          },
-          convertToCm(measurement) {
-            let rate = 1;
-            if (measurement.unit == 'mm') {
-              rate = 0.1;
-            } else if (measurement.unit == 'in') {
-              rate = 2.54;
-            }
-            return measurement.value * rate;
-          }
         },
         computed: {
-          volume() {
-            // Convert height to cm...
-            let height = this.convertToCm(this.current.height),
-                width = this.convertToCm(this.current.width),
-                depth = this.convertToCm(this.current.depth),
-                cmsquared = height * width * depth;
+            volume() {
+                // Convert height to cm...
+                let height = this.convertToCm(this.current.height),
+                    width = this.convertToCm(this.current.width),
+                    depth = this.convertToCm(this.current.depth),
+                    cmsquared = height * width * depth;
 
-            if (this.current.volume.unit == 'l') {
-              return cmsquared / 1000;
+                if (this.current.volume.unit == 'l') {
+                    return cmsquared / 1000;
+                }
+                return cmsquared;
             }
-            return cmsquared;
-          }
         }
     }
 </script>

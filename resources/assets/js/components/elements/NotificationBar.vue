@@ -2,7 +2,7 @@
     <div>
         <div class="notification-bar animated fadeIn flash" :class="classname" v-if="isActive">
             <div class="animated bounceInUp">
-              <span class="icon"><i class="fa" :class="icon"></i></span> {{ message }}
+                <span class="icon"><i class="fa" :class="icon"></i></span> {{ message }}
             </div>
         </div>
     </div>

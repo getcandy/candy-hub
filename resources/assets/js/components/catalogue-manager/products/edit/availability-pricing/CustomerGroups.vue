@@ -5,73 +5,73 @@
       <hr>
       <table class="table">
         <thead>
-          <tr>
-            <th>Group</th>
-            <th>Visible</th>
-            <th>Purchasable</th>
-          </tr>
+        <tr>
+          <th>Group</th>
+          <th>Visible</th>
+          <th>Purchasable</th>
+        </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Guests</td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>Retail</td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>Trade</td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>Partners</td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-            <td>
-              <select class="form-control selectpicker">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </td>
-          </tr>
+        <tr>
+          <td>Guests</td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Retail</td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Trade</td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Partners</td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control selectpicker">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>

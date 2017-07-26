@@ -38,8 +38,8 @@
             },
             getLanguages() {
                 apiRequest.send('get', '/languages').then(response => {
-                  this.languages = response.data;
-                  $(this.$el).selectpicker('render');
+                    this.languages = response.data;
+                    $(this.$el).selectpicker('render');
                 }).catch(response => {
                     // Do something...
                 });

@@ -5,7 +5,7 @@
                 <i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> <slot></slot>
             </div>
             <div v-else>
-               <i class="fa fa-refresh fa-spin" aria-hidden="true"></i> Saving
+                <i class="fa fa-refresh fa-spin" aria-hidden="true"></i> Saving
             </div>
         </button>
     </div>
