@@ -1,4 +1,4 @@
- <script>
+<script>
     export default {
         data() {
             return {
@@ -7,7 +7,7 @@
         },
         props: {
             product: {
-               type: Object
+                type: Object
             },
             groups: {
                 type: Array,
@@ -19,11 +19,11 @@
         methods: {
             save() {
                 this.request.send('put', '/products/' + this.product.id, { 'attributes' : this.product.attributes })
-                .then(response => {
-                    Event.$emit('notification', {
-                        level: 'success'
-                    });
-                }).catch(response => {
+                    .then(response => {
+                        Event.$emit('notification', {
+                            level: 'success'
+                        });
+                    }).catch(response => {
                     Event.$emit('notification', {
                         level: 'error',
                         message: 'Missing / Invalid fields'
@@ -39,11 +39,13 @@
 <template>
     <div>
         <candy-tabs nested="true">
+
             <template v-for="(group, index) in groups">
                 <candy-tab :name="group.name" :selected="index == 0 ? true : false">
                     <candy-product-attributes :group="group" :product="product" :request="request"></candy-product-attributes>
                 </candy-tab>
             </template>
+
         </candy-tabs>
     </div>
 </template>

@@ -5,12 +5,32 @@
         <div class="col-xs-12 col-md-11">
           <h4>Media</h4>
           <hr>
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary">All Media</button>
-            <button type="button" class="btn btn-default">Images</button>
-            <button type="button" class="btn btn-default">Files</button>
+
+          <div class="custom-radio-group">
+            <span class="group-label">Toggle Media:</span>
+            <div class="toggle-radio">
+              <input type="radio" name="media" id="allMedia" value="allMedia" checked="checked">
+              <label for="allMedia">
+                <span class="check"></span>
+                <span class="faux-label">All Media</span>
+              </label>
+            </div>
+            <div class="toggle-radio">
+              <input type="radio" name="media" id="images" value="images">
+              <label for="images">
+                <span class="check"></span>
+                <span class="faux-label">Images</span>
+              </label>
+            </div>
+            <div class="toggle-radio">
+              <input type="radio" name="media" id="files" value="files">
+              <label for="files">
+                <span class="check"></span>
+                <span class="faux-label">Files</span>
+              </label>
+            </div>
           </div>
-          <p><em>Toggle filter, custom radio inputs</em></p>
+
           <table class="table">
             <thead>
               <tr>

@@ -356,11 +356,29 @@
             </div>
             <hr>
             <p><em>Work in progress, need to think about how to select as Upsell, Cross-sell and Alternate Products</em></p>
-            Selection type:
-            <div class="btn-group">
-              <button class="btn btn-default">Upsell</button>
-              <button class="btn btn-default">Cross-sell</button>
-              <button class="btn btn-default">Alternate</button>
+            <div class="custom-radio-group">
+              <span class="group-label">Selection Type:</span>
+              <div class="toggle-radio">
+                <input type="radio" name="products" id="selectUpsell" value="selectUpsell" checked="checked">
+                <label for="selectUpsell">
+                  <span class="check"></span>
+                  <span class="faux-label">Upsell</span>
+                </label>
+              </div>
+              <div class="toggle-radio">
+                <input type="radio" name="products" id="selectCrossSell" value="selectCrossSell">
+                <label for="selectCrossSell">
+                  <span class="check"></span>
+                  <span class="faux-label">Cross-sell</span>
+                </label>
+              </div>
+              <div class="toggle-radio">
+                <input type="radio" name="products" id="selectAlternate" value="selectAlternate">
+                <label for="selectAlternate">
+                  <span class="check"></span>
+                  <span class="faux-label">Alternate</span>
+                </label>
+              </div>
             </div>
             <table class="table">
               <thead>
@@ -434,7 +452,7 @@
               </tbody>
             </table>
             <hr>
-            <p><small>Need to make tbody scrollable with a fixed height<br>Should selected category names show below search area as well? With a potential to remove?</small></p>
+            <p><small>Need to make tbody scrollable with a fixed height<br>Should selected product names with selection type show below search area as well? With a potential to remove?</small></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

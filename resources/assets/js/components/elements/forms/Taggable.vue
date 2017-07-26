@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="text" v-model="editableTags" class="form-control" :required="required">
+        <input type="text" v-model="editableTags" class="form-control" data-role="tagsinput" :required="required">
     </div>
 </template>
 
