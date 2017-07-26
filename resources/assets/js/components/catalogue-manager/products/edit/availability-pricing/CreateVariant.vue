@@ -181,6 +181,7 @@
           </tfoot>
         </table>
 
+
         <hr>
         <p>Modify generated variants ({{ variants.length }})</p>
         <table class="table association-table variants-table">

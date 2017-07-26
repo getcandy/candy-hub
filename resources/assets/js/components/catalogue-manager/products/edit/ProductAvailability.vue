@@ -46,6 +46,7 @@
           }
         },
         mounted() {
+
           this.channels = this.product.channels.data;
           this.customerGroups = this.product.customer_groups.data;
         },
