@@ -13,6 +13,7 @@ require('./classes/Errors');
 require('./classes/Form');
 
 window.Datepicker = require('bootstrap-datepicker');
+require('bootstrap-datetimepicker-npm');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
@@ -42,6 +43,7 @@ Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
 Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
 Vue.component('candy-taggable', require('./components/elements/forms/Taggable.vue'));
 Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
+Vue.component('candy-language-select', require('./components/elements/forms/LanguageSelect.vue'));
 Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
 Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
 Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
@@ -224,9 +226,6 @@ $("[data-toggle='tooltip']").tooltip();
 $('[data-toggle="popover"]').popover()
 
 // Date Picker
-$('.date').datepicker({
-    format: 'dd/mm/yyyy'
-});
 
 // Switch
 $(".toggle input").bootstrapSwitch();

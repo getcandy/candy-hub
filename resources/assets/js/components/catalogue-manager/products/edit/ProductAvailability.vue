@@ -38,11 +38,6 @@
                         purchasableCount++;
                       }
                   });
-<<<<<<< HEAD
-                  console.log(groups.length);
-                  console.log(purchasableCount);
-=======
->>>>>>> Alec-WIP
                   Event.$emit('product_purchasable', !((groups.length - purchasableCount) == groups.length));
               },
               deep: true
@@ -65,15 +60,12 @@
                       message: 'Missing / Invalid fields'
                   });
               });
-<<<<<<< HEAD
-=======
             }).catch(response => {
               Event.$emit('notification', {
                 level: 'error',
                 message: 'Missing / Invalid fields'
               });
             });
->>>>>>> Alec-WIP
           }
         },
         components: {

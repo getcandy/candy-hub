@@ -5,10 +5,11 @@
 <script>
     export default {
         data () {
-          return {
-            loaded: false,
-            product: {},
-            attribute_groups: [],
+            return {
+              loaded: false,
+              product: {},
+              attribute_groups: [],
+              purchasable: true,
             viewable: true,
             variants: [],
             routes: []
@@ -20,15 +21,19 @@
             required: true
           }
         },
+
         created() {
           this.loadProduct(this.productId);
         },
         mounted() {
           Event.$on('product-updated', event => {
-            this.loadProduct();
+              this.loadProduct();
           });
           Event.$on('product_visibility', visible => {
-            this.viewable = visible;
+              this.viewable = visible;
+          });
+          Event.$on('product_purchasable', purchasable => {
+              this.purchasable = purchasable;
           });
         },
         methods: {
@@ -50,7 +55,7 @@
            */
           loadProduct (id) {
             apiRequest.send('get', '/products/' + this.productId, {}, {
-              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels'
+              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels,customer_groups'
             }).then(response => {
                 this.decorate(response.data);
                 this.loaded = true;
@@ -64,8 +69,7 @@
 <template>
   <div>
       <template v-if="loaded">
-
-        <div class="alert alert-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be purchased - <a href="#">click here to fix this</a></div>
+        <div class="alert alert-warning" v-if="!purchasable"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be purchased - <a href="#">click here to fix this</a></div>
         <div class="alert alert-danger" v-if="!viewable"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be viewed - <a href="#">click here to fix this</a></div>
 
         <transition name="fade">
@@ -105,13 +109,12 @@
             <candy-tab name="URLS">
               <candy-tabs nested="true">
                 <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                  <candy-locale-urls :routes="routes"></candy-locale-urls>
+                  <candy-locale-urls :routes="routes" :product="product"></candy-locale-urls>
                 </candy-tab>
                 <candy-tab name="Redirects" handle="redirects">
                   <candy-redirects></candy-redirects>
                 </candy-tab>
               </candy-tabs>
-              <candy-url-modals></candy-url-modals>
             </candy-tab>
           </candy-tabs>
         </transition>

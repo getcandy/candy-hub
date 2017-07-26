@@ -35,7 +35,7 @@
                   Event.$emit('product-updated');
                   this.variants = [];
                   this.options = [];
-                  this.showModal = false;
+                  this.modalOpen = false;
               }).catch(response => {
                   Event.$emit('notification', {
                       level: 'error',
@@ -52,7 +52,7 @@
             this.variants = [];
             /**
              * We want to get the options into a format where we can
-             * get all the variantions whilst keeping the option name
+             * get all the variations whilst keeping the option name
              * associated to it. The logic below will give us something like:
              * [[{size: 10}, {size: 20}, {size: 30}],[{colour: 'red'}]]
              *
