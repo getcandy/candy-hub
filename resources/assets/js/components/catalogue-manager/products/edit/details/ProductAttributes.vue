@@ -3,7 +3,7 @@
         data() {
             return {
                 translating: false,
-                languageOne: 'en',
+                languageOne: 'gb',
                 channelOne: 'ecommerce',
                 languageTwo: 'sv',
                 channelTwo: 'ecommerce',
