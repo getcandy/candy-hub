@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="input-group input-group-full date">
+        <div class="input-group input-group-full date" data-provide="datepicker">
             <span class="input-group-addon">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
             </span>
             <label class="sr-only" for="search">Date</label>
-            <input type="text" class="form-control" :value="value" @input="updateValue($event.target.value)">
+            <input type="text" class="form-control" :value="value" >
         </div>
     </div>
 </template>
@@ -21,7 +21,11 @@
             }
         },
         mounted() {
-            $(this.$elem).datetimepicker();
+            $(this.$elem).datepicker();
+
+            $(this.$elem).datepicker().on(changeDate, function(e){
+                this.$emit('input', 'sadsd');
+            });
         },
         props: {
             value: {
@@ -36,9 +40,11 @@
             }
         },
         methods: {
+            /*
             updateValue: function (value) {
+                alert(value);
                 this.$emit('input', value);
-            }
+            }*/
         }
     }
 </script>
