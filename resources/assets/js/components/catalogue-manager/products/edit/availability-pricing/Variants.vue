@@ -141,11 +141,7 @@
               <div class="col-xs-6 col-md-2">
                 <div class="form-group">
                   <label>Tax</label>
-                  <select class="form-control selectpicker">
-                    <option>0%</option>
-                    <option>5%</option>
-                    <option>20%</option>
-                  </select>
+                  <candy-select :options="['0%','5%','20%']"></candy-select>
                 </div>
               </div>
             </div>
@@ -156,12 +152,7 @@
               <div class="col-xs-12 col-md-5">
                 <div class="form-group">
                   <label>Inventory Policy</label>
-                  <select class="form-control selectpicker">
-                    <option disabled selected value>Select an Option</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
-                  </select>
+                  <candy-select :options="['Option 1','Option 2','Option 3']"></candy-select>
                 </div>
               </div>
             </div>
@@ -208,11 +199,7 @@
               <div class="col-xs-12 col-md-5">
                 <div class="form-group">
                   <label>Fulfillment Service</label>
-                  <select class="form-control selectpicker">
-                    <option>Option</option>
-                    <option>Option</option>
-                    <option>Option</option>
-                  </select>
+                  <candy-select :options="['Option','Option','Option']"></candy-select>
                 </div>
               </div>
             </div>
