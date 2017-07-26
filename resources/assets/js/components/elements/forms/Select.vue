@@ -12,7 +12,7 @@
     export default {
         props: {
             options: {
-                type: Object
+                type: Array
             },
             value: {
                 type: String
