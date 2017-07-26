@@ -9,14 +9,15 @@
                 channelTwo: 'ecommerce',
                 channels: [{label: 'Storefront', value: 'ecommerce', content: '<i class=\'fa fa-shopping-cart\'></i> Storefront'},
                     {label: 'eBay', value: 'print', content: '<i class=\'fa fa-shopping-bag\'></i> eBay'},
-                    {label: 'Facebook', value: 'mobile', content: '<i class=\'fa fa-facebook\'></i> Facebook'}],
-                languages: [{label: 'English', value: 'en', content: '<span class=\'flag-icon flag-icon-gb\'></span> English'},
-                    {label: 'Swedish', value: 'sv', content: '<span class=\'flag-icon flag-icon-sv\'></span> Swedish'}]
+                    {label: 'Facebook', value: 'mobile', content: '<i class=\'fa fa-facebook\'></i> Facebook'}]
             }
         },
         props: {
             request: {
                 type: Object
+            },
+            languages: {
+                type : Array
             },
             group: {
                 type: Object

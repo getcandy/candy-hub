@@ -12,7 +12,8 @@
                 purchasable: true,
                 viewable: true,
                 variants: [],
-                routes: []
+                routes: [],
+                languages: []
             }
         },
         props: {
@@ -23,6 +24,7 @@
         },
 
         created() {
+            this.loadLanguages();
             this.loadProduct(this.productId);
         },
         mounted() {
@@ -48,6 +50,17 @@
                 this.product.attributes = this.product.attribute_data;
                 this.variants = this.product.variants.data;
                 this.routes = this.product.routes.data;
+            },
+            loadLanguages() {
+                apiRequest.send('get', 'languages', [], []).then(response => {
+                    response.data.forEach(lang => {
+                        this.languages.push({
+                            label: lang.name,
+                            value: lang.code,
+                            content: '<span class=\'flag-icon flag-icon-' + lang.code + '\'></span> ' + lang.name
+                        });
+                    });
+                });
             },
             /**
              * Loads the product by its encoded ID
@@ -75,7 +88,7 @@
       <transition name="fade">
         <candy-tabs >
           <candy-tab name="Product Details" handle="product-details" :selected="true">
-            <candy-product-details :product="product" :groups="attribute_groups"></candy-product-details>
+            <candy-product-details :product="product" :languages="languages" :groups="attribute_groups"></candy-product-details>
           </candy-tab>
           <candy-tab name="Media">
             <candy-media></candy-media>

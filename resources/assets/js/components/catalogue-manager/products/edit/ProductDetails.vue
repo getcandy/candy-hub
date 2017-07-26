@@ -9,6 +9,9 @@
             product: {
                 type: Object
             },
+            languages: {
+                type: Array
+            },
             groups: {
                 type: Array,
                 default() {
@@ -42,7 +45,7 @@
 
             <template v-for="(group, index) in groups">
                 <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                    <candy-product-attributes :group="group" :product="product" :request="request"></candy-product-attributes>
+                    <candy-product-attributes :languages="languages" :group="group" :product="product" :request="request"></candy-product-attributes>
                 </candy-tab>
             </template>
 
