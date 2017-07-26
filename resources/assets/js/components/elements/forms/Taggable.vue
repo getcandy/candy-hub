@@ -17,11 +17,11 @@
         computed: {
             editableTags: {
                 get () {
-                  return this.value.join(',')
+                    return this.value.join(',')
                 },
                 set (val) {
-                  this.$emit('input', val.trim().split(','));
-                  Event.$emit('tagged', val.split(','));
+                    this.$emit('input', val.trim().split(','));
+                    CandyEvent.$emit('tagged', val.split(','));
                 }
             }
         },

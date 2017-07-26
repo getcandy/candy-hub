@@ -2,7 +2,7 @@
 
 namespace GetCandy\Http\Controllers\Api\Routes;
 
-use GetCandy\Api\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -18,7 +18,7 @@ class RouteController extends BaseController
     }
     /**
      * Handles the request to show a route based on it's hashed ID
-     * @param  String $id
+     * @param  String $slug
      * @return Json
      */
     public function show($slug)
@@ -29,5 +29,16 @@ class RouteController extends BaseController
             return $this->errorNotFound();
         }
         return $this->respondWithItem($route, new RouteTransformer);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $result = app('api')->routes()->delete($id);
+        } catch (MinimumRecordRequiredException $e) {
+            return $this->errorUnprocessable($e->getMessage());
+        } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        }
     }
 }

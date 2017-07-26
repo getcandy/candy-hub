@@ -6,8 +6,10 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
+use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
 use GetCandy\Events\Products\ProductCreatedEvent;
+use Illuminate\Database\Eloquent\Model;
 
 class ProductService extends BaseService
 {
@@ -19,13 +21,13 @@ class ProductService extends BaseService
     /**
      * Updates a resource from the given data
      *
-     * @param  string $id
+     * @param  string $hashedId
      * @param  array  $data
      *
-     * @throws Symfony\Component\HttpKernel\Exception
-     * @throws GetCandy\Api\Exceptions\InvalidLanguageException
+     * @throws \Symfony\Component\HttpKernel\Exception
+     * @throws \GetCandy\Exceptions\InvalidLanguageException
      *
-     * @return GetCandy\Api\Models\Product
+     * @return Product
      */
     public function update($hashedId, array $data)
     {
@@ -44,17 +46,49 @@ class ProductService extends BaseService
             $product->save();
         }
 
+        if (!empty($data['channels'])) {
+            $channelData = [];
+            foreach ($data['channels']['data'] as $channel) {
+                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
+                $channelData[$channelModel->id] = [
+                    'visible' => $channel['visible'],
+                    'published_at' => \Carbon\Carbon::parse($channel['published_at']['date'])
+                ];
+            }
+            $product->channels()->sync($channelData);
+        }
+        if (!empty($data['customer_groups'])) {
+            $groupData = [];
+            foreach ($data['customer_groups']['data'] as $group) {
+                $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
+                $groupData[$groupModel->id] = [
+                    'visible' => $group['visible'],
+                    'purchasable' => $group['purchasable']
+                ];
+            }
+            $product->customerGroups()->sync($groupData);
+        }
+        return $product;
+    }
+
+    public function createUrl($hashedId, array $data)
+    {
+        $product = $this->getByHashedId($hashedId);
+
+        $product->routes()->create([
+            'locale' => $data['locale'],
+            'slug' => $data['slug'],
+            'default' => false
+        ]);
         return $product;
     }
 
     /**
      * Creates a resource from the given data
      *
-     * @param  string $id
+     * @throws \GetCandy\Exceptions\InvalidLanguageException
      *
-     * @throws GetCandy\Api\Exceptions\InvalidLanguageException
-     *
-     * @return GetCandy\Api\Models\Product
+     * @return Product
      */
     public function create(array $data)
     {
@@ -85,7 +119,7 @@ class ProductService extends BaseService
      * Creates a product variant
      * @param  Product $product
      * @param  array   $data
-     * @return ProductVariant
+     * @return Model
      */
     public function createVariant(Product $product, array $data = [])
     {
@@ -93,12 +127,10 @@ class ProductService extends BaseService
         return $product->variants()->create($data);
     }
 
+
     /**
-     * Deletes a resource by its given hashed ID
-     *
-     * @param  string $id
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @return Boolean
+     * @param $hashedId
+     * @return mixed
      */
     public function delete($hashedId)
     {
@@ -113,7 +145,7 @@ class ProductService extends BaseService
      * Gets paginated data for the record
      * @param  integer $length How many results per page
      * @param  int  $page   The page to start
-     * @return Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
     {
@@ -158,9 +190,9 @@ class ProductService extends BaseService
 
     /**
      * Updates the collections for a product
-     * @param  String  $model
+     * @param  String  $id
      * @param  array  $data
-     * @throws Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @return Model
      */
     public function updateCollections($id, array $data)

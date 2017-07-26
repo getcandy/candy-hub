@@ -4,6 +4,7 @@ namespace GetCandy\Api\Routes\Services;
 
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Routes\Models\Route;
+use GetCandy\Exceptions\MinimumRecordRequiredException;
 
 class RouteService extends BaseService
 {
@@ -23,4 +24,40 @@ class RouteService extends BaseService
         app()->setLocale($route->locale);
         return $route;
     }
+
+    /**
+     * @param $hashedId
+     * @return mixed
+     * @throws MinimumRecordRequiredException
+     */
+    public function delete($hashedId)
+    {
+        $route = $this->getByHashedId($hashedId);
+        if (!$route) {
+            abort(404);
+        }
+        if ($route->element->routes->count() == 1) {
+            throw new MinimumRecordRequiredException(
+                trans('response.error.minimum_record')
+            );
+        }
+
+
+        if ($route->default) {
+            $newDefault = $route->element->routes->where('default', '=', false)->first();
+            $newDefault->default = true;
+            $newDefault->save();
+        }
+        return $route->delete();
+    }
+
+    /**
+     * Gets a new suggested default model
+     * @return Mixed
+     */
+    public function getNewSuggestedDefault()
+    {
+        return $this->model->where('default', '=', false)->where('enabled', '=', true)->first();
+    }
+
 }

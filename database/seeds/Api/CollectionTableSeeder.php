@@ -17,15 +17,15 @@ class CollectionTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['en' => 'Early Sale', 'sv' => 'Tidig försäljning']
+                        ['gb' => 'Early Sale', 'se' => 'Tidig försäljning']
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ]
             ]
@@ -34,15 +34,15 @@ class CollectionTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['en' => 'House', 'sv' => '']
+                        ['gb' => 'House', 'se' => '']
                     ],
                     'mobile' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ],
                     'print' => [
-                        'en' => '',
-                        'sv' => ''
+                        'gb' => '',
+                        'se' => ''
                     ]
                 ]
             ]

@@ -1,8 +1,7 @@
 <template>
 
-        <select class="selectpicker" :class="{'input-group-addon' : addon}" :required="required" @input="updateValue($event.target.value)" :value="value">
-            <option value disabled>Please select</option>
-            <option v-for="option in options" :value="option.value ? option.value : option">
+        <select :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
+            <option v-for="option in options" :value="option.value ? option.value : option" :data-content="option.content ? option.content : ''">
                 {{ option.label ? option.label : option }}
             </option>
         </select>
@@ -27,14 +26,11 @@
             }
         },
         mounted() {
-            $('.selectpicker').selectpicker('render');
-            $(this.$el).on('changed.bs.select', (event, clickedIndex, newValue, oldValue) => {
-                this.$emit('input', $(this.$el).find("option:selected").val());
-            });
+            $(this.$el).selectpicker('render');
         },
         methods: {
             updateValue(value) {
-                this.$emit('input', value)
+                this.$emit('input', value);
             }
         }
     }

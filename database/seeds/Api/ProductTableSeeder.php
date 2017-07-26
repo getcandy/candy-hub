@@ -1,11 +1,12 @@
 <?php
 
+use GetCandy\Api\Customers\Models\CustomerGroup;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductFamily;
 use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Routes\Models\Route;
+use GetCandy\Api\Products\Models\ProductVariant;
 
 class ProductTableSeeder extends Seeder
 {
@@ -37,44 +38,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'en' => 'Black Bamboosh',
-                                'sv' => 'Svart Bamboosh'
+                                'gb' => 'Black Bamboosh',
+                                'se' => 'Svart Bamboosh'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
+                                'gb' => 'Leather',
+                                'se' => 'Läder'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'en' => 'Moroccan babouche made from butter-soft black leather with slim rubber soles. Indoor wear recommended.',
-                                'sv' => 'Marockansk babouche tillverkad av smörmjuk svart läder med smala gummisulor. Inomslitage rekommenderas'
+                                'gb' => 'Moroccan babouche made from butter-soft black leather with slim rubber soles. Indoor wear recommended.',
+                                'se' => 'Marockansk babouche tillverkad av smörmjuk svart läder med smala gummisulor. Inomslitage rekommenderas'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ]
                     ]
@@ -84,44 +85,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'en' => 'Camber Shoes',
-                                'sv' => 'Camber Skor',
+                                'gb' => 'Camber Shoes',
+                                'se' => 'Camber Skor',
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'en' => 'Suede',
-                                'sv' => 'Mockaskinn'
+                                'gb' => 'Suede',
+                                'se' => 'Mockaskinn'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'en' => 'Slip-on soft pink suede brogues toughened up with comfortable crepe soles and leather lining. Penelope Chilvers.',
-                                'sv' => 'Slip-on mjuka rosa suede brogues härdade med bekväma crepe sulor och läderfodral. Penelope Chilvers.'
+                                'gb' => 'Slip-on soft pink suede brogues toughened up with comfortable crepe soles and leather lining. Penelope Chilvers.',
+                                'se' => 'Slip-on mjuka rosa suede brogues härdade med bekväma crepe sulor och läderfodral. Penelope Chilvers.'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ]
                     ]
@@ -131,44 +132,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'en' => 'Cross over sandals',
-                                'sv' => 'Korsa över sandaler'
+                                'gb' => 'Cross over sandals',
+                                'se' => 'Korsa över sandaler'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'en' => 'Suede',
-                                'sv' => 'Mockaskinn'
+                                'gb' => 'Suede',
+                                'se' => 'Mockaskinn'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'en' => 'Sleek slides with wide cross-over straps made from chunky-ribbed leather and suede. With padded leather footbed and grooved rubber soles.',
-                                'sv' => 'Snygga glidbanor med breda överkantsremmar av chunky-ribbet läder och mocka. Med vadderade läderfotbäddar och räfflade gummisulor.'
+                                'gb' => 'Sleek slides with wide cross-over straps made from chunky-ribbed leather and suede. With padded leather footbed and grooved rubber soles.',
+                                'se' => 'Snygga glidbanor med breda överkantsremmar av chunky-ribbet läder och mocka. Med vadderade läderfotbäddar och räfflade gummisulor.'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ]
                     ]
@@ -181,44 +182,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'en' => 'Knot leather bag',
-                                'sv' => 'Knot läderväska'
+                                'gb' => 'Knot leather bag',
+                                'se' => 'Knot läderväska'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
+                                'gb' => 'Leather',
+                                'se' => 'Läder'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'en' => 'Sleek suede bag with chunky rolled leather strap and exaggerated knots at either end. Closes with zip across the top and has interior pockets.',
-                                'sv' => ''
+                                'gb' => 'Sleek suede bag with chunky rolled leather strap and exaggerated knots at either end. Closes with zip across the top and has interior pockets.',
+                                'se' => ''
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ]
                     ]
@@ -228,44 +229,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'en' => 'Arizona bag',
-                                'sv' => 'Arizona väska'
+                                'gb' => 'Arizona bag',
+                                'se' => 'Arizona väska'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
+                                'gb' => 'Leather',
+                                'se' => 'Läder'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'en' => 'Artisan crafted cross body bag made from waxy umber leather with a wide buckled strap and deep front flap. Lined in twill with interior pockets. ',
-                                'sv' => ''
+                                'gb' => 'Artisan crafted cross body bag made from waxy umber leather with a wide buckled strap and deep front flap. Lined in twill with interior pockets. ',
+                                'se' => ''
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ]
                     ]
@@ -275,44 +276,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'en' => 'Beet bag',
-                                'sv' => 'Köttväska'
+                                'gb' => 'Beet bag',
+                                'se' => 'Köttväska'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'en' => 'Cotton',
-                                'sv' => 'Bomull'
+                                'gb' => 'Cotton',
+                                'se' => 'Bomull'
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'en' => 'Capacious beach bag with room for just about anything. Cut from geometric-print cotton with fully lined interior and single zip pocket. Tie closure.',
-                                'sv' => ''
+                                'gb' => 'Capacious beach bag with room for just about anything. Cut from geometric-print cotton with fully lined interior and single zip pocket. Tie closure.',
+                                'se' => ''
                             ],
                             'mobile' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ],
                             'print' => [
-                                'en' => '',
-                                'sv' => ''
+                                'gb' => '',
+                                'se' => ''
                             ]
                         ]
                     ]
@@ -320,36 +321,36 @@ class ProductTableSeeder extends Seeder
             ],
             // 'Jewellery' => [
             //     [
-            //         'name' => ['en' => 'Mesh watch', 'sv' => 'Mesh klocka'],
+            //         'name' => ['gb' => 'Mesh watch', 'se' => 'Mesh klocka'],
             //         'layout' => $basic,
-            //         'attribute_data' => ['material' => ['en' => 'Stainless Steel']]
+            //         'attribute_data' => ['material' => ['gb' => 'Stainless Steel']]
             //     ],
             //     [
-            //         'name' => ['en' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen'],
+            //         'name' => ['gb' => '3 Square earrings', 'se' => '3 kvadratiska örhängen'],
             //         'layout' => $featured,
-            //         'attribute_data' => ['material' => ['en' => 'Silver']]
+            //         'attribute_data' => ['material' => ['gb' => 'Silver']]
             //     ],
             //     [
-            //         'name' => ['en' => 'Bird Brooch', 'sv' => 'Fågelbrosch'],
+            //         'name' => ['gb' => 'Bird Brooch', 'se' => 'Fågelbrosch'],
             //         'layout' => $basic,
-            //         'attribute_data' => ['material' => ['en' => 'Silver']]
+            //         'attribute_data' => ['material' => ['gb' => 'Silver']]
             //     ]
             // ],
             // 'House items' => [
             //     [
-            //         'name' => ['en' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare'],
+            //         'name' => ['gb' => 'Feather dreamcatcher', 'se' => 'Fjäderdrömskådare'],
             //         'layout' => $basic,
-            //         'attribute_data' => ['material' => ['en' => 'Leather, Feathers, Wool']]
+            //         'attribute_data' => ['material' => ['gb' => 'Leather, Feathers, Wool']]
             //     ],
             //     [
-            //         'name' => ['en' => 'Driftwood fish', 'sv' => 'Driftwood fisk'],
+            //         'name' => ['gb' => 'Driftwood fish', 'se' => 'Driftwood fisk'],
             //         'layout' => $featured,
-            //         'attribute_data' => ['material' => ['en' => 'Wood']]
+            //         'attribute_data' => ['material' => ['gb' => 'Wood']]
             //     ],
             //     [
-            //         'name' => ['en' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare'],
+            //         'name' => ['gb' => 'Mirror Candleholder', 'se' => 'Spegel ljushållare'],
             //         'layout' => $basic,
-            //         'attribute_data' => ['material' => ['en' => 'Glass, Metal']]
+            //         'attribute_data' => ['material' => ['gb' => 'Glass, Metal']]
             //     ]
             // ]
         ];
@@ -360,6 +361,17 @@ class ProductTableSeeder extends Seeder
             foreach ($products as $data) {
                 $product = Product::create([
                     'attribute_data' => $data['attribute_data']
+                ]);
+
+                $productVariant = new ProductVariant;
+
+                $productVariant->options = [];
+                $productVariant->sku = str_random(8);
+                $productVariant->stock = 1;
+                $productVariant->price = 40;
+
+                $product->customerGroups()->sync([
+                    1 => ['visible' => true, 'purchasable' => true]
                 ]);
 
                 foreach ($attributes as $att) {
@@ -373,12 +385,14 @@ class ProductTableSeeder extends Seeder
                     if ($channel == 'ecommerce') {
                         $product->route()->create([
                             'default' => true,
-                            'slug' => str_slug($data['en']),
+                            'slug' => str_slug($data['gb']),
                             'locale' => app()->getLocale()
                         ]);
                     }
                 }
                 $product->save();
+
+                $product->variants()->save($productVariant);
             }
             $i++;
         }

@@ -2,7 +2,7 @@
     <div>
         <div class="notification-bar animated fadeIn flash" :class="classname" v-if="isActive">
             <div class="animated bounceInUp">
-              <span class="icon"><i class="fa" :class="icon"></i></span> {{ message }}
+                <span class="icon"><i class="fa" :class="icon"></i></span> {{ message }}
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
             }
         },
         mounted() {
-            Event.$on('notification', data => this.update(data));
+            CandyEvent.$on('notification', data => this.update(data));
         },
         methods : {
             update(data) {

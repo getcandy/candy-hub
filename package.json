@@ -10,23 +10,42 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "jquery": "^3.1.1",
     "axios": "^0.15.3",
+    "vue": "^2.1.10",
     "bootstrap-datepicker": "^1.7.0",
     "bootstrap-sass": "^3.3.7",
-    "bootstrap-select": "^1.12.2",
+    "bootstrap-select": "^1.12.4",
     "bootstrap-switch": "^3.3.4",
     "bootstrap-tagsinput": "^0.7.1",
     "cross-env": "^3.2.3",
     "dropzone": "^5.1.1",
-    "jquery": "^3.1.1",
     "laravel-mix": "0.*",
     "list.js": "^1.5.0",
     "lodash": "^4.17.4",
-    "vue": "^2.1.10",
     "vue2-selectize": "^1.1.4"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "moment": "^2.18.1"
-  }
+    "flag-icon-css": "^2.8.0",
+    "moment": "^2.18.1",
+    "vue-flatpickr-component": "^2.4.1"
+  },
+  "name": "get-candy",
+  "description": "E-Commerce API &amp; CMS",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getcandy/candy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/getcandy/candy/issues"
+  },
+  "homepage": "https://github.com/getcandy/candy#readme"
 }

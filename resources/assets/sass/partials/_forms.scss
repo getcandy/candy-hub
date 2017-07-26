@@ -402,31 +402,6 @@ label {
   }
 }
 
-/* Animation */
-.translated-lang{
-  opacity:0;
-}
-
-.translating {
-
-  width: 100%;
-  float: left;
-
-  .original-lang{
-    width: 50%;
-    float: left;
-    padding-right: 2px;
-  }
-  .translated-lang{
-    width: 50%;
-    float: left;
-    padding-left: 2px;
-    opacity: 1;
-    -webkit-transition: opacity 2s; /* For Safari 3.1 to 6.0 */
-    transition: opacity 2s;
-  }
-}
-
 /* Tags */
 
 .bootstrap-tagsinput {
@@ -444,3 +419,5 @@ label {
     }
   }
 }
+
+/* Translating Forms */
