@@ -28,5 +28,22 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "moment": "^2.18.1"
-  }
+  },
+  "name": "get-candy",
+  "description": "E-Commerce API &amp; CMS",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getcandy/candy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/getcandy/candy/issues"
+  },
+  "homepage": "https://github.com/getcandy/candy#readme"
 }

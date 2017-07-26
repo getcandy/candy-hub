@@ -1,6 +1,6 @@
 <template>
 
-        <select :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @input="updateValue($event.target.value)" :value="value">
+        <select id="afddddd" :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
             <option v-for="option in options" :value="option.value ? option.value : option">
                 {{ option.label ? option.label : option }}
             </option>
@@ -27,17 +27,15 @@
         },
         mounted() {
             $(this.$el).selectpicker('render');
+            /*
             $(this.$el).on('changed.bs.select', (event, clickedIndex, newValue, oldValue) => {
-                this.$emit('input', $(this.$el).find("option:selected").val());
-            });
+                this.$emit('input', event.val());
+            });*/
         },
         methods: {
             updateValue(value) {
-                this.$emit('input', value)
+                this.$emit('input', value);
             }
-        },
-        destroy() {
-            $(this.$el).off().selectpicker('destroy')
         }
     }
 </script>

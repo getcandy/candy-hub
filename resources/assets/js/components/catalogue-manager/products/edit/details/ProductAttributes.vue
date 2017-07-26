@@ -69,7 +69,7 @@
                                         <label class="sr-only">Language</label>
                                         <candy-select :options="languages" v-model="languageOne"></candy-select>
                                     </div>
-                                    <button class="btn btn-default" @click="translate">{{ translating ? 'Translating...' : 'Translate' }}</button>
+                                    <button class="btn btn-default" @click="translate">{{ translating ? 'Hide Translation' : 'Translate' }}</button>
                                 </div>
                             </div>
 

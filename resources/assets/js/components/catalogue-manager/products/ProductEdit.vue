@@ -5,15 +5,14 @@
 <script>
     export default {
         data () {
-            return {
-              loaded: false,
-              product: {},
-              attribute_groups: [],
-              purchasable: true,
-              viewable: true,
-              variants: [],
-              routes: []
-            }
+          return {
+            loaded: false,
+            product: {},
+            attribute_groups: [],
+            viewable: true,
+            variants: [],
+            routes: []
+          }
         },
         props: {
           productId: {
@@ -21,19 +20,15 @@
             required: true
           }
         },
-
         created() {
           this.loadProduct(this.productId);
         },
         mounted() {
           Event.$on('product-updated', event => {
-              this.loadProduct();
+            this.loadProduct();
           });
           Event.$on('product_visibility', visible => {
-              this.viewable = visible;
-          });
-          Event.$on('product_purchasable', purchasable => {
-              this.purchasable = purchasable;
+            this.viewable = visible;
           });
         },
         methods: {
@@ -55,7 +50,7 @@
            */
           loadProduct (id) {
             apiRequest.send('get', '/products/' + this.productId, {}, {
-              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels,customer_groups'
+              includes : 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels'
             }).then(response => {
                 this.decorate(response.data);
                 this.loaded = true;
@@ -69,7 +64,8 @@
 <template>
   <div>
       <template v-if="loaded">
-        <div class="alert alert-warning" v-if="!purchasable"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be purchased - <a href="#">click here to fix this</a></div>
+
+        <div class="alert alert-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be purchased - <a href="#">click here to fix this</a></div>
         <div class="alert alert-danger" v-if="!viewable"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> This product cannot be viewed - <a href="#">click here to fix this</a></div>
 
         <transition name="fade">
