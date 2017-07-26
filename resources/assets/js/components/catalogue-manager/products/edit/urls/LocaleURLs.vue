@@ -134,7 +134,7 @@
           <div class="col-xs-12 col-sm-3">
             <div class="form-group">
               <label>Locale</label>
-              <candy-language-select v-model="newUrl.locale"></candy-language-select>
+              <candy-select :options="[]" v-model="newUrl.locale"></candy-select>
             </div>
           </div>
           <div class="col-xs-12 col-sm-9">
