@@ -80,7 +80,6 @@ class ProductService extends BaseService
             'slug' => $data['slug'],
             'default' => false
         ]);
-
         return $product;
     }
 
