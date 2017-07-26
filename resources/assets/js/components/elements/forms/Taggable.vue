@@ -21,7 +21,7 @@
                 },
                 set (val) {
                   this.$emit('input', val.trim().split(','));
-                  Event.$emit('tagged', val.split(','));
+                  CandyEvent.$emit('tagged', val.split(','));
                 }
             }
         },

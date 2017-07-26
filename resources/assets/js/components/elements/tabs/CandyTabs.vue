@@ -34,7 +34,7 @@
                     if (tab.name == selectedTab.name) {
                         tab.isActive = true;
                         if (tab.$children[0] && !tab.isNested) {
-                            Event.$emit('current-tab', tab.$children[0]);
+                            CandyEvent.$emit('current-tab', tab.$children[0]);
                         }
                     } else {
                         tab.isActive = false;
@@ -50,7 +50,7 @@
             }
         },
         mounted() {
-            Event.$on('select-tab', tab => {
+            CandyEvent.$on('select-tab', tab => {
                 this.selectTabByName(tab);
             });
         },

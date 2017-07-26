@@ -43,6 +43,17 @@ $this->resource('collections', 'Collections\CollectionController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
 
+/**
+ * Customers
+ */
+
+$this->resource('customers/groups', 'Customers\CustomerGroupController', [
+    'except' => ['edit', 'create', 'show']
+]);
+
+$this->resource('customers', 'Customers\CustomerController', [
+    'except' => ['index', 'edit', 'create', 'show']
+]);
 
 /**
  * Currencies
@@ -84,6 +95,7 @@ $this->post('products/{product}/variants', 'Products\ProductVariantController@st
 /**
  * Products
  */
+$this->post('products/{product}/urls', 'Products\ProductController@createUrl');
 $this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
 $this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
 $this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');

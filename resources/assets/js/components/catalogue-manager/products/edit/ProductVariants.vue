@@ -22,11 +22,11 @@
                 this.variants.forEach(variant => {
                     this.request.send('put', '/products/variants/' + variant.id, variant)
                     .then(response => {
-                        Event.$emit('notification', {
+                        CandyEvent.$emit('notification', {
                             level: 'success'
                         });
                     }).catch(response => {
-                        Event.$emit('notification', {
+                        CandyEvent.$emit('notification', {
                             level: 'error',
                             message: 'Missing / Invalid fields'
                         });

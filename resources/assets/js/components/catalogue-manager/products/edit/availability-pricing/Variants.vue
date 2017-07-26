@@ -1,73 +1,72 @@
 <script>
     export default {
-      data() {
-        return {
-          current: {},
-          currentIndex: 0,
-          createVariant: false
-        }
-      },
-      props: {
-        product: {
-          type: Object
+        data() {
+            return {
+              current: {},
+              currentIndex: 0,
+              createVariant: false
+            }
         },
-        variants: {
-          type: Array
-        }
-      },
-      created() {
-        this.current = this.variants[0];
-      },
-      methods: {
-        selectVariant(index) {
-          this.current = this.variants[index];
-          this.currentIndex = index;
-        },
-        deleteVariant(index) {
-          if (confirm('Are you sure you want to delete this variant?')) {
-            apiRequest.send('delete', '/products/variants/' + this.variants[index].id)
-            .then(response => {
-              Event.$emit('notification', {
-                  level: 'success'
-              });
-              window.scrollTo(0, 0);
-              this.variants.splice(index, 1);
-              this.current = this.variants[0];
-            }).catch(response => {
-              Event.$emit('notification', {
-                  level: 'error',
-                  message: 'An error occurred, please refresh and try again'
-              });
-            });
+        props: {
+          product: {
+            type: Object
+          },
+          variants: {
+            type: Array
           }
         },
-        capitalize(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
+        created() {
+          this.current = this.variants[0];
         },
-        convertToCm(measurement) {
-          let rate = 1;
-          if (measurement.unit == 'mm') {
-            rate = 0.1;
-          } else if (measurement.unit == 'in') {
-            rate = 2.54;
+        methods: {
+          selectVariant(index) {
+            this.current = this.variants[index];
+            this.currentIndex = index;
+          },
+          deleteVariant(index) {
+            if (confirm('Are you sure you want to delete this variant?')) {
+              apiRequest.send('delete', '/products/variants/' + this.variants[index].id)
+              .then(response => {
+                  CandyEvent.$emit('notification', {
+                      level: 'success'
+                  });
+                  this.variants.splice(index, 1);
+                  this.current = this.variants[0];
+              }).catch(response => {
+                  CandyEvent.$emit('notification', {
+                      level: 'error',
+                      message: 'An error occurred, please refresh and try again'
+                  });
+              });
+            }
+          },
+          capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+          },
+          convertToCm(measurement) {
+            let rate = 1;
+            if (measurement.unit == 'mm') {
+              rate = 0.1;
+            } else if (measurement.unit == 'in') {
+              rate = 2.54;
+            }
+            return measurement.value * rate;
           }
-          return measurement.value * rate;
-        }
-      },
-      computed: {
-        volume() {
-          // Convert height to cm...
-          let height = this.convertToCm(this.current.height),
-              width = this.convertToCm(this.current.width),
-              depth = this.convertToCm(this.current.depth),
-              cmsquared = height * width * depth;
+        },
+        computed: {
+          volume() {
+            // Convert height to cm...
+            let height = this.convertToCm(this.current.height),
+                width = this.convertToCm(this.current.width),
+                depth = this.convertToCm(this.current.depth),
+                cmsquared = height * width * depth;
 
-          if (this.current.volume.unit == 'l') {
-            return cmsquared / 1000;
+            if (this.current.volume.unit == 'l') {
+              return cmsquared / 1000;
+            }
+            return cmsquared;
           }
-          return cmsquared;
         }
-      }
     }
 </script>
 
@@ -282,7 +281,7 @@
           <div class="col-xs-12 col-md-4 col-md-pull-8" v-if="variants.length > 1">
             <ul class="variant-list">
               <li v-for="(v, index) in variants">
-                <a href="#" @click="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
+                <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
                   <div class="variant-img" v-if="v.image">
                     <img src="img/placeholder/product.jpg" alt="Aquacomb">
                   </div>

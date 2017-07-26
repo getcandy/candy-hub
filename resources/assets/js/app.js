@@ -43,6 +43,7 @@ Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
 Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
 Vue.component('candy-taggable', require('./components/elements/forms/Taggable.vue'));
 Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
+Vue.component('candy-language-select', require('./components/elements/forms/LanguageSelect.vue'));
 Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
 Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
 Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
@@ -64,7 +65,6 @@ Vue.component('candy-media', require('./components/catalogue-manager/products/ed
  */
 Vue.component('candy-inventory', require('./components/catalogue-manager/products/edit/availability-pricing/Inventory.vue'));
 Vue.component('candy-shipping', require('./components/catalogue-manager/products/edit/availability-pricing/Shipping.vue'));
-Vue.component('candy-channels', require('./components/catalogue-manager/products/edit/availability-pricing/Channels.vue'));
 Vue.component('candy-customer-groups', require('./components/catalogue-manager/products/edit/availability-pricing/CustomerGroups.vue'));
 Vue.component('candy-discounts', require('./components/catalogue-manager/products/edit/availability-pricing/Discounts.vue'));
 Vue.component('candy-avalability-pricing-modals', require('./components/catalogue-manager/products/edit/availability-pricing/Modals.vue'));
@@ -95,7 +95,7 @@ Vue.component('candy-locale-urls', require('./components/catalogue-manager/produ
 Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
 Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
 
-window.Event = new Vue();
+window.CandyEvent = new Vue();
 
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
@@ -226,9 +226,6 @@ $("[data-toggle='tooltip']").tooltip();
 $('[data-toggle="popover"]').popover()
 
 // Date Picker
-$('.date').datepicker({
-    format: 'dd/mm/yyyy'
-});
 
 // Switch
 $(".toggle input").bootstrapSwitch();

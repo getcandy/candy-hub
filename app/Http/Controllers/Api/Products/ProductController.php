@@ -6,6 +6,7 @@ use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Products\CreateRequest;
+use GetCandy\Http\Requests\Api\Products\CreateUrlRequest;
 use GetCandy\Http\Requests\Api\Products\DeleteRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateCollectionsRequest;
@@ -85,9 +86,9 @@ class ProductController extends BaseController
 
     /**
      * Handles the request to update a products attributes
-     * @param  String        $id
+     * @param  String        $product
      * @param  UpdateAttributesRequest $request
-     * @return Json
+     * @return Mixed
      */
     public function updateAttributes($product, UpdateAttributesRequest $request)
     {
@@ -101,11 +102,11 @@ class ProductController extends BaseController
         return $this->respondWithItem($result, new ProductTransformer);
     }
 
+
     /**
-     * Handles the request to update a products collections
-     * @param  String        $id
-     * @param  UpdateCollectionsRequest $request
-     * @return Json
+     * @param $product
+     * @param UpdateCollectionsRequest $request
+     * @return array|\Illuminate\Http\Response
      */
     public function updateCollections($product, UpdateCollectionsRequest $request)
     {
@@ -119,6 +120,11 @@ class ProductController extends BaseController
         return $this->respondWithItem($result, new ProductTransformer);
     }
 
+    public function createUrl($product, CreateUrlRequest $request)
+    {
+        $result = app('api')->products()->createUrl($product, $request->all());
+        dd($result);
+    }
     /**
      * Handles the request to delete a product
      * @param  String        $id

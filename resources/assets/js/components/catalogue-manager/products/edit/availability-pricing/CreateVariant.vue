@@ -29,15 +29,15 @@
           save() {
               apiRequest.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants})
               .then(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'success'
                   });
-                  Event.$emit('product-updated');
+                  CandyEvent.$emit('product-updated');
                   this.variants = [];
                   this.options = [];
-                  this.showModal = false;
+                  this.modalOpen = false;
               }).catch(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'error',
                       message: 'Missing / Invalid fields'
                   });
@@ -52,7 +52,7 @@
             this.variants = [];
             /**
              * We want to get the options into a format where we can
-             * get all the variantions whilst keeping the option name
+             * get all the variations whilst keeping the option name
              * associated to it. The logic below will give us something like:
              * [[{size: 10}, {size: 20}, {size: 30}],[{colour: 'red'}]]
              *
@@ -180,6 +180,7 @@
             </tr>
           </tfoot>
         </table>
+
 
         <hr>
         <p>Modify generated variants ({{ variants.length }})</p>

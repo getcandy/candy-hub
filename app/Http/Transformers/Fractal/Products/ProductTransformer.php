@@ -11,6 +11,7 @@ use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeTransformer;
+use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Collections\CollectionTransformer;
@@ -27,7 +28,7 @@ class ProductTransformer extends BaseTransformer
      * @var Array
      */
     protected $availableIncludes = [
-        'attribute_groups', 'family', 'layout', 'variants', 'collections', 'routes', 'channels'
+        'attribute_groups', 'family', 'layout', 'variants', 'collections', 'routes', 'channels', 'customer_groups'
     ];
 
     /**
@@ -110,21 +111,39 @@ class ProductTransformer extends BaseTransformer
     /**
      * Includes any product variants
      * @param  Product $product
-     * @return League\Fractal\Resource\Collection
+     * @return \League\Fractal\Resource\Collection
      */
     public function includeVariants(Product $product)
     {
         return $this->collection($product->variants, new ProductVariantTransformer);
     }
 
+    /**
+     * @param Product $product
+     * @return \League\Fractal\Resource\Collection
+     */
     public function includeRoutes(Product $product)
     {
         return $this->collection($product->routes, new RouteTransformer);
     }
 
+    /**
+     * @param Product $product
+     * @return \League\Fractal\Resource\Collection
+     */
     public function includeChannels(Product $product)
     {
-        $channels = app('api')->channels()->getChannelsWithAvailabilty($product);
+        $channels = app('api')->channels()->getChannelsWithAvailability($product);
         return $this->collection($channels, new ChannelTransformer);
+    }
+
+    /**
+     * @param Product $product
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeCustomerGroups(Product $product)
+    {
+        $groups = app('api')->customerGroups()->getGroupsWithAvailability($product);
+        return $this->collection($groups, new CustomerGroupTransformer);
     }
 }

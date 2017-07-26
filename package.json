@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "vue-flatpickr-component": "^2.4.1"
   },
   "name": "get-candy",
   "description": "E-Commerce API &amp; CMS",

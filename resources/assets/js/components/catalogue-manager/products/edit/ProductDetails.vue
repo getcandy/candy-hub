@@ -20,11 +20,11 @@
             save() {
                 this.request.send('put', '/products/' + this.product.id, { 'attributes' : this.product.attributes })
                     .then(response => {
-                        Event.$emit('notification', {
+                        CandyEvent.$emit('notification', {
                             level: 'success'
                         });
                     }).catch(response => {
-                    Event.$emit('notification', {
+                    CandyEvent.$emit('notification', {
                         level: 'error',
                         message: 'Missing / Invalid fields'
                     });
@@ -32,7 +32,7 @@
             }
         },
         mounted() {
-            Event.$emit('current-tab', this);
+            CandyEvent.$emit('current-tab', this);
         }
     }
 </script>
