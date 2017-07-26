@@ -27,13 +27,13 @@
             if (confirm('Are you sure you want to delete this variant?')) {
               apiRequest.send('delete', '/products/variants/' + this.variants[index].id)
               .then(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'success'
                   });
                   this.variants.splice(index, 1);
                   this.current = this.variants[0];
               }).catch(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'error',
                       message: 'An error occurred, please refresh and try again'
                   });

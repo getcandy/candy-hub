@@ -26,7 +26,7 @@
                 }
               });
               // If there are no visible channels checked
-              Event.$emit('product_visibility', !((channels.length - visibleCount) == channels.length));
+              CandyEvent.$emit('product_visibility', !((channels.length - visibleCount) == channels.length));
             },
             deep: true
           },
@@ -38,7 +38,7 @@
                         purchasableCount++;
                       }
                   });
-                  Event.$emit('product_purchasable', !((groups.length - purchasableCount) == groups.length));
+                  CandyEvent.$emit('product_purchasable', !((groups.length - purchasableCount) == groups.length));
               },
               deep: true
           }
@@ -51,11 +51,11 @@
         methods: {//product.channels.data[0].visible
           save() {
               this.request.send('put', '/products/' + this.product.id, this.product).then(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'success'
                   });
               }).catch(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'error',
                       message: 'Missing / Invalid fields'
                   });

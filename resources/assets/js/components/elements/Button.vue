@@ -21,8 +21,8 @@
             }
         },
         created () {
-            Event.$on('current-tab', tab => this.job = tab);
-            Event.$on('notification', finished => this.processing = false);
+            CandyEvent.$on('current-tab', tab => this.job = tab);
+            CandyEvent.$on('notification', finished => this.processing = false);
         },
         methods : {
             fire () {

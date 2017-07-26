@@ -19,7 +19,7 @@
             }
         },
         mounted() {
-            Event.$on('notification', data => this.update(data));
+            CandyEvent.$on('notification', data => this.update(data));
         },
         methods : {
             update(data) {

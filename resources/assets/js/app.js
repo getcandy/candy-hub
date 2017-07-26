@@ -94,7 +94,7 @@ Vue.component('candy-locale-urls', require('./components/catalogue-manager/produ
 Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
 Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
 
-window.Event = new Vue();
+window.CandyEvent = new Vue();
 
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();

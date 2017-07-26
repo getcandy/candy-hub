@@ -10,9 +10,9 @@
               product: {},
               attribute_groups: [],
               purchasable: true,
-            viewable: true,
-            variants: [],
-            routes: []
+              viewable: true,
+              variants: [],
+              routes: []
           }
         },
         props: {
@@ -26,13 +26,13 @@
           this.loadProduct(this.productId);
         },
         mounted() {
-          Event.$on('product-updated', event => {
+          CandyEvent.$on('product-updated', event => {
               this.loadProduct();
           });
-          Event.$on('product_visibility', visible => {
+          CandyEvent.$on('product_visibility', visible => {
               this.viewable = visible;
           });
-          Event.$on('product_purchasable', purchasable => {
+          CandyEvent.$on('product_purchasable', purchasable => {
               this.purchasable = purchasable;
           });
         },

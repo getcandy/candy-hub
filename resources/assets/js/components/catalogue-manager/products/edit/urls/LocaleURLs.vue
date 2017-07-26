@@ -39,7 +39,7 @@
                 let data = this.newUrl;
                 this.request.send('post', '/products/' + this.product.id + '/urls', data)
                     .then(response => {
-                        Event.$emit('notification', {
+                        CandyEvent.$emit('notification', {
                             level: 'success'
                         });
                         this.routes.push({
@@ -53,7 +53,7 @@
             deleteUrl() {
                 this.request.send('delete', '/routes/' + this.urlToDelete.id)
                     .then(response => {
-                        Event.$emit('notification', {
+                        CandyEvent.$emit('notification', {
                             level: 'success'
                         });
                         this.routes.splice(this.deletedIndex, 1);

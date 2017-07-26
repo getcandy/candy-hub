@@ -29,15 +29,15 @@
           save() {
               apiRequest.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants})
               .then(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'success'
                   });
-                  Event.$emit('product-updated');
+                  CandyEvent.$emit('product-updated');
                   this.variants = [];
                   this.options = [];
                   this.modalOpen = false;
               }).catch(response => {
-                  Event.$emit('notification', {
+                  CandyEvent.$emit('notification', {
                       level: 'error',
                       message: 'Missing / Invalid fields'
                   });
