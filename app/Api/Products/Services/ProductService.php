@@ -25,9 +25,9 @@ class ProductService extends BaseService
      * @param  array  $data
      *
      * @throws \Symfony\Component\HttpKernel\Exception
-     * @throws \GetCandy\Api\Exceptions\InvalidLanguageException
+     * @throws \GetCandy\Exceptions\InvalidLanguageException
      *
-     * @return \GetCandy\Api\Models\Product
+     * @return Product
      */
     public function update($hashedId, array $data)
     {
@@ -87,9 +87,9 @@ class ProductService extends BaseService
     /**
      * Creates a resource from the given data
      *
-     * @throws \GetCandy\Api\Exceptions\InvalidLanguageException
+     * @throws \GetCandy\Exceptions\InvalidLanguageException
      *
-     * @return \GetCandy\Api\Models\Product
+     * @return Product
      */
     public function create(array $data)
     {
@@ -209,6 +209,4 @@ class ProductService extends BaseService
         $product->collections()->sync($ids);
         return $product;
     }
-
-
 }
