@@ -174,11 +174,11 @@
               <td align="right"><button class="btn btn-sm btn-default btn-action delete-row" @click="removeOption(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
             </tr>
           </tbody>
-          <tfooter>
+          <tfoot>
             <tr>
               <td colspan="3"><button type="button" class="btn btn-default add-variant-option" @click="addOption">Add another option</button><button class="btn btn-success" @click="generateVariants()">Generate variants</button></td>
             </tr>
-          </tfooter>
+          </tfoot>
         </table>
 
         <hr>
