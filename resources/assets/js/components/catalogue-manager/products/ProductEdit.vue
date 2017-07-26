@@ -5,14 +5,14 @@
 <script>
     export default {
         data () {
-            return {
-              loaded: false,
-              product: {},
-              attribute_groups: [],
-              viewable: true,
-              variants: [],
-              routes: []
-            }
+          return {
+            loaded: false,
+            product: {},
+            attribute_groups: [],
+            viewable: true,
+            variants: [],
+            routes: []
+          }
         },
         props: {
           productId: {

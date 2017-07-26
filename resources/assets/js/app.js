@@ -19,7 +19,6 @@ require('bootstrap-tagsinput');
 window.Dropzone = require('dropzone');
 window.List = require('list.js');
 
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -136,6 +135,9 @@ window.axios.interceptors.response.use((response) => { // intercept the global e
     // Do something with response error
     return Promise.reject(error)
   });
+
+
+
 
 
 /* Misc crap - need to remove!!! */
