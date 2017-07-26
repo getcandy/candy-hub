@@ -1,7 +1,7 @@
 <template>
 
-        <select id="afddddd" :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
-            <option v-for="option in options" :value="option.value ? option.value : option">
+        <select :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
+            <option v-for="option in options" :value="option.value ? option.value : option" :data-content="option.content ? option.content : ''">
                 {{ option.label ? option.label : option }}
             </option>
         </select>
@@ -12,7 +12,7 @@
     export default {
         props: {
             options: {
-                type: Array
+                type: Object
             },
             value: {
                 type: String
@@ -27,10 +27,6 @@
         },
         mounted() {
             $(this.$el).selectpicker('render');
-            /*
-            $(this.$el).on('changed.bs.select', (event, clickedIndex, newValue, oldValue) => {
-                this.$emit('input', event.val());
-            });*/
         },
         methods: {
             updateValue(value) {

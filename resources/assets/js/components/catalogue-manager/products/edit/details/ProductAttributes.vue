@@ -7,8 +7,11 @@
                 channelOne: 'ecommerce',
                 languageTwo: 'sv',
                 channelTwo: 'ecommerce',
-                channels: ['Storefront', 'eBay', 'Facebook'],
-                languages: ['English', 'Swedish']
+                channels: [{label: 'Storefront', value: 'ecommerce', content: '<i class=\'fa fa-shopping-cart\'></i> Storefront'},
+                    {label: 'eBay', value: 'print', content: '<i class=\'fa fa-shopping-bag\'></i> eBay'},
+                    {label: 'Facebook', value: 'mobile', content: '<i class=\'fa fa-facebook\'></i> Facebook'}],
+                languages: [{label: 'English', value: 'en', content: '<span class=\'flag-icon flag-icon-gb\'></span> English'},
+                    {label: 'Swedish', value: 'sv', content: '<span class=\'flag-icon flag-icon-sv\'></span> Swedish'}]
             }
         },
         props: {
@@ -79,25 +82,12 @@
                                         <div v-show="translating">
                                             <label class="sr-only">Store Channels</label>
                                             <candy-select :options="channels" v-model="channelTwo"></candy-select>
-                                            <!--
-                                            <select class="form-control selectpicker" v-model="channelTwo">
-                                                <option value="ecommerce" data-content="<i class='fa fa-shopping-cart'></i> Storefront" selected>Store Front</option>
-                                                <option value="print" data-content="<i class='fa fa-shopping-bag'></i> eBay">eBay</option>
-                                                <option value="mobile" data-content="<i class='fa fa-facebook'></i> Facebook">Facebook</option>
-                                            </select>
-                                            -->
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div v-show="translating">
                                             <label class="sr-only">Language</label>
                                             <candy-select :options="languages" v-model="languageTwo"></candy-select>
-                                            <!--
-                                            <select class="form-control selectpicker" v-model="languageTwo">
-                                                <option value="en" data-content="<span class='flag-icon flag-icon-gb'></span> English" selected>English</option>
-                                                <option value="sv" data-content="<span class='flag-icon flag-icon-sv'></span> Swedish">Swedish</option>
-                                            </select>
-                                            -->
                                         </div>
                                     </div>
                                 </div>
