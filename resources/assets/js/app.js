@@ -13,7 +13,6 @@ require('./classes/Errors');
 require('./classes/Form');
 
 window.Datepicker = require('bootstrap-datepicker');
-require('bootstrap-datetimepicker-npm');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
