@@ -14,7 +14,8 @@ class LanguageTransformer extends BaseTransformer
         return [
             'id' => $language->encodedId(),
             'name' => $language->name,
-            'code' => $language->code,
+            'lang' => $language->lang,
+            'iso' => $language->iso,
             'current' => (bool) ($language->code == app()->getLocale())
         ];
     }

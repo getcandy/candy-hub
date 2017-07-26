@@ -14,7 +14,8 @@ class LanguageControllerTest extends TestCase
     protected $baseStructure = [
         'id',
         'name',
-        'code'
+        'iso',
+        'lang'
     ];
 
     public function testIndex()
@@ -74,7 +75,8 @@ class LanguageControllerTest extends TestCase
             $this->url('languages'),
             [
                 'name' =>  "Spanish",
-                'code' =>  "es",
+                'lang' =>  "es",
+                'iso' =>  "es",
                 'default' =>  false
             ],
             [
@@ -100,7 +102,7 @@ class LanguageControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'name', 'code'
+            'name', 'iso', 'lang'
         ]);
         
         $this->assertEquals(422, $response->status());
@@ -111,7 +113,8 @@ class LanguageControllerTest extends TestCase
         $response = $this->post(
             $this->url('languages'),
             [
-                'code' => 'en',
+                'lang' => 'en',
+                'iso' => 'gb',
                 'name' => 'English'
             ],
             [
@@ -120,7 +123,7 @@ class LanguageControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'code'
+            'iso','lang'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -133,7 +136,8 @@ class LanguageControllerTest extends TestCase
             $this->url('languages/' . $id),
             [
                 'name' => 'Español',
-                'code' => 'es',
+                'lang' => 'es',
+                'iso' => 'es',
                 'default' => true
             ],
             [
@@ -147,7 +151,8 @@ class LanguageControllerTest extends TestCase
     {
         Language::create([
             'name' => 'Foo',
-            'code' => 'foo'
+            'iso' => 'foo',
+            'lang' => 'foo'
         ]);
 
         $id = Language::first()->encodedId();
@@ -155,7 +160,8 @@ class LanguageControllerTest extends TestCase
             $this->url('languages/' . $id),
             [
                 'name' => 'Bar',
-                'code' => 'foo'
+                'lang' => 'foo',
+                'iso' => 'foo'
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -163,7 +169,7 @@ class LanguageControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'code'
+            'iso', 'lang'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -175,7 +181,8 @@ class LanguageControllerTest extends TestCase
             $this->url('languages/123123'),
             [
                 'name' => 'Español',
-                'code' => 'es',
+                'lang' => 'es',
+                'iso' => 'es',
                 'default' => true
             ],
             [
@@ -190,7 +197,8 @@ class LanguageControllerTest extends TestCase
     {
         $currency = Language::create([
             'name' =>  "Spanish",
-            'code' =>  "es",
+            'lang' => 'es',
+            'iso' => 'es',
             'default' =>  false
         ]);
 

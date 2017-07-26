@@ -21,6 +21,9 @@
             }
         },
         props: {
+            languages: {
+                type: Array
+            },
             product: {
                 type: Object
             },
@@ -134,7 +137,7 @@
           <div class="col-xs-12 col-sm-3">
             <div class="form-group">
               <label>Locale</label>
-              <candy-select :options="[]" v-model="newUrl.locale"></candy-select>
+              <candy-select :options="languages" v-model="newUrl.locale"></candy-select>
             </div>
           </div>
           <div class="col-xs-12 col-sm-9">

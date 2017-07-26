@@ -16,7 +16,8 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'code' => 'required|unique:languages,code'
+            'lang' => 'required',
+            'iso' => 'required|unique:languages,iso_2_code'
         ];
     }
 }

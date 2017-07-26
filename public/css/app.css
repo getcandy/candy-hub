@@ -9865,16 +9865,14 @@ select.selectpicker {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
-.flag-icon-background {
+.flag-icon-background,
+.flag-icon {
   background-size: contain;
   background-position: 50%;
   background-repeat: no-repeat;
 }
 
 .flag-icon {
-  background-size: contain;
-  background-position: 50%;
-  background-repeat: no-repeat;
   position: relative;
   display: inline-block;
   width: 1.33333333em;
@@ -9882,7 +9880,7 @@ select.selectpicker {
 }
 
 .flag-icon:before {
-  content: "\00a0";
+  content: '\00a0';
 }
 
 .flag-icon.flag-icon-squared {
@@ -9890,2043 +9888,2043 @@ select.selectpicker {
 }
 
 .flag-icon-ad {
-  background-image: url(/fonts/ad.svg?367b58cbaf8962e5d101d24e81818f2b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ad.svg?367b58cbaf8962e5d101d24e81818f2b);
 }
 
 .flag-icon-ad.flag-icon-squared {
-  background-image: url(/fonts/ad.svg?a58027d893be40137b4e06c22943f4ab);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ad.svg?a58027d893be40137b4e06c22943f4ab);
 }
 
 .flag-icon-ae {
-  background-image: url(/fonts/ae.svg?4d913fc2d81fe98abd1d857c3044e5bb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ae.svg?4d913fc2d81fe98abd1d857c3044e5bb);
 }
 
 .flag-icon-ae.flag-icon-squared {
-  background-image: url(/fonts/ae.svg?9df491b1067fe429b98a0c29d143aaa7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ae.svg?9df491b1067fe429b98a0c29d143aaa7);
 }
 
 .flag-icon-af {
-  background-image: url(/fonts/af.svg?c77ce2771905e2c687fcbc1ede16c6f5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/af.svg?c77ce2771905e2c687fcbc1ede16c6f5);
 }
 
 .flag-icon-af.flag-icon-squared {
-  background-image: url(/fonts/af.svg?66d30d603494af84757fb8036e19981d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/af.svg?66d30d603494af84757fb8036e19981d);
 }
 
 .flag-icon-ag {
-  background-image: url(/fonts/ag.svg?231f9400b2f7887b25b91eff54c2b05a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ag.svg?231f9400b2f7887b25b91eff54c2b05a);
 }
 
 .flag-icon-ag.flag-icon-squared {
-  background-image: url(/fonts/ag.svg?0c113ee43f5e979f9e2bf6d330546fb9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ag.svg?0c113ee43f5e979f9e2bf6d330546fb9);
 }
 
 .flag-icon-ai {
-  background-image: url(/fonts/ai.svg?9d5773529f53c05ff6e20e8b5965c852);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ai.svg?9d5773529f53c05ff6e20e8b5965c852);
 }
 
 .flag-icon-ai.flag-icon-squared {
-  background-image: url(/fonts/ai.svg?d6af3a0faf03775fead44c4e3a693cf2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ai.svg?d6af3a0faf03775fead44c4e3a693cf2);
 }
 
 .flag-icon-al {
-  background-image: url(/fonts/al.svg?b8c8240f9a182a9a3c7e65698049ae11);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/al.svg?b8c8240f9a182a9a3c7e65698049ae11);
 }
 
 .flag-icon-al.flag-icon-squared {
-  background-image: url(/fonts/al.svg?7e21b4962e704ec70f96d96ac01fe3e2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/al.svg?7e21b4962e704ec70f96d96ac01fe3e2);
 }
 
 .flag-icon-am {
-  background-image: url(/fonts/am.svg?6b50213cff7574e0d93b9a277849e6c3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/am.svg?6b50213cff7574e0d93b9a277849e6c3);
 }
 
 .flag-icon-am.flag-icon-squared {
-  background-image: url(/fonts/am.svg?15d9b1b398267457715fb36098a4aca7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/am.svg?15d9b1b398267457715fb36098a4aca7);
 }
 
 .flag-icon-ao {
-  background-image: url(/fonts/ao.svg?c521746be95ab5a5ee88e88e11f1bf19);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ao.svg?c521746be95ab5a5ee88e88e11f1bf19);
 }
 
 .flag-icon-ao.flag-icon-squared {
-  background-image: url(/fonts/ao.svg?ea04172c141ba985f7729aa77437b63f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ao.svg?ea04172c141ba985f7729aa77437b63f);
 }
 
 .flag-icon-aq {
-  background-image: url(/fonts/aq.svg?f929ba712ff5b5e6c171d7d26c7326ac);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/aq.svg?f929ba712ff5b5e6c171d7d26c7326ac);
 }
 
 .flag-icon-aq.flag-icon-squared {
-  background-image: url(/fonts/aq.svg?2c772185d13c70791c1173a01d5c5d74);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/aq.svg?2c772185d13c70791c1173a01d5c5d74);
 }
 
 .flag-icon-ar {
-  background-image: url(/fonts/ar.svg?13dc7d6655c4524e0e16b76699c6aa04);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ar.svg?13dc7d6655c4524e0e16b76699c6aa04);
 }
 
 .flag-icon-ar.flag-icon-squared {
-  background-image: url(/fonts/ar.svg?738ab0020d69c00a1d1b09447c4b7667);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ar.svg?738ab0020d69c00a1d1b09447c4b7667);
 }
 
 .flag-icon-as {
-  background-image: url(/fonts/as.svg?f94400a244ceab663e8abf865f0fd458);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/as.svg?f94400a244ceab663e8abf865f0fd458);
 }
 
 .flag-icon-as.flag-icon-squared {
-  background-image: url(/fonts/as.svg?5d5e432322a2db51180a5b27a1545136);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/as.svg?5d5e432322a2db51180a5b27a1545136);
 }
 
 .flag-icon-at {
-  background-image: url(/fonts/at.svg?78e4fe8bc34593071b5552ad36e59907);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/at.svg?78e4fe8bc34593071b5552ad36e59907);
 }
 
 .flag-icon-at.flag-icon-squared {
-  background-image: url(/fonts/at.svg?3ee4ec7bfd80327d1f0edfa3281fd9c1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/at.svg?3ee4ec7bfd80327d1f0edfa3281fd9c1);
 }
 
 .flag-icon-au {
-  background-image: url(/fonts/au.svg?1afd018aa2ad2760a9506f2fa4c72d19);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/au.svg?1afd018aa2ad2760a9506f2fa4c72d19);
 }
 
 .flag-icon-au.flag-icon-squared {
-  background-image: url(/fonts/au.svg?7c225c04a2e8a873e1d3f0f825cb0d5d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/au.svg?7c225c04a2e8a873e1d3f0f825cb0d5d);
 }
 
 .flag-icon-aw {
-  background-image: url(/fonts/aw.svg?530a7832ea5c0553b29c5473181d731a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/aw.svg?530a7832ea5c0553b29c5473181d731a);
 }
 
 .flag-icon-aw.flag-icon-squared {
-  background-image: url(/fonts/aw.svg?e6baac794d8bed619568338ec33629b8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/aw.svg?e6baac794d8bed619568338ec33629b8);
 }
 
 .flag-icon-ax {
-  background-image: url(/fonts/ax.svg?6cc88fd4eddbe9f2ab409a0b894261a6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ax.svg?6cc88fd4eddbe9f2ab409a0b894261a6);
 }
 
 .flag-icon-ax.flag-icon-squared {
-  background-image: url(/fonts/ax.svg?2d5bd1b18f25bfa8af8c3b74b6b312db);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ax.svg?2d5bd1b18f25bfa8af8c3b74b6b312db);
 }
 
 .flag-icon-az {
-  background-image: url(/fonts/az.svg?67b7d76f0c9ccc53f509dea1b554a36e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/az.svg?67b7d76f0c9ccc53f509dea1b554a36e);
 }
 
 .flag-icon-az.flag-icon-squared {
-  background-image: url(/fonts/az.svg?b3729e59c078311343d2817f2549e8f6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/az.svg?b3729e59c078311343d2817f2549e8f6);
 }
 
 .flag-icon-ba {
-  background-image: url(/fonts/ba.svg?34d536ef47b97460ecec7968781e599b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ba.svg?cc3327113ef617720302ae37e6f690d6);
 }
 
 .flag-icon-ba.flag-icon-squared {
-  background-image: url(/fonts/ba.svg?3f0d180ebddc86e7fb55d208fd9a3256);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ba.svg?a05ee7c45473ae5c1653a54fa6d1f5ad);
 }
 
 .flag-icon-bb {
-  background-image: url(/fonts/bb.svg?6f4b6693a6e33eb1a47ec32506cffb60);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bb.svg?6f4b6693a6e33eb1a47ec32506cffb60);
 }
 
 .flag-icon-bb.flag-icon-squared {
-  background-image: url(/fonts/bb.svg?46ad4126b32443963ad1a98c1600b643);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bb.svg?46ad4126b32443963ad1a98c1600b643);
 }
 
 .flag-icon-bd {
-  background-image: url(/fonts/bd.svg?4de568af9e693abdee10b2aa2340dc2a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bd.svg?4de568af9e693abdee10b2aa2340dc2a);
 }
 
 .flag-icon-bd.flag-icon-squared {
-  background-image: url(/fonts/bd.svg?a75fe1c6d959acad74cb771c351f4634);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bd.svg?a75fe1c6d959acad74cb771c351f4634);
 }
 
 .flag-icon-be {
-  background-image: url(/fonts/be.svg?0dec981fbfb6d9a4b25291c7d32737a6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/be.svg?0dec981fbfb6d9a4b25291c7d32737a6);
 }
 
 .flag-icon-be.flag-icon-squared {
-  background-image: url(/fonts/be.svg?22ecfc59936078600d6a03799ca1654d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/be.svg?22ecfc59936078600d6a03799ca1654d);
 }
 
 .flag-icon-bf {
-  background-image: url(/fonts/bf.svg?564329b06b9b0f83f9a677f0a696d684);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bf.svg?564329b06b9b0f83f9a677f0a696d684);
 }
 
 .flag-icon-bf.flag-icon-squared {
-  background-image: url(/fonts/bf.svg?009fb12d830bb9b28859fc0ce2585243);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bf.svg?009fb12d830bb9b28859fc0ce2585243);
 }
 
 .flag-icon-bg {
-  background-image: url(/fonts/bg.svg?762fe3b32350427ac1d64bab4e5b638e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bg.svg?67bf9a7dcf0cd3a7c694f1ea436db8f9);
 }
 
 .flag-icon-bg.flag-icon-squared {
-  background-image: url(/fonts/bg.svg?695cd58e4cf1b626225073e51514aee6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bg.svg?818158a473f141bb65e43a2872870471);
 }
 
 .flag-icon-bh {
-  background-image: url(/fonts/bh.svg?cdf1a88b95e01d2131f841340faa90c8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bh.svg?cdf1a88b95e01d2131f841340faa90c8);
 }
 
 .flag-icon-bh.flag-icon-squared {
-  background-image: url(/fonts/bh.svg?75a541ea82c54cb8ebb1d9dc2ff6277d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bh.svg?75a541ea82c54cb8ebb1d9dc2ff6277d);
 }
 
 .flag-icon-bi {
-  background-image: url(/fonts/bi.svg?dfe03d467732732057b3bf14f1732210);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bi.svg?dfe03d467732732057b3bf14f1732210);
 }
 
 .flag-icon-bi.flag-icon-squared {
-  background-image: url(/fonts/bi.svg?ac0f981516855327c173cb7323bb9d78);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bi.svg?ac0f981516855327c173cb7323bb9d78);
 }
 
 .flag-icon-bj {
-  background-image: url(/fonts/bj.svg?5f5fa67c964583ca3ac034286803ea7c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bj.svg?5f5fa67c964583ca3ac034286803ea7c);
 }
 
 .flag-icon-bj.flag-icon-squared {
-  background-image: url(/fonts/bj.svg?772850e817548e7a418259801286192d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bj.svg?772850e817548e7a418259801286192d);
 }
 
 .flag-icon-bl {
-  background-image: url(/fonts/bl.svg?e1ed2f23198434bd349713895b2e242d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bl.svg?e1ed2f23198434bd349713895b2e242d);
 }
 
 .flag-icon-bl.flag-icon-squared {
-  background-image: url(/fonts/bl.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bl.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-bm {
-  background-image: url(/fonts/bm.svg?ad29105ed1ed900a419f1ef168b77a0c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bm.svg?ad29105ed1ed900a419f1ef168b77a0c);
 }
 
 .flag-icon-bm.flag-icon-squared {
-  background-image: url(/fonts/bm.svg?057be015266624fb07bfce7c4965a25b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bm.svg?057be015266624fb07bfce7c4965a25b);
 }
 
 .flag-icon-bn {
-  background-image: url(/fonts/bn.svg?a9afa812366f48060ea87f71af7ff618);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bn.svg?a9afa812366f48060ea87f71af7ff618);
 }
 
 .flag-icon-bn.flag-icon-squared {
-  background-image: url(/fonts/bn.svg?c46f77e4874d3cc794068fd3840762ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bn.svg?c46f77e4874d3cc794068fd3840762ee);
 }
 
 .flag-icon-bo {
-  background-image: url(/fonts/bo.svg?4ac8e72d8753e2c161aa47ebca743ebc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bo.svg?4ac8e72d8753e2c161aa47ebca743ebc);
 }
 
 .flag-icon-bo.flag-icon-squared {
-  background-image: url(/fonts/bo.svg?2b6afb5d2120e5b24eec46df279cf44c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bo.svg?2b6afb5d2120e5b24eec46df279cf44c);
 }
 
 .flag-icon-bq {
-  background-image: url(/fonts/bq.svg?c16e1bd5aa3b34ca4ba571c1e33aa19b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bq.svg?c16e1bd5aa3b34ca4ba571c1e33aa19b);
 }
 
 .flag-icon-bq.flag-icon-squared {
-  background-image: url(/fonts/bq.svg?59109a0573d049cd7b24a00b25b4b041);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bq.svg?59109a0573d049cd7b24a00b25b4b041);
 }
 
 .flag-icon-br {
-  background-image: url(/fonts/br.svg?f66931e863eedd6094402640db25a8ad);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/br.svg?f66931e863eedd6094402640db25a8ad);
 }
 
 .flag-icon-br.flag-icon-squared {
-  background-image: url(/fonts/br.svg?bc0bde8ec60da9bef0e2dad3c67340fa);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/br.svg?bc0bde8ec60da9bef0e2dad3c67340fa);
 }
 
 .flag-icon-bs {
-  background-image: url(/fonts/bs.svg?ad37543ca26f3e119f66b2e46a419793);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bs.svg?ad37543ca26f3e119f66b2e46a419793);
 }
 
 .flag-icon-bs.flag-icon-squared {
-  background-image: url(/fonts/bs.svg?a29a58634c021483854fadde8a94c6ca);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bs.svg?a29a58634c021483854fadde8a94c6ca);
 }
 
 .flag-icon-bt {
-  background-image: url(/fonts/bt.svg?5217577f75fdf5769a75898944f11d0b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bt.svg?5217577f75fdf5769a75898944f11d0b);
 }
 
 .flag-icon-bt.flag-icon-squared {
-  background-image: url(/fonts/bt.svg?23aa9f9578ef73460e4b7472eec19eee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bt.svg?23aa9f9578ef73460e4b7472eec19eee);
 }
 
 .flag-icon-bv {
-  background-image: url(/fonts/bv.svg?7af9f1ddf2bc8b6fd5f479a5de4d935b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bv.svg?7af9f1ddf2bc8b6fd5f479a5de4d935b);
 }
 
 .flag-icon-bv.flag-icon-squared {
-  background-image: url(/fonts/bv.svg?89aa8b266a49bb1171d4b282777056e0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bv.svg?89aa8b266a49bb1171d4b282777056e0);
 }
 
 .flag-icon-bw {
-  background-image: url(/fonts/bw.svg?28d1d50e0352f0f5776bc17ed2a676be);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bw.svg?28d1d50e0352f0f5776bc17ed2a676be);
 }
 
 .flag-icon-bw.flag-icon-squared {
-  background-image: url(/fonts/bw.svg?21d9d9f060b9478e0badecdedea35035);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bw.svg?21d9d9f060b9478e0badecdedea35035);
 }
 
 .flag-icon-by {
-  background-image: url(/fonts/by.svg?d08efa046fab11e3e6844b6e53225245);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/by.svg?d08efa046fab11e3e6844b6e53225245);
 }
 
 .flag-icon-by.flag-icon-squared {
-  background-image: url(/fonts/by.svg?5630d40247dcd1d52003a5d87d134edf);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/by.svg?5630d40247dcd1d52003a5d87d134edf);
 }
 
 .flag-icon-bz {
-  background-image: url(/fonts/bz.svg?b2bcf290e73bf621158453a10de145bc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/bz.svg?b2bcf290e73bf621158453a10de145bc);
 }
 
 .flag-icon-bz.flag-icon-squared {
-  background-image: url(/fonts/bz.svg?801ec1f397ce053afaaec29a79094857);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/bz.svg?801ec1f397ce053afaaec29a79094857);
 }
 
 .flag-icon-ca {
-  background-image: url(/fonts/ca.svg?af259017cdf3bcf91fa79f3639fff3fc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ca.svg?af259017cdf3bcf91fa79f3639fff3fc);
 }
 
 .flag-icon-ca.flag-icon-squared {
-  background-image: url(/fonts/ca.svg?05b1c9ce4a95c7adfe5b0b7e7087bd64);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ca.svg?05b1c9ce4a95c7adfe5b0b7e7087bd64);
 }
 
 .flag-icon-cc {
-  background-image: url(/fonts/cc.svg?6cae8303a8187b42b854a1bdabf99692);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cc.svg?6cae8303a8187b42b854a1bdabf99692);
 }
 
 .flag-icon-cc.flag-icon-squared {
-  background-image: url(/fonts/cc.svg?2fa486090bb1683f9d7cee160624014d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cc.svg?2fa486090bb1683f9d7cee160624014d);
 }
 
 .flag-icon-cd {
-  background-image: url(/fonts/cd.svg?665279f3253b5bb63933cc492d148f56);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cd.svg?665279f3253b5bb63933cc492d148f56);
 }
 
 .flag-icon-cd.flag-icon-squared {
-  background-image: url(/fonts/cd.svg?cec720ee98845fee6d92f7d8c71e9cfb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cd.svg?cec720ee98845fee6d92f7d8c71e9cfb);
 }
 
 .flag-icon-cf {
-  background-image: url(/fonts/cf.svg?2ca1e2a8b5d40f5ebd42fc862adb212b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cf.svg?2ca1e2a8b5d40f5ebd42fc862adb212b);
 }
 
 .flag-icon-cf.flag-icon-squared {
-  background-image: url(/fonts/cf.svg?71f4d2adf6916e4f3f1e6bb13df8f5ec);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cf.svg?71f4d2adf6916e4f3f1e6bb13df8f5ec);
 }
 
 .flag-icon-cg {
-  background-image: url(/fonts/cg.svg?e0101aac115dab96894258ebf4202c87);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cg.svg?e0101aac115dab96894258ebf4202c87);
 }
 
 .flag-icon-cg.flag-icon-squared {
-  background-image: url(/fonts/cg.svg?5d8fc2e5b2a378ae8741401fd9c4730a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cg.svg?5d8fc2e5b2a378ae8741401fd9c4730a);
 }
 
 .flag-icon-ch {
-  background-image: url(/fonts/ch.svg?696f71d236731780d34b04b60a9138ef);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ch.svg?696f71d236731780d34b04b60a9138ef);
 }
 
 .flag-icon-ch.flag-icon-squared {
-  background-image: url(/fonts/ch.svg?26f97a34579ccffa0ad588e37d011440);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ch.svg?26f97a34579ccffa0ad588e37d011440);
 }
 
 .flag-icon-ci {
-  background-image: url(/fonts/ci.svg?d83ba5db203a207428f9b05e4d780791);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ci.svg?d83ba5db203a207428f9b05e4d780791);
 }
 
 .flag-icon-ci.flag-icon-squared {
-  background-image: url(/fonts/ci.svg?f93d75755d813ccde848fd6fccc587e8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ci.svg?f93d75755d813ccde848fd6fccc587e8);
 }
 
 .flag-icon-ck {
-  background-image: url(/fonts/ck.svg?e5a5c70c000622e99a1a7f8e6b85727e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ck.svg?e5a5c70c000622e99a1a7f8e6b85727e);
 }
 
 .flag-icon-ck.flag-icon-squared {
-  background-image: url(/fonts/ck.svg?5702f32ce4db8812eac6f041dd81c70e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ck.svg?5702f32ce4db8812eac6f041dd81c70e);
 }
 
 .flag-icon-cl {
-  background-image: url(/fonts/cl.svg?4de60078c8799f184b27ca1f63e41e1e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cl.svg?4de60078c8799f184b27ca1f63e41e1e);
 }
 
 .flag-icon-cl.flag-icon-squared {
-  background-image: url(/fonts/cl.svg?762a98e952ee6147e45776bfa317bc66);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cl.svg?762a98e952ee6147e45776bfa317bc66);
 }
 
 .flag-icon-cm {
-  background-image: url(/fonts/cm.svg?10c1b29cc6b80808caac45ac804f588f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cm.svg?10c1b29cc6b80808caac45ac804f588f);
 }
 
 .flag-icon-cm.flag-icon-squared {
-  background-image: url(/fonts/cm.svg?d894786411aa67f4964ed41476e3e90c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cm.svg?d894786411aa67f4964ed41476e3e90c);
 }
 
 .flag-icon-cn {
-  background-image: url(/fonts/cn.svg?5d8314255775eb78b4277622e83874d7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cn.svg?5d8314255775eb78b4277622e83874d7);
 }
 
 .flag-icon-cn.flag-icon-squared {
-  background-image: url(/fonts/cn.svg?10e540515ba1ecf463c55f97f75dbac1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cn.svg?10e540515ba1ecf463c55f97f75dbac1);
 }
 
 .flag-icon-co {
-  background-image: url(/fonts/co.svg?0ebe070b3e842310dd4b06f003ec7cb7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/co.svg?0ebe070b3e842310dd4b06f003ec7cb7);
 }
 
 .flag-icon-co.flag-icon-squared {
-  background-image: url(/fonts/co.svg?3bb26714389441ae8b42506a96e8affb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/co.svg?3bb26714389441ae8b42506a96e8affb);
 }
 
 .flag-icon-cr {
-  background-image: url(/fonts/cr.svg?cb7edc60cdb2c8059b2315fe47f98856);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cr.svg?cb7edc60cdb2c8059b2315fe47f98856);
 }
 
 .flag-icon-cr.flag-icon-squared {
-  background-image: url(/fonts/cr.svg?27b4a30f76607c95565fc513ff1d8af6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cr.svg?27b4a30f76607c95565fc513ff1d8af6);
 }
 
 .flag-icon-cu {
-  background-image: url(/fonts/cu.svg?b807bc5a92b318dfd166f1d62f0ef83e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cu.svg?b807bc5a92b318dfd166f1d62f0ef83e);
 }
 
 .flag-icon-cu.flag-icon-squared {
-  background-image: url(/fonts/cu.svg?a91c593d94362be59f90eca6ba09eef8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cu.svg?a91c593d94362be59f90eca6ba09eef8);
 }
 
 .flag-icon-cv {
-  background-image: url(/fonts/cv.svg?5957616b4e038204da95fbe0b8147a81);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cv.svg?5957616b4e038204da95fbe0b8147a81);
 }
 
 .flag-icon-cv.flag-icon-squared {
-  background-image: url(/fonts/cv.svg?eaa89eca2b776f136cd57e28fcf409c5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cv.svg?eaa89eca2b776f136cd57e28fcf409c5);
 }
 
 .flag-icon-cw {
-  background-image: url(/fonts/cw.svg?9dae2cf34d12cb876d3a08a06b38cbb0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cw.svg?9dae2cf34d12cb876d3a08a06b38cbb0);
 }
 
 .flag-icon-cw.flag-icon-squared {
-  background-image: url(/fonts/cw.svg?3f0d8f916a94095e0dc7688bd12db361);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cw.svg?3f0d8f916a94095e0dc7688bd12db361);
 }
 
 .flag-icon-cx {
-  background-image: url(/fonts/cx.svg?a60e640528936671dcbce6055fafe229);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cx.svg?a60e640528936671dcbce6055fafe229);
 }
 
 .flag-icon-cx.flag-icon-squared {
-  background-image: url(/fonts/cx.svg?0d9e9654593e619148edad6b19bc7f31);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cx.svg?0d9e9654593e619148edad6b19bc7f31);
 }
 
 .flag-icon-cy {
-  background-image: url(/fonts/cy.svg?a0e181c3c8a0e1d43dc3fa67eb21042e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cy.svg?a0e181c3c8a0e1d43dc3fa67eb21042e);
 }
 
 .flag-icon-cy.flag-icon-squared {
-  background-image: url(/fonts/cy.svg?b79388cc5e29ac454c81b327e4c3a95f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cy.svg?b79388cc5e29ac454c81b327e4c3a95f);
 }
 
 .flag-icon-cz {
-  background-image: url(/fonts/cz.svg?626a83dc74f55da0d78c0973cd02513d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/cz.svg?626a83dc74f55da0d78c0973cd02513d);
 }
 
 .flag-icon-cz.flag-icon-squared {
-  background-image: url(/fonts/cz.svg?b8ea35390c7437696a5404b72a2a1477);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/cz.svg?b8ea35390c7437696a5404b72a2a1477);
 }
 
 .flag-icon-de {
-  background-image: url(/fonts/de.svg?903d6a160f661be0793082b09b8d0d61);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/de.svg?903d6a160f661be0793082b09b8d0d61);
 }
 
 .flag-icon-de.flag-icon-squared {
-  background-image: url(/fonts/de.svg?0cc650a4627ba53947f3fa73010b1567);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/de.svg?0cc650a4627ba53947f3fa73010b1567);
 }
 
 .flag-icon-dj {
-  background-image: url(/fonts/dj.svg?b08163df9c07ad3482bd75d1c2f884b9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/dj.svg?b08163df9c07ad3482bd75d1c2f884b9);
 }
 
 .flag-icon-dj.flag-icon-squared {
-  background-image: url(/fonts/dj.svg?1751d6cdc67eab22b3551a38fc2a6226);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/dj.svg?1751d6cdc67eab22b3551a38fc2a6226);
 }
 
 .flag-icon-dk {
-  background-image: url(/fonts/dk.svg?527602ba515bb52063e414225b631ae5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/dk.svg?527602ba515bb52063e414225b631ae5);
 }
 
 .flag-icon-dk.flag-icon-squared {
-  background-image: url(/fonts/dk.svg?cc6805c727bb91cd625ad28ca4dd21dc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/dk.svg?cc6805c727bb91cd625ad28ca4dd21dc);
 }
 
 .flag-icon-dm {
-  background-image: url(/fonts/dm.svg?9f471dc6b45a1543e332e318ed060569);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/dm.svg?9f471dc6b45a1543e332e318ed060569);
 }
 
 .flag-icon-dm.flag-icon-squared {
-  background-image: url(/fonts/dm.svg?c91ffb53c8a6f961691c30cc286a7c4a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/dm.svg?c91ffb53c8a6f961691c30cc286a7c4a);
 }
 
 .flag-icon-do {
-  background-image: url(/fonts/do.svg?7ca8e87ef3d731858fa6e2a73cf40b3a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/do.svg?7ca8e87ef3d731858fa6e2a73cf40b3a);
 }
 
 .flag-icon-do.flag-icon-squared {
-  background-image: url(/fonts/do.svg?3e95cfd049ccf1a80907a1e3387a18ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/do.svg?3e95cfd049ccf1a80907a1e3387a18ee);
 }
 
 .flag-icon-dz {
-  background-image: url(/fonts/dz.svg?7dabf82c91eef65960cd067595e4431e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/dz.svg?7dabf82c91eef65960cd067595e4431e);
 }
 
 .flag-icon-dz.flag-icon-squared {
-  background-image: url(/fonts/dz.svg?9a498456bf514e9050125343fb101e1c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/dz.svg?9a498456bf514e9050125343fb101e1c);
 }
 
 .flag-icon-ec {
-  background-image: url(/fonts/ec.svg?01203bdb37cfb93b0ad2993ffd2b5032);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ec.svg?01203bdb37cfb93b0ad2993ffd2b5032);
 }
 
 .flag-icon-ec.flag-icon-squared {
-  background-image: url(/fonts/ec.svg?643ab43c4fcedf1130e5d062976ed38a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ec.svg?643ab43c4fcedf1130e5d062976ed38a);
 }
 
 .flag-icon-ee {
-  background-image: url(/fonts/ee.svg?1fd3af1a2f1188b22e780ca92c9adde6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ee.svg?1fd3af1a2f1188b22e780ca92c9adde6);
 }
 
 .flag-icon-ee.flag-icon-squared {
-  background-image: url(/fonts/ee.svg?c237e0f4980a5c8f5eb68cbcb696d4bb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ee.svg?c237e0f4980a5c8f5eb68cbcb696d4bb);
 }
 
 .flag-icon-eg {
-  background-image: url(/fonts/eg.svg?ffd2c5a506cf1d39bd9bc9a8b036a05c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/eg.svg?ffd2c5a506cf1d39bd9bc9a8b036a05c);
 }
 
 .flag-icon-eg.flag-icon-squared {
-  background-image: url(/fonts/eg.svg?eb232ce57635177e8c315ca4374305ea);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/eg.svg?eb232ce57635177e8c315ca4374305ea);
 }
 
 .flag-icon-eh {
-  background-image: url(/fonts/eh.svg?7efa0aecd0aedad3377642a658c8d3ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/eh.svg?7efa0aecd0aedad3377642a658c8d3ee);
 }
 
 .flag-icon-eh.flag-icon-squared {
-  background-image: url(/fonts/eh.svg?04a2cf6cd3b61bf1e3fdc44ccddf1e0f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/eh.svg?04a2cf6cd3b61bf1e3fdc44ccddf1e0f);
 }
 
 .flag-icon-er {
-  background-image: url(/fonts/er.svg?9c3ff8cb9076fcb390d294031ba4f0b9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/er.svg?9c3ff8cb9076fcb390d294031ba4f0b9);
 }
 
 .flag-icon-er.flag-icon-squared {
-  background-image: url(/fonts/er.svg?54bcf14e11192af27b3f798729f0645e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/er.svg?54bcf14e11192af27b3f798729f0645e);
 }
 
 .flag-icon-es {
-  background-image: url(/fonts/es.svg?d53b3ecf056ae78235982d4f2a1e3c75);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/es.svg?d53b3ecf056ae78235982d4f2a1e3c75);
 }
 
 .flag-icon-es.flag-icon-squared {
-  background-image: url(/fonts/es.svg?b336c61e1485ab31fbe91b51adf33752);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/es.svg?b336c61e1485ab31fbe91b51adf33752);
 }
 
 .flag-icon-et {
-  background-image: url(/fonts/et.svg?04cf27d627c69bd5871481feb6dbbb60);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/et.svg?04cf27d627c69bd5871481feb6dbbb60);
 }
 
 .flag-icon-et.flag-icon-squared {
-  background-image: url(/fonts/et.svg?2761ffc92d5b16ebfbdcc913688b3479);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/et.svg?2761ffc92d5b16ebfbdcc913688b3479);
 }
 
 .flag-icon-fi {
-  background-image: url(/fonts/fi.svg?502ae3c881b7445b410d30cc7f7a6f9c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/fi.svg?502ae3c881b7445b410d30cc7f7a6f9c);
 }
 
 .flag-icon-fi.flag-icon-squared {
-  background-image: url(/fonts/fi.svg?7c9555e69b98c81485dd9c4d338eda1c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/fi.svg?7c9555e69b98c81485dd9c4d338eda1c);
 }
 
 .flag-icon-fj {
-  background-image: url(/fonts/fj.svg?97102b6cbf9d5f671452907c67065a41);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/fj.svg?97102b6cbf9d5f671452907c67065a41);
 }
 
 .flag-icon-fj.flag-icon-squared {
-  background-image: url(/fonts/fj.svg?3ea7780298c3a7cdd7f53889e93dde50);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/fj.svg?3ea7780298c3a7cdd7f53889e93dde50);
 }
 
 .flag-icon-fk {
-  background-image: url(/fonts/fk.svg?8527a00fb276e4083ba22f900baff053);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/fk.svg?8527a00fb276e4083ba22f900baff053);
 }
 
 .flag-icon-fk.flag-icon-squared {
-  background-image: url(/fonts/fk.svg?f2546e124acf24c6250432c23148e98e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/fk.svg?f2546e124acf24c6250432c23148e98e);
 }
 
 .flag-icon-fm {
-  background-image: url(/fonts/fm.svg?630c2d95898270dc55ae11e90886af79);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/fm.svg?630c2d95898270dc55ae11e90886af79);
 }
 
 .flag-icon-fm.flag-icon-squared {
-  background-image: url(/fonts/fm.svg?c13087c2e0b64629bc222d8fc1e0db2c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/fm.svg?c13087c2e0b64629bc222d8fc1e0db2c);
 }
 
 .flag-icon-fo {
-  background-image: url(/fonts/fo.svg?b8d61ed787e5f5615d9a8337c512f8a8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/fo.svg?b8d61ed787e5f5615d9a8337c512f8a8);
 }
 
 .flag-icon-fo.flag-icon-squared {
-  background-image: url(/fonts/fo.svg?35e97fc3b237537801944dc8aeccc4cb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/fo.svg?35e97fc3b237537801944dc8aeccc4cb);
 }
 
 .flag-icon-fr {
-  background-image: url(/fonts/fr.svg?24841de9d5ad4cebb1be5c4dc19fc89f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/fr.svg?24841de9d5ad4cebb1be5c4dc19fc89f);
 }
 
 .flag-icon-fr.flag-icon-squared {
-  background-image: url(/fonts/fr.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/fr.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-ga {
-  background-image: url(/fonts/ga.svg?3bccb26524d04e3abb3dc4fa8b5047df);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ga.svg?3bccb26524d04e3abb3dc4fa8b5047df);
 }
 
 .flag-icon-ga.flag-icon-squared {
-  background-image: url(/fonts/ga.svg?27ed4a37b4defeecd8282a7a0b52eb5a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ga.svg?27ed4a37b4defeecd8282a7a0b52eb5a);
 }
 
 .flag-icon-gb {
-  background-image: url(/fonts/gb.svg?fd72d9b5184b47afb2f7b4db0c8a35de);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gb.svg?fd72d9b5184b47afb2f7b4db0c8a35de);
 }
 
 .flag-icon-gb.flag-icon-squared {
-  background-image: url(/fonts/gb.svg?3de413a6f455e1e35121519f2e0deb75);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gb.svg?3de413a6f455e1e35121519f2e0deb75);
 }
 
 .flag-icon-gd {
-  background-image: url(/fonts/gd.svg?c0bf15311a8ed3bef0965aecfeaca08a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gd.svg?8148452b3d44affcf31064b851223a10);
 }
 
 .flag-icon-gd.flag-icon-squared {
-  background-image: url(/fonts/gd.svg?64e80af4462356d109915e4e2abed262);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gd.svg?3692ec518065fd78f6c6a99870816d0b);
 }
 
 .flag-icon-ge {
-  background-image: url(/fonts/ge.svg?08c96bbb56d88ea1718bc440f761c513);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ge.svg?08c96bbb56d88ea1718bc440f761c513);
 }
 
 .flag-icon-ge.flag-icon-squared {
-  background-image: url(/fonts/ge.svg?f56c0f359cfa485b1a556807553ac742);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ge.svg?f56c0f359cfa485b1a556807553ac742);
 }
 
 .flag-icon-gf {
-  background-image: url(/fonts/gf.svg?e129304536db0081bd540a64a66a15dc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gf.svg?e129304536db0081bd540a64a66a15dc);
 }
 
 .flag-icon-gf.flag-icon-squared {
-  background-image: url(/fonts/gf.svg?e4bce01fd6526e95176b4845ed3f5a26);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gf.svg?e4bce01fd6526e95176b4845ed3f5a26);
 }
 
 .flag-icon-gg {
-  background-image: url(/fonts/gg.svg?852fdd82515c7372a678b41e67c3f764);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gg.svg?852fdd82515c7372a678b41e67c3f764);
 }
 
 .flag-icon-gg.flag-icon-squared {
-  background-image: url(/fonts/gg.svg?7f0b3333580034e852090e79ab76e779);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gg.svg?7f0b3333580034e852090e79ab76e779);
 }
 
 .flag-icon-gh {
-  background-image: url(/fonts/gh.svg?6214e64a9029d6c4b5843b1f0f589674);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gh.svg?6214e64a9029d6c4b5843b1f0f589674);
 }
 
 .flag-icon-gh.flag-icon-squared {
-  background-image: url(/fonts/gh.svg?04c6887bf12e7ba59e502e3e5dda9baa);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gh.svg?04c6887bf12e7ba59e502e3e5dda9baa);
 }
 
 .flag-icon-gi {
-  background-image: url(/fonts/gi.svg?044a5bf4daaf2f2cb3b44ee147832c83);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gi.svg?044a5bf4daaf2f2cb3b44ee147832c83);
 }
 
 .flag-icon-gi.flag-icon-squared {
-  background-image: url(/fonts/gi.svg?6fb9581a7553f80cc3706adc49188f2b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gi.svg?6fb9581a7553f80cc3706adc49188f2b);
 }
 
 .flag-icon-gl {
-  background-image: url(/fonts/gl.svg?b3223ee1f7e9d8bb376d9575ba9f5fbc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gl.svg?610554403e2ae0a55a4092623c4bdc8d);
 }
 
 .flag-icon-gl.flag-icon-squared {
-  background-image: url(/fonts/gl.svg?36f4591943d64e4faa906917999f649e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gl.svg?a48a46c23af6ec8abf3a8970e438f218);
 }
 
 .flag-icon-gm {
-  background-image: url(/fonts/gm.svg?5c1ff6b5e69b8f8e0f0f59684a7da2c4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gm.svg?5c1ff6b5e69b8f8e0f0f59684a7da2c4);
 }
 
 .flag-icon-gm.flag-icon-squared {
-  background-image: url(/fonts/gm.svg?5d5fe5d7b78ccaed1933a8382ec4c0f1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gm.svg?5d5fe5d7b78ccaed1933a8382ec4c0f1);
 }
 
 .flag-icon-gn {
-  background-image: url(/fonts/gn.svg?798b298a1fcd901a639bcf3157169871);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gn.svg?798b298a1fcd901a639bcf3157169871);
 }
 
 .flag-icon-gn.flag-icon-squared {
-  background-image: url(/fonts/gn.svg?c341accbb3d6730b642353f7af6260f5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gn.svg?c341accbb3d6730b642353f7af6260f5);
 }
 
 .flag-icon-gp {
-  background-image: url(/fonts/gp.svg?24841de9d5ad4cebb1be5c4dc19fc89f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gp.svg?24841de9d5ad4cebb1be5c4dc19fc89f);
 }
 
 .flag-icon-gp.flag-icon-squared {
-  background-image: url(/fonts/gp.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gp.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-gq {
-  background-image: url(/fonts/gq.svg?384854c058f3d36ff781ecce0448e9f6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gq.svg?384854c058f3d36ff781ecce0448e9f6);
 }
 
 .flag-icon-gq.flag-icon-squared {
-  background-image: url(/fonts/gq.svg?edbab32dd40d178e5901ba6f350525bb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gq.svg?edbab32dd40d178e5901ba6f350525bb);
 }
 
 .flag-icon-gr {
-  background-image: url(/fonts/gr.svg?f796b4cbdc5de533e8ad16699f4e0c35);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gr.svg?f796b4cbdc5de533e8ad16699f4e0c35);
 }
 
 .flag-icon-gr.flag-icon-squared {
-  background-image: url(/fonts/gr.svg?03413af1b93c777b5765787117aa3f13);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gr.svg?03413af1b93c777b5765787117aa3f13);
 }
 
 .flag-icon-gs {
-  background-image: url(/fonts/gs.svg?50cf5f9af4d584a00fe2c3b075f60b57);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gs.svg?50cf5f9af4d584a00fe2c3b075f60b57);
 }
 
 .flag-icon-gs.flag-icon-squared {
-  background-image: url(/fonts/gs.svg?172d656bf21319ac862bd6ed818afdab);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gs.svg?172d656bf21319ac862bd6ed818afdab);
 }
 
 .flag-icon-gt {
-  background-image: url(/fonts/gt.svg?1c65445ee7bdd2b562e8d07b3e48b05b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gt.svg?1c65445ee7bdd2b562e8d07b3e48b05b);
 }
 
 .flag-icon-gt.flag-icon-squared {
-  background-image: url(/fonts/gt.svg?d19399bea0bb3abe2220cbc66fb91762);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gt.svg?d19399bea0bb3abe2220cbc66fb91762);
 }
 
 .flag-icon-gu {
-  background-image: url(/fonts/gu.svg?7872722ea78e040f12b3fa7b752a270c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gu.svg?7872722ea78e040f12b3fa7b752a270c);
 }
 
 .flag-icon-gu.flag-icon-squared {
-  background-image: url(/fonts/gu.svg?19249eb9fc07e44d27e121c75fa45c85);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gu.svg?19249eb9fc07e44d27e121c75fa45c85);
 }
 
 .flag-icon-gw {
-  background-image: url(/fonts/gw.svg?57eb55f4ce1484c35e1d927691f973e0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gw.svg?ed3167d2017961ec9d9db0a1920dbb91);
 }
 
 .flag-icon-gw.flag-icon-squared {
-  background-image: url(/fonts/gw.svg?fffa2995b1d35f633562a9ad8f73f363);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gw.svg?23f3dafd22294571673c0b94dfe37708);
 }
 
 .flag-icon-gy {
-  background-image: url(/fonts/gy.svg?fcae52f4bb338b55e49813749159cf29);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gy.svg?fcae52f4bb338b55e49813749159cf29);
 }
 
 .flag-icon-gy.flag-icon-squared {
-  background-image: url(/fonts/gy.svg?cd700153c9ed8b6f6af44cc511a5ef43);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gy.svg?cd700153c9ed8b6f6af44cc511a5ef43);
 }
 
 .flag-icon-hk {
-  background-image: url(/fonts/hk.svg?e0cdc8af7fdb408b51105464ad6d8f67);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/hk.svg?e0cdc8af7fdb408b51105464ad6d8f67);
 }
 
 .flag-icon-hk.flag-icon-squared {
-  background-image: url(/fonts/hk.svg?326fa1dad09ba6f682a0df3646806768);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/hk.svg?326fa1dad09ba6f682a0df3646806768);
 }
 
 .flag-icon-hm {
-  background-image: url(/fonts/hm.svg?37b30fb72082dc176c16c238e69cde6b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/hm.svg?37b30fb72082dc176c16c238e69cde6b);
 }
 
 .flag-icon-hm.flag-icon-squared {
-  background-image: url(/fonts/hm.svg?b5488f87051e1a1638cefe0d8ab1dcd0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/hm.svg?b5488f87051e1a1638cefe0d8ab1dcd0);
 }
 
 .flag-icon-hn {
-  background-image: url(/fonts/hn.svg?393738cda1600122175c126a67099850);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/hn.svg?393738cda1600122175c126a67099850);
 }
 
 .flag-icon-hn.flag-icon-squared {
-  background-image: url(/fonts/hn.svg?3677841e7a1c468bef480468140c7caa);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/hn.svg?3677841e7a1c468bef480468140c7caa);
 }
 
 .flag-icon-hr {
-  background-image: url(/fonts/hr.svg?b6d03cc6c0e8320cdec0ec6d3a0a2ab2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/hr.svg?b6d03cc6c0e8320cdec0ec6d3a0a2ab2);
 }
 
 .flag-icon-hr.flag-icon-squared {
-  background-image: url(/fonts/hr.svg?42de800508ebfd68e1f280205932f930);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/hr.svg?42de800508ebfd68e1f280205932f930);
 }
 
 .flag-icon-ht {
-  background-image: url(/fonts/ht.svg?c0cb323cb8dd92f165aa1894e1839f30);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ht.svg?c0cb323cb8dd92f165aa1894e1839f30);
 }
 
 .flag-icon-ht.flag-icon-squared {
-  background-image: url(/fonts/ht.svg?39ca71d2494e2c3618f6443c6c8c0982);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ht.svg?39ca71d2494e2c3618f6443c6c8c0982);
 }
 
 .flag-icon-hu {
-  background-image: url(/fonts/hu.svg?2d1fd1c817bb23bd82547d2edff70cb2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/hu.svg?2d1fd1c817bb23bd82547d2edff70cb2);
 }
 
 .flag-icon-hu.flag-icon-squared {
-  background-image: url(/fonts/hu.svg?2c5d14ab9dd47ff1cf5bd7a772ba3f6c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/hu.svg?2c5d14ab9dd47ff1cf5bd7a772ba3f6c);
 }
 
 .flag-icon-id {
-  background-image: url(/fonts/id.svg?038cf34b10696a5a95fae2c0307d9093);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/id.svg?038cf34b10696a5a95fae2c0307d9093);
 }
 
 .flag-icon-id.flag-icon-squared {
-  background-image: url(/fonts/id.svg?cfcb605d381acff7f8e1779f11b531e2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/id.svg?cfcb605d381acff7f8e1779f11b531e2);
 }
 
 .flag-icon-ie {
-  background-image: url(/fonts/ie.svg?6a6841f17bbdd148b6bfce78d4e76b41);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ie.svg?6a6841f17bbdd148b6bfce78d4e76b41);
 }
 
 .flag-icon-ie.flag-icon-squared {
-  background-image: url(/fonts/ie.svg?27ddec87b3b6a1e30333140b2ba9c54b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ie.svg?27ddec87b3b6a1e30333140b2ba9c54b);
 }
 
 .flag-icon-il {
-  background-image: url(/fonts/il.svg?39dc498304be779fadeae95c6ef22541);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/il.svg?39dc498304be779fadeae95c6ef22541);
 }
 
 .flag-icon-il.flag-icon-squared {
-  background-image: url(/fonts/il.svg?c8ab8be1db055b9d807c3ea0e543331a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/il.svg?c8ab8be1db055b9d807c3ea0e543331a);
 }
 
 .flag-icon-im {
-  background-image: url(/fonts/im.svg?be8930351123cd2cff563367211d5dfc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/im.svg?be8930351123cd2cff563367211d5dfc);
 }
 
 .flag-icon-im.flag-icon-squared {
-  background-image: url(/fonts/im.svg?661f5dae10faf9763c60570b5ef5c8e9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/im.svg?661f5dae10faf9763c60570b5ef5c8e9);
 }
 
 .flag-icon-in {
-  background-image: url(/fonts/in.svg?8a512f06f7a5e40b4712bbead1bce589);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/in.svg?8a512f06f7a5e40b4712bbead1bce589);
 }
 
 .flag-icon-in.flag-icon-squared {
-  background-image: url(/fonts/in.svg?75105d58c129d7c49315e4e502c8368c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/in.svg?75105d58c129d7c49315e4e502c8368c);
 }
 
 .flag-icon-io {
-  background-image: url(/fonts/io.svg?54068f3db94d7bdd8da2ea6e2e01917f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/io.svg?54068f3db94d7bdd8da2ea6e2e01917f);
 }
 
 .flag-icon-io.flag-icon-squared {
-  background-image: url(/fonts/io.svg?faf3b2497c443476c36b1ccd4e71d172);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/io.svg?faf3b2497c443476c36b1ccd4e71d172);
 }
 
 .flag-icon-iq {
-  background-image: url(/fonts/iq.svg?2079b33aeb4667409b4040cf47faefaf);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/iq.svg?2079b33aeb4667409b4040cf47faefaf);
 }
 
 .flag-icon-iq.flag-icon-squared {
-  background-image: url(/fonts/iq.svg?1c6a52f2acb384ff50eb822a11880898);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/iq.svg?1c6a52f2acb384ff50eb822a11880898);
 }
 
 .flag-icon-ir {
-  background-image: url(/fonts/ir.svg?58d410a2eb3aca8788b315ed111e01f0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ir.svg?58d410a2eb3aca8788b315ed111e01f0);
 }
 
 .flag-icon-ir.flag-icon-squared {
-  background-image: url(/fonts/ir.svg?553cc093e3734817cec14a32d7527bab);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ir.svg?553cc093e3734817cec14a32d7527bab);
 }
 
 .flag-icon-is {
-  background-image: url(/fonts/is.svg?4aa7baad8d2fa3b91777622cf43049a6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/is.svg?4aa7baad8d2fa3b91777622cf43049a6);
 }
 
 .flag-icon-is.flag-icon-squared {
-  background-image: url(/fonts/is.svg?c79fa464538603642837598e9c94a61c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/is.svg?c79fa464538603642837598e9c94a61c);
 }
 
 .flag-icon-it {
-  background-image: url(/fonts/it.svg?88aa4ffc74ddb0a872dde62ae7954d77);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/it.svg?88aa4ffc74ddb0a872dde62ae7954d77);
 }
 
 .flag-icon-it.flag-icon-squared {
-  background-image: url(/fonts/it.svg?6be8ffa8de6c63e684a37ec2fba7afe0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/it.svg?6be8ffa8de6c63e684a37ec2fba7afe0);
 }
 
 .flag-icon-je {
-  background-image: url(/fonts/je.svg?62c6f6a09e5134003ef3f2b7cde7de6b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/je.svg?62c6f6a09e5134003ef3f2b7cde7de6b);
 }
 
 .flag-icon-je.flag-icon-squared {
-  background-image: url(/fonts/je.svg?4079f403fae02ba092c53cc4c452285d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/je.svg?4079f403fae02ba092c53cc4c452285d);
 }
 
 .flag-icon-jm {
-  background-image: url(/fonts/jm.svg?755951cf4799d86cc8b674ff9f226531);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/jm.svg?755951cf4799d86cc8b674ff9f226531);
 }
 
 .flag-icon-jm.flag-icon-squared {
-  background-image: url(/fonts/jm.svg?298755cce9fd590b2ca86c26db0d91c2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/jm.svg?298755cce9fd590b2ca86c26db0d91c2);
 }
 
 .flag-icon-jo {
-  background-image: url(/fonts/jo.svg?fbeac94f8e0c612a3c468c6bf13e8f35);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/jo.svg?fbeac94f8e0c612a3c468c6bf13e8f35);
 }
 
 .flag-icon-jo.flag-icon-squared {
-  background-image: url(/fonts/jo.svg?8d8270c871f004df5f7331d974e16837);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/jo.svg?8d8270c871f004df5f7331d974e16837);
 }
 
 .flag-icon-jp {
-  background-image: url(/fonts/jp.svg?7760fc8ff82f19f691112e8db27cbf40);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/jp.svg?7760fc8ff82f19f691112e8db27cbf40);
 }
 
 .flag-icon-jp.flag-icon-squared {
-  background-image: url(/fonts/jp.svg?54499f57aaf027cd0e8ad0cb197e41db);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/jp.svg?54499f57aaf027cd0e8ad0cb197e41db);
 }
 
 .flag-icon-ke {
-  background-image: url(/fonts/ke.svg?8c42a857c3230420d7bfa7153a2e2db3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ke.svg?8c42a857c3230420d7bfa7153a2e2db3);
 }
 
 .flag-icon-ke.flag-icon-squared {
-  background-image: url(/fonts/ke.svg?f011fd6b290907b878197246f1369763);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ke.svg?f011fd6b290907b878197246f1369763);
 }
 
 .flag-icon-kg {
-  background-image: url(/fonts/kg.svg?1270b7a47059bce990c50fcb4f9ebc0e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kg.svg?1270b7a47059bce990c50fcb4f9ebc0e);
 }
 
 .flag-icon-kg.flag-icon-squared {
-  background-image: url(/fonts/kg.svg?3f3c0a0ceceb8c38651304ee815c4685);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kg.svg?3f3c0a0ceceb8c38651304ee815c4685);
 }
 
 .flag-icon-kh {
-  background-image: url(/fonts/kh.svg?9042ee6b5d48053428f64fbd8db03875);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kh.svg?9042ee6b5d48053428f64fbd8db03875);
 }
 
 .flag-icon-kh.flag-icon-squared {
-  background-image: url(/fonts/kh.svg?e045547f9f7fcf22fa61f712f78a095c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kh.svg?e045547f9f7fcf22fa61f712f78a095c);
 }
 
 .flag-icon-ki {
-  background-image: url(/fonts/ki.svg?a0d9f1a3670dc2320be5ed5de369982c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ki.svg?a0d9f1a3670dc2320be5ed5de369982c);
 }
 
 .flag-icon-ki.flag-icon-squared {
-  background-image: url(/fonts/ki.svg?9f8d51d0aee8f23d0878c36f85561d7f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ki.svg?9f8d51d0aee8f23d0878c36f85561d7f);
 }
 
 .flag-icon-km {
-  background-image: url(/fonts/km.svg?16b0a45c720aa8d0d234e0c78cffbae4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/km.svg?16b0a45c720aa8d0d234e0c78cffbae4);
 }
 
 .flag-icon-km.flag-icon-squared {
-  background-image: url(/fonts/km.svg?babaabe11d34a3cbe481d25bb39e67dd);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/km.svg?babaabe11d34a3cbe481d25bb39e67dd);
 }
 
 .flag-icon-kn {
-  background-image: url(/fonts/kn.svg?e9216d17b3313c13aae954603c4190fe);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kn.svg?e9216d17b3313c13aae954603c4190fe);
 }
 
 .flag-icon-kn.flag-icon-squared {
-  background-image: url(/fonts/kn.svg?3bebbfa07ff326b16528600f93db1864);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kn.svg?3bebbfa07ff326b16528600f93db1864);
 }
 
 .flag-icon-kp {
-  background-image: url(/fonts/kp.svg?373fc27c96cc64f0e0782ac222635891);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kp.svg?373fc27c96cc64f0e0782ac222635891);
 }
 
 .flag-icon-kp.flag-icon-squared {
-  background-image: url(/fonts/kp.svg?bfaad5727ebb4257ba8f21ab3e7a1b5a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kp.svg?bfaad5727ebb4257ba8f21ab3e7a1b5a);
 }
 
 .flag-icon-kr {
-  background-image: url(/fonts/kr.svg?cc2a1ddadf8bdfb0e002fa471f56079f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kr.svg?cc2a1ddadf8bdfb0e002fa471f56079f);
 }
 
 .flag-icon-kr.flag-icon-squared {
-  background-image: url(/fonts/kr.svg?5f17f58b0c51570e0156343d8a3dae17);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kr.svg?5f17f58b0c51570e0156343d8a3dae17);
 }
 
 .flag-icon-kw {
-  background-image: url(/fonts/kw.svg?b0b93ee88eff431b5b3cd79d1f5ec3df);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kw.svg?b0b93ee88eff431b5b3cd79d1f5ec3df);
 }
 
 .flag-icon-kw.flag-icon-squared {
-  background-image: url(/fonts/kw.svg?c2b83a89b61df77ecfac7f489e6edc3b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kw.svg?c2b83a89b61df77ecfac7f489e6edc3b);
 }
 
 .flag-icon-ky {
-  background-image: url(/fonts/ky.svg?47007e0863b061227d1e8c8303280f79);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ky.svg?47007e0863b061227d1e8c8303280f79);
 }
 
 .flag-icon-ky.flag-icon-squared {
-  background-image: url(/fonts/ky.svg?597578bcffe66eb02a62f056f0f224d9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ky.svg?597578bcffe66eb02a62f056f0f224d9);
 }
 
 .flag-icon-kz {
-  background-image: url(/fonts/kz.svg?e84b9748607b23f28705cf343c66c073);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/kz.svg?e84b9748607b23f28705cf343c66c073);
 }
 
 .flag-icon-kz.flag-icon-squared {
-  background-image: url(/fonts/kz.svg?de317df560e43adefdc644dc5d0c33e9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/kz.svg?de317df560e43adefdc644dc5d0c33e9);
 }
 
 .flag-icon-la {
-  background-image: url(/fonts/la.svg?3c017d0a68055f463b14c45298e53c38);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/la.svg?3c017d0a68055f463b14c45298e53c38);
 }
 
 .flag-icon-la.flag-icon-squared {
-  background-image: url(/fonts/la.svg?90d6665d1a73acfccb707ea94b1987b1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/la.svg?90d6665d1a73acfccb707ea94b1987b1);
 }
 
 .flag-icon-lb {
-  background-image: url(/fonts/lb.svg?b55483cab3aed881e94991f2b6a5da1b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lb.svg?b55483cab3aed881e94991f2b6a5da1b);
 }
 
 .flag-icon-lb.flag-icon-squared {
-  background-image: url(/fonts/lb.svg?30cd6fbf813a8cf101dafcb06cc3e7c2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lb.svg?30cd6fbf813a8cf101dafcb06cc3e7c2);
 }
 
 .flag-icon-lc {
-  background-image: url(/fonts/lc.svg?460c25b1c8d6a51687103990cd75cfcd);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lc.svg?460c25b1c8d6a51687103990cd75cfcd);
 }
 
 .flag-icon-lc.flag-icon-squared {
-  background-image: url(/fonts/lc.svg?e8ab05c4e81eb981bb138644aeb895c8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lc.svg?e8ab05c4e81eb981bb138644aeb895c8);
 }
 
 .flag-icon-li {
-  background-image: url(/fonts/li.svg?3109bec4fd3d98d962b87a3d22850d1e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/li.svg?3109bec4fd3d98d962b87a3d22850d1e);
 }
 
 .flag-icon-li.flag-icon-squared {
-  background-image: url(/fonts/li.svg?b727ba5fdbd3272b3fbd37225fd42cf2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/li.svg?b727ba5fdbd3272b3fbd37225fd42cf2);
 }
 
 .flag-icon-lk {
-  background-image: url(/fonts/lk.svg?ae571af0820eaa8d19664b9ca7e3d4a5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lk.svg?ae571af0820eaa8d19664b9ca7e3d4a5);
 }
 
 .flag-icon-lk.flag-icon-squared {
-  background-image: url(/fonts/lk.svg?a4aef5ec5cdea5c8f62caee6bf1f9a97);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lk.svg?a4aef5ec5cdea5c8f62caee6bf1f9a97);
 }
 
 .flag-icon-lr {
-  background-image: url(/fonts/lr.svg?b830f184aee655176b0ec33a7055e8e5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lr.svg?b830f184aee655176b0ec33a7055e8e5);
 }
 
 .flag-icon-lr.flag-icon-squared {
-  background-image: url(/fonts/lr.svg?513f04677d7aa0a1597931776bf52f50);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lr.svg?513f04677d7aa0a1597931776bf52f50);
 }
 
 .flag-icon-ls {
-  background-image: url(/fonts/ls.svg?12d4acb3f323fd92b26a56f6c794a814);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ls.svg?12d4acb3f323fd92b26a56f6c794a814);
 }
 
 .flag-icon-ls.flag-icon-squared {
-  background-image: url(/fonts/ls.svg?60e1e84ad9acbc84c362a0733385adc1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ls.svg?60e1e84ad9acbc84c362a0733385adc1);
 }
 
 .flag-icon-lt {
-  background-image: url(/fonts/lt.svg?11b8661d3c8dfd92db9e878ca263de79);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lt.svg?11b8661d3c8dfd92db9e878ca263de79);
 }
 
 .flag-icon-lt.flag-icon-squared {
-  background-image: url(/fonts/lt.svg?6d0c1e5f5d7e8a0436d770b7ad1f4246);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lt.svg?6d0c1e5f5d7e8a0436d770b7ad1f4246);
 }
 
 .flag-icon-lu {
-  background-image: url(/fonts/lu.svg?0c2c39867a892b7b2c6c9b062b939317);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lu.svg?0c2c39867a892b7b2c6c9b062b939317);
 }
 
 .flag-icon-lu.flag-icon-squared {
-  background-image: url(/fonts/lu.svg?4c22c1f899573b33fcb385dd8a4efb28);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lu.svg?4c22c1f899573b33fcb385dd8a4efb28);
 }
 
 .flag-icon-lv {
-  background-image: url(/fonts/lv.svg?f585c7eca33a1b76e3f8fb9751efa7b6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/lv.svg?f585c7eca33a1b76e3f8fb9751efa7b6);
 }
 
 .flag-icon-lv.flag-icon-squared {
-  background-image: url(/fonts/lv.svg?9c8f0c56b95ddf8292e3d8608c377c26);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/lv.svg?9c8f0c56b95ddf8292e3d8608c377c26);
 }
 
 .flag-icon-ly {
-  background-image: url(/fonts/ly.svg?64fd87b5d4d0ea8fbbdc17b726e4a2ad);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ly.svg?64fd87b5d4d0ea8fbbdc17b726e4a2ad);
 }
 
 .flag-icon-ly.flag-icon-squared {
-  background-image: url(/fonts/ly.svg?fbdcdf45c17fc1842e7730036d84f3d8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ly.svg?fbdcdf45c17fc1842e7730036d84f3d8);
 }
 
 .flag-icon-ma {
-  background-image: url(/fonts/ma.svg?6e255873b63b606b9cce620d1e1979c1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ma.svg?6e255873b63b606b9cce620d1e1979c1);
 }
 
 .flag-icon-ma.flag-icon-squared {
-  background-image: url(/fonts/ma.svg?39e4875a6fe51e39bb0384a81315b531);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ma.svg?39e4875a6fe51e39bb0384a81315b531);
 }
 
 .flag-icon-mc {
-  background-image: url(/fonts/mc.svg?fd7d44a71c68e6663f5571131a5acb9e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mc.svg?fd7d44a71c68e6663f5571131a5acb9e);
 }
 
 .flag-icon-mc.flag-icon-squared {
-  background-image: url(/fonts/mc.svg?d94ece34684fdf455d74b0cca3e839de);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mc.svg?d94ece34684fdf455d74b0cca3e839de);
 }
 
 .flag-icon-md {
-  background-image: url(/fonts/md.svg?ffde6acb62e719d8abea8a8506a05eef);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/md.svg?ffde6acb62e719d8abea8a8506a05eef);
 }
 
 .flag-icon-md.flag-icon-squared {
-  background-image: url(/fonts/md.svg?eb587bee5f74451ddb2b82ac52a8a88f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/md.svg?eb587bee5f74451ddb2b82ac52a8a88f);
 }
 
 .flag-icon-me {
-  background-image: url(/fonts/me.svg?09465a6e9917bf416747d590f516e2e0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/me.svg?09465a6e9917bf416747d590f516e2e0);
 }
 
 .flag-icon-me.flag-icon-squared {
-  background-image: url(/fonts/me.svg?415fb1e9e80537b14785d53394ab7ae4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/me.svg?415fb1e9e80537b14785d53394ab7ae4);
 }
 
 .flag-icon-mf {
-  background-image: url(/fonts/mf.svg?24841de9d5ad4cebb1be5c4dc19fc89f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mf.svg?24841de9d5ad4cebb1be5c4dc19fc89f);
 }
 
 .flag-icon-mf.flag-icon-squared {
-  background-image: url(/fonts/mf.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mf.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-mg {
-  background-image: url(/fonts/mg.svg?bc0aaf02fd22e03fe43c61b77d22f155);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mg.svg?bc0aaf02fd22e03fe43c61b77d22f155);
 }
 
 .flag-icon-mg.flag-icon-squared {
-  background-image: url(/fonts/mg.svg?6103c4efa8ca46d5ee48dff342b9a28e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mg.svg?6103c4efa8ca46d5ee48dff342b9a28e);
 }
 
 .flag-icon-mh {
-  background-image: url(/fonts/mh.svg?758cdac18d45c369142bc6b862aa9ea5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mh.svg?758cdac18d45c369142bc6b862aa9ea5);
 }
 
 .flag-icon-mh.flag-icon-squared {
-  background-image: url(/fonts/mh.svg?7f1dbb851e547bcf9e1b1e300f62d401);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mh.svg?7f1dbb851e547bcf9e1b1e300f62d401);
 }
 
 .flag-icon-mk {
-  background-image: url(/fonts/mk.svg?8fbf6ecea39e6f4469078da53aca835c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mk.svg?8fbf6ecea39e6f4469078da53aca835c);
 }
 
 .flag-icon-mk.flag-icon-squared {
-  background-image: url(/fonts/mk.svg?79704f33b92a71e3bc94930fded8f147);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mk.svg?79704f33b92a71e3bc94930fded8f147);
 }
 
 .flag-icon-ml {
-  background-image: url(/fonts/ml.svg?f183edc32fa63d0f9ad28dcdccd5d01c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ml.svg?f183edc32fa63d0f9ad28dcdccd5d01c);
 }
 
 .flag-icon-ml.flag-icon-squared {
-  background-image: url(/fonts/ml.svg?90ca97500b564f0d3a11945d01f783a2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ml.svg?90ca97500b564f0d3a11945d01f783a2);
 }
 
 .flag-icon-mm {
-  background-image: url(/fonts/mm.svg?bd85d8d6698b5e9847fd293e4aabf789);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mm.svg?bd85d8d6698b5e9847fd293e4aabf789);
 }
 
 .flag-icon-mm.flag-icon-squared {
-  background-image: url(/fonts/mm.svg?3f9a7d1e6547c24478b385ef94c549f1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mm.svg?3f9a7d1e6547c24478b385ef94c549f1);
 }
 
 .flag-icon-mn {
-  background-image: url(/fonts/mn.svg?9d8fd41f0d569e606aa1dcfdd52a8c0e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mn.svg?9d8fd41f0d569e606aa1dcfdd52a8c0e);
 }
 
 .flag-icon-mn.flag-icon-squared {
-  background-image: url(/fonts/mn.svg?44c868ec59801e5eee6dca5ca03e44cc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mn.svg?44c868ec59801e5eee6dca5ca03e44cc);
 }
 
 .flag-icon-mo {
-  background-image: url(/fonts/mo.svg?54301d57e1611968450991d23d4142a8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mo.svg?54301d57e1611968450991d23d4142a8);
 }
 
 .flag-icon-mo.flag-icon-squared {
-  background-image: url(/fonts/mo.svg?2fd4d307cd1bab4a54c35f40df08be1a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mo.svg?2fd4d307cd1bab4a54c35f40df08be1a);
 }
 
 .flag-icon-mp {
-  background-image: url(/fonts/mp.svg?b59ef55cc6784a8ed81efd3b9393ca78);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mp.svg?b59ef55cc6784a8ed81efd3b9393ca78);
 }
 
 .flag-icon-mp.flag-icon-squared {
-  background-image: url(/fonts/mp.svg?68debd8c2998eea6bc746e4fd99a160e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mp.svg?68debd8c2998eea6bc746e4fd99a160e);
 }
 
 .flag-icon-mq {
-  background-image: url(/fonts/mq.svg?ee3f8b70824b2f61f3dce5d238ae3a0c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mq.svg?ee3f8b70824b2f61f3dce5d238ae3a0c);
 }
 
 .flag-icon-mq.flag-icon-squared {
-  background-image: url(/fonts/mq.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mq.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-mr {
-  background-image: url(/fonts/mr.svg?03b1458a2eeb8d3745fc22d6f774e648);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mr.svg?03b1458a2eeb8d3745fc22d6f774e648);
 }
 
 .flag-icon-mr.flag-icon-squared {
-  background-image: url(/fonts/mr.svg?f0c6d614ac7d75ff5e37a8cd985f900f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mr.svg?f0c6d614ac7d75ff5e37a8cd985f900f);
 }
 
 .flag-icon-ms {
-  background-image: url(/fonts/ms.svg?84cec7833fa8f95c0a426c458354e4b1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ms.svg?84cec7833fa8f95c0a426c458354e4b1);
 }
 
 .flag-icon-ms.flag-icon-squared {
-  background-image: url(/fonts/ms.svg?3a8352bdae49aa9ce0d16684b2d36c1d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ms.svg?3a8352bdae49aa9ce0d16684b2d36c1d);
 }
 
 .flag-icon-mt {
-  background-image: url(/fonts/mt.svg?6b89cf1000192187bbebbda6218290d4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mt.svg?6b89cf1000192187bbebbda6218290d4);
 }
 
 .flag-icon-mt.flag-icon-squared {
-  background-image: url(/fonts/mt.svg?3ae768e7779db88744900f13160995d4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mt.svg?3ae768e7779db88744900f13160995d4);
 }
 
 .flag-icon-mu {
-  background-image: url(/fonts/mu.svg?f5cbb50969c73b1919a349d968c3b590);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mu.svg?f5cbb50969c73b1919a349d968c3b590);
 }
 
 .flag-icon-mu.flag-icon-squared {
-  background-image: url(/fonts/mu.svg?50dccf5cc2b6d5e501deb6b9db0fb6e1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mu.svg?50dccf5cc2b6d5e501deb6b9db0fb6e1);
 }
 
 .flag-icon-mv {
-  background-image: url(/fonts/mv.svg?54ceb5e0ccb5540c3d63f3651ab21b2d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mv.svg?54ceb5e0ccb5540c3d63f3651ab21b2d);
 }
 
 .flag-icon-mv.flag-icon-squared {
-  background-image: url(/fonts/mv.svg?711c100ceddcae4f7d8e85eb834e5b92);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mv.svg?711c100ceddcae4f7d8e85eb834e5b92);
 }
 
 .flag-icon-mw {
-  background-image: url(/fonts/mw.svg?19e277b7db1d24490551bd126e669e2e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mw.svg?19e277b7db1d24490551bd126e669e2e);
 }
 
 .flag-icon-mw.flag-icon-squared {
-  background-image: url(/fonts/mw.svg?d1bb3b24f23d13b8d67edc9467e28e5d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mw.svg?d1bb3b24f23d13b8d67edc9467e28e5d);
 }
 
 .flag-icon-mx {
-  background-image: url(/fonts/mx.svg?db12a5260ca32c4d09b3fd54af6bc301);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mx.svg?8402ad7995c3f47a467004ec13410ba3);
 }
 
 .flag-icon-mx.flag-icon-squared {
-  background-image: url(/fonts/mx.svg?4f3f3af48dec6a31703346dd4b6d0dab);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mx.svg?34cfb2c202afbb6e8a687b3898d0f431);
 }
 
 .flag-icon-my {
-  background-image: url(/fonts/my.svg?39895ac4b99300853257876ec1efc67a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/my.svg?39895ac4b99300853257876ec1efc67a);
 }
 
 .flag-icon-my.flag-icon-squared {
-  background-image: url(/fonts/my.svg?ad5678176041e196ff49ebbe27b70c0d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/my.svg?ad5678176041e196ff49ebbe27b70c0d);
 }
 
 .flag-icon-mz {
-  background-image: url(/fonts/mz.svg?157dee1c707e30fc30a77126db8f954a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/mz.svg?157dee1c707e30fc30a77126db8f954a);
 }
 
 .flag-icon-mz.flag-icon-squared {
-  background-image: url(/fonts/mz.svg?1d92e04df40a01291618fe7c0ce9d165);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/mz.svg?1d92e04df40a01291618fe7c0ce9d165);
 }
 
 .flag-icon-na {
-  background-image: url(/fonts/na.svg?76be167c021927187dc236d9bd17905f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/na.svg?76be167c021927187dc236d9bd17905f);
 }
 
 .flag-icon-na.flag-icon-squared {
-  background-image: url(/fonts/na.svg?e5f28e4416ccd5f39f442c75c72019d4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/na.svg?e5f28e4416ccd5f39f442c75c72019d4);
 }
 
 .flag-icon-nc {
-  background-image: url(/fonts/nc.svg?89fc0beb619a912876928692a9c117ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/nc.svg?89fc0beb619a912876928692a9c117ee);
 }
 
 .flag-icon-nc.flag-icon-squared {
-  background-image: url(/fonts/nc.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/nc.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-ne {
-  background-image: url(/fonts/ne.svg?b1294e6d4aa00919af78ccacede64ab3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ne.svg?b1294e6d4aa00919af78ccacede64ab3);
 }
 
 .flag-icon-ne.flag-icon-squared {
-  background-image: url(/fonts/ne.svg?ade9752d97b599a904446a723746af44);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ne.svg?ade9752d97b599a904446a723746af44);
 }
 
 .flag-icon-nf {
-  background-image: url(/fonts/nf.svg?304f6b9bdeeffbe640852feb2bc9f58a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/nf.svg?304f6b9bdeeffbe640852feb2bc9f58a);
 }
 
 .flag-icon-nf.flag-icon-squared {
-  background-image: url(/fonts/nf.svg?52897a6f55d0a93ac03f6d2932701765);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/nf.svg?52897a6f55d0a93ac03f6d2932701765);
 }
 
 .flag-icon-ng {
-  background-image: url(/fonts/ng.svg?cc34b827e201b3f7949fea06edf94d4a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ng.svg?cc34b827e201b3f7949fea06edf94d4a);
 }
 
 .flag-icon-ng.flag-icon-squared {
-  background-image: url(/fonts/ng.svg?c2b19d37c585e1acbd63d88e0c8b6f9f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ng.svg?c2b19d37c585e1acbd63d88e0c8b6f9f);
 }
 
 .flag-icon-ni {
-  background-image: url(/fonts/ni.svg?6895c3dc5be364ce88148d08e9fb93f3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ni.svg?6895c3dc5be364ce88148d08e9fb93f3);
 }
 
 .flag-icon-ni.flag-icon-squared {
-  background-image: url(/fonts/ni.svg?dddc30c77897741f934f749e4d252315);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ni.svg?dddc30c77897741f934f749e4d252315);
 }
 
 .flag-icon-nl {
-  background-image: url(/fonts/nl.svg?fe4bfff4af9ca12cf4783116a4179fed);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/nl.svg?fe4bfff4af9ca12cf4783116a4179fed);
 }
 
 .flag-icon-nl.flag-icon-squared {
-  background-image: url(/fonts/nl.svg?e877881e99d56e79dfcf690ed5ca9d5c);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/nl.svg?e877881e99d56e79dfcf690ed5ca9d5c);
 }
 
 .flag-icon-no {
-  background-image: url(/fonts/no.svg?902a33d0a0399c05142f0f551e9eaaf8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/no.svg?902a33d0a0399c05142f0f551e9eaaf8);
 }
 
 .flag-icon-no.flag-icon-squared {
-  background-image: url(/fonts/no.svg?409d0b6c665680df53e97ac76a61457f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/no.svg?409d0b6c665680df53e97ac76a61457f);
 }
 
 .flag-icon-np {
-  background-image: url(/fonts/np.svg?2b70d21dbac5eefe0eae791307142357);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/np.svg?2b70d21dbac5eefe0eae791307142357);
 }
 
 .flag-icon-np.flag-icon-squared {
-  background-image: url(/fonts/np.svg?cf2556d9b14e56b19249a0ab51fa89f3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/np.svg?cf2556d9b14e56b19249a0ab51fa89f3);
 }
 
 .flag-icon-nr {
-  background-image: url(/fonts/nr.svg?1971c970af7a1173f021a5308fc5f653);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/nr.svg?1971c970af7a1173f021a5308fc5f653);
 }
 
 .flag-icon-nr.flag-icon-squared {
-  background-image: url(/fonts/nr.svg?7debffddffcdabf6277c8aa6c296af26);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/nr.svg?7debffddffcdabf6277c8aa6c296af26);
 }
 
 .flag-icon-nu {
-  background-image: url(/fonts/nu.svg?d7b5488a20fae3dacccad8e337a92174);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/nu.svg?d7b5488a20fae3dacccad8e337a92174);
 }
 
 .flag-icon-nu.flag-icon-squared {
-  background-image: url(/fonts/nu.svg?59cd623f2a1f7abd8b3a93831139a3ed);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/nu.svg?59cd623f2a1f7abd8b3a93831139a3ed);
 }
 
 .flag-icon-nz {
-  background-image: url(/fonts/nz.svg?ebccddfef9838f97fe368551763640dd);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/nz.svg?ebccddfef9838f97fe368551763640dd);
 }
 
 .flag-icon-nz.flag-icon-squared {
-  background-image: url(/fonts/nz.svg?bfc21600089126cc40745ee863ad9936);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/nz.svg?bfc21600089126cc40745ee863ad9936);
 }
 
 .flag-icon-om {
-  background-image: url(/fonts/om.svg?f31f5c7b025d5e772f74416c21811845);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/om.svg?f31f5c7b025d5e772f74416c21811845);
 }
 
 .flag-icon-om.flag-icon-squared {
-  background-image: url(/fonts/om.svg?abc262d790d7110613b52cf0de79cb10);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/om.svg?abc262d790d7110613b52cf0de79cb10);
 }
 
 .flag-icon-pa {
-  background-image: url(/fonts/pa.svg?4e860f0112b67aab5af2653845480456);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pa.svg?4e860f0112b67aab5af2653845480456);
 }
 
 .flag-icon-pa.flag-icon-squared {
-  background-image: url(/fonts/pa.svg?052ef0c9280f2bbe09fdddda80f9c7ef);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pa.svg?052ef0c9280f2bbe09fdddda80f9c7ef);
 }
 
 .flag-icon-pe {
-  background-image: url(/fonts/pe.svg?70b54717c607dfa207a88b9bb1edd92d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pe.svg?1716f76c57284aee51c0e295e9d1ff08);
 }
 
 .flag-icon-pe.flag-icon-squared {
-  background-image: url(/fonts/pe.svg?8f3c0bbb1ec405757531c0b50d478985);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pe.svg?8f7136fcbad5a6f685eea60ce21d9149);
 }
 
 .flag-icon-pf {
-  background-image: url(/fonts/pf.svg?453c4725249510d90e19e653ede4785b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pf.svg?453c4725249510d90e19e653ede4785b);
 }
 
 .flag-icon-pf.flag-icon-squared {
-  background-image: url(/fonts/pf.svg?d6017afe6815faecd97924feacc78568);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pf.svg?d6017afe6815faecd97924feacc78568);
 }
 
 .flag-icon-pg {
-  background-image: url(/fonts/pg.svg?03a1472491b420e1eac9e5c6eea7913d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pg.svg?03a1472491b420e1eac9e5c6eea7913d);
 }
 
 .flag-icon-pg.flag-icon-squared {
-  background-image: url(/fonts/pg.svg?5527cb1ce9fba1f3f081a4f31289ba93);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pg.svg?5527cb1ce9fba1f3f081a4f31289ba93);
 }
 
 .flag-icon-ph {
-  background-image: url(/fonts/ph.svg?c5c952db722ef618c9dbe43fef7696b0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ph.svg?c5c952db722ef618c9dbe43fef7696b0);
 }
 
 .flag-icon-ph.flag-icon-squared {
-  background-image: url(/fonts/ph.svg?1ae1279efa6abdbf9339d1022fa2b517);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ph.svg?1ae1279efa6abdbf9339d1022fa2b517);
 }
 
 .flag-icon-pk {
-  background-image: url(/fonts/pk.svg?d89ce3c3296d3511291c390c75993b53);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pk.svg?d89ce3c3296d3511291c390c75993b53);
 }
 
 .flag-icon-pk.flag-icon-squared {
-  background-image: url(/fonts/pk.svg?77777d90051c243d9373d527b29a7b71);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pk.svg?77777d90051c243d9373d527b29a7b71);
 }
 
 .flag-icon-pl {
-  background-image: url(/fonts/pl.svg?ee17d4fb3818f2d804a254924ffb46ff);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pl.svg?ee17d4fb3818f2d804a254924ffb46ff);
 }
 
 .flag-icon-pl.flag-icon-squared {
-  background-image: url(/fonts/pl.svg?88f476932dd1a59dfb8fc64598200061);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pl.svg?88f476932dd1a59dfb8fc64598200061);
 }
 
 .flag-icon-pm {
-  background-image: url(/fonts/pm.svg?89fc0beb619a912876928692a9c117ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pm.svg?89fc0beb619a912876928692a9c117ee);
 }
 
 .flag-icon-pm.flag-icon-squared {
-  background-image: url(/fonts/pm.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pm.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-pn {
-  background-image: url(/fonts/pn.svg?474778d021a87d1263c6a6d5bec2f7e2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pn.svg?474778d021a87d1263c6a6d5bec2f7e2);
 }
 
 .flag-icon-pn.flag-icon-squared {
-  background-image: url(/fonts/pn.svg?1e2a2409c58001fd0334bc0384f88b79);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pn.svg?1e2a2409c58001fd0334bc0384f88b79);
 }
 
 .flag-icon-pr {
-  background-image: url(/fonts/pr.svg?593e41501ba5f46e902c707b41cf257d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pr.svg?593e41501ba5f46e902c707b41cf257d);
 }
 
 .flag-icon-pr.flag-icon-squared {
-  background-image: url(/fonts/pr.svg?36524a9100f3a6c63b4d41168c9031fb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pr.svg?36524a9100f3a6c63b4d41168c9031fb);
 }
 
 .flag-icon-ps {
-  background-image: url(/fonts/ps.svg?22be50deca0f4dfe5c1e8c6b8de331f0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ps.svg?22be50deca0f4dfe5c1e8c6b8de331f0);
 }
 
 .flag-icon-ps.flag-icon-squared {
-  background-image: url(/fonts/ps.svg?15cf13519f9ed2fe814b97d91749f80e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ps.svg?15cf13519f9ed2fe814b97d91749f80e);
 }
 
 .flag-icon-pt {
-  background-image: url(/fonts/pt.svg?bf22983f1546ba15ead1bdea9ca06395);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pt.svg?bf22983f1546ba15ead1bdea9ca06395);
 }
 
 .flag-icon-pt.flag-icon-squared {
-  background-image: url(/fonts/pt.svg?51056ebc9bdf10a85d862c9a341dae3e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pt.svg?51056ebc9bdf10a85d862c9a341dae3e);
 }
 
 .flag-icon-pw {
-  background-image: url(/fonts/pw.svg?857004b983d5e192a7e8b115a9641e42);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/pw.svg?857004b983d5e192a7e8b115a9641e42);
 }
 
 .flag-icon-pw.flag-icon-squared {
-  background-image: url(/fonts/pw.svg?31ac473979bc9ac395b15a56cc3228c7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/pw.svg?31ac473979bc9ac395b15a56cc3228c7);
 }
 
 .flag-icon-py {
-  background-image: url(/fonts/py.svg?6a02887381b5bc891c4e6aee6ee7fa48);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/py.svg?6a02887381b5bc891c4e6aee6ee7fa48);
 }
 
 .flag-icon-py.flag-icon-squared {
-  background-image: url(/fonts/py.svg?bbd9e2482cb2fec3f99565d6fc9ffb9b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/py.svg?bbd9e2482cb2fec3f99565d6fc9ffb9b);
 }
 
 .flag-icon-qa {
-  background-image: url(/fonts/qa.svg?cd4ff8c2e62bf6e332b69f31b36d1d17);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/qa.svg?cd4ff8c2e62bf6e332b69f31b36d1d17);
 }
 
 .flag-icon-qa.flag-icon-squared {
-  background-image: url(/fonts/qa.svg?4bfe8cc47c9469de612feda2a810dc03);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/qa.svg?4bfe8cc47c9469de612feda2a810dc03);
 }
 
 .flag-icon-re {
-  background-image: url(/fonts/re.svg?89fc0beb619a912876928692a9c117ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/re.svg?89fc0beb619a912876928692a9c117ee);
 }
 
 .flag-icon-re.flag-icon-squared {
-  background-image: url(/fonts/re.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/re.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-ro {
-  background-image: url(/fonts/ro.svg?83853d7f53225c0d8efdb63ce092ad31);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ro.svg?83853d7f53225c0d8efdb63ce092ad31);
 }
 
 .flag-icon-ro.flag-icon-squared {
-  background-image: url(/fonts/ro.svg?eeb706a770d26bee8b3ac64fe7f7c663);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ro.svg?eeb706a770d26bee8b3ac64fe7f7c663);
 }
 
 .flag-icon-rs {
-  background-image: url(/fonts/rs.svg?68a948759afe2241bf616cdc22dcabec);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/rs.svg?68a948759afe2241bf616cdc22dcabec);
 }
 
 .flag-icon-rs.flag-icon-squared {
-  background-image: url(/fonts/rs.svg?95e1357cefb424dfb7170f0d1b3dd54b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/rs.svg?95e1357cefb424dfb7170f0d1b3dd54b);
 }
 
 .flag-icon-ru {
-  background-image: url(/fonts/ru.svg?073f6ef795fdf4440534d05fa592f2d0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ru.svg?073f6ef795fdf4440534d05fa592f2d0);
 }
 
 .flag-icon-ru.flag-icon-squared {
-  background-image: url(/fonts/ru.svg?320b9fd3e4f84002c460167ab4ce5d1d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ru.svg?320b9fd3e4f84002c460167ab4ce5d1d);
 }
 
 .flag-icon-rw {
-  background-image: url(/fonts/rw.svg?60123c46bb01f33a9d4ea029bf6c5230);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/rw.svg?60123c46bb01f33a9d4ea029bf6c5230);
 }
 
 .flag-icon-rw.flag-icon-squared {
-  background-image: url(/fonts/rw.svg?abc5c89d51643d80de54a6a445230d92);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/rw.svg?abc5c89d51643d80de54a6a445230d92);
 }
 
 .flag-icon-sa {
-  background-image: url(/fonts/sa.svg?6fb5af379618cef52817e033598f26bc);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sa.svg?6fb5af379618cef52817e033598f26bc);
 }
 
 .flag-icon-sa.flag-icon-squared {
-  background-image: url(/fonts/sa.svg?d2d27d20483d4a4a8e5b1c423a4d63d7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sa.svg?d2d27d20483d4a4a8e5b1c423a4d63d7);
 }
 
 .flag-icon-sb {
-  background-image: url(/fonts/sb.svg?c514d29c40f236bd34fd81e803a96b39);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sb.svg?c514d29c40f236bd34fd81e803a96b39);
 }
 
 .flag-icon-sb.flag-icon-squared {
-  background-image: url(/fonts/sb.svg?770034a37695437eb72d981a92d3627a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sb.svg?770034a37695437eb72d981a92d3627a);
 }
 
 .flag-icon-sc {
-  background-image: url(/fonts/sc.svg?b174a49f50449d777e3ea80776af22da);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sc.svg?b174a49f50449d777e3ea80776af22da);
 }
 
 .flag-icon-sc.flag-icon-squared {
-  background-image: url(/fonts/sc.svg?cce51329f29c9f689563b956fc174578);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sc.svg?cce51329f29c9f689563b956fc174578);
 }
 
 .flag-icon-sd {
-  background-image: url(/fonts/sd.svg?1866490459163a414eb0d02560240592);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sd.svg?1866490459163a414eb0d02560240592);
 }
 
 .flag-icon-sd.flag-icon-squared {
-  background-image: url(/fonts/sd.svg?a159f40c88c40c01c24db0e94ed40164);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sd.svg?a159f40c88c40c01c24db0e94ed40164);
 }
 
 .flag-icon-se {
-  background-image: url(/fonts/se.svg?1074a609a9d79cd5bfcd58266f5ac462);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/se.svg?1074a609a9d79cd5bfcd58266f5ac462);
 }
 
 .flag-icon-se.flag-icon-squared {
-  background-image: url(/fonts/se.svg?5e1d567b3571ff1bce4cd6480e075520);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/se.svg?5e1d567b3571ff1bce4cd6480e075520);
 }
 
 .flag-icon-sg {
-  background-image: url(/fonts/sg.svg?a1222d2db7edbace628aafa3d8922288);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sg.svg?a1222d2db7edbace628aafa3d8922288);
 }
 
 .flag-icon-sg.flag-icon-squared {
-  background-image: url(/fonts/sg.svg?bfab3c1bc45111486980c570b83b7517);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sg.svg?bfab3c1bc45111486980c570b83b7517);
 }
 
 .flag-icon-sh {
-  background-image: url(/fonts/sh.svg?0b974c44616ed5363f03f98c9285f29e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sh.svg?0b974c44616ed5363f03f98c9285f29e);
 }
 
 .flag-icon-sh.flag-icon-squared {
-  background-image: url(/fonts/sh.svg?c867ada46257f6afe173b84bd9d597ab);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sh.svg?c867ada46257f6afe173b84bd9d597ab);
 }
 
 .flag-icon-si {
-  background-image: url(/fonts/si.svg?86f421da095b18f23bbf0a6bbe03911a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/si.svg?86f421da095b18f23bbf0a6bbe03911a);
 }
 
 .flag-icon-si.flag-icon-squared {
-  background-image: url(/fonts/si.svg?ef8f2f822ca06407d3b6d597407c6267);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/si.svg?ef8f2f822ca06407d3b6d597407c6267);
 }
 
 .flag-icon-sj {
-  background-image: url(/fonts/sj.svg?902a33d0a0399c05142f0f551e9eaaf8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sj.svg?902a33d0a0399c05142f0f551e9eaaf8);
 }
 
 .flag-icon-sj.flag-icon-squared {
-  background-image: url(/fonts/sj.svg?409d0b6c665680df53e97ac76a61457f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sj.svg?409d0b6c665680df53e97ac76a61457f);
 }
 
 .flag-icon-sk {
-  background-image: url(/fonts/sk.svg?0396deac6cea36b2c454e738552c9bfb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sk.svg?0396deac6cea36b2c454e738552c9bfb);
 }
 
 .flag-icon-sk.flag-icon-squared {
-  background-image: url(/fonts/sk.svg?26bd798373b924cf6e7ac02bae0a49b7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sk.svg?26bd798373b924cf6e7ac02bae0a49b7);
 }
 
 .flag-icon-sl {
-  background-image: url(/fonts/sl.svg?300d5dd2d87eab057bbb446ee2824f99);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sl.svg?300d5dd2d87eab057bbb446ee2824f99);
 }
 
 .flag-icon-sl.flag-icon-squared {
-  background-image: url(/fonts/sl.svg?68c0bef07437d88fc6c4eaae8cf393da);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sl.svg?68c0bef07437d88fc6c4eaae8cf393da);
 }
 
 .flag-icon-sm {
-  background-image: url(/fonts/sm.svg?2d3943c1acdaba5e526d615baf0f9b22);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sm.svg?2d3943c1acdaba5e526d615baf0f9b22);
 }
 
 .flag-icon-sm.flag-icon-squared {
-  background-image: url(/fonts/sm.svg?55745c73eb36b664072c81f4b4976fe7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sm.svg?55745c73eb36b664072c81f4b4976fe7);
 }
 
 .flag-icon-sn {
-  background-image: url(/fonts/sn.svg?01ca39ad4342aaf6aba661c8c86a81af);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sn.svg?01ca39ad4342aaf6aba661c8c86a81af);
 }
 
 .flag-icon-sn.flag-icon-squared {
-  background-image: url(/fonts/sn.svg?cd715169393cea9d48b1f2f485e78703);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sn.svg?cd715169393cea9d48b1f2f485e78703);
 }
 
 .flag-icon-so {
-  background-image: url(/fonts/so.svg?06815de7765dd8c42cfadf94b16acca3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/so.svg?06815de7765dd8c42cfadf94b16acca3);
 }
 
 .flag-icon-so.flag-icon-squared {
-  background-image: url(/fonts/so.svg?159787248bfa2eae2611971b293ed2c0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/so.svg?159787248bfa2eae2611971b293ed2c0);
 }
 
 .flag-icon-sr {
-  background-image: url(/fonts/sr.svg?df4326532efdcc8f5c4180f49153caa9);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sr.svg?df4326532efdcc8f5c4180f49153caa9);
 }
 
 .flag-icon-sr.flag-icon-squared {
-  background-image: url(/fonts/sr.svg?b644913b206a62b056895a69fb7e245e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sr.svg?b644913b206a62b056895a69fb7e245e);
 }
 
 .flag-icon-ss {
-  background-image: url(/fonts/ss.svg?b765e4253c143da083622586affab604);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ss.svg?b765e4253c143da083622586affab604);
 }
 
 .flag-icon-ss.flag-icon-squared {
-  background-image: url(/fonts/ss.svg?76b18ab9f6eaeb7906de3c98b56fec17);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ss.svg?76b18ab9f6eaeb7906de3c98b56fec17);
 }
 
 .flag-icon-st {
-  background-image: url(/fonts/st.svg?973af64ba960153a643545f90df4f222);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/st.svg?cba19f5a9832e8033c0b9c8485d02e4c);
 }
 
 .flag-icon-st.flag-icon-squared {
-  background-image: url(/fonts/st.svg?d5cf2a1de9e470fc3744532f3de9f9e5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/st.svg?90d4a336d218f5c6c3f4456adf1ae473);
 }
 
 .flag-icon-sv {
-  background-image: url(/fonts/sv.svg?e85077b4f04bfb47eab5cd65d2127d37);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sv.svg?e85077b4f04bfb47eab5cd65d2127d37);
 }
 
 .flag-icon-sv.flag-icon-squared {
-  background-image: url(/fonts/sv.svg?f5dc02fc0cdb4fc3305a171a4026f68e);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sv.svg?f5dc02fc0cdb4fc3305a171a4026f68e);
 }
 
 .flag-icon-sx {
-  background-image: url(/fonts/sx.svg?7c3bd71b226f9ea37052210af6b6bb62);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sx.svg?7c3bd71b226f9ea37052210af6b6bb62);
 }
 
 .flag-icon-sx.flag-icon-squared {
-  background-image: url(/fonts/sx.svg?f62df5531594610b914825dbc08e0e52);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sx.svg?f62df5531594610b914825dbc08e0e52);
 }
 
 .flag-icon-sy {
-  background-image: url(/fonts/sy.svg?af79e511d22c83769ede4c2d161ef1ef);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sy.svg?af79e511d22c83769ede4c2d161ef1ef);
 }
 
 .flag-icon-sy.flag-icon-squared {
-  background-image: url(/fonts/sy.svg?16bdd250da86a3499009451ecf9b1d3d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sy.svg?16bdd250da86a3499009451ecf9b1d3d);
 }
 
 .flag-icon-sz {
-  background-image: url(/fonts/sz.svg?c348da45da43b3bfa140bffd25a6c16d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/sz.svg?c348da45da43b3bfa140bffd25a6c16d);
 }
 
 .flag-icon-sz.flag-icon-squared {
-  background-image: url(/fonts/sz.svg?f3bc6cd2263e3dd241c4ac1b3770db85);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/sz.svg?f3bc6cd2263e3dd241c4ac1b3770db85);
 }
 
 .flag-icon-tc {
-  background-image: url(/fonts/tc.svg?4a66d0f056058298ae71b27169568558);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tc.svg?4a66d0f056058298ae71b27169568558);
 }
 
 .flag-icon-tc.flag-icon-squared {
-  background-image: url(/fonts/tc.svg?74f13122d96448c95aa7c52ab4581618);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tc.svg?74f13122d96448c95aa7c52ab4581618);
 }
 
 .flag-icon-td {
-  background-image: url(/fonts/td.svg?8c0f4fcb2c1996669c144547d2521a26);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/td.svg?8c0f4fcb2c1996669c144547d2521a26);
 }
 
 .flag-icon-td.flag-icon-squared {
-  background-image: url(/fonts/td.svg?8c90bcd7b15c476455ed0f278a83cc21);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/td.svg?8c90bcd7b15c476455ed0f278a83cc21);
 }
 
 .flag-icon-tf {
-  background-image: url(/fonts/tf.svg?e1be76e3974d054fe3a3f927d5ac806f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tf.svg?e1be76e3974d054fe3a3f927d5ac806f);
 }
 
 .flag-icon-tf.flag-icon-squared {
-  background-image: url(/fonts/tf.svg?e38b800c51d601445f2ea6f63bfe784d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tf.svg?e38b800c51d601445f2ea6f63bfe784d);
 }
 
 .flag-icon-tg {
-  background-image: url(/fonts/tg.svg?cf6492785a12aeb09297cc49c2e1957d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tg.svg?cf6492785a12aeb09297cc49c2e1957d);
 }
 
 .flag-icon-tg.flag-icon-squared {
-  background-image: url(/fonts/tg.svg?60fd011837e3e18cb282f51bd34cfc2b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tg.svg?60fd011837e3e18cb282f51bd34cfc2b);
 }
 
 .flag-icon-th {
-  background-image: url(/fonts/th.svg?194a8d8f31ff25cf75d0455a91facdc0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/th.svg?194a8d8f31ff25cf75d0455a91facdc0);
 }
 
 .flag-icon-th.flag-icon-squared {
-  background-image: url(/fonts/th.svg?3b90388d2194a33cb1090b095287908b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/th.svg?3b90388d2194a33cb1090b095287908b);
 }
 
 .flag-icon-tj {
-  background-image: url(/fonts/tj.svg?22f076f7d04e2cb60aa7ba83f83bcf2a);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tj.svg?22f076f7d04e2cb60aa7ba83f83bcf2a);
 }
 
 .flag-icon-tj.flag-icon-squared {
-  background-image: url(/fonts/tj.svg?010d1b12323575cff50a122f18197979);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tj.svg?010d1b12323575cff50a122f18197979);
 }
 
 .flag-icon-tk {
-  background-image: url(/fonts/tk.svg?42665015bd9c071e2b070765168cbdaf);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tk.svg?42665015bd9c071e2b070765168cbdaf);
 }
 
 .flag-icon-tk.flag-icon-squared {
-  background-image: url(/fonts/tk.svg?e7397922e1890d78a579c1abc81c1825);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tk.svg?e7397922e1890d78a579c1abc81c1825);
 }
 
 .flag-icon-tl {
-  background-image: url(/fonts/tl.svg?e1b4bdfd4ddaecc1dede27db9c98c285);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tl.svg?e1b4bdfd4ddaecc1dede27db9c98c285);
 }
 
 .flag-icon-tl.flag-icon-squared {
-  background-image: url(/fonts/tl.svg?a76d237835effbc68971d2fd0edddff3);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tl.svg?a76d237835effbc68971d2fd0edddff3);
 }
 
 .flag-icon-tm {
-  background-image: url(/fonts/tm.svg?d4c2df6824fd692cef15dadda4fac33b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tm.svg?d4c2df6824fd692cef15dadda4fac33b);
 }
 
 .flag-icon-tm.flag-icon-squared {
-  background-image: url(/fonts/tm.svg?ada7eeb6c2a5618f1dead7d2edace565);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tm.svg?ada7eeb6c2a5618f1dead7d2edace565);
 }
 
 .flag-icon-tn {
-  background-image: url(/fonts/tn.svg?31980512114e902967835961dae90782);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tn.svg?31980512114e902967835961dae90782);
 }
 
 .flag-icon-tn.flag-icon-squared {
-  background-image: url(/fonts/tn.svg?c8d5dd88979e44efec014f1525326dfb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tn.svg?c8d5dd88979e44efec014f1525326dfb);
 }
 
 .flag-icon-to {
-  background-image: url(/fonts/to.svg?94c0a0bf0e39bb038757a3bd48399752);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/to.svg?94c0a0bf0e39bb038757a3bd48399752);
 }
 
 .flag-icon-to.flag-icon-squared {
-  background-image: url(/fonts/to.svg?69fbe198b0483a33f7e0597355849ac2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/to.svg?69fbe198b0483a33f7e0597355849ac2);
 }
 
 .flag-icon-tr {
-  background-image: url(/fonts/tr.svg?dc3f6b1794cae0d9e84afda844fe469d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tr.svg?dc3f6b1794cae0d9e84afda844fe469d);
 }
 
 .flag-icon-tr.flag-icon-squared {
-  background-image: url(/fonts/tr.svg?d6f232d7509b007ec64fac424873a7b6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tr.svg?d6f232d7509b007ec64fac424873a7b6);
 }
 
 .flag-icon-tt {
-  background-image: url(/fonts/tt.svg?95ffe73e78251c9de8817c31b846c524);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tt.svg?95ffe73e78251c9de8817c31b846c524);
 }
 
 .flag-icon-tt.flag-icon-squared {
-  background-image: url(/fonts/tt.svg?adb11db8e0aa06578d205b46853bb395);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tt.svg?adb11db8e0aa06578d205b46853bb395);
 }
 
 .flag-icon-tv {
-  background-image: url(/fonts/tv.svg?29b7545ec199bfd4fe8c63161a532ce7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tv.svg?29b7545ec199bfd4fe8c63161a532ce7);
 }
 
 .flag-icon-tv.flag-icon-squared {
-  background-image: url(/fonts/tv.svg?fba0305b0e9e3cf23f645ff483651fdf);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tv.svg?fba0305b0e9e3cf23f645ff483651fdf);
 }
 
 .flag-icon-tw {
-  background-image: url(/fonts/tw.svg?f02e9a98c1bf9bbda936b60f78f5ee8f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tw.svg?f02e9a98c1bf9bbda936b60f78f5ee8f);
 }
 
 .flag-icon-tw.flag-icon-squared {
-  background-image: url(/fonts/tw.svg?051cd41740ee799404f29abf708cc507);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tw.svg?051cd41740ee799404f29abf708cc507);
 }
 
 .flag-icon-tz {
-  background-image: url(/fonts/tz.svg?0d2e8cb4bfc778649aa0dfc760ca4aa4);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/tz.svg?0d2e8cb4bfc778649aa0dfc760ca4aa4);
 }
 
 .flag-icon-tz.flag-icon-squared {
-  background-image: url(/fonts/tz.svg?8ef4cacdc252bc786ed11aa4ef92fe11);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/tz.svg?8ef4cacdc252bc786ed11aa4ef92fe11);
 }
 
 .flag-icon-ua {
-  background-image: url(/fonts/ua.svg?8553278ac7132ef2065302a0f8880a7d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ua.svg?8553278ac7132ef2065302a0f8880a7d);
 }
 
 .flag-icon-ua.flag-icon-squared {
-  background-image: url(/fonts/ua.svg?57d4015f254507bdb4e39b2e8193c2b7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ua.svg?57d4015f254507bdb4e39b2e8193c2b7);
 }
 
 .flag-icon-ug {
-  background-image: url(/fonts/ug.svg?31c566aa2ee9bf4bac1066d7c28326bb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ug.svg?31c566aa2ee9bf4bac1066d7c28326bb);
 }
 
 .flag-icon-ug.flag-icon-squared {
-  background-image: url(/fonts/ug.svg?5c0aa5dd6a5b047411f7666984ec0437);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ug.svg?5c0aa5dd6a5b047411f7666984ec0437);
 }
 
 .flag-icon-um {
-  background-image: url(/fonts/um.svg?66829204d084beb104c9c5859397dfaa);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/um.svg?66829204d084beb104c9c5859397dfaa);
 }
 
 .flag-icon-um.flag-icon-squared {
-  background-image: url(/fonts/um.svg?8b2e2acab9a2972942f28a730305d10f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/um.svg?8b2e2acab9a2972942f28a730305d10f);
 }
 
 .flag-icon-us {
-  background-image: url(/fonts/us.svg?2382ea7ec7cc55bfe1cc7a3ea8326989);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/us.svg?2382ea7ec7cc55bfe1cc7a3ea8326989);
 }
 
 .flag-icon-us.flag-icon-squared {
-  background-image: url(/fonts/us.svg?68a3bd517b613cf3b0153b866366bf12);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/us.svg?68a3bd517b613cf3b0153b866366bf12);
 }
 
 .flag-icon-uy {
-  background-image: url(/fonts/uy.svg?2d8cc05d1f64f03c66e4170d43d120cb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/uy.svg?2d8cc05d1f64f03c66e4170d43d120cb);
 }
 
 .flag-icon-uy.flag-icon-squared {
-  background-image: url(/fonts/uy.svg?63023f30585fc585c32216db710872c2);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/uy.svg?63023f30585fc585c32216db710872c2);
 }
 
 .flag-icon-uz {
-  background-image: url(/fonts/uz.svg?f71a299e7976e7b6d7c73d5ac47f3abf);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/uz.svg?f71a299e7976e7b6d7c73d5ac47f3abf);
 }
 
 .flag-icon-uz.flag-icon-squared {
-  background-image: url(/fonts/uz.svg?db7de2d456d49864b4e4318f8ad03097);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/uz.svg?db7de2d456d49864b4e4318f8ad03097);
 }
 
 .flag-icon-va {
-  background-image: url(/fonts/va.svg?abc90cbafbf1a2421ed18ee8af9c3b11);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/va.svg?abc90cbafbf1a2421ed18ee8af9c3b11);
 }
 
 .flag-icon-va.flag-icon-squared {
-  background-image: url(/fonts/va.svg?d257c97b1e6a9a8d4890c53b25806ce1);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/va.svg?d257c97b1e6a9a8d4890c53b25806ce1);
 }
 
 .flag-icon-vc {
-  background-image: url(/fonts/vc.svg?eed4cd04d21fd01131891a4dffc6f12f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/vc.svg?eed4cd04d21fd01131891a4dffc6f12f);
 }
 
 .flag-icon-vc.flag-icon-squared {
-  background-image: url(/fonts/vc.svg?abf37c9a8d03c98bbdc6748e387236b5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/vc.svg?abf37c9a8d03c98bbdc6748e387236b5);
 }
 
 .flag-icon-ve {
-  background-image: url(/fonts/ve.svg?0cf429245b9a24cbe0e17248d4d5ecca);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ve.svg?0cf429245b9a24cbe0e17248d4d5ecca);
 }
 
 .flag-icon-ve.flag-icon-squared {
-  background-image: url(/fonts/ve.svg?f0124902c195c7f1668172873806dbda);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ve.svg?f0124902c195c7f1668172873806dbda);
 }
 
 .flag-icon-vg {
-  background-image: url(/fonts/vg.svg?ec98f3c1f771f25f5ee42cbef0f6cc57);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/vg.svg?ec98f3c1f771f25f5ee42cbef0f6cc57);
 }
 
 .flag-icon-vg.flag-icon-squared {
-  background-image: url(/fonts/vg.svg?3d600437bc4b82cc118d841844d815f5);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/vg.svg?3d600437bc4b82cc118d841844d815f5);
 }
 
 .flag-icon-vi {
-  background-image: url(/fonts/vi.svg?3e46b23c9b38298a39134f782886dd08);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/vi.svg?3e46b23c9b38298a39134f782886dd08);
 }
 
 .flag-icon-vi.flag-icon-squared {
-  background-image: url(/fonts/vi.svg?b6a3cebadd6b973d129e21101687539f);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/vi.svg?b6a3cebadd6b973d129e21101687539f);
 }
 
 .flag-icon-vn {
-  background-image: url(/fonts/vn.svg?740ee4d240e6c89a313f2363f237122b);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/vn.svg?740ee4d240e6c89a313f2363f237122b);
 }
 
 .flag-icon-vn.flag-icon-squared {
-  background-image: url(/fonts/vn.svg?78851bfabb3c4061b44fe6d9203b679d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/vn.svg?78851bfabb3c4061b44fe6d9203b679d);
 }
 
 .flag-icon-vu {
-  background-image: url(/fonts/vu.svg?6f87639a221be2b9ae33859a72cb12b8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/vu.svg?6f87639a221be2b9ae33859a72cb12b8);
 }
 
 .flag-icon-vu.flag-icon-squared {
-  background-image: url(/fonts/vu.svg?d08f3fd7809ff32c0846a035cc51ad27);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/vu.svg?d08f3fd7809ff32c0846a035cc51ad27);
 }
 
 .flag-icon-wf {
-  background-image: url(/fonts/wf.svg?286c96379c204fd9f8f873628cfe45c7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/wf.svg?286c96379c204fd9f8f873628cfe45c7);
 }
 
 .flag-icon-wf.flag-icon-squared {
-  background-image: url(/fonts/wf.svg?3719dc54109d75aff04f576c764d02f7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/wf.svg?3719dc54109d75aff04f576c764d02f7);
 }
 
 .flag-icon-ws {
-  background-image: url(/fonts/ws.svg?07f7b4553b7ad7e1fb87786774a40ca8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ws.svg?07f7b4553b7ad7e1fb87786774a40ca8);
 }
 
 .flag-icon-ws.flag-icon-squared {
-  background-image: url(/fonts/ws.svg?c2296c3345185053ca9487635315ddda);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ws.svg?c2296c3345185053ca9487635315ddda);
 }
 
 .flag-icon-ye {
-  background-image: url(/fonts/ye.svg?d61828d4b7d588233807655491424d06);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/ye.svg?d61828d4b7d588233807655491424d06);
 }
 
 .flag-icon-ye.flag-icon-squared {
-  background-image: url(/fonts/ye.svg?71f6118db5815b8844a776abcabd6096);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/ye.svg?71f6118db5815b8844a776abcabd6096);
 }
 
 .flag-icon-yt {
-  background-image: url(/fonts/yt.svg?89fc0beb619a912876928692a9c117ee);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/yt.svg?89fc0beb619a912876928692a9c117ee);
 }
 
 .flag-icon-yt.flag-icon-squared {
-  background-image: url(/fonts/yt.svg?11614fc421695cb66a88b861caac0c00);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/yt.svg?11614fc421695cb66a88b861caac0c00);
 }
 
 .flag-icon-za {
-  background-image: url(/fonts/za.svg?94f5133a891492cec7bde5017ec77f57);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/za.svg?94f5133a891492cec7bde5017ec77f57);
 }
 
 .flag-icon-za.flag-icon-squared {
-  background-image: url(/fonts/za.svg?9b10244b941a5c1064defd5e6a8b38c0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/za.svg?9b10244b941a5c1064defd5e6a8b38c0);
 }
 
 .flag-icon-zm {
-  background-image: url(/fonts/zm.svg?9f7358c5120f2b6788ddbc2a54cc27d6);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/zm.svg?9f7358c5120f2b6788ddbc2a54cc27d6);
 }
 
 .flag-icon-zm.flag-icon-squared {
-  background-image: url(/fonts/zm.svg?ac9f89238871c04846584e77b3885b57);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/zm.svg?ac9f89238871c04846584e77b3885b57);
 }
 
 .flag-icon-zw {
-  background-image: url(/fonts/zw.svg?fee9550021cd5e741f99e42dea693a62);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/zw.svg?fee9550021cd5e741f99e42dea693a62);
 }
 
 .flag-icon-zw.flag-icon-squared {
-  background-image: url(/fonts/zw.svg?295464d23560b5315625d5c4402c8c41);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/zw.svg?295464d23560b5315625d5c4402c8c41);
 }
 
 .flag-icon-eu {
-  background-image: url(/fonts/eu.svg?295728e76ea2e8ace9941d4481877166);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/eu.svg?295728e76ea2e8ace9941d4481877166);
 }
 
 .flag-icon-eu.flag-icon-squared {
-  background-image: url(/fonts/eu.svg?a65c136bd0510f7549c4dc14169c32c7);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/eu.svg?a65c136bd0510f7549c4dc14169c32c7);
 }
 
 .flag-icon-gb-eng {
-  background-image: url(/fonts/gb-eng.svg?8f9ff2931a86d56ddc68cfb7cea34ba0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gb-eng.svg?8f9ff2931a86d56ddc68cfb7cea34ba0);
 }
 
 .flag-icon-gb-eng.flag-icon-squared {
-  background-image: url(/fonts/gb-eng.svg?a99690fc1737063f67151aff60cd68d0);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gb-eng.svg?a99690fc1737063f67151aff60cd68d0);
 }
 
 .flag-icon-gb-nir {
-  background-image: url(/fonts/gb-nir.svg?9d02a9ef7513d21187c3981c8d20e3aa);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gb-nir.svg?9d02a9ef7513d21187c3981c8d20e3aa);
 }
 
 .flag-icon-gb-nir.flag-icon-squared {
-  background-image: url(/fonts/gb-nir.svg?7a23a0d7708a30ab82e68d847dda99eb);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gb-nir.svg?7a23a0d7708a30ab82e68d847dda99eb);
 }
 
 .flag-icon-gb-sct {
-  background-image: url(/fonts/gb-sct.svg?1515d5870f91d9f93887cff807e27197);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gb-sct.svg?1515d5870f91d9f93887cff807e27197);
 }
 
 .flag-icon-gb-sct.flag-icon-squared {
-  background-image: url(/fonts/gb-sct.svg?071d47b3846bd1e8002b4af078c6b3e8);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gb-sct.svg?071d47b3846bd1e8002b4af078c6b3e8);
 }
 
 .flag-icon-gb-wls {
-  background-image: url(/fonts/gb-wls.svg?040c4287a3703c1155723bb23da93730);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/gb-wls.svg?040c4287a3703c1155723bb23da93730);
 }
 
 .flag-icon-gb-wls.flag-icon-squared {
-  background-image: url(/fonts/gb-wls.svg?e4b0294215288317e83b9091fc82908d);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/gb-wls.svg?e4b0294215288317e83b9091fc82908d);
 }
 
 .flag-icon-un {
-  background-image: url(/fonts/un.svg?0f74c2f2472bc65dc0757c335e2dab93);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/4x3/un.svg?0f74c2f2472bc65dc0757c335e2dab93);
 }
 
 .flag-icon-un.flag-icon-squared {
-  background-image: url(/fonts/un.svg?523812835e18ce53308fbd32d09e0005);
+  background-image: url(/fonts/vendor/flag-icon-css/flags/1x1/un.svg?523812835e18ce53308fbd32d09e0005);
 }
 
 /*!
