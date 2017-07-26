@@ -96,6 +96,7 @@ $this->post('products/{product}/variants', 'Products\ProductVariantController@st
  * Products
  */
 $this->post('products/{product}/urls', 'Products\ProductController@createUrl');
+$this->post('products/{product}/redirects', 'Products\ProductController@createRedirect');
 $this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
 $this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
 $this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');

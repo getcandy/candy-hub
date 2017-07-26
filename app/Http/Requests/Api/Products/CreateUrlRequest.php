@@ -26,7 +26,7 @@ class CreateUrlRequest extends FormRequest
     {
         return [
             'slug' => 'required|unique:routes,slug',
-            'locale' => 'required|exists:languages,code'
+            'locale' => 'required|exists:languages,iso'
         ];
     }
 }

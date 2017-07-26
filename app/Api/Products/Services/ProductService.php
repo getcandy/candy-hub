@@ -78,6 +78,8 @@ class ProductService extends BaseService
         $product->routes()->create([
             'locale' => $data['locale'],
             'slug' => $data['slug'],
+            'description' => !empty($data['description']) ? $data['description'] : null,
+            'redirect' => !empty($data['redirect']) ? true : false,
             'default' => false
         ]);
         return $product;

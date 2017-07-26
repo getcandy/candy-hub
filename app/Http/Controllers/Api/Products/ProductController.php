@@ -23,7 +23,7 @@ class ProductController extends BaseController
     /**
      * Handles the request to show all products
      * @param  Request $request
-     * @return Json
+     * @return array
      */
     public function index(Request $request)
     {
@@ -35,7 +35,7 @@ class ProductController extends BaseController
     /**
      * Handles the request to show a product based on hashed ID
      * @param  String $id
-     * @return Json
+     * @return array|\Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -50,7 +50,7 @@ class ProductController extends BaseController
     /**
      * Handles the request to create a new product
      * @param  CreateRequest $request
-     * @return Json
+     * @return array
      */
     public function store(CreateRequest $request)
     {
@@ -66,7 +66,7 @@ class ProductController extends BaseController
      * Handles the request to update a product
      * @param  String        $id
      * @param  UpdateRequest $request
-     * @return Json
+     * @return array|\Illuminate\Http\Response
      */
     public function update($id, UpdateRequest $request)
     {
@@ -123,8 +123,15 @@ class ProductController extends BaseController
     public function createUrl($product, CreateUrlRequest $request)
     {
         $result = app('api')->products()->createUrl($product, $request->all());
-        dd($result);
+        return $this->respondWithNoContent();
     }
+
+    public function createRedirect($product, CreateUrlRequest $request)
+    {
+        $result = app('api')->products()->createUrl($product, $request->all());
+        return $this->respondWithNoContent();
+    }
+
     /**
      * Handles the request to delete a product
      * @param  String        $id
