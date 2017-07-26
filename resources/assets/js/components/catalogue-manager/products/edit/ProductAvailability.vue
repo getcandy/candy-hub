@@ -60,12 +60,6 @@
                       message: 'Missing / Invalid fields'
                   });
               });
-            }).catch(response => {
-              Event.$emit('notification', {
-                level: 'error',
-                message: 'Missing / Invalid fields'
-              });
-            });
           }
         },
         components: {
