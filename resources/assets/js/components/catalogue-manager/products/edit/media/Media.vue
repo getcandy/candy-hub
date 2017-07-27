@@ -1,133 +1,159 @@
 <template>
-  <div class="sub-panel">
-    <div class="sub-content section block">
-      <div class="row">
-        <div class="col-xs-12 col-md-11">
-          <h4>Media</h4>
-          <hr>
+    <div class="sub-panel">
+        <div class="sub-content section block">
+            <div class="row">
+                <div class="col-xs-12 col-md-11">
+                    <h4>Media</h4>
+                    <hr>
 
-          <div class="custom-radio-group">
-            <span class="group-label">Toggle Media:</span>
-            <div class="toggle-radio">
-              <input type="radio" name="media" id="allMedia" value="allMedia" checked="checked">
-              <label for="allMedia">
-                <span class="check"></span>
-                <span class="faux-label">All Media</span>
-              </label>
-            </div>
-            <div class="toggle-radio">
-              <input type="radio" name="media" id="images" value="images">
-              <label for="images">
-                <span class="check"></span>
-                <span class="faux-label">Images</span>
-              </label>
-            </div>
-            <div class="toggle-radio">
-              <input type="radio" name="media" id="files" value="files">
-              <label for="files">
-                <span class="check"></span>
-                <span class="faux-label">Files</span>
-              </label>
-            </div>
-          </div>
+                    <div class="custom-radio-group">
+                        <span class="group-label">Toggle Media:</span>
+                        <div class="toggle-radio">
+                            <input type="radio" name="media" id="allMedia" value="allMedia" checked="checked">
+                            <label for="allMedia">
+                                <span class="check"></span>
+                                <span class="faux-label">All Media</span>
+                            </label>
+                        </div>
+                        <div class="toggle-radio">
+                            <input type="radio" name="media" id="images" value="images">
+                            <label for="images">
+                                <span class="check"></span>
+                                <span class="faux-label">Images</span>
+                            </label>
+                        </div>
+                        <div class="toggle-radio">
+                            <input type="radio" name="media" id="files" value="files">
+                            <label for="files">
+                                <span class="check"></span>
+                                <span class="faux-label">Files</span>
+                            </label>
+                        </div>
+                    </div>
 
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Title/Alt Tag</th>
-                <th>Description</th>
-                <th width="230">Tags</th>
-                <th>File Type</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a href="/images/placeholder/product.jpg" class="fresco">
-                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
-                  </a>
-                </td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                <td>.jpg</td>
-                <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="/images/placeholder/product.jpg" class="fresco">
-                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
-                  </a>
-                </td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                <td>.jpg</td>
-                <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <img src="/images/file-types/pdf.svg" alt="PDF">
-                </td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                <td>.pdf</td>
-                <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <img src="/images/file-types/xls.svg" alt="XLS">
-                </td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                <td>.xls</td>
-                <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="/images/placeholder/product.jpg" class="fresco">
-                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
-                  </a>
-                </td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                <td>.jpg</td>
-                <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-              </tr>
-            </tbody>
-          </table>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title/Alt Tag</th>
+                            <th>Description</th>
+                            <th width="230">Tags</th>
+                            <th>File Type</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <a href="/images/placeholder/product.jpg" class="fresco">
+                                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
+                                </a>
+                            </td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                            <td>.jpg</td>
+                            <td align="right">
+                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
+                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="/images/placeholder/product.jpg" class="fresco">
+                                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
+                                </a>
+                            </td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                            <td>.jpg</td>
+                            <td align="right">
+                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
+                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="/images/file-types/pdf.svg" alt="PDF">
+                            </td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                            <td>.pdf</td>
+                            <td align="right">
+                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
+                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="/images/file-types/xls.svg" alt="XLS">
+                            </td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                            <td>.xls</td>
+                            <td align="right">
+                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
+                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="/images/placeholder/product.jpg" class="fresco">
+                                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
+                                </a>
+                            </td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                            <td>.jpg</td>
+                            <td align="right">
+                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
+                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-          <p>File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.</p>
+                    <p>
+                        File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="sub-nav media-upload">
-      <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
-      <form id="id_dropzone" 
-      class="dropzone" 
-      action="/ajax_file_upload_handler/"
-      enctype="multipart/form-data" 
-      method="post">
-        
-        <div class="media-box">
-          <i class="fa fa-upload icon" aria-hidden="true"></i>
-          <p>Drop files here or click to upload</p>
+        <div class="sub-nav media-upload">
+            <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
+
+            <dropzone id="media-upload" url="/return-hello">
+                <div class="dz-default dz-message media-box">
+                    <i class="fa fa-upload icon" aria-hidden="true"></i>
+                    <p>Drop files here or click to upload</p>
+                </div>
+                <input type="hidden" name="_token" :value="token">
+            </dropzone>
+
         </div>
-      </form>
     </div>
-  </div>
 </template>
 
 <script>
+    import Dropzone from 'vue2-dropzone'
+
     export default {
-        data() {
-            return {
+        props: {
+            token: {
+                type: String,
+                default: Laravel.csrfToken
             }
+        },
+        components: {
+            Dropzone
         }
     }
 </script>

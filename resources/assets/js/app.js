@@ -12,12 +12,12 @@ require('babel-polyfill');
 require('./classes/Errors');
 require('./classes/Form');
 
-window.Datepicker = require('bootstrap-datepicker');
+//window.Datepicker = require('bootstrap-datepicker');
 require('bootstrap-datepicker');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
-window.Dropzone = require('dropzone');
+//require('dropzone');
 window.List = require('list.js');
 
 
@@ -48,6 +48,7 @@ Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vu
 Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
 Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
 Vue.component('candy-radio', require('./components/elements/forms/Radio.vue'));
+Vue.component('candy-toggle', require('./components/elements/forms/Toggle.vue'));
 
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));

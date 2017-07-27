@@ -9,6 +9,7 @@
 
     @include('partials.head')
 
+
   </head>
   <body>
     <div class="wrap" id="app">

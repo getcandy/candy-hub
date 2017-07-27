@@ -30,3 +30,9 @@ Route::get('dashboard', 'Cms\DashboardController@getIndex')->middleware('auth')-
 
 Route::get('catalogue-manager/products', 'Cms\CatalogueManager\ProductsController@getIndex')->middleware('auth')->name('cm_products');
 Route::get('catalogue-manager/products/{id}', 'Cms\CatalogueManager\ProductsController@getEdit')->middleware('auth')->name('cm_products_edit');
+
+// Test Routes
+
+Route::post('return-hello', function () {
+    return 'Hello World';
+});

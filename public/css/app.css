@@ -15433,7 +15433,7 @@ a {
 .variant-list .variant-img,
 .variant-list .variant-options {
   display: inline-block;
-  vertical-ailgn: middle;
+  vertical-align: middle;
 }
 
 .variant-list .variant-img img,
@@ -15449,30 +15449,30 @@ a {
 
 /* Dropzone.js */
 
-.dropzone {
-  position: relative;
-  width: 100%;
-  margin-top: 15px;
+.vue-dropzone {
   text-align: center;
-  border: 2px dashed #662d91;
-  background-color: #f6f6f6;
+  margin-top: 15px;
+  border: 2px dashed #662d91 !important;
+  background-color: #f6f6f6 !important;
 }
 
-.dropzone .media-box {
-  display: block;
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
+.vue-dropzone .media-box {
+  margin: auto auto;
+  display: table-cell;
   width: 80%;
-  height: 80px;
+  height: 150px;
   color: #662d91;
-  -webkit-transform: translateX(-50%) translatey(-50%);
-  transform: translateX(-50%) translatey(-50%);
   vertical-align: middle;
 }
 
-.dropzone .media-box .icon {
+.vue-dropzone .media-box:hover,
+.vue-dropzone .media-box:hover .icon {
+  color: #3F2A67;
+  cursor: pointer;
+}
+
+.vue-dropzone .media-box .icon {
+  color: #662d91;
   display: block;
   font-size: 3.5em;
   margin-bottom: 10px;

@@ -165,7 +165,7 @@ a {
 
   .variant-img {
     display: inline-block;
-    vertical-ailgn: middle;
+    vertical-align: middle;
 
     img {
       width: 50px;
@@ -182,30 +182,27 @@ a {
 
 /* Dropzone.js */
 
-.dropzone {
-  position: relative;
-  width: 100%;
-  margin-top: 15px;
+.vue-dropzone {
   text-align: center;
-  border: 2px dashed $purple;
-  background-color: #f6f6f6;
+  margin-top: 15px;
+  border: 2px dashed $purple!important;
+  background-color: #f6f6f6!important;
 
   .media-box {
-    display: block;
-    position: absolute;
-    z-index: 3;
-    top: 50%;
-    left: 50%;
+    margin: auto auto;
+    display: table-cell;
     width: 80%;
-    height: 80px;
+    height: 150px;
     color: $purple;
-    -webkit-transform: translateX(-50%) translatey(-50%);
-    -moz-transform: translateX(-50%) translatey(-50%);
-    -ms-transform: translateX(-50%) translatey(-50%);
-    transform: translateX(-50%) translatey(-50%);
     vertical-align: middle;
+    &:hover,
+    &:hover .icon{
+      color:#3F2A67;
+      cursor: pointer;
+    }
 
     .icon {
+      color: $purple;
       display: block;
       font-size: 3.5em;
       margin-bottom: 10px;
