@@ -125,7 +125,7 @@
                 <candy-locale-urls :languages="languages" :routes="routes" :product="product"></candy-locale-urls>
               </candy-tab>
               <candy-tab name="Redirects" handle="redirects">
-                <candy-redirects></candy-redirects>
+                <candy-redirects :product="product" :routes="routes"></candy-redirects>
               </candy-tab>
             </candy-tabs>
           </candy-tab>

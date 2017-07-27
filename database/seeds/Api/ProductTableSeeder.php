@@ -380,13 +380,12 @@ class ProductTableSeeder extends Seeder
 
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
-
                 foreach ($product->attribute_data['name'] as $channel => $data) {
                     if ($channel == 'ecommerce') {
                         $product->route()->create([
                             'default' => true,
                             'slug' => str_slug($data['gb']),
-                            'locale' => app()->getLocale()
+                            'locale' => 'gb'
                         ]);
                     }
                 }
