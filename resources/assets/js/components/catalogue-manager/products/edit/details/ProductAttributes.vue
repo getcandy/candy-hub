@@ -5,7 +5,7 @@
                 translating: false,
                 languageOne: 'gb',
                 channelOne: 'ecommerce',
-                languageTwo: 'sv',
+                languageTwo: 'se',
                 channelTwo: 'ecommerce',
                 channels: []
             }
@@ -53,7 +53,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-xs-12 col-md-11">
+            <div class="col-xs-12">
 
                 <div class="row">
                     <div class="col-xs-12">
@@ -69,7 +69,7 @@
                                         <label class="sr-only">Language</label>
                                         <candy-select :options="languages" v-model="languageOne"></candy-select>
                                     </div>
-                                    <button class="btn btn-default" @click="translate">{{ translating ? 'Translating..' : 'Translate' }}</button>
+                                    <button v-if="!translating" class="btn btn-default" @click="translate">Translate</button>
                                 </div>
                             </div>
 
@@ -87,6 +87,7 @@
                                             <candy-select :options="languages" v-model="languageTwo"></candy-select>
                                         </div>
                                     </div>
+                                    <button v-if="translating" class="btn btn-default" @click="translate">Hide Translation</button>
                                 </div>
                             </div>
 

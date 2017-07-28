@@ -166,8 +166,11 @@ $('.btn-pop-over').click(function() {
 $('.product-menu').click(function() {
     $(this).toggleClass('active');
 });
-
+$('.bulk-actions').css({
+    'width': ($('.product-table').width() + 'px')
+});
 // Bulk Options
+/*
 $('.bulk-options').click(function() {
     $(this).toggleClass('active');
 });
@@ -180,7 +183,7 @@ $('.bulk-options').on('click', function(){
    var checkbox = $(this).children('input[type="checkbox"]');
    checkbox.prop('checked', !checkbox.prop('checked'));
 });
-
+*/
 $('.product-table input:checkbox').change(function(){
     if($(this).is(":checked")) {
         $('.bulk-options').addClass("active");

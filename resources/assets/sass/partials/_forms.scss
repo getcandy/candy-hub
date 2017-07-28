@@ -19,6 +19,14 @@ label {
   &:disabled {
     cursor: text;
   }
+
+  textarea {
+    max-width:100%;
+  }
+}
+
+textarea.form-control {
+  max-width:100%!important;
 }
 
 .bootstrap-tagsinput {

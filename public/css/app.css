@@ -15744,6 +15744,16 @@ label {
   cursor: text;
 }
 
+.form-control textarea,
+.bootstrap-tagsinput textarea {
+  max-width: 100%;
+}
+
+textarea.form-control,
+textarea.bootstrap-tagsinput {
+  max-width: 100% !important;
+}
+
 .bootstrap-tagsinput {
   display: block;
   width: 100%;
