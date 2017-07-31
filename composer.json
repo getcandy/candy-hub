@@ -12,7 +12,7 @@
         "hashids/hashids": "^2.0",
         "kalnoy/nestedset": "^4.2",
         "laravel/framework": "5.4.*",
-        "laravel/passport": "^2.0",
+        "laravel/passport": "^3.0",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.15.0",
         "ruflin/elastica": "5.2.*",

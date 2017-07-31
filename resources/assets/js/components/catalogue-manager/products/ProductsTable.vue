@@ -9,7 +9,8 @@
                 params: {
                     params: {
                         per_page: 20,
-                        current_page: 1
+                        current_page: 1,
+                        includes: 'channels,customer_groups,family'
                     }
                 }
             }
@@ -20,14 +21,13 @@
                 this.selectAll = (val.length === this.products.length);
             },
             selectAll: function(val) {
-                var selected = [];
+                let selected = [];
 
                 if (val) {
                     this.products.forEach(function (product) {
                         selected.push(product.id);
                     });
                 }
-
                 this.selected = selected;
             }
         },
@@ -39,13 +39,15 @@
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
-                axios.get('/api/v1/products', this.params)
-                .then(response => this.products = response.data.data)
-                .catch(function (error) {
-                    console.log(error);
-                });
+
+                apiRequest.loadProducts(this.params, true)
+                    .then(response => {
+                        this.products = response;
+                        //console.log(response);
+                    });
             },
             selectAllClick() {
+
                 this.selectAll = !this.selectAll;
             }
         }
@@ -160,7 +162,7 @@
                             <th>Image</th>
                             <th>Product</th>
                             <th>Display</th>
-                            <th>Purchaseable</th>
+                            <th>Purchasable</th>
                             <th>Group</th>
                         </tr>
                     </thead>
@@ -175,10 +177,10 @@
                                 </div>
                             </td>
                             <td @click="loadProduct(product.id)"><img src="/images/placeholder/product.jpg" :alt="product.name"></td>
-                            <td @click="loadProduct(product.id)">{{ product.attribute_data.name.ecommerce.gb }}</td>
-                            <td @click="loadProduct(product.id)">All</td>
-                            <td @click="loadProduct(product.id)">All</td>
-                            <td @click="loadProduct(product.id)">Spa Care</td>
+                            <td @click="loadProduct(product.id)">{{ product.name }}</td>
+                            <td @click="loadProduct(product.id)">{{ product.display }}</td>
+                            <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
+                            <td @click="loadProduct(product.id)">{{ product.group }}</td>
                         </tr>
 
                     </tbody>

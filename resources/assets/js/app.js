@@ -169,34 +169,6 @@ $('.product-menu').click(function() {
 $('.bulk-actions').css({
     'width': ($('.product-table').width() + 'px')
 });
-// Bulk Options
-/*
-$('.bulk-options').click(function() {
-    $(this).toggleClass('active');
-});
-
-$('.bulk-actions').css({
-    'width': ($('.product-table').width() + 'px')
- });
-
-$('.bulk-options').on('click', function(){
-   var checkbox = $(this).children('input[type="checkbox"]');
-   checkbox.prop('checked', !checkbox.prop('checked'));
-});
-*/
-$('.product-table input:checkbox').change(function(){
-    if($(this).is(":checked")) {
-        $('.bulk-options').addClass("active");
-        $(this).parents('tr').addClass("selected");
-    } else {
-        $('.bulk-options').removeClass("active");
-        $(this).parents('tr').removeClass("selected");
-    }
-});
-
-$(".select-all").change(function () {
-    $("input:checkbox").prop('checked', $(this).prop("checked"));
-});
 
 // Tabs
 var hash = document.location.hash;
@@ -210,7 +182,7 @@ $('.nav-tabs a').on('shown', function (e) {
 });
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  var target = $(e.target).attr("href")
+  var target = $(e.target).attr("href");
   $('.bulk-actions').css({
     'width': ($('.product-table').width() + 'px')
   });
@@ -227,7 +199,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 $("[data-toggle='tooltip']").tooltip();
 
 // Tooltips
-$('[data-toggle="popover"]').popover()
+$('[data-toggle="popover"]').popover();
 
 // Date Picker
 

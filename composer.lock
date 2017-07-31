@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9acc8b3a12ea0cd6d8574eea0b3444a4",
+    "content-hash": "dc10f91f27ddc2f829a3abe131f94218",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -1092,16 +1092,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v2.0.11",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "1e6f56ccf42255e8479d0dcd695619dab6613313"
+                "reference": "56fd14ba553ae38d1e91ff97f23a992e2aa9e341"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/1e6f56ccf42255e8479d0dcd695619dab6613313",
-                "reference": "1e6f56ccf42255e8479d0dcd695619dab6613313",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/56fd14ba553ae38d1e91ff97f23a992e2aa9e341",
+                "reference": "56fd14ba553ae38d1e91ff97f23a992e2aa9e341",
                 "shasum": ""
             },
             "require": {
@@ -1115,7 +1115,7 @@
                 "illuminate/encryption": "~5.4",
                 "illuminate/http": "~5.4",
                 "illuminate/support": "~5.4",
-                "league/oauth2-server": "~5.0",
+                "league/oauth2-server": "^6.0",
                 "php": ">=5.6.4",
                 "phpseclib/phpseclib": "^2.0",
                 "symfony/psr-http-message-bridge": "~1.0",
@@ -1157,7 +1157,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2017-06-14T21:58:27+00:00"
+            "time": "2017-07-02T13:14:54+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1478,16 +1478,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "5.1.5",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "8e5df6d6286d0010861a708b70f00345d074bce9"
+                "reference": "a1b8d87b473e9b956b80e7e20b31ae20dc670d30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/8e5df6d6286d0010861a708b70f00345d074bce9",
-                "reference": "8e5df6d6286d0010861a708b70f00345d074bce9",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/a1b8d87b473e9b956b80e7e20b31ae20dc670d30",
+                "reference": "a1b8d87b473e9b956b80e7e20b31ae20dc670d30",
                 "shasum": ""
             },
             "require": {
@@ -1496,7 +1496,7 @@
                 "lcobucci/jwt": "^3.1",
                 "league/event": "^2.1",
                 "paragonie/random_compat": "^2.0",
-                "php": ">=5.5.9",
+                "php": ">=5.6.0",
                 "psr/http-message": "^1.0"
             },
             "replace": {
@@ -1504,19 +1504,10 @@
                 "lncd/oauth2": "*"
             },
             "require-dev": {
-                "indigophp/hash-compat": "^1.1",
                 "phpunit/phpunit": "^4.8 || ^5.0",
                 "zendframework/zend-diactoros": "^1.0"
             },
-            "suggest": {
-                "indigophp/hash-compat": "Polyfill for hash_equals function for PHP 5.5"
-            },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-V5-WIP": "5.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "League\\OAuth2\\Server\\": "src/"
@@ -1551,7 +1542,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2017-07-11T06:31:36+00:00"
+            "time": "2017-07-19T06:58:56+00:00"
         },
         {
             "name": "maximebf/debugbar",
