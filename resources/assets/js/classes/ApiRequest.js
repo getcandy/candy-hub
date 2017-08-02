@@ -75,13 +75,12 @@ class ApiRequest {
 
     loadProducts(params, flatten = false) {
 
-        return new Promise((resolve, reject) => {
-            axios.get('/api/v1/products', params)
-                .then(response => {
+        let paramsArr = {'params': params};
 
-                    console.log(this.flatify(response.data.data));
-                    console.log(response.data.data);
-                    resolve((flatten) ? this.flatify(response.data.data) : response.data.data);
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/products', paramsArr)
+                .then(response => {
+                    resolve((flatten) ? this.flatify(response.data) : response.data);
                 })
                 .catch(error => {
                     reject(error);
@@ -90,28 +89,27 @@ class ApiRequest {
 
     }
 
-    flatify(products) {
+    flatify(response) {
 
         let flatify = [];
+        flatify['pagination'] = response['meta'].pagination;
 
-        products.forEach(function (product) {
+        response['data'].forEach(function (product) {
 
+            // Determine whether to show all, selected or none (Purchasable)
             let purchasableArr = jQuery.map(product.customer_groups.data, function( customer_group ) {
                 return (customer_group.purchasable === true) ? customer_group.name : '';
             });
-
             let purchasableStr = '';
-
             if(purchasableArr.length === 0) { purchasableStr = 'None';}
             else if(purchasableArr.length === product.customer_groups.data.length) { purchasableStr = 'All'; }
             else { purchasableStr = purchasableArr.join(', '); }
 
+            // Determine whether to show all, selected or none (Display)
             let displayArr = jQuery.map(product.channels.data, function( channel ) {
                 return (channel.visible === true) ? channel.name : null;
             });
-
             let displayStr = '';
-            
             if(displayArr.length === 0) {displayStr = 'None';}
             else if(displayArr.length === product.channels.data.length) {displayStr = 'All';}
             else {displayStr = displayArr.join(', ');}

@@ -57,6 +57,11 @@ Vue.component('candy-product-attributes', require('./components/catalogue-manage
 Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
 
 /**
+ * Table
+ */
+Vue.component('candy-table-paginate', require('./components/elements/tables/TablePaginate.vue'));
+
+/**
  * Media
  */
 Vue.component('candy-media', require('./components/catalogue-manager/products/edit/media/Media.vue'));

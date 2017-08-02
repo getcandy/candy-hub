@@ -151,21 +151,17 @@
                     <div  class="col-xs-12 col-md-6" v-if="translating">
                         <div class="form-group" v-for="input in group.attributes.data">
 
-                            <label :for="input.handle">{{ input.name }}</label>
-
                             <div v-if="input.type == 'text'" :class="{'form-group': true}">
+
+                                <label :for="input.handle">{{ input.name }}</label>
 
                                 <candy-input v-if="translating" v-model="product.attributes[input.handle][channelTwo][languageTwo]" :value="getValue(input.handle)" :required="input.required"></candy-input>
                                 <span class="text-danger" v-if="hasError(getValue(input.handle, channelTwo, languageTwo))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
 
                             </div>
-                            <div v-else-if="input.type == 'select'" :class="{'form-group': true}">
-
-                                <candy-select v-model="product.attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-select>
-                                <span class="text-danger" v-if="hasError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelOne, languageOne))"></span>
-
-                            </div>
                             <div v-else-if="input.type == 'textarea'" :class="{'form-group': true}">
+
+                                <label :for="input.handle">{{ input.name }}</label>
 
                                 <candy-textarea v-model="product.attributes[input.handle][channelTwo][languageTwo]" :required="input.required"></candy-textarea>
                                 <span class="text-danger" v-if="getError(getValue(input.handle, channelTwo, languageTwo))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>

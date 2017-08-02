@@ -2,17 +2,17 @@
     export default {
         data() {
             return {
+                loaded: false,
                 products: [],
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
                 params: {
-                    params: {
-                        per_page: 20,
-                        current_page: 1,
-                        includes: 'channels,customer_groups,family'
-                    }
-                }
+                    per_page: 4,
+                    current_page: 1,
+                    includes: 'channels,customer_groups,family'
+                },
+                pagination: {}
             }
         },
         watch: {
@@ -39,16 +39,20 @@
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
-
                 apiRequest.loadProducts(this.params, true)
                     .then(response => {
                         this.products = response;
-                        //console.log(response);
+                        this.pagination = response.pagination;
+                        this.loaded = true;
                     });
             },
             selectAllClick() {
-
                 this.selectAll = !this.selectAll;
+            },
+            changePage(page) {
+                this.loaded = false;
+                this.params.current_page = page;
+                this.loadProducts();
             }
         }
     }
@@ -166,7 +170,8 @@
                             <th>Group</th>
                         </tr>
                     </thead>
-                    <tbody>
+
+                    <tbody v-if="loaded">
 
                         <tr class="clickable" v-for="product in products">
 
@@ -182,41 +187,24 @@
                             <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
                             <td @click="loadProduct(product.id)">{{ product.group }}</td>
                         </tr>
+                    </tbody>
+                    <tbody v-else="loaded" class="text-center">
+                        <tr>
+                            <td colspan="6" style="padding:40px;">
+                                <div class="page-loading">
+                                    <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                                </div>
+                            </td>
+                        </tr>
 
                     </tbody>
+
                 </table>
 
                 <div class="text-center">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="First page" data-toggle="tooltip" data-placement="top"
-                                   title="First page">
-                                    <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-                                </a>
-                            </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" aria-label="Last page" data-toggle="tooltip" data-placement="top" title="Last page">
-                                    <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+
+                    <candy-table-paginate :pagination="pagination" :offset="4" @change="changePage"></candy-table-paginate>
+
                 </div>
             </div>
 
