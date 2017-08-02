@@ -143,7 +143,7 @@
                 <table class="table table-striped product-table">
                     <thead>
                         <tr>
-                            <th>
+                            <th width="6%">
                                 <div class="checkbox bulk-options" :class="{'active': (selectAll || checkedCount > 0)}">
                                     <input v-model="selectAll" type="checkbox" class="select-all">
                                     <label @click="selectAllClick"><span class="check"></span></label>
@@ -163,11 +163,11 @@
                                     </div>
                                 </div>
                             </th>
-                            <th>Image</th>
-                            <th>Product</th>
-                            <th>Display</th>
-                            <th>Purchasable</th>
-                            <th>Group</th>
+                            <th width="10%">Image</th>
+                            <th width="25%">Product</th>
+                            <th width="19%">Display</th>
+                            <th width="19%">Purchasable</th>
+                            <th width="19%">Group</th>
                         </tr>
                     </thead>
 
@@ -203,7 +203,7 @@
 
                 <div class="text-center">
 
-                    <candy-table-paginate :pagination="pagination" :offset="4" @change="changePage"></candy-table-paginate>
+                    <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
 
                 </div>
             </div>
