@@ -12,7 +12,7 @@ class SideMenu extends Menu
         $this->navItems = [
             new NavItem('Products', route('cm_products')),
             new NavItem('Collections', route('dashboard')),
-            new NavItem('Catalogues', route('dashboard')),
+            new NavItem('Categories', route('cm_categories')),
             new NavItem('Media', route('dashboard')),
             new NavItem('Attributes', route('dashboard')),
             new NavItem('Aliases', route('dashboard'))

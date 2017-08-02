@@ -28,11 +28,13 @@ Route::post('password/reset', 'Cms\Auth\ResetPasswordController@reset');
 
 Route::get('dashboard', 'Cms\DashboardController@getIndex')->middleware('auth')->name('dashboard');
 
+// Dashboard Routes
 Route::get('catalogue-manager/products', 'Cms\CatalogueManager\ProductsController@getIndex')->middleware('auth')->name('cm_products');
 Route::get('catalogue-manager/products/{id}', 'Cms\CatalogueManager\ProductsController@getEdit')->middleware('auth')->name('cm_products_edit');
 
-// Test Routes
+Route::get('catalogue-manager/categories', 'Cms\CatalogueManager\CategoriesController@getIndex')->middleware('auth')->name('cm_categories');
 
+// Test Routes
 Route::post('return-hello', function () {
     return 'Hello World';
 });
