@@ -4,6 +4,7 @@ namespace GetCandy\Http\Middleware;
 
 use Closure;
 use GetCandy\Api\Traits\Fractal;
+use Locale;
 
 class SetLocaleMiddleware
 {
@@ -18,17 +19,16 @@ class SetLocaleMiddleware
     public function handle($request, Closure $next)
     {
         $locale = $request->header('accept-language');
-
+        $defaultLanguage = app('api')->languages()->getDefaultRecord()->lang;
         if (!$locale) {
-            $locale = app('api')->languages()->getDefaultRecord()->code;
-        } elseif ($locale != 'en-us,en;q=0.5' && $locale != 'en-GB,en-US;q=0.8,en;q=0.6' && $locale != 'en-gb') {
-            $requestedLocale = app('api')->languages()->getEnabledByCode($locale);
-            if (!$requestedLocale) {
-                return $this->errorWrongArgs(trans('response.error.invalid_lang', ['lang' => $locale]));
-            }
-            $locale = $requestedLocale->code;
+            $locale = $defaultLanguage;
         } else {
-            $locale = 'en';
+            // Try and find a language code...
+            $requestedLocale = app('api')->languages()->getEnabledByCode(Locale::getPrimaryLanguage($locale));
+            $locale = $requestedLocale->lang;
+            if (!$requestedLocale) {
+                $locale = $defaultLanguage;
+            }
         }
         app()->setLocale($locale);
         return $next($request);
