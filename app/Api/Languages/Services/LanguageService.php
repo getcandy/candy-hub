@@ -35,9 +35,13 @@ class LanguageService extends BaseService
         return $language;
     }
 
-    public function getEnabledByCode($lang)
+    public function getEnabledByLang($lang)
     {
-        return $this->model->where('lang', '=', $lang)->where('enabled', '=', true)->first();
+        $query = $this->model->where('enabled', '=', true);
+        if (is_array($lang)) {
+            return $query->whereIn('lang', $lang)->first();
+        }
+        return $query->model->where('lang', '=', $lang)->first();
     }
 
     /**

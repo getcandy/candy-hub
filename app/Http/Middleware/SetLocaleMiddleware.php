@@ -23,11 +23,12 @@ class SetLocaleMiddleware
         if (!$locale) {
             $locale = $defaultLanguage;
         } else {
-            // Try and find a language code...
-            $requestedLocale = app('api')->languages()->getEnabledByCode(Locale::getPrimaryLanguage($locale));
-            $locale = $requestedLocale->lang;
+            $languages = explode(',', Locale::getPrimaryLanguage($locale));
+            $requestedLocale = app('api')->languages()->getEnabledByLang($languages);
             if (!$requestedLocale) {
                 $locale = $defaultLanguage;
+            } else {
+                $locale = $requestedLocale->lang;
             }
         }
         app()->setLocale($locale);
