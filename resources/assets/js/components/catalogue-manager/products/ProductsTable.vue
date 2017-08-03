@@ -1,4 +1,6 @@
 <script>
+    //import Flatify from '../../../classes/Flatify'
+
     export default {
         data() {
             return {
@@ -35,9 +37,6 @@
             this.loadProducts();
         },
         methods: {
-            loadProduct: id => {
-                location.href = '/catalogue-manager/products/' + id;
-            },
             loadProducts() {
                 apiRequest.loadProducts(this.params, true)
                     .then(response => {
@@ -78,6 +77,8 @@
         <!-- Tab panes -->
         <div class="tab-content section block">
             <div role="tabpanel" class="tab-pane active" id="all-products">
+
+                <!-- Search Form -->
                 <form>
                     <div class="row">
                         <div class="col-xs-12 col-md-2">
@@ -129,6 +130,7 @@
                     </div>
                 </form>
 
+                <!-- Filter List -->
                 <div class="filters">
                     <div class="filter active">Visible on Storefront
                         <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
@@ -172,7 +174,6 @@
                     </thead>
 
                     <tbody v-if="loaded">
-
                         <tr class="clickable" v-for="product in products">
 
                             <td>
@@ -186,6 +187,7 @@
                             <td @click="loadProduct(product.id)">{{ product.display }}</td>
                             <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
                             <td @click="loadProduct(product.id)">{{ product.group }}</td>
+
                         </tr>
                     </tbody>
                     <tbody v-else="loaded" class="text-center">
@@ -196,7 +198,6 @@
                                 </div>
                             </td>
                         </tr>
-
                     </tbody>
 
                 </table>

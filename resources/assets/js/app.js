@@ -50,11 +50,17 @@ Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
 Vue.component('candy-radio', require('./components/elements/forms/Radio.vue'));
 Vue.component('candy-toggle', require('./components/elements/forms/Toggle.vue'));
 
+/**
+ * Page Specific
+ */
+/* Products */
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
 Vue.component('candy-product-attributes', require('./components/catalogue-manager/products/edit/details/ProductAttributes.vue'));
 Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
+/* Collections */
+Vue.component('collections-table', require('./components/catalogue-manager/collections/CollectionsTable.vue'));
 
 /**
  * Table
@@ -106,6 +112,10 @@ window.CandyEvent = new Vue();
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
 
+let Flatify = require('./classes/Flatify');
+window.Flatify = new Flatify([[{'name': 'apple', 'description': 'fruity round green apple', 'qty': 6}],
+    [{'name': 'banana', 'description': 'yellow thing', 'qty': 2}],
+    [{'name': 'peach', 'description': 'round pinky thing', 'qty': 4}]]);
 
 var CandyHelpers = {};
 

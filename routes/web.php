@@ -32,6 +32,9 @@ Route::get('dashboard', 'Cms\DashboardController@getIndex')->middleware('auth')-
 Route::get('catalogue-manager/products', 'Cms\CatalogueManager\ProductsController@getIndex')->middleware('auth')->name('cm_products');
 Route::get('catalogue-manager/products/{id}', 'Cms\CatalogueManager\ProductsController@getEdit')->middleware('auth')->name('cm_products_edit');
 
+Route::get('catalogue-manager/collections', 'Cms\CatalogueManager\CollectionsController@getIndex')->middleware('auth')->name('cm_collections');
+Route::get('catalogue-manager/collections/{id}', 'Cms\CatalogueManager\CollectionsController@getEdit')->middleware('auth')->name('cm_collections_edit');
+
 Route::get('catalogue-manager/categories', 'Cms\CatalogueManager\CategoriesController@getIndex')->middleware('auth')->name('cm_categories');
 
 // Test Routes
