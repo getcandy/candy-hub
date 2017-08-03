@@ -1,5 +1,5 @@
 <script>
-    //import Flatify from '../../../classes/Flatify'
+    import Flatify from '../../../classes/Flatify'
 
     export default {
         data() {
@@ -37,6 +37,9 @@
             this.loadProducts();
         },
         methods: {
+            loadProduct: function (id) {
+                location.href = '/catalogue-manager/products/' + id;
+            },
             loadProducts() {
                 apiRequest.loadProducts(this.params, true)
                     .then(response => {
