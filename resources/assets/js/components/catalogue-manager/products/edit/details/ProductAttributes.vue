@@ -38,25 +38,15 @@
                 this.translating = !this.translating;
             },
             useDefault: function(obj) {
-                console.log('obj');
-                console.log(obj);
 
                 let attr = obj.id.split('-');
 
-                console.log('attr');
-                console.log(attr);
-
                 if(obj.checked) {
-                    this.product.attributes[attr[0]][attr[1]][attr[2]] = null;
+                    this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], null);
                 } else {
-                    this.product.attributes[attr[0]][attr[1]][attr[2]] = '';
+                    this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], '');
                 }
 
-                console.log('vue value');
-                console.log(this.product.attributes[attr[0]][attr[1]][attr[2]]);
-
-                console.log('is vue value null');
-                console.log((this.product.attributes[attr[0]][attr[1]][attr[2]] === null));
             }
         },
         mounted() {
@@ -212,7 +202,8 @@
                                 <candy-checkbox :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
                                                 @change="useDefault"
                                                 :class="{ attributecheckbox: true }"
-                                                :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
+                                                :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)"
+                                                :originalValue="product.attributes[input.handle][channelTwo][languageTwo]">
                                     Use Default
                                 </candy-checkbox>
                                 <candy-input v-if="translating"
@@ -232,7 +223,8 @@
                                 <candy-checkbox :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
                                                 @change="useDefault"
                                                 :class="{ attributecheckbox: true }"
-                                                :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
+                                                :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)"
+                                                :originalValue="product.attributes[input.handle][channelTwo][languageTwo]">
                                     Use Default
                                 </candy-checkbox>
                                 <candy-textarea v-model="product.attributes[input.handle][channelTwo][languageTwo]"
