@@ -98,8 +98,9 @@ class ApiRequest {
 
             // Determine whether to show all, selected or none (Purchasable)
             let purchasableArr = jQuery.map(product.customer_groups.data, function( customer_group ) {
-                return (customer_group.purchasable === true) ? customer_group.name : '';
+                return (customer_group.purchasable === true) ? customer_group.name : null;
             });
+
             let purchasableStr = '';
             if(purchasableArr.length === 0) { purchasableStr = 'None';}
             else if(purchasableArr.length === product.customer_groups.data.length) { purchasableStr = 'All'; }

@@ -15939,6 +15939,15 @@ textarea.bootstrap-tagsinput {
   display: block;
 }
 
+.attributecheckbox .checkbox {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.attributecheckbox .check:after {
+  margin-right: 20px;
+}
+
 /* Custom radio */
 
 .custom-radio-group {

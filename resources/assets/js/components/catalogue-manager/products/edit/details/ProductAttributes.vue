@@ -3,8 +3,8 @@
         data() {
             return {
                 translating: false,
-                languageOne: 'gb',
-                channelOne: 'ecommerce',
+                defaultLanguage: 'gb',
+                defaultChannel: 'ecommerce',
                 languageTwo: 'se',
                 channelTwo: 'ecommerce',
                 channels: []
@@ -34,12 +34,34 @@
             hasError(mapping) {
                 return this.request.hasError(mapping);
             },
-            translate: function () {
+            translate: function() {
                 this.translating = !this.translating;
+            },
+            useDefault: function(obj) {
+                console.log('obj');
+                console.log(obj);
+
+                let attr = obj.id.split('-');
+
+                console.log('attr');
+                console.log(attr);
+
+                if(obj.checked) {
+                    this.product.attributes[attr[0]][attr[1]][attr[2]] = null;
+                } else {
+                    this.product.attributes[attr[0]][attr[1]][attr[2]] = '';
+                }
+
+                console.log('vue value');
+                console.log(this.product.attributes[attr[0]][attr[1]][attr[2]]);
+
+                console.log('is vue value null');
+                console.log((this.product.attributes[attr[0]][attr[1]][attr[2]] === null));
             }
         },
         mounted() {
             CandyEvent.$emit('current-tab', this);
+            console.log(this.group.attributes.data);
             this.product.channels.data.forEach(channel => {
                 this.channels.push({
                     label: channel.name,
@@ -60,17 +82,10 @@
                         <div class="row">
 
                             <div class="col-md-6">
-                                <div class="form-inline">
-                                    <div class="form-group">
-                                        <label class="sr-only">Store Channels</label>
-                                        <candy-select :options="channels" v-model="channelOne" v-if="channels.length"></candy-select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Language</label>
-                                        <candy-select :options="languages" v-model="languageOne"></candy-select>
-                                    </div>
-                                    <button v-if="!translating" class="btn btn-default" @click="translate">Translate</button>
-                                </div>
+
+                                <button v-if="!translating" class="btn btn-default" @click="translate">Translate</button>
+                                <button v-if="translating" class="btn btn-default" @click="translate">Hide Translation</button>
+
                             </div>
 
                             <div class="col-md-6">
@@ -87,7 +102,6 @@
                                             <candy-select :options="languages" v-model="languageTwo"></candy-select>
                                         </div>
                                     </div>
-                                    <button v-if="translating" class="btn btn-default" @click="translate">Hide Translation</button>
                                 </div>
                             </div>
 
@@ -104,44 +118,86 @@
 
                             <div v-if="input.type == 'text'">
 
-                                <candy-input v-model="product.attributes[input.handle][channelOne][languageOne]" :required="input.required"></candy-input>
-                                <span class="text-danger" v-if="hasError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelOne, languageOne))"></span>
+                                <candy-input
+                                        :id="'default-'+ input.id"
+                                        v-model="product.attributes[input.handle][defaultChannel][defaultLanguage]"
+                                        :required="input.required">
+                                </candy-input>
+                                <span class="text-danger"
+                                      v-if="hasError(getValue(input.handle, defaultChannel, defaultLanguage))"
+                                      v-text="getError(getValue(input.handle, defaultChannel, defaultLanguage))">
+                                </span>
 
                             </div>
                             <div v-else-if="input.type == 'select'">
 
-                                <candy-select v-model="product.attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-select>
-                                <span class="text-danger" v-if="hasError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelOne, languageOne))"></span>
+                                <candy-select :id="'default-'+ input.id"
+                                              v-model="product.attributes[input.handle]"
+                                              :options="input.lookups" :required="input.required">
+                                </candy-select>
+                                <span class="text-danger"
+                                      v-if="hasError(getValue(input.handle))"
+                                      v-text="getError(getValue(input.handle))">
+                                </span>
 
                             </div>
                             <div v-else-if="input.type == 'textarea'">
 
-                                <candy-textarea v-model="product.attributes[input.handle][channelOne][languageOne]" :required="input.required"></candy-textarea>
-                                <span class="text-danger" v-if="getError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
+                                <candy-textarea :id="'default-'+ input.id"
+                                                v-model="product.attributes[input.handle][defaultChannel][defaultLanguage]"
+                                                :required="input.required">
+                                </candy-textarea>
+                                <span class="text-danger" v-if="getError(getValue(input.handle, defaultChannel, defaultLanguage))"
+                                      v-text="getError(getValue(input.handle, defaultChannel, defaultLanguage))">
+                                </span>
 
                             </div>
                             <div v-else-if="input.type == 'date'">
 
-                                <candy-date v-model="product.attributes[input.handle]" :required="input.required"></candy-date>
-                                <span class="text-danger" v-if="getError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
+                                <candy-date :id="'default-'+ input.id"
+                                            v-model="product.attributes[input.handle]"
+                                            :required="input.required">
+                                </candy-date>
+                                <span class="text-danger"
+                                      v-if="getError(getValue(input.handle))"
+                                      v-text="getError(getValue(input.handle))">
+                                </span>
 
                             </div>
                             <div v-else-if="input.type == 'time'">
 
-                                <candy-time v-model="product.attributes[input.handle]" :required="input.required"></candy-time>
-                                <span class="text-danger" v-if="getError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
+                                <candy-time :id="'default-'+ input.id"
+                                            v-model="product.attributes[input.handle]"
+                                            :required="input.required">
+                                </candy-time>
+                                <span class="text-danger"
+                                      v-if="getError(getValue(input.handle))"
+                                      v-text="getError(getValue(input.handle))">
+                                </span>
 
                             </div>
                             <div v-else-if="input.type == 'radio'">
 
-                                <candy-radio v-model="product.attributes[input.handle]" :options="input.lookups" :required="input.required"></candy-radio>
-                                <span class="text-danger" v-if="getError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
+                                <candy-radio :id="'default-'+ input.id"
+                                             v-model="product.attributes[input.handle]"
+                                             :options="input.lookups" :required="input.required">
+                                </candy-radio>
+                                <span class="text-danger"
+                                      v-if="getError(getValue(input.handle))"
+                                      v-text="getError(getValue(input.handle))">
+                                </span>
 
                             </div>
                             <div v-else-if="input.type == 'toggle'">
 
-                                <candy-toggle v-model="product.attributes[input.handle]" :required="input.required"></candy-toggle>
-                                <span class="text-danger" v-if="getError(getValue(input.handle, channelOne, languageOne))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
+                                <candy-toggle :id="'default-'+ input.id"
+                                              v-model="product.attributes[input.handle]"
+                                              :required="input.required">
+                                </candy-toggle>
+                                <span class="text-danger"
+                                      v-if="getError(getValue(input.handle))"
+                                      v-text="getError(getValue(input.handle))">
+                                </span>
 
                             </div>
 
@@ -151,19 +207,39 @@
                     <div  class="col-xs-12 col-md-6" v-if="translating">
                         <div class="form-group" v-for="input in group.attributes.data">
 
-                            <div v-if="input.type == 'text'" :class="{'form-group': true}">
+                            <div v-if="input.scopeable && input.type === 'text'" :class="{'form-group': true}">
 
-                                <label :for="input.handle">{{ input.name }}</label>
-
-                                <candy-input v-if="translating" v-model="product.attributes[input.handle][channelTwo][languageTwo]" :value="getValue(input.handle)" :required="input.required"></candy-input>
-                                <span class="text-danger" v-if="hasError(getValue(input.handle, channelTwo, languageTwo))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
+                                <candy-checkbox :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
+                                                @change="useDefault"
+                                                :class="{ attributecheckbox: true }"
+                                                :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
+                                    Use Default
+                                </candy-checkbox>
+                                <candy-input v-if="translating"
+                                             v-model="product.attributes[input.handle][channelTwo][languageTwo]"
+                                             :value="getValue(input.handle)"
+                                             :required="input.required"
+                                             :disabled="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
+                                </candy-input>
+                                <span class="text-danger"
+                                      v-if="hasError(getValue(input.handle, channelTwo, languageTwo))"
+                                      v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
 
                             </div>
-                            <div v-else-if="input.type == 'textarea'" :class="{'form-group': true}">
 
-                                <label :for="input.handle">{{ input.name }}</label>
+                            <div v-else-if="input.scopeable && input.type === 'textarea'" :class="{'form-group': true}">
 
-                                <candy-textarea v-model="product.attributes[input.handle][channelTwo][languageTwo]" :required="input.required"></candy-textarea>
+                                <candy-checkbox :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
+                                                @change="useDefault"
+                                                :class="{ attributecheckbox: true }"
+                                                :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
+                                    Use Default
+                                </candy-checkbox>
+                                <candy-textarea v-model="product.attributes[input.handle][channelTwo][languageTwo]"
+                                                :required="input.required"
+                                                :disabled="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
+                                </candy-textarea>
+
                                 <span class="text-danger" v-if="getError(getValue(input.handle, channelTwo, languageTwo))" v-text="getError(getValue(input.handle, channelTwo, languageTwo))"></span>
 
                             </div>
