@@ -14,7 +14,7 @@ class AttributeTransformer extends BaseTransformer
     /**
      * Decorates the attribute object for viewing
      * @param  Attribute $product
-     * @return Array
+     * @return array
      */
     public function transform(Attribute $attribute)
     {
@@ -24,6 +24,7 @@ class AttributeTransformer extends BaseTransformer
             'handle' => $attribute->handle,
             'position' => (string) $attribute->position,
             'filterable' => (bool) $attribute->filterable,
+            'scopeable' => (bool) $attribute->scopeable,
             'variant' => (bool) $attribute->variant,
             'searchable' => (bool) $attribute->searchable,
             'localised' => (bool) $attribute->translatable,
