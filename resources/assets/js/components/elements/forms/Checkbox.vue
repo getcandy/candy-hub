@@ -2,7 +2,7 @@
     <div>
 
         <div class="checkbox">
-            <input type="checkbox" :checked="checked" :id="id" @change="updateValue">
+            <input type="checkbox" :checked="checked" :id="id" @change="updateValue" :originalValue="originalValue">
             <label :for="id">
                 <span class="check"></span>
                 <slot></slot>
@@ -29,12 +29,16 @@
             checked: {
                 type: Boolean,
                 default: false
+            },
+            originalValue: {
+                type: String,
+                default: ''
             }
         },
         methods: {
             updateValue(value) {
                 this.value = !this.value;
-                this.$emit('change', {id: this.id, checked: this.value})
+                this.$emit('change', {id: this.id, checked: this.value, originalValue: this.originalValue})
             }
         }
     }
