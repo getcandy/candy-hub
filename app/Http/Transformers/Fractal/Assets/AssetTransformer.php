@@ -10,7 +10,7 @@ use Storage;
 class AssetTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'group'
+        'transforms'
     ];
 
     /**
@@ -20,7 +20,6 @@ class AssetTransformer extends BaseTransformer
      */
     public function transform(Asset $asset)
     {
-        $url = Storage::disk($asset->source->disk)->url($asset->filename);
         return [
             'id' => $asset->encodedId(),
             'title' => $asset->title,
@@ -36,8 +35,12 @@ class AssetTransformer extends BaseTransformer
 
     protected function getUrl($asset)
     {
-        $source = $asset->source;
-        $path = ($source->path ? $source->path . '/' : null) . $asset->location . '/' . $asset->filename;
+        $path = $asset->location . '/' . $asset->filename;
         return Storage::disk($asset->source->disk)->url($path);
+    }
+
+    public function includeTransforms($asset)
+    {
+        return $this->collection($asset->transforms, new AssetTransformTransformer);
     }
 }

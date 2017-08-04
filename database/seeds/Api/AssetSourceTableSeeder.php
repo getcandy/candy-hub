@@ -35,5 +35,13 @@ class AssetSourceTableSeeder extends Seeder
             'width' => 100,
             'height' => 100
         ]);
+
+        \GetCandy\Api\Assets\Models\Transform::create([
+            'name' => 'Hero',
+            'handle' => 'hero',
+            'mode' => 'crop',
+            'width' => 800,
+            'height' => 400
+        ]);
     }
 }

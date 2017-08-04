@@ -22,7 +22,7 @@ class CreateTransformsTable extends Migration
             $table->string('constraint')->nullable();
             $table->integer('quality')->default(100);
             $table->string('format')->default('jpg');
-            $table->enum('mode', ['fit', 'crop', 'stretch'])->default('crop');
+            $table->enum('mode', ['fit', 'fit-crop', 'crop', 'stretch'])->default('fit-crop');
             $table->enum('position', [
                 'top-left',
                 'top-center',

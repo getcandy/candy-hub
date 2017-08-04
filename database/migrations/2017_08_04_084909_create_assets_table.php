@@ -18,6 +18,7 @@ class CreateAssetsTable extends Migration
             $table->integer('asset_source_id')->unsigned()->index();
             $table->foreign('asset_source_id')->references('id')->on('asset_sources');
             $table->integer('position')->default(0);
+            $table->string('location');
             $table->morphs('assetable');
             $table->string('kind')->index();
             $table->string('width')->nullable();

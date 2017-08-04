@@ -22,11 +22,6 @@ class Asset extends BaseModel
         'filename'
     ];
 
-    public function getLocationAttribute()
-    {
-        return substr($this->filename, 0, 2);
-    }
-
     /**
      * Get all of the owning commentable models.
      */
@@ -48,7 +43,7 @@ class Asset extends BaseModel
      */
     public function transforms()
     {
-        return $this->belongsToMany(Transform::class);
+        return $this->hasMany(AssetTransform::class);
     }
 
     /**

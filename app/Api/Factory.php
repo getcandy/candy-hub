@@ -4,6 +4,7 @@ namespace GetCandy\Api;
 
 use GetCandy\Api\Assets\Services\AssetService;
 use GetCandy\Api\Assets\Services\AssetSourceService;
+use GetCandy\Api\Assets\Services\AssetTransformService;
 use GetCandy\Api\Attributes\Services\AttributeGroupService;
 use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
@@ -106,6 +107,11 @@ class Factory
     protected $taxes;
 
     /**
+     * @var \GetCandy\Api\Assets\Services\AssetTransformService
+     */
+    protected $transforms;
+
+    /**
      * @var UserService
      */
     protected $users;
@@ -135,6 +141,7 @@ class Factory
         SettingService $settings,
         RouteService $routes,
         TaxService $taxes,
+        AssetTransformService $transforms,
         UserService $users
     ) {
         $this->assets = $assets;
@@ -156,6 +163,7 @@ class Factory
         $this->routes = $routes;
         $this->settings = $settings;
         $this->taxes = $taxes;
+        $this->transforms = $transforms;
         $this->users = $users;
     }
 
