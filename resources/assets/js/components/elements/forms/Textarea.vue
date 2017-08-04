@@ -4,7 +4,8 @@
                   rows="8"
                   :value="value"
                   @input="updateValue($event.target.value)"
-                  :required="required" :disabled="disabled">
+                  :required="required"
+                  :disabled="disabled">
             {{ value }}
         </textarea>
     </div>

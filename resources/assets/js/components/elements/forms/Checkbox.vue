@@ -2,7 +2,7 @@
     <div>
 
         <div class="checkbox">
-            <input type="checkbox" :id="id" @change="updateValue">
+            <input type="checkbox" :checked="checked" :id="id" @change="updateValue">
             <label :for="id">
                 <span class="check"></span>
                 <slot></slot>
@@ -16,7 +16,7 @@
     export default {
         data() {
             return {
-                checked: false
+                value: this.checked
             }
         },
         props: {
@@ -25,17 +25,16 @@
             },
             required: {
                 type: Boolean
-            }
-        },
-        watch: {
-            id: function(newVal, oldVal) {
-                this.checked = false;
+            },
+            checked: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
             updateValue(value) {
-                this.checked = !this.checked;
-                this.$emit('change', {id: this.id, checked: this.checked})
+                this.value = !this.value;
+                this.$emit('change', {id: this.id, checked: this.value})
             }
         }
     }
