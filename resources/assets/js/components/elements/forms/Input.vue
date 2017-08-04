@@ -1,6 +1,11 @@
 <template>
     <div>
-        <input type="text" :value="value" @input="updateValue($event.target.value)" class="form-control" :required="required">
+        <input type="text"
+               :value="value"
+               @input="updateValue($event.target.value)"
+               class="form-control"
+               :required="required"
+               :disabled="disabled">
     </div>
 </template>
 
@@ -12,6 +17,10 @@
             },
             required: {
                 type: Boolean
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {

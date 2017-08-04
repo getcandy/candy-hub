@@ -1,6 +1,12 @@
 <template>
     <div>
-        <textarea class="form-control" rows="8" :value="value" @input="updateValue($event.target.value)" :required="required">{{ value }}</textarea>
+        <textarea class="form-control"
+                  rows="8"
+                  :value="value"
+                  @input="updateValue($event.target.value)"
+                  :required="required" :disabled="disabled">
+            {{ value }}
+        </textarea>
     </div>
 </template>
 
@@ -12,6 +18,10 @@
             },
             required: {
                 type: Boolean
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
