@@ -2,39 +2,43 @@
 
 namespace GetCandy\Http\Transformers\Fractal\Products;
 
-use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
-use GetCandy\Api\Currencies\Models\Currency;
-use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Products\Models\Product;
-use GetCandy\Api\Products\Models\ProductVariant;
+use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
-use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
-use GetCandy\Http\Transformers\Fractal\Attributes\AttributeTransformer;
-use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
-use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
 use GetCandy\Http\Transformers\Fractal\Collections\CollectionTransformer;
+use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
+use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 
 class ProductTransformer extends BaseTransformer
 {
     /**
-     * @var League\Fractal\Resource\Collection
+     * @var
      */
     protected $attributeGroups;
 
     /**
-     * @var Array
+     * @var array
      */
     protected $availableIncludes = [
-        'attribute_groups', 'family', 'layout', 'variants', 'collections', 'routes', 'channels', 'customer_groups'
+        'attribute_groups',
+        'family',
+        'layout',
+        'variants',
+        'collections',
+        'routes',
+        'channels',
+        'customer_groups',
+        'assets'
     ];
 
     /**
-     * Decorates the product object for viewing
-     * @param  Product $product
-     * @return Array
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return array
      */
     public function transform(Product $product)
     {
@@ -46,10 +50,11 @@ class ProductTransformer extends BaseTransformer
         return $response;
     }
 
+
     /**
-     * Includes the layout associated to the product
-     * @param  Product $product
-     * @return League\Fractal\Resource\Collection
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Item
      */
     public function includeLayout(Product $product)
     {
@@ -57,9 +62,9 @@ class ProductTransformer extends BaseTransformer
     }
 
     /**
-     * Includes the product family
-     * @param  Product $product
-     * @return League\Fractal\Resource\Collection
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Item
      */
     public function includeFamily(Product $product)
     {
@@ -67,18 +72,18 @@ class ProductTransformer extends BaseTransformer
     }
 
     /**
-     * Includes any collections associated to the product
-     * @param  Product $product
-     * @return League\Fractal\Resource\Collection
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
      */
     public function includeCollections(Product $product)
     {
         return $this->collection($product->collections, new CollectionTransformer);
     }
 
+
     /**
-     * Gets all the attribute groups associated to the product
-     * @return League\Fractal\Resource\Collection
+     * @return mixed
      */
     public function getAttributeGroups()
     {
@@ -89,10 +94,21 @@ class ProductTransformer extends BaseTransformer
         return $this->attributeGroups;
     }
 
+
     /**
-     * Includes any attribute groups related to the product
-     * @param  Product $product
-     * @return League\Fractal\Resource\Collection
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeAssets(Product $product)
+    {
+        return $this->collection($product->assets, new AssetTransformer);
+    }
+
+    /**
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
      */
     public function includeAttributeGroups(Product $product)
     {
@@ -110,7 +126,9 @@ class ProductTransformer extends BaseTransformer
 
     /**
      * Includes any product variants
+     *
      * @param  Product $product
+     *
      * @return \League\Fractal\Resource\Collection
      */
     public function includeVariants(Product $product)
@@ -120,6 +138,7 @@ class ProductTransformer extends BaseTransformer
 
     /**
      * @param Product $product
+     *
      * @return \League\Fractal\Resource\Collection
      */
     public function includeRoutes(Product $product)
@@ -129,6 +148,7 @@ class ProductTransformer extends BaseTransformer
 
     /**
      * @param Product $product
+     *
      * @return \League\Fractal\Resource\Collection
      */
     public function includeChannels(Product $product)
@@ -139,6 +159,7 @@ class ProductTransformer extends BaseTransformer
 
     /**
      * @param Product $product
+     *
      * @return \League\Fractal\Resource\Collection
      */
     public function includeCustomerGroups(Product $product)
