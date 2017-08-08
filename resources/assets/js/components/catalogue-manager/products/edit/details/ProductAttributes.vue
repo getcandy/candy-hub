@@ -7,7 +7,9 @@
                 defaultChannel: 'ecommerce',
                 languageTwo: 'se',
                 channelTwo: 'ecommerce',
-                channels: []
+                isDefault: false,
+                channels: [],
+                originalData: []
             }
         },
         props: {
@@ -22,6 +24,14 @@
             },
             product: {
                 type: Object
+            }
+        },
+        watch: {
+            channelTwo: function(){
+                this.isDefault = (this.defaultChannel === this.channelTwo && this.defaultLanguage === this.languageTwo);
+            },
+            languageTwo: function(){
+                this.isDefault = (this.defaultChannel === this.channelTwo && this.defaultLanguage === this.languageTwo);
             }
         },
         methods: {
@@ -42,22 +52,33 @@
                 let attr = obj.id.split('-');
 
                 if(obj.checked) {
+                    // Need to sort this! Need fresh mind
+                    this.originalData = {[attr[0]]: {[attr[1]]: {[attr[2]]: {'originalValue': obj.originalValue}}}};
                     this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], null);
                 } else {
-                    this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], '');
-                }
 
+                    let oValue = '';
+
+                    try {
+                        if (this.originalData[attr[0]][attr[1]][attr[2]].originalValue) {
+                            oValue = this.originalData[attr[0]][attr[1]][attr[2]].originalValue;
+                        }
+                    } catch(e) {}
+                    this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], oValue);
+                }
             }
         },
         mounted() {
             CandyEvent.$emit('current-tab', this);
-            console.log(this.group.attributes.data);
             this.product.channels.data.forEach(channel => {
                 this.channels.push({
                     label: channel.name,
                     value: channel.handle
                 });
             });
+        },
+        created: function() {
+            this.originalData = this.product;
         }
     }
 </script>
@@ -194,18 +215,20 @@
                         </div>
 
                     </div>
-                    <div  class="col-xs-12 col-md-6" v-if="translating">
+                    <div class="col-xs-12 col-md-6" v-if="translating">
                         <div class="form-group" v-for="input in group.attributes.data">
 
                             <div v-if="input.scopeable && input.type === 'text'" :class="{'form-group': true}">
 
-                                <candy-checkbox :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
+                                <candy-checkbox v-if="!isDefault"
+                                                :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
                                                 @change="useDefault"
                                                 :class="{ attributecheckbox: true }"
                                                 :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)"
                                                 :originalValue="product.attributes[input.handle][channelTwo][languageTwo]">
                                     Use Default
                                 </candy-checkbox>
+                                <label v-if="isDefault">&nbsp;</label>
                                 <candy-input v-if="translating"
                                              v-model="product.attributes[input.handle][channelTwo][languageTwo]"
                                              :value="getValue(input.handle)"
@@ -220,13 +243,15 @@
 
                             <div v-else-if="input.scopeable && input.type === 'textarea'" :class="{'form-group': true}">
 
-                                <candy-checkbox :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
+                                <candy-checkbox v-if="!isDefault"
+                                                :id="input.handle +'-'+ channelTwo +'-'+ languageTwo"
                                                 @change="useDefault"
                                                 :class="{ attributecheckbox: true }"
                                                 :checked="(product.attributes[input.handle][channelTwo][languageTwo] === null)"
                                                 :originalValue="product.attributes[input.handle][channelTwo][languageTwo]">
                                     Use Default
                                 </candy-checkbox>
+                                <label v-if="isDefault">&nbsp;</label>
                                 <candy-textarea v-model="product.attributes[input.handle][channelTwo][languageTwo]"
                                                 :required="input.required"
                                                 :disabled="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
