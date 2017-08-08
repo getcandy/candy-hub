@@ -100,6 +100,8 @@ $this->post('products/{product}/redirects', 'Products\ProductController@createRe
 $this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
 $this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
 $this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');
+$this->post('products/{product}/assets', 'Products\ProductController@uploadAsset');
+$this->put('products/{product}/assets', 'Products\ProductController@saveAsset');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);

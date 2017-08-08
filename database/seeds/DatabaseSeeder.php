@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         }
 
         Eloquent::unguard();
-        
+
+        $this->call(SettingsTableSeeder::class);
         $this->call(CustomerGroupTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(AttributesTableSeeder::class);
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductTableSeeder::class);
         $this->call(CurrencyTableSeeder::class);
         $this->call(TaxTableSeeder::class);
+        $this->call(AssetSourceTableSeeder::class);
         \Artisan::call('passport:install');
     }
 }

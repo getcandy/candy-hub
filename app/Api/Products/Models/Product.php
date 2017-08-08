@@ -10,6 +10,7 @@ use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\Assetable;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
@@ -17,7 +18,9 @@ use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 
 class Product extends BaseModel
 {
-    use Indexable, HasAttributes;
+    use Indexable, HasAttributes, Assetable;
+
+    protected $settings = 'products';
 
     public $transformer = ProductTransformer::class;
 

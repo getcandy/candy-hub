@@ -2,6 +2,9 @@
 
 namespace GetCandy\Api;
 
+use GetCandy\Api\Assets\Services\AssetService;
+use GetCandy\Api\Assets\Services\AssetSourceService;
+use GetCandy\Api\Assets\Services\AssetTransformService;
 use GetCandy\Api\Attributes\Services\AttributeGroupService;
 use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
@@ -18,10 +21,21 @@ use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Products\Services\ProductVariantService;
 use GetCandy\Api\Routes\Services\RouteService;
+use GetCandy\Api\Settings\Services\SettingService;
 use GetCandy\Api\Taxes\Services\TaxService;
 
 class Factory
 {
+    /**
+     * @var AssetService
+     */
+    protected $assets;
+
+    /**
+     * @var \GetCandy\Api\Assets\Services\AssetSourceService
+     */
+    protected $assetSources;
+
     /**
      * @var AttributeService
      */
@@ -93,11 +107,23 @@ class Factory
     protected $taxes;
 
     /**
+     * @var \GetCandy\Api\Assets\Services\AssetTransformService
+     */
+    protected $transforms;
+
+    /**
      * @var UserService
      */
     protected $users;
 
+    /**
+     * @var \GetCandy\Api\SettingService
+     */
+    protected $settings;
+
     public function __construct(
+        AssetService $assets,
+        AssetSourceService $assetSources,
         AttributeGroupService $attributeGroups,
         AttributeService $attributes,
         CategoryService $categories,
@@ -112,10 +138,14 @@ class Factory
         ProductFamilyService $productFamilies,
         ProductVariantService $productVariants,
         ProductService $products,
+        SettingService $settings,
         RouteService $routes,
         TaxService $taxes,
+        AssetTransformService $transforms,
         UserService $users
     ) {
+        $this->assets = $assets;
+        $this->assetSources = $assetSources;
         $this->attributeGroups = $attributeGroups;
         $this->attributes = $attributes;
         $this->categories = $categories;
@@ -131,7 +161,9 @@ class Factory
         $this->products = $products;
         $this->productVariants = $productVariants;
         $this->routes = $routes;
+        $this->settings = $settings;
         $this->taxes = $taxes;
+        $this->transforms = $transforms;
         $this->users = $users;
     }
 
