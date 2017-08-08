@@ -14,6 +14,15 @@ use Illuminate\Http\Request;
 */
 
 /**
+ * Assets
+ */
+
+$this->put('assets', 'Assets\AssetController@updateAll');
+$this->resource('assets', 'Assets\AssetController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
  * Attributes
  */
 $this->put('attributes/order', 'Attributes\AttributeController@reorder');
@@ -101,6 +110,7 @@ $this->post('products/{product}/attributes', 'Products\ProductController@updateA
 $this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
 $this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');
 $this->post('products/{product}/assets', 'Products\ProductController@uploadAsset');
+$this->get('products/{product}/assets', 'Products\ProductController@getAssets');
 $this->put('products/{product}/assets', 'Products\ProductController@saveAsset');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']

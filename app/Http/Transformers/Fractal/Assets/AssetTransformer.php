@@ -20,19 +20,46 @@ class AssetTransformer extends BaseTransformer
      */
     public function transform(Asset $asset)
     {
-        return [
+        $data = [
             'id' => $asset->encodedId(),
             'title' => $asset->title,
             'caption' => $asset->caption,
-            'original_filename' => $asset->original_filename,
-            'size' => $asset->size,
-            'width' => $asset->width,
-            'height' => $asset->height,
             'kind' => $asset->kind,
-            'url' => $this->getUrl($asset)
+            'external' => (bool) $asset->external
         ];
+
+        if (!$asset->external) {
+            $data = array_merge($data, [
+                'sub_kind' => $asset->sub_kind,
+                'extension' => $asset->extension,
+                'original_filename' => $asset->original_filename,
+                'size' => $asset->size,
+                'width' => $asset->width,
+                'height' => $asset->height,
+                'url' => $this->getUrl($asset),
+                'thumbnail' => $this->getThumbnail($asset)
+            ]);
+        } else {
+            $data['url'] = $asset->location;
+        }
+
+        return $data;
     }
 
+    protected function getThumbnail($asset)
+    {
+//        return $asset->transforms
+        $transform = $asset->transforms->filter(function ($transform) {
+            return $transform->transform->handle == 'thumbnail';
+        })->first();
+
+        if (!$transform) {
+            return null;
+        }
+
+        $path = $transform->location . '/' . $transform->filename;
+        return Storage::disk($asset->source->disk)->url($path);
+    }
     protected function getUrl($asset)
     {
         $path = $asset->location . '/' . $asset->filename;

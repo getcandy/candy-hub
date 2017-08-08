@@ -17,7 +17,7 @@ require('bootstrap-datepicker');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
-//require('dropzone');
+require('dropzone');
 window.List = require('list.js');
 
 
