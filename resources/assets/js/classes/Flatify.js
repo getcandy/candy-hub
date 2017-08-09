@@ -13,22 +13,19 @@ class Flatify {
     }
 
     all() {
-        return $.map(this.originalData, function(n){
-            return n;
-        });
+
+        return [].concat.apply([], this.originalData);
+
     }
 
     selected(selection = []) {
 
-        if(selection.length !== 0){
-            this.selectedData = selection;
-        }
+        let flatify = [];
 
-        if(this.selectedData.length === 0){
-            return false;
-        }
+        this.originalData.forEach(function (data) {
 
-        return $.inArray(this.selectedData, this.originalData.all());
+            return 'dfs' + data;
+        });
 
     }
 }

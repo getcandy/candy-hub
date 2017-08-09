@@ -114,11 +114,6 @@ window.CandyEvent = new Vue();
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
 
-let Flatify = require('./classes/Flatify');
-window.Flatify = new Flatify([[{'name': 'apple', 'description': 'fruity round green apple', 'qty': 6}],
-    [{'name': 'banana', 'description': 'yellow thing', 'qty': 2}],
-    [{'name': 'peach', 'description': 'round pinky thing', 'qty': 4}]]);
-
 var CandyHelpers = {};
 
 CandyHelpers.install = function (Vue, options) {
