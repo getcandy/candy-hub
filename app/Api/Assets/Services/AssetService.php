@@ -17,19 +17,27 @@ class AssetService extends BaseService
         $this->model = new Asset;
     }
 
+
+    /**
+     * Gets the driver for the upload
+     * @param  string $mimeType
+     * @return mixed
+     *
+     **/
     protected function getDriver($mimeType)
     {
-        $type = explode('/', $mimeType);
-        switch ($type[0]) {
-            case 'youtube':
-                return new \GetCandy\Api\Assets\Drivers\YouTube;
-            case 'image':
-                return new \GetCandy\Api\Assets\Drivers\Image;
-            default:
-                return new \GetCandy\Api\Assets\Drivers\File;
-        }
+        $kind = explode('/', $mimeType);
+        $class = config("assets.upload_drivers.{$kind[0]}", config('assets.upload_drivers.file'));
+        return new $class;
     }
 
+    /**
+     * Uploads an asset
+     * @param  array  $data
+     * @param  Model   $model
+     * @param  integer $position
+     * @return Asset
+     */
     public function upload($data, Model $model, $position = 0)
     {
         if (!empty($data['file'])) {
@@ -37,7 +45,7 @@ class AssetService extends BaseService
         } else {
             $mimeType = $data['mime_type'];
         }
-        $driver = app('api')->assets()->getDriver($mimeType);
+        $driver = $this->getDriver($mimeType);
         $asset = $driver->process(
             $data,
             $model
