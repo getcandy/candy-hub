@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 require('babel-core/register');
+require('lity');
 require('babel-polyfill');
 
 require('./classes/Errors');

@@ -50,7 +50,11 @@ class AssetService extends BaseService
             $data,
             $model
         );
-        $asset->update(['position' => $position]);
+
+        $asset->update([
+            'position' => $position
+        ]);
+
         return $asset;
     }
 

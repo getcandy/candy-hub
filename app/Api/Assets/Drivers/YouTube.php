@@ -66,6 +66,14 @@ class YouTube extends BaseUrlDriver implements AssetDriverContract
     {
         $source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
         $asset = $this->prepare($data, $source);
+
+        if ($model->assets()->count()) {
+            // Get anything that isn't an "application";
+            $image = $model->assets()->where('kind', '!=', 'application')->first();
+            if (!$image) {
+                $asset->primary = true;
+            }
+        }
         $model->assets()->save($asset);
         dispatch(new GenerateTransforms($asset));
         return $asset;

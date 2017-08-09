@@ -91,10 +91,14 @@
                 const movedItem = this.assets.splice(oldIndex, 1)[0];
                 this.assets.splice(newIndex, 0, movedItem);
                 let pos = 1;
+                this.save();
                 this.assets.forEach(asset => {
                     asset.position = pos;
                     pos++;
                 });
+            },
+            selectPrimary(index) {
+
             },
             getFilteredResults(type) {
                 if (type) {
@@ -190,6 +194,7 @@
                         <tr>
                             <th></th>
                             <th></th>
+                            <th></th>
                             <th>Title/Alt Tag</th>
                             <th>Description</th>
                             <th width="230">Tags</th>
@@ -199,12 +204,9 @@
                         </thead>
                         <tbody  v-sortable="sortableOptions">
                             <tr v-for="(asset, index) in getFilteredResults(filter)" :key="asset.id">
+                                {{ asset }}
                                 <td class="handle">
                                     <svg width="13px" height="19px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
-                                        <title>Artboard</title>
-                                        <desc>Created with Sketch.</desc>
-                                        <defs></defs>
                                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <g id="Artboard" fill="#D8D8D8">
                                                 <rect id="Rectangle" x="2" y="2" width="3" height="3"></rect>
@@ -218,7 +220,12 @@
                                     </svg>
                                 </td>
                                 <td>
-                                    <a href="/images/placeholder/product.jpg" class="fresco" v-if="asset.thumbnail">
+                                    <label v-if="asset.thumbnail">
+                                        <input type="radio" name="primaryAsset" :value="true" v-model="asset.primary"> Primary
+                                    </label>
+                                </td>
+                                <td>
+                                    <a :href="asset.url" v-if="asset.thumbnail" data-lity>
                                         <img :src="asset.thumbnail" :alt="asset.title">
                                     </a>
                                     <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
