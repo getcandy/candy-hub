@@ -12,3 +12,4 @@ npm-debug.log
 .env
 /storage/testing/database.sqlite
 /output
+/public/js/app.js

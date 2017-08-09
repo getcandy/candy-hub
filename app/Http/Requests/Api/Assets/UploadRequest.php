@@ -14,7 +14,9 @@ class UploadRequest extends FormRequest
     public function rules()
     {
         return [
-//            'file' => 'required|file'
+           'file' => 'required_without_all:url,mime_type|max:' . config('assets.max_filesize') . '|mimes:' . config('assets.allowed_filetypes'),
+           'url' => 'required_with:url|required_without:file',
+           'mime_type' => 'required_with:url|in:youtube,vimeo,image'
         ];
     }
 }

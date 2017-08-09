@@ -8,6 +8,7 @@
                 deleteModalOpen: false,
                 assetToDelete: {},
                 filter: '',
+                failedUploads: [],
                 assets: [],
                 dzOptions: {
                     headers: {
@@ -45,7 +46,6 @@
                     });
             },
             deleteAsset(event) {
-                console.log();
                 apiRequest.send('delete', '/assets/' + this.assetToDelete.id)
                     .then(response => {
                         CandyEvent.$emit('notification', {
@@ -77,14 +77,22 @@
             closeDeleteModal() {
                 this.deleteModalOpen = false;
             },
+            getIcon(type) {
+                return '/icons/file-types/' + type + '.svg';
+            },
+            /**
+             * Dropzone event Methods
+             */
             uploadSuccess(file, response) {
+                this.$refs.mediaDropzone.removeFile(file);
                 this.assets.push(response.data);
             },
-            getIcon(type) {
-                if (type == 'numbers') {
-                    type = 'xls';
-                }
-                return '/icons/file-types/' + type + '.svg';
+            uploadError(file, response) {
+                this.$refs.mediaDropzone.removeFile(file);
+                this.failedUploads.push({
+                    filename: file.name,
+                    errors: response.file ? response.file : [response]
+                });
             }
         },
         components: {
@@ -154,82 +162,32 @@
                                 </button>
                             </td>
                         </tr>
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--<a href="/images/placeholder/product.jpg" class="fresco">-->
-                                    <!--<img src="/images/placeholder/product.jpg" alt="Aquacomb">-->
-                                <!--</a>-->
-                            <!--</td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
-                            <!--<td>.jpg</td>-->
-                            <!--<td align="right">-->
-                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
-                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
-                                <!--</button>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--<img src="/images/file-types/pdf.svg" alt="PDF">-->
-                            <!--</td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
-                            <!--<td>.pdf</td>-->
-                            <!--<td align="right">-->
-                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
-                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
-                                <!--</button>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--<img src="/images/file-types/xls.svg" alt="XLS">-->
-                            <!--</td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
-                            <!--<td>.xls</td>-->
-                            <!--<td align="right">-->
-                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
-                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
-                                <!--</button>-->
-                            <!--</td>-->
-                        <!--</tr>-->
-                        <!--<tr>-->
-                            <!--<td>-->
-                                <!--<a href="/images/placeholder/product.jpg" class="fresco">-->
-                                    <!--<img src="/images/placeholder/product.jpg" alt="Aquacomb">-->
-                                <!--</a>-->
-                            <!--</td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control"></td>-->
-                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
-                            <!--<td>.jpg</td>-->
-                            <!--<td align="right">-->
-                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
-                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
-                                <!--</button>-->
-                            <!--</td>-->
-                        <!--</tr>-->
                         </tbody>
                     </table>
-
-                    <p>
-                        File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.</p>
+                    <!-- File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.-->
                 </div>
             </div>
         </div>
         <div class="sub-nav media-upload">
             <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
+            
+            <candy-alert :shown="true" level="danger" v-for="(file, index) in failedUploads" :key="index">
+                <strong>{{ file.filename }}</strong> <br>
+                <ul class="list-unstyled">
+                    <li v-for="error in file.errors">
+                       {{ error }}
+                    </li>
+                </ul>
+            </candy-alert>
 
             <dropzone id="media-upload"
-                      :url="dropzoneUrl"
-                      v-on:vdropzone-success="uploadSuccess"
-                      v-bind:dropzone-options="dzOptions"
-                      v-bind:use-custom-dropzone-options="true"
+                ref="mediaDropzone"
+                :url="dropzoneUrl"
+                v-on:vdropzone-success="uploadSuccess"
+                v-bind:dropzone-options="dzOptions"
+                v-bind:use-custom-dropzone-options="true"
+                v-on:vdropzone-error="uploadError"
+                :maxFileSizeInMB="50"
             >
                 <div class="dz-default dz-message media-box">
                     <i class="fa fa-upload icon" aria-hidden="true"></i>
@@ -237,6 +195,8 @@
                 </div>
                 <input type="hidden" name="_token" :value="token">
             </dropzone>
+
+            
 
         </div>
         <candy-modal title="Are you wish to delete this asset?" v-show="deleteModalOpen" @closed="closeDeleteModal">

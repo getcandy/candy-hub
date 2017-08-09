@@ -62,4 +62,10 @@ class Asset extends BaseModel
     {
         return $this->morphedByMany(Product::class, 'assetable');
     }
+
+    public function uploader()
+    {
+        $class = config("assets.upload_drivers.{$this->kind}", config('assets.upload_drivers.file'));
+        return new $class;
+    }
 }
