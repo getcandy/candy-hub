@@ -1,6 +1,5 @@
 <script>
     import Dropzone from 'vue2-dropzone'
-
     export default {
         data() {
             return {
@@ -13,6 +12,12 @@
                 urlUpload: {
                     type: '',
                     url: ''
+                },
+                sortableOptions: {
+                    onEnd: this.reorder,
+                    filter: '.disabled',
+                    handle: '.handle',
+                    animation: 150
                 },
                 mimeTypes: [
                     {label: 'YouTube', value: 'youtube'}
@@ -82,6 +87,15 @@
                         this.deleteModalOpen = false;
                     });
             },
+            reorder ({oldIndex, newIndex}) {
+                const movedItem = this.assets.splice(oldIndex, 1)[0];
+                this.assets.splice(newIndex, 0, movedItem);
+                let pos = 1;
+                this.assets.forEach(asset => {
+                    asset.position = pos;
+                    pos++;
+                });
+            },
             getFilteredResults(type) {
                 if (type) {
                     return this.assets.filter(asset => {
@@ -140,8 +154,6 @@
             <div class="row">
                 <div class="col-xs-12 col-md-11">
                     <h4>Media</h4>
-                    <hr>
-
                     <div class="custom-radio-group">
                         <span class="group-label">Toggle Media:</span>
                         <div class="toggle-radio">
@@ -173,10 +185,10 @@
                             </label>
                         </div>
                     </div>
-
-                    <table class="table">
+                    <table class="table sortable">
                         <thead>
                         <tr>
+                            <th></th>
                             <th></th>
                             <th>Title/Alt Tag</th>
                             <th>Description</th>
@@ -185,23 +197,41 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr v-for="(asset, index) in getFilteredResults(filter)">
-                            <td>
-                                <a href="/images/placeholder/product.jpg" class="fresco" v-if="asset.thumbnail">
-                                    <img :src="asset.thumbnail" :alt="asset.title">
-                                </a>
-                                <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
-                            </td>
-                            <td><input v-model="asset.title" type="text" class="form-control"></td>
-                            <td><input v-model="asset.caption" type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
-                            <td align="right">
-                                <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <tbody  v-sortable="sortableOptions">
+                            <tr v-for="(asset, index) in getFilteredResults(filter)" :key="asset.id">
+                                <td class="handle">
+                                    <svg width="13px" height="19px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+                                        <title>Artboard</title>
+                                        <desc>Created with Sketch.</desc>
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="Artboard" fill="#D8D8D8">
+                                                <rect id="Rectangle" x="2" y="2" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-2" x="2" y="8" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-4" x="2" y="14" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-5" x="8" y="14" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy" x="8" y="2" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-3" x="8" y="8" width="3" height="3"></rect>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </td>
+                                <td>
+                                    <a href="/images/placeholder/product.jpg" class="fresco" v-if="asset.thumbnail">
+                                        <img :src="asset.thumbnail" :alt="asset.title">
+                                    </a>
+                                    <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
+                                </td>
+                                <td><input v-model="asset.title" type="text" class="form-control"></td>
+                                <td><input v-model="asset.caption" type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                                <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
+                                <td align="right">
+                                    <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <!-- File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.-->

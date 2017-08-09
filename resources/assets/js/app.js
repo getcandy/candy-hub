@@ -20,7 +20,6 @@ require('bootstrap-tagsinput');
 require('dropzone');
 window.List = require('list.js');
 
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -108,6 +107,19 @@ Vue.component('candy-display', require('./components/catalogue-manager/products/
 Vue.component('candy-locale-urls', require('./components/catalogue-manager/products/edit/urls/LocaleURLs.vue'));
 Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
 Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
+
+/**
+ * Directives
+ */
+
+import Sortable from 'sortablejs'
+
+Vue.directive('sortable', {
+  inserted: function (el, binding) {
+    var sortable = new Sortable(el, binding.value || {});
+  }
+});
+
 
 window.CandyEvent = new Vue();
 

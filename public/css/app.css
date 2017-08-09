@@ -16223,6 +16223,20 @@ textarea.bootstrap-tagsinput {
   color: #888888;
 }
 
+.table tbody .handle {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.table tbody tr {
+  background-color: #fff;
+}
+
+.table tbody tr.sortable-ghost {
+  opacity: .25;
+  background-color: #eeeeee;
+}
+
 .table tbody tr.clickable {
   cursor: pointer;
 }
