@@ -8,7 +8,16 @@
                 deleteModalOpen: false,
                 assetToDelete: {},
                 filter: '',
+                processingAssetUrl: false,
                 failedUploads: [],
+                urlUpload: {
+                    type: '',
+                    url: ''
+                },
+                mimeTypes: [
+                    {label: 'YouTube', value: 'youtube'}
+                ],
+                urlUploadModalOpen: false,
                 assets: [],
                 dzOptions: {
                     headers: {
@@ -21,6 +30,7 @@
             this.product.assets.data.forEach(asset => {
                 this.assets.push(asset);
             });
+            this.urlUpload.type = this.mimeTypes[0].value;
         },
         computed: {
             dropzoneUrl() {
@@ -45,6 +55,21 @@
                         });
                     });
             },
+            uploadUrlMedia() {
+                this.processingAssetUrl = true;
+                this.request.send('post', '/products/' + this.product.id + '/assets', {
+                    'url': this.urlUpload.url,
+                    'mime_type': this.urlUpload.type
+                }).then(response => {
+                    this.processingAssetUrl = false;
+                    this.assets.push(response.data);
+                    this.urlUpload = {};
+                    this.urlUploadModalOpen = false;
+                }).catch(response => {
+                    console.log(response);
+                    this.processingAssetUrl = false;
+                });
+            },
             deleteAsset(event) {
                 apiRequest.send('delete', '/assets/' + this.assetToDelete.id)
                     .then(response => {
@@ -62,8 +87,10 @@
                     return this.assets.filter(asset => {
                         if (type == 'images') {
                             return asset.kind == 'image';
+                        } else if (type == 'videos') {
+                            return asset.external && asset.kind != 'image';
                         } else {
-                            return asset.kind != 'image';
+                            return asset.kind != 'image' && !asset.external;
                         }
                     });
                 }
@@ -73,6 +100,12 @@
                 this.deletedIndex = index;
                 this.assetToDelete  = this.assets[index];
                 this.deleteModalOpen = true;
+            },
+            openUrlModal() {
+                this.urlUploadModalOpen = true;
+            },
+            closeUrlModal() {
+                this.urlUploadModalOpen = false;
             },
             closeDeleteModal() {
                 this.deleteModalOpen = false;
@@ -132,6 +165,13 @@
                                 <span class="faux-label">Files</span>
                             </label>
                         </div>
+                        <div class="toggle-radio">
+                            <input type="radio" id="videos" value="videos" v-model="filter">
+                            <label for="videos">
+                                <span class="check"></span>
+                                <span class="faux-label">Videos</span>
+                            </label>
+                        </div>
                     </div>
 
                     <table class="table">
@@ -156,7 +196,7 @@
                             <td><input v-model="asset.title" type="text" class="form-control"></td>
                             <td><input v-model="asset.caption" type="text" class="form-control"></td>
                             <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td>.{{ asset.extension }}</td>
+                            <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
                             <td align="right">
                                 <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </button>
@@ -169,7 +209,7 @@
             </div>
         </div>
         <div class="sub-nav media-upload">
-            <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
+            <button type="button" class="btn btn-primary btn-full" @click="openUrlModal">Add by URL</button>
             
             <candy-alert :shown="true" level="danger" v-for="(file, index) in failedUploads" :key="index">
                 <strong>{{ file.filename }}</strong> <br>
@@ -199,6 +239,31 @@
             
 
         </div>
+        <candy-modal title="Add media by URL" v-show="urlUploadModalOpen" @closed="closeUrlModal">
+            <div slot="body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="form-group">
+                            <label>Type</label>
+                            <candy-select :options="mimeTypes" v-model="urlUpload.type"></candy-select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <div class="form-group">
+                            <label for="urlUpload">Enter the URL to the asset.</label>
+                            <input type="text" id="urlUpload" class="form-control" v-model="urlUpload.url" @input="request.clearError('url')">
+                        </div>
+                        <span class="text-danger" v-if="request.getError('url')" v-text="request.getError('url')"></span>
+                    </div>
+                </div>
+            </div>
+            <template slot="footer">
+                <button type="button" class="btn btn-primary" @click="uploadUrlMedia" :disabled="processingAssetUrl">
+                    <template v-if="!processingAssetUrl">Add media</template>
+                    <template v-else>Processing</template>
+                </button>
+            </template>
+        </candy-modal>
         <candy-modal title="Are you wish to delete this asset?" v-show="deleteModalOpen" @closed="closeDeleteModal">
             <div slot="body">
                 <p>Once deleted this action can not be undone</p>

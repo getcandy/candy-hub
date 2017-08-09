@@ -27,8 +27,7 @@ class Asset extends BaseModel
         'height',
         'kind',
         'position',
-        'external',
-        'url'
+        'external'
     ];
 
     /**

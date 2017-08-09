@@ -58,6 +58,10 @@ class AssetTransformService extends BaseService
 
         $image = $this->getImage($asset);
 
+        if (!$image) {
+            return false;
+        }
+
         $width = $transformer->width;
         $height = $transformer->height;
 

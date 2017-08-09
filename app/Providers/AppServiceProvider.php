@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('valid_locales', 'GetCandy\Http\Validators\Api\LocaleValidator@validate');
+        Validator::extend('asset_url', 'GetCandy\Http\Validators\Api\AssetValidator@validAssetUrl');
     }
 
     /**

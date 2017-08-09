@@ -5,6 +5,8 @@ namespace GetCandy\Api\Assets\Drivers;
 use GetCandy\Api\Assets\Contracts\AssetDriverContract;
 use GetCandy\Api\Assets\Models\Asset;
 use GetCandy\Api\Assets\Jobs\GenerateTransforms;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class YouTube extends BaseUrlDriver implements AssetDriverContract
 {
@@ -77,12 +79,31 @@ class YouTube extends BaseUrlDriver implements AssetDriverContract
      */
     public function prepare($data, $source)
     {
+        $info = $this->getVideoInfo($data['url']);
         $asset = new Asset([
             'location' => $data['url'],
+            'title' => $info['title'],
             'kind' => 'youtube',
             'external' => true
         ]);
         $asset->source()->associate($source);
         return $asset;
+    }
+
+    public function getVideoInfo($url)
+    {
+        $client = new Client();
+        try {
+            $response = $client->request('GET', 'https://www.youtube.com/oembed', [
+                'query' => [
+                    'format' => 'json',
+                    'url' => $url
+                ]
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (ClientException $e) {
+            //
+        }
+        return null;
     }
 }
