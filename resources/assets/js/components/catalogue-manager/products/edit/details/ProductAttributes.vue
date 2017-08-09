@@ -52,15 +52,16 @@
                 let oValue = '';
 
                 if(obj.checked) {
+
                     this.originalData[attr[0]][attr[1]][attr[2]] = obj.originalValue;
                     this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], null);
+
                 } else {
 
                     if(this.originalData[attr[0]][attr[1]][attr[2]]) {
                         oValue = this.originalData[attr[0]][attr[1]][attr[2]];
                         this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], this.originalData[attr[0]][attr[1]][attr[2]]);
                     }
-
                     this.$set(this.product.attributes[attr[0]][attr[1]], attr[2], oValue);
 
                 }
@@ -232,6 +233,7 @@
                                              v-model="product.attributes[input.handle][channelTwo][languageTwo]"
                                              :value="getValue(input.handle)"
                                              :required="input.required"
+                                             :placeholder="(product.attributes[input.handle][channelTwo][languageTwo] === null ? product.attributes[input.handle][defaultChannel][defaultLanguage] : '')"
                                              :disabled="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
                                 </candy-input>
                                 <span class="text-danger"
@@ -253,6 +255,7 @@
                                 <label v-if="isDefault">&nbsp;</label>
                                 <candy-textarea v-model="product.attributes[input.handle][channelTwo][languageTwo]"
                                                 :required="input.required"
+                                                :placeholder="(product.attributes[input.handle][channelTwo][languageTwo] === null ? product.attributes[input.handle][defaultChannel][defaultLanguage] : '')"
                                                 :disabled="(product.attributes[input.handle][channelTwo][languageTwo] === null)">
                                 </candy-textarea>
 

@@ -5,6 +5,7 @@
                   :value="value"
                   @input="updateValue($event.target.value)"
                   :required="required"
+                  :placeholder="placeholder"
                   :disabled="disabled">
             {{ value }}
         </textarea>
@@ -19,6 +20,9 @@
             },
             required: {
                 type: Boolean
+            },
+            placeholder: {
+                type: String
             },
             disabled: {
                 type: Boolean,
