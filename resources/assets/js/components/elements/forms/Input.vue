@@ -5,6 +5,7 @@
                @input="updateValue($event.target.value)"
                class="form-control"
                :required="required"
+               :placeholder="placeholder"
                :disabled="disabled">
     </div>
 </template>
@@ -17,6 +18,9 @@
             },
             required: {
                 type: Boolean
+            },
+            placeholder: {
+                type: String
             },
             disabled: {
                 type: Boolean,
