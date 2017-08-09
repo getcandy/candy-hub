@@ -18,7 +18,7 @@ class CreateAssetTransformsTable extends Migration
             $table->integer('transform_id')->unsigned()->index();
             $table->foreign('transform_id')->references('id')->on('transforms');
             $table->integer('asset_id')->unsigned()->index();
-            $table->foreign('asset_id')->references('id')->on('assets');
+            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
             $table->boolean('file_exists')->default(false);
             $table->string('location');
             $table->string('filename')->unique();

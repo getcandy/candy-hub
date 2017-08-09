@@ -2,6 +2,8 @@
 
 namespace GetCandy\Api\Assets\Services;
 
+use GetCandy\Api\Assets\Jobs\CleanUpAssetFiles;
+use GetCandy\Api\Assets\Jobs\GenerateTransforms;
 use GetCandy\Api\Assets\Models\Asset;
 use GetCandy\Api\Scaffold\BaseService;
 use Illuminate\Database\Eloquent\Model;
@@ -10,55 +12,80 @@ use Intervention\Image\Exception\NotReadableException;
 
 class AssetService extends BaseService
 {
-    /**
-     * @param                                     $file
-     * @param \Illuminate\Database\Eloquent\Model $model
-     *
-     * @return \GetCandy\Api\Assets\Models\Asset
-     */
-    public function upload($file, Model $model)
+    public function __construct()
     {
-        // Get our product settings;
-        $settings = $model->settings;
-        $source = app('api')->assetSources()->getByHandle($settings['asset_source']);
+        $this->model = new Asset;
+    }
 
-
-        $asset = new Asset;
-        $asset->kind = $file->getMimeType();
-        $asset->size = $file->getSize();
-        $asset->original_filename = $file->getClientOriginalName();
-        $asset->filename = $file->hashName();
-        $asset->source()->associate($source);
-        $asset->extension = $file->extension();
-
-        // Get the relative path to where this needs to be stored.
-        $path = $source->path . '/' . substr($asset->filename, 0, 2);
-
-        $asset->location = $path;
-
-        // Whether its an image or not we're always storing it so lets do it now.
-        $file->storeAs($path, $asset->filename, $source->disk);
-
-        // Assume its not an image.
-        $image = false;
-
-        try {
-            $image = Image::make($file);
-        } catch (NotReadableException $e) {
-            // Fall through
+    protected function getDriver($mimeType)
+    {
+        $type = explode('/', $mimeType);
+        switch ($type[0]) {
+            case 'youtube':
+                return new \GetCandy\Api\Assets\Drivers\YouTube;
+            case 'image':
+                return new \GetCandy\Api\Assets\Drivers\Image;
+            default:
+                return new \GetCandy\Api\Assets\Drivers\File;
         }
+    }
 
-        if ($image) {
-            $asset->width = $image->width();
-            $asset->height = $image->height();
+    public function upload($data, Model $model, $position = 0)
+    {
+        if (!empty($data['file'])) {
+            $mimeType = $data['file']->getClientMimeType();
+        } else {
+            $mimeType = $data['mime_type'];
         }
-
-        $model->assets()->save($asset);
-        app('api')->transforms()->transform(array_merge(
-            ['thumbnail'],
-            $settings['transforms']
-        ), $asset);
-
+        $driver = app('api')->assets()->getDriver($mimeType);
+        $asset = $driver->process(
+            $data,
+            $model
+        );
         return $asset;
+    }
+
+    public function updateAll($assets)
+    {
+        foreach ($assets as $asset) {
+            $this->update($asset['id'], $asset);
+        }
+        return true;
+    }
+    public function update($id, $data)
+    {
+        $asset = $this->getByHashedId($id);
+        $asset->fill($data);
+        $asset->save();
+        return $asset;
+    }
+
+    public function getAssets(Model $assetable, $params)
+    {
+        $assets = $assetable->assets();
+        if (!empty($params['type'])) {
+            if ($params['type'] == 'image') {
+                $assets = $assets->where('kind', '=', 'image');
+            } else {
+                $assets = $assets->where('kind', '!=', 'image');
+            }
+        }
+        return $assets->get();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $asset = $this->getByHashedId($id);
+
+        dispatch(new CleanUpAssetFiles($asset));
+
+        $asset->delete();
+
+        return true;
     }
 }

@@ -19,7 +19,16 @@ class Asset extends BaseModel
         'caption',
         'size',
         'extension',
-        'filename'
+        'filename',
+        'original_filename',
+        'sub_kind',
+        'width',
+        'location',
+        'height',
+        'kind',
+        'position',
+        'external',
+        'url'
     ];
 
     /**

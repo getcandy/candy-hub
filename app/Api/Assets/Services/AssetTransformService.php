@@ -17,15 +17,32 @@ class AssetTransformService extends BaseService
         $this->model = new Transform;
     }
 
+    /**
+     * @param $handle
+     *
+     * @return mixed
+     */
     public function getByHandle($handle)
     {
         return $this->model->where('handle', '=', $handle)->first();
     }
 
+    /**
+     * @param array $handles
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getByHandles(array $handles)
     {
         return $this->model->whereIn('handle', $handles)->get();
     }
+
+    /**
+     * @param $transformer
+     * @param $asset
+     *
+     * @return bool
+     */
     protected function process($transformer, $asset)
     {
         // First, we need to get the actual file.
@@ -87,6 +104,10 @@ class AssetTransformService extends BaseService
         );
     }
 
+    /**
+     * @param                                   $ref
+     * @param \GetCandy\Api\Assets\Models\Asset $asset
+     */
     public function transform($ref, Asset $asset)
     {
         if (is_array($ref)) {

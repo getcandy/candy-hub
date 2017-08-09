@@ -1,3 +1,98 @@
+<script>
+    import Dropzone from 'vue2-dropzone'
+
+    export default {
+        data() {
+            return {
+                request: apiRequest,
+                deleteModalOpen: false,
+                assetToDelete: {},
+                filter: '',
+                assets: [],
+                dzOptions: {
+                    headers: {
+                        'X-CSRF-TOKEN': window.Laravel.csrfToken
+                    }
+                }
+            }
+        },
+        mounted() {
+            this.product.assets.data.forEach(asset => {
+                this.assets.push(asset);
+            });
+        },
+        computed: {
+            dropzoneUrl() {
+                return '/api/v1/products/' + this.product.id + '/assets';
+            }
+        },
+        props: {
+            product: {
+                type: Object
+            },
+            token: {
+                type: String,
+                default: Laravel.csrfToken
+            }
+        },
+        methods: {
+            save() {
+                this.request.send('put', '/assets', {'assets' : this.assets})
+                    .then(response => {
+                        CandyEvent.$emit('notification', {
+                            level: 'success'
+                        });
+                    });
+            },
+            deleteAsset(event) {
+                console.log();
+                apiRequest.send('delete', '/assets/' + this.assetToDelete.id)
+                    .then(response => {
+                        CandyEvent.$emit('notification', {
+                            level: 'success'
+                        });
+                        this.assets.splice(this.deletedIndex, 1);
+                        this.assetToDelete = {};
+                        this.deletedIndex = null;
+                        this.deleteModalOpen = false;
+                    });
+            },
+            getFilteredResults(type) {
+                if (type) {
+                    return this.assets.filter(asset => {
+                        if (type == 'images') {
+                            return asset.kind == 'image';
+                        } else {
+                            return asset.kind != 'image';
+                        }
+                    });
+                }
+                return this.assets;
+            },
+            showDeleteModal(index) {
+                this.deletedIndex = index;
+                this.assetToDelete  = this.assets[index];
+                this.deleteModalOpen = true;
+            },
+            closeDeleteModal() {
+                this.deleteModalOpen = false;
+            },
+            uploadSuccess(file, response) {
+                this.assets.push(response.data);
+            },
+            getIcon(type) {
+                if (type == 'numbers') {
+                    type = 'xls';
+                }
+                return '/icons/file-types/' + type + '.svg';
+            }
+        },
+        components: {
+            Dropzone
+        }
+    }
+</script>
+
 <template>
     <div class="sub-panel">
         <div class="sub-content section block">
@@ -9,21 +104,21 @@
                     <div class="custom-radio-group">
                         <span class="group-label">Toggle Media:</span>
                         <div class="toggle-radio">
-                            <input type="radio" name="media" id="allMedia" value="allMedia" checked="checked">
+                            <input type="radio" id="allMedia" value="" checked="checked" v-model="filter">
                             <label for="allMedia">
                                 <span class="check"></span>
                                 <span class="faux-label">All Media</span>
                             </label>
                         </div>
                         <div class="toggle-radio">
-                            <input type="radio" name="media" id="images" value="images">
+                            <input type="radio" id="images" value="images" v-model="filter">
                             <label for="images">
                                 <span class="check"></span>
                                 <span class="faux-label">Images</span>
                             </label>
                         </div>
                         <div class="toggle-radio">
-                            <input type="radio" name="media" id="files" value="files">
+                            <input type="radio" id="files" value="files" v-model="filter">
                             <label for="files">
                                 <span class="check"></span>
                                 <span class="faux-label">Files</span>
@@ -43,82 +138,82 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr v-for="(asset, index) in getFilteredResults(filter)">
                             <td>
-                                <a href="/images/placeholder/product.jpg" class="fresco">
-                                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
+                                <a href="/images/placeholder/product.jpg" class="fresco" v-if="asset.thumbnail">
+                                    <img :src="asset.thumbnail" :alt="asset.title">
                                 </a>
+                                <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
                             </td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
+                            <td><input v-model="asset.title" type="text" class="form-control"></td>
+                            <td><input v-model="asset.caption" type="text" class="form-control"></td>
                             <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td>.jpg</td>
+                            <td>.{{ asset.extension }}</td>
                             <td align="right">
-                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
-                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <a href="/images/placeholder/product.jpg" class="fresco">
-                                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
-                                </a>
-                            </td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td>.jpg</td>
-                            <td align="right">
-                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
-                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="/images/file-types/pdf.svg" alt="PDF">
-                            </td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td>.pdf</td>
-                            <td align="right">
-                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
-                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="/images/file-types/xls.svg" alt="XLS">
-                            </td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td>.xls</td>
-                            <td align="right">
-                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
-                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a href="/images/placeholder/product.jpg" class="fresco">
-                                    <img src="/images/placeholder/product.jpg" alt="Aquacomb">
-                                </a>
-                            </td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control" data-role="tagsinput"></td>
-                            <td>.jpg</td>
-                            <td align="right">
-                                <button class="btn btn-sm btn-default btn-action" data-toggle="modal"
-                                        data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<a href="/images/placeholder/product.jpg" class="fresco">-->
+                                    <!--<img src="/images/placeholder/product.jpg" alt="Aquacomb">-->
+                                <!--</a>-->
+                            <!--</td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
+                            <!--<td>.jpg</td>-->
+                            <!--<td align="right">-->
+                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
+                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
+                                <!--</button>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<img src="/images/file-types/pdf.svg" alt="PDF">-->
+                            <!--</td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
+                            <!--<td>.pdf</td>-->
+                            <!--<td align="right">-->
+                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
+                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
+                                <!--</button>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<img src="/images/file-types/xls.svg" alt="XLS">-->
+                            <!--</td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
+                            <!--<td>.xls</td>-->
+                            <!--<td align="right">-->
+                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
+                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
+                                <!--</button>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<a href="/images/placeholder/product.jpg" class="fresco">-->
+                                    <!--<img src="/images/placeholder/product.jpg" alt="Aquacomb">-->
+                                <!--</a>-->
+                            <!--</td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control"></td>-->
+                            <!--<td><input type="text" class="form-control" data-role="tagsinput"></td>-->
+                            <!--<td>.jpg</td>-->
+                            <!--<td align="right">-->
+                                <!--<button class="btn btn-sm btn-default btn-action" data-toggle="modal"-->
+                                        <!--data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i>-->
+                                <!--</button>-->
+                            <!--</td>-->
+                        <!--</tr>-->
                         </tbody>
                     </table>
 
@@ -130,7 +225,12 @@
         <div class="sub-nav media-upload">
             <button type="button" class="btn btn-primary btn-full">Browse existing media</button>
 
-            <dropzone id="media-upload" url="/return-hello">
+            <dropzone id="media-upload"
+                      :url="dropzoneUrl"
+                      v-on:vdropzone-success="uploadSuccess"
+                      v-bind:dropzone-options="dzOptions"
+                      v-bind:use-custom-dropzone-options="true"
+            >
                 <div class="dz-default dz-message media-box">
                     <i class="fa fa-upload icon" aria-hidden="true"></i>
                     <p>Drop files here or click to upload</p>
@@ -139,21 +239,13 @@
             </dropzone>
 
         </div>
+        <candy-modal title="Are you wish to delete this asset?" v-show="deleteModalOpen" @closed="closeDeleteModal">
+            <div slot="body">
+                <p>Once deleted this action can not be undone</p>
+            </div>
+            <template slot="footer">
+                <button type="button" class="btn btn-primary" @click="deleteAsset">Confirm Deletion</button>
+            </template>
+        </candy-modal>
     </div>
 </template>
-
-<script>
-    import Dropzone from 'vue2-dropzone'
-
-    export default {
-        props: {
-            token: {
-                type: String,
-                default: Laravel.csrfToken
-            }
-        },
-        components: {
-            Dropzone
-        }
-    }
-</script>

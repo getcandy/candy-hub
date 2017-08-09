@@ -68,7 +68,7 @@
              */
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
-                    includes: 'family,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels,customer_groups'
+                    includes: 'family,assets,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels,customer_groups'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
@@ -99,7 +99,7 @@
                     </candy-tab>
 
                     <candy-tab name="Media">
-                        <candy-media></candy-media>
+                        <candy-media :product="product"></candy-media>
                     </candy-tab>
 
                     <candy-tab name="Availability &amp; Pricing" handle="product-availability">
