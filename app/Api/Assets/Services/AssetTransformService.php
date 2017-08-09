@@ -47,20 +47,16 @@ class AssetTransformService extends BaseService
     {
         // First, we need to get the actual file.
         $source = $asset->source;
-        $path = $asset->location;
 
-        try {
-            $file = Storage::disk($asset->source->disk)->get($path . '/'  . $asset->filename);
-        } catch (FileNotFoundException $e) {
-            return false;
+        if ($asset->external) {
+            $driver = $asset->uploader();
+            $id = $driver->hashName();
+            $path = 'products/' . substr($id, 0, 2);
+        } else {
+            $path = $asset->location;
         }
 
-        // You can't transform a PDF so...
-        try {
-            $image = Image::make($file);
-        } catch (NotReadableException $e) {
-            return false;
-        }
+        $image = $this->getImage($asset);
 
         $width = $transformer->width;
         $height = $transformer->height;
@@ -85,6 +81,7 @@ class AssetTransformService extends BaseService
                 $image->crop($width, $height);
         }
 
+        // Determine where to put this puppy...
         $thumbPath = $path . '/' . str_plural($transformer->handle);
 
         $assetTransform = new AssetTransform;
@@ -92,9 +89,8 @@ class AssetTransformService extends BaseService
         $assetTransform->transform()->associate($transformer);
 
         $assetTransform->location = $thumbPath;
-        $assetTransform->filename = $transformer->handle . '_' . $asset->filename;
+        $assetTransform->filename = $transformer->handle . '_' . ($asset->external ? $id . '.jpg' : $asset->filename);
         $assetTransform->file_exists = true;
-
 
         $assetTransform->save();
 
@@ -123,5 +119,27 @@ class AssetTransformService extends BaseService
         foreach ($transformers as $transformer) {
             $this->process($transformer, $asset);
         }
+    }
+
+    protected function getImage($asset)
+    {
+        if ($asset->external) {
+            return $asset->uploader()->getThumbnail($asset->location);
+        }
+
+        try {
+            $file = Storage::disk($asset->source->disk)->get($asset->location . '/'  . $asset->filename);
+        } catch (FileNotFoundException $e) {
+            return false;
+        }
+
+        // You can't transform a PDF so...
+        try {
+            $image = Image::make($file);
+        } catch (NotReadableException $e) {
+            return false;
+        }
+
+        return $image;
     }
 }

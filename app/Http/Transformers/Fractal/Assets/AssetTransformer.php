@@ -25,7 +25,8 @@ class AssetTransformer extends BaseTransformer
             'title' => $asset->title,
             'caption' => $asset->caption,
             'kind' => $asset->kind,
-            'external' => (bool) $asset->external
+            'external' => (bool) $asset->external,
+            'thumbnail' => $this->getThumbnail($asset)
         ];
 
         if (!$asset->external) {
@@ -36,8 +37,7 @@ class AssetTransformer extends BaseTransformer
                 'size' => $asset->size,
                 'width' => $asset->width,
                 'height' => $asset->height,
-                'url' => $this->getUrl($asset),
-                'thumbnail' => $this->getThumbnail($asset)
+                'url' => $this->getUrl($asset)
             ]);
         } else {
             $data['url'] = $asset->location;

@@ -89,7 +89,6 @@
             },
             uploadError(file, response) {
                 this.$refs.mediaDropzone.removeFile(file);
-                console.log(response);
                 this.failedUploads.push({
                     filename: file.name,
                     errors: response.file ? response.file : [response]
