@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5efb012b395cb17a95257b9bb4c3a836",
+    "content-hash": "b95e6276b2bae67245197ede0f38ea60",
     "packages": [
         {
             "name": "alaouy/youtube",
@@ -3354,6 +3354,47 @@
             "time": "2016-09-20T12:50:39+00:00"
         },
         {
+            "name": "vimeo/vimeo-api",
+            "version": "1.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vimeo/vimeo.php.git",
+                "reference": "34a2b06801db3318ebb983821945293773691915"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vimeo/vimeo.php/zipball/34a2b06801db3318ebb983821945293773691915",
+                "reference": "34a2b06801db3318ebb983821945293773691915",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vimeo\\": "src/Vimeo"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Vimeo",
+                    "homepage": "http://vimeo.com"
+                }
+            ],
+            "description": "Official PHP library for the Vimeo API.",
+            "homepage": "https://github.com/vimeo/vimeo.php",
+            "keywords": [
+                "video",
+                "vimeo"
+            ],
+            "time": "2016-12-02T16:03:55+00:00"
+        },
+        {
             "name": "vinkla/hashids",
             "version": "3.2.0",
             "source": {
@@ -3424,6 +3465,71 @@
                 "youtube"
             ],
             "time": "2017-08-07T13:01:20+00:00"
+        },
+        {
+            "name": "vinkla/vimeo",
+            "version": "3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vinkla/laravel-vimeo.git",
+                "reference": "aa32c7082e7e6c4aa180d3b0e7b22bc2f5ffb524"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vinkla/laravel-vimeo/zipball/aa32c7082e7e6c4aa180d3b0e7b22bc2f5ffb524",
+                "reference": "aa32c7082e7e6c4aa180d3b0e7b22bc2f5ffb524",
+                "shasum": ""
+            },
+            "require": {
+                "graham-campbell/manager": "^3.0",
+                "illuminate/contracts": "5.3.* || 5.4.* || 5.5.*",
+                "illuminate/support": "5.3.* || 5.4.* || 5.5.*",
+                "php": "^7.0",
+                "vimeo/vimeo-api": "^1.2.6"
+            },
+            "require-dev": {
+                "graham-campbell/analyzer": "^1.1",
+                "graham-campbell/testbench": "^4.0",
+                "mockery/mockery": "dev-master#c90a17247147543081e4d00f46911e422b49e583",
+                "phpunit/phpunit": "^6.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.6-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Vinkla\\Vimeo\\VimeoServiceProvider"
+                    ],
+                    "aliases": {
+                        "Vimeo": "Vinkla\\Vimeo\\Facades\\Vimeo"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vinkla\\Vimeo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Klaiber",
+                    "email": "hello@vinkla.com",
+                    "homepage": "https://vinkla.com"
+                }
+            ],
+            "description": "A Vimeo bridge for Laravel",
+            "keywords": [
+                "laravel",
+                "video",
+                "vimeo"
+            ],
+            "time": "2017-08-07T13:01:36+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

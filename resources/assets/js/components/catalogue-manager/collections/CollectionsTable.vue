@@ -43,6 +43,12 @@
                         this.loaded = true;
                     });
             },
+            productThumbnail(product) {
+                if (product.thumbnail) {
+                    return product.thumbnail.data.thumbnail;
+                }
+                return '/images/placeholder/no-image.png';
+            },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
             },
@@ -180,7 +186,9 @@
                                     <label :for="'prod' + product.id"><span class="check"></span></label>
                                 </div>
                             </td>
-                            <td @click="loadProduct(product.id)"><img src="/images/placeholder/product.jpg" :alt="product.name"></td>
+                            <td @click="loadProduct(product.id)">
+                                <img :src="productThumbnail(product)" :alt="product.name">
+                            </td>
                             <td @click="loadProduct(product.id)">{{ product.name }}</td>
                             <td @click="loadProduct(product.id)">{{ product.display }}</td>
                             <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>

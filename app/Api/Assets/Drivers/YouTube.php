@@ -23,7 +23,6 @@ class YouTube extends BaseUrlDriver implements AssetDriverContract
      * @var array
      */
     protected $thumbnailSizes = [
-        'blah',
         'maxresdefault',
         'sddefault',
         'mqdefault',

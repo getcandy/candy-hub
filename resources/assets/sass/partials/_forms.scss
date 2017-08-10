@@ -274,7 +274,12 @@ textarea.form-control {
 .toggle-radio {
   display: inline-block;
   margin-right: -4px;
-
+  &.small {
+    font-size:.875em;
+    input[type="radio"] + label {
+      padding:0 10px;
+    }
+  }
   input[type="radio"] {
     display: none;
 

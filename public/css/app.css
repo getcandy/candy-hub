@@ -15968,6 +15968,14 @@ textarea.bootstrap-tagsinput {
   margin-right: -4px;
 }
 
+.toggle-radio.small {
+  font-size: .875em;
+}
+
+.toggle-radio.small input[type="radio"] + label {
+  padding: 0 10px;
+}
+
 .toggle-radio input[type="radio"] {
   display: none;
 }
