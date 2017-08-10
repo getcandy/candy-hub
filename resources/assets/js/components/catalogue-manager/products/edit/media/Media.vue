@@ -193,7 +193,7 @@
     <div class="sub-panel">
         <div class="sub-content section block">
             <div class="row">
-                <div class="col-xs-12 col-md-11">
+                <div class="col-xs-12 col-md-12">
                     <h4>Media</h4>
                     <div class="custom-radio-group">
                         <span class="group-label">Toggle Media:</span>
@@ -332,7 +332,7 @@
                     <div class="col-xs-12 col-sm-9">
                         <div class="form-group">
                             <label for="urlUpload">Enter the URL to the asset.</label>
-                            <input type="text" id="urlUpload" class="form-control" v-model="urlUpload.url" @input="detectAssetUrlType()">
+                            <input type="text" id="urlUpload" class="form-control" v-model="urlUpload.url" @blur="detectAssetUrlType()">
                         </div>
                         <span class="text-danger" v-if="request.getError('url')" v-text="request.getError('url')"></span>
                     </div>
