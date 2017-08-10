@@ -22,6 +22,7 @@ use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Products\Services\ProductVariantService;
 use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Settings\Services\SettingService;
+use GetCandy\Api\Tags\Services\TagService;
 use GetCandy\Api\Taxes\Services\TaxService;
 
 class Factory
@@ -102,6 +103,11 @@ class Factory
     protected $routes;
 
     /**
+     * @var TagService
+     */
+    protected $tags;
+
+    /**
      * @var TaxService
      */
     protected $taxes;
@@ -140,6 +146,7 @@ class Factory
         ProductService $products,
         SettingService $settings,
         RouteService $routes,
+        TagService $tags,
         TaxService $taxes,
         AssetTransformService $transforms,
         UserService $users
@@ -162,6 +169,7 @@ class Factory
         $this->productVariants = $productVariants;
         $this->routes = $routes;
         $this->settings = $settings;
+        $this->tags = $tags;
         $this->taxes = $taxes;
         $this->transforms = $transforms;
         $this->users = $users;

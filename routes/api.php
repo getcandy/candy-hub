@@ -130,6 +130,12 @@ $this->resource('routes', 'Routes\RouteController', [
     'except' => ['index', 'show', 'edit', 'create']
 ]);
 
+/**
+ * Tags
+ */
+$this->resource('tags', 'Tags\TagController', [
+    'except' => ['edit', 'create']
+]);
 
 /**
  * Taxes
