@@ -26,14 +26,16 @@
             }
         },
         mounted() {
-            const $selectpicker = $(this.$el).find('select');
-
-            $selectpicker.selectpicker('render');
+            this.refresh();
         },
         methods: {
             updateValue(value) {
                 this.$emit('input', value);
-            }
+            },
+            refresh() {
+                const $selectpicker = $(this.$el).find('select');
+                $selectpicker.selectpicker('render');
+            },
         }
     }
 </script>
