@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <select multiple data-role="tagsinput" @change="updateValue($event.target.value)">
+        <select id="tag-input" multiple data-role="tagsinput" @change="updateValue($event.target.value)">
 
             <option v-for="tag in value" :value="tag.name">
                 {{ tag.name }}
@@ -23,11 +23,15 @@
             },
         },
         mounted() {
-            $(this.$el).find('select').tagsinput();
 
-            $(this.$el).find('select').on('afterItemAdd', function(event) {
-                alert('sd');
+            const $taginput = $(this.$el).find('select');
+            $taginput.tagsinput();
+
+            $taginput.tagsinput().on("itemAddedOnInit", function(event) {
+                alert('sagwgd');
+                this.$emit('input', value);
             });
+
         },
         methods: {
             updateValue(value) {
