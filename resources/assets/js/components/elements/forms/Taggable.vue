@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="text" v-model="editableTags" class="form-control" data-role="tagsinput" :required="required">
+        <input type="text" v-model="editableTags"  @change="updateValue($event.target.value)" class="form-control" data-role="tagsinput" :required="required">
     </div>
 </template>
 
@@ -14,20 +14,34 @@
                 type: Boolean
             }
         },
+        mounted() {
+            $(this.$el).find('input').tagsinput();
+        },
         computed: {
             editableTags: {
                 get () {
-                    return this.value.join(',')
+                    let tags = this.value.map( function(tag){
+                        return tag.name;
+                    });
+                    return tags;
                 },
                 set (val) {
                     this.$emit('input', val.trim().split(','));
-                    CandyEvent.$emit('tagged', val.split(','));
                 }
             }
         },
         methods: {
             updateValue: function (value) {
-                this.$emit('input', value);
+/*
+                let tags = value.trim().split(',');
+
+                tags.map(function(tag){
+                    return ['name'] = tag;
+                });
+
+                console.log(value.trim().split(','));
+*/
+                this.$emit('input', '');
             }
         }
     }
