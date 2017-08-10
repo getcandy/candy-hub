@@ -25,6 +25,7 @@
                 default: false
             }
         },
+
         mounted() {
             const $selectpicker = $(this.$el).find('select');
 

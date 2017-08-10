@@ -4,13 +4,15 @@ namespace GetCandy\Http\Transformers\Fractal\Assets;
 
 use GetCandy\Api\Assets\Models\Asset;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Tags\TagTransformer;
 use Storage;
 
 
 class AssetTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'transforms'
+        'transforms',
+        'tags'
     ];
 
     /**
@@ -28,8 +30,7 @@ class AssetTransformer extends BaseTransformer
             'external' => (bool) $asset->external,
             'thumbnail' => $this->getThumbnail($asset),
             'position' => (int) $asset->position,
-            'primary' => (bool) $asset->primary,
-            'tags' => $asset->tags
+            'primary' => (bool) $asset->primary
         ];
 
         if (!$asset->external) {
@@ -73,5 +74,10 @@ class AssetTransformer extends BaseTransformer
     public function includeTransforms($asset)
     {
         return $this->collection($asset->transforms, new AssetTransformTransformer);
+    }
+
+    public function includeTags($asset)
+    {
+        return $this->collection($asset->tags, new TagTransformer);
     }
 }

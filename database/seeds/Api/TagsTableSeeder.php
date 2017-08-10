@@ -47,25 +47,43 @@ class TagsTableSeeder extends Seeder
         $tag = new Taggable();
         $tag->tag_id = 1;
         $tag->taggable_id = 1;
-        $tag->taggable_type = 'GetCandy\Api\Products\Models\Product';
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
         $tag->save();
 
         $tag = new Taggable();
         $tag->tag_id = 2;
         $tag->taggable_id = 1;
-        $tag->taggable_type = 'GetCandy\Api\Products\Models\Product';
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
         $tag->save();
 
         $tag = new Taggable();
         $tag->tag_id = 3;
         $tag->taggable_id = 1;
-        $tag->taggable_type = 'GetCandy\Api\Products\Models\Product';
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
+        $tag->save();
+
+        $tag = new Taggable();
+        $tag->tag_id = 6;
+        $tag->taggable_id = 1;
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
         $tag->save();
 
         $tag = new Taggable();
         $tag->tag_id = 4;
-        $tag->taggable_id = 1;
-        $tag->taggable_type = 'GetCandy\Api\Products\Models\Product';
+        $tag->taggable_id = 2;
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
+        $tag->save();
+
+        $tag = new Taggable();
+        $tag->tag_id = 5;
+        $tag->taggable_id = 2;
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
+        $tag->save();
+
+        $tag = new Taggable();
+        $tag->tag_id = 6;
+        $tag->taggable_id = 2;
+        $tag->taggable_type = 'GetCandy\Api\Assets\Models\Asset';
         $tag->save();
 
     }
