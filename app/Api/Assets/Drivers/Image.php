@@ -27,6 +27,14 @@ class Image extends BaseUploadDriver implements AssetDriverContract
             // Fall through
         }
 
+        if ($model->assets()->count()) {
+            // Get anything that isn't an "application";
+            $image = $model->assets()->where('kind', '!=', 'application')->first();
+            if (!$image) {
+                $asset->primary = true;
+            }
+        }
+
         $model->assets()->save($asset);
         $data['file']->storeAs($asset->location, $asset->filename, $source->disk);
 

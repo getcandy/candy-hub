@@ -26,7 +26,9 @@ class AssetTransformer extends BaseTransformer
             'caption' => $asset->caption,
             'kind' => $asset->kind,
             'external' => (bool) $asset->external,
-            'thumbnail' => $this->getThumbnail($asset)
+            'thumbnail' => $this->getThumbnail($asset),
+            'position' => (int) $asset->position,
+            'primary' => (bool) $asset->primary
         ];
 
         if (!$asset->external) {

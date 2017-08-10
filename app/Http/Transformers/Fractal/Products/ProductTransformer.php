@@ -104,7 +104,7 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeAssets(Product $product)
     {
-        return $this->collection($product->assets, new AssetTransformer);
+        return $this->collection($product->assets()->orderBy('position', 'asc')->get(), new AssetTransformer);
     }
 
     /**

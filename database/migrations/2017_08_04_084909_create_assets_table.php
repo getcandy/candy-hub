@@ -20,6 +20,7 @@ class CreateAssetsTable extends Migration
             $table->integer('position')->default(0);
             $table->string('location');
             $table->morphs('assetable');
+            $table->boolean('primary')->default(false);
             $table->string('kind')->index();
             $table->string('sub_kind')->nullable()->index();
             $table->string('width')->nullable();

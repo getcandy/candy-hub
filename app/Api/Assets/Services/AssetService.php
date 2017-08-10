@@ -24,7 +24,7 @@ class AssetService extends BaseService
      * @return mixed
      *
      **/
-    protected function getDriver($mimeType)
+    public function getDriver($mimeType)
     {
         $kind = explode('/', $mimeType);
         $class = config("assets.upload_drivers.{$kind[0]}", config('assets.upload_drivers.file'));
@@ -50,6 +50,11 @@ class AssetService extends BaseService
             $data,
             $model
         );
+
+        $asset->update([
+            'position' => $position
+        ]);
+
         return $asset;
     }
 
