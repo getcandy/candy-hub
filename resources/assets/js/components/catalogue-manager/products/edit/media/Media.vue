@@ -273,6 +273,7 @@
                                 <td><input v-model="asset.title" type="text" class="form-control"></td>
                                 <td><input v-model="asset.caption" type="text" class="form-control"></td>
                                 <td>
+                                    {{ asset.tags.data }}
                                     <candy-taggable v-model="asset.tags.data"></candy-taggable>
                                 </td>
                                 <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>

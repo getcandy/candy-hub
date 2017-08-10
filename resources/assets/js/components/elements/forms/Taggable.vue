@@ -1,10 +1,10 @@
 <template>
     <div>
-
-        <select id="tag-input" multiple data-role="tagsinput" @change="updateValue($event.target.value)">
-
-            <option v-for="tag in value" :value="tag.name">
-                {{ tag.name }}
+        {{ tags }}
+        <select id="tag-input" multiple data-role="tagsinput">
+            
+            <option v-for="tag in tags" :value="tag">
+                {{ tag }}
             </option>
 
         </select>
@@ -14,6 +14,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                tags: []
+            }
+        },
         props: {
             value: {
                 type: Array
@@ -24,19 +29,18 @@
         },
         mounted() {
 
-            const $taginput = $(this.$el).find('select');
+            const $taginput = $(this.$el);
             $taginput.tagsinput();
 
-            $taginput.tagsinput().on("itemAddedOnInit", function(event) {
-                alert('sagwgd');
-                this.$emit('input', value);
+            $taginput.on("itemAdded", event => {
+                this.updateValue(event.item);
             });
 
         },
         methods: {
             updateValue(value) {
-                console.log(value);
-                this.$emit('input', value);
+                this.tags.push(value);
+                this.$emit('input', this.tags);
             }
         }
     }
