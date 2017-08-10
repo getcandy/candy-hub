@@ -1,6 +1,14 @@
 <template>
     <div>
-        <input type="text" v-model="editableTags"  @change="updateValue($event.target.value)" class="form-control" data-role="tagsinput" :required="required">
+
+        <select multiple data-role="tagsinput" @change="updateValue($event.target.value)">
+
+            <option v-for="tag in value" :value="tag.name">
+                {{ tag.name }}
+            </option>
+
+        </select>
+
     </div>
 </template>
 
@@ -12,36 +20,19 @@
             },
             required: {
                 type: Boolean
-            }
+            },
         },
         mounted() {
-            $(this.$el).find('input').tagsinput();
-        },
-        computed: {
-            editableTags: {
-                get () {
-                    let tags = this.value.map( function(tag){
-                        return tag.name;
-                    });
-                    return tags;
-                },
-                set (val) {
-                    this.$emit('input', val.trim().split(','));
-                }
-            }
+            $(this.$el).find('select').tagsinput();
+
+            $(this.$el).find('select').on('afterItemAdd', function(event) {
+                alert('sd');
+            });
         },
         methods: {
-            updateValue: function (value) {
-/*
-                let tags = value.trim().split(',');
-
-                tags.map(function(tag){
-                    return ['name'] = tag;
-                });
-
-                console.log(value.trim().split(','));
-*/
-                this.$emit('input', '');
+            updateValue(value) {
+                console.log(value);
+                this.$emit('input', value);
             }
         }
     }
