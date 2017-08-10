@@ -24,4 +24,9 @@ class Tag extends BaseModel
     {
         return $this->hasMany(Taggable::class);
     }
+
+    public function assets()
+    {
+        return $this->morphedByMany(Asset::class, 'taggable');
+    }
 }

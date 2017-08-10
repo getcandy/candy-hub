@@ -4,6 +4,7 @@ namespace GetCandy\Api\Assets\Models;
 
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Tags\Models\Tag;
 
 class Asset extends BaseModel
 {
@@ -67,5 +68,10 @@ class Asset extends BaseModel
     {
         $class = config("assets.upload_drivers.{$this->kind}", config('assets.upload_drivers.file'));
         return new $class;
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }

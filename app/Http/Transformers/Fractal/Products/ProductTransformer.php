@@ -12,7 +12,6 @@ use GetCandy\Http\Transformers\Fractal\Collections\CollectionTransformer;
 use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
-use GetCandy\Http\Transformers\Fractal\Tags\TagTransformer;
 
 class ProductTransformer extends BaseTransformer
 {
@@ -33,8 +32,7 @@ class ProductTransformer extends BaseTransformer
         'routes',
         'channels',
         'customer_groups',
-        'assets',
-        'tags'
+        'assets'
     ];
 
     /**
@@ -168,18 +166,5 @@ class ProductTransformer extends BaseTransformer
     {
         $groups = app('api')->customerGroups()->getGroupsWithAvailability($product);
         return $this->collection($groups, new CustomerGroupTransformer);
-    }
-
-    /**
-     * @param Product $product
-     *
-     * @return \League\Fractal\Resource\Collection
-     */
-    public function includeTags(Product $product)
-    {
-
-        dd(app('api')->tags()->getTags('GetCandy\Api\Products\Models\Product'));
-        $tags = app('api')->tags()->getTags('GetCandy\Api\Products\Models\Product');
-        return $this->collection($tags, new TagTransformer);
     }
 }
