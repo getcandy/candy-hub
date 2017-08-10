@@ -20,7 +20,8 @@
                     animation: 150
                 },
                 mimeTypes: [
-                    {label: 'YouTube', value: 'youtube'}
+                    {label: 'YouTube', value: 'youtube'},
+                    {label: 'Vimeo', value: 'vimeo'},
                 ],
                 urlUploadModalOpen: false,
                 assets: [],

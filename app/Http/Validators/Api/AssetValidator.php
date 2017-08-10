@@ -12,6 +12,7 @@ class AssetValidator
 
         $method = 'validate' . title_case($parameters[0]) . 'Url';
 
+
         if (method_exists($this, $method)) {
             return call_user_func([$this, $method], $value);
         }
@@ -23,5 +24,11 @@ class AssetValidator
     {
         $driver = app('api')->assets()->getDriver('youtube');
         return (bool) $driver->getVideoInfo($url);
+    }
+
+    protected function validateVimeoUrl($url)
+    {
+        $driver = app('api')->assets()->getDriver('vimeo');
+        return $driver->getVideoInfo($url);
     }
 }

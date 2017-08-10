@@ -27,8 +27,7 @@ class AssetService extends BaseService
     public function getDriver($mimeType)
     {
         $kind = explode('/', $mimeType);
-        $class = config("assets.upload_drivers.{$kind[0]}", config('assets.upload_drivers.file'));
-        return new $class;
+        return app("{$kind[0]}.driver");
     }
 
     /**

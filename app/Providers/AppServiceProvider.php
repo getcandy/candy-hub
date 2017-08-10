@@ -29,5 +29,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('fractal', function ($app) {
             return new Manager();
         });
+
+        $mediaDrivers = config('assets.upload_drivers');
+        foreach ($mediaDrivers as $name => $driver) {
+            $this->app->singleton($name . '.driver', function ($app) use ($driver) {
+                return $app->make($driver);
+            });
+        }
     }
 }
