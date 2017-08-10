@@ -28,7 +28,8 @@ class AssetTransformer extends BaseTransformer
             'external' => (bool) $asset->external,
             'thumbnail' => $this->getThumbnail($asset),
             'position' => (int) $asset->position,
-            'primary' => (bool) $asset->primary
+            'primary' => (bool) $asset->primary,
+            'tags' => $asset->tags
         ];
 
         if (!$asset->external) {
@@ -50,7 +51,7 @@ class AssetTransformer extends BaseTransformer
 
     protected function getThumbnail($asset)
     {
-//        return $asset->transforms
+//      return $asset->transforms
         $transform = $asset->transforms->filter(function ($transform) {
             return $transform->transform->handle == 'thumbnail';
         })->first();
@@ -62,6 +63,7 @@ class AssetTransformer extends BaseTransformer
         $path = $transform->location . '/' . $transform->filename;
         return Storage::disk($asset->source->disk)->url($path);
     }
+
     protected function getUrl($asset)
     {
         $path = $asset->location . '/' . $asset->filename;
