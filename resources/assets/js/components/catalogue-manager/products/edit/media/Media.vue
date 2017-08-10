@@ -253,7 +253,9 @@
                                 </td>
                                 <td><input v-model="asset.title" type="text" class="form-control"></td>
                                 <td><input v-model="asset.caption" type="text" class="form-control"></td>
-                                <td><input type="text" class="form-control" data-role="tagsinput"></td>
+                                <td>
+                                    <candy-taggable v-model="asset.tags" :options="asset.tags"></candy-taggable>
+                                </td>
                                 <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
                                 <td align="right">
                                     <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i>
