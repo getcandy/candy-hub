@@ -66,8 +66,7 @@ class Asset extends BaseModel
 
     public function uploader()
     {
-        $class = config("assets.upload_drivers.{$this->kind}", config('assets.upload_drivers.file'));
-        return new $class;
+        return app('api')->assets()->getDriver($this->kind);
     }
 
     public function tags()

@@ -9,8 +9,9 @@
                 filter: '',
                 processingAssetUrl: false,
                 failedUploads: [],
+                assetUrlType: 'external',
                 urlUpload: {
-                    type: '',
+                    type: 'youtube',
                     url: ''
                 },
                 sortableOptions: {
@@ -20,7 +21,9 @@
                     animation: 150
                 },
                 mimeTypes: [
-                    {label: 'YouTube', value: 'youtube'}
+                    {label: 'YouTube', value: 'youtube'},
+                    {label: 'Vimeo', value: 'vimeo'},
+                    {label: 'URL', value: 'external'},
                 ],
                 urlUploadModalOpen: false,
                 assets: [],
@@ -148,6 +151,23 @@
             getIcon(type) {
                 return '/icons/file-types/' + type + '.svg';
             },
+            detectAssetUrlType() {
+                // First clear any errors
+                this.request.clearError('url')
+
+                let value = this.urlUpload.url;
+
+                if (value.match(/youtube\.com/)) {
+                    this.urlUpload.type = 'youtube';
+                } else if (value.match(/vimeo\.com/)) {
+                    this.urlUpload.type = 'youtube';
+                } else {
+                    this.urlUpload.type = 'external';
+                }
+
+                // Refresh selectpicker
+                this.$refs.urlTypeDropdown.refresh();
+            },
             /**
              * Dropzone event Methods
              */
@@ -257,7 +277,9 @@
                                 </td>
                                 <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
                                 <td align="right">
-                                    <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    <a class="btn btn-sm btn-default btn-action" :href="asset.url" target="_blank"><i class="fa fa-download" aria-hidden="true" title="Download"></i></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -304,13 +326,13 @@
                     <div class="col-xs-12 col-sm-3">
                         <div class="form-group">
                             <label>Type</label>
-                            <candy-select :options="mimeTypes" v-model="urlUpload.type"></candy-select>
+                            <candy-select ref="urlTypeDropdown" :options="mimeTypes" v-model="urlUpload.type"></candy-select>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-9">
                         <div class="form-group">
                             <label for="urlUpload">Enter the URL to the asset.</label>
-                            <input type="text" id="urlUpload" class="form-control" v-model="urlUpload.url" @input="request.clearError('url')">
+                            <input type="text" id="urlUpload" class="form-control" v-model="urlUpload.url" @input="detectAssetUrlType()">
                         </div>
                         <span class="text-danger" v-if="request.getError('url')" v-text="request.getError('url')"></span>
                     </div>
