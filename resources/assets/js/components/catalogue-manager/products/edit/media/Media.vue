@@ -22,6 +22,7 @@
                 mimeTypes: [
                     {label: 'YouTube', value: 'youtube'},
                     {label: 'Vimeo', value: 'vimeo'},
+                    {label: 'URL', value: 'external'},
                 ],
                 urlUploadModalOpen: false,
                 assets: [],
