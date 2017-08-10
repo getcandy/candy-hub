@@ -33,6 +33,8 @@ class Image extends BaseUploadDriver implements AssetDriverContract
             if (!$image) {
                 $asset->primary = true;
             }
+        } else {
+            $asset->primary = true;
         }
 
         $model->assets()->save($asset);

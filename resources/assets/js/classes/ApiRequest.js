@@ -123,7 +123,8 @@ class ApiRequest {
                 'channels': product.channels.data,
                 'display': displayStr,
                 'family_group': product.family.data.attribute_data,
-                'group': product.family.data.attribute_data.name.ecommerce.gb
+                'group': product.family.data.attribute_data.name.ecommerce.gb,
+                'thumbnail' : product.thumbnail
             });
         });
 

@@ -97,9 +97,21 @@
                     pos++;
                 });
             },
-            selectPrimary(index) {
-
+            setPrimary(newPrimary) {
+                this.assets.forEach(asset => {
+                    if (asset.id == newPrimary.id) {
+                        asset.primary = true;
+                    } else {
+                        asset.primary = false;
+                    }
+                });
+                this.save();
             },
+            /**
+             * Gets filtered results for the assets
+             * @param  {string} type
+             * @return {Object}
+             */
             getFilteredResults(type) {
                 if (type) {
                     return this.assets.filter(asset => {
@@ -114,6 +126,11 @@
                 }
                 return this.assets;
             },
+            /**
+             * Shows the delete modal for an asset
+             * @param  int index
+             * @return void
+             */
             showDeleteModal(index) {
                 this.deletedIndex = index;
                 this.assetToDelete  = this.assets[index];
@@ -204,7 +221,6 @@
                         </thead>
                         <tbody  v-sortable="sortableOptions">
                             <tr v-for="(asset, index) in getFilteredResults(filter)" :key="asset.id">
-                                {{ asset }}
                                 <td class="handle">
                                     <svg width="13px" height="19px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -220,9 +236,13 @@
                                     </svg>
                                 </td>
                                 <td>
-                                    <label v-if="asset.thumbnail">
-                                        <input type="radio" name="primaryAsset" :value="true" v-model="asset.primary"> Primary
-                                    </label>
+                                    <div class="toggle-radio small" v-if="asset.thumbnail">
+                                        <input type="radio" :id="asset.id" value="true" v-model="asset.primary" @click="setPrimary(asset)">
+                                        <label :for="asset.id">
+                                            <span class="check"></span>
+                                            <span class="faux-label">Primary</span>
+                                        </label>
+                                    </div>
                                 </td>
                                 <td>
                                     <a :href="asset.url" v-if="asset.thumbnail" data-lity>
