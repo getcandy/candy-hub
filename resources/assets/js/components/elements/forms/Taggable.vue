@@ -1,14 +1,6 @@
 <template>
     <div>
-        {{ tags }}
-        <select id="tag-input" multiple data-role="tagsinput">
-            
-            <option v-for="tag in tags" :value="tag">
-                {{ tag }}
-            </option>
-
-        </select>
-
+        <input type="text" :value="tagsString">
     </div>
 </template>
 
@@ -27,20 +19,28 @@
                 type: Boolean
             },
         },
+        computed: {
+            tagsString() {
+                return this.tags.join();
+            }
+        },
         mounted() {
-
-            const $taginput = $(this.$el);
-            $taginput.tagsinput();
-
-            $taginput.on("itemAdded", event => {
-                this.updateValue(event.item);
+            // const $taginput = $(this.$el).find('input');
+            this.value.forEach(tag => {
+                this.tags.push(tag.name);
             });
-
+            // $taginput.tagsinput();
+            // $taginput.on("itemAdded", event => {
+            //     this.updateValue(event.item);
+            // });
         },
         methods: {
             updateValue(value) {
-                this.tags.push(value);
-                this.$emit('input', this.tags);
+                this.value.push({
+                    id: '',
+                    name: value
+                });
+                this.$emit('input', this.value);
             }
         }
     }
