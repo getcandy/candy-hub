@@ -28,7 +28,7 @@
             }
         },
         mounted() {
-            this.tags = this.value;
+
         },
         components: {
             Multiselect

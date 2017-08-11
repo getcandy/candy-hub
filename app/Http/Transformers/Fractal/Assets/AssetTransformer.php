@@ -10,9 +10,11 @@ use Storage;
 
 class AssetTransformer extends BaseTransformer
 {
+    protected $defaultIncludes = [
+        'tags'
+    ];
     protected $availableIncludes = [
         'transforms',
-        'tags'
     ];
 
     /**
