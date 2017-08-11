@@ -16069,6 +16069,11 @@ textarea.bootstrap-tagsinput {
   display: none;
 }
 
+.toggle-radio.rounded input[type="radio"]:checked + label {
+  background-color: #a74c9d;
+  border-color: #95448d;
+}
+
 .toggle-radio.rounded input[type="radio"]:checked:hover + label span.faux-label {
   display: block;
   position: absolute;
@@ -16080,7 +16085,10 @@ textarea.bootstrap-tagsinput {
   padding-left: 10px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
-  background-color: #662d91;
+  background-color: #a74c9d;
+  border-width: 1px;
+  border-color: #95448d;
+  border-right: 0;
 }
 
 /* Product Layout Select */

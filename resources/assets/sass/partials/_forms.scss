@@ -372,6 +372,10 @@ textarea.form-control {
       }
 
       &:checked {
+        + label {
+          background-color: $pink;
+          border-color: darken($pink, 5%);
+        }
         &:hover {
           + label {
             span.faux-label {
@@ -385,7 +389,10 @@ textarea.form-control {
               padding-left: 10px;
               border-top-right-radius: 20px;
               border-bottom-right-radius: 20px;
-              background-color: $purple;
+              background-color: $pink;
+              border-width: 1px;
+              border-color: darken($pink, 5%);
+              border-right: 0;
             }
           }
         }
