@@ -4,6 +4,7 @@ class ApiRequest {
 
     constructor() {
         this.errors = {};
+        this.products = [];
     }
 
     hasError(field) {
@@ -69,6 +70,65 @@ class ApiRequest {
             });
 
         });
+
+    }
+
+    loadProducts(params, flatten = false) {
+
+        let paramsArr = {'params': params};
+
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/products', paramsArr)
+                .then(response => {
+                    resolve((flatten) ? this.flatify(response.data) : response.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+
+    }
+
+    flatify(response) {
+
+        let flatify = [];
+        flatify['pagination'] = response['meta'].pagination;
+
+        response['data'].forEach(function (product) {
+
+            // Determine whether to show all, selected or none (Purchasable)
+            let purchasableArr = jQuery.map(product.customer_groups.data, function( customer_group ) {
+                return (customer_group.purchasable === true) ? customer_group.name : null;
+            });
+
+            let purchasableStr = '';
+            if(purchasableArr.length === 0) { purchasableStr = 'None';}
+            else if(purchasableArr.length === product.customer_groups.data.length) { purchasableStr = 'All'; }
+            else { purchasableStr = purchasableArr.join(', '); }
+
+            // Determine whether to show all, selected or none (Display)
+            let displayArr = jQuery.map(product.channels.data, function( channel ) {
+                return (channel.visible === true) ? channel.name : null;
+            });
+            let displayStr = '';
+            if(displayArr.length === 0) {displayStr = 'None';}
+            else if(displayArr.length === product.channels.data.length) {displayStr = 'All';}
+            else {displayStr = displayArr.join(', ');}
+
+            flatify.push({
+                'id': product.id,
+                'name': product.attribute_data.name.ecommerce.gb,
+                'customer_groups': product.customer_groups.data,
+                'purchasable': purchasableStr,
+                'channels': product.channels.data,
+                'display': displayStr,
+                'family_group': product.family.data.attribute_data,
+                'group': product.family.data.attribute_data.name.ecommerce.gb,
+                'thumbnail' : product.thumbnail
+            });
+        });
+
+        return flatify;
 
     }
 

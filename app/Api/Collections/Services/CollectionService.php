@@ -65,4 +65,21 @@ class CollectionService extends BaseService
         $collection = $this->getByHashedId($id);
         return $collection->delete();
     }
+
+    /**
+     * Gets paginated data for the record
+     * @param  integer $length How many results per page
+     * @param  int  $page   The page to start
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
+    {
+        if ($searchTerm) {
+            $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
+            $results = $this->model->whereIn('id', $ids);
+        } else {
+            $results = $this->model;
+        }
+        return $results->paginate($length, ['*'], 'page', $page);
+    }
 }

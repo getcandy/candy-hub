@@ -103,6 +103,7 @@ return [
     |
     */
 
+    'asset_url' => 'This is not a valid url',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

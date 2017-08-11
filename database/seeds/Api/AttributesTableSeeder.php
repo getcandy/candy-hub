@@ -36,6 +36,7 @@ class AttributesTableSeeder extends Seeder
         $attribute->group_id = $group->id;
         $attribute->channeled = 1;
         $attribute->required = true;
+        $attribute->type = 'textarea';
         $attribute->save();
 
         $attribute = new Attribute();

@@ -21,6 +21,7 @@ class ChannelTransformer extends BaseTransformer
         $data = [
             'id' => $channel->encodedId(),
             'name' => $channel->name,
+            'handle' => $channel->handle,
             'default' => (bool) $channel->default,
             'visible' => $channel->visible,
             'published_at' => \Carbon\Carbon::parse($channel->published_at)

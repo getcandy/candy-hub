@@ -17,8 +17,10 @@ class CreateRoutesTable extends Migration
             $table->increments('id');
             $table->morphs('element');
             $table->boolean('default')->default(true);
+            $table->boolean('redirect')->default(false);
             $table->string('slug')->unique();
             $table->string('locale')->default(\App::getLocale());
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

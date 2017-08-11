@@ -6,17 +6,20 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "alaouy/youtube": "^2.1",
         "barryvdh/laravel-cors": "^0.9.2",
         "barryvdh/laravel-debugbar": "^2.4",
         "guzzlehttp/guzzle": "^6.2",
         "hashids/hashids": "^2.0",
+        "intervention/image": "^2.4",
         "kalnoy/nestedset": "^4.2",
         "laravel/framework": "5.4.*",
-        "laravel/passport": "^2.0",
+        "laravel/passport": "^3.0",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.15.0",
         "ruflin/elastica": "5.2.*",
-        "vinkla/hashids": "^3.1"
+        "vinkla/hashids": "^3.1",
+        "vinkla/vimeo": "^3.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

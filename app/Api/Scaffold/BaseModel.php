@@ -10,6 +10,15 @@ abstract class BaseModel extends Model
 {
     use Hashids;
 
+    public function getSettingsAttribute()
+    {
+        $settings = app('api')->settings()->get($this->settings);
+        if (!$settings) {
+            return [];
+        }
+        return $settings->content;
+    }
+
     /**
      * Scope a query to only include enabled.
      *

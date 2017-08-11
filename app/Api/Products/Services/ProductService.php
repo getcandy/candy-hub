@@ -78,6 +78,8 @@ class ProductService extends BaseService
         $product->routes()->create([
             'locale' => $data['locale'],
             'slug' => $data['slug'],
+            'description' => !empty($data['description']) ? $data['description'] : null,
+            'redirect' => !empty($data['redirect']) ? true : false,
             'default' => false
         ]);
         return $product;
@@ -126,7 +128,6 @@ class ProductService extends BaseService
         $data['attribute_data'] = $product->attribute_data;
         return $product->variants()->create($data);
     }
-
 
     /**
      * @param $hashedId

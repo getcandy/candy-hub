@@ -1,10 +1,10 @@
 <template>
     <div>
 
-        <div class="radio" v-for="option in options" @input="updateValue($event.target.value)" :required="required">
+        <div class="radio" v-for="option in options" @change="updateValue($event.target.value)">
             <label>
-                <input type="radio" name="option" id="optionsRadios1" :value="option.value">
-                {{ option.label }}
+                <input type="radio" name="option" id="optionsRadios1" :value="(option.label) ? option.label : option" :required="required">
+                {{ (option.label) ? option.label : option }}
             </label>
         </div>
 

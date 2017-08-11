@@ -7,19 +7,19 @@
 
 require('./bootstrap');
 require('babel-core/register');
+require('lity');
 require('babel-polyfill');
 
 require('./classes/Errors');
 require('./classes/Form');
 
-window.Datepicker = require('bootstrap-datepicker');
+//window.Datepicker = require('bootstrap-datepicker');
 require('bootstrap-datepicker');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
-window.Dropzone = require('dropzone');
+require('dropzone');
 window.List = require('list.js');
-
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,6 +35,7 @@ Vue.component('candy-tabs', require('./components/elements/tabs/CandyTabs.vue'))
 Vue.component('candy-tab', require('./components/elements/tabs/CandyTab.vue'));
 Vue.component('candy-button', require('./components/elements/Button.vue'));
 Vue.component('candy-notification', require('./components/elements/NotificationBar.vue'));
+Vue.component('candy-alert', require('./components/elements/AlertPanel.vue'));
 Vue.component('candy-modal', require('./components/elements/Modal.vue'));
 
 /**
@@ -42,18 +43,31 @@ Vue.component('candy-modal', require('./components/elements/Modal.vue'));
  */
 Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
 Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
+Vue.component('candy-checkbox', require('./components/elements/forms/Checkbox.vue'));
 Vue.component('candy-taggable', require('./components/elements/forms/Taggable.vue'));
 Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
 Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
 Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
 Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
 Vue.component('candy-radio', require('./components/elements/forms/Radio.vue'));
+Vue.component('candy-toggle', require('./components/elements/forms/Toggle.vue'));
 
+/**
+ * Page Specific
+ */
+/* Products */
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
 Vue.component('candy-product-attributes', require('./components/catalogue-manager/products/edit/details/ProductAttributes.vue'));
 Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
+/* Collections */
+Vue.component('collections-table', require('./components/catalogue-manager/collections/CollectionsTable.vue'));
+
+/**
+ * Table
+ */
+Vue.component('candy-table-paginate', require('./components/elements/tables/TablePaginate.vue'));
 
 /**
  * Media
@@ -95,11 +109,23 @@ Vue.component('candy-locale-urls', require('./components/catalogue-manager/produ
 Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
 Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
 
+/**
+ * Directives
+ */
+
+import Sortable from 'sortablejs'
+
+Vue.directive('sortable', {
+  inserted: function (el, binding) {
+    var sortable = new Sortable(el, binding.value || {});
+  }
+});
+
+
 window.CandyEvent = new Vue();
 
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
-
 
 var CandyHelpers = {};
 
@@ -165,33 +191,8 @@ $('.btn-pop-over').click(function() {
 $('.product-menu').click(function() {
     $(this).toggleClass('active');
 });
-
-// Bulk Options
-$('.bulk-options').click(function() {
-    $(this).toggleClass('active');
-});
-
 $('.bulk-actions').css({
     'width': ($('.product-table').width() + 'px')
- });
-
-$('.bulk-options').on('click', function(){
-   var checkbox = $(this).children('input[type="checkbox"]');
-   checkbox.prop('checked', !checkbox.prop('checked'));
-});
-
-$('.product-table input:checkbox').change(function(){
-    if($(this).is(":checked")) {
-        $('.bulk-options').addClass("active");
-        $(this).parents('tr').addClass("selected");
-    } else {
-        $('.bulk-options').removeClass("active");
-        $(this).parents('tr').removeClass("selected");
-    }
-});
-
-$(".select-all").change(function () {
-    $("input:checkbox").prop('checked', $(this).prop("checked"));
 });
 
 // Tabs
@@ -206,7 +207,7 @@ $('.nav-tabs a').on('shown', function (e) {
 });
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  var target = $(e.target).attr("href")
+  var target = $(e.target).attr("href");
   $('.bulk-actions').css({
     'width': ($('.product-table').width() + 'px')
   });
@@ -223,7 +224,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 $("[data-toggle='tooltip']").tooltip();
 
 // Tooltips
-$('[data-toggle="popover"]').popover()
+$('[data-toggle="popover"]').popover();
 
 // Date Picker
 

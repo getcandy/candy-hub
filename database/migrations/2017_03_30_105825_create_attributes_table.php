@@ -28,7 +28,7 @@ class CreateAttributesTable extends Migration
             $table->boolean('translatable')->default(true);
             $table->enum(
                 'type',
-                ['text', 'richtext', 'select', 'radio', 'checkbox', 'checkbox_group', 'radio_group']
+                ['text', 'textarea', 'select', 'radio', 'checkbox', 'date', 'time', 'checkbox_group', 'radio_group', 'toggle']
             )->default('text');
             $table->boolean('required')->default(false);
             $table->json('lookups')->nullable();

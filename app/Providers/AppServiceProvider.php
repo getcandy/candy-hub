@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('valid_locales', 'GetCandy\Http\Validators\Api\LocaleValidator@validate');
+        Validator::extend('asset_url', 'GetCandy\Http\Validators\Api\AssetValidator@validAssetUrl');
     }
 
     /**
@@ -28,5 +29,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('fractal', function ($app) {
             return new Manager();
         });
+
+        $mediaDrivers = config('assets.upload_drivers');
+        foreach ($mediaDrivers as $name => $driver) {
+            $this->app->singleton($name . '.driver', function ($app) use ($driver) {
+                return $app->make($driver);
+            });
+        }
     }
 }

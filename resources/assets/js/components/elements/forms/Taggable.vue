@@ -1,33 +1,46 @@
 <template>
     <div>
-        <input type="text" v-model="editableTags" class="form-control" data-role="tagsinput" :required="required">
+        {{ tags }}
+        <select id="tag-input" multiple data-role="tagsinput">
+            
+            <option v-for="tag in tags" :value="tag">
+                {{ tag }}
+            </option>
+
+        </select>
+
     </div>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                tags: []
+            }
+        },
         props: {
             value: {
                 type: Array
             },
             required: {
                 type: Boolean
-            }
+            },
         },
-        computed: {
-            editableTags: {
-                get () {
-                    return this.value.join(',')
-                },
-                set (val) {
-                    this.$emit('input', val.trim().split(','));
-                    CandyEvent.$emit('tagged', val.split(','));
-                }
-            }
+        mounted() {
+
+            const $taginput = $(this.$el);
+            $taginput.tagsinput();
+
+            $taginput.on("itemAdded", event => {
+                this.updateValue(event.item);
+            });
+
         },
         methods: {
-            updateValue: function (value) {
-                this.$emit('input', value);
+            updateValue(value) {
+                this.tags.push(value);
+                this.$emit('input', this.tags);
             }
         }
     }

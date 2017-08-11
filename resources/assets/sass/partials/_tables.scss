@@ -7,9 +7,16 @@
       }
     }
   }
-
   tbody {
+    .handle {
+      cursor: grab;
+    }
     tr {
+      background-color:#fff;
+      &.sortable-ghost {
+        opacity: .25;
+        background-color: #eeeeee;
+      }
       &.clickable {
         cursor: pointer;
         &:hover {

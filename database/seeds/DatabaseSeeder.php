@@ -17,16 +17,7 @@ class DatabaseSeeder extends Seeder
 
         Eloquent::unguard();
 
-        // Truncate all tables, except migrations
-        $tables = DB::select('SHOW TABLES');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-        foreach ($tables as $table) {
-            if ($table->Tables_in_homestead !== 'migrations') {
-                DB::table($table->Tables_in_homestead)->truncate();
-            }
-        }
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
-
+        $this->call(SettingsTableSeeder::class);
         $this->call(CustomerGroupTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(AttributesTableSeeder::class);
@@ -38,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductTableSeeder::class);
         $this->call(CurrencyTableSeeder::class);
         $this->call(TaxTableSeeder::class);
+        $this->call(AssetSourceTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
         \Artisan::call('passport:install');
     }
 }
