@@ -16062,6 +16062,7 @@ textarea.bootstrap-tagsinput {
 
 .toggle-radio.rounded input[type="radio"] + label span.check {
   font-size: 1.2em;
+  margin-top: -1px;
 }
 
 .toggle-radio.rounded input[type="radio"] + label span.faux-label {
