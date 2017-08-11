@@ -7,7 +7,7 @@
             label="name"
             @tag="addTag"
             @input="updateSelected"
-            :options="options"
+            :options="inputOptions"
         >
         </multiselect>
     </div>
@@ -18,17 +18,23 @@
     export default {
         data() {
             return {
-                options: [],
+                inputOptions: [],
                 tags: []
             }
         },
         props: {
             value: {
                 type: Array
+            },
+            options: {
+                type: Array,
+                default() {
+                    return [];
+                }
             }
         },
         mounted() {
-
+            this.inputOptions = this.options;
         },
         components: {
             Multiselect
@@ -39,7 +45,7 @@
                     id: null,
                     name: value
                 };
-                this.options.push(newTag);
+                this.inputOptions.push(newTag);
                 this.tags.push(newTag);
             },
             updateSelected(value) {
