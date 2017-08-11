@@ -9,7 +9,6 @@
 
     @include('partials.head')
 
-
   </head>
   <body>
     <div class="wrap" id="app">
@@ -50,7 +49,6 @@
       <candy-notification></candy-notification>
     </div>
     <div class="main-purple-overlay"></div>
-    
     @include('partials.scripts')
 
   </body>

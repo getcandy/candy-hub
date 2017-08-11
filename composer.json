@@ -4,6 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/alecritson/ziggy"
+        }
+    ],
     "require": {
         "php": ">=5.6.4",
         "alaouy/youtube": "^2.1",
@@ -19,7 +25,8 @@
         "league/fractal": "^0.15.0",
         "ruflin/elastica": "5.2.*",
         "vinkla/hashids": "^3.1",
-        "vinkla/vimeo": "^3.6"
+        "vinkla/vimeo": "^3.6",
+        "tightenco/ziggy": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

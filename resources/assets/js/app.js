@@ -19,6 +19,7 @@ require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
 require('dropzone');
+require('selectize');
 window.List = require('list.js');
 
 /**

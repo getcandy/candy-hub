@@ -1,6 +1,10 @@
 <template>
     <div>
-        <input type="text" :value="tagsString">
+        <select multiple>
+            <option v-for="option in inputOptions" :value="option" :selected="value.contains(option)">
+                {{ option }}
+            </option>
+        </select>
     </div>
 </template>
 
@@ -8,10 +12,17 @@
     export default {
         data() {
             return {
-                tags: []
+                tags: [],
+                inputOptions: []
             }
         },
         props: {
+            options: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
             value: {
                 type: Array
             },
@@ -19,29 +30,39 @@
                 type: Boolean
             },
         },
-        computed: {
-            tagsString() {
-                return this.tags.join();
-            }
-        },
         mounted() {
-            // const $taginput = $(this.$el).find('input');
-            this.value.forEach(tag => {
-                this.tags.push(tag.name);
+            const $taginput = $(this.$el).find('select');
+
+
+            var self = this;
+
+            $taginput.selectize({
+                delimiter: ',',
+                create: true,
+                load() {
+                    alert('hello');
+                    self.inputOptions = self.value.concat(self.options);
+                },
+                onItemAdd(value) {
+                    self.value.push(value);
+                    self.updateValue();
+                },
+                onItemRemove(item) {
+                    let index = self.value.indexOf(item);
+                    self.value.splice(index,1);
+                    console.log(self.value);
+                    self.updateValue();
+                }
             });
-            // $taginput.tagsinput();
-            // $taginput.on("itemAdded", event => {
-            //     this.updateValue(event.item);
-            // });
         },
         methods: {
-            updateValue(value) {
-                this.value.push({
-                    id: '',
-                    name: value
-                });
+            updateValue() {
                 this.$emit('input', this.value);
             }
         }
     }
 </script>
+
+<style lang="scss">
+    @import "~selectize/dist/css/selectize.bootstrap3.css";
+</style>

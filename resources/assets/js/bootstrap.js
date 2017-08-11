@@ -61,6 +61,16 @@ Array.prototype.unique = function() {
     return a;
 };
 
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] == obj) {
+            return true;
+        }
+    }
+    return false;
+};
+
 String.prototype.slugify = function(allowSubPaths = false) {
     const a = 'àáäâèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ·/_,:;'
     const b = 'aaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzh------'
