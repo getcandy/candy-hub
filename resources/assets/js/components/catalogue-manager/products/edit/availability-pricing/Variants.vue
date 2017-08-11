@@ -277,7 +277,7 @@
                   </div>
                   <div class="variant-options">
                     <template v-for="(option, label, index) in v.options">
-                      {{ capitalize(label) }} {{ option }},
+                      <span class="option-label">{{ capitalize(label) }}</span> {{ option }},
                     </template>
                   </div>
                 </a>

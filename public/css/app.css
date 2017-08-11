@@ -15456,6 +15456,12 @@ a {
   margin-left: 15px;
 }
 
+.variant-list .variant-options .option-label {
+  opacity: 0.8;
+  font-size: 90%;
+  font-style: italic;
+}
+
 /* Media */
 
 /* Dropzone.js */
@@ -16056,13 +16062,16 @@ textarea.bootstrap-tagsinput {
 
 .toggle-radio.rounded input[type="radio"] + label {
   position: relative;
-  width: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 
 .toggle-radio.rounded input[type="radio"] + label span.check {
+  z-index: 4;
+  margin-top: -11px;
+  margin-left: -3px;
   font-size: 1.2em;
-  margin-top: -1px;
 }
 
 .toggle-radio.rounded input[type="radio"] + label span.faux-label {
@@ -16079,10 +16088,11 @@ textarea.bootstrap-tagsinput {
   position: absolute;
   z-index: 3;
   top: -1px;
-  left: 22px;
-  height: 40px;
+  left: 16px;
+  height: 30px;
   width: 65px;
   padding-left: 10px;
+  line-height: 30px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   background-color: #a74c9d;

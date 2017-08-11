@@ -186,6 +186,12 @@ a {
   .variant-options {
     @extend .variant-img;
     margin-left: 15px;
+
+    .option-label {
+      opacity: 0.8;
+      font-size: 90%;
+      font-style: italic;
+    }
   }
 }
 
