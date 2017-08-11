@@ -1,68 +1,54 @@
 <template>
     <div>
-        <select multiple>
-            <option v-for="option in inputOptions" :value="option" :selected="value.contains(option)">
-                {{ option }}
-            </option>
-        </select>
+        <multiselect
+            v-model="tags"
+            :multiple="true"
+            :taggable="true"
+            label="name"
+            @tag="addTag"
+            @input="updateSelected"
+            :options="options"
+        >
+        </multiselect>
     </div>
 </template>
 
 <script>
+    import Multiselect from 'vue-multiselect'
     export default {
         data() {
             return {
-                tags: [],
-                inputOptions: []
+                options: [],
+                tags: []
             }
         },
         props: {
-            options: {
-                type: Array,
-                default() {
-                    return [];
-                }
-            },
             value: {
                 type: Array
-            },
-            required: {
-                type: Boolean
-            },
+            }
         },
         mounted() {
-            const $taginput = $(this.$el).find('select');
-
-
-            var self = this;
-
-            $taginput.selectize({
-                delimiter: ',',
-                create: true,
-                load() {
-                    alert('hello');
-                    self.inputOptions = self.value.concat(self.options);
-                },
-                onItemAdd(value) {
-                    self.value.push(value);
-                    self.updateValue();
-                },
-                onItemRemove(item) {
-                    let index = self.value.indexOf(item);
-                    self.value.splice(index,1);
-                    console.log(self.value);
-                    self.updateValue();
-                }
-            });
+            this.tags = this.value;
+        },
+        components: {
+            Multiselect
         },
         methods: {
-            updateValue() {
-                this.$emit('input', this.value);
+            addTag(value) {
+                let newTag = {
+                    id: null,
+                    name: value
+                };
+                this.options.push(newTag);
+                this.tags.push(newTag);
+            },
+            updateSelected(value) {
+                this.$emit('input', this.tags);
             }
         }
     }
 </script>
 
 <style lang="scss">
-    @import "~selectize/dist/css/selectize.bootstrap3.css";
+    @import "~vue-multiselect/dist/vue-multiselect.min.css";
 </style>
