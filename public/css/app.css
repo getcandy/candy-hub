@@ -8472,7 +8472,7 @@ button.close {
 }
 
 /*!
- * Datepicker for Bootstrap v1.7.1 (https://github.com/uxsolutions/bootstrap-datepicker)
+ * Datepicker for Bootstrap v1.7.0 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
@@ -15372,6 +15372,7 @@ a {
   position: relative;
   display: block;
   width: 100%;
+  min-height: 160px;
   text-align: center;
   background-color: #f6f6f6;
   border: 1px solid #eee;
@@ -15393,6 +15394,15 @@ a {
 .variant-option-img .change-img .icon {
   display: block;
   font-size: 3.5em;
+  margin-bottom: 10px;
+}
+
+.variant-option-img .change-img .placeholder {
+  display: block;
+  width: 70%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 10px;
 }
 
@@ -15424,6 +15434,7 @@ a {
 
 .variant-list a:hover {
   background-color: white;
+  text-decoration: none;
 }
 
 .variant-list a.active {
@@ -15443,6 +15454,12 @@ a {
 
 .variant-list .variant-options {
   margin-left: 15px;
+}
+
+.variant-list .variant-options .option-label {
+  opacity: 0.8;
+  font-size: 90%;
+  font-style: italic;
 }
 
 /* Media */
@@ -15761,6 +15778,7 @@ textarea.bootstrap-tagsinput {
   font-size: 14px;
   line-height: 1.42857143;
   color: #555;
+  text-align: left;
   background-color: #fff;
   background-image: none;
   border-width: 1px;
@@ -15877,6 +15895,19 @@ textarea.bootstrap-tagsinput {
   border: 0;
 }
 
+.input-group .candy-select {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.input-group .candy-select button {
+  border-left: 0;
+}
+
+.input-group .candy-select:hover button {
+  border-left: 0;
+}
+
 /* Input Group Addons */
 
 .input-group-addon {
@@ -15983,9 +16014,9 @@ textarea.bootstrap-tagsinput {
 .toggle-radio input[type="radio"] + label {
   position: relative;
   height: 40px;
-  padding-left: 30px;
-  padding-right: 30px;
-  font-size: 1em;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 0.9em;
   line-height: 39px;
   border: 1px solid #a2a1a1;
   cursor: pointer;
@@ -16027,6 +16058,47 @@ textarea.bootstrap-tagsinput {
 
 .toggle-radio input[type="radio"]:checked + label span.check:after {
   display: block;
+}
+
+.toggle-radio.rounded input[type="radio"] + label {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.toggle-radio.rounded input[type="radio"] + label span.check {
+  z-index: 4;
+  margin-top: -11px;
+  margin-left: -3px;
+  font-size: 1.2em;
+}
+
+.toggle-radio.rounded input[type="radio"] + label span.faux-label {
+  display: none;
+}
+
+.toggle-radio.rounded input[type="radio"]:checked + label {
+  background-color: #a74c9d;
+  border-color: #95448d;
+}
+
+.toggle-radio.rounded input[type="radio"]:checked:hover + label span.faux-label {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: -1px;
+  left: 16px;
+  height: 30px;
+  width: 65px;
+  padding-left: 10px;
+  line-height: 30px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #a74c9d;
+  border-width: 1px;
+  border-color: #95448d;
+  border-right: 0;
 }
 
 /* Product Layout Select */

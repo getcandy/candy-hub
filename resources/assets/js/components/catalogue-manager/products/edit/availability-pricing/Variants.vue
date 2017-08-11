@@ -105,7 +105,7 @@
               <div class="col-xs-12 col-md-4">
                 <a href="" class="variant-option-img">
                   <div class="change-img">
-                    <i class="fa fa-picture-o icon" aria-hidden="true"></i>
+                    <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder">
                     Change image
                   </div>
                 </a>
@@ -272,10 +272,12 @@
                   <div class="variant-img" v-if="v.image">
                     <img src="img/placeholder/product.jpg" alt="Aquacomb">
                   </div>
-                  <i aria-hidden="true" class="fa fa-picture-o icon" v-else></i>
+                  <div class="variant-img" v-else>
+                    <img src="/images/placeholder/no-image.svg" alt="Placeholder">
+                  </div>
                   <div class="variant-options">
                     <template v-for="(option, label, index) in v.options">
-                      {{ capitalize(label) }} {{ option }},
+                      <span class="option-label">{{ capitalize(label) }}</span> {{ option }},
                     </template>
                   </div>
                 </a>

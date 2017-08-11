@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="candy-select">
         <select :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
             <option v-for="option in options" :value="option.value ? option.value : option" :data-content="option.content ? option.content : ''">
                 {{ option.label ? option.label : option }}

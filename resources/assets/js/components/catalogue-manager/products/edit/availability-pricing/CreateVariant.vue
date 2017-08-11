@@ -187,19 +187,19 @@
                 <table class="table association-table variants-table">
                     <thead>
                     <tr>
-                        <th>Variant</th>
-                        <th>Price</th>
-                        <th>SKU</th>
-                        <th>Inventory</th>
+                        <th width="20%">Variant</th>
+                        <th width="20%">Price</th>
+                        <th width="40%">SKU</th>
+                        <th width="10%">Inventory</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody class="list">
                     <tr v-for="(variant, index) in variants">
-                        <td width="50">
+                        <td width="20%" align="left">
                             {{ variant.label }}
                         </td>
-                        <td width="40%">
+                        <td width="20%">
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">&pound;</span>
                                 <input type="text" class="form-control" v-model="variant.price">

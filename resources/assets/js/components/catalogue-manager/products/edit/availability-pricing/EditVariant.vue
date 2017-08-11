@@ -29,7 +29,7 @@
             <div class="col-xs-12 col-md-4">
               <a href="" class="variant-option-img">
                 <div class="change-img">
-                  <i class="fa fa-picture-o icon" aria-hidden="true"></i>
+                  <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder">
                   Change image
                 </div>
               </a>

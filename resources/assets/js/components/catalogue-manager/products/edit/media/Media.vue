@@ -273,7 +273,7 @@
                                     </svg>
                                 </td>
                                 <td>
-                                    <div class="toggle-radio small" v-if="asset.thumbnail">
+                                    <div class="toggle-radio rounded small" v-if="asset.thumbnail">
                                         <input type="radio" :id="asset.id" value="true" v-model="asset.primary" @click="setPrimary(asset)">
                                         <label :for="asset.id">
                                             <span class="check"></span>
