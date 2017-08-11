@@ -36,6 +36,7 @@ textarea.form-control {
   font-size: 14px;
   line-height: 1.42857143;
   color: #555;
+  text-align: left;
   background-color: #fff;
   background-image: none;
   border-width: 1px;
@@ -171,6 +172,21 @@ textarea.form-control {
       border: 0;
     }
   }
+
+  .candy-select {
+    display: table-cell;
+    vertical-align: top;
+
+    button {
+      border-left: 0;
+    }
+
+    &:hover {
+      button {
+        border-left: 0;
+      }
+    }
+  }
 }
 
 /* Input Group Addons */
@@ -286,9 +302,9 @@ textarea.form-control {
     + label {
       position: relative;
       height: 40px;
-      padding-left: 30px;
-      padding-right: 30px;
-      font-size: 1em;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 0.9em;
       line-height: 39px;
       border: 1px solid lighten($grey, 30%);
       cursor: pointer;
@@ -332,6 +348,44 @@ textarea.form-control {
 
           &:after {
             display: block;
+          }
+        }
+      }
+    }
+  }
+
+  &.rounded {
+    input[type="radio"] {
+      + label {
+        position: relative;
+        width: 40px;
+        border-radius: 50%;
+
+        span.check {
+          font-size: 1.2em;
+        }
+
+        span.faux-label {
+          display: none;
+        }
+      }
+
+      &:checked {
+        &:hover {
+          + label {
+            span.faux-label {
+              display: block;
+              position: absolute;
+              z-index: 3;
+              top: -1px;
+              left: 22px;
+              height: 40px;
+              width: 65px;
+              padding-left: 10px;
+              border-top-right-radius: 20px;
+              border-bottom-right-radius: 20px;
+              background-color: $purple;
+            }
           }
         }
       }

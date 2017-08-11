@@ -19,7 +19,7 @@
                 <tbody>
                   <tr>
                     <td width="30%"><input type="text" class="form-control"></td>
-                    <td width="60%"><input type="text" class="form-control" data-role="tagsinput"></td>
+                    <td width="60%"><input type="text" class="form-control text-left" data-role="tagsinput"></td>
                     <td align="right"><button class="btn btn-sm btn-default btn-action delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>

@@ -54,7 +54,7 @@
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }
-                return '/images/placeholder/no-image.png';
+                return '/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
