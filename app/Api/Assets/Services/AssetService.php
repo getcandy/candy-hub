@@ -60,10 +60,16 @@ class AssetService extends BaseService
     public function updateAll($assets)
     {
         foreach ($assets as $asset) {
-            $this->update($asset['id'], $asset);
+            $model = $this->update($asset['id'], $asset);
+
+            if (isset($asset['tags'])) {
+                $tagIds = app('api')->tags()->getSyncableIds($asset['tags']);
+                $model->tags()->sync($tagIds);
+            }
         }
         return true;
     }
+
     public function update($id, $data)
     {
         $asset = $this->getByHashedId($id);

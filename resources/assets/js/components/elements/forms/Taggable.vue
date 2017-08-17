@@ -8,6 +8,7 @@
             @tag="addTag"
             @input="updateSelected"
             :options="inputOptions"
+            track-by="name"
         >
         </multiselect>
     </div>
@@ -35,6 +36,7 @@
         },
         mounted() {
             this.inputOptions = this.options;
+            this.tags = this.value;
         },
         components: {
             Multiselect
