@@ -118,7 +118,7 @@
                                 <candy-collections></candy-collections>
                             </candy-tab>
                             <candy-tab name="Products" handle="products">
-                                <candy-products></candy-products>
+                                <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>
                         <candy-association-modals></candy-association-modals>

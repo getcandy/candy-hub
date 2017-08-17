@@ -21,6 +21,7 @@ use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Products\Services\ProductVariantService;
 use GetCandy\Api\Routes\Services\RouteService;
+use GetCandy\Api\Search\Services\SearchService;
 use GetCandy\Api\Settings\Services\SettingService;
 use GetCandy\Api\Tags\Services\TagService;
 use GetCandy\Api\Taxes\Services\TaxService;
@@ -103,6 +104,16 @@ class Factory
     protected $routes;
 
     /**
+     * @var \GetCandy\Api\Services\SearchService;
+     */
+    protected $search;
+
+    /**
+     * @var \GetCandy\Api\SettingService
+     */
+    protected $settings;
+
+    /**
      * @var TagService
      */
     protected $tags;
@@ -122,11 +133,6 @@ class Factory
      */
     protected $users;
 
-    /**
-     * @var \GetCandy\Api\SettingService
-     */
-    protected $settings;
-
     public function __construct(
         AssetService $assets,
         AssetSourceService $assetSources,
@@ -144,8 +150,9 @@ class Factory
         ProductFamilyService $productFamilies,
         ProductVariantService $productVariants,
         ProductService $products,
-        SettingService $settings,
         RouteService $routes,
+        SearchService $search,
+        SettingService $settings,
         TagService $tags,
         TaxService $taxes,
         AssetTransformService $transforms,
@@ -168,6 +175,7 @@ class Factory
         $this->products = $products;
         $this->productVariants = $productVariants;
         $this->routes = $routes;
+        $this->search = $search;
         $this->settings = $settings;
         $this->tags = $tags;
         $this->taxes = $taxes;

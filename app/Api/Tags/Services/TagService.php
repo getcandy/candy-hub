@@ -108,6 +108,11 @@ class TagService extends BaseService
         return $tag->toArray();
     }
 
+    /**
+     * Returns an array of tag ids, ready for syncing
+     * @param  array  $tags
+     * @return array
+     */
     public function getSyncableIds(array $tags)
     {
         $ids = [];

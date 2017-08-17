@@ -193,4 +193,9 @@ abstract class BaseService
         }
         return true;
     }
+
+    public function fuzzySearch($keywords, $column)
+    {
+        return $this->model->where($column, 'LIKE', '%'.$keywords.'%')->get();
+    }
 }

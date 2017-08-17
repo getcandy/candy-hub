@@ -10,7 +10,7 @@
                 selectAll: false,
                 checkedCount: 0,
                 params: {
-                    per_page: 4,
+                    per_page: 25,
                     current_page: 1,
                     includes: 'channels,customer_groups,family'
                 },
@@ -50,7 +50,6 @@
                     });
             },
             productThumbnail(product) {
-                console.log(product);
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }

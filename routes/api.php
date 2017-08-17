@@ -130,6 +130,8 @@ $this->resource('routes', 'Routes\RouteController', [
     'except' => ['index', 'show', 'edit', 'create']
 ]);
 
+$this->get('search/internal', 'Search\SearchController@internal');
+
 /**
  * Tags
  */

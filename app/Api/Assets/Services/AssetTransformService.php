@@ -68,7 +68,7 @@ class AssetTransformService extends BaseService
         // Lets sort out the width and height
         switch ($transformer->mode) {
             case 'fit':
-                $image->resize($width, $height, function ($constraint) {
+                $image->fit($width, $height, function ($constraint) {
                     $constraint->aspectRatio();
                 });
                 break;
