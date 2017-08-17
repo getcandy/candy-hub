@@ -4,10 +4,9 @@
             return {
                 request: {},
                 modalOpen: false,
+                generated: [],
                 options: [
                     {
-                        name: ' ',
-                        value: []
                     }
                 ],
                 variants: []
@@ -49,7 +48,7 @@
              */
             generateVariants() {
                 let optionValues = [];
-                this.variants = [];
+
                 /**
                  * We want to get the options into a format where we can
                  * get all the variations whilst keeping the option name
@@ -62,15 +61,23 @@
                 this.options.forEach((option, index) => {
                     let childValues = [];
                     option.value.forEach((child, childIndex) => {
-                        childValues.push({[option.name.trim()] : child});
+                        childValues.push({[option.name.trim()] : child.name});
                     });
                     optionValues.push(childValues);
                 });
 
+
+                // console.log('----------- OPTIONS -----------');
+                // console.log(this.options);
+
                 // Get all possible values
                 optionValues = this.getAllCombinations(optionValues);
 
+                // console.log('----------- OPTION VALUES -----------');
+                // console.log(optionValues);
+
                 optionValues.forEach(variant => {
+
                     let label = '';
 
                     let data = {};
@@ -81,14 +88,23 @@
                         data[keys[0].toLowerCase()] = value[keys[0]];
                     });
 
-                    this.variants.push({
-                        label: label,
-                        price: '',
-                        data: data,
-                        inventory: 1,
-                        sku: ''
-                    });
+                    console.log();
+
+                    if ( ! this.generated.contains(label.slugify())) {
+                        this.generated.push(label.slugify());
+                        this.variants.push({
+                            label: label,
+                            price: '',
+                            data: data,
+                            inventory: 1,
+                            sku: ''
+                        });
+                    }
                 });
+
+
+                // console.log('----------- VARIANTS -----------');
+                // console.log(this.variants);
             },
             /**
              * Gets all the possible combinations for the variants
@@ -166,10 +182,11 @@
                     <tbody>
                     <tr v-for="(option, index) in options">
                         <td width="30%">
+                            {{ option }}
                             <input type="text" class="form-control" v-model="option.name">
                         </td>
                         <td width="60%">
-                            <candy-taggable v-model="option.value"></candy-taggable>
+                            <candy-taggable :options="[{id: '', name: 'Green'}]" v-model="option.value"></candy-taggable>
                         </td>
                         <td align="right"><button class="btn btn-sm btn-default btn-action delete-row" @click="removeOption(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
                     </tr>
