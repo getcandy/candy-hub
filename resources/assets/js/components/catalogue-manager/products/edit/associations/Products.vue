@@ -4,6 +4,7 @@
             return {
               request: apiRequest,
               addAssociationModal: false,
+              loading: false,
               keywords: '',
               products: null
             }
@@ -16,13 +17,12 @@
         methods: {
           getResults(keywords) {
             let results = this.request.send('GET', 'search/internal', {}, {keywords: keywords}).then(response => {
-
               this.products = response.data.filter(entity => {
                 if (entity.id != this.product.id) {
                   return entity;
                 }
-              });
-
+              })
+              this.loading = false;
             });
           },
           productThumbnail(product) {
@@ -35,6 +35,8 @@
             this.addAssociationModal = true;;
           },
           updateKeywords: _.debounce(function (e) {
+            this.products = null;
+            this.loading = true;
             this.getResults(e.target.value);
           }, 500)
         }
@@ -159,12 +161,17 @@
                   <td class="collection">Col A, Col B</td>
                   <td align="right">
                     <div class="checkbox">
-                      <input id="prodSelect1" type="checkbox">
-                      <label for="prodSelect1"><span class="check"></span></label>
+                      <input :id="product.id" type="checkbox">
+                      <label :for="product.id"><span class="check"></span></label>
                     </div>
                   </td>
                 </tr>
-                <tr v-if="!products">
+                <tr v-if="loading">
+                  <td colspan="25">
+                    <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                  </td>
+                </tr>
+                <tr v-if="!loading && !products">
                   <td colspan="25">
                     <div class="alert alert-info">
                       Start typing to see products
