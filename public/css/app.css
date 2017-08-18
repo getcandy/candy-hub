@@ -17097,3 +17097,65 @@ textarea.bootstrap-tagsinput {
   border-bottom: 3px solid rgba(190, 190, 190, 0.4);
 }
 
+.sortable-tags-list {
+  float: left;
+  margin: 0 10px 0 0;
+  padding-left: 0;
+  border-right: 1px solid #ebebeb;
+  padding-right: 10px;
+  max-width: 75%;
+}
+
+.sortable-tags-list .handle {
+  display: inline-block;
+  padding: 4px 3px;
+}
+
+.sortable-tags-list .handle svg {
+  height: 12px;
+}
+
+.sortable-tags-list .tag-delete {
+  border: none;
+  background-color: transparent;
+  color: #513B9A;
+}
+
+.sortable-tags-list .tag-text {
+  padding: 6px 0;
+}
+
+.sortable-tags-list li {
+  display: inline-block;
+  border: 1px solid #513B9A;
+  font-size: .875em;
+  margin-right: 4px;
+  background-color: #fff;
+  margin-bottom: 4px;
+}
+
+.sortable-tags-list li.sortable-ghost {
+  opacity: .25;
+  background-color: #eeeeee;
+}
+
+.sortable-tags-list li svg g {
+  fill: #513B9A;
+}
+
+.sortable-tags-list-input {
+  float: left;
+  width: 20%;
+  vertical-align: middle;
+}
+
+.sortable-tags-list-input input {
+  width: 70%;
+}
+
+.sortable-tags-list-input button {
+  background: transparent;
+  border: none;
+  color: #D2D2D2;
+}
+

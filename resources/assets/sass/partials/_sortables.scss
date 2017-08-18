@@ -1,0 +1,53 @@
+.sortable-tags-list {
+    float:left;
+    margin:0 10px 0 0;
+    padding-left:0;
+    border-right:1px solid #ebebeb;
+    padding-right:10px;
+    max-width:75%;
+    .handle {
+        display: inline-block;
+        padding:4px 3px;
+        svg {
+            height:12px;
+        }
+    }
+    .tag-delete {
+        border:none;
+        background-color:transparent;
+        color:#513B9A;
+    }
+    .tag-text {
+        padding:6px 0;
+    }
+    li {
+        display: inline-block;
+        border:1px solid #513B9A;
+        font-size:.875em;
+        margin-right:4px;
+        background-color:#fff;
+        margin-bottom:4px;
+        &.sortable-ghost {
+            opacity: .25;
+            background-color: #eeeeee;
+        }
+        svg {
+            g {
+                fill:#513B9A;
+            }
+        }
+    }
+}
+.sortable-tags-list-input {
+    float:left;
+    width:20%;
+    vertical-align: middle;
+    input {
+        width:70%;
+    }
+    button {
+        background:transparent;
+        border:none;
+        color:#D2D2D2;
+    }
+}

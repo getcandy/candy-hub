@@ -35,6 +35,93 @@ class ProductTableSeeder extends Seeder
             'Shoes' => [
                 [
                     'layout' => $basic,
+                    'option_data' => [
+                        'size' => [
+                            'position' => 2,
+                            'label' => [
+                                'en' => 'Size',
+                                'se' => 'Storlek'
+                            ],
+                            'options' => [
+                                '12' => [
+                                    'position' => 2,
+                                    'values' => [
+                                        'en' => '12',
+                                        'se' => '13',
+                                    ]
+                                ],
+                                '10' => [
+                                    'position' => 1,
+                                    'values' => [
+                                        'en' => '10',
+                                        'se' => '11'
+                                    ]
+                                ]
+                            ]
+                        ],
+                        'colour' => [
+                            'position' => 1,
+                            'label' => [
+                                'en' => 'Colour',
+                                'se' => 'Färg'
+                            ],
+                            'options' => [
+                                'black' => [
+                                    'position' => 1,
+                                    'values' => [
+                                        'en' => 'Black',
+                                        'se' => 'Svart'
+                                    ]
+                                ],
+                                'brown' => [
+                                    'position' => 2,
+                                    'values' => [
+                                        'en' => 'Brown',
+                                        'se' => 'Brun'
+                                    ]
+                                ],
+
+                            ]
+                        ]
+                    ],
+                    'variants' => [
+                        [
+                            'sku' => '123-12',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size.12',
+                                'colour.brown'
+                            ]
+                        ],
+                        [
+                            'sku' => '123-10',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size.10',
+                                'colour.brown'
+                            ]
+                        ],
+                        [
+                            'sku' => '456-12',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size.12',
+                                'colour.black'
+                            ]
+                        ],
+                        [
+                            'sku' => '456-10',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size.10',
+                                'colour.black'
+                            ]
+                        ]
+                    ],
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
@@ -360,15 +447,9 @@ class ProductTableSeeder extends Seeder
             $family = ProductFamily::find($i);
             foreach ($products as $data) {
                 $product = Product::create([
-                    'attribute_data' => $data['attribute_data']
+                    'attribute_data' => $data['attribute_data'],
+                    'option_data' => (!empty($data['option_data']) ? $data['option_data'] : [])
                 ]);
-
-                $productVariant = new ProductVariant;
-
-                $productVariant->options = [];
-                $productVariant->sku = str_random(8);
-                $productVariant->stock = 1;
-                $productVariant->price = 40;
 
                 $product->customerGroups()->sync([
                     1 => ['visible' => true, 'purchasable' => true]
@@ -380,18 +461,29 @@ class ProductTableSeeder extends Seeder
 
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
-                foreach ($product->attribute_data['name'] as $channel => $data) {
+                foreach ($product->attribute_data['name'] as $channel => $attr_data) {
                     if ($channel == 'ecommerce') {
                         $product->route()->create([
                             'default' => true,
-                            'slug' => str_slug($data['gb']),
+                            'slug' => str_slug($attr_data['gb']),
                             'locale' => 'gb'
                         ]);
                     }
                 }
                 $product->save();
 
-                $product->variants()->save($productVariant);
+                if (!empty($data['variants'])) {
+                    foreach ($data['variants'] as $variant) {
+                        $product->variants()->create($variant);
+                    }
+                } else {
+                    $product->variants()->create([
+                        'options' => [],
+                        'sku' => str_random(8),
+                        'stock' => 1,
+                        'price' => 40
+                    ]);
+                }
             }
             $i++;
         }

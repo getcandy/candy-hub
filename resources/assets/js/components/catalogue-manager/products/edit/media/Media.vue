@@ -255,7 +255,7 @@
                         <tbody  v-sortable="sortableOptions">
                             <tr v-for="(asset, index) in getFilteredResults(filter)" :key="asset.id">
                                 <td class="handle">
-                                    <svg width="13px" height="19px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <g id="Artboard" fill="#D8D8D8">
                                                 <rect id="Rectangle" x="2" y="2" width="3" height="3"></rect>

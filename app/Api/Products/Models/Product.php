@@ -36,8 +36,18 @@ class Product extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name', 'price', 'attribute_data'
+        'name', 'price', 'attribute_data', 'option_data'
     ];
+
+    public function setOptionDataAttribute($value)
+    {
+        $this->attributes['option_data'] = json_encode($value);
+    }
+
+    public function getOptionDataAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 
     /**
      * Get the attributes associated to the product

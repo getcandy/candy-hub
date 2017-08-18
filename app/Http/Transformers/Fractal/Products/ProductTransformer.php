@@ -45,10 +45,29 @@ class ProductTransformer extends BaseTransformer
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
+            'option_data' => $this->parseOptionData($product->option_data),
             'thumbnail' => $this->getThumbnail($product)
         ];
 
         return $response;
+    }
+
+    protected function parseOptionData($data)
+    {
+        $data = $this->sortOptions($data);
+        foreach ($data as $optionKey => $option) {
+            $sorted =  $this->sortOptions($option['options']);
+            $data[$optionKey]['options'] = $sorted;
+        }
+        return $data;
+    }
+
+    protected function sortOptions($options)
+    {
+        uasort($options, function ($a, $b) {
+            return $a['position'] < $b['position'] ? -1 : 1;
+        });
+        return $options;
     }
 
     protected function getThumbnail($product)
