@@ -36,11 +36,11 @@
                         this.options = [];
                         this.modalOpen = false;
                     }).catch(response => {
-                    CandyEvent.$emit('notification', {
-                        level: 'error',
-                        message: 'Missing / Invalid fields'
+                        CandyEvent.$emit('notification', {
+                            level: 'error',
+                            message: 'Missing / Invalid fields'
+                        });
                     });
-                });
             },
             /**
              * Generates the variants
@@ -77,19 +77,13 @@
                 // console.log(optionValues);
 
                 optionValues.forEach(variant => {
-
                     let label = '';
-
                     let data = {};
-
                     variant.forEach((value, index) => {
                         let keys = Object.keys(value);
                         label += keys[0] + ' ' + value[keys[0]] + ((index + 1) < variant.length ? ', ' : ' ');
                         data[keys[0].toLowerCase()] = value[keys[0]];
                     });
-
-                    console.log();
-
                     if ( ! this.generated.contains(label.slugify())) {
                         this.generated.push(label.slugify());
                         this.variants.push({
@@ -101,10 +95,6 @@
                         });
                     }
                 });
-
-
-                // console.log('----------- VARIANTS -----------');
-                // console.log(this.variants);
             },
             /**
              * Gets all the possible combinations for the variants

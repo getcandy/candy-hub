@@ -45,6 +45,10 @@
         },
         mounted() {
             this.channels = this.product.channels.data;
+
+            this.channels.forEach(channel => {
+                channel.published_at = moment(channel.published_at.date).format('YYYY-MM-DD HH:mm');
+            });
             this.customerGroups = this.product.customer_groups.data;
         },
         methods: {//product.channels.data[0].visible
@@ -96,7 +100,8 @@
                                     </div>
                                 </td>
                                 <td class="publish-date">
-                                    <flat-pickr v-model="channel.published_at.date" :config="flatPickrConfig"></flat-pickr>
+                                    {{ channel.published_at}}
+                                    <flat-pickr v-model="channel.published_at" :config="flatPickrConfig"></flat-pickr>
                                 </td>
                             </tr>
                             </tbody>

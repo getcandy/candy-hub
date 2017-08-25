@@ -19,8 +19,10 @@
             }
         },
         mounted() {
-          this.options = this.product.option_data;
-          this.variants = this.product.variants.data;
+            this.variants = this.product.variants.data;
+            Object.keys(this.product.option_data).map(key => {
+              this.options.push(this.product.option_data[key]);
+          });
         },
         props: {
             product: {
@@ -50,28 +52,26 @@
             this.$delete(this.options[handle].options, itemHandle);
           },
           addOptionRow(event) {
-            let value = event.target.value;
-            this.$set(this.options, value.slugify(), {
+            this.options.push({
                 options: {},
                 label: {
-                  en: value
+                  en: event.target.value
                 },
-                position: 3
+                position: this.options.length + 1
             });
+            // this.$set(this.options, value.slugify(), );
             event.target.value = null;
           },
           reorder ({oldIndex, newIndex}) {
-
-            let keys = Object.keys(this.options)[newIndex];
-            console.log(keys);
-            // const movedItem = this.options.splice(oldIndex, 1)[0];
-            // this.options.splice(newIndex, 0, movedItem);
-            // let pos = 1;
-            // this.options.forEach(asset => {
-            //   asset.position = pos;
-            //   pos++;
-            // });
-          }
+              const movedItem = this.options.splice(oldIndex, 1)[0];
+            //   console.log(movedItem);
+              this.options.splice(newIndex, 0, movedItem);
+              let pos = 1;
+              this.options.forEach(option => {
+                  option.position = pos;
+                  pos++;
+              });
+          },
         },
         computed: {
         }
@@ -96,6 +96,8 @@
         </div>
         <hr>
         <h4>Options</h4>
+        {{ options }}
+
         <table class="table">
           <thead>
             <tr>

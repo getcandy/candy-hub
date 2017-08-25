@@ -1,5 +1,5 @@
 <template>
-    <div role="tabpanel" :class="{ 'active' : isActive, 'tab-pane' : true, 'hidden' : hidden }" :id="href">
+    <div role="tabpanel" :class="{ 'active' : isActive, 'tab-pane' : true, 'hidden' : hidden }" :id="href" :ref="href">
         <slot></slot>
     </div>
 </template>
@@ -30,6 +30,11 @@
         },
         computed: {
             href() {
+                return this.getHref();
+            }
+        },
+        methods: {
+            getHref() {
                 return '#' + this.name.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '');
             }
         },

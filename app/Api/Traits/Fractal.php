@@ -137,9 +137,9 @@ trait Fractal
             'lang' => app()->getLocale()
         ];
 
-        if (app('env') != 'production') {
-            $meta['profile'] = app('debugbar')->getData();
-        }
+        // if (app('env') != 'production') {
+        //     $meta['profile'] = app('debugbar')->getData();
+        // }
 
         $resource->setMeta($meta);
 
@@ -172,9 +172,9 @@ trait Fractal
             'lang' => app()->getLocale()
         ];
 
-        if (app('env') != 'production') {
-            $meta['profile'] = app('debugbar')->getData();
-        }
+        // if (app('env') != 'production') {
+        //     $meta['profile'] = app('debugbar')->getData();
+        // }
 
         $resource->setMeta($meta);
 
