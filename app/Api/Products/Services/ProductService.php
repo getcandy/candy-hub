@@ -52,7 +52,7 @@ class ProductService extends BaseService
                 $channelModel = app('api')->channels()->getByHashedId($channel['id']);
                 $channelData[$channelModel->id] = [
                     'visible' => $channel['visible'],
-                    'published_at' => \Carbon\Carbon::parse($channel['published_at']['date'])
+                    'published_at' => \Carbon\Carbon::parse($channel['published_at'])
                 ];
             }
             $product->channels()->sync($channelData);

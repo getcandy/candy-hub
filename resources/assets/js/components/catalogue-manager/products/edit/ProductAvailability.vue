@@ -100,7 +100,6 @@
                                     </div>
                                 </td>
                                 <td class="publish-date">
-                                    {{ channel.published_at}}
                                     <flat-pickr v-model="channel.published_at" :config="flatPickrConfig"></flat-pickr>
                                 </td>
                             </tr>
