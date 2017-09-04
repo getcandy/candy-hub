@@ -23,7 +23,6 @@ class Flatify {
         let flatify = [];
 
         this.originalData.forEach(function (data) {
-
             return 'dfs' + data;
         });
 

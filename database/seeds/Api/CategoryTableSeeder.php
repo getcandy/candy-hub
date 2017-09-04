@@ -17,7 +17,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Fashion', 'se' => 'Mode']
+                        'gb' => 'Fashion', 'se' => 'Mode'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -49,7 +49,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Tops & Blouses', 'se' => 'Toppar & Blusar']
+                        'gb' => 'Tops & Blouses', 'se' => 'Toppar & Blusar'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -82,7 +82,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Knitwear', 'se' => 'Stickat']
+                        'gb' => 'Knitwear', 'se' => 'Stickat'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -114,7 +114,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Cardigans & Wraps']
+                        'gb' => 'Cardigans & Wraps'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -140,7 +140,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Accessories', 'se' => 'Tillbehör']
+                        'gb' => 'Accessories', 'se' => 'Tillbehör'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -173,7 +173,7 @@ class CategoryTableSeeder extends Seeder
         $thing->attribute_data = [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Eye lashes', 'se' => 'Ögonfransar']
+                        'gb' => 'Eye lashes', 'se' => 'Ögonfransar'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -206,7 +206,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Coats & Jackets', 'se' => 'Jackor']
+                        'gb' => 'Coats & Jackets', 'se' => 'Jackor'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -238,7 +238,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Dresses & Skirts', 'se' => 'Klänningar & Kjolar']
+                        'gb' => 'Dresses & Skirts', 'se' => 'Klänningar & Kjolar'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -270,7 +270,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Shoes', 'se' => 'Skor']
+                        'gb' => 'Shoes', 'se' => 'Skor'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -300,7 +300,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Bags', 'se' => 'påsar']
+                        'gb' => 'Bags', 'se' => 'påsar'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -330,7 +330,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'Jewellery', 'se' => 'Smycke']
+                        'gb' => 'Jewellery', 'se' => 'Smycke'
                     ],
                     'mobile' => [
                         'gb' => '',
@@ -360,7 +360,7 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['gb' => 'House', 'se' => 'Hem']
+                        'gb' => 'House', 'se' => 'Hem'
                     ],
                     'mobile' => [
                         'gb' => '',

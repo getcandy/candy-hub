@@ -20,6 +20,7 @@ require('bootstrap-switch');
 require('bootstrap-tagsinput');
 require('dropzone');
 require('selectize');
+
 window.List = require('list.js');
 
 /**
@@ -62,8 +63,14 @@ Vue.component('candy-product-edit', require('./components/catalogue-manager/prod
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
 Vue.component('candy-product-attributes', require('./components/catalogue-manager/products/edit/details/ProductAttributes.vue'));
 Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
+
 /* Collections */
 Vue.component('collections-table', require('./components/catalogue-manager/collections/CollectionsTable.vue'));
+
+/* Collections */
+Vue.component('categories-list', require('./components/catalogue-manager/categories/CategoriesList.vue'));
+Vue.component('candy-category', require('./components/catalogue-manager/categories/category/category.vue'));
+Vue.component('candy-category-children', require('./components/catalogue-manager/categories/category/children.vue'));
 
 /**
  * Table
@@ -114,14 +121,13 @@ Vue.component('candy-url-modals', require('./components/catalogue-manager/produc
  * Directives
  */
 
-import Sortable from 'sortablejs'
+import Sortable from 'sortablejs';
 
 Vue.directive('sortable', {
   inserted: function (el, binding) {
     var sortable = new Sortable(el, binding.value || {});
   }
 });
-
 
 window.CandyEvent = new Vue();
 

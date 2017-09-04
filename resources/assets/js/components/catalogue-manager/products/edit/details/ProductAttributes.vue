@@ -165,26 +165,12 @@
                             </div>
                             <div v-else-if="input.type == 'date'">
 
-                                <candy-date :id="'default-'+ input.id"
-                                            v-model="product.attributes[input.handle]"
-                                            :required="input.required">
-                                </candy-date>
-                                <span class="text-danger"
-                                      v-if="getError(getValue(input.handle))"
-                                      v-text="getError(getValue(input.handle))">
-                                </span>
+
 
                             </div>
                             <div v-else-if="input.type == 'time'">
 
-                                <candy-time :id="'default-'+ input.id"
-                                            v-model="product.attributes[input.handle]"
-                                            :required="input.required">
-                                </candy-time>
-                                <span class="text-danger"
-                                      v-if="getError(getValue(input.handle))"
-                                      v-text="getError(getValue(input.handle))">
-                                </span>
+
 
                             </div>
                             <div v-else-if="input.type == 'radio'">

@@ -3,7 +3,7 @@
         data() {
             return {
                 loaded: false,
-                products: [],
+                collections: [],
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
@@ -18,13 +18,13 @@
         watch: {
             selected: function(val) {
                 this.checkedCount = val.length;
-                this.selectAll = (val.length === this.products.length);
+                this.selectAll = (val.length === this.collections.length);
             },
             selectAll: function(val) {
                 let selected = [];
 
                 if (val) {
-                    this.products.forEach(function (product) {
+                    this.collections.forEach(function (product) {
                         selected.push(product.id);
                     });
                 }
@@ -32,13 +32,13 @@
             }
         },
         mounted() {
-            this.loadProducts();
+            this.loadCollections();
         },
         methods: {
-            loadProducts() {
-                apiRequest.loadProducts(this.params, true)
+            loadCollections() {
+                apiRequest.loadCollections(this.params, true)
                     .then(response => {
-                        this.products = response;
+                        this.collections = response;
                         this.pagination = response.pagination;
                         this.loaded = true;
                     });
@@ -55,7 +55,7 @@
             changePage(page) {
                 this.loaded = false;
                 this.params.current_page = page;
-                this.loadProducts();
+                this.loadCollections();
             }
         }
     }
@@ -67,7 +67,7 @@
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#all-products" aria-controls="all-products" role="tab" data-toggle="tab">
+                <a href="#all-collections" aria-controls="all-products" role="tab" data-toggle="tab">
                     All Collections
                 </a>
             </li>
@@ -126,7 +126,7 @@
                         </div>
                         <div class="form-group col-xs-12 col-md-2">
 
-                            <button type="submit" class="btn btn-default btn-full" @click.prevent="loadProducts();">
+                            <button type="submit" class="btn btn-default btn-full" @click.prevent="loadCollections();">
                                 <i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search
                             </button>
 
@@ -157,14 +157,14 @@
 
                                     <div class="bulk-actions">
                                         <div class="border-inner">
-                                            {{ checkedCount }} product selected
+                                            {{ checkedCount }} collection selected
                                             <a href="#" class="btn btn-outline btn-sm">Edit</a>
                                             <a href="#" class="btn btn-outline btn-sm">Publish</a>
                                             <a href="#" class="btn btn-outline btn-sm">Hide</a>
                                             <a href="#" class="btn btn-outline btn-sm">Delete</a>
                                         </div>
-                                        <div v-if="checkedCount == products.length" class="all-selected">
-                                            <em>All products on this page are selected</em>
+                                        <div v-if="checkedCount == collections.length" class="all-selected">
+                                            <em>All collections on this page are selected</em>
                                         </div>
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@
                     </thead>
 
                     <tbody v-if="loaded">
-                        <tr class="clickable" v-for="product in products">
+                        <tr class="clickable" v-for="product in collections">
 
                             <td>
                                 <div class="checkbox">

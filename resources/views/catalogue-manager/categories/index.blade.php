@@ -17,5 +17,6 @@
 
 @section('content')
 
+    <categories-list></categories-list>
 
 @endsection

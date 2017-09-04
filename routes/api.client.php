@@ -9,8 +9,6 @@
 | These are READ ONLY routes
 |
 */
-
-$this->get('categories', 'Categories\CategoryController@index');
 // $this->get('channels', 'Channels\ChannelController@index');
 $this->get('channels/{id}', 'Channels\ChannelController@show');
 $this->get('collections', 'Collections\CollectionController@index');

@@ -64,15 +64,6 @@
             },
             reorder({oldIndex, newIndex, item}) {
 
-                console.log('old');
-                console.log(oldIndex);
-
-                console.log('new');
-                console.log(newIndex);
-
-                console.log('item');
-                console.log(item);
-
                 const movedItem = this.options.splice(oldIndex, 1)[0];
 
                 this.options.splice(newIndex, 0, movedItem);
@@ -107,7 +98,7 @@
                 </div>
                 <hr>
                 <h4>Options</h4>
-                {{ options }}
+                <p>need to get a unique identy for the options for loop</p>
 
                 <table class="table">
 
@@ -126,7 +117,8 @@
 
                     <tbody v-sortable="sortTableOptions">
 
-                        <tr v-for="(option, handle) in options">
+                        <tr v-for="(option, handle) in options" :key="option.label.en">
+
                             <td class="handle">
                                 <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                      xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -145,7 +137,7 @@
                             <td width="20%">{{ option.label.en }}</td>
                             <td>
                                 <ul v-sortable="sortListOptions" class="sortable-tags-list">
-                                    <li v-for="(item, itemHandle) in option.options" :key="itemHandle">
+                                    <li v-for="(item, itemHandle) in option.options">
                                         <span class="handle">
                                             <svg width="13px" height="19px" viewBox="0 0 13 19" version="1.1"
                                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -177,6 +169,7 @@
                                     </form>
                                 </div>
                             </td>
+
                         </tr>
                     </tbody>
 

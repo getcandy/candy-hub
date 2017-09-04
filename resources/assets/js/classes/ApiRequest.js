@@ -80,7 +80,7 @@ class ApiRequest {
         return new Promise((resolve, reject) => {
             axios.get('/api/v1/products', paramsArr)
                 .then(response => {
-                    resolve((flatten) ? this.flatify(response.data) : response.data);
+                    resolve((flatten) ? this.productFlatify(response.data) : response.data);
                 })
                 .catch(error => {
                     reject(error);
@@ -89,7 +89,40 @@ class ApiRequest {
 
     }
 
-    flatify(response) {
+    loadCollections(params, flatten = false) {
+
+        let paramsArr = {'params': params};
+
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/products', paramsArr)
+                .then(response => {
+                    resolve((flatten) ? this.productFlatify(response.data) : response.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+
+    }
+
+    loadCategories(params) {
+
+        let paramsArr = {'params': params};
+
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/categories', paramsArr)
+                .then(response => {
+
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+
+    }
+
+    productFlatify(response) {
 
         let flatify = [];
         flatify['pagination'] = response['meta'].pagination;
