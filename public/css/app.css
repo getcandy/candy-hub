@@ -17101,14 +17101,16 @@ textarea.bootstrap-tagsinput {
   float: left;
   margin: 0 10px 0 0;
   padding-left: 0;
-  border-right: 1px solid #ebebeb;
-  padding-right: 10px;
   max-width: 75%;
 }
 
 .sortable-tags-list .handle {
   display: inline-block;
-  padding: 4px 3px;
+  padding: 4px 3px 2px 3px;
+}
+
+.sortable-tags-list .handle:hover {
+  background-color: #acc6f1;
 }
 
 .sortable-tags-list .handle svg {
@@ -17118,19 +17120,21 @@ textarea.bootstrap-tagsinput {
 .sortable-tags-list .tag-delete {
   border: none;
   background-color: transparent;
-  color: #513B9A;
+  border-left: 1px solid #96b7ee;
 }
 
 .sortable-tags-list .tag-text {
-  padding: 6px 0;
+  padding: 3px 5px;
 }
 
 .sortable-tags-list li {
   display: inline-block;
-  border: 1px solid #513B9A;
+  border: 1px solid #96b7ee;
+  box-shadow: 2px 2px 0px rgba(222, 222, 222, 0.5);
+  color: #2160ca;
+  background-color: #c2d5f5;
   font-size: .875em;
   margin-right: 4px;
-  background-color: #fff;
   margin-bottom: 4px;
 }
 
@@ -17140,7 +17144,7 @@ textarea.bootstrap-tagsinput {
 }
 
 .sortable-tags-list li svg g {
-  fill: #513B9A;
+  fill: #2160ca;
 }
 
 .sortable-tags-list-input {
@@ -17149,8 +17153,13 @@ textarea.bootstrap-tagsinput {
   vertical-align: middle;
 }
 
+.sortable-tags-list-input .text-danger {
+  float: right;
+}
+
 .sortable-tags-list-input input {
   width: 70%;
+  padding-left: 5px;
 }
 
 .sortable-tags-list-input button {

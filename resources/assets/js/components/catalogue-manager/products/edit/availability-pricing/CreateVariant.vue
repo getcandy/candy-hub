@@ -47,6 +47,7 @@
              * @return {Array}
              */
             generateVariants() {
+                this.variants = [];
                 let optionValues = [];
 
                 /**
