@@ -112,7 +112,6 @@ class ApiRequest {
         return new Promise((resolve, reject) => {
             axios.get('/api/v1/categories', paramsArr)
                 .then(response => {
-
                     resolve(response);
                 })
                 .catch(error => {

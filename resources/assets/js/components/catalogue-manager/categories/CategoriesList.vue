@@ -1,4 +1,5 @@
 <style>
+    .categories-list {display: inline-block; width:100%;}
     .nestable { width:100%; position: relative; display: block; margin: 0; padding: 0; list-style: none; font-weight: 200; font-size: 16px; line-height: 20px; }
     .nestable-list { display: block; position: relative; margin: 0; padding: 0; list-style: none; }
     .nestable-list .nestable-list { padding-left: 50px; }
@@ -39,76 +40,30 @@
     export default {
         data() {
             return {
-                categories: [],
-                testCategories: [
-                    {
-                        "name": "category 1",
-                        "id": 1,
-                        "children": [{
-                            "name": "category 1 child 1",
-                            "id": 5,
-                            "children": [{
-                                "name": "category 1 child 1.1",
-                                "id": 6,
-                                "children": [{
-                                    "name": "category 1 child 1.1.1",
-                                    "id": 7
-                                },
-                                    {
-                                        "name": "category 1 child 1.1.2",
-                                        "id": 8
-                                    }]
-                            },
-                                {
-                                    "name": "category 1 child 2",
-                                    "id": 9
-                                },
-                                {
-                                    "name": "category 1 child 3",
-                                    "id": 10
-                                }
-                                ]
-                        }]
-                    },
-                    {
-                        "id": 2,
-                        "name": "category 2",
-                        "children": [{
-                            "id": 4,
-                            "name": "category 2 child 1",
-                            "children": [{
-                                "id": 11,
-                                "name": "category 2 child 1.1"
-                            }]
-                        }]
-                    },
-                    {
-                        "name": "category 3 (No Children)",
-                        "id": 3
-                    }
-                ]
+                categories: []
             };
         },
         mounted() {
 
-            let nestable = $('.nestable').nestable();
             this.loadCategories();
-            let _self = this;
-
-            $('.nestable').on('change', function(e) {
-
-                console.log(nestable.nestable('serialize'));
-
-                //_self.$set( _self, "categories", nestable.nestable('serialize'));
-            });
+            $('.nestable').on('change', this.updateOutput);
 
         },
         methods: {
+            updateOutput() {
+                this.$set( this, "categories", $('.nestable').nestable('serialize'));
+            },
             loadCategories() {
                 apiRequest.loadCategories(this.params)
                     .then(response => {
-                        console.log(response.data.data);
+
                         this.categories = response.data.data;
+
+                        CandyEvent.$nextTick( function(){
+                            $('.nestable').nestable();
+                        });
+
+
                     });
             }
         }
@@ -199,7 +154,7 @@
                 </div>
 
                 <hr>
-                <div style="display: inline-block; width:100%;">
+                <div class="categories-list">
 
                     <div class="nestable">
                         <ol class="nestable-list">

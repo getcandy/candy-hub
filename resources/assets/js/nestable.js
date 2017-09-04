@@ -30,7 +30,7 @@
     var defaults = {
         listNodeName    : 'ol',
         itemNodeName    : 'li',
-        rootClass       : 'nestable',
+        rootClass       : 'nestables' ,
         listClass       : 'nestable-list',
         itemClass       : 'nestable-item',
         dragClass       : 'nestable-dragel',
@@ -140,23 +140,33 @@
             var data,
                 depth = 0,
                 list  = this;
+
             step  = function(level, depth)
             {
-                var array = [ ],
+                var array = [],
                     items = level.children(list.options.itemNodeName);
+
                 items.each(function()
                 {
                     var li   = $(this),
                         item = $.extend({}, li.data()),
                         sub  = li.children(list.options.listNodeName);
+                    item.depth = depth;
                     if (sub.length) {
                         item.children = step(sub, depth + 1);
                     }
+                    if(depth !== 0){
+                        item = {data:item};
+                    }
                     array.push(item);
                 });
+
                 return array;
+
             };
+
             data = step(list.el.find(list.options.listNodeName).first(), depth);
+
             return data;
         },
 

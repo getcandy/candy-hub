@@ -1,14 +1,14 @@
 <template>
 
-    <li class="nestable-item" :data-id="category.id" :data-name="category.attribute_data.name.ecommerce.gb">
+    <li class="nestable-item" :data-id="category.id" :data-attribute_data="getAttributeData(category.attribute_data)">
 
         <div class="nestable-handle">
             <i class="fa fa-arrows nestable-icon"></i>
             <img class="nestable-image" src="http://via.placeholder.com/45x45">
-            {{ category.attribute_data.name.ecommerce.gb }} ({{ category.children.length }})
+            {{ category.attribute_data.name.ecommerce.gb }}
         </div>
 
-        <ol class="nestable-list" v-if="category.children.length > 0">
+        <ol class="nestable-list" v-if="category.children && category.children.length > 0">
             <candy-category-children v-for="child in category.children" :category="child.data" :key="child.data.id"></candy-category-children>
         </ol>
 
@@ -24,6 +24,11 @@
             },
             category: {
                 type: Object
+            }
+        },
+        methods: {
+            getAttributeData(data){
+                return JSON.stringify(data);
             }
         }
     }
