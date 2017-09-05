@@ -27,14 +27,22 @@ class ProductVariant extends BaseModel
     {
         $values = [];
         $option_data = $this->product->option_data;
-        foreach (json_decode($val, true) as $option) {
-            $ref = explode('.', $option);
-            $values[$ref[0]] = $option_data[$ref[0]]['options'][$ref[1]]['values'];
+        foreach (json_decode($val, true) as $option => $value) {
+            if (! empty($data = $option_data[$option])) {
+                $values[$option] = $data['options'][$value]['values'];
+            }
         }
         return $values;
     }
     public function setOptionsAttribute($val)
     {
-        $this->attributes['options'] = json_encode($val);
+        $options = [];
+        foreach ($val as $option => $value) {
+            if (!empty($value['en'])) {
+                $value = $value['en'];
+            }
+            $options[str_slug($option)] = str_slug($value);
+        }
+        $this->attributes['options'] = json_encode($options);
     }
 }

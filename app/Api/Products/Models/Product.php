@@ -41,7 +41,22 @@ class Product extends BaseModel
 
     public function setOptionDataAttribute($value)
     {
-        $this->attributes['option_data'] = json_encode($value);
+        $options = [];
+        foreach ($value as $option) {
+            $label = reset($option['label']);
+            $options[str_slug($label)] = $option;
+            $childOptions = [];
+            $position = 1;
+            foreach ($option['options'] as $child) {
+                $childLabel = reset($child['values']);
+                $childOptions[str_slug($childLabel)] = $child;
+                $childOptions[str_slug($childLabel)]['position'] = $position;
+                $position++;
+            }
+
+            $options[str_slug($label)]['options'] = $childOptions;
+        }
+        $this->attributes['option_data'] = json_encode($options);
     }
 
     public function getOptionDataAttribute($value)

@@ -6,8 +6,6 @@
                 modalOpen: false,
                 generated: [],
                 options: [
-                    {
-                    }
                 ],
                 editing: false,
                 options: [],
@@ -41,6 +39,11 @@
         },
         mounted() {
             this.variants = this.product.variants.data;
+
+            if (this.variants.length == 1 & !this.variants[0].options.length) {
+                this.variants = [];
+            }
+
             Object.keys(this.product.option_data).map(key => {
                 this.options.push(this.product.option_data[key]);
             });
@@ -52,27 +55,29 @@
                     option.options.push(options[key]);
                 });
             });
-            this.generateVariants();
+            if (!this.variants) {
+                this.generateVariants();
+            }
         },
         methods: {
             save() {
-                apiRequest.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants})
+                apiRequest.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants, 'options': this.options})
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
                         });
-                        CandyEvent.$emit('product-updated');
-                        this.variants = [];
-                        this.options = [];
+                        CandyEvent.$emit('product-updated', {
+                            variants: this.variants
+                        });
                         this.modalOpen = false;
                     }).catch(response => {
-                        CandyEvent.$emit('notification', {
-                            level: 'error',
-                            message: 'Missing / Invalid fields'
-                        });
+                        // CandyEvent.$emit('notification', {
+                        //     level: 'error',
+                        //     message: 'Missing / Invalid fields'
+                        // });
                     });
             },
-                        addOption(option, handle) {
+            addOption(option, handle) {
                 let value = this.$refs[handle + '_option'][0].value;
 
                 let deny = false;
@@ -187,13 +192,13 @@
                     variant.forEach((value, index) => {
                         let keys = Object.keys(value);
                         label += keys + ' ' + value[keys] + ((index + 1) < variant.length ? ', ' : ' ');
-                        data[keys] = value[keys];
+                        data[keys[0].slugify()] = {en: value[keys]};
                     });
 
                     this.variants.push({
                         label: label,
                         price: '',
-                        data: data,
+                        options: data,
                         inventory: 1,
                         sku: ''
                     });
@@ -242,6 +247,13 @@
             },
             deleteFromArray(array, index) {
                array.splice(index, 1);
+            },
+            getOptionValue(option, variant) {
+                var handle = option.label['en'].slugify();
+                if (variant.options[handle]) {
+                    return variant.options[handle]['en'];
+                }
+                return null;
             }
         }
     }
@@ -251,7 +263,7 @@
     <div>
         <button class="btn btn-primary" @click="modalOpen = true">Edit options</button>
         <candy-modal title="Create variant" v-show="modalOpen" @closed="modalOpen = false">
-            <div slot="body">
+            <div slot="body" class="text-left">
                 <h4>Options</h4>
                 <p>need to get a unique identy for the options for loop</p>
                 <table class="table">
@@ -357,7 +369,7 @@
                     <tr v-for="(variant, index) in variants">
                         <td><input type="text" v-model="variant.sku" class="form-control"></td>
                         <td v-for="(option, handle) in options">
-                            <input type="text" class="form-control" v-model="variant.data[option.label.en]">
+                            <input type="text" class="form-control" :value="getOptionValue(option, variant)" disabled>
                         </td>
                         <td><input type="text" v-model="variant.price" class="form-control"></td>
                         <td>

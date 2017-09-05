@@ -29,7 +29,8 @@
         },
         mounted() {
             CandyEvent.$on('product-updated', event => {
-                this.loadProduct();
+                this.loaded = false;
+                this.loadProduct(this.productId);
             });
             CandyEvent.$on('product_visibility', visible => {
                 this.viewable = visible;

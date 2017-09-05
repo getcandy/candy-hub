@@ -90,8 +90,8 @@ class ProductTableSeeder extends Seeder
                             'price' => 50,
                             'stock' => 1,
                             'options' => [
-                                'size.12',
-                                'colour.brown'
+                                'size' => '12',
+                                'colour' => 'brown'
                             ]
                         ],
                         [
@@ -99,8 +99,8 @@ class ProductTableSeeder extends Seeder
                             'price' => 50,
                             'stock' => 1,
                             'options' => [
-                                'size.10',
-                                'colour.brown'
+                                'size' => '10',
+                                'colour' => 'brown'
                             ]
                         ],
                         [
@@ -108,8 +108,8 @@ class ProductTableSeeder extends Seeder
                             'price' => 50,
                             'stock' => 1,
                             'options' => [
-                                'size.12',
-                                'colour.black'
+                                'size' => '12',
+                                'colour' => 'black'
                             ]
                         ],
                         [
@@ -117,8 +117,8 @@ class ProductTableSeeder extends Seeder
                             'price' => 50,
                             'stock' => 1,
                             'options' => [
-                                'size.10',
-                                'colour.black'
+                                'size' => '10',
+                                'colour' => 'black'
                             ]
                         ]
                     ],

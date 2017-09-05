@@ -129,6 +129,11 @@ class ProductService extends BaseService
         return $product->variants()->create($data);
     }
 
+    public function saveOptions(array $data = [])
+    {
+
+    }
+
     /**
      * @param $hashedId
      * @return mixed

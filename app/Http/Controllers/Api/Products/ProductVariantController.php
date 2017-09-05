@@ -50,7 +50,7 @@ class ProductVariantController extends BaseController
     public function store($product, CreateRequest $request)
     {
         try {
-            $result = app('api')->productVariants()->create($product, $request->variants);
+            $result = app('api')->productVariants()->create($product, $request->all());
         } catch (HttpException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {

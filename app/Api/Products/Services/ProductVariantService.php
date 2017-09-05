@@ -19,16 +19,23 @@ class ProductVariantService extends BaseService
      * @param  array  $variant
      * @return boolean
      */
-    public function create($id, array $variants)
+    public function create($id, array $data)
     {
         $product = app('api')->products()->getByHashedId($id);
 
-        foreach ($variants as $newVariant) {
+        $product->option_data = $data['options'];
+        $product->save();
+
+        if ($product->variants->count() == 1) {
+            $product->variants()->delete();
+        }
+
+        foreach ($data['variants'] as $newVariant) {
             $product->variants()->create([
                 'price' => $newVariant['price'],
                 'sku' => $newVariant['sku'],
                 'stock' => $newVariant['inventory'],
-                'options' => $newVariant['data']
+                'options' => $newVariant['options']
             ]);
         }
         return $product;
