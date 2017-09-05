@@ -27,9 +27,16 @@ class CategoryService extends BaseService
     public function update(array $data)
     {
 
-        dd($this->model->rebuildTree($data[0]));
+        $nodeToMove = $this->model->find(6);
+        $nodeAfter = $this->model->find(11);
 
-        return $this->model->rebuildTree($this->rebuildArray($data[0]));
+        dd($nodeToMove->parent()->associate($nodeAfter)->save());
+
+        dd($nodeToMove->insertAfterNode($nodeAfter));
+
+        //dd($this->model->rebuildTree($data[0]));
+
+        //return $this->model->rebuildTree($this->rebuildArray($data[0]));
     }
 
 

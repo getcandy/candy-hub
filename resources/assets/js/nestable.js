@@ -298,7 +298,6 @@
             var el = this.dragEl.children(this.options.itemNodeName).first();
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
-
             this.dragEl.remove();
             this.el.trigger('change');
             if (this.hasNewRoot) {
