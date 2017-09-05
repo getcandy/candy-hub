@@ -67,10 +67,9 @@ Vue.component('candy-product-variants', require('./components/catalogue-manager/
 /* Collections */
 Vue.component('collections-table', require('./components/catalogue-manager/collections/CollectionsTable.vue'));
 
-/* Collections */
+/* Categories */
 Vue.component('categories-list', require('./components/catalogue-manager/categories/CategoriesList.vue'));
 Vue.component('candy-category', require('./components/catalogue-manager/categories/category/category.vue'));
-Vue.component('candy-category-children', require('./components/catalogue-manager/categories/category/children.vue'));
 
 /**
  * Table

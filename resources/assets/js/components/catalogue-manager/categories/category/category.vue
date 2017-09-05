@@ -9,7 +9,7 @@
         </div>
 
         <ol class="nestable-list" v-if="category.children && category.children.length > 0">
-            <candy-category-children v-for="child in category.children" :category="child.data" :key="child.data.id"></candy-category-children>
+            <candy-category v-for="child in category.children" :category="child.data" :key="child.data.id"></candy-category>
         </ol>
 
     </li>

@@ -51,7 +51,12 @@
         },
         methods: {
             updateOutput() {
-                this.$set( this, "categories", $('.nestable').nestable('serialize'));
+
+                
+
+
+
+                this.categories = $('.nestable').nestable('serialize');
             },
             loadCategories() {
                 apiRequest.loadCategories(this.params)
@@ -62,7 +67,6 @@
                         CandyEvent.$nextTick( function(){
                             $('.nestable').nestable();
                         });
-
 
                     });
             }
