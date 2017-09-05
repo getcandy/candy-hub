@@ -87,7 +87,6 @@
                     this.urlUpload = {};
                     this.urlUploadModalOpen = false;
                 }).catch(response => {
-                    console.log(response);
                     this.processingAssetUrl = false;
                 });
             },
@@ -186,6 +185,9 @@
              */
             uploadSuccess(file, response) {
                 this.$refs.mediaDropzone.removeFile(file);
+                
+                response.data.tags = response.data.tags.data;
+
                 this.assets.push(response.data);
             },
             uploadError(file, response) {
