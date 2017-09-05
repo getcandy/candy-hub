@@ -125,16 +125,16 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'gb' => 'Black Bamboosh',
-                                'se' => 'Svart Bamboosh'
+                                'gb' => 'Blundstone boots',
+                                'se' => 'Blundstone stövlar'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'material' => [
@@ -143,26 +143,26 @@ class ProductTableSeeder extends Seeder
                                 'se' => 'Läder'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'gb' => 'Moroccan babouche made from butter-soft black leather with slim rubber soles. Indoor wear recommended.',
-                                'se' => 'Marockansk babouche tillverkad av smörmjuk svart läder med smala gummisulor. Inomslitage rekommenderas'
+                                'gb' => 'Legendary lightweight boots made by Blundstone in Tasmania since 1932. Their iconic soles have been engineered for optimum comfort, shock absorption and all-weathers.',
+                                'se' => 'Legendariska lätta stövlar gjorda av Blundstone i Tasmanien sedan 1932. Deras ikoniska sålar har konstruerats för optimal komfort, stötdämpning och alla väder.'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ]
                     ]
@@ -172,44 +172,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'gb' => 'Camber Shoes',
-                                'se' => 'Camber Skor',
+                                'gb' => 'Hoxton Socks',
+                                'se' => 'Hoxton sockor',
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'gb' => 'Suede',
-                                'se' => 'Mockaskinn'
+                                'gb' => 'Wool',
+                                'se' => 'Ull'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'gb' => 'Slip-on soft pink suede brogues toughened up with comfortable crepe soles and leather lining. Penelope Chilvers.',
-                                'se' => 'Slip-on mjuka rosa suede brogues härdade med bekväma crepe sulor och läderfodral. Penelope Chilvers.'
+                                'gb' => 'Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
+                                'se' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ]
                     ]
@@ -219,44 +219,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'gb' => 'Cross over sandals',
-                                'se' => 'Korsa över sandaler'
+                                'gb' => 'Sofa socks - Oatmeal',
+                                'se' => 'Soffa strumpor - Havregryn'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'gb' => 'Suede',
-                                'se' => 'Mockaskinn'
+                                'gb' => 'Wool',
+                                'se' => 'Ull'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'gb' => 'Sleek slides with wide cross-over straps made from chunky-ribbed leather and suede. With padded leather footbed and grooved rubber soles.',
-                                'se' => 'Snygga glidbanor med breda överkantsremmar av chunky-ribbet läder och mocka. Med vadderade läderfotbäddar och räfflade gummisulor.'
+                                'gb' => 'Warm cable-knit house socks handknitted in Nepal from pure wool.Fairtrade',
+                                'se' => 'Varm kabelstickade husstrumpor handknitted i Nepal från ren ull.Fairtrade'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ]
                     ]
@@ -269,44 +269,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'gb' => 'Knot leather bag',
-                                'se' => 'Knot läderväska'
+                                'gb' => 'Boat tote',
+                                'se' => 'Båt tote'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'gb' => 'Leather',
-                                'se' => 'Läder'
+                                'gb' => 'Cotton',
+                                'se' => 'Bomull'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'gb' => 'Sleek suede bag with chunky rolled leather strap and exaggerated knots at either end. Closes with zip across the top and has interior pockets.',
-                                'se' => ''
+                                'gb' => 'A classic American tote crafted from durable 24oz cotton-canvas with steel hardware and sturdy leather handles. An adjustable long belt-like strap makes it extremely versatile. Joshu&Vela. Made in San Francisco. W55cm H30cm D21cm.',
+                                'se' => null
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ]
                     ]
@@ -316,44 +316,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'gb' => 'Arizona bag',
-                                'se' => 'Arizona väska'
+                                'gb' => 'Check bag',
+                                'se' => 'Rutig väska'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'gb' => 'Leather',
-                                'se' => 'Läder'
+                                'gb' => 'Cotton',
+                                'se' => 'Bomull'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'gb' => 'Artisan crafted cross body bag made from waxy umber leather with a wide buckled strap and deep front flap. Lined in twill with interior pockets. ',
-                                'se' => ''
+                                'gb' => 'Artisanal checked cotton tote with recycled, wipeable plastic interior and studded leather handles. Interior zip pocket.',
+                                'se' => null
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ]
                     ]
@@ -363,44 +363,44 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => [
                         'name' => [
                             'ecommerce' => [
-                                'gb' => 'Beet bag',
-                                'se' => 'Köttväska'
+                                'gb' => 'Heda Bag',
+                                'se' => 'Heda väska'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
-                                'gb' => 'Cotton',
-                                'se' => 'Bomull'
+                                'gb' => 'Leather',
+                                'se' => 'Läder'
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
-                                'gb' => 'Capacious beach bag with room for just about anything. Cut from geometric-print cotton with fully lined interior and single zip pocket. Tie closure.',
-                                'se' => ''
+                                'gb' => 'Tan leather bag with handy shoulder or longer cross body strap. Lined in cotton twill with interior pockets.',
+                                'se' => null
                             ],
                             'mobile' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ],
                             'print' => [
-                                'gb' => '',
-                                'se' => ''
+                                'gb' => null,
+                                'se' => null
                             ]
                         ]
                     ]
