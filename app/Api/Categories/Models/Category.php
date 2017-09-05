@@ -11,4 +11,9 @@ class Category extends BaseModel
     use NodeTrait, HasAttributes;
 
     protected $hashids = 'main';
+
+    protected $fillable = [
+        'attribute_data', 'parent_id', 'depth', 'children'
+    ];
+
 }

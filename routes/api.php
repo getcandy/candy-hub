@@ -41,9 +41,7 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
 /**
  * Categories
  */
-$this->resource('categories', 'Categories\CategoryController', [
-    'except' => ['edit', 'create']
-]);
+$this->resource('categories', 'Categories\CategoryController');
 
 /**
  * Channels

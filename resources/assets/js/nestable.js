@@ -30,7 +30,7 @@
     var defaults = {
         listNodeName    : 'ol',
         itemNodeName    : 'li',
-        rootClass       : 'nestables' ,
+        rootClass       : 'nestable' ,
         listClass       : 'nestable-list',
         itemClass       : 'nestable-item',
         dragClass       : 'nestable-dragel',
@@ -155,7 +155,7 @@
                     if (sub.length) {
                         item.children = step(sub, depth + 1);
                     }
-                    if(depth !== 0){
+                    if(depth > 0){
                         item = {data:item};
                     }
                     array.push(item);
@@ -164,9 +164,7 @@
                 return array;
 
             };
-
             data = step(list.el.find(list.options.listNodeName).first(), depth);
-
             return data;
         },
 
@@ -203,6 +201,7 @@
             this.dragDepth  = 0;
             this.hasNewRoot = false;
             this.pointEl    = null;
+            this.options = $.extend({}, defaults);
         },
 
         expandItem: function(li)
