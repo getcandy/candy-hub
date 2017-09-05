@@ -22,7 +22,7 @@
     .nestable-icon {color:#ccc; margin-right:10px;}
     .nestable-image {margin-right:10px;}
     .nestable-handle:hover { color: #662d91; background: #fff; cursor: pointer; }
-    .nestable-item > button { color: #bcbcbc; outline:none; display: block; position: absolute; cursor: pointer; float: left; width: 25px; height: 25px; margin: 15px 10px; padding: 0; text-indent: 100%; white-space: nowrap; overflow: hidden; border: 0; background: transparent; font-size: 16px; line-height: 1; text-align: center; }
+    .nestable-item > button { color: #a8a8a8; outline:none; display: block; position: absolute; cursor: pointer; float: left; width: 25px; height: 25px; margin: 15px 10px; padding: 0; text-indent: 100%; white-space: nowrap; overflow: hidden; border: 0; background: transparent; font-size: 16px; line-height: 1; text-align: center; }
     .nestable-item > button:before { content: '\f105'; font-size: 24px; font-family: FontAwesome; display: block; position: absolute; width: 100%; text-align: center; text-indent: 0; }
     .nestable-item > button[data-action="collapse"]:before { content: '\f107'; font-family: FontAwesome; }
     .nestable-placeholder,
