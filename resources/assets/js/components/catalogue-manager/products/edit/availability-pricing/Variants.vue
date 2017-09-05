@@ -104,7 +104,8 @@
               <div class="col-xs-12 col-md-4">
                 <a href="" class="variant-option-img">
                   <div class="change-img">
-                    <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder">
+                    <img :src="current.image" alt="Placeholder" class="placeholder" v-if="current.image">
+                    <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder" v-else>
                     Change image
                   </div>
                 </a>
