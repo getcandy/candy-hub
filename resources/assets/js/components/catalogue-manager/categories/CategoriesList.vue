@@ -1,6 +1,6 @@
 <style>
     .categories-list {display: inline-block; width:100%;}
-    .nestable { width:100%; position: relative; display: block; margin: 0; padding: 0; list-style: none; font-weight: 200; font-size: 16px; line-height: 20px; }
+    .nestable { width:100%; position: relative; display: block; margin: 0; padding: 0; list-style: none; font-weight: 200!important; font-size: 16px; line-height: 20px; }
     .nestable-list { display: block; position: relative; margin: 0; padding: 0; list-style: none; }
     .nestable-list .nestable-list { padding-left: 50px; }
     .nestable-collapsed .nestable-list { display: none; }
@@ -46,17 +46,13 @@
         mounted() {
 
             this.loadCategories();
-            $('.nestable').on('change', this.updateOutput);
+            //$('.nestable').on('change', this.updateOutput);
 
         },
         methods: {
             updateOutput() {
-
-                
-
-
-
-                this.categories = $('.nestable').nestable('serialize');
+                //this.categories = $('.nestable').nestable('serialize');
+                //this.save();
             },
             loadCategories() {
                 apiRequest.loadCategories(this.params)
@@ -69,7 +65,21 @@
                         });
 
                     });
+            },
+            save() {
+                apiRequest.send('post', '/categories/', this.categories).then(response => {
+                    console.log(response);
+                    CandyEvent.$emit('notification', {
+                        level: 'success'
+                    });
+                }).catch(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'error',
+                        message: 'Missing / Invalid fields'
+                    });
+                });
             }
+
         }
     };
 </script>
