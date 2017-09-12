@@ -1,13 +1,13 @@
 <template>
 
-    <li class="nestable-item" :data-id="category.id" :data-attribute_data="getAttributeData(category.attribute_data)">
+    <li class="nestable-item" :id="category.id" :data-id="category.id" :data-attribute_data="getAttributeData(category.attribute_data)">
         <div class="nestable-handle">
             <i class="fa fa-arrows nestable-icon"></i>
             <img class="nestable-image" src="http://via.placeholder.com/45x45">
             <span>{{ category.attribute_data.name.ecommerce.gb }}</span>
         </div>
 
-        <ol class="nestable-list" :data-parent-id="category.id" v-if="category.children && category.children.length > 0">
+        <ol class="nestable-list" v-if="category.children && category.children.length > 0">
             <candy-category v-for="child in category.children" :category="child.data" :key="child.data.id"></candy-category>
         </ol>
 

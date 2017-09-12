@@ -296,12 +296,18 @@
         dragStop: function(e)
         {
             var el = this.dragEl.children(this.options.itemNodeName).first();
+
+            var nodeID = el.data('id');
+
+
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
             this.dragEl.remove();
-            this.el.trigger('change');
+            this.el.trigger('change', [{id:nodeID}]);
+
+            console.log(this.hasNewRoot);
             if (this.hasNewRoot) {
-                this.dragRootEl.trigger('change');
+                this.dragRootEl.trigger('change', [{id:nodeID}]);
             }
             this.reset();
         },

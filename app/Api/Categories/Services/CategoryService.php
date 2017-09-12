@@ -20,53 +20,44 @@ class CategoryService extends BaseService
 
     public function getNestedList()
     {
-        $items = $this->model->withDepth()->get()->toTree();
+        $items = $this->model->withDepth()->defaultOrder()->get()->toTree();
         return $items;
     }
 
     public function update(array $data)
     {
+        $response = false;
 
-        $nodeToMove = $this->model->find(6);
-        $nodeAfter = $this->model->find(11);
+        $node = $this->getByHashedId($data['id']);
+        $nodeKey = array_search($data['id'], $data['siblings']);
 
-        dd($nodeToMove->parent()->associate($nodeAfter)->save());
+        // If node is first and has no parent or siblings append it to the tree
+        if(!isset($data['parent-id']) && $nodeKey === 0 && count($data['siblings']) === 1){
 
-        dd($nodeToMove->insertAfterNode($nodeAfter));
+            $response = $node->saveAsRoot();
 
-        //dd($this->model->rebuildTree($data[0]));
+        // If node is first and has no parent but has siblings prepend it to the tree
+        }elseif(!isset($data['parent-id']) && $nodeKey === 0 && count($data['siblings']) > 1) {
 
-        //return $this->model->rebuildTree($this->rebuildArray($data[0]));
-    }
+            $beforeNode = $this->getByHashedId($data['siblings'][$nodeKey +1]);
+            $response = $node->insertBeforeNode($beforeNode);
 
+        // If node is not alone and is not the first then place it behind sibling
+        }elseif(count($data['siblings']) > 1 && $nodeKey > 0){
 
+            $afterNode = $this->getByHashedId($data['siblings'][$nodeKey - 1]);
+            $response = $node->insertAfterNode($afterNode);
 
+        // If node is the first and has a parent we can prepend it to its parent
+        }else{
 
-
-
-    public function rebuildArray(array $data)
-    {
-        $response = [];
-
-        foreach($data as $category){
-            if(isset($category->data)){
-                $response += [
-                    "id" => Hashids::decode($category->id)[0],
-                    "attribute_data" => json_encode($category->data->attribute_data),
-                    "depth" => $category->data->depth,
-                    "children" => (isset($category->data->children) ? $this->rebuildArray($category->data->children) : null)
-                ];
-            }elseif(isset($category->data)){
-                $response += [
-                    "id" => Hashids::decode($category->id)[0],
-                    "attribute_data" => json_encode($category->attribute_data),
-                    "depth" => $category->depth,
-                    "children" => (isset($category->children) ? $this->rebuildArray($category->children) : null)
-                ];
-            }
+            $parentNode = $this->getByHashedId($data['parent-id']);
+            $response = $parentNode->prependNode($node);
 
         }
-        return $response;
+
+        return $this->getNestedList();
+
     }
 
 }
