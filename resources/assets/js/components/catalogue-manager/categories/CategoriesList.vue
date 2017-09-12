@@ -5,8 +5,7 @@
     export default {
         data() {
             return {
-                categories: [],
-                lastMoved: []
+                categories: []
             };
         },
         mounted() {
@@ -71,13 +70,8 @@
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#all-products" aria-controls="all-products" role="tab" data-toggle="tab">
-                    All Products
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#shoes" aria-controls="shoes" role="tab" data-toggle="tab">
-                    Shoes <i class="fa fa-times" aria-hidden="true"></i>
+                <a href="#all-products" aria-controls="all-categories" role="tab" data-toggle="tab">
+                    All Categories
                 </a>
             </li>
         </ul>
@@ -148,7 +142,6 @@
                     </div>
                 </div>
 
-                <hr>
                 <div class="categories-list">
 
                     <div class="nestable">

@@ -1,16 +1,47 @@
-.categories-list {display: inline-block; width:100%;}
-.nestable { width:100%; position: relative; display: block; margin: 0; padding: 0; list-style: none; font-weight: 200!important; font-size: 16px; line-height: 20px; }
-.nestable-list { display: block; position: relative; margin: 0; padding: 0; list-style: none; }
-.nestable-list .nestable-list { padding-left: 50px; }
-.nestable-collapsed .nestable-list { display: none; }
+.categories-list {
+    display: inline-block;
+    width:100%;
+    margin-top: 20px;
+}
+.nestable {
+    width:100%;
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 20px;
+    border-top:1px solid #eaeaea;
+}
+.nestable-list {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nestable-list .nestable-list {
+    padding-left: 50px;
+}
+.nestable-collapsed .nestable-list {
+    display: none;
+}
 .nestable-item,
 .nestable-empty,
-.nestable-placeholder { display: block; position: relative; margin: 0; padding: 0; min-height: 20px; font-size: 16px; line-height: 20px; }
+.nestable-placeholder {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 20px;
+    font-size: 16px;
+    line-height: 20px;
+}
 .nestable-handle {
     display: block;
-    height: 65px;
+    height: 57px;
     margin: 0;
-    padding: 10px 40px;
+    padding: 8px 40px;
     color: #333;
     text-decoration: none;
     font-weight: bold;
@@ -18,15 +49,73 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-.nestable-icon {color:#ccc; margin-right:10px;}
-.nestable-image {margin-right:10px;}
-.nestable-handle:hover { color: #662d91; background: #fff; cursor: pointer; }
-.nestable-item > button { color: #a8a8a8; outline:none; display: block; position: absolute; cursor: pointer; float: left; width: 25px; height: 25px; margin: 15px 10px; padding: 0; text-indent: 100%; white-space: nowrap; overflow: hidden; border: 0; background: transparent; font-size: 16px; line-height: 1; text-align: center; }
-.nestable-item > button:before { content: '\f105'; font-size: 24px; font-family: FontAwesome; display: block; position: absolute; width: 100%; text-align: center; text-indent: 0; }
-.nestable-item > button[data-action="collapse"]:before { content: '\f107'; font-family: FontAwesome; }
+.nestable-handle span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}
+.nestable-icon {
+    color:#ccc;
+    margin-right:10px;
+}
+.nestable-image {
+    margin-right:10px;
+}
+.nestable-item > button {
+    color: #a8a8a8;
+    outline:none;
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin: 15px 10px;
+    padding: 0;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+}
+.nestable-item > button:before {
+    content: '\f105';
+    font-size: 24px;
+    font-family: FontAwesome;
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    text-indent: 0;
+}
+.nestable-item > button[data-action="collapse"]:before {
+    content: '\f107';
+    font-family: FontAwesome;
+}
+.nestable-item:hover {
+    background-color: #f2f3fb!important;
+    cursor: pointer;
+}
 .nestable-placeholder,
 .nestable-empty >.nestable-item,
 .nestable-empty > .nestable-handle,
-.nestable-empty { margin: 0; padding: 0; min-height: 65px; background: #f8f8f8; border: 1px dashed #EAEAEA!important; box-sizing: border-box; -moz-box-sizing: border-box; }
-.nestable-dragel { position: absolute; pointer-events: none; z-index: 9999; }
-.nestable-dragel > .nestable-item .nestable-handle { margin-top: 0; }
+.nestable-empty {
+    margin: 0;
+    padding: 0;
+    min-height: 65px;
+    background: #f2f3fb;
+    border: 1px dashed #EAEAEA!important;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.nestable-dragel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+}
+.nestable-dragel > .nestable-item .nestable-handle {
+    margin-top: 0;
+}

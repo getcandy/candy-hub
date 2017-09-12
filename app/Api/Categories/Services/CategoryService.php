@@ -56,7 +56,11 @@ class CategoryService extends BaseService
 
         }
 
-        return $this->getNestedList();
+        if($response){
+            return $this->getNestedList();
+        }
+
+        return false;
 
     }
 

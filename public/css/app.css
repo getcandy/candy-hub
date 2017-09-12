@@ -17171,6 +17171,7 @@ textarea.bootstrap-tagsinput {
 .categories-list {
   display: inline-block;
   width: 100%;
+  margin-top: 20px;
 }
 
 .nestable {
@@ -17180,9 +17181,8 @@ textarea.bootstrap-tagsinput {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-weight: 200 !important;
-  font-size: 16px;
   line-height: 20px;
+  border-top: 1px solid #eaeaea;
 }
 
 .nestable-list {
@@ -17215,15 +17215,21 @@ textarea.bootstrap-tagsinput {
 
 .nestable-handle {
   display: block;
-  height: 65px;
+  height: 57px;
   margin: 0;
-  padding: 10px 40px;
+  padding: 8px 40px;
   color: #333;
   text-decoration: none;
   font-weight: bold;
   border-bottom: 1px solid #eaeaea;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+}
+
+.nestable-handle span {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
 }
 
 .nestable-icon {
@@ -17233,12 +17239,6 @@ textarea.bootstrap-tagsinput {
 
 .nestable-image {
   margin-right: 10px;
-}
-
-.nestable-handle:hover {
-  color: #662d91;
-  background: #fff;
-  cursor: pointer;
 }
 
 .nestable-item > button {
@@ -17278,6 +17278,11 @@ textarea.bootstrap-tagsinput {
   font-family: FontAwesome;
 }
 
+.nestable-item:hover {
+  background-color: #f2f3fb !important;
+  cursor: pointer;
+}
+
 .nestable-placeholder,
 .nestable-empty > .nestable-item,
 .nestable-empty > .nestable-handle,
@@ -17285,7 +17290,7 @@ textarea.bootstrap-tagsinput {
   margin: 0;
   padding: 0;
   min-height: 65px;
-  background: #f8f8f8;
+  background: #f2f3fb;
   border: 1px dashed #EAEAEA !important;
   box-sizing: border-box;
   -moz-box-sizing: border-box;

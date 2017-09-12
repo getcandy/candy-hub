@@ -304,8 +304,6 @@
             this.placeEl.replaceWith(el);
             this.dragEl.remove();
             this.el.trigger('change', [{id:nodeID}]);
-
-            console.log(this.hasNewRoot);
             if (this.hasNewRoot) {
                 this.dragRootEl.trigger('change', [{id:nodeID}]);
             }

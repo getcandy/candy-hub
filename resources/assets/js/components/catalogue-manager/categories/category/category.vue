@@ -3,7 +3,7 @@
     <li class="nestable-item" :id="category.id" :data-id="category.id" :data-attribute_data="getAttributeData(category.attribute_data)">
         <div class="nestable-handle">
             <i class="fa fa-arrows nestable-icon"></i>
-            <img class="nestable-image" src="http://via.placeholder.com/45x45">
+            <img class="nestable-image" src="/images/placeholder/no-image.svg" height="41">
             <span>{{ category.attribute_data.name.ecommerce.gb }}</span>
         </div>
 
