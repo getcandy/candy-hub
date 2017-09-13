@@ -12,6 +12,9 @@
             languages: {
                 type: Array
             },
+            channels: {
+                type: Array
+            },
             groups: {
                 type: Array,
                 default() {
@@ -33,6 +36,16 @@
                         message: 'Missing / Invalid fields'
                     });
                 });
+            },
+            getChannels(channels) {
+                let arr = [];
+                channels.forEach(channel => {
+                    arr.push({
+                        label: channel.name,
+                        value: channel.handle
+                    });
+                });
+                return arr;
             }
         },
         mounted() {
@@ -46,7 +59,12 @@
 
             <template v-for="(group, index) in groups">
                 <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                    <candy-product-attributes :languages="languages" :group="group" :product="product" :request="request"></candy-product-attributes>
+
+                    <candy-attribute-data :languages="languages" :channels="getChannels(product.channels.data)"
+                                          :attributes="group.attributes.data" :attributeData="product.attributes"
+                                          :request="request">
+                    </candy-attribute-data>
+
                 </candy-tab>
             </template>
 
