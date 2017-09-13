@@ -82,11 +82,8 @@ Vue.component('candy-media', require('./components/catalogue-manager/products/ed
 /**
  * Avalability & Pricing
  */
-Vue.component('candy-inventory', require('./components/catalogue-manager/products/edit/availability-pricing/Inventory.vue'));
-Vue.component('candy-shipping', require('./components/catalogue-manager/products/edit/availability-pricing/Shipping.vue'));
-Vue.component('candy-customer-groups', require('./components/catalogue-manager/products/edit/availability-pricing/CustomerGroups.vue'));
+
 Vue.component('candy-discounts', require('./components/catalogue-manager/products/edit/availability-pricing/Discounts.vue'));
-Vue.component('candy-avalability-pricing-modals', require('./components/catalogue-manager/products/edit/availability-pricing/Modals.vue'));
 Vue.component('candy-product-availability', require('./components/catalogue-manager/products/edit/ProductAvailability.vue'));
 
 /**
@@ -94,6 +91,7 @@ Vue.component('candy-product-availability', require('./components/catalogue-mana
  */
 Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
 Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/availability-pricing/CreateVariant.vue'));
+Vue.component('candy-edit-options', require('./components/catalogue-manager/products/edit/availability-pricing/EditOptions.vue'));
 /**
  * Associations
  */
@@ -131,6 +129,9 @@ window.CandyEvent = new Vue();
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
 
+var Locale = require('./classes/Locale');
+window.locale = new Locale();
+
 var CandyHelpers = {};
 
 CandyHelpers.install = function (Vue, options) {
@@ -145,6 +146,16 @@ Vue.filter('formatDate', function(value) {
   if (value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm')
   }
+});
+
+Vue.filter('t', function (value, lang) {
+  if (!lang) {
+    lang = locale.current();
+  }
+  if (!value[lang]) {
+    return value[Object.keys(value)[0]];
+  }
+  return value[lang];
 });
 
 const app = new Vue({
