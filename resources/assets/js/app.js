@@ -43,13 +43,18 @@ Vue.component('candy-modal', require('./components/elements/Modal.vue'));
 /**
  * Form Components
  */
-Vue.component('candy-checkbox', require('./components/elements/forms/Checkbox.vue'));
-Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
-Vue.component('candy-radio', require('./components/elements/forms/Radio.vue'));
-Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
-Vue.component('candy-taggable', require('./components/elements/forms/Taggable.vue'));
-Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
-Vue.component('candy-toggle', require('./components/elements/forms/Toggle.vue'));
+Vue.component('candy-attribute-data', require('./components/elements/forms/AttributeData.vue'));
+
+/**
+ * Form Input Components
+ */
+Vue.component('candy-checkbox', require('./components/elements/forms/inputs/Checkbox.vue'));
+Vue.component('candy-input', require('./components/elements/forms/inputs/Input.vue'));
+Vue.component('candy-radio', require('./components/elements/forms/inputs/Radio.vue'));
+Vue.component('candy-select', require('./components/elements/forms/inputs/Select.vue'));
+Vue.component('candy-taggable', require('./components/elements/forms/inputs/Taggable.vue'));
+Vue.component('candy-textarea', require('./components/elements/forms/inputs/Textarea.vue'));
+Vue.component('candy-toggle', require('./components/elements/forms/inputs/Toggle.vue'));
 
 /**
  * Page Specific
@@ -91,7 +96,7 @@ Vue.component('candy-product-availability', require('./components/catalogue-mana
  */
 Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
 Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/availability-pricing/CreateVariant.vue'));
-Vue.component('candy-edit-options', require('./components/catalogue-manager/products/edit/availability-pricing/EditOptions.vue'));
+//Vue.component('candy-edit-options', require('./components/catalogue-manager/products/edit/availability-pricing/EditOptions.vue'));
 /**
  * Associations
  */
@@ -138,7 +143,7 @@ CandyHelpers.install = function (Vue, options) {
   Vue.capitalize = function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-}
+};
 
 window.moment = require('moment');
 
@@ -147,7 +152,7 @@ Vue.filter('formatDate', function(value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm')
   }
 });
-
+/*
 Vue.filter('t', function (value, lang) {
   if (!lang) {
     lang = locale.current();
@@ -156,6 +161,17 @@ Vue.filter('t', function (value, lang) {
     return value[Object.keys(value)[0]];
   }
   return value[lang];
+});
+*/
+
+Vue.filter('t', function (value, lang) {
+    if (!lang) {
+        lang = locale.current();
+    }
+    if (!value[lang]) {
+        return value[Object.keys(value)[0]];
+    }
+    return value[lang];
 });
 
 const app = new Vue({
