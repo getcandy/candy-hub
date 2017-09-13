@@ -96,7 +96,9 @@
 
                     <candy-tab name="Product Details" handle="product-details" :selected="true">
                         <candy-product-details :product="product" :languages="languages"
-                                               :groups="attribute_groups"></candy-product-details>
+                                               :groups="attribute_groups">
+
+                        </candy-product-details>
                     </candy-tab>
 
                     <candy-tab name="Media">
