@@ -63,7 +63,6 @@ Vue.component('candy-toggle', require('./components/elements/forms/inputs/Toggle
 Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
 Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
 Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
-Vue.component('candy-product-attributes', require('./components/catalogue-manager/products/edit/details/ProductAttributes.vue'));
 Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
 
 /* Collections */
@@ -152,17 +151,6 @@ Vue.filter('formatDate', function(value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm')
   }
 });
-/*
-Vue.filter('t', function (value, lang) {
-  if (!lang) {
-    lang = locale.current();
-  }
-  if (!value[lang]) {
-    return value[Object.keys(value)[0]];
-  }
-  return value[lang];
-});
-*/
 
 Vue.filter('t', function (value, lang) {
     if (!lang) {

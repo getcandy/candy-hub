@@ -128,7 +128,7 @@
 
                                 <candy-input
                                         :id="'default-'+ attribute.id"
-                                        v-model="attributeData[attribute.handle][defaultChannel][defaultLanguage] | t"
+                                        v-model="attributeData[attribute.handle][defaultChannel][defaultLanguage]"
                                         :required="attribute.required">
                                 </candy-input>
                                 <span class="text-danger"
