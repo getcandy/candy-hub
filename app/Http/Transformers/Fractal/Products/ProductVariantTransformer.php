@@ -8,6 +8,7 @@ use GetCandy\Api\Currencies\Models\Currency;
 use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
+use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 
 class ProductVariantTransformer extends BaseTransformer
@@ -25,6 +26,7 @@ class ProductVariantTransformer extends BaseTransformer
             'requires_shipping' => (bool) $variant->requires_shipping,
             'price' => $variant->price,
             'inventory' => $variant->stock,
+            'thumbnail' => $this->getThumbnail($variant),
             'weight' => [
                 'value' => $variant->weight_value,
                 'unit' => $variant->weight_unit
@@ -54,5 +56,17 @@ class ProductVariantTransformer extends BaseTransformer
     public function includeProduct(ProductVariant $variant)
     {
         return $this->item($variant->product, new ProductTransformer);
+    }
+
+    protected function getThumbnail($variant)
+    {
+        $asset = $variant->image()->count();
+
+        if (!$asset) {
+            return ['data' => []];
+        }
+
+        $data = $this->item($variant->image, new AssetTransformer);
+        return app()->fractal->createData($data)->toArray();
     }
 }

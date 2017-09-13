@@ -21,6 +21,7 @@
         },
         methods: {
             save() {
+                console.log(2);
                 this.request.send('put', '/products/' + this.product.id, { 'attributes' : this.product.attributes })
                     .then(response => {
                         CandyEvent.$emit('notification', {

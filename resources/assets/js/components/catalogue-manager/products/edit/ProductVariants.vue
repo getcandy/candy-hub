@@ -19,11 +19,12 @@
         },
         methods: {
             save() {
+                console.log(1);
                 this.variants.forEach(variant => {
                     this.request.send('put', '/products/variants/' + variant.id, variant)
                         .then(response => {
                             CandyEvent.$emit('notification', {
-                                level: 'success'
+                                level: 'error'
                             });
                         }).catch(response => {
                         CandyEvent.$emit('notification', {

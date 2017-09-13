@@ -3,8 +3,8 @@
 namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Channels\Models\Channel;
+use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;

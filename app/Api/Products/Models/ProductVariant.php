@@ -5,6 +5,7 @@ namespace GetCandy\Api\Products\Models;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Assets\Models\Asset;
 
 class ProductVariant extends BaseModel
 {
@@ -34,6 +35,7 @@ class ProductVariant extends BaseModel
         }
         return $values;
     }
+
     public function setOptionsAttribute($val)
     {
         $options = [];
@@ -44,5 +46,10 @@ class ProductVariant extends BaseModel
             $options[str_slug($option)] = str_slug($value);
         }
         $this->attributes['options'] = json_encode($options);
+    }
+
+    public function image()
+    {
+        return $this->belongsTo(Asset::class, 'asset_id');
     }
 }

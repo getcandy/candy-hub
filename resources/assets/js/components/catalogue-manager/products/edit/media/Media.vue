@@ -96,6 +96,10 @@
                         CandyEvent.$emit('notification', {
                             level: 'success'
                         });
+                        CandyEvent.$emit('asset_deleted', {
+                            asset: this.assetToDelete,
+                            index: this.deletedIndex
+                        });
                         this.assets.splice(this.deletedIndex, 1);
                         this.assetToDelete = {};
                         this.deletedIndex = null;
@@ -185,8 +189,11 @@
              */
             uploadSuccess(file, response) {
                 this.$refs.mediaDropzone.removeFile(file);
-                
                 response.data.tags = response.data.tags.data;
+
+                CandyEvent.$emit('asset_uploaded', {
+                    asset: response.data
+                });
 
                 this.assets.push(response.data);
             },
@@ -306,7 +313,6 @@
         </div>
         <div class="sub-nav media-upload">
             <button type="button" class="btn btn-primary btn-full" @click="openUrlModal">Add by URL</button>
-            
             <candy-alert :shown="true" level="danger" v-for="(file, index) in failedUploads" :key="index">
                 <strong>{{ file.filename }}</strong> <br>
                 <ul class="list-unstyled">
@@ -316,7 +322,7 @@
                 </ul>
             </candy-alert>
 
-            <dropzone id="media-upload"
+            <dropzone id="variant-media-upload"
                 ref="mediaDropzone"
                 :url="dropzoneUrl"
                 v-on:vdropzone-success="uploadSuccess"
@@ -331,9 +337,6 @@
                 </div>
                 <input type="hidden" name="_token" :value="token">
             </dropzone>
-
-            
-
         </div>
         <candy-modal title="Add media by URL" v-show="urlUploadModalOpen" @closed="closeUrlModal">
             <div slot="body">

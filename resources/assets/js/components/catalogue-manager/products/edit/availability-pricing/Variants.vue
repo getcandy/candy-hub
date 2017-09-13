@@ -1,12 +1,21 @@
 <script>
+  import Dropzone from 'vue2-dropzone'
   export default {
         data() {
             return {
-                current: {},
-                currentIndex: 0,
-                createVariant: false,
-                editOptions: false,
-                variants: []
+              request: apiRequest,
+              current: {},
+              currentIndex: 0,
+              createVariant: false,
+              editOptions: false,
+              changeImage: false,
+              assets: [],
+              variants: [],
+              dzOptions: {
+                headers: {
+                  'X-CSRF-TOKEN': window.Laravel.csrfToken
+                }
+              }
             }
         },
         props: {
@@ -15,14 +24,40 @@
             }
         },
         created() {
-            this.variants = this.product.variants.data;
-            this.current = this.variants[0];
-            console.log(locale.current());
+          this.variants = this.product.variants.data;
+          this.current = this.variants[0];
+        },
+        mounted() {
+          this.assets = this.product.assets.data;
+          CandyEvent.$on('asset_deleted', event => {
+            this.assets.splice(event.index, 1);
+          });
+          CandyEvent.$on('asset_uploaded', event => {
+            this.assets.push(event.asset);
+          });
         },
         methods: {
+            saveVariant() {
+              this.request.send('put', '/products/variants/' + this.current.id, this.current)
+                .then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Changes saved'
+                    });
+                    this.changeImage = false;
+                }).catch(response => {
+                CandyEvent.$emit('notification', {
+                    level: 'error',
+                    message: 'Missing / Invalid fields'
+                });
+            });
+            },
             selectVariant(index) {
                 this.current = this.variants[index];
                 this.currentIndex = index;
+            },
+            setImage(asset) {
+              this.current.thumbnail.data = asset;
             },
             deleteVariant(index) {
                 if (confirm('Are you sure you want to delete this variant?')) {
@@ -52,6 +87,22 @@
                     rate = 2.54;
                 }
                 return measurement.value * rate;
+            },
+            /***
+             * Dropzone event Methods
+             */
+            uploadSuccess(file, response) {
+                this.$refs.mediaDropzone.removeFile(file);
+                response.data.tags = response.data.tags.data;
+                this.assets.push(response.data);
+                this.current.thumbnail.data = response.data;
+            },
+            uploadError(file, response) {
+                this.$refs.mediaDropzone.removeFile(file);
+                this.failedUploads.push({
+                    filename: file.name,
+                    errors: response.file ? response.file : [response]
+                });
             }
         },
         computed: {
@@ -66,7 +117,13 @@
                     return cmsquared / 1000;
                 }
                 return cmsquared;
+            },
+            dropzoneUrl() {
+              return '/api/v1/products/' + this.product.id + '/assets';
             }
+        },
+        components: {
+            Dropzone
         }
     }
 </script>
@@ -103,17 +160,67 @@
                 </template>
               </div>
               <div class="col-xs-12 col-md-4">
-                <a href="" class="variant-option-img">
+                <button @click="changeImage = true" class="variant-option-img">
                   <div class="change-img">
-                    <img :src="current.image" alt="Placeholder" class="placeholder" v-if="current.image">
+                    <img :src="current.thumbnail.data.thumbnail" alt="Placeholder" class="placeholder" v-if="current.thumbnail.data.thumbnail">
                     <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder" v-else>
                     Change image
                   </div>
-                </a>
+                </button>
+                <candy-modal title="Change variant image" v-show="changeImage" @closed="changeImage = false">
+                  <div slot="body">
+                    <div class="sub-nav media-upload">
+                      <dropzone id="media-upload"
+                          ref="variantMediaDropzone"
+                          :url="dropzoneUrl"
+                          v-on:vdropzone-success="uploadSuccess"
+                          v-bind:dropzone-options="dzOptions"
+                          v-bind:use-custom-dropzone-options="true"
+                          v-on:vdropzone-error="uploadError"
+                          :maxFileSizeInMB="50"
+                      >
+                          <div class="dz-default dz-message media-box">
+                              <i class="fa fa-upload icon" aria-hidden="true"></i>
+                              <p>Drop files here or click to upload</p>
+                          </div>
+                      </dropzone>
+                    </div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Title/Alt Tag</th>
+                            <th>Description</th>
+                            <th>File Type</th>
+                            <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(asset, index) in assets" :key="asset.id">
+                            <td>
+                                <input type="radio" :id="asset.id" :value="asset.id" @click="setImage(asset)" :checked="asset.id == current.thumbnail.data.id">
+                            </td>
+                            <td>
+                                <a :href="asset.url" v-if="asset.thumbnail" data-lity>
+                                    <img :src="asset.thumbnail" :alt="asset.title">
+                                </a>
+                                <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
+                            </td>
+                            <td>{{ asset.title }}</td>
+                            <td>{{ asset.caption }}</td>
+                            <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <template slot="footer">
+                      <button class="btn btn-primary" @click="saveVariant()">Save changes</button>
+                  </template>
+                </candy-modal>
               </div>
             </div>
             </template>
-            
             <h4>Pricing</h4>
             <hr>
             <div class="row">
@@ -266,8 +373,8 @@
             <ul class="variant-list">
               <li v-for="(v, index) in variants">
                 <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
-                  <div class="variant-img" v-if="v.image">
-                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
+                  <div class="variant-img" v-if="v.thumbnail.data.thumbnail">
+                    <img :src="v.thumbnail.data.thumbnail" alt="Aquacomb">
                   </div>
                   <div class="variant-img" v-else>
                     <img src="/images/placeholder/no-image.svg" alt="Placeholder">
