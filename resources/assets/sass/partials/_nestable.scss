@@ -114,8 +114,20 @@
 .nestable-dragel {
     position: absolute;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 99;
 }
 .nestable-dragel > .nestable-item .nestable-handle {
     margin-top: 0;
+}
+
+.nestable-item .btn {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    z-index: 9999;
+    display: none;
+}
+
+.nestable-item:hover .btn:last-child {
+    display: block;
 }

@@ -5,7 +5,10 @@
             <i class="fa fa-arrows nestable-icon"></i>
             <img class="nestable-image" src="/images/placeholder/no-image.svg" height="41">
             <span>{{ category.attribute_data.name.ecommerce.gb }}</span>
+
         </div>
+
+        <a data-toggle="modal" data-target="#createCategory" class="btn btn-default"><i class="fa fa-plus"></i> Create Subcategory</a>
 
         <ol class="nestable-list" v-if="category.children && category.children.length > 0">
             <candy-category v-for="child in category.children" :category="child.data" :key="child.data.id"></candy-category>
