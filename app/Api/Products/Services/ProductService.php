@@ -58,19 +58,36 @@ class ProductService extends BaseService
             $product->channels()->sync($channelData);
         }
         if (!empty($data['customer_groups'])) {
-            $groupData = [];
-            foreach ($data['customer_groups']['data'] as $group) {
-                $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
-                $groupData[$groupModel->id] = [
-                    'visible' => $group['visible'],
-                    'purchasable' => $group['purchasable']
-                ];
-            }
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
             $product->customerGroups()->sync($groupData);
         }
         return $product;
     }
 
+    /**
+     * Maps customer group data for a product
+     * @param  array $groups
+     * @return array
+     */
+    protected function mapCustomerGroupData($groups)
+    {
+        $groupData = [];
+        foreach ($groups as $group) {
+            $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
+            $groupData[$groupModel->id] = [
+                'visible' => $group['visible'],
+                'purchasable' => $group['purchasable']
+            ];
+        }
+        return $groupData;
+    }
+
+    /**
+     * Creates a URL for a product
+     * @param  string $hashedId
+     * @param  array  $data
+     * @return Model
+     */
     public function createUrl($hashedId, array $data)
     {
         $product = $this->getByHashedId($hashedId);
@@ -131,7 +148,6 @@ class ProductService extends BaseService
 
     public function saveOptions(array $data = [])
     {
-
     }
 
     /**

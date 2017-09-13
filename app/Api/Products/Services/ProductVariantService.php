@@ -23,14 +23,21 @@ class ProductVariantService extends BaseService
     {
         $product = app('api')->products()->getByHashedId($id);
 
-        $product->option_data = $data['options'];
-        $product->save();
-
         if ($product->variants->count() == 1) {
             $product->variants()->delete();
         }
 
+        $options = $product->option_data;
+
         foreach ($data['variants'] as $newVariant) {
+            $newOption = [];
+            foreach ($newVariant['options'] as $handle => $option) {
+                foreach ($option as $lang => $value) {
+                    $optionKey = str_slug($value);
+                    $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
+                    $newOption[$handle] = $optionKey;
+                }
+            }
             $product->variants()->create([
                 'price' => $newVariant['price'],
                 'sku' => $newVariant['sku'],
@@ -38,6 +45,9 @@ class ProductVariantService extends BaseService
                 'options' => $newVariant['options']
             ]);
         }
+
+        $product->update(['option_data' => $options]);
+
         return $product;
     }
 

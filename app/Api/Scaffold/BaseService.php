@@ -130,6 +130,7 @@ abstract class BaseService
         return $this->model->get();
     }
 
+
     /**
      * Gets the attributes related to the model
      * @return Collection

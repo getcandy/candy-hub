@@ -5,6 +5,7 @@
                 current: {},
                 currentIndex: 0,
                 createVariant: false,
+                editOptions: false,
                 variants: []
             }
         },
@@ -16,7 +17,7 @@
         created() {
             this.variants = this.product.variants.data;
             this.current = this.variants[0];
-
+            console.log(locale.current());
         },
         methods: {
             selectVariant(index) {
@@ -81,7 +82,7 @@
                 <h4>Product Availability</h4>
               </div>
               <div class="col-md-4 text-right">
-                <candy-create-variant :product="product" :showModal="createVariant"></candy-create-variant>
+                <candy-edit-options :product="product" :showModal="editOptions"></candy-edit-options>
               </div>
             </div>
           </div> <!-- col-xs-12 -->
@@ -279,6 +280,8 @@
                 </a>
               </li>
             </ul>
+            <hr>
+            <candy-create-variant :product="product" :showModal="createVariant"></candy-create-variant>
           </div>
         </div>
       </div>

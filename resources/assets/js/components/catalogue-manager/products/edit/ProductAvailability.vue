@@ -75,7 +75,6 @@
         <candy-tabs nested="true"  v-if="product">
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
                 <candy-variants :product="product"></candy-variants>
-                <candy-avalability-pricing-modals></candy-avalability-pricing-modals>
             </candy-tab>
             <candy-tab name="Channels" handle="channels">
                 <div class="row">

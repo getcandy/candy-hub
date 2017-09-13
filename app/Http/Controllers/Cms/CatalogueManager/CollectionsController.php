@@ -8,6 +8,7 @@ class CollectionsController extends Controller
 {
     public function getIndex()
     {
+        
         return view('catalogue-manager.collections.index');
     }
 
