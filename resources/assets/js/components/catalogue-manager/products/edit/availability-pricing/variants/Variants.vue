@@ -149,6 +149,10 @@
   <div>
     <div class="row">
       <div class="col-xs-12 col-md-11">
+
+        <!--
+          Page Header
+        -->
         <div class="row">
           <div class="col-xs-12">
             <div class="row">
@@ -161,6 +165,8 @@
             </div>
           </div> <!-- col-xs-12 -->
         </div>
+
+
         <hr>
         <div class="row">
           <div class="col-xs-12" :class="{'col-md-8 col-md-push-4': variants.length > 1, 'col-md-12' : variants.length == 1}">
