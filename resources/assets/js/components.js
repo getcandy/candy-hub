@@ -120,8 +120,7 @@ var includes = [
     components: {
       'variants' : 'Variants',
       'create-variant' : 'CreateVariant',
-      'edit-options' : 'EditOptions',
-      'edit-variants' : 'EditVariant'
+      'edit-options' : 'EditOptions'
     }
   },
   /**

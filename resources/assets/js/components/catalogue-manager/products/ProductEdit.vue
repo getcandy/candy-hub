@@ -22,7 +22,6 @@
                 required: true
             }
         },
-
         created() {
             this.loadLanguages();
             this.loadProduct(this.productId);
@@ -52,6 +51,10 @@
                 this.variants = this.product.variants.data;
                 this.routes = this.product.routes.data;
             },
+            /**
+             * Loads languages
+             * @return
+             */
             loadLanguages() {
                 apiRequest.send('get', 'languages', [], []).then(response => {
                     response.data.forEach(lang => {
