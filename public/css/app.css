@@ -15371,44 +15371,41 @@ a {
 .variant-option-img {
   position: relative;
   display: block;
-  width: 100%;
-  min-height: 160px;
+  padding: 20px 10px 40px 10px;
+  border: 2px solid #a74c9d;
   text-align: center;
-  background-color: #f6f6f6;
-  border: 1px solid #eee;
-}
-
-.variant-option-img .change-img {
-  display: block;
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  width: 80%;
-  height: 80px;
-  -webkit-transform: translateX(-50%) translatey(-50%);
-  transform: translateX(-50%) translatey(-50%);
-  vertical-align: middle;
-}
-
-.variant-option-img .change-img .icon {
-  display: block;
-  font-size: 3.5em;
-  margin-bottom: 10px;
-}
-
-.variant-option-img .change-img .placeholder {
-  display: block;
-  width: 70%;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
+  background-color: transparent;
+  width: 100%;
 }
 
 .variant-option-img:hover {
-  color: #662d91;
-  border-color: gainsboro;
+  border-color: #662d91;
+}
+
+.variant-option-img:hover .change-img {
+  background-color: #662d91;
+}
+
+.variant-option-img figure {
+  height: 100px;
+}
+
+.variant-option-img img {
+  width: 100px;
+  vertical-align: middle;
+}
+
+.change-img {
+  position: absolute;
+  bottom: 0;
+  border: 0px;
+  background-color: #a74c9d;
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  left: 0;
+  width: 100%;
+  text-align: center;
 }
 
 /* Variant List Navigation */
@@ -15463,6 +15460,22 @@ a {
 }
 
 /* Media */
+
+.thumbnail-select {
+  background-color: transparent;
+  border: 1px solid #a2a1a1;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.thumbnail-select.selected {
+  border-color: #2ab27b;
+}
+
+.thumbnail-select input {
+  display: none;
+}
 
 /* Dropzone.js */
 

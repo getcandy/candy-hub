@@ -95,7 +95,7 @@ Vue.component('candy-product-availability', require('./components/catalogue-mana
  */
 Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
 Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/availability-pricing/CreateVariant.vue'));
-//Vue.component('candy-edit-options', require('./components/catalogue-manager/products/edit/availability-pricing/EditOptions.vue'));
+Vue.component('candy-edit-options', require('./components/catalogue-manager/products/edit/availability-pricing/EditOptions.vue'));
 /**
  * Associations
  */

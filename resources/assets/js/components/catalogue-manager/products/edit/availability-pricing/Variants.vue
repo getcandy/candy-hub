@@ -27,12 +27,17 @@
           this.variants = this.product.variants.data;
           this.current = this.variants[0];
         },
-        mounted() {
+        mounted()  {
           this.assets = this.product.assets.data;
           CandyEvent.$on('asset_deleted', event => {
             this.assets.splice(event.index, 1);
+            this.variants.forEach(variant => {
+              if (this.hasThumbnail(variant) && variant.thumbnail.data.id == event.asset.id) {
+                variant.thumbnail = null;
+              }
+            });
           });
-          CandyEvent.$on('asset_uploaded', event => {
+          CandyEvent.$on('media_asset_uploaded', event => {
             this.assets.push(event.asset);
           });
         },
@@ -50,14 +55,16 @@
                     level: 'error',
                     message: 'Missing / Invalid fields'
                 });
-            });
+              });
             },
             selectVariant(index) {
                 this.current = this.variants[index];
                 this.currentIndex = index;
             },
             setImage(asset) {
-              this.current.thumbnail.data = asset;
+              this.current.thumbnail = {};
+              this.$set(this.current.thumbnail, 'data', asset);
+              this.saveVariant();
             },
             deleteVariant(index) {
                 if (confirm('Are you sure you want to delete this variant?')) {
@@ -92,17 +99,27 @@
              * Dropzone event Methods
              */
             uploadSuccess(file, response) {
-                this.$refs.mediaDropzone.removeFile(file);
-                response.data.tags = response.data.tags.data;
+                this.$refs.variantMediaDropzone.removeFile(file);
                 this.assets.push(response.data);
-                this.current.thumbnail.data = response.data;
+                CandyEvent.$emit('variant_asset_uploaded', {
+                  asset: response.data
+                });
+                this.current.thumbnail = {};
+                this.$set(this.current.thumbnail, 'data', response.data);
+                this.saveVariant();
             },
             uploadError(file, response) {
-                this.$refs.mediaDropzone.removeFile(file);
+                this.$refs.variantMediaDropzone.removeFile(file);
                 this.failedUploads.push({
                     filename: file.name,
                     errors: response.file ? response.file : [response]
                 });
+            },
+            hasThumbnail(variant) {
+              if (variant.thumbnail) {
+                return true;
+              }
+              return false;
             }
         },
         computed: {
@@ -151,7 +168,7 @@
             <h4>Options</h4>
             <hr>
             <div class="row">
-              <div class="col-xs-12 col-md-8">
+              <div class="col-xs-12 col-md-9">
                 <template v-for="(value, label, index) in current.options">
                   <div class="form-group">
                     <label>{{ capitalize(label) }}</label>
@@ -159,64 +176,55 @@
                   </div>
                 </template>
               </div>
-              <div class="col-xs-12 col-md-4">
-                <button @click="changeImage = true" class="variant-option-img">
-                  <div class="change-img">
-                    <img :src="current.thumbnail.data.thumbnail" alt="Placeholder" class="placeholder" v-if="current.thumbnail.data.thumbnail">
-                    <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder" v-else>
-                    Change image
-                  </div>
-                </button>
+              <div class="col-xs-12 col-md-3">
+                
+                  <button class="variant-option-img" @click="changeImage = true">
+                    <figure>
+                      <img :src="current.thumbnail.data.thumbnail" alt="Placeholder" class="placeholder" v-if="hasThumbnail(current)">
+                      <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder" v-else>
+                    </figure>
+                    <span class="change-img">
+                      <span v-if="hasThumbnail(current)">Change image</span>
+                      <span v-else>Choose image</span>
+                    </span>
+                  </button>
+                
                 <candy-modal title="Change variant image" v-show="changeImage" @closed="changeImage = false">
                   <div slot="body">
-                    <div class="sub-nav media-upload">
-                      <dropzone id="media-upload"
-                          ref="variantMediaDropzone"
-                          :url="dropzoneUrl"
-                          v-on:vdropzone-success="uploadSuccess"
-                          v-bind:dropzone-options="dzOptions"
-                          v-bind:use-custom-dropzone-options="true"
-                          v-on:vdropzone-error="uploadError"
-                          :maxFileSizeInMB="50"
-                      >
-                          <div class="dz-default dz-message media-box">
-                              <i class="fa fa-upload icon" aria-hidden="true"></i>
-                              <p>Drop files here or click to upload</p>
-                          </div>
-                      </dropzone>
-                    </div>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Title/Alt Tag</th>
-                            <th>Description</th>
-                            <th>File Type</th>
-                            <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(asset, index) in assets" :key="asset.id">
-                            <td>
-                                <input type="radio" :id="asset.id" :value="asset.id" @click="setImage(asset)" :checked="asset.id == current.thumbnail.data.id">
-                            </td>
-                            <td>
-                                <a :href="asset.url" v-if="asset.thumbnail" data-lity>
-                                    <img :src="asset.thumbnail" :alt="asset.title">
-                                </a>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="media-upload">
+                          <dropzone id="media-upload"
+                              ref="variantMediaDropzone"
+                              :url="dropzoneUrl"
+                              v-on:vdropzone-success="uploadSuccess"
+                              v-bind:dropzone-options="dzOptions"
+                              v-bind:use-custom-dropzone-options="true"
+                              v-on:vdropzone-error="uploadError"
+                              :maxFileSizeInMB="50"
+                          >
+                              <div class="dz-default dz-message media-box">
+                                  <i class="fa fa-upload icon" aria-hidden="true"></i>
+                                  <p>Drop files here or click to upload</p>
+                              </div>
+                          </dropzone>
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="media-thumbs">
+                          <div class="row">
+                            <div class="col-md-3"  v-for="(asset, index) in assets" :key="asset.id">
+                              <label class="thumbnail-select" :class="{'selected': asset.id == current.thumbnail && current.thumbnail.data.id}">
+                                <img :src="asset.thumbnail" :alt="asset.title" v-if="asset.thumbnail">
                                 <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
-                            </td>
-                            <td>{{ asset.title }}</td>
-                            <td>{{ asset.caption }}</td>
-                            <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                                <input type="radio" :id="asset.id" :value="asset.id" @click="setImage(asset)" >
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <template slot="footer">
-                      <button class="btn btn-primary" @click="saveVariant()">Save changes</button>
-                  </template>
                 </candy-modal>
               </div>
             </div>
@@ -373,7 +381,7 @@
             <ul class="variant-list">
               <li v-for="(v, index) in variants">
                 <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
-                  <div class="variant-img" v-if="v.thumbnail.data.thumbnail">
+                  <div class="variant-img" v-if="hasThumbnail(v)">
                     <img :src="v.thumbnail.data.thumbnail" alt="Aquacomb">
                   </div>
                   <div class="variant-img" v-else>

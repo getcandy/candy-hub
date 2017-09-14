@@ -47,6 +47,11 @@
             });
             this.urlUpload.type = this.mimeTypes[0].value;
 
+            CandyEvent.$on('variant_asset_uploaded', event => {
+                event.asset.tags = event.asset.tags.data;
+                this.assets.push(event.asset);
+            });
+
             apiRequest.send('GET', '/tags').then(response => {
                 response.data.forEach(tag => {
                     this.defaultTags.push(tag);
@@ -84,6 +89,9 @@
                 }).then(response => {
                     this.processingAssetUrl = false;
                     this.assets.push(response.data);
+                    CandyEvent.$emit('media_asset_uploaded', {
+                        asset: response.data
+                    });
                     this.urlUpload = {};
                     this.urlUploadModalOpen = false;
                 }).catch(response => {
@@ -191,7 +199,7 @@
                 this.$refs.mediaDropzone.removeFile(file);
                 response.data.tags = response.data.tags.data;
 
-                CandyEvent.$emit('asset_uploaded', {
+                CandyEvent.$emit('media_asset_uploaded', {
                     asset: response.data
                 });
 

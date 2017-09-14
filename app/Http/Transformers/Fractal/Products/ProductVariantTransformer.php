@@ -63,7 +63,7 @@ class ProductVariantTransformer extends BaseTransformer
         $asset = $variant->image()->count();
 
         if (!$asset) {
-            return ['data' => []];
+            return null;
         }
 
         $data = $this->item($variant->image, new AssetTransformer);
