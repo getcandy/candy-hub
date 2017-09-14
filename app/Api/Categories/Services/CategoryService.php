@@ -24,7 +24,25 @@ class CategoryService extends BaseService
         return $items;
     }
 
-    public function update(array $data)
+    public function create(array $data)
+    {
+
+        $category = $this->model;
+
+        $category->attribute_data = $category->parseAttributeData($data['attributes']);
+
+        $category->save();
+
+        if(isset($data['parent-id'])){
+            $parentNode = $this->getByHashedId($data['parent-id']);
+            $parentNode->prependNode($category);
+        }
+
+        return $category;
+
+    }
+
+    public function reorder(array $data)
     {
         $response = false;
 

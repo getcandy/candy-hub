@@ -195,10 +195,10 @@
                             <td @click="loadProduct(product.id)">
                                 <img :src="productThumbnail(product)" :alt="product.name">
                             </td>
-                            <td @click="loadProduct(product.id)">{{ product.name }}</td>
+                            <td @click="loadProduct(product.id)">{{ product.name|t }}</td>
                             <td @click="loadProduct(product.id)">{{ product.display }}</td>
                             <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.group }}</td>
+                            <td @click="loadProduct(product.id)">{{ product.group|t }}</td>
 
                         </tr>
                     </tbody>

@@ -3,7 +3,7 @@
         data() {
             return {
                 translating: false,
-                defaultLanguage: 'gb',
+                defaultLanguage: 'en',
                 defaultChannel: 'ecommerce',
                 languageTwo: 'se',
                 channelTwo: 'ecommerce',

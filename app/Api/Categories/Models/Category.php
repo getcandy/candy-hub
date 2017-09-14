@@ -13,7 +13,7 @@ class Category extends BaseModel
     protected $hashids = 'main';
 
     protected $fillable = [
-        'attribute_data', 'parent_id', 'depth', 'children'
+        'attribute_data', 'parent_id'
     ];
 
 }

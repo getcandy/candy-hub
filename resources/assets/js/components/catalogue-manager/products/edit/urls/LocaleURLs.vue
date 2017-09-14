@@ -10,7 +10,7 @@
                 urlToDelete:{},
                 urls: [],
                 newUrl: {
-                    locale: 'gb',
+                    locale: 'en',
                     slug: ''
                 }
             }
