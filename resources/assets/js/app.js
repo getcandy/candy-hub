@@ -23,98 +23,167 @@ require('selectize');
 
 window.List = require('list.js');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
-/**
- * Generic components
- */
+var componentLoader = require('./classes/ComponentLoader');
+var loader = new componentLoader();
 
-Vue.component('candy-tabs', require('./components/elements/tabs/CandyTabs.vue'));
-Vue.component('candy-tab', require('./components/elements/tabs/CandyTab.vue'));
-Vue.component('candy-button', require('./components/elements/Button.vue'));
-Vue.component('candy-notification', require('./components/elements/NotificationBar.vue'));
-Vue.component('candy-alert', require('./components/elements/AlertPanel.vue'));
-Vue.component('candy-modal', require('./components/elements/Modal.vue'));
+var includes = [
+  /**
+   * Generic components
+   */
+  {
+    path: 'elements',
+    components: {
+      'button' : 'Button',
+      'notification' : 'NotificationBar',
+      'alert' : 'AlertPanel',
+      'modal' : 'Modal'
+    }
+  },
+  /**
+   * Tabs
+   */
+  {
+    path: 'elements.tabs',
+    components: {
+      'tabs' : 'CandyTabs',
+      'tab' : 'CandyTab',
+    }
+  },
+  /**
+   * Forms
+   */
+  {
+    path: 'elements.forms',
+    components: {
+      'attribute-data' : 'AttributeData'
+    }
+  },
+  {
+    path: 'elements.forms.inputs',
+    components: {
+      'checkbox' : 'Checkbox',
+      'input' : 'Input',
+      'radio' : 'Radio',
+      'select' : 'Select',
+      'taggable' : 'Taggable',
+      'textarea' : 'Textarea',
+      'toggle' : 'Toggle'
+    }
+  },
+  /**
+   * Products
+   */
+  {
+    path: 'catalogue-manager.products',
+    components: {
+      'products-table' : 'ProductsTable',
+      'product-edit' : 'ProductEdit',
+    }
+  },
+  {
+    path: 'catalogue-manager.products.edit',
+    components: {
+      'product-details' : 'ProductDetails',
+      'product-variants' : 'ProductVariants',
+      'product-availability' : 'ProductAvailability'
+    }
+  },
+  /**
+   * Collections
+   */
+  {
+    path: 'catalogue-manager.collections',
+    components: {
+      'collections-table' : 'CollectionsTable'
+    }
+  },
+  /**
+   * Categories
+   */
+  {
+    path: 'catalogue-manager.categories',
+    components: {
+      'categories-list' : 'CategoriesList'
+    }
+  },
+  {
+    path: 'catalogue-manager.categories.category',
+    components: {
+      'category' : 'Category',
+      'categories-modals' : 'Modals'
+    }
+  },
+  /**
+   * Pagination
+   */
+  {
+    path: 'elements.tables',
+    components: {
+      'table-paginate' : 'TablePaginate'
+    }
+  },
+  /**
+   * Media
+   */
+  {
+    path: 'catalogue-manager.products.edit.media',
+    components: {
+      'media' : 'Media'
+    }
+  },
+  /**
+   * Availability & Pricing
+   */
+  {
+    path: 'catalogue-manager.products.edit.availability-pricing',
+    components: {
+      'discounts' : 'Discounts'
+    }
+  },
+  {
+    path: 'catalogue-manager.products.edit.availability-pricing.variants',
+    components: {
+      'variants' : 'Variants',
+      'create-variant' : 'CreateVariant',
+      'edit-options' : 'EditOptions',
+      'edit-variants' : 'EditVariant'
+    }
+  },
+  /**
+   * Associations
+   */
+  {
+    path: 'catalogue-manager.products.edit.associations',
+    components: {
+      'categories' : 'Categories',
+      'collections' : 'Collections',
+      'products' : 'Products',
+      'association-modals' : 'Modals'
+    }
+  },
+  {
+    path: 'catalogue-manager.products.edit.display',
+    components: {
+      'display' : 'Display'
+    }
+  },
+  {
+    path: 'catalogue-manager.products.edit.urls',
+    components: {
+      'locale-urls' : 'LocaleURLs',
+      'redirects' : 'Redirects',
+      'url-modals' : 'Modals'
+    }
+  },
+]
 
-/**
- * Form Components
- */
-Vue.component('candy-attribute-data', require('./components/elements/forms/AttributeData.vue'));
-
-/**
- * Form Input Components
- */
-Vue.component('candy-checkbox', require('./components/elements/forms/inputs/Checkbox.vue'));
-Vue.component('candy-input', require('./components/elements/forms/inputs/Input.vue'));
-Vue.component('candy-radio', require('./components/elements/forms/inputs/Radio.vue'));
-Vue.component('candy-select', require('./components/elements/forms/inputs/Select.vue'));
-Vue.component('candy-taggable', require('./components/elements/forms/inputs/Taggable.vue'));
-Vue.component('candy-textarea', require('./components/elements/forms/inputs/Textarea.vue'));
-Vue.component('candy-toggle', require('./components/elements/forms/inputs/Toggle.vue'));
-
-/**
- * Page Specific
- */
-/* Products */
-Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
-Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
-Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
-Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
-
-/* Collections */
-Vue.component('collections-table', require('./components/catalogue-manager/collections/CollectionsTable.vue'));
-
-/* Categories */
-Vue.component('categories-list', require('./components/catalogue-manager/categories/CategoriesList.vue'));
-Vue.component('candy-category', require('./components/catalogue-manager/categories/category/Category.vue'));
-Vue.component('candy-categories-modals', require('./components/catalogue-manager/categories/category/Modals.vue'));
-
-/**
- * Table
- */
-Vue.component('candy-table-paginate', require('./components/elements/tables/TablePaginate.vue'));
-
-/**
- * Media
- */
-Vue.component('candy-media', require('./components/catalogue-manager/products/edit/media/Media.vue'));
-
-/**
- * Avalability & Pricing
- */
-
-Vue.component('candy-discounts', require('./components/catalogue-manager/products/edit/availability-pricing/Discounts.vue'));
-Vue.component('candy-product-availability', require('./components/catalogue-manager/products/edit/ProductAvailability.vue'));
-
-/**
- * if Variants
- */
-Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
-Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/availability-pricing/CreateVariant.vue'));
-Vue.component('candy-edit-options', require('./components/catalogue-manager/products/edit/availability-pricing/EditOptions.vue'));
-/**
- * Associations
- */
-Vue.component('candy-categories', require('./components/catalogue-manager/products/edit/associations/Categories.vue'));
-Vue.component('candy-collections', require('./components/catalogue-manager/products/edit/associations/Collections.vue'));
-Vue.component('candy-products', require('./components/catalogue-manager/products/edit/associations/Products.vue'));
-Vue.component('candy-association-modals', require('./components/catalogue-manager/products/edit/associations/Modals.vue'));
-
-/**
- * Display
- */
-Vue.component('candy-display', require('./components/catalogue-manager/products/edit/display/Display.vue'));
-
-/**
- * URLS
- */
-Vue.component('candy-locale-urls', require('./components/catalogue-manager/products/edit/urls/LocaleURLs.vue'));
-Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
-Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
+includes.forEach(include => {
+  var src = loader.src(include.path);
+  Object.keys(include.components).map((ref, key) => {
+    Vue.component('candy-' + ref, require(src + include.components[ref] + '.vue'));
+  });
+});
 
 /**
  * Directives
