@@ -60,6 +60,7 @@
 
                 apiRequest.send('post', '/categories/', data)
                     .then(response => {
+
                         CandyEvent.$emit('notification', {
                             level: 'success',
                             message: 'Changes saved'
