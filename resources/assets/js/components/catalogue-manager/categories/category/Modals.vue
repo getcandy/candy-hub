@@ -12,12 +12,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" v-model="category.name" @input="request.clearError('url')">
+                            <input type="text" class="form-control" v-model="category.name" @input="slugify(category.name)">
                         </div>
                         <div class="form-group">
                             <label>URL</label>
-                            <input type="text" class="form-control" :value="this.slugify" v-model="category.slug">
-
+                            <input type="text" class="form-control" v-model="category.slug" @change="slugify(category.slug)">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -41,15 +40,10 @@
                 }
             }
         },
-        computed: {
-            slugify: {
-                get() {
-                    return this.category.name.slugify();
-                },
-                set() {
-                    return this.category.slug = this.category.name.slugify();
-                }
+        methods: {
+            slugify: function (value) {
+                this.category.slug = value.slugify()
             }
-        },
+        }
     }
 </script>
