@@ -36,8 +36,9 @@
             return {
                 category: {
                     name: '',
-                    slug: ''
-                }
+                    slug: '',
+                },
+                defaultLang: locale.current()
             }
         },
         props: {
@@ -52,8 +53,8 @@
             },
             save() {
                 let data = {
-                    'attributes': [{'name':{'ecommerce':{'en': this.category.name}}},
-                        {'slug':{'ecommerce':{'en': this.category.slug}}}],
+                    'attributes': {'name': {'ecommerce': {'en': this.category.name}},
+                        'slug': {'ecommerce': {'en': this.category.slug}}},
                     'parent-id': this.parentID
                 };
 

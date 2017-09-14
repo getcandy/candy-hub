@@ -4,7 +4,7 @@
         <div class="nestable-handle">
             <i class="fa fa-arrows nestable-icon"></i>
             <img class="nestable-image" src="/images/placeholder/no-image.svg" height="41">
-            <span class="category-name">{{ category.attribute_data.name.ecommerce | t }}</span>
+            <span class="category-name">{{ category.attribute_data.name.ecommerce|t }}</span>
 
         </div>
 

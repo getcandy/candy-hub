@@ -32,9 +32,8 @@ class CategoryController extends BaseController
      */
     public function store(CreateRequest $request)
     {
-
         try {
-            $result = app('api')->categories()->create($request->all());
+            $results = app('api')->categories()->create($request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -44,7 +43,7 @@ class CategoryController extends BaseController
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
-        return $this->respondWithItem($result, new CategoryTransformer);
+        return $this->respondWithCollection($results, new CategoryTransformer);
     }
 
     /**

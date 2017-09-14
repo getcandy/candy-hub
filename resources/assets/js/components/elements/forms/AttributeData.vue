@@ -3,9 +3,9 @@
         data() {
             return {
                 translating: false,
-                defaultLanguage: 'en',
+                defaultLanguage: locale.current(),
                 defaultChannel: 'ecommerce',
-                languageTwo: 'se',
+                languageTwo: locale.current(),
                 channelTwo: 'ecommerce',
                 isDefault: false
             }
