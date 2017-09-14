@@ -68,6 +68,19 @@ class ProductVariantService extends BaseService
 
         $measurements = ['weight', 'height', 'width', 'depth', 'volume'];
 
+        $thumbnailId = null;
+
+        if (!empty($data['thumbnail'])) {
+            $thumbnailId = $data['thumbnail']['data']['id'];
+        } elseif (!empty($data['thumbnail_id'])) {
+            $thumbnailId = $data['thumbnail_id'];
+        }
+
+        if ($thumbnailId) {
+            $asset = app('api')->assets()->getByHashedId($thumbnailId);
+            $variant->image()->associate($asset);
+        }
+
         array_map(function ($x) use ($data, $variant) {
             if (!empty($data[$x])) {
                 foreach ($data[$x] as $label => $value) {

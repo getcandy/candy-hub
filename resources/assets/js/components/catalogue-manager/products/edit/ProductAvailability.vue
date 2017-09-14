@@ -51,7 +51,7 @@
             });
             this.customerGroups = this.product.customer_groups.data;
         },
-        methods: {//product.channels.data[0].visible
+        methods: {
             save() {
                 this.request.send('put', '/products/' + this.product.id, this.product).then(response => {
                     CandyEvent.$emit('notification', {
