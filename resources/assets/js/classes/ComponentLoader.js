@@ -7,7 +7,6 @@ class ComponentLoader {
 
     src(path) {
         path = path.replace(/\./g, '/');
-        console.log(path);
         return this.basePath + '/' + path + '/';
     }
 
