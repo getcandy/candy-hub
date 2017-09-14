@@ -149,13 +149,13 @@ class ApiRequest {
 
             flatify.push({
                 'id': product.id,
-                'name': product.attribute_data.name.ecommerce.gb,
+                'name': product.attribute_data.name.ecommerce,
                 'customer_groups': product.customer_groups.data,
                 'purchasable': purchasableStr,
                 'channels': product.channels.data,
                 'display': displayStr,
                 'family_group': product.family.data.attribute_data,
-                'group': product.family.data.attribute_data.name.ecommerce.gb,
+                'group': product.family.data.attribute_data.name.ecommerce,
                 'thumbnail' : product.thumbnail
             });
         });

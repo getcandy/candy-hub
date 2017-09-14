@@ -7,7 +7,7 @@
                 redirectToDelete: {},
                 deleteModalOpen: false,
                 newUrl: {
-                    locale: 'gb',
+                    locale: 'en',
                     redirect:true,
                     description: '',
                     slug: ''

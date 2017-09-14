@@ -38,16 +38,16 @@
                 let siblings = [];
 
                 el.parent().children().each( function(){
-                    siblings.push($(this).attr("id"));
+                    siblings.push($(this).attr('id'));
                 });
 
                 let data = {
-                    "id": node.id,
-                    "parent-id": parentID,
-                    "siblings": siblings
+                    'id': node.id,
+                    'parent-id': parentID,
+                    'siblings': siblings
                 };
 
-                apiRequest.send('post', '/categories/', data).then(response => {
+                apiRequest.send('post', '/categories/reorder', data).then(response => {
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Successfully Moved Category'

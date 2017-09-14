@@ -15541,8 +15541,9 @@ a {
 
 /* Buttons */
 
+.btn,
 button {
-  outline: none;
+  outline: none !important;
 }
 
 .btn {

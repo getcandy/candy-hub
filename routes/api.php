@@ -41,6 +41,8 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
 /**
  * Categories
  */
+
+$this->post('categories/reorder', 'Categories\CategoryController@reorder');
 $this->resource('categories', 'Categories\CategoryController');
 
 /**

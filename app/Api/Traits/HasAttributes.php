@@ -46,7 +46,7 @@ trait HasAttributes
     }
 
     /**
-     * Prepares the attribute data for saving to the datbase
+     * Prepares the attribute data for saving to the database
      * @param  array  $data
      * @return array
      */
@@ -83,7 +83,7 @@ trait HasAttributes
         // Get our languages
         $languages = app('api')->languages()->getDataList();
         foreach ($languages as $lang) {
-            $languagesArray[$lang->code] = '';
+            $languagesArray[$lang->iso] = null;
         }
         // Get our channels
         $channels = app('api')->channels()->getDataList();
