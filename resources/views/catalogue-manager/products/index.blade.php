@@ -18,7 +18,7 @@
 @section('content')
 
 
-        <products-table></products-table>
+        <candy-products-table></candy-products-table>
 
 {{--
         <!-- Search tabs -->
