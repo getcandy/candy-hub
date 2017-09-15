@@ -33,26 +33,20 @@
     position: relative;
     margin: 0;
     padding: 0;
-    min-height: 20px;
-    font-size: 16px;
-    line-height: 20px;
+    min-height: 57px;
 }
 .nestable-handle {
     display: block;
     height: 57px;
+    width: 50px;
     margin: 0;
-    padding: 8px 40px;
+    padding: 18px 18px;
     color: #333;
     text-decoration: none;
     font-weight: bold;
-    border-bottom: 1px solid #eaeaea;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-}
-.nestable-handle span {
-    font-size: 14px;
-    font-weight: 400;
-    color: #333333;
+    border-bottom:1px solid #f6f6f6;
 }
 .nestable-icon {
     color:#ccc;
@@ -63,14 +57,13 @@
 }
 .nestable-item > button {
     color: #a8a8a8;
-    outline:none;
+    outline: none;
     display: block;
     position: absolute;
     cursor: pointer;
-    float: left;
     width: 25px;
     height: 25px;
-    margin: 15px 10px;
+    margin: 15px 55px;
     padding: 0;
     text-indent: 100%;
     white-space: nowrap;
@@ -78,8 +71,7 @@
     border: 0;
     background: transparent;
     font-size: 16px;
-    line-height: 1;
-    text-align: center;
+    z-index: 99;
 }
 .nestable-item > button:before {
     content: '\f105';
@@ -95,7 +87,23 @@
     content: '\f107';
     font-family: FontAwesome;
 }
-.nestable-item:hover {
+.nestable-content {
+    position: absolute;
+    left: 50px;
+    margin-right: 50px;
+    top: 0;
+    width: 100%;
+    padding: 8px 30px;
+    z-index: 9;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.nestable-content span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}
+.nestable-handle:hover {
     background-color: #f2f3fb!important;
     cursor: pointer;
 }
@@ -120,14 +128,12 @@
     margin-top: 0;
 }
 
-.nestable-item .btn {
-    position: absolute;
-    right: 10px;
-    top: 8px;
-    z-index: 9999;
+.nestable-content .btn {
     display: none;
+    right: 50px;
+    top: 8px;
+    position: absolute;
 }
-
-.nestable-item:hover .btn:last-child {
-    display: block;
+.nestable-content:hover .btn {
+    display: inline-block;
 }

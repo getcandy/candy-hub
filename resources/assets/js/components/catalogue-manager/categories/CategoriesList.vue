@@ -5,7 +5,8 @@
     export default {
         data() {
             return {
-                categories: []
+                categories: [],
+                modalParentID: ''
             };
         },
         mounted() {
@@ -30,6 +31,13 @@
                         });
 
                     });
+            },
+            setModalParentID: function() {
+                this.modalParentID = window.modalParentID;
+            },
+            refreshList: function(categories) {
+                this.modalParentID = '';
+                this.categories = categories.data;
             },
             save(node) {
 
@@ -137,7 +145,7 @@
                     <div class="filter active">Visible on Storefront
                         <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
-                    <div class="filter active">Visible on Facebook
+                    <div class="filter active">Visible onref Facebook
                         <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
                 </div>
@@ -146,7 +154,7 @@
 
                     <div class="nestable">
                         <ol class="nestable-list">
-                            <candy-category v-for="category in categories" :category="category" :key="category.id"></candy-category>
+                            <candy-category v-for="category in categories" @modalParentID="setModalParentID" :category="category" :key="category.id"></candy-category>
                         </ol>
                     </div>
 
@@ -154,6 +162,8 @@
 
             </div>
         </div>
+
+        <candy-categories-modals :parentID="modalParentID" @categoryCreated="refreshList"></candy-categories-modals>
 
     </div>
 
