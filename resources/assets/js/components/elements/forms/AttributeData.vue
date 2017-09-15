@@ -3,11 +3,11 @@
         data() {
             return {
                 translating: false,
-                defaultLanguage: 'en',
+                defaultLanguage: locale.current(),
                 defaultChannel: 'ecommerce',
-                languageTwo: 'se',
-                channelTwo: 'ecommerce',
-                isDefault: false
+                translateLanguage: locale.current(),
+                translateChannel: 'ecommerce',
+                isDefault: true
             }
         },
         props: {
@@ -28,11 +28,11 @@
             }
         },
         watch: {
-            channelTwo: function(){
-                this.isDefault = (this.defaultChannel === this.channelTwo && this.defaultLanguage === this.languageTwo);
+            translateChannel: function(){
+                this.isDefault = (this.defaultChannel === this.translateChannel && this.defaultLanguage === this.translateLanguage);
             },
-            languageTwo: function(){
-                this.isDefault = (this.defaultChannel === this.channelTwo && this.defaultLanguage === this.languageTwo);
+            translateLanguage: function(){
+                this.isDefault = (this.defaultChannel === this.translateChannel && this.defaultLanguage === this.translateLanguage);
             }
         },
         methods: {
@@ -101,13 +101,13 @@
                                     <div class="form-group">
                                         <div v-show="translating">
                                             <label class="sr-only">Store Channels</label>
-                                            <candy-select :options="channels" v-model="channelTwo" v-if="channels.length"></candy-select>
+                                            <candy-select :options="channels" v-model="translateChannel" v-if="channels.length"></candy-select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div v-show="translating">
                                             <label class="sr-only">Language</label>
-                                            <candy-select :options="languages" v-model="languageTwo"></candy-select>
+                                            <candy-select :options="languages" v-model="translateLanguage"></candy-select>
                                         </div>
                                     </div>
                                 </div>
@@ -204,45 +204,45 @@
                             <div v-if="attribute.scopeable && attribute.type === 'text'" :class="{'form-group': true}">
 
                                 <candy-checkbox v-if="!isDefault"
-                                                :id="attribute.handle +'-'+ channelTwo +'-'+ languageTwo"
+                                                :id="attribute.handle +'-'+ translateChannel +'-'+ translateLanguage"
                                                 @change="useDefault"
                                                 :class="{ attributecheckbox: true }"
-                                                :checked="(attributeData[attribute.handle][channelTwo][languageTwo] === null)"
-                                                :originalValue="attributeData[attribute.handle][channelTwo][languageTwo]">
+                                                :checked="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)"
+                                                :originalValue="attributeData[attribute.handle][translateChannel][translateLanguage]">
                                     Use Default
                                 </candy-checkbox>
                                 <label v-if="isDefault">&nbsp;</label>
                                 <candy-input v-if="translating"
-                                             v-model="attributeData[attribute.handle][channelTwo][languageTwo]"
+                                             v-model="attributeData[attribute.handle][translateChannel][translateLanguage]"
                                              :value="getValue(attribute.handle)"
                                              :required="attribute.required"
-                                             :placeholder="(attributeData[attribute.handle][channelTwo][languageTwo] === null ? attributeData[attribute.handle][defaultChannel][defaultLanguage] : '')"
-                                             :disabled="(attributeData[attribute.handle][channelTwo][languageTwo] === null)">s
+                                             :placeholder="(attributeData[attribute.handle][translateChannel][translateLanguage] === null ? attributeData[attribute.handle][defaultChannel][defaultLanguage] : '')"
+                                             :disabled="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)">s
                                 </candy-input>
                                 <span class="text-danger"
-                                      v-if="hasError(getValue(attribute.handle, channelTwo, languageTwo))"
-                                      v-text="getError(getValue(attribute.handle, channelTwo, languageTwo))"></span>
+                                      v-if="hasError(getValue(attribute.handle, translateChannel, translateLanguage))"
+                                      v-text="getError(getValue(attribute.handle, translateChannel, translateLanguage))"></span>
 
                             </div>
 
                             <div v-else-if="attribute.scopeable && attribute.type === 'textarea'" :class="{'form-group': true}">
 
                                 <candy-checkbox v-if="!isDefault"
-                                                :id="attribute.handle +'-'+ channelTwo +'-'+ languageTwo"
+                                                :id="attribute.handle +'-'+ translateChannel +'-'+ translateLanguage"
                                                 @change="useDefault"
                                                 :class="{ attributecheckbox: true }"
-                                                :checked="(attributeData[attribute.handle][channelTwo][languageTwo] === null)"
-                                                :originalValue="attributeData[attribute.handle][channelTwo][languageTwo]">
+                                                :checked="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)"
+                                                :originalValue="attributeData[attribute.handle][translateChannel][translateLanguage]">
                                     Use Default
                                 </candy-checkbox>
                                 <label v-if="isDefault">&nbsp;</label>
-                                <candy-textarea v-model="attributeData[attribute.handle][channelTwo][languageTwo]"
+                                <candy-textarea v-model="attributeData[attribute.handle][translateChannel][translateLanguage]"
                                                 :required="attribute.required"
-                                                :placeholder="(attributeData[attribute.handle][channelTwo][languageTwo] === null ? attributeData[attribute.handle][defaultChannel][defaultLanguage] : '')"
-                                                :disabled="(attributeData[attribute.handle][channelTwo][languageTwo] === null)">
+                                                :placeholder="(attributeData[attribute.handle][translateChannel][translateLanguage] === null ? attributeData[attribute.handle][defaultChannel][defaultLanguage] : '')"
+                                                :disabled="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)">
                                 </candy-textarea>
 
-                                <span class="text-danger" v-if="getError(getValue(attribute.handle, channelTwo, languageTwo))" v-text="getError(getValue(attribute.handle, channelTwo, languageTwo))"></span>
+                                <span class="text-danger" v-if="getError(getValue(attribute.handle, translateChannel, languageTwo))" v-text="getError(getValue(attribute.handle, translateChannel, translateLanguage))"></span>
 
                             </div>
 

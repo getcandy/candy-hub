@@ -6,7 +6,7 @@
 
 @section('header_title')
     <small>Catalogue Manager</small>
-    <h1>Edit Product</h1>
+    <h1>Edit Product {!! $product !!}</h1>
 @endsection
 
 @section('header_actions')

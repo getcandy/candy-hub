@@ -21,29 +21,29 @@ class ProductFamilyTableSeeder extends Seeder
                 'name' => [
                     'ecommerce' => [
                         'en' => 'Shoes',
-                        'se' => 'Skodon'
+                        'sv' => 'Skodon'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
                         'en' => 'Look at our shoes',
-                        'se' => 'Titta på våra skor'
+                        'sv' => 'Titta på våra skor'
                     ],
                     'mobile' => [
                         'en' => 'Just a tap away from some shoes',
-                        'se' => 'Bara en kran från några skor'
+                        'sv' => 'Bara en kran från några skor'
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -59,29 +59,29 @@ class ProductFamilyTableSeeder extends Seeder
                 'name' => [
                     'ecommerce' => [
                         'en' => 'Bags',
-                        'se' => 'Påsar'
+                        'sv' => 'Påsar'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
                         'en' => 'Buy a bag online',
-                        'se' => 'Köp en väska online'
+                        'sv' => 'Köp en väska online'
                     ],
                     'mobile' => [
                         'en' => 'A bag for your phone',
-                        'se' => 'En väska till din telefon'
+                        'sv' => 'En väska till din telefon'
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -96,29 +96,29 @@ class ProductFamilyTableSeeder extends Seeder
                 'name' => [
                     'ecommerce' => [
                         'en' => 'Jewellery',
-                        'se' => 'Smycke'
+                        'sv' => 'Smycke'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
                         'en' => 'The finest jewellery online',
-                        'se' => 'De finaste smycken'
+                        'sv' => 'De finaste smycken'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -133,29 +133,29 @@ class ProductFamilyTableSeeder extends Seeder
                 'name' => [
                     'ecommerce' => [
                         'en' => 'House items',
-                        'se' => 'Husartiklar'
+                        'sv' => 'Husartiklar'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ],
                 'description' => [
                     'ecommerce' => [
                         'en' => 'Decorate your home from stuff on our website',
-                        'se' => 'Dekorera ditt hem från saker på vår hemsida'
+                        'sv' => 'Dekorera ditt hem från saker på vår hemsida'
                     ],
                     'mobile' => [
                         'en' => 'Just a tap away from awesome stuff for your house',
-                        'se' => 'Bara en kran från fantastiska saker till ditt hus'
+                        'sv' => 'Bara en kran från fantastiska saker till ditt hus'
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]

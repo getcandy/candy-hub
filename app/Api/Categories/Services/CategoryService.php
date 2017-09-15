@@ -33,12 +33,12 @@ class CategoryService extends BaseService
 
         $category->save();
 
-        if(isset($data['parent-id'])){
+        if(!empty($data['parent-id'])) {
             $parentNode = $this->getByHashedId($data['parent-id']);
             $parentNode->prependNode($category);
         }
 
-        return $category;
+        return $this->getNestedList();
 
     }
 

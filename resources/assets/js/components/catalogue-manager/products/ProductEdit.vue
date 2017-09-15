@@ -60,7 +60,7 @@
                     response.data.forEach(lang => {
                         this.languages.push({
                             label: lang.name,
-                            value: lang.iso,
+                            value: lang.lang,
                             content: '<span class=\'flag-icon flag-icon-' + lang.iso + '\'></span> ' + lang.name
                         });
                     });

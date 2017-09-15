@@ -1,27 +1,28 @@
 <template>
     <div>
         <!-- Add Category Modal -->
-        <div class="modal fade" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="createCategory">
+        <div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog" aria-labelledby="createCategoryModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="resetForm()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <h4 class="modal-title">Create Category</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" v-model="category.name" @input="slugify(category.name)">
+                            <label for="name">Name</label>
+                            <input id="name" type="text" class="form-control" v-model="category.name" @input="slugify(category.name)">
                         </div>
                         <div class="form-group">
-                            <label>URL</label>
-                            <input type="text" class="form-control" v-model="category.slug" @change="slugify(category.slug)">
+                            <label for="slug">URL</label>
+                            <input id="slug" type="text" class="form-control" v-model="category.slug" @change="slugify(category.slug)">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" @click="save()">Create Category</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="resetForm()">Cancel</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="save()">Create Category</button>
                         <!-- On button click save product and go to product screen -->
                     </div>
                 </div>
@@ -36,14 +37,9 @@
             return {
                 category: {
                     name: '',
-                    slug: ''
-                }
-            }
-        },
-        props: {
-            parentID: {
-                type: String,
-                default: ''
+                    slug: '',
+                },
+                defaultLang: locale.current()
             }
         },
         methods: {
@@ -51,17 +47,20 @@
                 this.category.slug = value.slugify()
             },
             save() {
+
                 let data = {
-                    'attributes': [{'name':{'ecommerce':{'en': this.category.name}}},
-                        {'slug':{'ecommerce':{'en': this.category.slug}}}],
-                    'parent-id': this.parentID
+                    'attributes': {'name': {'ecommerce': {'en': this.category.name}},
+                        'slug': {'ecommerce': {'en': this.category.slug}}},
+                    'parent-id': window.modalParentID
                 };
 
                 apiRequest.send('post', '/categories/', data)
                     .then(response => {
+                        this.resetForm();
+                        this.$emit('categoryCreated', response);
                         CandyEvent.$emit('notification', {
                             level: 'success',
-                            message: 'Changes saved'
+                            message: this.category.name +' Category was successfully created'
                         });
                     }).catch(response => {
                         CandyEvent.$emit('notification', {
@@ -69,6 +68,13 @@
                             message: 'Missing / Invalid fields'
                         });
                     });
+            },
+            resetForm() {
+                this.category = {
+                    name: '',
+                    slug: '',
+                };
+                window.modalParentID = '';
             }
         }
     }

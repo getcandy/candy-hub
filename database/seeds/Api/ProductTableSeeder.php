@@ -40,21 +40,21 @@ class ProductTableSeeder extends Seeder
                             'position' => 2,
                             'label' => [
                                 'en' => 'Size',
-                                'se' => 'Storlek'
+                                'sv' => 'Storlek'
                             ],
                             'options' => [
                                 '12' => [
                                     'position' => 2,
                                     'values' => [
                                         'en' => '12',
-                                        'se' => '13',
+                                        'sv' => '13',
                                     ]
                                 ],
                                 '10' => [
                                     'position' => 1,
                                     'values' => [
                                         'en' => '10',
-                                        'se' => '11'
+                                        'sv' => '11'
                                     ]
                                 ]
                             ]
@@ -63,21 +63,21 @@ class ProductTableSeeder extends Seeder
                             'position' => 1,
                             'label' => [
                                 'en' => 'Colour',
-                                'se' => 'Färg'
+                                'sv' => 'Färg'
                             ],
                             'options' => [
                                 'black' => [
                                     'position' => 1,
                                     'values' => [
                                         'en' => 'Black',
-                                        'se' => 'Svart'
+                                        'sv' => 'Svart'
                                     ]
                                 ],
                                 'brown' => [
                                     'position' => 2,
                                     'values' => [
                                         'en' => 'Brown',
-                                        'se' => 'Brun'
+                                        'sv' => 'Brun'
                                     ]
                                 ],
 
@@ -126,43 +126,43 @@ class ProductTableSeeder extends Seeder
                         'name' => [
                             'ecommerce' => [
                                 'en' => 'Blundstone boots',
-                                'se' => 'Blundstone stövlar'
+                                'sv' => 'Blundstone stövlar'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
                                 'en' => 'Leather',
-                                'se' => 'Läder'
+                                'sv' => 'Läder'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
                                 'en' => 'Legendary lightweight boots made by Blundstone in Tasmania since 1932. Their iconic soles have been engineered for optimum comfort, shock absorption and all-weathers.',
-                                'se' => 'Legendariska lätta stövlar gjorda av Blundstone i Tasmanien sedan 1932. Deras ikoniska sålar har konstruerats för optimal komfort, stötdämpning och alla väder.'
+                                'sv' => 'Legendariska lätta stövlar gjorda av Blundstone i Tasmanien sedan 1932. Deras ikoniska sålar har konstruerats för optimal komfort, stötdämpning och alla väder.'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ]
                     ]
@@ -173,43 +173,43 @@ class ProductTableSeeder extends Seeder
                         'name' => [
                             'ecommerce' => [
                                 'en' => 'Hoxton Socks',
-                                'se' => 'Hoxton sockor',
+                                'sv' => 'Hoxton sockor',
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
                                 'en' => 'Wool',
-                                'se' => 'Ull'
+                                'sv' => 'Ull'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
                                 'en' => 'Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
-                                'se' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
+                                'sv' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ]
                     ]
@@ -220,43 +220,43 @@ class ProductTableSeeder extends Seeder
                         'name' => [
                             'ecommerce' => [
                                 'en' => 'Sofa socks - Oatmeal',
-                                'se' => 'Soffa strumpor - Havregryn'
+                                'sv' => 'Soffa strumpor - Havregryn'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
                                 'en' => 'Wool',
-                                'se' => 'Ull'
+                                'sv' => 'Ull'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
                                 'en' => 'Warm cable-knit house socks handknitted in Nepal from pure wool.Fairtrade',
-                                'se' => 'Varm kabelstickade husstrumpor handknitted i Nepal från ren ull.Fairtrade'
+                                'sv' => 'Varm kabelstickade husstrumpor handknitted i Nepal från ren ull.Fairtrade'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ]
                     ]
@@ -270,43 +270,43 @@ class ProductTableSeeder extends Seeder
                         'name' => [
                             'ecommerce' => [
                                 'en' => 'Boat tote',
-                                'se' => 'Båt tote'
+                                'sv' => 'Båt tote'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
                                 'en' => 'Cotton',
-                                'se' => 'Bomull'
+                                'sv' => 'Bomull'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
                                 'en' => 'A classic American tote crafted from durable 24oz cotton-canvas with steel hardware and sturdy leather handles. An adjustable long belt-like strap makes it extremely versatile. Joshu&Vela. Made in San Francisco. W55cm H30cm D21cm.',
-                                'se' => null
+                                'sv' => null
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ]
                     ]
@@ -317,43 +317,43 @@ class ProductTableSeeder extends Seeder
                         'name' => [
                             'ecommerce' => [
                                 'en' => 'Check bag',
-                                'se' => 'Rutig väska'
+                                'sv' => 'Rutig väska'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
                                 'en' => 'Cotton',
-                                'se' => 'Bomull'
+                                'sv' => 'Bomull'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
                                 'en' => 'Artisanal checked cotton tote with recycled, wipeable plastic interior and studded leather handles. Interior zip pocket.',
-                                'se' => null
+                                'sv' => null
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ]
                     ]
@@ -364,43 +364,43 @@ class ProductTableSeeder extends Seeder
                         'name' => [
                             'ecommerce' => [
                                 'en' => 'Heda Bag',
-                                'se' => 'Heda väska'
+                                'sv' => 'Heda väska'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'material' => [
                             'ecommerce' => [
                                 'en' => 'Leather',
-                                'se' => 'Läder'
+                                'sv' => 'Läder'
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ],
                         'description' => [
                             'ecommerce' => [
                                 'en' => 'Tan leather bag with handy shoulder or longer cross body strap. Lined in cotton twill with interior pockets.',
-                                'se' => null
+                                'sv' => null
                             ],
                             'mobile' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ],
                             'print' => [
                                 'en' => null,
-                                'se' => null
+                                'sv' => null
                             ]
                         ]
                     ]
@@ -408,34 +408,34 @@ class ProductTableSeeder extends Seeder
             ],
             // 'Jewellery' => [
             //     [
-            //         'name' => ['gb' => 'Mesh watch', 'se' => 'Mesh klocka'],
+            //         'name' => ['gb' => 'Mesh watch', 'sv' => 'Mesh klocka'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Stainless Steel']]
             //     ],
             //     [
-            //         'name' => ['gb' => '3 Square earrings', 'se' => '3 kvadratiska örhängen'],
+            //         'name' => ['gb' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen'],
             //         'layout' => $featured,
             //         'attribute_data' => ['material' => ['gb' => 'Silver']]
             //     ],
             //     [
-            //         'name' => ['gb' => 'Bird Brooch', 'se' => 'Fågelbrosch'],
+            //         'name' => ['gb' => 'Bird Brooch', 'sv' => 'Fågelbrosch'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Silver']]
             //     ]
             // ],
             // 'House items' => [
             //     [
-            //         'name' => ['gb' => 'Feather dreamcatcher', 'se' => 'Fjäderdrömskådare'],
+            //         'name' => ['gb' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Leather, Feathers, Wool']]
             //     ],
             //     [
-            //         'name' => ['gb' => 'Driftwood fish', 'se' => 'Driftwood fisk'],
+            //         'name' => ['gb' => 'Driftwood fish', 'sv' => 'Driftwood fisk'],
             //         'layout' => $featured,
             //         'attribute_data' => ['material' => ['gb' => 'Wood']]
             //     ],
             //     [
-            //         'name' => ['gb' => 'Mirror Candleholder', 'se' => 'Spegel ljushållare'],
+            //         'name' => ['gb' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Glass, Metal']]
             //     ]

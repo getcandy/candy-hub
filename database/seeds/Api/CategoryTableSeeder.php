@@ -17,15 +17,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Fashion', 'se' => 'Mode'
+                        'en' => 'Fashion', 'sv' => 'Mode'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -40,7 +40,7 @@ class CategoryTableSeeder extends Seeder
         $fashion->routes()->create([
             'default' => true,
             'slug' => str_slug('Mode'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 1
@@ -49,15 +49,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Tops & Blouses', 'se' => 'Toppar & Blusar'
+                        'en' => 'Tops & Blouses', 'sv' => 'Toppar & Blusar'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -73,7 +73,7 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Toppar & Blusar'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 2
@@ -82,15 +82,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Knitwear', 'se' => 'Stickat'
+                        'en' => 'Knitwear', 'sv' => 'Stickat'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -105,7 +105,7 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Stickat'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 3
@@ -118,11 +118,11 @@ class CategoryTableSeeder extends Seeder
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -140,15 +140,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Accessories', 'se' => 'Tillbehör'
+                        'en' => 'Accessories', 'sv' => 'Tillbehör'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -163,7 +163,7 @@ class CategoryTableSeeder extends Seeder
         $acc->routes()->create([
             'default' => true,
             'slug' => str_slug('Tillbehör'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 5
@@ -173,15 +173,15 @@ class CategoryTableSeeder extends Seeder
         $thing->attribute_data = [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Eye lashes', 'se' => 'Ögonfransar'
+                        'en' => 'Eye lashes', 'sv' => 'Ögonfransar'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]///////////////////////////////////////////////////////////////////////////////////////////
         ];
@@ -197,7 +197,7 @@ class CategoryTableSeeder extends Seeder
         $thing->routes()->create([
             'default' => true,
             'slug' => str_slug('Ögonfransar'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 6
@@ -206,15 +206,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Coats & Jackets', 'se' => 'Jackor'
+                        'en' => 'Coats & Jackets', 'sv' => 'Jackor'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -229,7 +229,7 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Jackor'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 7
@@ -238,15 +238,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Dresses & Skirts', 'se' => 'Klänningar & Kjolar'
+                        'en' => 'Dresses & Skirts', 'sv' => 'Klänningar & Kjolar'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -261,7 +261,7 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Klänningar & Kjolar'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         // Item 8
@@ -270,15 +270,15 @@ class CategoryTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Shoes', 'se' => 'Skor'
+                        'en' => 'Shoes', 'sv' => 'Skor'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -293,22 +293,22 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Skor'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Bags', 'se' => 'påsar'
+                        'en' => 'Bags', 'sv' => 'påsar'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -323,22 +323,22 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Påsar'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'Jewellery', 'se' => 'Smycke'
+                        'en' => 'Jewellery', 'sv' => 'Smycke'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -353,22 +353,22 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Smycke'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
 
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        'en' => 'House', 'se' => 'Hem'
+                        'en' => 'House', 'sv' => 'Hem'
                     ],
                     'mobile' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ],
                     'print' => [
                         'en' => '',
-                        'se' => ''
+                        'sv' => ''
                     ]
                 ]
             ]
@@ -383,7 +383,7 @@ class CategoryTableSeeder extends Seeder
         $item->routes()->create([
             'default' => true,
             'slug' => str_slug('Hem'),
-            'locale' => 'se'
+            'locale' => 'sv'
         ]);
     }
 }
