@@ -45,7 +45,6 @@
         },
         mounted() {
             this.channels = this.product.channels.data;
-
             this.channels.forEach(channel => {
                 channel.published_at = moment(channel.published_at.date).format('YYYY-MM-DD HH:mm');
             });

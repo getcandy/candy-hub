@@ -186,8 +186,8 @@
                 
                   <button class="variant-option-img" @click="changeImage = true">
                     <figure>
-                      <img :src="current.thumbnail.data.thumbnail" alt="Placeholder" class="placeholder" v-if="hasThumbnail(current)">
-                      <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder" v-else>
+                      <img :src="current.thumbnail.data.thumbnail" :alt="current.id" class="placeholder" v-if="hasThumbnail(current)">
+                      <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder placeholder-empty" v-else>
                     </figure>
                     <span class="change-img">
                       <span v-if="hasThumbnail(current)">Change image</span>
@@ -387,16 +387,16 @@
             <ul class="variant-list">
               <li v-for="(v, index) in variants">
                 <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
-                  <div class="variant-img" v-if="hasThumbnail(v)">
-                    <img :src="v.thumbnail.data.thumbnail" alt="Aquacomb">
-                  </div>
-                  <div class="variant-img" v-else>
-                    <img src="/images/placeholder/no-image.svg" alt="Placeholder">
+                  <div class="variant-img" >
+                    <figure>
+                      <img :src="v.thumbnail.data.thumbnail" alt="v.id" v-if="hasThumbnail(v)">
+                      <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder" v-else>
+                    </figure>
                   </div>
                   <div class="variant-options">
-                    <template v-for="(option, label, index) in v.options">
-                      <span class="option-label">{{ capitalize(label) }}</span> {{ option.en }},
-                    </template>
+                    <ul>
+                      <li v-for="(option, label, index) in v.options"><strong>{{ capitalize(label) }}</strong> {{ option|t }}</li>
+                    </ul>
                   </div>
                 </a>
               </li>

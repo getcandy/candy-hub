@@ -2,7 +2,7 @@
     export default {
         data() {
             return {
-                request: {},
+                request: apiRequest,
                 modalOpen: false,
                 generated: [],
                 options: [
@@ -61,7 +61,7 @@
         },
         methods: {
             save() {
-                apiRequest.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants, 'options': this.options})
+                this.request.send('post', '/products/' + this.product.id + '/variants', {'variants' : this.variants, 'options': this.options})
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
@@ -71,10 +71,10 @@
                         });
                         this.modalOpen = false;
                     }).catch(response => {
-                        // CandyEvent.$emit('notification', {
-                        //     level: 'error',
-                        //     message: 'Missing / Invalid fields'
-                        // });
+                        CandyEvent.$emit('notification', {
+                            level: 'error',
+                            message: 'Missing / Invalid fields'
+                        });
                     });
             },
             addOption(option, handle) {
@@ -261,6 +261,7 @@
 
 <template>
     <div>
+        {{ request.getError('variants.0.sku') }}
         <button class="btn btn-primary" @click="modalOpen = true">Edit options</button>
         <candy-modal title="Edit options" v-show="modalOpen" @closed="modalOpen = false">
             <div slot="body" class="text-left">
@@ -367,7 +368,13 @@
                     </thead>
                     <tbody>
                     <tr v-for="(variant, index) in variants">
-                        <td><input type="text" v-model="variant.sku" class="form-control"></td>
+                        <td>
+                            <input type="text" v-model="variant.sku" class="form-control">
+                            <span class="text-danger"
+                                  v-if="request.hasError('variants.' + index + '.sku')"
+                                  v-text="request.getError('variants.' + index + '.sku')">
+                            </span>
+                        </td>
                         <td v-for="(option, handle) in options">
                             <input type="text" class="form-control" :value="getOptionValue(option, variant)" disabled>
                         </td>

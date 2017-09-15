@@ -48,7 +48,6 @@
             this.urlUpload.type = this.mimeTypes[0].value;
 
             CandyEvent.$on('variant_asset_uploaded', event => {
-                event.asset.tags = event.asset.tags.data;
                 this.assets.push(event.asset);
             });
 

@@ -22,7 +22,6 @@
                 required: true
             }
         },
-
         created() {
             this.loadLanguages();
             this.loadProduct(this.productId);
@@ -52,6 +51,10 @@
                 this.variants = this.product.variants.data;
                 this.routes = this.product.routes.data;
             },
+            /**
+             * Loads languages
+             * @return
+             */
             loadLanguages() {
                 apiRequest.send('get', 'languages', [], []).then(response => {
                     response.data.forEach(lang => {
@@ -148,8 +151,8 @@
         </template>
 
         <div v-else>
-            <div class="page-loading">
-                <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+            <div class="page-loading loading">
+                <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
             </div>
         </div>
     </div>
@@ -164,23 +167,5 @@
     .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
     {
         opacity: 0;
-    }
-
-    .page-loading {
-        text-align: center;
-        margin-top: 25%;
-        color: #bdbdbd;
-        span {
-            display: block;
-            margin-bottom: 1em;
-        }
-        strong {
-            font-size: .875em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        i {
-            font-size: 3em;
-        }
     }
 </style>

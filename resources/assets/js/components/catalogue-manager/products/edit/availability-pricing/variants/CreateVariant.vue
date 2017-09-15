@@ -36,7 +36,7 @@
         },
         methods: {
             save() {
-                apiRequest.send('post', '/products/' + this.product.id + '/variants', {variants: [this.variant], options: this.options})
+                apiRequest.send('post', '/products/' + this.product.id + '/variants', {variants: [this.variant]})
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
