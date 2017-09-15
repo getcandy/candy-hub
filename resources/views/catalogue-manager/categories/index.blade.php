@@ -17,7 +17,7 @@
 
 @section('content')
 
-    <categories-list></categories-list>
+    <candy-categories-list></candy-categories-list>
     <candy-categories-modals></candy-categories-modals>
 
 @endsection

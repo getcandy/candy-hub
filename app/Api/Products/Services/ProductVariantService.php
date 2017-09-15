@@ -34,6 +34,10 @@ class ProductVariantService extends BaseService
             foreach ($newVariant['options'] as $handle => $option) {
                 foreach ($option as $lang => $value) {
                     $optionKey = str_slug($value);
+                    // If this is the first time this option is being set...
+                    if (empty($options[$handle])) {
+                        $options[$handle]['label'][$lang] = title_case($value);
+                    }
                     $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
                     $newOption[$handle] = $optionKey;
                 }
@@ -46,7 +50,11 @@ class ProductVariantService extends BaseService
             ]);
         }
 
-        $product->update(['option_data' => $options]);
+        if (empty($data['options'])) {
+            $product->update(['option_data' => $options]);
+        } else {
+            $product->update(['option_data' => $data['options']]);
+        }
 
         return $product;
     }

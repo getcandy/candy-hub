@@ -32,7 +32,8 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'variants.*.sku.unique' => 'This SKU has already been taken'
+            'variants.*.sku.unique' => 'This SKU has already been taken',
+            'variants.*.sku.required' => 'The SKU field is required',
         ];
     }
 }

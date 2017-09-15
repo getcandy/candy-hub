@@ -103,7 +103,7 @@ a {
 .variant-option-img {
   position: relative;
   display: block;
-  padding:20px 10px 40px 10px;
+  padding:10px 10px 30px 10px;
   border:2px solid $pink;
   text-align: center;
   background-color:transparent;
@@ -116,6 +116,9 @@ a {
   }
   figure {
     height: 100px;
+    .placeholder-empty {
+      margin-top:10px;
+    }
   }
   img {
     width:100px;
@@ -154,34 +157,75 @@ a {
     display: block;
     padding: 10px;
     background-color: #f6f6f6;
-
+    position:relative;
     &:hover {
       background-color: white;
       text-decoration: none;
     }
 
     &.active {
-      background-color: white;
+      background-color: $blue;
+      color:#fff;
+      figure {
+        border-color:darken($blue, 10%);
+      }
+      &:after {
+        position:absolute;
+        right:0;
+        display:block;
+        width: 0;
+        height: 0;
+        top:35%;
+        right:-10px;
+        content: '';
+        border-style: solid;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent $blue;
+      }
     }
   }
 
   .variant-img {
     display: inline-block;
     vertical-align: middle;
-
-    img {
+    figure {
+      border:3px solid rgba(#000, .1);
+      background-color: #fff;
       width: 50px;
+      height:50px;
+      img {
+        width:100%;
+        vertical-align: middle;
+        &.placeholder {
+          margin-top:6px;
+        }
+      }
     }
   }
 
   .variant-options {
     @extend .variant-img;
     margin-left: 15px;
-
-    .option-label {
-      opacity: 0.8;
-      font-size: 90%;
-      font-style: italic;
+    ul {
+      list-style: none;
+      padding:0;
+      margin:0;
+      li {
+        border:none;
+        display: inline-block;
+        font-size:.875em;
+        &:last-child {
+          &:after {
+            display: none;
+          }
+        }
+        &:after {
+          content: '·';
+          width:10px;
+          text-align:center;
+          display: inline-block;
+        }
+      }
     }
   }
 }
@@ -209,7 +253,7 @@ a {
   margin-top: 15px;
   border: 2px dashed $purple!important;
   background-color: #f6f6f6!important;
-
+  position:relative;
   .media-box {
     margin: auto auto;
     display: table-cell;
@@ -222,7 +266,6 @@ a {
       color:#3F2A67;
       cursor: pointer;
     }
-
     .icon {
       color: $purple;
       display: block;
@@ -230,4 +273,24 @@ a {
       margin-bottom: 10px;
     }
   }
+}
+
+.page-loading {
+  margin-top: 25%;
+}
+.loading {
+    text-align: center;
+    color: #bdbdbd;
+    span {
+        display: block;
+        margin-bottom: 1em;
+    }
+    strong {
+        font-size: .875em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    i {
+        font-size: 3em;
+    }
 }

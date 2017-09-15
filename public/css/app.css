@@ -15371,7 +15371,7 @@ a {
 .variant-option-img {
   position: relative;
   display: block;
-  padding: 20px 10px 40px 10px;
+  padding: 10px 10px 30px 10px;
   border: 2px solid #a74c9d;
   text-align: center;
   background-color: transparent;
@@ -15388,6 +15388,10 @@ a {
 
 .variant-option-img figure {
   height: 100px;
+}
+
+.variant-option-img figure .placeholder-empty {
+  margin-top: 10px;
 }
 
 .variant-option-img img {
@@ -15427,6 +15431,7 @@ a {
   display: block;
   padding: 10px;
   background-color: #f6f6f6;
+  position: relative;
 }
 
 .variant-list a:hover {
@@ -15435,7 +15440,26 @@ a {
 }
 
 .variant-list a.active {
-  background-color: white;
+  background-color: #2d3c8e;
+  color: #fff;
+}
+
+.variant-list a.active figure {
+  border-color: #212c67;
+}
+
+.variant-list a.active:after {
+  position: absolute;
+  right: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  top: 35%;
+  right: -10px;
+  content: '';
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent #2d3c8e;
 }
 
 .variant-list .variant-img,
@@ -15444,19 +15468,50 @@ a {
   vertical-align: middle;
 }
 
-.variant-list .variant-img img,
-.variant-list .variant-options img {
+.variant-list .variant-img figure,
+.variant-list .variant-options figure {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
   width: 50px;
+  height: 50px;
+}
+
+.variant-list .variant-img figure img,
+.variant-list .variant-options figure img {
+  width: 100%;
+  vertical-align: middle;
+}
+
+.variant-list .variant-img figure img.placeholder,
+.variant-list .variant-options figure img.placeholder {
+  margin-top: 6px;
 }
 
 .variant-list .variant-options {
   margin-left: 15px;
 }
 
-.variant-list .variant-options .option-label {
-  opacity: 0.8;
-  font-size: 90%;
-  font-style: italic;
+.variant-list .variant-options ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.variant-list .variant-options ul li {
+  border: none;
+  display: inline-block;
+  font-size: .875em;
+}
+
+.variant-list .variant-options ul li:last-child:after {
+  display: none;
+}
+
+.variant-list .variant-options ul li:after {
+  content: '·';
+  width: 10px;
+  text-align: center;
+  display: inline-block;
 }
 
 /* Media */
@@ -15484,6 +15539,7 @@ a {
   margin-top: 15px;
   border: 2px dashed #662d91 !important;
   background-color: #f6f6f6 !important;
+  position: relative;
 }
 
 .vue-dropzone .media-box {
@@ -15506,6 +15562,30 @@ a {
   display: block;
   font-size: 3.5em;
   margin-bottom: 10px;
+}
+
+.page-loading {
+  margin-top: 25%;
+}
+
+.loading {
+  text-align: center;
+  color: #bdbdbd;
+}
+
+.loading span {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.loading strong {
+  font-size: .875em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.loading i {
+  font-size: 3em;
 }
 
 .login-form {

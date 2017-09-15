@@ -56,6 +56,7 @@ class Product extends BaseModel
 
             $options[str_slug($label)]['options'] = $childOptions;
         }
+
         $this->attributes['option_data'] = json_encode($options);
     }
 

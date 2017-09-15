@@ -205,8 +205,8 @@
                     <tbody v-else="loaded" class="text-center">
                         <tr>
                             <td colspan="6" style="padding:40px;">
-                                <div class="page-loading">
-                                    <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                                <div class="loading">
+                                    <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
                                 </div>
                             </td>
                         </tr>
