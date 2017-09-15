@@ -14,10 +14,12 @@
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input id="name" type="text" class="form-control" v-model="category.name" @input="slugify(category.name)">
+                            <span class="text-danger" v-if="request.getError('name')" v-text="request.getError('name')"></span>
                         </div>
                         <div class="form-group">
                             <label for="slug">URL</label>
                             <input id="slug" type="text" class="form-control" v-model="category.slug" @change="slugify(category.slug)">
+                            <span class="text-danger" v-if="request.getError('name')" v-text="request.getError('slug')"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -35,6 +37,7 @@
     export default {
         data() {
             return {
+                request: apiRequest,
                 category: {
                     name: '',
                     slug: '',
@@ -54,7 +57,7 @@
                     'parent-id': window.modalParentID
                 };
 
-                apiRequest.send('post', '/categories/', data)
+                this.request.send('post', '/categories/', data)
                     .then(response => {
                         this.resetForm();
                         this.$emit('categoryCreated', response);

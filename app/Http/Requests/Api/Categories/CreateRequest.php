@@ -26,7 +26,8 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'required'
+            'name' => 'required|unique:routes,slug',
+            'slug' => 'required|uniqueNameInGroup:routes,slug',
         ];
     }
 }
