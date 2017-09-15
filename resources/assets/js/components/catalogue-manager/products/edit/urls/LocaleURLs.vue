@@ -42,6 +42,9 @@
         },
         methods: {
             getFlag: function(locale) {
+                if (locale == 'en') {
+                    locale = 'gb';
+                }
                 return 'flag-icon-' + locale;
             },
             save() {
