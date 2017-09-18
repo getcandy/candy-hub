@@ -18,6 +18,7 @@ class ApiServiceProvider extends ServiceProvider
         Validator::extend('unique_name_in_group', 'GetCandy\Http\Validators\Api\AttributeValidator@uniqueNameInGroup');
         Validator::extend('hashid_is_valid', 'GetCandy\Http\Validators\Api\HashidValidator@validForModel');
         Validator::extend('valid_structure', 'GetCandy\Http\Validators\Api\AttributeValidator@validateData');
+        Validator::extend('unique_category_attribute', 'GetCandy\Http\Validators\Api\CategoriesValidator@uniqueCategoryAttributeData');
 
         $this->app->bind('api', function ($app) {
             return $app->make(Factory::class);

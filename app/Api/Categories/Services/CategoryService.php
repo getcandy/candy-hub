@@ -82,4 +82,18 @@ class CategoryService extends BaseService
 
     }
 
+    public function uniqueAttribute($key, $value)
+    {
+        $categories = $this->getNestedList();
+        $response = true;
+
+        foreach($categories as $category) {
+            if(isset($category->attribute_data[$key]['ecommerce']['en']) && $category->attribute_data[$key]['ecommerce']['en'] === $value){
+                $response = false;
+            }
+        }
+
+        return $response;
+    }
+
 }

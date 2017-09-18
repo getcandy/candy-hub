@@ -41,8 +41,7 @@
                 category: {
                     name: '',
                     slug: '',
-                },
-                defaultLang: locale.current()
+                }
             }
         },
         methods: {
@@ -52,8 +51,8 @@
             save() {
 
                 let data = {
-                    'attributes': {'name': {'ecommerce': {'en': this.category.name}},
-                        'slug': {'ecommerce': {'en': this.category.slug}}},
+                    'name': this.category.name,
+                    'slug': this.category.slug,
                     'parent-id': window.modalParentID
                 };
 
