@@ -72,12 +72,16 @@
              */
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
-                    includes: 'family,assets,assets.tags,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels,customer_groups'
+                    includes: 'family,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
+                    'layout,variants,routes,channels,customer_groups,categories'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
                 }).catch(error => {
                 });
+            },
+            getCategoryCount() {
+                return this.product.categories.data.length;
             }
         }
     }
@@ -115,8 +119,7 @@
 
                     <candy-tab name="Associations">
                         <candy-tabs nested="true">
-                            <candy-tab name="Categories" handle="categories" :selected="true">
-                                - Tab will require counter to show how many category associations this product has
+                            <candy-tab name="Categories" handle="categories" :selected="true" :badge="getCategoryCount()">
                                 <candy-categories></candy-categories>
                             </candy-tab>
                             <candy-tab name="Collections" handle="collections">

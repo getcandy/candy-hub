@@ -211,6 +211,20 @@ class ProductService extends BaseService
     }
 
     /**
+     * Gets the attributes from a given products id
+     * @param  string $id
+     * @return array
+     */
+    public function getCategories($product)
+    {
+        $product = $this->model
+            ->with(['categories'])
+            ->find($product->id);
+
+        return $product->categories;
+    }
+
+    /**
      * Updates the collections for a product
      * @param  String  $id
      * @param  array  $data

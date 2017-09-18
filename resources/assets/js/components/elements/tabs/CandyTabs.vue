@@ -10,7 +10,7 @@
         </div>
         <ul class="nav nav-tabs secondary sub-nav" v-if="nested" role="tablist">
             <li role="presentation" :class="{ 'active' : tab.isActive}" v-for="tab in tabs">
-                <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name }}</a>
+                <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name }} <span class="badge">{{ tab.badge }}</span></a>
             </li>
         </ul>
     </div>
@@ -26,7 +26,8 @@
         props: {
             nested: {
                 default: false
-            }
+            },
+            badge: ''
         },
         methods: {
             selectTab(selectedTab) {

@@ -82,13 +82,13 @@ class CategoryService extends BaseService
 
     }
 
-    public function uniqueAttribute($key, $value)
+    public function uniqueAttribute($key, $value, $channel = 'ecommerce', $lang = 'en')
     {
-        $categories = $this->getNestedList();
         $response = true;
+        $categories = $this->getNestedList();
 
         foreach($categories as $category) {
-            if(isset($category->attribute_data[$key]['ecommerce']['en']) && $category->attribute_data[$key]['ecommerce']['en'] === $value){
+            if(isset($category->attribute_data[$key][$channel][$lang]) && $category->attribute_data[$key][$channel][$lang] === $value) {
                 $response = false;
             }
         }

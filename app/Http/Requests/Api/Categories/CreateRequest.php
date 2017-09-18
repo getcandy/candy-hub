@@ -26,16 +26,16 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique_category_attribute:name',
-            'slug' => 'required|unique_category_attribute:slug',
+            'attributes.name' => 'required|unique_category_attribute:name',
+            'attributes.url' => 'required|unique_category_attribute:slug',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.unique_category_attribute' => 'Name must be unique',
-            'slug.unique_category_attribute' => 'Slug must be unique',
+            'attributes.name.unique_category_attribute' => 'Name must be unique',
+            'attributes.url.unique_category_attribute' => 'Url must be unique',
         ];
     }
 }

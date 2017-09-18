@@ -85,6 +85,11 @@ return [
             'salt' => env('HASHIDS_PRODUCT_FAMILY_SALT', 'product_family'),
             'length' => 8,
         ],
+        'product_category' => [
+            'alphabet' => $alphabet,
+            'salt' => env('HASHIDS_PRODUCT_CATEGORY_SALT', 'product_category'),
+            'length' => 8,
+        ],
         'tag' => [
             'alphabet' => $alphabet,
             'salt' => env('HASHIDS_ATTRIBUTE_SALT', 'attribute'),

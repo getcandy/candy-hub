@@ -26,6 +26,9 @@
             },
             hidden: {
                 default: false
+            },
+            badge: {
+                type: Number
             }
         },
         computed: {

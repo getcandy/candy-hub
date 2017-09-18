@@ -18,13 +18,13 @@
                         </div>
                         <div class="form-group">
                             <label for="slug">URL</label>
-                            <input id="slug" type="text" class="form-control" v-model="category.slug" @change="slugify(category.slug)">
-                            <span class="text-danger" v-if="request.getError('name')" v-text="request.getError('slug')"></span>
+                            <input id="slug" type="text" class="form-control" v-model="category.url" @change="slugify(category.url)">
+                            <span class="text-danger" v-if="request.getError('url')" v-text="request.getError('url')"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="resetForm()">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="save()">Create Category</button>
+                        <button type="button" class="btn btn-primary" @click="save()">Create Category</button>
                         <!-- On button click save product and go to product screen -->
                     </div>
                 </div>
@@ -40,19 +40,21 @@
                 request: apiRequest,
                 category: {
                     name: '',
-                    slug: '',
+                    url: '',
                 }
             }
         },
         methods: {
             slugify: function (value) {
-                this.category.slug = value.slugify()
+                this.category.url = value.slugify()
             },
             save() {
 
                 let data = {
-                    'name': this.category.name,
-                    'slug': this.category.slug,
+                    'attributes': {
+                        'name': this.category.name,
+                        'url': this.category.url,
+                    },
                     'parent-id': window.modalParentID
                 };
 
@@ -60,6 +62,7 @@
                     .then(response => {
                         this.resetForm();
                         this.$emit('categoryCreated', response);
+                        $('#createCategoryModal').modal('toggle');
                         CandyEvent.$emit('notification', {
                             level: 'success',
                             message: this.category.name +' Category was successfully created'
@@ -74,7 +77,7 @@
             resetForm() {
                 this.category = {
                     name: '',
-                    slug: '',
+                    url: '',
                 };
                 window.modalParentID = '';
             }

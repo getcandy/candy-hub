@@ -4,6 +4,7 @@ namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Channels\Models\Channel;
+use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Layouts\Models\Layout;
@@ -110,6 +111,11 @@ class Product extends BaseModel
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'product_categories');
     }
 
     /**
