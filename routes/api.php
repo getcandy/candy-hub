@@ -42,8 +42,9 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
  * Categories
  */
 
+$this->get('categories/{parentID?}', 'Categories\CategoryController@getCategories');
 $this->post('categories/reorder', 'Categories\CategoryController@reorder');
-$this->resource('categories', 'Categories\CategoryController');
+$this->resource('category', 'Categories\CategoryController');
 
 /**
  * Channels

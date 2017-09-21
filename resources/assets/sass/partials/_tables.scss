@@ -12,6 +12,10 @@
       cursor: grab;
     }
     tr {
+      .empty {
+        text-align: center;
+        padding:20px;
+      }
       background-color:#fff;
       &.sortable-ghost {
         opacity: .25;

@@ -1,36 +1,149 @@
+<style type="text/css">
+    /* Define custom width and alignment of table columns */
+    #treetable {
+        table-layout: fixed;
+        outline: none;
+    }
+    .categories-list table.fancytree-ext-table tbody tr td {
+        border: 0 solid #fff!important;
+        border-bottom: 1px solid #ececee!important;
+        height: 58px;
+    }
+    .categories-list table tbody tr.fancytree-focused span.fancytree-title {
+        outline: none!important;
+    }
+    .categories-list #fancytree-drop-marker, .categories-list span.fancytree-checkbox,
+    .categories-list span.fancytree-drag-helper-img, .categories-list span.fancytree-empty,
+    .categories-list span.fancytree-expander, .categories-list span.fancytree-icon, .categories-list span.fancytree-vline {
+        background-image: none!important;
+    }
+    .categories-list span.fancytree-icon {
+        margin-top: 12px!important;
+        margin-right:15px;
+    }
+    .categories-list span.fancytree-expander {
+        margin-top: 14px!important;
+        margin-right:15px;
+    }
+    .categories-list span.fancytree-icon:before{
+        font-family: FontAwesome;
+        content:"\f047";
+        color: #c1c2c3;
+    }
+    .categories-list .table > thead > tr > th, .categories-list .table.association-table .table > tbody > tr > th {
+        border-bottom: 2px solid #ececee;
+    }
+    .categories-list .table > tbody > tr .btn{
+        display: none;
+        background-color: #fff;
+    }
+    .categories-list .table > tbody > tr .btn:hover {
+        background-color: #f3f3f3;
+    }
+    .categories-list .table > tbody > tr:hover .btn{
+        display: inline-block;
+    }
+</style>
 <script>
 
-    require('../../../nestable.js');
+    import fancytree from 'jquery.fancytree/dist/jquery.fancytree-all-deps.min';
+    import 'jquery.fancytree/dist/src/jquery.fancytree.dnd5.js';
+    import 'jquery.fancytree/dist/src/jquery.fancytree.edit.js';
+    import 'jquery.fancytree/dist/src/jquery.fancytree.glyph.js';
+    import 'jquery.fancytree/dist/src/jquery.fancytree.table.js';
+    import 'jquery.fancytree/dist/skin-win8/ui.fancytree.min.css';
 
     export default {
         data() {
             return {
                 categories: [],
-                modalParentID: ''
+                modalParentID: '',
+                channel: 'ecommerce',
+                lang: locale.current()
             };
         },
         mounted() {
-
-            let _candyThis = this;
             this.loadCategories();
-
-            $('.nestable').on('change', function(e, node){
-                _candyThis.save(node);
-            });
-
         },
         methods: {
-            loadCategories() {
-                apiRequest.loadCategories(this.params)
-                    .then(response => {
+            initFancytable() {
 
+                let glyph_opts = {
+                    preset: "bootstrap3",
+                    map: {
+                        expanderClosed: "fa fa-chevron-right",  // glyphicon-plus-sign
+                        expanderLazy: "fa fa-chevron-right",  // glyphicon-plus-sign
+                        expanderOpen: "fa fa-chevron-down"  // glyphicon-minus-sign
+                    }
+                };
+
+                $("#treetable").fancytree({
+                    extensions: ["dnd5", "glyph", "table"],
+                    glyph: glyph_opts,
+                    dnd5: {
+                        scroll: false,
+
+                        // --- Drag-support:
+                        dragStart: function(node, data) {
+                            return true;
+                        },
+                        dragLeave: function(node, data) {
+                        },
+                        dragDrop: function(node, data) {
+                            node.setExpanded(true).always(function(){
+                                // Wait until expand finished, then add the additional child
+                                data.otherNode.moveTo(node, data.hitMode);
+                                this.save(node.data.id, data.otherNode.data.id, data.hitMode);
+                            }.bind(this));
+
+                        }.bind(this)
+                    },
+                    source: this.categories,
+                    lazyLoad: function(event, data){
+                        let nodeID = data.node.data.id;
+                        let dfd = new $.Deferred();
+
+                        data.result = dfd.promise();
+
+                        apiRequest.loadCategories(nodeID)
+                            .then(response => {
+                                dfd.resolve(response.data.data);
+                            })
+                            .catch(error => {
+                                dfd.reject(new Error("TEST ERROR"));
+                            });
+                    },
+                    renderTitle: function(event, data){
+                        let node = data.node;
+                        node.title = this.getThumbnail()+ this.getAttribute(node.data, 'name');
+                    }.bind(this),
+                    table: {
+                        nodeColumnIdx: 0
+                    },
+                    renderColumns: function(event, data) {
+
+
+                        let node = data.node,
+                            $tdList = $(node.tr).find(">td");
+
+                        $tdList.eq(1).text(node.data.productCount);
+                        $tdList.eq(3).html(this.createNewButton(node.data.id));
+                        //$tdList.eq(4).text(this.getAttribute(node.data, 'name'));
+                    }.bind(this)
+                });
+            },
+            loadCategories(parentID) {
+                apiRequest.loadCategories(parentID)
+                    .then(response => {
                         this.categories = response.data.data;
 
                         CandyEvent.$nextTick( function(){
-                            $('.nestable').nestable();
-                        });
-
+                            this.initFancytable();
+                        }.bind(this));
                     });
+            },
+            createNewButton: function(parentID) {
+                return '<a data-toggle="modal" data-target="#createCategoryModal" class="btn btn-default" @click="setModalParentID('+parentID+')"><i class="fa fa-plus"></i> Create Subcategory</a>';
             },
             setModalParentID: function() {
                 this.modalParentID = window.modalParentID;
@@ -39,20 +152,18 @@
                 this.modalParentID = '';
                 this.categories = categories.data;
             },
-            save(node) {
-
-                let el = $('.nestable li#'+ node.id);
-                let parentID = el.parent().parent().attr('id');
-                let siblings = [];
-
-                el.parent().children().each( function(){
-                    siblings.push($(this).attr('id'));
-                });
-
+            getAttribute: function(data, attribute) {
+                return data.attribute_data[attribute][this.channel][this.lang];
+            },
+            getThumbnail: function(data) {
+                return '<img class="dd-image" src="/images/placeholder/no-image.svg" height="41">';
+            },
+            save(node, movedNode, action) {
+                console.log(node);console.log(movedNode);console.log(action);
                 let data = {
-                    'id': node.id,
-                    'parent-id': parentID,
-                    'siblings': siblings
+                    'node': node,
+                    'moved-node': movedNode,
+                    'action': action
                 };
 
                 apiRequest.send('post', '/categories/reorder', data).then(response => {
@@ -66,6 +177,7 @@
                         message: 'Missing / Invalid fields'
                     });
                 });
+
             }
 
         }
@@ -150,13 +262,24 @@
                     </div>
                 </div>
 
+                <hr>
+
                 <div class="categories-list">
 
-                    <div class="nestable">
-                        <ol class="nestable-list">
-                            <candy-category v-for="category in categories" @modalParentID="setModalParentID" :category="category" :key="category.id"></candy-category>
-                        </ol>
-                    </div>
+                    <table id="treetable" class="table table-hover fancytree-fade-expander">
+                        <colgroup>
+                            <col width="*"></col>
+                            <col width="100px"></col>
+                            <col width="100px"></col>
+                            <col width="200px"></col>
+                        </colgroup>
+                        <thead>
+                        <tr> <th>Title</th> <th class="text-center">Products</th> <th class="text-center">Availability</th> <th></th> </tr>
+                        </thead>
+                        <tbody>
+                        <tr> <td></td> <td class="text-center"></td> <td></td> <td></td> </tr>
+                        </tbody>
+                    </table>
 
                 </div>
 

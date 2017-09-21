@@ -46,7 +46,8 @@
         },
         methods: {
             slugify: function (value) {
-                this.category.url = value.slugify()
+                this.category.url = value.slugify();
+                console.log(window.modalParentID);
             },
             save() {
 

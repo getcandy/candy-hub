@@ -218,7 +218,7 @@ class ProductService extends BaseService
     public function getCategories($product)
     {
         $product = $this->model
-            ->with(['categories'])
+            ->with(['categories', 'routes'])
             ->find($product->id);
 
         return $product->categories;

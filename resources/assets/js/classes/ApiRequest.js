@@ -105,12 +105,16 @@ class ApiRequest {
 
     }
 
-    loadCategories(params) {
+    loadCategories(parentID) {
 
-        let paramsArr = {'params': params};
+        let url = '/api/v1/categories/';
+
+        if(parentID){
+            url = url+ parentID;
+        }
 
         return new Promise((resolve, reject) => {
-            axios.get('/api/v1/categories', paramsArr)
+            axios.get(url)
                 .then(response => {
                     resolve(response);
                 })

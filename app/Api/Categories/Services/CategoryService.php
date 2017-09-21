@@ -24,6 +24,15 @@ class CategoryService extends BaseService
         return $items;
     }
 
+    public function getByParentID($encodedParentID)
+    {
+        $parentID = $this->model->decodeId($encodedParentID);
+
+        $items = $this->model->where('parent_id', $parentID)->defaultOrder()->get();
+
+        return $items;
+    }
+
     public function create(array $data)
     {
 
@@ -46,39 +55,23 @@ class CategoryService extends BaseService
     {
         $response = false;
 
-        $node = $this->getByHashedId($data['id']);
-        $nodeKey = array_search($data['id'], $data['siblings']);
+        $node = $this->getByHashedId($data['node']);
+        $movedNode = $this->getByHashedId($data['moved-node']);
+        $action = $data['action'];
 
-        // If node is first and has no parent or siblings append it to the tree
-        if(!isset($data['parent-id']) && $nodeKey === 0 && count($data['siblings']) === 1){
-
-            $response = $node->saveAsRoot();
-
-        // If node is first and has no parent but has siblings prepend it to the tree
-        }elseif(!isset($data['parent-id']) && $nodeKey === 0 && count($data['siblings']) > 1) {
-
-            $beforeNode = $this->getByHashedId($data['siblings'][$nodeKey +1]);
-            $response = $node->insertBeforeNode($beforeNode);
-
-        // If node is not alone and is not the first then place it behind sibling
-        }elseif(count($data['siblings']) > 1 && $nodeKey > 0){
-
-            $afterNode = $this->getByHashedId($data['siblings'][$nodeKey - 1]);
-            $response = $node->insertAfterNode($afterNode);
-
-        // If node is the first and has a parent we can prepend it to its parent
-        }else{
-
-            $parentNode = $this->getByHashedId($data['parent-id']);
-            $response = $parentNode->prependNode($node);
-
+        switch ($action) {
+            case 'before':
+                $response = $movedNode->insertBeforeNode($node);
+                break;
+            case 'after':
+                $response = $movedNode->insertAfterNode($node);
+                break;
+            case 'over':
+                $response = $node->prependNode($movedNode);
+                break;
         }
 
-        if($response){
-            return $this->getNestedList();
-        }
-
-        return false;
+        return $response;
 
     }
 

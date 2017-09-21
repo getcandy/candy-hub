@@ -15,8 +15,9 @@ class ReorderRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'        => 'required',
-            'siblings'  => 'required'
+            'node'          => 'required',
+            'moved-node'    => 'required',
+            'action'        => 'required'
         ];
     }
 }

@@ -21,7 +21,8 @@
     "dropzone": "^5.1.1",
     "laravel-mix": "0.*",
     "list.js": "^1.5.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "jquery.fancytree": "^2.24.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -30,6 +31,7 @@
     "jquery": "^3.2.1",
     "lity": "^2.3.0",
     "moment": "^2.18.1",
+    "nestable2": "^1.5.0",
     "selectize": "^0.12.4",
     "sortablejs": "^1.6.0",
     "vue-drag-and-drop-list": "^1.0.0",

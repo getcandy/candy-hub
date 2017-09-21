@@ -16410,6 +16410,11 @@ textarea.bootstrap-tagsinput {
   background-color: #fff;
 }
 
+.table tbody tr .empty {
+  text-align: center;
+  padding: 20px;
+}
+
 .table tbody tr.sortable-ghost {
   opacity: .25;
   background-color: #eeeeee;
@@ -17266,12 +17271,6 @@ textarea.bootstrap-tagsinput {
   color: #D2D2D2;
 }
 
-.categories-list {
-  display: inline-block;
-  width: 100%;
-  margin-top: 20px;
-}
-
 .nestable {
   width: 100%;
   position: relative;
@@ -17283,7 +17282,7 @@ textarea.bootstrap-tagsinput {
   border-top: 1px solid #eaeaea;
 }
 
-.nestable-list {
+.dd-list {
   display: block;
   position: relative;
   margin: 0;
@@ -17291,17 +17290,17 @@ textarea.bootstrap-tagsinput {
   list-style: none;
 }
 
-.nestable-list .nestable-list {
+.dd-list .dd-list {
   padding-left: 50px;
 }
 
-.nestable-collapsed .nestable-list {
+.dd-collapsed .dd-list {
   display: none;
 }
 
-.nestable-item,
-.nestable-empty,
-.nestable-placeholder {
+.dd-item,
+.dd-empty,
+.dd-placeholder {
   display: block;
   position: relative;
   margin: 0;
@@ -17309,7 +17308,7 @@ textarea.bootstrap-tagsinput {
   min-height: 57px;
 }
 
-.nestable-handle {
+.dd-handle {
   display: block;
   height: 57px;
   width: 50px;
@@ -17323,16 +17322,16 @@ textarea.bootstrap-tagsinput {
   border-bottom: 1px solid #f6f6f6;
 }
 
-.nestable-icon {
+.dd-icon {
   color: #ccc;
   margin-right: 10px;
 }
 
-.nestable-image {
+.dd-image {
   margin-right: 10px;
 }
 
-.nestable-item > button {
+.dd-item > button {
   color: #a8a8a8;
   outline: none;
   display: block;
@@ -17351,23 +17350,39 @@ textarea.bootstrap-tagsinput {
   z-index: 99;
 }
 
-.nestable-item > button:before {
-  content: '\f105';
-  font-size: 24px;
-  font-family: FontAwesome;
+.dd-item > button:before {
   display: block;
   position: absolute;
   width: 100%;
   text-align: center;
   text-indent: 0;
+  font-size: 24px;
 }
 
-.nestable-item > button[data-action="collapse"]:before {
+.dd-item > button.dd-expand:before {
+  content: '\f105';
+  font-family: FontAwesome;
+}
+
+.dd-item > button.dd-collapse:before {
   content: '\f107';
   font-family: FontAwesome;
 }
 
-.nestable-content {
+.dd-expand {
+  display: none;
+}
+
+.dd-collapsed .dd-list,
+.dd-collapsed .dd-collapse {
+  display: none;
+}
+
+.dd-collapsed .dd-expand {
+  display: block;
+}
+
+.dd-content {
   position: absolute;
   left: 50px;
   margin-right: 50px;
@@ -17378,21 +17393,21 @@ textarea.bootstrap-tagsinput {
   border-bottom: 1px solid #f6f6f6;
 }
 
-.nestable-content span {
+.dd-content span {
   font-size: 14px;
   font-weight: 400;
   color: #333333;
 }
 
-.nestable-handle:hover {
+.dd-handle:hover {
   background-color: #f2f3fb !important;
   cursor: pointer;
 }
 
-.nestable-placeholder,
-.nestable-empty > .nestable-item,
-.nestable-empty > .nestable-handle,
-.nestable-empty {
+.dd-placeholder,
+.dd-empty > .dd-item,
+.dd-empty > .dd-handle,
+.dd-empty {
   margin: 0;
   padding: 0;
   min-height: 65px;
@@ -17402,24 +17417,28 @@ textarea.bootstrap-tagsinput {
   -moz-box-sizing: border-box;
 }
 
-.nestable-dragel {
+.dd-dragel {
   position: absolute;
   pointer-events: none;
   z-index: 99;
 }
 
-.nestable-dragel > .nestable-item .nestable-handle {
+.dd-dragel > .dd-item .dd-handle {
   margin-top: 0;
 }
 
-.nestable-content .btn {
+.dd-content .btn {
   display: none;
   right: 50px;
   top: 8px;
   position: absolute;
 }
 
-.nestable-content:hover .btn {
+.dd-content:hover .btn {
   display: inline-block;
+}
+
+.dd-nochildren .dd-placeholder {
+  display: none;
 }
 

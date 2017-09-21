@@ -4,6 +4,7 @@ namespace GetCandy\Http\Controllers\Api\Categories;
 
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
+use GetCandy\Http\Transformers\Fractal\Categories\CategoryFancytreeTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Categories\CreateRequest;
 use GetCandy\Http\Requests\Api\Categories\ReorderRequest;
@@ -13,13 +14,19 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CategoryController extends BaseController
 {
     /**
-     * Returns a listing of channels
+     * Returns a listing of categories at one level
      * @return Json
      */
-    public function index(Request $request)
+    public function getNestedCategories()
     {
-        $results = app('api')->categories()->getNestedList();
-        return $this->respondWithCollection($results, new CategoryTransformer);
+        $categories = app('api')->categories()->getNestedList();
+        return $this->respondWithCollection($categories, new CategoryTransformer);
+    }
+
+    public function getCategories($parentID = null)
+    {
+        $categories = app('api')->categories()->getByParentID($parentID);
+        return $this->respondWithCollection($categories, new CategoryFancytreeTransformer);
     }
 
     /**
@@ -57,7 +64,7 @@ class CategoryController extends BaseController
     public function reorder(ReorderRequest $request)
     {
         try {
-            $results = app('api')->categories()->reorder($request->all());
+            $response = app('api')->categories()->reorder($request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -67,6 +74,9 @@ class CategoryController extends BaseController
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
-        return $this->respondWithCollection($results, new CategoryTransformer);
+        if($response){
+            return response()->json(['status' => 'success'],200);
+        }
+        return response()->json(['status' => 'error'],500);
     }
 }
