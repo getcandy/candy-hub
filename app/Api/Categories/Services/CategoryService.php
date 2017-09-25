@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Categories\Services;
 
 use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 
@@ -12,43 +13,54 @@ class CategoryService extends BaseService
      * @var AttributeGroup
      */
     protected $model;
+    protected $route;
 
     public function __construct()
     {
         $this->model = new Category();
+        $this->route = new Route();
+    }
+
+    public function getAll()
+    {
+        return $this->model->get();
     }
 
     public function getNestedList()
     {
-        $items = $this->model->withDepth()->defaultOrder()->get()->toTree();
-        return $items;
+        $categories = $this->model->withDepth()->defaultOrder()->get()->toTree();
+        return $categories;
     }
 
     public function getByParentID($encodedParentID)
     {
         $parentID = $this->model->decodeId($encodedParentID);
 
-        $items = $this->model->where('parent_id', $parentID)->defaultOrder()->get();
+        $categories = $this->model->where('parent_id', $parentID)->defaultOrder()->get();
 
-        return $items;
+        return $categories;
     }
 
     public function create(array $data)
     {
-
+        // Create Category
         $category = $this->model;
-
         $category->attribute_data = $category->parseAttributeData($data['attributes']);
-
         $category->save();
 
+        // Create Route
+        $route = $this->route;
+        $route->slug = $data['routes']['slug'];
+        $route->default = $data['routes']['default'];
+        $route->locale = $data['routes']['locale'];
+        $category->routes()->save($route);
+
+        // If a parent id exists then add the category to the parent
         if(!empty($data['parent-id'])) {
             $parentNode = $this->getByHashedId($data['parent-id']);
             $parentNode->prependNode($category);
         }
-
-        return $this->getNestedList();
-
+        return $category;
     }
 
     public function reorder(array $data)
@@ -72,21 +84,18 @@ class CategoryService extends BaseService
         }
 
         return $response;
-
     }
 
     public function uniqueAttribute($key, $value, $channel = 'ecommerce', $lang = 'en')
     {
-        $response = true;
-        $categories = $this->getNestedList();
+        $categories = $this->getAll();
 
         foreach($categories as $category) {
-            if(isset($category->attribute_data[$key][$channel][$lang]) && $category->attribute_data[$key][$channel][$lang] === $value) {
-                $response = false;
+            if(isset($category->attribute_data[$key][$channel][$lang]) && $category->attribute_data[$key][$channel][$lang] == $value) {
+                return false;
             }
         }
-
-        return $response;
+        return true;
     }
 
 }

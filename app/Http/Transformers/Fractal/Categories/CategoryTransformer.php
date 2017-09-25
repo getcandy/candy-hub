@@ -9,7 +9,7 @@ use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 class CategoryTransformer extends BaseTransformer
 {
 
-    protected $availableIncludes = [
+    protected $defaultIncludes = [
         'routes'
     ];
 

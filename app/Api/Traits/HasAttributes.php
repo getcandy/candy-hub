@@ -54,6 +54,8 @@ trait HasAttributes
     {
         $valueMapping = [];
         $structure = $this->getDataMapping();
+
+
         $defaultChannel = 'ecommerce';
         $defaultLang = 'en';
 
@@ -90,7 +92,7 @@ trait HasAttributes
         // Get our languages
         $languages = app('api')->languages()->getDataList();
         foreach ($languages as $lang) {
-            $languagesArray[$lang->iso] = null;
+            $languagesArray[$lang->lang] = null;
         }
         // Get our channels
         $channels = app('api')->channels()->getDataList();

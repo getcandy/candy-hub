@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "bootstrap-tagsinput": "^0.7.1",
     "flag-icon-css": "^2.8.0",
     "flatpickr": "^3.0.6",
     "jquery": "^3.2.1",

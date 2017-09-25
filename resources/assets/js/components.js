@@ -46,6 +46,16 @@ var includes = [
     }
   },
   /**
+   * Tables
+   */
+  {
+      path: 'elements.tables',
+      components: {
+          'fancytree' : 'Fancytree',
+          'table-list' : 'Table'
+      }
+  },
+  /**
    * Products
    */
   {
@@ -78,13 +88,7 @@ var includes = [
   {
     path: 'catalogue-manager.categories',
     components: {
-      'categories-list' : 'CategoriesList'
-    }
-  },
-  {
-    path: 'catalogue-manager.categories.category',
-    components: {
-      'category' : 'Category',
+      'categories-list' : 'CategoriesList',
       'categories-modals' : 'Modals'
     }
   },

@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-xs-12 col-md-11">
+        <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <h4>Categories</h4>
@@ -39,7 +39,7 @@
                         </td>
                     </tr>
 
-                    <tr v-if="product.categories.data.length === 0">
+                    <tr v-if="product.categories.length === 0">
                         <td colspan="4">
                             <p class="empty">There are no categories associated with this product</p>
                         </td>
@@ -56,7 +56,7 @@
         data() {
             return {
                 channel: 'ecommerce',
-                lang: locale.current()
+                language: locale.current()
             }
         },
         props: {
@@ -66,14 +66,14 @@
         },
         methods: {
             getAttribute: function (data, attribute) {
-                return data.attribute_data[attribute][this.channel][this.lang];
+                return data.attribute_data[attribute][this.channel][this.language];
             },
             getRoute: function (data) {
 
                 let slug = '';
 
                 data.routes.data.forEach(function (route) {
-                    if(route.locale === this.lang) {
+                    if(route.locale === this.language) {
                         slug = route.slug;
                     }
                 }.bind(this));

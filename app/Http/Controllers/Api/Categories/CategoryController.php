@@ -13,17 +13,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends BaseController
 {
-    /**
-     * Returns a listing of categories at one level
-     * @return Json
-     */
-    public function getNestedCategories()
+
+    public function getAll()
+    {
+        $categories = app('api')->categories()->getAll();
+        return $this->respondWithCollection($categories, new CategoryFancytreeTransformer);
+    }
+
+    public function getNested()
     {
         $categories = app('api')->categories()->getNestedList();
         return $this->respondWithCollection($categories, new CategoryTransformer);
     }
 
-    public function getCategories($parentID = null)
+    public function getByParent($parentID = null)
     {
         $categories = app('api')->categories()->getByParentID($parentID);
         return $this->respondWithCollection($categories, new CategoryFancytreeTransformer);
@@ -40,7 +43,7 @@ class CategoryController extends BaseController
     public function store(CreateRequest $request)
     {
         try {
-            $results = app('api')->categories()->create($request->all());
+            $response = app('api')->categories()->create($request->all());
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
@@ -50,7 +53,11 @@ class CategoryController extends BaseController
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
-        return $this->respondWithCollection($results, new CategoryTransformer);
+
+        if($response){
+            return response()->json('Successful Created',201);
+        }
+        return response()->json('Error',500);
     }
 
     /**

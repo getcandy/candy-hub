@@ -42,7 +42,6 @@ class RouteService extends BaseService
             );
         }
 
-
         if ($route->default) {
             $newDefault = $route->element->routes->where('default', '=', false)->first();
             $newDefault->default = true;
@@ -58,6 +57,11 @@ class RouteService extends BaseService
     public function getNewSuggestedDefault()
     {
         return $this->model->where('default', '=', false)->where('enabled', '=', true)->first();
+    }
+
+    public function uniqueSlug($slug)
+    {
+        return !($this->model->where('slug',$slug)->exists());
     }
 
 }

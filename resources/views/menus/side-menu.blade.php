@@ -1,6 +1,6 @@
 
         @foreach ($navItems as $navItem)
-            <li>
+            <li class="active">
               <a href="{{ $navItem->getUrl() }}" title="Go to {{ $navItem->getTitle() }}">{{ $navItem->getTitle() }}</a>
 
               @if (count($navItem->getSubItems()) > 0)
