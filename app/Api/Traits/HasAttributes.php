@@ -55,20 +55,13 @@ trait HasAttributes
         $valueMapping = [];
         $structure = $this->getDataMapping();
 
+        foreach($data as $attribute) {
 
-        $defaultChannel = 'ecommerce';
-        $defaultLang = 'en';
-
-        foreach ($data as $attribute => $values) {
             // Do this so we can reset the structure without hitting DB again
-            $newData[$attribute] = $structure;
+            $newData[$attribute['key']] = $structure;
 
-            // If passed just attribute and value set default if not then set normally
-            if(is_string($values)){
-                $valueMapping[$attribute][$defaultChannel][$defaultLang] = $values;
-            } else{
-                $valueMapping = $values;
-            }
+            // Set Attribute
+            $valueMapping[$attribute['key']][$attribute['channel']][$attribute['locale']] = $attribute['value'];
 
             // Map the rest of the attribute data
             foreach ($valueMapping as $attribute => $value) {

@@ -51,9 +51,6 @@
                 type: Object
             }
         },
-        mounted() {
-
-        },
         methods: {
             slugify: function (value) {
                 this.category.slug = value.slugify();

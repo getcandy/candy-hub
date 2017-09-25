@@ -130,7 +130,7 @@
                 </table>
             </div>
         </div>
-        <candy-modal title="Are you wish to delete this URL?" v-show="deleteUrlModalOpen" @closed="closeUrlDeleteModal">
+        <candy-modal title="Are you wish to delete this URL?" v-show="deleteUrlModalOpen" size="modal-sm" @closed="closeUrlDeleteModal">
             <div slot="body">
                 <p>Once deleted this action can not be undone</p>
                 <div class="form-group">
@@ -143,7 +143,7 @@
                 <button type="button" class="btn btn-primary" @click="deleteUrl">Confirm Deletion</button>
             </template>
         </candy-modal>
-        <candy-modal title="Add Locale URL" v-show="addLocaleModalOpen" @closed="addLocaleModalOpen = false">
+        <candy-modal title="Add Locale URL" v-show="addLocaleModalOpen" size="modal-md" @closed="addLocaleModalOpen = false">
             <div slot="body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3">

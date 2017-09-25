@@ -7,9 +7,19 @@
                 categoriesList: [],
                 categoriesLoaded: false,
                 currentView: 'tree-view',
-                modalData: {},
                 channel: 'ecommerce',
                 language: locale.current(),
+                request: apiRequest,
+                createCategoryModalOpen: false,
+                modalData: {
+                    'attributes': [],
+                    'routes': [],
+                    'parent': {}
+                },
+                category: {
+                    name: '',
+                    slug: '',
+                },
                 tableParams: {
                     columns: [
                         {'name': 'Title', 'width': '*', 'type': 'attribute', 'source': 'name'},
@@ -26,10 +36,20 @@
 
             let _this = this;
 
-            $('.tab-pane').on('click', '.modal-button', function(){
-                _this.modalData = {'id': $(this).data('parent-id'), 'name': $(this).data('parent-name')};
-                $('#createCategoryModal').modal('show');
+            $('#createCategoryModal').on('show.bs.modal', function (e) {
+                console.log(e);
+                console.log($(this).data('parent-id'));
+                _this.modalData['parent'] = {'id': $(this).data('parent-id'), 'name': $(this).data('parent-name')};
+                _this.createCategoryModalOpen = true;
+                e.preventDefault();
             });
+
+            $('.tab-pane').on('click', '.modal-button', function(){
+                console.log($(this).data('parentId'));
+                _this.modalData['parent'] = {'id': $(this).data('parentId'), 'name': $(this).data('parentName')};
+                _this.createCategoryModalOpen = true;
+            });
+
 
             $('#createCategoryModal').on('hidden.bs.modal', function () {
                 _this.modalData = {};
@@ -62,6 +82,54 @@
                         this.categoriesList = response.data;
                         this.categoriesLoaded = true;
                     });
+            },
+            slugify: function (value) {
+                this.category.slug = value.slugify();
+            },
+            createCategory() {
+
+                this.modalData['attributes'] = [{
+                    'key': 'name',
+                    'value': this.category.name,
+                    'channel': this.channel,
+                    'locale': this.language
+                }];
+
+                this.modalData['routes'] = [{
+                    'slug': this.category.name,
+                    'locale': this.language,
+                    'default': 1
+                }];
+
+                this.request.send('post', '/categories/create', this.modalData)
+                    .then(response => {
+                        CandyEvent.$emit('notification', {
+                            level: 'success',
+                            message: 'Category '+ this.category.name +' Created'
+                        });
+                        this.reloadTree();
+                        this.closeCreateCategoryModal();
+                    }).catch(response => {
+                        console.log(response);
+                        CandyEvent.$emit('notification', {
+                            level: 'error',
+                            message: 'There was an error creating your category'
+                        });
+                    });
+            },
+            resetForm() {
+                this.category = {
+                    name: '',
+                    slug: '',
+                };
+            },
+            closeCreateCategoryModal() {
+                this.category = {
+                    name: '',
+                    slug: '',
+                };
+                this.request.clearError();
+                this.createCategoryModalOpen = false;
             }
         }
     };
@@ -158,7 +226,32 @@
             </div>
         </div>
 
-        <candy-categories-modals :modalData="modalData" @categoryCreated="reloadTree()"></candy-categories-modals>
+        <candy-modal id="createCategoryModal" title="Create Category" size="modal-md" v-show="createCategoryModalOpen" @closed="closeCreateCategoryModal()">
+
+            <div slot="title">
+                <h4 v-if="modalData['parent'].name" class="modal-title">Create Sub Category <small>Under {{ modalData['parent'].name }}</small></h4>
+                <h4 v-else="" class="modal-title">Create Category</h4>
+            </div>
+
+            <div slot="body">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input id="name" type="text" class="form-control" v-model="category.name" @input="slugify(category.name)">
+                    <span class="text-danger" v-if="request.getError('attributes.0.value')" v-text="request.getError('attributes.0.value')"></span>
+                </div>
+                <div class="form-group">
+                    <label for="slug">URL</label>
+                    <input id="slug" type="text" class="form-control" v-model="category.slug" @change="slugify(category.slug)">
+                    <span class="text-danger" v-if="request.getError('routes.0.slug')" v-text="request.getError('routes.0.slug')"></span>
+                </div>
+            </div>
+
+            <div slot="footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeCreateCategoryModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" @click="createCategory()">Create Category</button>
+            </div>
+
+        </candy-modal>
 
     </div>
 

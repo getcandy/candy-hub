@@ -17,6 +17,6 @@
 
 @section('content')
 
-        <collections-table></collections-table>
+        <candy-collections-table></candy-collections-table>
 
 @endsection

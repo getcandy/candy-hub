@@ -180,7 +180,7 @@
 
                         this.params.columns.forEach((column, index) => {
                             // Skip first as that will always be the title
-                            if(index > 1){
+                            if(index > 0){
                                 if(column.type === 'button'){
                                     $tdList.eq(index).html(this.createNewButton(node.data.id, this.getAttribute(node.data, 'name')));
                                 }else if(column.type === 'image'){

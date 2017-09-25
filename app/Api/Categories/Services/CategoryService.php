@@ -49,15 +49,19 @@ class CategoryService extends BaseService
         $category->save();
 
         // Create Route
-        $route = $this->route;
-        $route->slug = $data['routes']['slug'];
-        $route->default = $data['routes']['default'];
-        $route->locale = $data['routes']['locale'];
-        $category->routes()->save($route);
+        foreach($data['routes'] as $newRoute){
+            $route = $this->route;
+
+            $route->slug        = $newRoute['slug'];
+            $route->default     = $newRoute['default'];
+            $route->locale      = $newRoute['locale'];
+
+            $category->routes()->save($route);
+        }
 
         // If a parent id exists then add the category to the parent
-        if(!empty($data['parent-id'])) {
-            $parentNode = $this->getByHashedId($data['parent-id']);
+        if(!empty($data['parent']['id'])) {
+            $parentNode = $this->getByHashedId($data['parent']['id']);
             $parentNode->prependNode($category);
         }
         return $category;

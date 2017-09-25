@@ -408,5 +408,4 @@
       </div>
     </div> <!-- col-xs-12 col-md-11 -->
   </div> <!-- row -->
-</div>
 </template>

@@ -1,10 +1,18 @@
 <script>
     export default {
         props: {
+            id: {
+                default: 'my-modal',
+                type: String
+            },
             title: {
                 default: 'My Modal',
                 type: String
             },
+            size: {
+                default: 'modal-lg',
+                type: String
+            }
         },
         data () {
             return {
@@ -14,13 +22,13 @@
         },
         methods: {
             closeModal: function () {
-                this.effect = 'fadeOut'
-                this.backdropEffect = 'fadeOutBack'
+                this.effect = 'fadeOut';
+                this.backdropEffect = 'fadeOutBack';
                 var $this = this;
                 setTimeout(function(){
-                    $this.$emit('closed')
-                    $this.effect = 'fadeIn'
-                    $this.backdropEffect = 'fadeInBack'
+                    $this.$emit('closed');
+                    $this.effect = 'fadeIn';
+                    $this.backdropEffect = 'fadeInBack';
                 }, 500);
             },
         }
@@ -29,19 +37,22 @@
 
 <template>
     <div>
-        <div :class="['modal','animated','animatedFast',effect]" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog modal-lg" role="document">
+        <div :class="['modal','animated','animatedFast',effect]" :id="id" tabindex="-1" role="dialog" :aria-labelledby="id">
+            <div :class="['modal-dialog',size]" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ title }}</h4>
+                        <slot name="title">
+                            <h4 class="modal-title">{{ title }}</h4>
+                        </slot>
                     </div>
                     <div class="modal-body">
                         <slot name="body"></slot>
                     </div>
                     <div class="modal-footer">
-                        <button @click="closeModal" type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <slot name="footer"></slot>
+                        <slot name="footer">
+                            <button @click="closeModal" type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        </slot>
                     </div>
                 </div>
             </div>
