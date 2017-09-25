@@ -61,6 +61,11 @@
         font-size: 12px;
         font-weight: bold;
     }
+    table.fancytree-ext-table tbody tr:hover,
+    table.fancytree-ext-table tbody tr.fancytree-active {
+        background-color: #f5f5f5!important;
+        outline: #70C0E7 solid 0!important;
+    }
 </style>
 
 <script>
@@ -78,7 +83,10 @@
             };
         },
         props: {
-            source: {
+            sourceURL: {
+                type: String
+            },
+            updateURL: {
                 type: String
             },
             channel: {
@@ -101,9 +109,7 @@
         watch: {
             reload: function(value){
                 if(value){
-                    this.loadData();
-                    $('#treetable').fancytree('destroy');
-                    this.reload = false;
+                    this.reloadData()
                 }
             }
         },
@@ -152,7 +158,7 @@
                         let request = new $.Deferred();
                         data.result = request.promise();
 
-                        apiRequest.send('get', this.source + nodeID)
+                        apiRequest.send('get', this.sourceURL + nodeID)
                             .then(response => {
                                 request.resolve(response.data);
                             })
@@ -162,7 +168,7 @@
                     }.bind(this),
                     renderTitle: function(event, data){
                         let node = data.node;
-                        node.title = this.createImage()+ this.getAttribute(node.data, 'name');
+                        node.title = this.getImage(node.data)+ this.getAttribute(node.data, 'name');
                     }.bind(this),
                     table: {
                         nodeColumnIdx: 0
@@ -174,11 +180,11 @@
 
                         this.params.columns.forEach((column, index) => {
                             // Skip first as that will always be the title
-                            if(index > 0){
+                            if(index > 1){
                                 if(column.type === 'button'){
                                     $tdList.eq(index).html(this.createNewButton(node.data.id, this.getAttribute(node.data, 'name')));
                                 }else if(column.type === 'image'){
-                                    $tdList.eq(index).html(this.createImage(node.data[column.source]));
+                                    $tdList.eq(index).html(this.getImage(node.data[column.source]));
                                 }else{
                                     $tdList.eq(index)[column.type](node.data[column.source]);
                                 }
@@ -190,14 +196,24 @@
             createNewButton: function(parentID, parentName) {
                 return '<a data-parent-id="'+ parentID +'" data-parent-name="'+ parentName +'" class="btn btn-default modal-button"><i class="fa fa-plus"></i> Create Subcategory</a>';
             },
-            createImage: function(data) {
+            getImage: function(data) {
                 return '<img class="fancytree-image" src="/images/placeholder/no-image.svg" height="41">';
             },
             getAttribute: function(data, attribute) {
                 return data.attribute_data[attribute][this.channel][this.language];
             },
+            reloadData: function() {
+                apiRequest.send('get', this.sourceURL)
+                    .then(response => {
+                        this.data = response.data;
+                        $('#treetable').fancytree("getTree").reload()
+                            .done(function() {
+                                this.reload = true;
+                            });
+                    });
+            },
             loadData: function() {
-                apiRequest.send('get', this.source)
+                apiRequest.send('get', this.sourceURL)
                     .then(response => {
                         this.data = response.data;
                         CandyEvent.$nextTick( function(){
@@ -211,7 +227,7 @@
                     'moved-node': movedNode,
                     'action': action
                 };
-                apiRequest.send('post', this.source +'reorder', data).then(response => {
+                apiRequest.send('post', this.updateURL +'reorder', data).then(response => {
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Successfully Moved Category'

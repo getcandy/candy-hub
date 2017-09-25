@@ -5,16 +5,17 @@
         data() {
             return {
                 categoriesList: [],
+                categoriesLoaded: false,
                 currentView: 'tree-view',
                 modalData: {},
                 channel: 'ecommerce',
                 language: locale.current(),
-                fancytreeParams: {
+                tableParams: {
                     columns: [
                         {'name': 'Title', 'width': '*', 'type': 'attribute', 'source': 'name'},
                         {'name': 'Products', 'width': '100px', 'align': 'center', 'type': 'text', 'source': 'productCount'},
-                        {'name': 'Availability', 'width': '200px', 'type': 'text', 'source': 'key'},
-                        {'name': '', 'width': '200px', 'type': 'button', 'source': 'id'}
+                        {'name': 'Availability', 'width': '200px', 'type': 'text', 'source': ''},
+                        {'name': '', 'width': '200px', 'type': 'button', 'source': ''}
                     ]
                 },
                 reloadList: false,
@@ -35,20 +36,31 @@
             });
         },
         watch: {
-            currentView: function(value){
-                if(value === 'list-view' && this.categoriesList.length === 0){
+            currentView: function(value) {
+                if(value === 'list-view' && !this.categoriesLoaded){
                     this.loadCategoriesList();
+                }
+            },
+            search: function() {
+                if(this.currentView !== 'list-view'){
+                    this.currentView = 'list-view';
                 }
             }
         },
         methods: {
             reloadTree() {
                 this.reloadList = true;
+                if(this.currentView === 'list-view'){
+                    this.loadCategoriesList();
+                }else{
+                    this.categoriesLoaded = false;
+                }
             },
             loadCategoriesList() {
                 apiRequest.send('get', '/categories/all')
                     .then(response => {
                         this.categoriesList = response.data;
+                        this.categoriesLoaded = true;
                     });
             }
         }
@@ -67,7 +79,7 @@
             </li>
             <li role="presentation">
                 <a href="#list-view" aria-controls="list-view" role="tab" data-toggle="tab" @click="currentView = 'list-view'">
-                    List View
+                    List All
                 </a>
             </li>
         </ul>
@@ -136,11 +148,11 @@
                 <hr>
 
                 <div id="tree-view" v-show="currentView === 'tree-view'">
-                    <candy-fancytree source="/categories/parent/" :reload="reloadList" :channel="channel" :language="language" :params="fancytreeParams"></candy-fancytree>
+                    <candy-fancytree sourceURL="/categories/parent/" updateURL="/categories/" :reload="reloadList" :channel="channel" :language="language" :params="tableParams"></candy-fancytree>
                 </div>
 
                 <div id="list-view" v-show="currentView === 'list-view'">
-                    <candy-table-list :items="categoriesList" :search="search"></candy-table-list>
+                    <candy-table-list :items="categoriesList" :search="search" :loaded="categoriesLoaded" :params="tableParams"></candy-table-list>
                 </div>
 
             </div>
