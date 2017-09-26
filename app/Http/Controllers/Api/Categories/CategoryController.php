@@ -17,7 +17,7 @@ class CategoryController extends BaseController
     public function getAll()
     {
         $categories = app('api')->categories()->getAll();
-        return $this->respondWithCollection($categories, new CategoryFancytreeTransformer);
+        return $this->respondWithCollection($categories, new CategoryTransformer);
     }
 
     public function getNested()

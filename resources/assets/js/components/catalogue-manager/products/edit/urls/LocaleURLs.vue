@@ -130,6 +130,7 @@
                 </table>
             </div>
         </div>
+
         <candy-modal title="Are you wish to delete this URL?" v-show="deleteUrlModalOpen" size="modal-sm" @closed="closeUrlDeleteModal">
             <div slot="body">
                 <p>Once deleted this action can not be undone</p>
@@ -143,6 +144,7 @@
                 <button type="button" class="btn btn-primary" @click="deleteUrl">Confirm Deletion</button>
             </template>
         </candy-modal>
+
         <candy-modal title="Add Locale URL" v-show="addLocaleModalOpen" size="modal-md" @closed="addLocaleModalOpen = false">
             <div slot="body">
                 <div class="row">
@@ -166,5 +168,6 @@
                 <button class="btn btn-primary" @click="saveUrl()">Save URL</button>
             </template>
         </candy-modal>
+        
   </div>
 </template>

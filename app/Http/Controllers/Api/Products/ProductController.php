@@ -165,6 +165,25 @@ class ProductController extends BaseController
     }
 
     /**
+     * Handles the request to remove the relationship between a category and product
+     * @param  String        $id
+     * @param  DeleteRequest $request
+     * @return Json
+     */
+    public function removeCategory($productID, $categoryID, DeleteRequest $request)
+    {
+        $result = app('api')->products()->removeCategory($productID, $categoryID);
+
+        if($result){
+            return response()->json([
+                'message' => 'Successfully removed category from product',
+                'categoryName' => 'test'
+            ],202);
+        }
+        return response()->json('Error',500);
+    }
+
+    /**
      * Handles the request to delete a product
      * @param  String        $id
      * @param  DeleteRequest $request

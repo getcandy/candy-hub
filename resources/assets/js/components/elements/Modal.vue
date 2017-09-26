@@ -50,8 +50,8 @@
                         <slot name="body"></slot>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" @click="closeModal()">Cancel</button>
                         <slot name="footer">
-                            <button @click="closeModal" type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                         </slot>
                     </div>
                 </div>

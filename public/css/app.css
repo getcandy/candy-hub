@@ -16505,6 +16505,22 @@ textarea.bootstrap-tagsinput {
   padding-bottom: 10px;
 }
 
+.scrollable thead,
+.scrollable .table.association-table tbody,
+.table.association-table .scrollable tbody,
+.scrollable tbody {
+  display: block;
+}
+
+.scrollable tbody {
+  height: 300px;
+  /* Just for the demo          */
+  overflow-y: auto;
+  /* Trigger vertical scroll    */
+  overflow-x: hidden;
+  /* Hide the horizontal scroll */
+}
+
 /*! Lity - v2.2.2 - 2017-07-17
 * http://sorgalla.com/lity/
 * Copyright (c) 2015-2017 Jan Sorgalla; Licensed MIT */

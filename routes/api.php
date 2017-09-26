@@ -120,6 +120,7 @@ $this->post('products/{product}/routes', 'Products\ProductController@updateRoute
 $this->post('products/{product}/assets', 'Products\ProductController@uploadAsset');
 $this->get('products/{product}/assets', 'Products\ProductController@getAssets');
 $this->put('products/{product}/assets', 'Products\ProductController@saveAsset');
+$this->delete('products/{product}/remove-category/{category}', 'Products\ProductController@removeCategory');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);

@@ -52,7 +52,7 @@ var includes = [
       path: 'elements.tables',
       components: {
           'fancytree' : 'Fancytree',
-          'table-list' : 'Table'
+          'table' : 'Table'
       }
   },
   /**
@@ -88,8 +88,7 @@ var includes = [
   {
     path: 'catalogue-manager.categories',
     components: {
-      'categories-list' : 'CategoriesList',
-      'categories-modals' : 'Modals'
+      'categories-list' : 'CategoriesList'
     }
   },
   /**

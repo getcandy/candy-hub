@@ -6,12 +6,14 @@
             return {
                 categoriesList: [],
                 categoriesLoaded: false,
+                search: '',
                 currentView: 'tree-view',
                 channel: 'ecommerce',
                 language: locale.current(),
                 request: apiRequest,
-                createCategoryModalOpen: false,
-                modalData: {
+                reloadList: false,
+                createModalOpen: false,
+                createModalData: {
                     'attributes': [],
                     'routes': [],
                     'parent': {}
@@ -27,9 +29,7 @@
                         {'name': 'Availability', 'width': '200px', 'type': 'text', 'source': ''},
                         {'name': '', 'width': '200px', 'type': 'button', 'source': ''}
                     ]
-                },
-                reloadList: false,
-                search: ''
+                }
             };
         },
         mounted() {
@@ -37,31 +37,23 @@
             let _this = this;
 
             $('#createCategoryModal').on('show.bs.modal', function (e) {
-                console.log(e);
-                console.log($(this).data('parent-id'));
-                _this.modalData['parent'] = {'id': $(this).data('parent-id'), 'name': $(this).data('parent-name')};
-                _this.createCategoryModalOpen = true;
+                _this.createModalData['parent'] = {'id': $(this).data('parent-id'), 'name': $(this).data('parent-name')};
+                _this.createModalOpen = true;
                 e.preventDefault();
             });
 
             $('.tab-pane').on('click', '.modal-button', function(){
-                console.log($(this).data('parentId'));
-                _this.modalData['parent'] = {'id': $(this).data('parentId'), 'name': $(this).data('parentName')};
-                _this.createCategoryModalOpen = true;
-            });
-
-
-            $('#createCategoryModal').on('hidden.bs.modal', function () {
-                _this.modalData = {};
+                _this.createModalData['parent'] = {'id': $(this).data('parentId'), 'name': $(this).data('parentName')};
+                _this.createModalOpen = true;
             });
         },
         watch: {
-            currentView: function(value) {
+            currentView(value) {
                 if(value === 'list-view' && !this.categoriesLoaded){
                     this.loadCategoriesList();
                 }
             },
-            search: function() {
+            search() {
                 if(this.currentView !== 'list-view'){
                     this.currentView = 'list-view';
                 }
@@ -83,11 +75,10 @@
                         this.categoriesLoaded = true;
                     });
             },
-            slugify: function (value) {
+            slugify(value) {
                 this.category.slug = value.slugify();
             },
             createCategory() {
-
                 this.modalData['attributes'] = [{
                     'key': 'name',
                     'value': this.category.name,
@@ -117,19 +108,14 @@
                         });
                     });
             },
-            resetForm() {
+            closeCreateModal() {
+                this.createModalOpen = false;
                 this.category = {
                     name: '',
                     slug: '',
                 };
-            },
-            closeCreateCategoryModal() {
-                this.category = {
-                    name: '',
-                    slug: '',
-                };
+                _this.modalData = {};
                 this.request.clearError();
-                this.createCategoryModalOpen = false;
             }
         }
     };
@@ -208,28 +194,31 @@
                     </div>
                 </form>
 
-                <!-- Filter List -->
+                <!-- Applied Filter List -->
                 <div class="filters">
 
                 </div>
 
                 <hr>
 
+                <!-- Fancy Tree View -->
                 <div id="tree-view" v-show="currentView === 'tree-view'">
                     <candy-fancytree sourceURL="/categories/parent/" updateURL="/categories/" :reload="reloadList" :channel="channel" :language="language" :params="tableParams"></candy-fancytree>
                 </div>
 
+                <!-- List View -->
                 <div id="list-view" v-show="currentView === 'list-view'">
-                    <candy-table-list :items="categoriesList" :search="search" :loaded="categoriesLoaded" :params="tableParams"></candy-table-list>
+                    <candy-table :items="categoriesList" :search="search" :loaded="categoriesLoaded" :params="tableParams"></candy-table>
                 </div>
 
             </div>
         </div>
 
-        <candy-modal id="createCategoryModal" title="Create Category" size="modal-md" v-show="createCategoryModalOpen" @closed="closeCreateCategoryModal()">
+        <!-- Create Category Modal -->
+        <candy-modal id="createCategoryModal" title="Create Category" size="modal-md" v-show="createModalOpen" @closed="closeCreateModal()">
 
             <div slot="title">
-                <h4 v-if="modalData['parent'].name" class="modal-title">Create Sub Category <small>Under {{ modalData['parent'].name }}</small></h4>
+                <h4 v-if="createModalData['parent'].name" class="modal-title">Create Sub Category <small>Under {{ createModalData['parent'].name }}</small></h4>
                 <h4 v-else="" class="modal-title">Create Category</h4>
             </div>
 
@@ -247,7 +236,6 @@
             </div>
 
             <div slot="footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeCreateCategoryModal()">Cancel</button>
                 <button type="button" class="btn btn-primary" @click="createCategory()">Create Category</button>
             </div>
 
