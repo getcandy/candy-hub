@@ -29,6 +29,9 @@
             },
             badge: {
                 type: Number
+            },
+            dispatch: {
+                type: String
             }
         },
         computed: {

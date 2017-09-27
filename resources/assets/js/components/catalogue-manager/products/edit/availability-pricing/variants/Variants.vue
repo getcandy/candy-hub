@@ -21,12 +21,16 @@
         props: {
             product: {
                 type: Object
+            },
+            languages: {
+                type: Array
             }
         },
         created() {
           this.variants = this.product.variants.data;
           this.current = this.variants[0];
         },
+
         mounted()  {
           this.assets = this.product.assets.data;
           CandyEvent.$on('asset_deleted', event => {
@@ -40,9 +44,10 @@
           CandyEvent.$on('media_asset_uploaded', event => {
             this.assets.push(event.asset);
           });
+          Dispatcher.add('product-variants', this);
         },
         methods: {
-            saveVariant() {
+            save() {
               this.request.send('put', '/products/variants/' + this.current.id, this.current)
                 .then(response => {
                     CandyEvent.$emit('notification', {
@@ -64,7 +69,7 @@
             setImage(asset) {
               this.current.thumbnail = {};
               this.$set(this.current.thumbnail, 'data', asset);
-              this.saveVariant();
+              this.save();
             },
             deleteVariant(index) {
                 if (confirm('Are you sure you want to delete this variant?')) {
@@ -106,7 +111,7 @@
                 });
                 this.current.thumbnail = {};
                 this.$set(this.current.thumbnail, 'data', response.data);
-                this.saveVariant();
+                this.save();
             },
             uploadError(file, response) {
                 this.$refs.variantMediaDropzone.removeFile(file);
@@ -120,6 +125,16 @@
                 return true;
               }
               return false;
+            },
+            getChannels(channels) {
+                let arr = [];
+                channels.forEach(channel => {
+                    arr.push({
+                        label: channel.name,
+                        value: channel.handle
+                    });
+                });
+                return arr;
             }
         },
         computed: {
@@ -137,6 +152,18 @@
             },
             dropzoneUrl() {
               return '/api/v1/products/' + this.product.id + '/assets';
+            },
+            fields() {
+                let fields = [];
+                $.each(this.current.options, function( key, value ) {
+                    fields.push({
+                        key: key,
+                        value: value,
+                        type: 'text',
+                        translatable: true
+                    });
+                });
+                return fields;
             }
         },
         components: {
@@ -175,12 +202,10 @@
             <hr>
             <div class="row">
               <div class="col-xs-12 col-md-9">
-                <template v-for="(value, label, index) in current.options">
-                  <div class="form-group">
-                    <label>{{ capitalize(label) }}</label>
-                    <input type="text" class="form-control" v-model="current.options[label].en">
-                  </div>
-                </template>
+
+                <candy-translatable :fields="fields" :params="{'translating':true, 'language':'sv'}">
+                </candy-translatable>
+
               </div>
               <div class="col-xs-12 col-md-3">
                 

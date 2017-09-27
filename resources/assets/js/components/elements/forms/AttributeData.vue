@@ -201,7 +201,7 @@
                     <div class="col-xs-12 col-md-6" v-if="translating">
                         <div class="form-group" v-for="attribute in attributes">
 
-                            <div v-if="attribute.scopeable && attribute.type === 'text'" :class="{'form-group': true}">
+                            <div v-if="attribute.scopeable && attribute.type === 'text'">
 
                                 <candy-checkbox v-if="!isDefault"
                                                 :id="attribute.handle +'-'+ translateChannel +'-'+ translateLanguage"
@@ -217,7 +217,7 @@
                                              :value="getValue(attribute.handle)"
                                              :required="attribute.required"
                                              :placeholder="(attributeData[attribute.handle][translateChannel][translateLanguage] === null ? attributeData[attribute.handle][defaultChannel][defaultLanguage] : '')"
-                                             :disabled="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)">s
+                                             :disabled="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)">
                                 </candy-input>
                                 <span class="text-danger"
                                       v-if="hasError(getValue(attribute.handle, translateChannel, translateLanguage))"
@@ -225,7 +225,7 @@
 
                             </div>
 
-                            <div v-else-if="attribute.scopeable && attribute.type === 'textarea'" :class="{'form-group': true}">
+                            <div v-else-if="attribute.scopeable && attribute.type === 'textarea'">
 
                                 <candy-checkbox v-if="!isDefault"
                                                 :id="attribute.handle +'-'+ translateChannel +'-'+ translateLanguage"
