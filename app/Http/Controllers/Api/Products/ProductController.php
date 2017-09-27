@@ -13,6 +13,7 @@ use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateCollectionsRequest;
 use GetCandy\Http\Requests\Api\Products\CreateVariantsRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateRequest;
+use GetCandy\Http\Requests\Api\Products\UpdateCategoriesRequest;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -170,6 +171,20 @@ class ProductController extends BaseController
      * @param  DeleteRequest $request
      * @return Json
      */
+
+    public function updateCategories($productID, UpdateCategories $request)
+    {
+        $result = app('api')->products()->updateCategories($productID, $request);
+
+        if($result){
+            return response()->json([
+                'message' => 'Successfully removed category from product',
+                'categoryName' => 'test'
+            ],202);
+        }
+        return response()->json('Error',500);
+    }
+
     public function removeCategory($productID, $categoryID, DeleteRequest $request)
     {
         $result = app('api')->products()->removeCategory($productID, $categoryID);

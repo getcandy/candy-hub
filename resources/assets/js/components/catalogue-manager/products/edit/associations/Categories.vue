@@ -68,8 +68,17 @@
                         });
                     });
             },
+            saveCategories() {
+                let productID = this.product.id;
+                let data = {'category-ids': selectedCategories};
+
+                this.request.send('post', '/products/'+productID+'/categories',data)
+                    .then(response => {
+                        this.categoriesList = response.data;
+                        this.categoriesLoaded = true;
+                    });
+            },
             selected(checked) {
-                console.log(checked);
                 this.selectedCategories = checked;
             },
             closeAddModal() {

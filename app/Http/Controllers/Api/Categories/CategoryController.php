@@ -55,7 +55,7 @@ class CategoryController extends BaseController
         }
 
         if($response){
-            return response()->json('Successful Created',201);
+            return response()->json('Successful Created',200);
         }
         return response()->json('Error',500);
     }

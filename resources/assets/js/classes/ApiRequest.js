@@ -68,7 +68,6 @@ class ApiRequest {
                 this.onFail(error.response.data);
                 reject(error);
             });
-
         });
 
     }

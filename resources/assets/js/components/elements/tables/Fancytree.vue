@@ -109,7 +109,7 @@
         watch: {
             reload: function(value){
                 if(value){
-                    this.reloadData()
+                    this.reloadData();
                 }
             }
         },
@@ -208,7 +208,7 @@
                         this.data = response.data;
                         $('#treetable').fancytree("getTree").reload()
                             .done(function() {
-                                this.reload = true;
+                                this.reload = false;
                             });
                     });
             },
