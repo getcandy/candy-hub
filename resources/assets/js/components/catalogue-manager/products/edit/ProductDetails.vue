@@ -48,7 +48,7 @@
             }
         },
         mounted() {
-            CandyEvent.$emit('current-tab', this);
+            Dispatcher.add('product-details', this);
         }
     }
 </script>

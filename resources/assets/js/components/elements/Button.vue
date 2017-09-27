@@ -10,17 +10,20 @@
     export default {
         data() {
             return {
-                job: null,
+                tab: null,
                 className: 'btn btn-success',
             }
         },
         created () {
-            CandyEvent.$on('current-tab', tab => this.job = tab);
+            CandyEvent.$on('current-tab', tab => this.tab = tab);
             CandyEvent.$on('notification', finished => this.processing = false);
         },
         methods : {
             fire () {
-                this.job.save();
+                var ref = Dispatcher.resolve(this.tab.dispatch);
+                console.log(this.tab.dispatch);
+
+                ref.save();
             }
         }
     }

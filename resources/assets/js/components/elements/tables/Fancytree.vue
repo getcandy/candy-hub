@@ -206,10 +206,7 @@
                 apiRequest.send('get', this.sourceURL)
                     .then(response => {
                         this.data = response.data;
-                        $('#treetable').fancytree("getTree").reload()
-                            .done(function() {
-                                this.reload = false;
-                            });
+                        $('#treetable').fancytree("getTree").reload();
                     });
             },
             loadData: function() {

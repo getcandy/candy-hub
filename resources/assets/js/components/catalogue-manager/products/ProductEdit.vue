@@ -101,7 +101,7 @@
             <transition name="fade">
                 <candy-tabs>
 
-                    <candy-tab name="Product Details" handle="product-details" :selected="true">
+                    <candy-tab name="Product Details" handle="product-details" :selected="true" dispatch="product-details">
                         <candy-product-details :product="product" :languages="languages"
                                                :groups="attribute_groups">
 
@@ -112,7 +112,7 @@
                         <candy-media :product="product"></candy-media>
                     </candy-tab>
 
-                    <candy-tab name="Availability &amp; Pricing" handle="product-availability">
+                    <candy-tab name="Availability &amp; Pricing" handle="product-availability" dispatch="product-variants">
                         <candy-product-availability :variants="variants" :product="product"
                                                     v-if="product"></candy-product-availability>
                     </candy-tab>
