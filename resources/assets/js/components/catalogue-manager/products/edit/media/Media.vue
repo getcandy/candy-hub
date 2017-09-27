@@ -313,6 +313,13 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot v-if="!getFilteredResults(filter).length">
+                            <tr>
+                              <td colspan="2">
+                                <span class="text-muted">No assets found</span>
+                              </td>
+                            </tr>
+                        </tfoot>
                     </table>
                     <!-- File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.-->
                 </div>

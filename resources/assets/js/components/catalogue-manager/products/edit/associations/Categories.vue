@@ -132,14 +132,14 @@
                             </button>
                         </td>
                     </tr>
-
-                    <tr v-if="product.categories.length === 0">
-                        <td colspan="4">
-                            <p class="empty">There are no categories associated with this product</p>
-                        </td>
-                    </tr>
-
                 </tbody>
+                <tfoot v-if="!product.categories.length">
+                    <tr>
+                      <td colspan="4">
+                        <span class="text-muted">No categories found</span>
+                      </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
 

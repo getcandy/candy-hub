@@ -116,6 +116,13 @@
                   </td>
                 </tr>
               </tbody>
+              <tfoot v-if="!redirects.length">
+                <tr>
+                  <td colspan="2">
+                    <span class="text-muted">You currently have no redirects</span>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>

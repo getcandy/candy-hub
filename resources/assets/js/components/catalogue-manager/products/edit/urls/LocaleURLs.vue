@@ -126,6 +126,13 @@
                             </button>
                         </td>
                     </tr>
+                    <tfoot v-if="!urls.length">
+                        <tr>
+                          <td colspan="2">
+                            <span class="text-muted">You currently have no URLs</span>
+                          </td>
+                        </tr>
+                      </tfoot>
                     </tbody>
                 </table>
             </div>
