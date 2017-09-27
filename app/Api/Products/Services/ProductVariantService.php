@@ -72,6 +72,22 @@ class ProductVariantService extends BaseService
     public function update($hashedId, array $data)
     {
         $variant = $this->getByHashedId($hashedId);
+
+        $options = $variant->product->option_data;
+
+        foreach ($data['options'] as $handle => $option) {
+            foreach ($option as $lang => $value) {
+                $optionKey = str_slug($value);
+                // If this is the first time this option is being set...
+                if (empty($options[$handle])) {
+                    $options[$handle]['label'][$lang] = title_case($value);
+                }
+                $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
+                $newOption[$handle] = $optionKey;
+            }
+        }
+
+        $variant->product->update(['option_data' => $options]);
         $variant->fill($data);
 
         $measurements = ['weight', 'height', 'width', 'depth', 'volume'];

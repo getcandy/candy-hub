@@ -34,13 +34,7 @@
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
                         tab.isActive = true;
-                        if (tab.$children[0] && !tab.isNested) {
-                            CandyEvent.$emit('current-tab', tab.$children[0]);
-                        }
-                        if(tab.isNested) {
-                            tab.$parent.$parent.$parent.isActive = true;
-                            CandyEvent.$emit('current-tab', tab.$parent.$parent.$parent);
-                        }
+                        CandyEvent.$emit('current-tab', tab);
                     } else {
                         tab.isActive = false;
                     }

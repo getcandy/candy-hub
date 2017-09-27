@@ -61,7 +61,7 @@
         },
         methods: {
             loadCategoriesList() {
-                apiRequest.send('get', '/categories/all')
+                this.request.send('get', '/categories/all')
                     .then(response => {
                         this.categoriesList = response.data;
                         this.categoriesLoaded = true;
@@ -71,6 +71,8 @@
                 this.category.slug = value.slugify();
             },
             createCategory() {
+                let _this = this;
+
                 this.createModalData['attributes'] = [{
                     'key': 'name',
                     'value': this.category.name,
@@ -86,17 +88,11 @@
 
                 this.request.send('post', '/categories/create', this.createModalData)
                     .then(response => {
+                        _this.reloadTree();
+                        _this.closeCreateModal();
                         CandyEvent.$emit('notification', {
                             level: 'success',
-                            message: 'Category '+ this.category.name +' Created'
-                        });
-                        this.reloadTree();
-                        this.closeCreateModal();
-                    }).catch(response => {
-                        console.log(response);
-                        CandyEvent.$emit('notification', {
-                            level: 'error',
-                            message: 'There was an error creating your category'
+                            message: 'Category '+ _this.category.name +' Created'
                         });
                     });
             },
@@ -114,8 +110,11 @@
                     name: '',
                     slug: '',
                 };
-                _this.modalData = {};
-                this.request.clearError();
+                this.createModalData = {
+                    'attributes': [],
+                        'routes': [],
+                        'parent': {}
+                };
             }
         }
     };

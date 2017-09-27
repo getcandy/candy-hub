@@ -43,6 +43,9 @@ window.CandyEvent = new Vue();
 var ApiRequest = require('./classes/ApiRequest');
 window.apiRequest = new ApiRequest();
 
+var Dispatcher = require('./classes/Dispatcher');
+window.Dispatcher = new Dispatcher();
+
 var Locale = require('./classes/Locale');
 window.locale = new Locale();
 
