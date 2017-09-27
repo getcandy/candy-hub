@@ -37,10 +37,6 @@
                         if (tab.$children[0] && !tab.isNested) {
                             CandyEvent.$emit('current-tab', tab.$children[0]);
                         }
-                        if(tab.isNested) {
-                            tab.$parent.$parent.$parent.isActive = true;
-                            CandyEvent.$emit('current-tab', tab.$parent.$parent.$parent);
-                        }
                     } else {
                         tab.isActive = false;
                     }
