@@ -103,14 +103,16 @@
             <table class="table">
               <thead>
                 <tr>
-                  <td>Redirect URL</td>
-                  <td>Info</td>
+                  <td width="30%">Redirect URL</td>
+                  <td>Description</td>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(redirect, index) in redirects">
                   <td><input type="text" class="form-control" :value="redirect.slug"></td>
-                  <td><button class="btn btn-sm btn-default btn-action" data-toggle="popover" data-placement="top" data-content="Here is a brief explanation about the redirect."><i class="fa fa-question-circle-o" aria-hidden="true"></i></button></td>
+                  <td>
+                    {{ redirect.description }}
+                  </td>
                   <td align="right">
                       <button class="btn btn-sm btn-default btn-action"  @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                   </td>
