@@ -60,14 +60,6 @@
             }
         },
         methods: {
-            reloadTree() {
-                this.reloadList = true;
-                if(this.currentView === 'list-view'){
-                    this.loadCategoriesList();
-                }else{
-                    this.categoriesLoaded = false;
-                }
-            },
             loadCategoriesList() {
                 apiRequest.send('get', '/categories/all')
                     .then(response => {
@@ -79,27 +71,27 @@
                 this.category.slug = value.slugify();
             },
             createCategory() {
-                this.modalData['attributes'] = [{
+                this.createModalData['attributes'] = [{
                     'key': 'name',
                     'value': this.category.name,
                     'channel': this.channel,
                     'locale': this.language
                 }];
 
-                this.modalData['routes'] = [{
+                this.createModalData['routes'] = [{
                     'slug': this.category.name,
                     'locale': this.language,
                     'default': 1
                 }];
 
-                this.request.send('post', '/categories/create', this.modalData)
+                this.request.send('post', '/categories/create', this.createModalData)
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success',
                             message: 'Category '+ this.category.name +' Created'
                         });
                         this.reloadTree();
-                        this.closeCreateCategoryModal();
+                        this.closeCreateModal();
                     }).catch(response => {
                         console.log(response);
                         CandyEvent.$emit('notification', {
@@ -107,6 +99,14 @@
                             message: 'There was an error creating your category'
                         });
                     });
+            },
+            reloadTree() {
+                this.reloadList = true;
+                if(this.currentView === 'list-view'){
+                    this.loadCategoriesList();
+                }else{
+                    this.categoriesLoaded = false;
+                }
             },
             closeCreateModal() {
                 this.createModalOpen = false;
