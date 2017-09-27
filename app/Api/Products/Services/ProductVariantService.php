@@ -23,6 +23,7 @@ class ProductVariantService extends BaseService
     {
         $product = app('api')->products()->getByHashedId($id);
 
+        // If we are adding a new set of variants, get rid.
         if ($product->variants->count() == 1) {
             $product->variants()->delete();
         }

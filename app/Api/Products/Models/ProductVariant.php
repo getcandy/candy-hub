@@ -40,10 +40,7 @@ class ProductVariant extends BaseModel
     {
         $options = [];
         foreach ($val as $option => $value) {
-            if (!empty($value['en'])) {
-                $value = $value['en'];
-            }
-            $options[str_slug($option)] = str_slug($value);
+            $options[str_slug($option)] = str_slug(reset($value));
         }
         $this->attributes['options'] = json_encode($options);
     }
