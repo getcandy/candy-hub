@@ -44,10 +44,10 @@
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
-                apiRequest.loadProducts(this.params, true)
+                apiRequest.send('GET', 'products', this.params, true)
                     .then(response => {
-                        this.products = response;
-                        this.pagination = response.pagination;
+                        this.products = response.data;
+                        // this.pagination = response.pagination;
                         this.loaded = true;
                     });
             },
@@ -187,7 +187,6 @@
 
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="product in products">
-
                             <td>
                                 <div class="checkbox">
                                     <input type="checkbox" :id="'prod' + product.id" :value="product.id" v-model="selected">
@@ -195,12 +194,12 @@
                                 </div>
                             </td>
                             <td @click="loadProduct(product.id)">
-                                <img :src="productThumbnail(product)" :alt="product.name">
+                                <img :src="productThumbnail(product)" :alt="product|attribute('name')">
                             </td>
-                            <td @click="loadProduct(product.id)">{{ product.name|t }}</td>
+                            <td @click="loadProduct(product.id)">{{ product|attribute('name', 'sv') }}</td>
                             <td @click="loadProduct(product.id)">{{ product.display }}</td>
                             <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.group|t }}</td>
+                            <td @click="loadProduct(product.id)">{{ product.group }}</td>
 
                         </tr>
                     </tbody>
