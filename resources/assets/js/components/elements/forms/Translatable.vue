@@ -14,8 +14,8 @@
                 default: {'translating':false, 'language':'en'}
             },
             fields: {
-                type: Array,
-                default: []
+                type: Object,
+                default: {}
             }
         },
         watch: {
@@ -30,9 +30,9 @@
             },
             useDefault: function(obj) {
                 if(obj.checked) {
-                    this.fields[obj.id][this.params.language] = null;
+                    this.fields[obj.id].value[this.params.language] = null;
                 } else {
-                    this.fields[obj.id][this.params.language] = this.originalFields[obj.id][this.params.language];
+                    this.fields[obj.id].value[this.params.language] = this.originalFields[obj.id].value[this.params.language];
                 }
             }
         },
