@@ -155,14 +155,15 @@
             },
             fields() {
                 let fields = [];
+
                 $.each(this.current.options, function( key, value ) {
-                    fields.push({
-                        key: key,
+                    fields[key] = {
                         value: value,
                         type: 'text',
                         translatable: true
-                    });
+                    };
                 });
+
                 return fields;
             }
         },
@@ -202,8 +203,8 @@
             <hr>
             <div class="row">
               <div class="col-xs-12 col-md-9">
-
-                <candy-translatable :fields="fields" :params="{'translating':true, 'language':'sv'}">
+                {{ fields }}
+                <candy-translatable :fields="fields" :params="{'translating':false, 'language':'sv'}">
                 </candy-translatable>
 
               </div>

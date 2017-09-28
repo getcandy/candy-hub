@@ -16946,7 +16946,7 @@ textarea.bootstrap-tagsinput {
 .sidebar .top-level .slide-out {
   visibility: hidden;
   position: absolute;
-  overflow: hidden;
+  overflow: hidden !important;
   top: 0;
   left: 250px;
   width: 0;
