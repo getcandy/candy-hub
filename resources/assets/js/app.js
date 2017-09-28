@@ -98,6 +98,7 @@ config.get('languages').then(response => {
 Vue.filter('attribute', (obj, attr, lang, name) => {
 
   var handle,
+      defaultChannel,
       lang = lang ? lang : locale.current();
 
   var defaultLocale = languages.find(lang => {
@@ -107,22 +108,46 @@ Vue.filter('attribute', (obj, attr, lang, name) => {
   });
 
   channels.forEach(channel => {
+    // Always have this handy.
+    if (channel.default) {
+      defaultChannel = channel.handle;
+    }
     if (name && channel.handle == name) {
-      handle = channel.handle;
-    } else if (channel.default) {
       handle = channel.handle;
     }
   });
 
-  var ref = attr + '.' + handle + '.' + lang,
-      str = _.get(obj.attribute_data, ref);
-
-  if (!str) {
-    ref = ref.replace(lang, defaultLocale.lang);
+  // Straight away if there is no handle, we use the default..
+  if (!handle) {
+    handle = defaultChannel;
   }
 
-  str = _.get(obj.attribute_data, ref);
-  return (str ? str : 'Unable to find attribute');
+  // Determine whether there is a value for this channel at the language we wanted.
+  var ref = attr + '.' + handle + '.' + lang,
+      data = obj.attribute_data,
+      str = '';
+
+  if (!_.get(data, ref)) {
+    // That didn't work, lets try with same channel, default lang...
+    ref = ref.replace(lang, defaultLocale.lang);
+    if (!_.get(data, ref)) {
+      // Okay, that didn't work, just get the default channel and default language.
+      ref = ref.replace(handle, defaultChannel);
+    }
+  }
+
+  str = _.get(data, ref);
+
+  return str;
+
+
+  return 'nah';
+  // if (!str) {
+  //   ref = ref.replace(lang, defaultLocale.lang);
+  // }
+
+  // str = _.get(obj.attribute_data, ref);
+  // return (str ? str : 'Unable to find attribute');
 });
 
 
