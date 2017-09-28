@@ -49,6 +49,10 @@ window.Dispatcher = new Dispatcher();
 var Locale = require('./classes/Locale');
 window.locale = new Locale();
 
+var Config = require('./classes/Config');
+window.config = new Config();
+
+
 var CandyHelpers = {};
 
 CandyHelpers.install = function (Vue, options) {
@@ -74,6 +78,53 @@ Vue.filter('t', function (value, lang) {
     }
     return value[lang];
 });
+
+var channels = [];
+config.get('channels').then(response => {
+  channels = response.data;
+});
+
+var languages = [];
+config.get('languages').then(response => {
+  languages = response.data;
+});
+
+/**
+ * Digs out an attribute for an object
+ * @param  {[type]} 'attribute'
+ * @param  {Object}
+ * @return {string}
+ */
+Vue.filter('attribute', (obj, attr, lang, name) => {
+
+  var handle,
+      lang = lang ? lang : locale.current();
+
+  var defaultLocale = languages.find(lang => {
+    if (lang.default) {
+      return true;
+    }
+  });
+
+  channels.forEach(channel => {
+    if (name && channel.handle == name) {
+      handle = channel.handle;
+    } else if (channel.default) {
+      handle = channel.handle;
+    }
+  });
+
+  var ref = attr + '.' + handle + '.' + lang,
+      str = _.get(obj.attribute_data, ref);
+
+  if (!str) {
+    ref = ref.replace(lang, defaultLocale.lang);
+  }
+
+  str = _.get(obj.attribute_data, ref);
+  return (str ? str : 'Unable to find attribute');
+});
+
 
 const app = new Vue({
     el: '#app',
