@@ -28,6 +28,7 @@ class ProductVariant extends BaseModel
     {
         $values = [];
         $option_data = $this->product->option_data;
+
         foreach (json_decode($val, true) as $option => $value) {
             if (! empty($data = $option_data[$option])) {
                 $values[$option] = $data['options'][$value]['values'];
@@ -40,7 +41,10 @@ class ProductVariant extends BaseModel
     {
         $options = [];
         foreach ($val as $option => $value) {
-            $options[str_slug($option)] = str_slug(reset($value));
+            if (is_array($value)) {
+                $value = reset($value);
+            }
+            $options[str_slug($option)] = str_slug($value);
         }
         $this->attributes['options'] = json_encode($options);
     }

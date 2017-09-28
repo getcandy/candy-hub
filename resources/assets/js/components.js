@@ -64,6 +64,7 @@ var includes = [
     components: {
       'products-table' : 'ProductsTable',
       'product-edit' : 'ProductEdit',
+      'product-create' : 'ProductCreate'
     }
   },
   {
