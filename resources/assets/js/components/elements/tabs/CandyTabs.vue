@@ -33,8 +33,8 @@
             selectTab(selectedTab) {
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
-                        tab.isActive = true;
                         CandyEvent.$emit('current-tab', tab);
+                        tab.isActive = true;
                     } else {
                         tab.isActive = false;
                     }

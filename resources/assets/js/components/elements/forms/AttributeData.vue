@@ -242,7 +242,7 @@
                                                 :disabled="(attributeData[attribute.handle][translateChannel][translateLanguage] === null)">
                                 </candy-textarea>
 
-                                <span class="text-danger" v-if="getError(getValue(attribute.handle, translateChannel, languageTwo))" v-text="getError(getValue(attribute.handle, translateChannel, translateLanguage))"></span>
+                                <span class="text-danger" v-if="getError(getValue(attribute.handle, translateChannel, translateLanguage))" v-text="getError(getValue(attribute.handle, translateChannel, translateLanguage))"></span>
 
                             </div>
 
