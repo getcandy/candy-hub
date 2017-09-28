@@ -12,7 +12,7 @@
                 params: {
                     per_page: 25,
                     current_page: 1,
-                    includes: 'channels,customer_groups,family'
+                    includes: 'channels,customer_groups,family,attribute_groups'
                 },
                 pagination: {}
             }
@@ -44,7 +44,7 @@
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
-                apiRequest.send('GET', 'products', this.params, true)
+                apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
                         // this.pagination = response.pagination;
@@ -56,6 +56,39 @@
                     return product.thumbnail.data.thumbnail;
                 }
                 return '/images/placeholder/no-image.svg';
+            },
+            getVisibilty(product, ref) {
+                let groups = product[ref].data;
+                let visible = [];
+                groups.forEach(group => {
+                    if (group.visible) {
+                        visible.push(group.name);
+                    }
+                });
+                if (visible.length == groups.length) {
+                    return 'All';
+                }
+                if (!visible.length) {
+                    return 'None';
+                }
+                return visible.join(', ');
+            },
+            getAttributeGroups(product) {
+                let groups = product.attribute_groups.data,
+                    visible = [];
+
+                groups.forEach(group => {
+                    visible.push(group.name);
+                });
+
+                // if (visible.length == groups.length) {
+                //     return 'All';
+                // }
+                if (!visible.length) {
+                    return 'None';
+                }
+
+                return visible.join(', ');
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
@@ -197,9 +230,9 @@
                                 <img :src="productThumbnail(product)" :alt="product|attribute('name')">
                             </td>
                             <td @click="loadProduct(product.id)">{{ product|attribute('name', 'sv') }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.display }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.group }}</td>
+                            <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'customer_groups') }}</td>
+                            <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'channels') }}</td>
+                            <td @click="loadProduct(product.id)">{{ getAttributeGroups(product) }}</td>
 
                         </tr>
                     </tbody>
