@@ -35,6 +35,9 @@
         },
         mounted() {
             this.loadProducts();
+            CandyEvent.$on('product-added', product => {
+                this.loadProducts();
+            });
         },
         methods: {
             loadProduct: function (id) {
@@ -43,7 +46,6 @@
             loadProducts() {
                 apiRequest.loadProducts(this.params, true)
                     .then(response => {
-                        console.log(response);
                         this.products = response;
                         this.pagination = response.pagination;
                         this.loaded = true;

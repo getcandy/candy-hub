@@ -118,10 +118,18 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        $product->attribute_data = $data['attributes'];
+        $mapping = $product->getDataMapping();
 
-        $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
-        $product->layout()->associate($layout);
+        foreach ($mapping as $key => $map) {
+            $locale = key($data['name']);
+            $mapping[$key][$locale] = $data['name'][$locale];
+        }
+
+        $product->attribute_data = ['name' => $mapping];
+        $product->option_data = [];
+
+        // $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
+        // $product->layout()->associate($layout);
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
@@ -133,7 +141,20 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        $this->createVariant($product, ['sku' => $data['sku']]);
+        $product->routes()->create([
+            'locale' => app()->getLocale(),
+            'slug' => $data['url'],
+            'description' => !empty($data['description']) ? $data['description'] : null,
+            'redirect' => !empty($data['redirect']) ? true : false,
+            'default' => true
+        ]);
+
+        $this->createVariant($product, [
+            'options' => [],
+            'stock' => $data['stock'],
+            'sku' => $data['sku'],
+            'price' => $data['price']
+        ]);
 
         // event(new ProductCreatedEvent($product));
         return $product;

@@ -14,7 +14,7 @@ $this->get('channels/{id}', 'Channels\ChannelController@show');
 $this->get('collections', 'Collections\CollectionController@index');
 $this->get('collections/{id}', 'Collections\CollectionController@show');
 
-$this->get('product-families', 'Products\ProductFamilyController@index');
+
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
     'uses' => 'Routes\RouteController@show'

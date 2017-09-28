@@ -74,6 +74,7 @@
         },
         created: function() {
             // Non Reactive Data
+            console.log(this.originalData);
             this.originalData = JSON.parse(JSON.stringify(this.attributeData));
         }
     }

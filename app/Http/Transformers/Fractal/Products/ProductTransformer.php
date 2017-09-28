@@ -92,6 +92,9 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeLayout(Product $product)
     {
+        if (!$product->layout) {
+            return null;
+        }
         return $this->item($product->layout, new LayoutTransformer);
     }
 
@@ -102,6 +105,9 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeFamily(Product $product)
     {
+        if (!$product->family) {
+            return null;
+        }
         return $this->item($product->family, new ProductFamilyTransformer);
     }
 
@@ -146,10 +152,15 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeAttributeGroups(Product $product)
     {
-        $attributeIds = array_merge(
-            $product->attributes->pluck('id')->toArray(),
-            $product->family->attributes->pluck('id')->toArray()
-        );
+        $attributeIds = $product->attributes->pluck('id')->toArray();
+
+        if ($product->family) {
+            $attributeIds = array_merge(
+                $attributeIds,
+                $product->family->attributes->pluck('id')->toArray()
+            );
+        }
+
         $attributeGroups = $this->getAttributeGroups()->filter(function ($group) use ($attributeIds) {
             if ($group->attributes->whereIn('id', $attributeIds)->count()) {
                 return $group;

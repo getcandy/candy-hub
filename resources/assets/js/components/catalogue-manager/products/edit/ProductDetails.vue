@@ -58,7 +58,6 @@
 
             <template v-for="(group, index) in groups">
                 <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-
                     <candy-attribute-data :languages="languages" :channels="getChannels(product.channels.data)"
                                           :attributes="group.attributes.data" :attributeData="product.attributes"
                                           :request="request">

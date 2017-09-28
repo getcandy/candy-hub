@@ -44,6 +44,7 @@ class Product extends BaseModel
     {
         $options = [];
         foreach ($value as $option) {
+
             $label = reset($option['label']);
             $options[str_slug($label)] = $option;
             $childOptions = [];

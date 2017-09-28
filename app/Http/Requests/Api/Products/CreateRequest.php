@@ -25,9 +25,11 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'required|array|valid_structure:products',
-            'family_id' => 'required|hashid_is_valid:product_families',
-            'layout_id' => 'required|hashid_is_valid:layouts',
+            'name' => 'required',
+            'url' => 'required|unique:routes,slug',
+            'stock' => 'required',
+            'family_id' => 'required',
+            'price' => 'required',
             'sku' => 'required|unique:product_variants,sku'
         ];
     }

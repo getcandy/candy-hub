@@ -130,7 +130,7 @@ $this->resource('products', 'Products\ProductController', [
  * Product families
  */
 $this->resource('product-families', 'Products\ProductFamilyController', [
-    'except' => ['index', 'edit', 'create']
+    'except' => ['edit', 'create']
 ]);
 
 /**

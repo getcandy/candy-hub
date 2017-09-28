@@ -11,7 +11,15 @@
         mounted() {
             this.request.send('GET', 'product-families')
                 .then(response => {
-                    console.log(response.data);
+                    response.data.forEach((family, index) => {
+                        if (index == 0) {
+                            this.product.family_id = family.id;
+                        }
+                        this.families.push({
+                            id: family.id,
+                            label: family.attribute_data.name.ecommerce.en
+                        });
+                    });
                 });
         },
         computed: {
@@ -55,6 +63,7 @@
                     name: {
                         [locale.current()] : ''
                     },
+                    family_id: null,
                     sku: '',
                     price: '',
                     url: '',
@@ -70,7 +79,6 @@
         <button class="btn btn-success" @click="createProduct = true"><i class="fa fa-plus fa-first" aria-hidden="true"></i> Add Product</button>
         <candy-modal title="Create Product" v-show="createProduct" size="modal-sm" @closed="createProduct = false">
             <div slot="body">
-
                 <div class="form-group">
                     <label for="name">Product name</label>
                     <input type="text" class="form-control" id="name" v-model="productName" @input="request.clearError('name')">
@@ -95,8 +103,17 @@
                     <label for="redirectURL">Enter the slug product.</label>
                     <input type="text" id="redirectURL" class="form-control" v-model="product.url">
                     <span class="text-info" v-if="product.url">Your url will be sanitized to: <code>{{ productUrl }}</code></span>
+                    <span class="text-danger" v-if="request.getError('url')" v-text="request.getError('url')"></span>
                 </div>
-                <span class="text-danger" v-if="request.getError('slug')" v-text="request.getError('slug')"></span>
+
+
+                <div class="form-group">
+                    <label for="redirectURL">Product family</label>
+                    <select name="" id="" class="form-control" v-model="product.family_id">
+                        <option v-for="family in families" :value="family.id">{{ family.label }}</option>
+                    </select>
+                    <span class="text-danger" v-if="request.getError('slug')" v-text="request.getError('slug')"></span>
+                </div>
 
             </div>
             <template slot="footer">

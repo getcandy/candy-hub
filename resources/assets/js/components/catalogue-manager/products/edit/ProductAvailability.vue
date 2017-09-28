@@ -51,6 +51,7 @@
                 channel.published_at = moment(channel.published_at.date).format('YYYY-MM-DD HH:mm');
             });
             this.customerGroups = this.product.customer_groups.data;
+            Dispatcher.add('product-channels', this);
         },
         methods: {
             save() {
@@ -74,10 +75,10 @@
 <template>
     <div>
         <candy-tabs nested="true"  v-if="product">
-            <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true">
+            <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true" dispatch="product-variants">
                 <candy-variants :product="product"></candy-variants>
             </candy-tab>
-            <candy-tab name="Channels" handle="channels">
+            <candy-tab name="Channels" handle="channels" dispatch="product-channels">
                 <div class="row">
                     <div class="col-xs-12 col-md-11">
                         <h4>Channels</h4>

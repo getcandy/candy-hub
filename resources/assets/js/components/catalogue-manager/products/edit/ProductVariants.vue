@@ -19,7 +19,6 @@
         },
         methods: {
             save() {
-                console.log(1);
                 this.variants.forEach(variant => {
                     this.request.send('put', '/products/variants/' + variant.id, variant)
                         .then(response => {

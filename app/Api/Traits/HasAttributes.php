@@ -56,7 +56,6 @@ trait HasAttributes
         $structure = $this->getDataMapping();
 
         foreach($data as $attribute) {
-
             // Do this so we can reset the structure without hitting DB again
             $newData[$attribute['key']] = $structure;
 
