@@ -16,6 +16,8 @@ class LanguageTransformer extends BaseTransformer
             'name' => $language->name,
             'lang' => $language->lang,
             'iso' => $language->iso,
+            'default' => $language->default,
+            'enabled' => $language->enabled,
             'current' => (bool) ($language->code == app()->getLocale())
         ];
     }
