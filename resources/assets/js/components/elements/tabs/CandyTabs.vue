@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="sub-panel">
         <ul class="nav nav-tabs sub-nav-tabs" v-if="!nested" role="tablist">
             <li role="presentation" :class="{ 'active' : tab.isActive}" v-for="tab in tabs">
                 <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name }}</a>

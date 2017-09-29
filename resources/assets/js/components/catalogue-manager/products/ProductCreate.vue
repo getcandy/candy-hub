@@ -77,7 +77,7 @@
 <template>
     <div>
         <button class="btn btn-success" @click="createProduct = true"><i class="fa fa-plus fa-first" aria-hidden="true"></i> Add Product</button>
-        <candy-modal title="Create Product" v-show="createProduct" size="modal-sm" @closed="createProduct = false">
+        <candy-modal title="Create Product" v-show="createProduct" size="modal-md" @closed="createProduct = false">
             <div slot="body">
                 <div class="form-group">
                     <label for="name">Product name</label>

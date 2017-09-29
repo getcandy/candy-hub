@@ -16372,6 +16372,7 @@ textarea.bootstrap-tagsinput {
 
 .sub-nav li a {
   margin-left: 0;
+  margin-right: 0;
   border-left: 0;
   border-bottom: 1px solid rgba(190, 190, 190, 0.5);
 }
@@ -16379,6 +16380,7 @@ textarea.bootstrap-tagsinput {
 .sub-nav li.active a {
   border-top: 0 !important;
   border-left: 0 !important;
+  margin-right: 0;
 }
 
 .sub-nav li:last-of-type a {
