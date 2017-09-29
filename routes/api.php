@@ -45,6 +45,7 @@ $this->get('categories/all', 'Categories\CategoryController@getAll');
 $this->get('categories/parent/{parentID?}', 'Categories\CategoryController@getByParent');
 $this->post('categories/reorder', 'Categories\CategoryController@reorder');
 $this->post('categories/create', 'Categories\CategoryController@store');
+$this->get('category/{id}', 'Categories\CategoryController@show');
 
 /**
  * Channels

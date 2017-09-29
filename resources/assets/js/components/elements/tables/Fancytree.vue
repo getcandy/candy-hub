@@ -168,7 +168,7 @@
                     }.bind(this),
                     renderTitle: function(event, data){
                         let node = data.node;
-                        node.title = this.getImage(node.data)+ this.getAttribute(node.data, 'name');
+                        node.title = '<a href="'+ this.params.linkUrl +'/'+ data.node.data.id +'">'+ this.getImage(node.data)+ this.getAttribute(node.data, 'name') +'</a>';
                     }.bind(this),
                     table: {
                         nodeColumnIdx: 0
@@ -251,12 +251,18 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th v-for="column in params.columns" :style="'text-align:'+column.align">{{ column.name }}</th>
+                    <th v-for="column in params.columns" :style="'text-align:'+column.align">
+                        {{ column.name }}
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td v-for="column in params.columns" :align="column.align"></td>
+                    <td v-for="column in params.columns" :align="column.align">
+                        <a v-if="column.link">
+
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>

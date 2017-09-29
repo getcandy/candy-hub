@@ -156,6 +156,7 @@
         <candy-modal id="addModal" title="Add this product to categories" size="modal-lg" v-show="addModalOpen" @closed="closeAddModal()">
 
             <div slot="body">
+
                 <div class="form-group">
                     <label class="sr-only">Search</label>
                     <input type="text" class="form-control search" v-model="search" placeholder="Search Categories">

@@ -90,7 +90,8 @@ var includes = [
   {
     path: 'catalogue-manager.categories',
     components: {
-      'categories-list' : 'CategoriesList'
+      'categories-list' : 'List',
+      'category-edit' : 'Edit'
     }
   },
   /**
@@ -108,7 +109,7 @@ var includes = [
   {
     path: 'catalogue-manager.products.edit.media',
     components: {
-      'media' : 'Media'
+      'product-media' : 'Media'
     }
   },
   /**

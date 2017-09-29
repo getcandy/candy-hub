@@ -26,11 +26,11 @@
                 return (this.params.language === this.defaults.language) ? true : false;
             },
             useDefault: function(obj) {
-                if(obj.checked) {
-                    this.fields[obj.id].value[this.params.language] = null;
-                } else {
-                    this.fields[obj.id].value[this.params.language] = this.originalFields[obj.id].value[this.params.language];
+                var value = null;
+                if(!obj.checked) {
+                    value = this.originalFields[obj.id].value[this.params.language];
                 }
+                this.$set(this.fields[obj.id].value, this.params.language, value);
             }
         },
         created: function() {

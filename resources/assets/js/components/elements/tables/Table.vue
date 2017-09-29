@@ -90,7 +90,12 @@
                             </div>
                         </template>
                         <template v-else="column.type">
-                            {{ item[column.source] }}
+                            <a v-if="column.link" :href="params.linkUrl+'/'+item.id">
+                                {{ item[column.source] }}
+                            </a>
+                            <span v-else="column.link">
+                                {{ item[column.source] }}
+                            </span>
                         </template>
                     </td>
                 </tr>

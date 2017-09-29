@@ -114,7 +114,7 @@
                     </candy-tab>
 
                     <candy-tab name="Media">
-                        <candy-media :product="product"></candy-media>
+                        <candy-product-media :product="product"></candy-product-media>
                     </candy-tab>
 
                     <candy-tab name="Availability &amp; Pricing" handle="product-availability" dispatch="product-variants">

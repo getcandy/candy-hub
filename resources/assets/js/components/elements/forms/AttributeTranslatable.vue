@@ -84,11 +84,7 @@
                     language = this.translateLanguage;
                 }
 
-                if(typeof this.attributeData[handle] !== 'undefined'){
-                    this.attributeData[handle][channel][language] = value;
-                }else{
-                    this.attributeData[handle] = {[channel]:{[language]:value}};
-                }
+                this.$set(this.attributeData[handle][channel], language, value);
             }
         },
         mounted() {

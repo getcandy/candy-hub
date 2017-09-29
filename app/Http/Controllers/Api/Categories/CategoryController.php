@@ -14,6 +14,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CategoryController extends BaseController
 {
 
+    public function show($id)
+    {
+        try {
+            $category = app('api')->categories()->getByHashedId($id);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($category, new CategoryTransformer);
+    }
+
     public function getAll()
     {
         $categories = app('api')->categories()->getAll();
@@ -66,7 +76,7 @@ class CategoryController extends BaseController
      * @request String id
      * @request String siblings
      * @request String parent_id (Optional)
-     * @return array|\Illuminate\Http\Response
+     * @return array \Illuminate\Http\Response
      */
     public function reorder(ReorderRequest $request)
     {

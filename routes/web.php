@@ -36,3 +36,4 @@ Route::get('catalogue-manager/collections', 'Cms\CatalogueManager\CollectionsCon
 Route::get('catalogue-manager/collections/{id}', 'Cms\CatalogueManager\CollectionsController@getEdit')->middleware('auth')->name('cm_collections_edit');
 
 Route::get('catalogue-manager/categories', 'Cms\CatalogueManager\CategoriesController@getIndex')->middleware('auth')->name('cm_categories');
+Route::get('catalogue-manager/category/{id}', 'Cms\CatalogueManager\CategoriesController@getEdit')->middleware('auth')->name('cm_category');

@@ -5,7 +5,7 @@ namespace GetCandy\Http\Requests\Api\Products;
 use GetCandy\Http\Requests\Api\FormRequest;
 use GetCandy\Api\Products\Models\Product;
 
-class UpdateAttributesRequest extends FormRequest
+class UpdateCategoriesRequest extends FormRequest
 {
     public function authorize()
     {

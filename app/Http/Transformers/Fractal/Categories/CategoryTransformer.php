@@ -3,11 +3,18 @@
 namespace GetCandy\Http\Transformers\Fractal\Categories;
 
 use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 
 class CategoryTransformer extends BaseTransformer
 {
+    protected $attributeGroups;
+
+    protected $availableIncludes = [
+        'attribute_groups'
+    ];
 
     protected $defaultIncludes = [
         'routes'
@@ -38,5 +45,10 @@ class CategoryTransformer extends BaseTransformer
     public function includeRoutes(Category $category)
     {
         return $this->collection($category->routes, new RouteTransformer);
+    }
+
+    public function includeAttributeGroups(Category $category)
+    {
+        return $this->collection([], new AttributeGroupTransformer);
     }
 }
