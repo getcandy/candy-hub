@@ -3,7 +3,7 @@
         data() {
             return {
                 defaults: {
-                    'language': 'en'
+                    'language': locale.current()
                 },
                 originalFields: []
             }
@@ -18,14 +18,11 @@
                 default: {}
             }
         },
-        watch: {
-
-        },
         methods: {
             capitalize(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
-            defaultLanguage() {
+            isDefault() {
                 return (this.params.language === this.defaults.language) ? true : false;
             },
             useDefault: function(obj) {
@@ -35,9 +32,6 @@
                     this.fields[obj.id].value[this.params.language] = this.originalFields[obj.id].value[this.params.language];
                 }
             }
-        },
-        mounted() {
-
         },
         created: function() {
             // Non Reactive Data
@@ -50,33 +44,46 @@
     <div>
         <div class="row">
 
+            <!-- Default -->
             <div class="col-xs-12 form-group" :class="{ 'col-md-6': params.translating }">
                 <div class="form-group" v-for="(field, key) in fields">
 
                     <label :for="key">{{ capitalize(key) }}</label>
-                    <div v-if="field.type == 'text'">
 
+                    <div v-if="field.type == 'text'">
                         <candy-input
                                 :id="'default-'+ key"
                                 v-model="field.value[defaults.language]">
                         </candy-input>
-
+                    </div>
+                    <div v-if="field.type == 'textarea'">
+                        <candy-textarea :id="'default-'+ key"
+                                        v-model="field.value[defaults.language]">
+                        </candy-textarea>
+                    </div>
+                    <div v-if="field.type == 'select'">
+                        <candy-select :id="'default-'+ key"
+                                      v-model="field.value[defaults.language]"
+                                      :options="field.lookups">
+                        </candy-select>
                     </div>
 
                 </div>
             </div>
+
+            <!-- Translation -->
             <div class="col-xs-12 col-md-6" v-if="params.translating">
                 <div class="form-group" v-for="(field, key) in fields">
 
                     <div v-if="field.translatable && field.type === 'text'">
                         <candy-checkbox class="attributecheckbox"
-                                        v-if="!defaultLanguage()"
+                                        v-if="!isDefault()"
                                         :id="key"
                                         @change="useDefault"
                                         :checked="(field.value[params.language] === null)">
                             Use Default
                         </candy-checkbox>
-                        <label v-if="defaultLanguage()">&nbsp;</label>
+                        <label v-if="isDefault()">&nbsp;</label>
                         <candy-input v-if="params.translating"
                                      v-model="field.value[params.language]"
                                      :placeholder="(field.value[params.language] === null ? field.value[defaults.language] : '')"

@@ -30,8 +30,8 @@ var includes = [
   {
     path: 'elements.forms',
     components: {
-      'attribute-data' : 'AttributeData',
-      'translatable' : 'Translatable'
+      'option-translatable' : 'OptionTranslatable',
+      'attribute-translatable' : 'AttributeTranslatable'
     }
   },
   {
