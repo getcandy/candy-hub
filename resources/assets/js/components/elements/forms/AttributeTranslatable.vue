@@ -43,9 +43,6 @@
             hasError(mapping) {
                 return this.request.hasError(mapping);
             },
-            translate: function() {
-                this.translating = !this.translating;
-            },
             useDefault: function(obj) {
                 if(obj.checked) {
                     this.set(obj.id, null);
@@ -116,8 +113,8 @@
 
                             <div class="col-md-6">
 
-                                <button v-if="!translating" class="btn btn-default" @click="translate">Translate</button>
-                                <button v-if="translating" class="btn btn-default" @click="translate">Hide Translation</button>
+                                <button v-if="!translating" class="btn btn-default" @click="translating = true">Translate</button>
+                                <button v-if="translating" class="btn btn-default" @click="translating = false">Hide Translation</button>
 
                             </div>
 
@@ -221,7 +218,7 @@
                         <div class="form-group" v-for="attribute in attributes">
 
                             <!-- Checkbox -->
-                            <candy-checkbox v-if="!isDefault"
+                            <candy-checkbox v-show="attribute.scopeable && !isDefault"
                                             :id="attribute.handle"
                                             @change="useDefault"
                                             :class="{ attributecheckbox: true }"
@@ -229,7 +226,7 @@
                                             :originalValue="get(attribute.handle)">
                                 Use Default
                             </candy-checkbox>
-                            <label v-if="isDefault">&nbsp;</label>
+                            <label v-show="isDefault">&nbsp;</label>
 
                             <!-- Inputs -->
                             <div v-if="attribute.scopeable && attribute.type === 'text'">
@@ -247,6 +244,15 @@
                                                 :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
                                                 :disabled="(get(attribute.handle) === null || isDefault)">
                                 </candy-textarea>
+                            </div>
+                            <div v-else-if="attribute.scopeable && attribute.type === 'select'">
+                                <candy-select :value="get(attribute.handle)"
+                                              @input="set(attribute.handle, $event)"
+                                              :required="attribute.required"
+                                              :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
+                                              :disabled="(get(attribute.handle) === null || isDefault)"
+                                              :options="attribute.lookups">
+                                </candy-select>
                             </div>
 
                             <!-- Errors -->

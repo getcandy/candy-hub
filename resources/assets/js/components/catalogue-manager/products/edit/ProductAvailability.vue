@@ -17,7 +17,7 @@
                 }
             }
         },
-        props: ['variants', 'product'],
+        props: ['variants', 'product', 'languages'],
         watch: {
             channels: {
                 handler(channels, oldVal) {
@@ -76,7 +76,7 @@
     <div>
         <candy-tabs nested="true"  v-if="product">
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true" dispatch="product-variants">
-                <candy-variants :product="product"></candy-variants>
+                <candy-variants :product="product" :languages="languages"></candy-variants>
             </candy-tab>
             <candy-tab name="Channels" handle="channels" dispatch="product-channels">
                 <div class="row">

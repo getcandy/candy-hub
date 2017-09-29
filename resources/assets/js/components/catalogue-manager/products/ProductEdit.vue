@@ -102,10 +102,15 @@
                 <candy-tabs>
 
                     <candy-tab name="Product Details" handle="product-details" :selected="true" dispatch="product-details">
-                        <candy-product-details :product="product" :languages="languages"
-                                               :groups="attribute_groups">
 
-                        </candy-product-details>
+                        <candy-tabs nested="true">
+                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false">
+                                <candy-product-details :product="product" :languages="languages"
+                                                       :group="group">
+                                </candy-product-details>
+                            </candy-tab>
+                        </candy-tabs>
+
                     </candy-tab>
 
                     <candy-tab name="Media">
@@ -113,7 +118,7 @@
                     </candy-tab>
 
                     <candy-tab name="Availability &amp; Pricing" handle="product-availability" dispatch="product-variants">
-                        <candy-product-availability :variants="variants" :product="product"
+                        <candy-product-availability :variants="variants" :product="product" :languages="languages"
                                                     v-if="product"></candy-product-availability>
                     </candy-tab>
 

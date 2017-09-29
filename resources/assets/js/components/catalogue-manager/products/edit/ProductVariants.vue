@@ -15,6 +15,9 @@
                 default() {
                     return [];
                 }
+            },
+            languages: {
+                type: Array
             }
         },
         methods: {
@@ -40,7 +43,7 @@
     <div>
         <candy-tabs nested="true">
             <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true" dispatch="product-variants">
-                <candy-edit-variants :variants="variants"></candy-edit-variants>
+                <candy-edit-variants :variants="variants" :languages="languages"></candy-edit-variants>
             </candy-tab>
             <candy-tab name="Channels" handle="channels_variants-added">
                 <candy-channels></candy-channels>

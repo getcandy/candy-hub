@@ -16,7 +16,9 @@
                     headers: {
                         'X-CSRF-TOKEN': window.Laravel.csrfToken
                     }
-                }
+                },
+                translating: false,
+                translationLanguage: locale.current()
             }
         },
         props: {
@@ -198,12 +200,28 @@
                     <div class="col-xs-12"
                          :class="{'col-md-8 col-md-push-4': variants.length > 1, 'col-md-12' : variants.length == 1}">
                         <template v-if="variants.length > 1">
-                            <h4>Options</h4>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4>Options</h4>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <div v-show="translating">
+                                                <label class="sr-only">Language</label>
+                                                <candy-select :options="languages" v-model="translationLanguage" v-if="languages.length"></candy-select>
+                                            </div>
+                                        </div>
+                                        <button v-if="!translating" class="btn btn-default" @click="translating = true">Translate</button>
+                                        <button v-if="translating" class="btn btn-default" @click="translating = false">Hide Translation</button>
+                                    </div>
+                                </div>
+                            </div>
                             <hr>
                             <div class="row">
                                 <div class="col-xs-12 col-md-9">
                                     <candy-option-translatable :fields="fields"
-                                                        :params="{'translating':true, 'language':'sv'}">
+                                                        :params="{'translating':translating, 'language':translationLanguage}">
                                     </candy-option-translatable>
                                 </div>
                                 <div class="col-xs-12 col-md-3">

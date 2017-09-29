@@ -2,8 +2,7 @@
     export default {
         data() {
             return {
-                request: apiRequest,
-                group: []
+                request: apiRequest
             }
         },
         props: {
@@ -16,8 +15,8 @@
             channels: {
                 type: Array
             },
-            groups: {
-                type: Array,
+            group: {
+                type: Object,
                 default() {
                     return [];
                 }
@@ -70,18 +69,9 @@
 </script>
 <template>
     <div>
-        <candy-tabs nested="true">
-
-            <template v-for="(group, index) in groups">
-                <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                    <candy-attribute-translatable :languages="languages" :channels="getChannels(product.channels.data)"
-                                          :attributes="group.attributes.data" :attributeData="product.attributes"
-                                          :request="request">
-                    </candy-attribute-translatable>
-
-                </candy-tab>
-            </template>
-
-        </candy-tabs>
+        <candy-attribute-translatable :languages="languages" :channels="getChannels(product.channels.data)"
+                              :attributes="group.attributes.data" :attributeData="product.attributes"
+                              :request="request">
+        </candy-attribute-translatable>
     </div>
 </template>
