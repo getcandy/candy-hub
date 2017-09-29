@@ -63,8 +63,8 @@
                     language = this.defaultLanguage;
                     source = this.attributeData;
                 }else if(type === 'original'){
-                    channel = this.defaultChannel;
-                    language = this.defaultLanguage;
+                    channel = this.translateChannel;
+                    language = this.translateLanguage;
                     source = this.originalData;
                 }else{
                     channel = this.translateChannel;
@@ -132,7 +132,7 @@
                                     <div class="form-group">
                                         <div v-show="translating">
                                             <label class="sr-only">Language</label>
-                                            <candy-select :options="languages" v-model="translateLanguage"></candy-select>
+                                            <candy-select :options="languages" v-model="translateLanguage" v-if="languages.length"></candy-select>
                                         </div>
                                     </div>
                                 </div>
@@ -236,7 +236,7 @@
                                 <candy-input :value="get(attribute.handle)"
                                              @input="set(attribute.handle, $event)"
                                              :required="attribute.required"
-                                             :placeholder="(get(attribute.handle) === null ? get(attribute.handle) : '')"
+                                             :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
                                              :disabled="(get(attribute.handle) === null || isDefault)">
                                 </candy-input>
                             </div>
@@ -244,7 +244,7 @@
                                 <candy-textarea :value="get(attribute.handle)"
                                                 @input="set(attribute.handle, $event)"
                                                 :required="attribute.required"
-                                                :placeholder="(get(attribute.handle) === null ? get(attribute.handle) : '')"
+                                                :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
                                                 :disabled="(get(attribute.handle) === null || isDefault)">
                                 </candy-textarea>
                             </div>
