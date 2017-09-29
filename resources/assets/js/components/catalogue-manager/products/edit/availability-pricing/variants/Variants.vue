@@ -202,9 +202,9 @@
                             <hr>
                             <div class="row">
                                 <div class="col-xs-12 col-md-9">
-                                    <candy-translatable :fields="fields"
+                                    <candy-option-translatable :fields="fields"
                                                         :params="{'translating':true, 'language':'sv'}">
-                                    </candy-translatable>
+                                    </candy-option-translatable>
                                 </div>
                                 <div class="col-xs-12 col-md-3">
 

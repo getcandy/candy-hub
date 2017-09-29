@@ -2,7 +2,8 @@
     export default {
         data() {
             return {
-                request: apiRequest
+                request: apiRequest,
+                group: []
             }
         },
         props: {
@@ -45,6 +46,35 @@
                     });
                 });
                 return arr;
+            },
+            fields(group) {
+                let fields = {};
+
+                $.each(group.attributes.data, function (key, attribute) {
+                    fields[attribute.handle] = {
+                        value: this.product.attributes[attribute.handle],
+                        lookups: attribute.lookups,
+                        type: attribute.type,
+                        translatable: attribute.scopeable
+                    };
+                }.bind(this));
+                return fields;
+            }
+        },
+        computed: {
+            fields2(group) {
+                let fields = {};
+                //console.log(this.groups);
+               /* $.each(this.groups.attributes.data, function (attribute) {
+console.log(attribute);
+
+                    fields[key] = {
+                        value: value,
+                        type: 'text',
+                        translatable: true
+                    };
+                });*/
+                return fields;
             }
         },
         mounted() {
