@@ -48,33 +48,19 @@
                 return arr;
             },
             fields(group) {
+                /* TODO see if we can merge translatable
                 let fields = {};
 
                 $.each(group.attributes.data, function (key, attribute) {
                     fields[attribute.handle] = {
-                        value: this.product.attributes[attribute.handle],
+                        value: _.get(this.product.attributes, [attribute.handle]),
                         lookups: attribute.lookups,
                         type: attribute.type,
                         translatable: attribute.scopeable
                     };
                 }.bind(this));
                 return fields;
-            }
-        },
-        computed: {
-            fields2(group) {
-                let fields = {};
-                //console.log(this.groups);
-               /* $.each(this.groups.attributes.data, function (attribute) {
-console.log(attribute);
-
-                    fields[key] = {
-                        value: value,
-                        type: 'text',
-                        translatable: true
-                    };
-                });*/
-                return fields;
+                */
             }
         },
         mounted() {
@@ -88,10 +74,10 @@ console.log(attribute);
 
             <template v-for="(group, index) in groups">
                 <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                    <candy-attribute-data :languages="languages" :channels="getChannels(product.channels.data)"
+                    <candy-attribute-translatable :languages="languages" :channels="getChannels(product.channels.data)"
                                           :attributes="group.attributes.data" :attributeData="product.attributes"
                                           :request="request">
-                    </candy-attribute-data>
+                    </candy-attribute-translatable>
 
                 </candy-tab>
             </template>
