@@ -3,8 +3,8 @@
 namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Layouts\Models\Layout;
@@ -16,12 +16,15 @@ use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends BaseModel
 {
-    use Indexable, HasAttributes, Assetable;
+    use Indexable, HasAttributes, Assetable, SoftDeletes;
 
     protected $settings = 'products';
+
+    protected $dates = ['deleted_at'];
 
     public $transformer = ProductTransformer::class;
 
@@ -44,7 +47,6 @@ class Product extends BaseModel
     {
         $options = [];
         foreach ($value as $option) {
-
             $label = reset($option['label']);
             $options[str_slug($label)] = $option;
             $childOptions = [];

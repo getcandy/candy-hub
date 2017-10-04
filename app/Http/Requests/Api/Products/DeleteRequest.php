@@ -15,6 +15,7 @@ class DeleteRequest extends FormRequest
     public function rules()
     {
         return [
+            'product' => 'hashid_is_valid:products'
         ];
     }
 }

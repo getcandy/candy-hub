@@ -11,7 +11,8 @@ var includes = [
       'alert' : 'AlertPanel',
       'button' : 'Button',
       'modal' : 'Modal',
-      'notification' : 'NotificationBar'
+      'notification' : 'NotificationBar',
+      'delete' : 'Delete'
     }
   },
   /**

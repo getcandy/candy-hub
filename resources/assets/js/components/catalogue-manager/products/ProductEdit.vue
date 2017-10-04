@@ -78,6 +78,13 @@
                     this.decorate(response.data);
                     this.loaded = true;
                 }).catch(error => {
+                    // http://homestead.app/catalogue-manager/products/xojxzgy5
+                    // 
+                    CandyEvent.$emit('notification', {
+                        level: 'error',
+                        message: error.message
+                    });
+                    window.location = '/catalogue-manager/products';
                 });
             },
             getCategoryCount() {

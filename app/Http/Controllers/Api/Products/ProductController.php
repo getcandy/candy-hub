@@ -189,13 +189,13 @@ class ProductController extends BaseController
     {
         $result = app('api')->products()->removeCategory($productID, $categoryID);
 
-        if($result){
+        if ($result) {
             return response()->json([
                 'message' => 'Successfully removed category from product',
                 'categoryName' => 'test'
-            ],202);
+            ], 202);
         }
-        return response()->json('Error',500);
+        return response()->json('Error', 500);
     }
 
     /**
@@ -204,13 +204,15 @@ class ProductController extends BaseController
      * @param  DeleteRequest $request
      * @return Json
      */
-    public function destroy($id, DeleteRequest $request)
+    public function destroy($product, DeleteRequest $request)
     {
         try {
-            $result = app('api')->products()->delete($id);
+            $result = app('api')->products()->delete($product);
         } catch (MinimumRecordRequiredException $e) {
             return $this->errorUnprocessable($e->getMessage());
         } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
         return $this->respondWithNoContent();

@@ -182,11 +182,7 @@ class ProductService extends BaseService
      */
     public function delete($hashedId)
     {
-        $product = $this->getByHashedId($hashedId);
-        if (!$product) {
-            abort(404);
-        }
-        return $product->delete();
+        return $this->getByHashedId($hashedId)->delete();
     }
 
     /**
