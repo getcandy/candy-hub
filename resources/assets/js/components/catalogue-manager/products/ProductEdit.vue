@@ -111,7 +111,7 @@
                     <candy-tab name="Product Details" handle="product-details" :selected="true" dispatch="product-details">
 
                         <candy-tabs nested="true">
-                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false">
+                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
                                 <candy-product-details :product="product" :languages="languages"
                                                        :group="group">
                                 </candy-product-details>

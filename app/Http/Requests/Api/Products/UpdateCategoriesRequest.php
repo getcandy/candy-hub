@@ -15,7 +15,15 @@ class UpdateCategoriesRequest extends FormRequest
     public function rules()
     {
         return [
-            'category-ids' => 'required|array'
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'required|hashid_is_valid:categories'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'categories.*' => 'category'
         ];
     }
 }

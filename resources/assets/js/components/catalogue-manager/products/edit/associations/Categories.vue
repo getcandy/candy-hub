@@ -12,6 +12,7 @@
                 search: '',
                 categoriesList: [],
                 categoriesLoaded: false,
+                productCategories: [],
                 tableParams: {
                     columns: [
                         {'name': '', 'width': '50px', 'type': 'image', 'align': 'left', 'source': 'name'},
@@ -23,9 +24,10 @@
             }
         },
         mounted() {
-            if(this.categoriesList.length === 0){
+            if (!this.categoriesList.length) {
                 this.loadCategoriesList();
             }
+            this.productCategories = this.product.categories.data;
         },
         props: {
             product: {
@@ -68,14 +70,21 @@
                         });
                     });
             },
-            saveCategories() {
-                let productID = this.product.id;
-                let data = {'category-ids': selectedCategories};
+            save() {
+                let ids = [];
+                _.forEach(this.selectedCategories, value => {
+                    ids.push(value.id);
+                });
 
-                this.request.send('post', '/products/'+productID+'/categories',data)
+                this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': ids})
                     .then(response => {
-                        this.categoriesList = response.data;
                         this.categoriesLoaded = true;
+                        CandyEvent.$emit('notification', {
+                            level: 'success'
+                        });
+                        this.productCategories = response.data;
+
+                        this.closeAddModal();
                     });
             },
             selected(checked) {
@@ -125,7 +134,7 @@
                 </thead>
                 <tbody>
 
-                    <tr v-for="category in product.categories.data">
+                    <tr v-for="category in productCategories">
                         <td width="80">
                             <img src="/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
                         </td>
@@ -133,7 +142,7 @@
                             {{ getAttribute(category, 'name') }}
                         </td>
                         <td>
-                            <input type="text" class="form-control" :value="getRoute(category)" disabled>
+                            {{ getRoute(category) }}
                         </td>
                         <td align="right">
                             <button class="btn btn-sm btn-default btn-action" @click="openDeleteModal(category)">
@@ -164,12 +173,19 @@
                 </div>
                 <hr>
 
-                <candy-table tableClass="association-table" @checked="selected" :items="categoriesList" :search="search" :loaded="categoriesLoaded" :params="tableParams"></candy-table>
+                <candy-table
+                    tableClass="association-table"
+                    @checked="selected"
+                    :items="categoriesList"
+                    :search="search"
+                    :loaded="categoriesLoaded"
+                    :params="tableParams">
+                </candy-table>
 
             </div>
 
             <div slot="footer">
-                <button type="button" class="btn btn-primary">Add to Categories</button>
+                <button type="button" class="btn btn-primary" @click="save()">Add to Categories</button>
             </div>
 
         </candy-modal>

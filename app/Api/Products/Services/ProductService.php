@@ -15,12 +15,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProductService extends BaseService
 {
     protected $model;
-    protected $category;
 
     public function __construct()
     {
         $this->model = new Product();
-        $this->category = new Category();
     }
 
     /**
@@ -244,16 +242,6 @@ class ProductService extends BaseService
             ->find($product->id);
 
         return $product->categories;
-    }
-
-    public function removeCategory($productID, $hashedCategoryID)
-    {
-
-        $categoryID = $this->category->decodeId($hashedCategoryID);
-
-        $product = $this->getByHashedId($productID);
-
-        return $product->categories()->detach($categoryID);
     }
 
     /**

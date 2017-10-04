@@ -119,7 +119,7 @@ $this->post('products/{product}/attributes', 'Products\ProductController@updateA
 $this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
 $this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');
 $this->post('products/{product}/assets', 'Products\ProductController@uploadAsset');
-$this->post('products/{product}/categories', 'Products\ProductController@updateCategories');
+$this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->get('products/{product}/assets', 'Products\ProductController@getAssets');
 $this->put('products/{product}/assets', 'Products\ProductController@saveAsset');
 $this->delete('products/{product}/remove-category/{category}', 'Products\ProductController@removeCategory');
