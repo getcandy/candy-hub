@@ -134,6 +134,6 @@ class LanguageService extends BaseService
      */
     public function allLocalesExist(array $locales)
     {
-        return $this->model->whereIn('code', $locales)->count() == count($locales);
+        return $this->model->whereIn('lang', $locales)->count() == count($locales);
     }
 }
