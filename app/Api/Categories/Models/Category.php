@@ -33,9 +33,7 @@ class Category extends BaseModel
 
     public function getProductCount()
     {
-
         return $this->belongsToMany(Product::class, 'product_categories')->count();
-
     }
 
 }

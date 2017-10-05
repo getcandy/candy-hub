@@ -80,7 +80,7 @@
             </candy-tab>
             <candy-tab name="Channels" handle="channels" dispatch="product-channels">
                 <div class="row">
-                    <div class="col-xs-12 col-md-11">
+                    <div class="col-xs-12 col-md-12">
                         <h4>Channels</h4>
                         <hr>
                         <table class="table">
@@ -111,7 +111,7 @@
             </candy-tab>
             <candy-tab name="Customer Groups" handle="customer-groups">
                 <div class="row">
-                    <div class="col-xs-12 col-md-11">
+                    <div class="col-xs-12 col-md-12">
                         <h4>Customer Groups</h4>
                         <hr>
                         <table class="table">

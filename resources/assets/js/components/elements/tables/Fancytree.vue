@@ -119,9 +119,10 @@
                 let glyph_opts = {
                     preset: "bootstrap3",
                     map: {
-                        expanderClosed: "fa fa-chevron-right",  // glyphicon-plus-sign
-                        expanderLazy: "fa fa-chevron-right",  // glyphicon-plus-sign
-                        expanderOpen: "fa fa-chevron-down"  // glyphicon-minus-sign
+                        expanderClosed: "fa fa-chevron-right",
+                        expanderLazy: "fa fa-chevron-right",
+                        expanderOpen: "fa fa-chevron-down",
+                        loading: "fa fa-spinner"
                     }
                 };
 

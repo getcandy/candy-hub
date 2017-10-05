@@ -3,6 +3,12 @@
         data() {
             return {
                 request: apiRequest,
+                requestParams: {
+                    per_page: 6,
+                    current_page: 1,
+                    keywords: '',
+                    includes: 'routes'
+                },
                 channel: 'ecommerce',
                 language: locale.current(),
                 addModalOpen: false,
@@ -10,22 +16,21 @@
                 deleteModalOpen: false,
                 deleteModalData: {},
                 search: '',
-                categoriesList: [],
+                categories: [],
                 categoriesLoaded: false,
                 productCategories: [],
                 tableParams: {
                     columns: [
                         {'name': '', 'width': '50px', 'type': 'image', 'align': 'left', 'source': 'name'},
                         {'name': 'Title', 'width': '*', 'type': 'attribute', 'align': 'left', 'source': 'name'},
-                        {'name': 'URL', 'width': '50%', 'type': 'route', 'align': 'left', 'source': 'slug'},
-                        {'name': '', 'width': '50px', 'type': 'checkbox', 'align': 'center', 'source': ''}
+                        {'name': 'URL', 'width': '50%', 'type': 'route', 'align': 'left', 'source': 'slug'}
                     ]
                 }
             }
         },
         mounted() {
-            if (!this.categoriesList.length) {
-                this.loadCategoriesList();
+            if (!this.categories.length) {
+                this.loadCategories();
             }
             this.productCategories = this.product.categories.data;
         },
@@ -50,10 +55,11 @@
 
                 return slug;
             },
-            loadCategoriesList() {
-                this.request.send('get', '/categories/all')
+            loadCategories() {
+                this.request.send('get', '/categories', [], this.requestParams)
                     .then(response => {
-                        this.categoriesList = response.data;
+                        this.categories = response.data;
+                        this.requestParams.total_pages = response.meta.pagination.total_pages;
                         this.categoriesLoaded = true;
                     });
             },
@@ -69,6 +75,11 @@
                             message: response.categoryName +' was successfully removed from this product.'
                         });
                     });
+            },
+            changePage(page) {
+                this.loaded = false;
+                this.requestParams.current_page = page;
+                this.loadCategories();
             },
             save() {
                 let ids = [];
@@ -133,7 +144,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                     <tr v-for="category in productCategories">
                         <td width="80">
                             <img src="/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
@@ -173,13 +183,8 @@
                 </div>
                 <hr>
 
-                <candy-table
-                    tableClass="association-table"
-                    @checked="selected"
-                    :items="categoriesList"
-                    :search="search"
-                    :loaded="categoriesLoaded"
-                    :params="tableParams">
+                <candy-table :items="categories" :loaded="categoriesLoaded"
+                             :params="tableParams" :pagination="requestParams" @change="changePage">
                 </candy-table>
 
             </div>
@@ -204,7 +209,6 @@
             </div>
 
         </candy-modal>
-
 
     </div>
 </template>
