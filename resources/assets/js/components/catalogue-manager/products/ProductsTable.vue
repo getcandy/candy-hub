@@ -13,8 +13,7 @@
                     per_page: 25,
                     current_page: 1,
                     includes: 'channels,customer_groups,family,attribute_groups'
-                },
-                pagination: {}
+                }
             }
         },
         watch: {
@@ -47,7 +46,7 @@
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        // this.pagination = response.pagination;
+                        this.params.total_pages = response.meta.pagination.total_pages;
                         this.loaded = true;
                     });
             },
@@ -229,7 +228,7 @@
                             <td @click="loadProduct(product.id)">
                                 <img :src="productThumbnail(product)" :alt="product|attribute('name')">
                             </td>
-                            <td @click="loadProduct(product.id)">{{ product|attribute('name', 'sv') }}</td>
+                            <td @click="loadProduct(product.id)">{{ product|attribute('name') }}</td>
                             <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'customer_groups') }}</td>
                             <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'channels') }}</td>
                             <td @click="loadProduct(product.id)">{{ getAttributeGroups(product) }}</td>
@@ -248,10 +247,8 @@
 
                 </table>
 
-                <div class="text-center">
-
-                    <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
-
+                <div class="text-center" v-if="loaded">
+                    <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
 

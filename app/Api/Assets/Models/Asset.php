@@ -2,6 +2,7 @@
 
 namespace GetCandy\Api\Assets\Models;
 
+use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Tags\Models\Tag;
@@ -62,6 +63,11 @@ class Asset extends BaseModel
     public function products()
     {
         return $this->morphedByMany(Product::class, 'assetable');
+    }
+
+    public function categories()
+    {
+        return $this->morphedByMany(Category::class, 'assetable');
     }
 
     public function uploader()

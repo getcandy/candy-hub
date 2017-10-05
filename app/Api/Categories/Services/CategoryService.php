@@ -6,6 +6,7 @@ use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Search\SearchContract;
 
 class CategoryService extends BaseService
 {
@@ -19,11 +20,6 @@ class CategoryService extends BaseService
     {
         $this->model = new Category();
         $this->route = new Route();
-    }
-
-    public function getAll()
-    {
-        return $this->model->get();
     }
 
     public function getNestedList()
@@ -92,7 +88,7 @@ class CategoryService extends BaseService
 
     public function uniqueAttribute($key, $value, $channel = 'ecommerce', $lang = 'en')
     {
-        $categories = $this->getAll();
+        $categories = $this->model->get();
 
         foreach($categories as $category) {
             if(isset($category->attribute_data[$key][$channel][$lang]) && $category->attribute_data[$key][$channel][$lang] == $value) {
@@ -100,6 +96,17 @@ class CategoryService extends BaseService
             }
         }
         return true;
+    }
+
+    public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
+    {
+        if ($searchTerm) {
+            $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
+            $results = $this->model->whereIn('id', $ids);
+        } else {
+            $results = $this->model;
+        }
+        return $results->paginate($length, ['*'], 'page', $page);
     }
 
 }

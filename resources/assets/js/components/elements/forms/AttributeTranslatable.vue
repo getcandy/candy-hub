@@ -71,12 +71,6 @@
 
                 return _.get(source, handle+'.'+channel+'.'+language);
             },
-            /**
-             * Sets the value of an input to our model
-             * @param {string} handle
-             * @param {string} value
-             * @param {string} type
-             */
             set(handle, value, type) {
 
                 var channel = '';
@@ -117,10 +111,8 @@
                         <div class="row">
 
                             <div class="col-md-6">
-
                                 <button v-if="!translating" class="btn btn-default" @click="translating = true">Translate</button>
                                 <button v-if="translating" class="btn btn-default" @click="translating = false">Hide Translation</button>
-
                             </div>
 
                             <div class="col-md-6">
@@ -156,7 +148,7 @@
                             <div v-if="attribute.type == 'text'">
                                 <candy-input
                                         :handle="'default-'+ attribute.id"
-                                        :value="attributeData|attribute(attribute.handle)"
+                                        :value="get(attribute.handle, 'default')"
                                         @input="set(attribute.handle, $event, 'default')"
                                         :required="attribute.required">
                                 </candy-input>
@@ -176,8 +168,8 @@
                             </div>
 
                             <!-- Errors -->
-                            <span class="text-danger" v-if="getError(get(attribute.handle, 'default'))"
-                                  v-text="getError(get(attribute.handle, 'default'))">
+                            <span class="text-danger" v-if="getError(attribute.handle)"
+                                  v-text="getError(attribute.handle)">
                             </span>
 
                             <!--
@@ -262,8 +254,8 @@
 
                             <!-- Errors -->
                             <span class="text-danger"
-                                  v-if="hasError(get(attribute.handle))"
-                                  v-text="getError(get(attribute.handle))">
+                                  v-if="hasError(attribute.handle)"
+                                  v-text="getError(attribute.handle)">
                             </span>
 
                         </div>

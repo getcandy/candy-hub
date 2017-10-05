@@ -94,47 +94,40 @@
                     </candy-tab>
 
                     <candy-tab name="Media">
-                        <candy-media :product="product"></candy-media>
+                        <candy-media :category="category"></candy-media>
                     </candy-tab>
 
-                    <!--
-                                        <candy-tab name="Availability &amp; Pricing" handle="product-availability" dispatch="product-variants">
-                                            <candy-product-availability :variants="variants" :product="product" :languages="languages"
-                                                                        v-if="product"></candy-product-availability>
-                                        </candy-tab>
+                    <candy-tab name="Availability" handle="category-availability" dispatch="category-variants">
+                        <candy-category-availability :category="category" :languages="languages"
+                                                    v-if="category">
+                        </candy-category-availability>
+                    </candy-tab>
 
-                                        <candy-tab name="Associations">
-                                            <candy-tabs nested="true">
-                                                <candy-tab name="Categories" handle="categories" :selected="true" :badge="getCategoryCount()">
-                                                    <candy-categories :product="product"></candy-categories>
-                                                </candy-tab>
-                                                <candy-tab name="Collections" handle="collections">
-                                                    Tab will require counter to show how many collection associations this product has
-                                                    <candy-collections></candy-collections>
-                                                </candy-tab>
-                                                <candy-tab name="Products" handle="products">
-                                                    <candy-products :product="product"></candy-products>
-                                                </candy-tab>
-                                            </candy-tabs>
-                                            <candy-association-modals></candy-association-modals>
-                                        </candy-tab>
+                    <candy-tab name="Associations">
+                        <candy-tabs nested="true">
+                            <candy-tab name="Products" handle="products">
+                                <candy-category :category="category"></candy-category>
+                            </candy-tab>
+                        </candy-tabs>
+                        <candy-association-modals></candy-association-modals>
+                    </candy-tab>
 
-                                        <candy-tab name="Display">
-                                            <candy-display></candy-display>
-                                        </candy-tab>
+                    <candy-tab name="Display">
+                        <candy-display></candy-display>
+                    </candy-tab>
 
-                                        <candy-tab name="URLS">
-                                            <candy-tabs nested="true">
-                                                <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                                                    <candy-locale-urls :languages="languages" :routes="routes"
-                                                                       :product="product"></candy-locale-urls>
-                                                </candy-tab>
-                                                <candy-tab name="Redirects" handle="redirects">
-                                                    <candy-redirects :product="product" :routes="routes"></candy-redirects>
-                                                </candy-tab>
-                                            </candy-tabs>
-                                        </candy-tab>
-                    -->
+                    <candy-tab name="URLS">
+                        <candy-tabs nested="true">
+                            <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
+                                <candy-locale-urls :languages="languages" :routes="routes"
+                                                   :category="category"></candy-locale-urls>
+                            </candy-tab>
+                            <candy-tab name="Redirects" handle="redirects">
+                                <candy-redirects :category="category" :routes="routes"></candy-redirects>
+                            </candy-tab>
+                        </candy-tabs>
+                    </candy-tab>
+
                 </candy-tabs>
             </transition>
         </template>
@@ -144,6 +137,7 @@
                 <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
             </div>
         </div>
+
     </div>
 
 </template>

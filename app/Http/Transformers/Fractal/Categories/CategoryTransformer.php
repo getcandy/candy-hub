@@ -13,11 +13,7 @@ class CategoryTransformer extends BaseTransformer
     protected $attributeGroups;
 
     protected $availableIncludes = [
-        'attribute_groups'
-    ];
-
-    protected $defaultIncludes = [
-        'routes'
+        'attribute_groups','routes','assets'
     ];
 
     public function transform(Category $category)
@@ -25,7 +21,8 @@ class CategoryTransformer extends BaseTransformer
         $data = [
             'id' => $category->encodedId(),
             'attribute_data' => $category->attribute_data,
-            'depth' => $category->depth
+            'depth' => $category->depth,
+            'product_count' => $category->getProductCount()
         ];
 
         $children = [];
@@ -50,5 +47,10 @@ class CategoryTransformer extends BaseTransformer
     public function includeAttributeGroups(Category $category)
     {
         return $this->collection([], new AttributeGroupTransformer);
+    }
+
+    public function includeAssets(Category $category)
+    {
+        return $this->collection($category->assets()->orderBy('position', 'asc')->get(), new AssetTransformer);
     }
 }
