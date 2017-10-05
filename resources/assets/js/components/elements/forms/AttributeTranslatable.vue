@@ -156,7 +156,7 @@
                             <div v-if="attribute.type == 'text'">
                                 <candy-input
                                         :handle="'default-'+ attribute.id"
-                                        :value="get(attribute.handle, 'default')"
+                                        :value="attributeData|attribute(attribute.handle)"
                                         @input="set(attribute.handle, $event, 'default')"
                                         :required="attribute.required">
                                 </candy-input>
