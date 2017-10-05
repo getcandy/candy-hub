@@ -27,6 +27,7 @@ class AttributesTableSeeder extends Seeder
         $attribute->position = 1;
         $attribute->group_id = $group->id;
         $attribute->required = true;
+        $attribute->scopeable = 1;
         $attribute->save();
 
         $attribute = new Attribute();
@@ -37,6 +38,7 @@ class AttributesTableSeeder extends Seeder
         $attribute->channeled = 1;
         $attribute->required = true;
         $attribute->type = 'textarea';
+        $attribute->scopeable = 1;
         $attribute->save();
 
         $attribute = new Attribute();
@@ -45,6 +47,7 @@ class AttributesTableSeeder extends Seeder
         $attribute->position = 3;
         $attribute->group_id = $group->id;
         $attribute->type = 'select';
+        $attribute->scopeable = 0;
         $attribute->lookups = [
             ['value' => 'landscape', 'label' => 'Landscape'],
             ['value' => 'portrait', 'label' => 'Portrait'],

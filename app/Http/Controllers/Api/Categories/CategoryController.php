@@ -13,6 +13,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends BaseController
 {
+    public function index(Request $request)
+    {
+        $paginator = app('api')->categories()->getPaginatedData($request->keywords, $request->per_page, $request->current_page);
+        return $this->respondWithCollection($paginator, new CategoryTransformer);
+    }
 
     public function show($id)
     {
@@ -22,12 +27,6 @@ class CategoryController extends BaseController
             return $this->errorNotFound();
         }
         return $this->respondWithItem($category, new CategoryTransformer);
-    }
-
-    public function getAll()
-    {
-        $categories = app('api')->categories()->getAll();
-        return $this->respondWithCollection($categories, new CategoryTransformer);
     }
 
     public function getNested()

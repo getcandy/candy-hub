@@ -36,6 +36,10 @@
         }
       }
 
+      &:hover .hover-btn {
+        display: inline-block;
+      }
+
       td {
         position: relative;
         vertical-align: middle;
@@ -73,6 +77,15 @@
         .checkbox {
           margin-top: 0;
           margin-bottom: 0;
+        }
+
+        .hover-btn {
+          display: none;
+          background-color: #fff;
+          float: right;
+        }
+        .hover-btn:hover {
+          background-color: #f3f3f3;
         }
       }
     }

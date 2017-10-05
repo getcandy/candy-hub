@@ -45,21 +45,6 @@
                     });
                 });
                 return arr;
-            },
-            fields(group) {
-                /* TODO see if we can merge translatable
-                let fields = {};
-
-                $.each(group.attributes.data, function (key, attribute) {
-                    fields[attribute.handle] = {
-                        value: _.get(this.product.attributes, [attribute.handle]),
-                        lookups: attribute.lookups,
-                        type: attribute.type,
-                        translatable: attribute.scopeable
-                    };
-                }.bind(this));
-                return fields;
-                */
             }
         },
         mounted() {

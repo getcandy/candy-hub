@@ -4,13 +4,19 @@
     export default {
         data() {
             return {
-                categoriesList: [],
+                categories: [],
                 categoriesLoaded: false,
                 search: '',
                 currentView: 'tree-view',
                 channel: 'ecommerce',
                 language: locale.current(),
                 request: apiRequest,
+                requestParams: {
+                    per_page: 25,
+                    current_page: 1,
+                    keywords: '',
+                    includes: 'routes'
+                },
                 reloadList: false,
                 createModalOpen: false,
                 createModalData: {
@@ -22,12 +28,22 @@
                     name: '',
                     slug: '',
                 },
-                tableParams: {
+                fancyParams: {
                     columns: [
                         {'name': 'Title', 'link': true, 'width': '*', 'type': 'attribute', 'source': 'name'},
                         {'name': 'Products', 'width': '100px', 'align': 'center', 'type': 'text', 'source': 'productCount'},
                         {'name': 'Availability', 'width': '200px', 'type': 'text', 'source': ''},
                         {'name': '', 'width': '200px', 'type': 'button', 'source': ''}
+                    ],
+                    linkUrl: 'category'
+                },
+                tableParams: {
+                    columns: [
+                        {'name': '', 'link': true, 'width': '50px', 'type': 'image', 'source': 'asset'},
+                        {'name': 'Title', 'link': true, 'width': '*', 'type': 'attribute', 'source': 'name'},
+                        {'name': 'Products', 'width': '100px', 'align': 'center', 'type': 'text', 'source': 'product_count'},
+                        {'name': 'Availability', 'width': '100px', 'type': 'text', 'source': ''},
+                        {'name': '', 'width': '200px', 'type': 'button', 'buttonName': 'Create Subcategory', 'icon': 'fa fa-plus'}
                     ],
                     linkUrl: 'category'
                 }
@@ -51,20 +67,17 @@
         watch: {
             currentView(value) {
                 if(value === 'list-view' && !this.categoriesLoaded){
-                    this.loadCategoriesList();
-                }
-            },
-            search() {
-                if(this.currentView !== 'list-view'){
-                    this.currentView = 'list-view';
+                    this.loadCategories();
                 }
             }
         },
         methods: {
-            loadCategoriesList() {
-                this.request.send('get', '/categories')
+            loadCategories() {
+                this.categoriesLoaded = false;
+                this.request.send('get', '/categories',[], this.requestParams)
                     .then(response => {
-                        this.categoriesList = response.data;
+                        this.categories = response.data;
+                        this.requestParams.total_pages = response.meta.pagination.total_pages;
                         this.categoriesLoaded = true;
                     });
             },
@@ -100,7 +113,7 @@
             reloadTree() {
                 this.reloadList = true;
                 if(this.currentView === 'list-view'){
-                    this.loadCategoriesList();
+                    this.loadCategories();
                 }else{
                     this.categoriesLoaded = false;
                 }
@@ -116,6 +129,15 @@
                         'routes': [],
                         'parent': {}
                 };
+            },
+            changePage(page) {
+                this.loaded = false;
+                this.requestParams.current_page = page;
+                this.loadCategories();
+            },
+            filter(el) {
+                this.requestParams.keywords = el.target.value;
+                this.loadCategories();
             }
         }
     };
@@ -133,7 +155,7 @@
             </li>
             <li role="presentation">
                 <a href="#list-view" aria-controls="list-view" role="tab" data-toggle="tab" @click="currentView = 'list-view'">
-                    List All
+                    List View
                 </a>
             </li>
         </ul>
@@ -180,7 +202,7 @@
                                   <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" v-model="search" placeholder="Search">
+                                <input type="text" class="form-control" id="search" @input="filter" placeholder="Search">
                             </div>
 
                         </div>
@@ -203,12 +225,16 @@
 
                 <!-- Fancy Tree View -->
                 <div id="tree-view" v-show="currentView === 'tree-view'">
-                    <candy-fancytree sourceURL="/categories/parent/" updateURL="/categories/" :reload="reloadList" :channel="channel" :language="language" :params="tableParams"></candy-fancytree>
+                    <candy-fancytree sourceURL="/categories/parent/" updateURL="/categories/" :reload="reloadList"
+                                     :channel="channel" :language="language" :params="fancyParams">
+                    </candy-fancytree>
                 </div>
 
                 <!-- List View -->
                 <div id="list-view" v-show="currentView === 'list-view'">
-                    <candy-table :items="categoriesList" :search="search" :loaded="categoriesLoaded" :params="tableParams"></candy-table>
+                    <candy-table :items="categories" :loaded="categoriesLoaded" :params="tableParams"
+                                 :pagination="requestParams" @change="changePage">
+                    </candy-table>
                 </div>
 
             </div>
