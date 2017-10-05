@@ -112,6 +112,12 @@ var includes = [
       'product-media' : 'Media'
     }
   },
+  {
+      path: 'catalogue-manager.categories.edit.media',
+      components: {
+          'category-media' : 'Media'
+      }
+  },
   /**
    * Availability & Pricing
    */
