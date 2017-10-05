@@ -114,14 +114,13 @@ $this->post('products/{product}/variants', 'Products\ProductVariantController@st
  * Products
  */
 $this->post('products/{product}/urls', 'Products\ProductController@createUrl');
-$this->post('products/{product}/redirects', 'Products\ProductController@createRedirect');
-$this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
-$this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
-$this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');
-$this->post('products/{product}/assets', 'Products\ProductController@uploadAsset');
+$this->post('products/{product}/redirects', 'Products\ProductRedirectController@store');
+$this->post('products/{product}/attributes', 'Products\ProductAttributeController@update');
+$this->post('products/{product}/collections', 'Products\ProductCollectionController@update');
+$this->post('products/{product}/routes', 'Products\ProductRouteController@update');
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
-$this->get('products/{product}/assets', 'Products\ProductController@getAssets');
-$this->put('products/{product}/assets', 'Products\ProductController@saveAsset');
+$this->post('products/{product}/assets', 'Products\ProductAssetController@upload');
+$this->get('products/{product}/assets', 'Products\ProductAssetController@index');
 $this->delete('products/{product}/remove-category/{category}', 'Products\ProductController@removeCategory');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
