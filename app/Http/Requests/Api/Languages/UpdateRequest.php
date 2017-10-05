@@ -16,7 +16,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'code' => 'required|unique:languages,code,'. $language->decodeId($this->id)
+            'iso' => 'required|unique:languages,iso,'. $language->decodeId($this->id)
         ];
     }
 }

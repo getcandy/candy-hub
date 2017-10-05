@@ -281,10 +281,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(422, $response->status());
     }
 
-    /**
-     * @group fail
-     * @return [type] [description]
-     */
     public function testInvalidStoreAttributesFormating()
     {
         $family = ProductFamily::first();

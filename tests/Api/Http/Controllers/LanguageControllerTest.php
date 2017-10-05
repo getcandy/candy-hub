@@ -123,7 +123,7 @@ class LanguageControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'iso','lang'
+            'iso'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -147,6 +147,7 @@ class LanguageControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
+
     public function testUpdateUniqueCode()
     {
         Language::create([
@@ -169,7 +170,7 @@ class LanguageControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'iso', 'lang'
+            'iso'
         ]);
 
         $this->assertEquals(422, $response->status());
