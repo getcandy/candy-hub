@@ -62,7 +62,7 @@
         },
         methods: {
             loadCategoriesList() {
-                this.request.send('get', '/categories/all')
+                this.request.send('get', '/categories')
                     .then(response => {
                         this.categoriesList = response.data;
                         this.categoriesLoaded = true;
