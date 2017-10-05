@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->json('attribute_data');
             $table->json('option_data')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

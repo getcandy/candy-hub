@@ -19,7 +19,13 @@
         <li><a href="#" title="View product on live site">View</a></li>
       </ul>
     </div>
-    <button class="btn btn-default white"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+    <candy-delete
+      element="product"
+      endpoint="/products/{{ $id }}"
+      id="{{ $id }}"
+      redirect="/catalogue-manager/products"
+      style="display: inline-block;"
+    ></candy-delete>
 @endsection
 
 @section('content')

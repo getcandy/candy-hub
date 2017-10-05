@@ -62,6 +62,15 @@ abstract class BaseService
         return $this->model->decodeId($hash);
     }
 
+    public function getDecodedIds(array $ids)
+    {
+        $decoded = [];
+        foreach ($ids as $id) {
+            $decoded[] = $this->getDecodedId($id);
+        }
+        return $decoded;
+    }
+
     /**
      * Returns the record considered the default
      * @return Mixed

@@ -11,6 +11,9 @@ return [
         'invalid_lang' => 'Invalid language code {:lang}',
         'minimum_record' => 'You must have at least 1 enabled record in the database'
     ],
+    'success' => [
+        'sync' => ':element successfully synced'
+    ],
     'token' => [
         'missing' => 'Missing authorization token from request',
         'expired' => 'Authorization token has expired',

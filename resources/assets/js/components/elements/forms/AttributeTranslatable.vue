@@ -37,33 +37,33 @@
             }
         },
         methods: {
-            getError(mapping) {
+            getError (mapping) {
                 return this.request.getError(mapping);
             },
-            hasError(mapping) {
+            hasError (mapping) {
                 return this.request.hasError(mapping);
             },
-            useDefault: function(obj) {
-                if(obj.checked) {
+            useDefault (obj) {
+                if (obj.checked) {
                     this.set(obj.id, null);
                 } else {
                     this.set(obj.id, this.get(obj.id, 'original'));
                 }
             },
-            get(handle, type){
+            get (handle, type) {
                 var channel = '';
                 var language = '';
                 var source = {};
 
-                if(type === 'default'){
+                if (type === 'default') {
                     channel = this.defaultChannel;
                     language = this.defaultLanguage;
                     source = this.attributeData;
-                }else if(type === 'original'){
+                } else if (type === 'original') {
                     channel = this.translateChannel;
                     language = this.translateLanguage;
                     source = this.originalData;
-                }else{
+                } else {
                     channel = this.translateChannel;
                     language = this.translateLanguage;
                     source = this.attributeData;
@@ -71,24 +71,33 @@
 
                 return _.get(source, handle+'.'+channel+'.'+language);
             },
-            set(handle, value, type){
+            /**
+             * Sets the value of an input to our model
+             * @param {string} handle
+             * @param {string} value
+             * @param {string} type
+             */
+            set(handle, value, type) {
 
                 var channel = '';
                 var language = '';
 
-                if(type === 'default'){
+                if (type === 'default') {
                     channel = this.defaultChannel;
                     language = this.defaultLanguage;
-                }else{
+                } else {
                     channel = this.translateChannel;
                     language = this.translateLanguage;
                 }
 
+                if (!this.attributeData[handle]) {
+                    this.$set(this.attributeData, handle, {});
+                }
+                if (!this.attributeData[handle][channel]) {
+                    this.$set(this.attributeData[handle], channel, {});
+                }
                 this.$set(this.attributeData[handle][channel], language, value);
             }
-        },
-        mounted() {
-            CandyEvent.$emit('current-tab', this);
         },
         created: function() {
             // Non Reactive Data

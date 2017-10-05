@@ -17,6 +17,7 @@ use GetCandy\Api\Customers\Services\CustomerGroupService;
 use GetCandy\Api\Languages\Services\LanguageService;
 use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
+use GetCandy\Api\Products\Services\ProductCategoryService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Products\Services\ProductVariantService;
@@ -147,6 +148,7 @@ class Factory
         LanguageService $languages,
         LayoutService $layouts,
         PageService $pages,
+        ProductCategoryService $productCategories,
         ProductFamilyService $productFamilies,
         ProductVariantService $productVariants,
         ProductService $products,
@@ -173,6 +175,7 @@ class Factory
         $this->pages = $pages;
         $this->productFamilies = $productFamilies;
         $this->products = $products;
+        $this->productCategories = $productCategories;
         $this->productVariants = $productVariants;
         $this->routes = $routes;
         $this->search = $search;

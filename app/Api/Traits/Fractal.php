@@ -95,6 +95,17 @@ trait Fractal
     {
         return response(null, 204);
     }
+
+    public function respondWithSuccess($message = null)
+    {
+        return $this->respondWithArray([
+            'success' => [
+                'http_code' => $this->statusCode,
+                'message' => $message
+            ]
+        ]);
+    }
+
     public function respondWithComplete($status = 201)
     {
         return $this->setStatusCode($status)->respondWithArray(['processed' => true]);
