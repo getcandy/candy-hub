@@ -69,14 +69,15 @@
                 let productID = this.product.id;
                 let categoryID = this.deleteModalData.id;
 
-                this.request.send('delete', '/products/'+productID+'/remove-category/'+categoryID)
-                    .then(response => {
-                        this.deleteModalOpen = false;
-                        CandyEvent.$emit('notification', {
-                            level: 'success',
-                            message: response.categoryName +' was successfully removed from this product.'
-                        });
-                    });
+                this.productCategories.splice(this.deleteModalData.index, 1);
+
+                this.deleteModalOpen = false;
+                CandyEvent.$emit('notification', {
+                    level: 'success',
+                    message: 'Category removed'
+                });
+
+                this.request.send('delete', '/products/' + productID + '/categories/' + categoryID);
             },
             changePage(page) {
                 this.loaded = false;
@@ -106,10 +107,10 @@
             openDeleteModal(category) {
                 this.deleteModalData = {
                     'id': category.id,
+                    'index': this.productCategories.indexOf(category),
                     'name': this.getAttribute(category, 'name'),
                     'slug': this.getRoute(category)
                 };
-
                 this.deleteModalOpen = true;
             },
             closeDeleteModal(category) {

@@ -121,7 +121,7 @@ $this->post('products/{product}/routes', 'Products\ProductRouteController@update
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->post('products/{product}/assets', 'Products\ProductAssetController@upload');
 $this->get('products/{product}/assets', 'Products\ProductAssetController@index');
-$this->delete('products/{product}/remove-category/{category}', 'Products\ProductController@removeCategory');
+$this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);

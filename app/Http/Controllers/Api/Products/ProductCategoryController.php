@@ -27,12 +27,11 @@ class ProductCategoryController extends BaseController
      * Deletes a products category
      * @param  int        $productId
      * @param  int        $categoryId
-     * @param  DeleteRequest $request
      * @return array|\Illuminate\Http\Response
      */
-    public function destroy($productId, $categoryId, DeleteRequest $request)
+    public function destroy($productId, $categoryId)
     {
-        $result = app('api')->products()->removeCategory($product, $category);
+        $result = app('api')->productCategories()->delete($productId, $categoryId);
 
         if ($result) {
             return response()->json([
