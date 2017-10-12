@@ -4,9 +4,9 @@
             return {
                 language: locale.current(),
                 checked: [],
-                selected: [],
                 selectAll: false,
-                checkedCount: 0
+                checkedCount: 0,
+                selected: []
             }
         },
         props: {
@@ -26,6 +26,7 @@
             selected: function(val) {
                 this.checkedCount = val.length;
                 this.selectAll = (val.length === this.items.length);
+                this.$emit('selected', val);
             },
             selectAll: function(val) {
                 let selected = [];

@@ -12,7 +12,7 @@
                 channel: 'ecommerce',
                 language: locale.current(),
                 addModalOpen: false,
-                selectedCategories: [],
+                selectedCategories: ['v8l4pl01'],
                 deleteModalOpen: false,
                 deleteModalData: {},
                 search: '',
@@ -84,7 +84,7 @@
             save() {
                 let ids = [];
                 _.forEach(this.selectedCategories, value => {
-                    ids.push(value.id);
+                    ids.push(value);
                 });
 
                 this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': ids})
@@ -97,9 +97,6 @@
 
                         this.closeAddModal();
                     });
-            },
-            selected(checked) {
-                this.selectedCategories = checked;
             },
             closeAddModal() {
                 this.addModalOpen = false;
@@ -116,6 +113,10 @@
             closeDeleteModal(category) {
                 this.deleteModalData = {};
                 this.deleteModalOpen = false;
+            },
+            addSelected(ids){
+                this.selectedCategories = ids;
+                console.log(ids);
             }
         }
     }
@@ -179,11 +180,10 @@
                 <div class="form-group">
                     <label class="sr-only">Search</label>
                     <input type="text" class="form-control search" v-model="search" placeholder="Search Categories">
-                    <span v-for="category in selectedCategories" class="badge">{{ category.name }}</span>
                 </div>
                 <hr>
 
-                <candy-table :items="categories" :loaded="categoriesLoaded"
+                <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
                              :params="tableParams" :pagination="requestParams" @change="changePage">
                 </candy-table>
 
