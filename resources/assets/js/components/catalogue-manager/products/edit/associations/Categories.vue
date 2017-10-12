@@ -33,6 +33,10 @@
                 this.loadCategories();
             }
             this.productCategories = this.product.categories.data;
+
+            this.productCategories.forEach(category => {
+                this.selectedCategories.push(category.id);
+            });
         },
         props: {
             product: {
@@ -114,7 +118,6 @@
             },
             addSelected(ids){
                 this.selectedCategories = ids;
-                console.log(ids);
             }
         }
     }
@@ -160,7 +163,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot v-if="!product.categories.length">
+                <tfoot v-if="!productCategories.length">
                     <tr>
                       <td colspan="4">
                         <span class="text-muted">No categories found</span>
@@ -182,7 +185,8 @@
                 <hr>
 
                 <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
-                             :params="tableParams" :pagination="requestParams" @change="changePage">
+                             :params="tableParams" :pagination="requestParams" @change="changePage"
+                             :checked="selectedCategories">
                 </candy-table>
 
             </div>
