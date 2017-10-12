@@ -145,27 +145,23 @@
                             <label :for="attribute.handle">{{ attribute.name }}</label>
 
                             <!-- Inputs -->
-                            <div v-if="attribute.type == 'text'">
-                                <candy-input
+                            <candy-input v-if="attribute.type == 'text'"
                                         :handle="'default-'+ attribute.id"
                                         :value="get(attribute.handle, 'default')"
                                         @input="set(attribute.handle, $event, 'default')"
                                         :required="attribute.required">
-                                </candy-input>
-                            </div>
-                            <div v-else-if="attribute.type == 'select'">
-                                <candy-select :id="'default-'+ attribute.id"
-                                              v-model="attributeData[attribute.handle]"
-                                              :options="attribute.lookups" :required="attribute.required">
-                                </candy-select>
-                            </div>
-                            <div v-else-if="attribute.type == 'textarea'">
-                                <candy-textarea :id="'default-'+ attribute.id"
-                                                :value="get(attribute.handle, 'default')"
-                                                @input="set(attribute.handle, $event, 'default')"
-                                                :required="attribute.required">
-                                </candy-textarea>
-                            </div>
+                            </candy-input>
+                            <candy-select v-if="attribute.type == 'select'"
+                                        :id="'default-'+ attribute.id"
+                                        v-model="attributeData[attribute.handle]"
+                                        :options="attribute.lookups" :required="attribute.required">
+                            </candy-select>
+                            <candy-textarea v-if="attribute.type == 'textarea'"
+                                            :id="'default-'+ attribute.id"
+                                            :value="get(attribute.handle, 'default')"
+                                            @input="set(attribute.handle, $event, 'default')"
+                                            :required="attribute.required">
+                            </candy-textarea>
 
                             <!-- Errors -->
                             <span class="text-danger" v-if="getError(attribute.handle)"
@@ -226,31 +222,28 @@
                             <label v-show="isDefault">&nbsp;</label>
 
                             <!-- Inputs -->
-                            <div v-if="attribute.translatable && attribute.type === 'text'">
-                                <candy-input :value="get(attribute.handle)"
-                                             @input="set(attribute.handle, $event)"
-                                             :required="attribute.required"
-                                             :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
-                                             :disabled="(get(attribute.handle) === null || isDefault)">
-                                </candy-input>
-                            </div>
-                            <div v-else-if="attribute.translatable && attribute.type === 'textarea'">
-                                <candy-textarea :value="get(attribute.handle)"
-                                                @input="set(attribute.handle, $event)"
-                                                :required="attribute.required"
-                                                :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
-                                                :disabled="(get(attribute.handle) === null || isDefault)">
-                                </candy-textarea>
-                            </div>
-                            <div v-else-if="attribute.translatable && attribute.type === 'select'">
-                                <candy-select :value="get(attribute.handle)"
-                                              @input="set(attribute.handle, $event)"
-                                              :required="attribute.required"
-                                              :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
-                                              :disabled="(get(attribute.handle) === null || isDefault)"
-                                              :options="attribute.lookups">
-                                </candy-select>
-                            </div>
+                            <candy-input v-if="attribute.translatable && attribute.type === 'text'"
+                                        :value="get(attribute.handle)"
+                                        @input="set(attribute.handle, $event)"
+                                        :required="attribute.required"
+                                        :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
+                                        :disabled="(get(attribute.handle) === null || isDefault)">
+                            </candy-input>
+                            <candy-textarea v-if="attribute.translatable && attribute.type === 'textarea'"
+                                            :value="get(attribute.handle)"
+                                            @input="set(attribute.handle, $event)"
+                                            :required="attribute.required"
+                                            :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
+                                            :disabled="(get(attribute.handle) === null || isDefault)">
+                            </candy-textarea>
+                            <candy-select v-if="attribute.translatable && attribute.type === 'select'"
+                                        :value="get(attribute.handle)"
+                                        @input="set(attribute.handle, $event)"
+                                        :required="attribute.required"
+                                        :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
+                                        :disabled="(get(attribute.handle) === null || isDefault)"
+                                        :options="attribute.lookups">
+                            </candy-select>
 
                             <!-- Errors -->
                             <span class="text-danger"
