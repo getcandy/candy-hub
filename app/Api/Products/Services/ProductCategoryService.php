@@ -21,4 +21,12 @@ class ProductCategoryService extends BaseService
         $product->categories()->sync($category_ids);
         return $product->categories;
     }
+
+    public function delete($productId, $categoryId)
+    {
+        $product = $this->getByHashedId($productId);
+        $categoryId = app('api')->categories()->getDecodedId($categoryId);
+        $product->categories()->detach($categoryId);
+        return $product->categories;
+    }
 }

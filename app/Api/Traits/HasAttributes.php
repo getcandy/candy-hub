@@ -21,13 +21,12 @@ trait HasAttributes
         return $this->hasOne(AttributeGroup::class)->withTimestamps();
     }
 
-    public function attribute($handle, $channel = null)
+    public function attribute($handle, $channel = 'ecommerce', $locale = 'en')
     {
-        $locale = app()->getLocale();
-        if (empty($this->attribute_data[$handle][$locale])) {
+        if (empty($this->attribute_data[$handle][$channel][$locale])) {
             return null;
         }
-        return $this->attribute_data[$handle][$locale];
+        return $this->attribute_data[$handle][$channel][$locale];
     }
 
     public function getNameAttribute()
@@ -55,7 +54,7 @@ trait HasAttributes
         $valueMapping = [];
         $structure = $this->getDataMapping();
 
-        foreach($data as $attribute) {
+        foreach ($data as $attribute) {
             // Do this so we can reset the structure without hitting DB again
             $newData[$attribute['key']] = $structure;
 

@@ -3,7 +3,6 @@
         data() {
             return {
                 language: locale.current(),
-                checked: [],
                 selectAll: false,
                 checkedCount: 0,
                 selected: []

@@ -90,8 +90,12 @@ class CategoryService extends BaseService
     {
         $categories = $this->model->get();
 
-        foreach($categories as $category) {
-            if(isset($category->attribute_data[$key][$channel][$lang]) && $category->attribute_data[$key][$channel][$lang] == $value) {
+        foreach ($categories as $category) {
+            if (isset(
+                $category->attribute_data[$key][$channel][$lang]
+            ) &&
+                $category->attribute_data[$key][$channel][$lang] == $value
+            ) {
                 return false;
             }
         }
@@ -108,5 +112,6 @@ class CategoryService extends BaseService
         }
         return $results->paginate($length, ['*'], 'page', $page);
     }
+
 
 }
