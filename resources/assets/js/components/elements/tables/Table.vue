@@ -11,6 +11,9 @@
         },
         props: {
             loaded: false,
+            checked: {
+                type: Array
+            },
             items: {
                 type: Array
             },
@@ -38,6 +41,11 @@
                 }
                 this.selected = selected;
             }
+        },
+        mounted() {
+            this.checked.forEach(val => {
+                this.selected.push(val);
+            });
         },
         methods: {
             getRoute: function (data) {
