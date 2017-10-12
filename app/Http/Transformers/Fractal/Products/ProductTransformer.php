@@ -47,10 +47,8 @@ class ProductTransformer extends BaseTransformer
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
-            'option_data' => $this->parseOptionData($product->option_data),
-            'thumbnail' => $this->getThumbnail($product)
-        ];
-
+            'option_data' => $this->parseOptionData($product->option_data)
+        ]
         return $response;
     }
 
@@ -71,19 +69,6 @@ class ProductTransformer extends BaseTransformer
         });
         return $options;
     }
-
-    protected function getThumbnail($product)
-    {
-        $asset = $product->primaryAsset();
-
-        if (!$asset) {
-            return null;
-        }
-
-        $data = $this->item($product->primaryAsset(), new AssetTransformer);
-        return app()->fractal->createData($data)->toArray();
-    }
-
 
     /**
      * @param \GetCandy\Api\Products\Models\Product $product

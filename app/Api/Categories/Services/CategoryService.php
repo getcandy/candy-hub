@@ -108,7 +108,7 @@ class CategoryService extends BaseService
             $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
             $results = $this->model->whereIn('id', $ids);
         } else {
-            $results = $this->model;
+            $results = $this->model->whereDoesntHave('parent');
         }
         return $results->paginate($length, ['*'], 'page', $page);
     }

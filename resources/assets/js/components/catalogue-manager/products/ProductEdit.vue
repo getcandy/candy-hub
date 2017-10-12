@@ -120,7 +120,6 @@
 
                     <candy-tab name="Media">
                         <candy-media
-                            :current="product.assets"
                             assetable="products"
                             :parent="product">
                         </candy-media>

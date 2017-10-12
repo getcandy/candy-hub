@@ -4,6 +4,7 @@ namespace GetCandy\Http\Transformers\Fractal;
 
 use League\Fractal\TransformerAbstract;
 use Illuminate\Database\Eloquent\Model;
+use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 
 abstract class BaseTransformer extends TransformerAbstract
 {
@@ -32,5 +33,17 @@ abstract class BaseTransformer extends TransformerAbstract
             $name = array_shift($name);
         }
         return $name;
+    }
+
+    protected function getThumbnail($model)
+    {
+        $asset = $model->primaryAsset();
+
+        if (!$asset) {
+            return null;
+        }
+
+        $data = $this->item($model->primaryAsset(), new AssetTransformer);
+        return app()->fractal->createData($data)->toArray();
     }
 }

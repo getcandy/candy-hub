@@ -106,21 +106,6 @@ var includes = [
     }
   },
   /**
-   * Media
-   */
-  {
-    path: 'catalogue-manager.products.edit.media',
-    components: {
-      'product-media' : 'Media'
-    }
-  },
-  {
-      path: 'catalogue-manager.categories.edit.media',
-      components: {
-          'category-media' : 'Media'
-      }
-  },
-  /**
    * Availability & Pricing
    */
   {

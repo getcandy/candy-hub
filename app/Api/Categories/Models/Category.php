@@ -16,6 +16,8 @@ class Category extends BaseModel
 
     protected $hashids = 'main';
 
+    protected $settings = 'products';
+
     protected $fillable = [
         'attribute_data', 'parent_id'
     ];
@@ -30,7 +32,12 @@ class Category extends BaseModel
         $children = $this->hasMany(Category::class, 'parent_id')
             ->count();
 
-        return ($children > 0) ? true : false;
+        return (bool) $children;
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo($this, 'parent_id');
     }
 
     public function getProductCount()

@@ -15,7 +15,7 @@
                     per_page: 25,
                     current_page: 1,
                     keywords: '',
-                    includes: 'routes'
+                    includes: 'routes,assets'
                 },
                 reloadList: false,
                 createModalOpen: false,
@@ -225,7 +225,7 @@
 
                 <!-- Fancy Tree View -->
                 <div id="tree-view" v-show="currentView === 'tree-view'">
-                    <candy-fancytree sourceURL="/categories/parent/" updateURL="/categories/" :reload="reloadList"
+                    <candy-fancytree sourceURL="/categories/" updateURL="/categories/" :reload="reloadList"
                                      :channel="channel" :language="language" :params="fancyParams">
                     </candy-fancytree>
                 </div>
