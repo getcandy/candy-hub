@@ -11,7 +11,10 @@
         props: {
             loaded: false,
             checked: {
-                type: Array
+                type: Array,
+                default() {
+                    return [];
+                }
             },
             items: {
                 type: Array
