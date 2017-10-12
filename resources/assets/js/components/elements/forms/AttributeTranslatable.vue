@@ -215,7 +215,7 @@
                         <div class="form-group" v-for="attribute in attributes">
 
                             <!-- Checkbox -->
-                            <candy-checkbox v-show="attribute.scopeable && !isDefault"
+                            <candy-checkbox v-show="attribute.translatable && !isDefault"
                                             :id="attribute.handle"
                                             @change="useDefault"
                                             :class="{ attributecheckbox: true }"
@@ -226,7 +226,7 @@
                             <label v-show="isDefault">&nbsp;</label>
 
                             <!-- Inputs -->
-                            <div v-if="attribute.scopeable && attribute.type === 'text'">
+                            <div v-if="attribute.translatable && attribute.type === 'text'">
                                 <candy-input :value="get(attribute.handle)"
                                              @input="set(attribute.handle, $event)"
                                              :required="attribute.required"
@@ -234,7 +234,7 @@
                                              :disabled="(get(attribute.handle) === null || isDefault)">
                                 </candy-input>
                             </div>
-                            <div v-else-if="attribute.scopeable && attribute.type === 'textarea'">
+                            <div v-else-if="attribute.translatable && attribute.type === 'textarea'">
                                 <candy-textarea :value="get(attribute.handle)"
                                                 @input="set(attribute.handle, $event)"
                                                 :required="attribute.required"
@@ -242,7 +242,7 @@
                                                 :disabled="(get(attribute.handle) === null || isDefault)">
                                 </candy-textarea>
                             </div>
-                            <div v-else-if="attribute.scopeable && attribute.type === 'select'">
+                            <div v-else-if="attribute.translatable && attribute.type === 'select'">
                                 <candy-select :value="get(attribute.handle)"
                                               @input="set(attribute.handle, $event)"
                                               :required="attribute.required"
