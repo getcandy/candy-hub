@@ -7,10 +7,12 @@ use Kalnoy\Nestedset\NodeTrait;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Traits\Assetable;
+
 
 class Category extends BaseModel
 {
-    use NodeTrait, HasAttributes;
+    use NodeTrait, HasAttributes, Assetable;
 
     protected $hashids = 'main';
 

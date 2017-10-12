@@ -2,10 +2,11 @@
 
 namespace GetCandy\Http\Transformers\Fractal\Categories;
 
-use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
-use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
+use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 
 class CategoryTransformer extends BaseTransformer
