@@ -44,11 +44,9 @@
                 return data.attribute_data[attribute][this.channel][this.language];
             },
             getRoute(data) {
-                let _this = this;
                 let slug = '';
-
-                data.routes.data.forEach(function (route) {
-                    if(route.locale === _this.language) {
+                data.routes.data.forEach(route => {
+                    if (route.locale === this.language) {
                         slug = route.slug;
                     }
                 });
