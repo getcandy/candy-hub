@@ -10,6 +10,11 @@ abstract class BaseService
 
     protected $with = [];
 
+    public function getModelName()
+    {
+        return get_class($this->model);
+    }
+
     public function with(array $data)
     {
         $this->with = $data;

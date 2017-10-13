@@ -27,4 +27,10 @@ class CustomerGroupService extends BaseService
         }
         return $groups;
     }
+
+
+    public function getGuestId()
+    {
+        return $this->model->where('handle', '=', 'guest')->pluck('id')->first();
+    }
 }

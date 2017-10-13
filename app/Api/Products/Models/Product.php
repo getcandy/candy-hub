@@ -12,6 +12,7 @@ use GetCandy\Api\Pages\Models\Page;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Assetable;
+use GetCandy\Api\Traits\CustomerGroup as CustomerGroupTrait;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends BaseModel
 {
-    use Indexable, HasAttributes, Assetable, SoftDeletes;
+    use Indexable, HasAttributes, Assetable, SoftDeletes, CustomerGroupTrait;
 
     protected $settings = 'products';
 

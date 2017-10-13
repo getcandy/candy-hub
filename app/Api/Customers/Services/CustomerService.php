@@ -14,6 +14,8 @@ class CustomerService extends BaseService
      */
     public function register(array $data)
     {
-        return app('api')->users()->create($data);
+        $user = app('api')->users()->create($data);
+        $user->assignRole('customer');
+        return $user;
     }
 }

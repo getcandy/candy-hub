@@ -443,6 +443,8 @@ class ProductTableSeeder extends Seeder
         ];
         $i = 1;
         $attributes = Attribute::get();
+
+        $fake = Faker\Factory::create();
         foreach ($products as $family => $products) {
             $family = ProductFamily::find($i);
             foreach ($products as $data) {
@@ -451,8 +453,11 @@ class ProductTableSeeder extends Seeder
                     'option_data' => (!empty($data['option_data']) ? $data['option_data'] : [])
                 ]);
 
-                $product->customerGroups()->sync([
-                    1 => ['visible' => true, 'purchasable' => true]
+
+                $group = \GetCandy\Api\Customers\Models\CustomerGroup::find($fake->numberBetween(1, 2));
+                $product->customerGroups()->attach($group->id, [
+                    'visible' => $fake->boolean,
+                    'purchasable' => $fake->boolean
                 ]);
 
                 foreach ($attributes as $att) {

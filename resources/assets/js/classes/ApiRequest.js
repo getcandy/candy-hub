@@ -58,7 +58,9 @@ class ApiRequest {
                 url: this.getUrl(path),
                 data: data,
                 params: params,
-                headers: {'Accept': 'application/json'}
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
             .then(response => {
                 this.onSuccess(response.data);

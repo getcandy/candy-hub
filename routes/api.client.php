@@ -14,6 +14,7 @@ $this->get('channels/{id}', 'Channels\ChannelController@show');
 $this->get('collections', 'Collections\CollectionController@index');
 $this->get('collections/{id}', 'Collections\CollectionController@show');
 $this->get('products/{id}', 'Products\ProductController@show');
+$this->post('customers', 'Customers\CustomerController@store');
 $this->get('products', 'Products\ProductController@index');
 
 /**

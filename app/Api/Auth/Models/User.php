@@ -8,12 +8,14 @@ use GetCandy\Api\Traits\Hashids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-    use Hashids;
-    use HasApiTokens;
+    use Notifiable,
+        Hashids,
+        HasApiTokens,
+        HasRoles;
 
     protected $hashids = 'user';
 
