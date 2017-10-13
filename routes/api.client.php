@@ -15,6 +15,10 @@ $this->get('collections', 'Collections\CollectionController@index');
 $this->get('collections/{id}', 'Collections\CollectionController@show');
 $this->get('products/{id}', 'Products\ProductController@show');
 
+/**
+ * Categories
+ */
+$this->get('categories', 'Categories\CategoryController@index');
 
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
