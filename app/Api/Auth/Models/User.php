@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Auth\Models;
 
 use GetCandy\Api\Customers\Models\CustomerGroup;
+use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Traits\Hashids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -37,5 +38,10 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->belongsToMany(CustomerGroup::class);
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
     }
 }
