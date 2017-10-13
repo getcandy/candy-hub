@@ -9,6 +9,7 @@ var includes = [
     path: 'elements',
     components: {
       'alert' : 'AlertPanel',
+      'media' : 'Media',
       'button' : 'Button',
       'modal' : 'Modal',
       'notification' : 'NotificationBar',
@@ -103,21 +104,6 @@ var includes = [
     components: {
       'table-paginate' : 'TablePaginate'
     }
-  },
-  /**
-   * Media
-   */
-  {
-    path: 'catalogue-manager.products.edit.media',
-    components: {
-      'product-media' : 'Media'
-    }
-  },
-  {
-      path: 'catalogue-manager.categories.edit.media',
-      components: {
-          'category-media' : 'Media'
-      }
   },
   /**
    * Availability & Pricing

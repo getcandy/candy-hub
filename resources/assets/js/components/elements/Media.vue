@@ -36,7 +36,7 @@
             }
         },
         mounted() {
-            this.product.assets.data.forEach(asset => {
+            this.parent.assets.data.forEach(asset => {
                 if (asset.tags.data) {
                     asset.tags = asset.tags.data;
                     delete asset.tags.data;
@@ -59,11 +59,14 @@
         },
         computed: {
             dropzoneUrl() {
-                return '/api/v1/products/' + this.product.id + '/assets';
+                return '/api/v1/assets';
             }
         },
         props: {
-            product: {
+            assetable: {
+                type: String
+            },
+            parent: {
                 type: Object
             },
             token: {
@@ -82,8 +85,10 @@
             },
             uploadUrlMedia() {
                 this.processingAssetUrl = true;
-                this.request.send('post', '/products/' + this.product.id + '/assets', {
+                this.request.send('post', 'assets', {
                     'url': this.urlUpload.url,
+                    'parent_id' : this.parent.id,
+                    'parent' : this.assetable,
                     'mime_type': this.urlUpload.type
                 }).then(response => {
                     this.processingAssetUrl = false;
@@ -203,6 +208,10 @@
                 });
 
                 this.assets.push(response.data);
+            },
+            appendParams(file, xhr, formData) {
+                formData.append('parent', this.assetable);
+                formData.append('parent_id', this.parent.id);
             },
             uploadError(file, response) {
                 this.$refs.mediaDropzone.removeFile(file);
@@ -340,6 +349,7 @@
                 ref="mediaDropzone"
                 :url="dropzoneUrl"
                 v-on:vdropzone-success="uploadSuccess"
+                v-on:vdropzone-sending="appendParams"
                 v-bind:dropzone-options="dzOptions"
                 v-bind:use-custom-dropzone-options="true"
                 v-on:vdropzone-error="uploadError"

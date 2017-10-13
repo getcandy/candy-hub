@@ -108,7 +108,7 @@
         },
         watch: {
             reload: function(value){
-                if(value){
+                if (value) {
                     this.reloadData();
                 }
             }
@@ -154,14 +154,16 @@
                         }.bind(this)
                     },
                     source: this.data,
-                    lazyLoad: function(event, data){
+                    lazyLoad: function (event, data) {
                         let nodeID = data.node.data.id;
                         let request = new $.Deferred();
                         data.result = request.promise();
 
-                        apiRequest.send('get', this.sourceURL + nodeID)
+                        apiRequest.send('get', this.sourceURL + nodeID, [],  {
+                            includes: 'children, assets'
+                        })
                             .then(response => {
-                                request.resolve(response.data);
+                                request.resolve(response.data.children.data);
                             })
                             .catch(error => {
                                 request.reject(new Error("Could not load data"));
@@ -198,20 +200,29 @@
                 return '<a data-parent-id="'+ parentID +'" data-parent-name="'+ parentName +'" class="btn btn-default modal-button"><i class="fa fa-plus"></i> Create Subcategory</a>';
             },
             getImage: function(data) {
-                return '<img class="fancytree-image" src="/images/placeholder/no-image.svg" height="41">';
+                let url = '/images/placeholder/no-image.svg';
+                if (data.thumbnail) {
+                    url = data.thumbnail.data.thumbnail;
+                }
+                console.log(data);
+                return '<img class="fancytree-image" src="' + url + '" >';
             },
             getAttribute: function(data, attribute) {
                 return data.attribute_data[attribute][this.channel][this.language];
             },
             reloadData: function() {
-                apiRequest.send('get', this.sourceURL)
+                apiRequest.send('get', this.sourceURL, [], {
+                    includes: 'assets'
+                })
                     .then(response => {
                         this.data = response.data;
                         $('#treetable').fancytree("getTree").reload();
                     });
             },
             loadData: function() {
-                apiRequest.send('get', this.sourceURL)
+                apiRequest.send('get', this.sourceURL, [], {
+                    includes: 'assets'
+                })
                     .then(response => {
                         this.data = response.data;
                         CandyEvent.$nextTick( function(){

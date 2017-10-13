@@ -31,12 +31,6 @@ class ProductAssetController extends BaseController
      */
     public function upload($id, UploadRequest $request)
     {
-        $product = app('api')->products()->getByHashedId($id);
-        $asset = app('api')->assets()->upload(
-            $request->all(),
-            $product,
-            $product->assets()->count() + 1
-        );
-        return $this->respondWithItem($asset, new AssetTransformer);
+
     }
 }

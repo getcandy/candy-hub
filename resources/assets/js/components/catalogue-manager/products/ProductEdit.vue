@@ -78,8 +78,6 @@
                     this.decorate(response.data);
                     this.loaded = true;
                 }).catch(error => {
-                    // http://homestead.app/catalogue-manager/products/xojxzgy5
-                    // 
                     CandyEvent.$emit('notification', {
                         level: 'error',
                         message: error.message
@@ -121,7 +119,10 @@
                     </candy-tab>
 
                     <candy-tab name="Media">
-                        <candy-product-media :product="product"></candy-product-media>
+                        <candy-media
+                            assetable="products"
+                            :parent="product">
+                        </candy-media>
                     </candy-tab>
 
                     <candy-tab name="Availability &amp; Pricing" handle="product-availability" dispatch="product-variants">

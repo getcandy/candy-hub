@@ -11,7 +11,10 @@
         props: {
             loaded: false,
             checked: {
-                type: Array
+                type: Array,
+                default() {
+                    return [];
+                }
             },
             items: {
                 type: Array
@@ -59,9 +62,11 @@
 
                 return slug;
             },
-            getImage: function(url) {
-                // TODO
-                return url;
+            thumbnail(element) {
+                if (element.thumbnail) {
+                    return element.thumbnail.data.thumbnail;
+                }
+                return '/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
@@ -133,7 +138,7 @@
                         </template>
 
                         <template v-else-if="column.type === 'image'">
-                            <img :src="getImage('/images/placeholder/no-image.svg')" height='41'>
+                            <img :src="thumbnail(column)" height='41'>
                         </template>
 
                         <template v-else-if="column.type === 'button'">

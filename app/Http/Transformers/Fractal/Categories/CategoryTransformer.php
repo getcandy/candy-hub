@@ -17,7 +17,7 @@ class CategoryTransformer extends BaseTransformer
         'routes'
     ];
     protected $availableIncludes = [
-        'attribute_groups','assets'
+        'attribute_groups','assets', 'children'
     ];
 
     public function transform(Category $category)
@@ -26,9 +26,12 @@ class CategoryTransformer extends BaseTransformer
             'id' => $category->encodedId(),
             'attribute_data' => $category->attribute_data,
             'depth' => $category->depth,
-            'product_count' => $category->getProductCount()
+            'product_count' => $category->getProductCount(),
+            'lazy' => $category->hasChildren(),
+            'thumbnail' => $this->getThumbnail($category),
+            'test' => 1
         ];
-
+/*
         $children = [];
 
         $i = 0;
@@ -39,10 +42,13 @@ class CategoryTransformer extends BaseTransformer
         }
 
         $data['children'] = $children;
-
+*/
         return $data;
     }
-
+    public function includeChildren(Category $category)
+    {
+        return $this->collection($category->children, $this);
+    }
     public function includeRoutes(Category $category)
     {
         return $this->collection($category->routes, new RouteTransformer);

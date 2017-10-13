@@ -61,8 +61,8 @@
              * @param  {String} id
              */
             loadCategory(id) {
-                apiRequest.send('get', '/category/' + this.categoryId, {}, {
-                    includes: 'attribute_groups'
+                apiRequest.send('get', '/categories/' + this.categoryId, {}, {
+                    includes: 'attribute_groups,assets'
                 }).then(response => {
                     console.log(response);
                     this.decorate(response.data);
@@ -94,38 +94,7 @@
                     </candy-tab>
 
                     <candy-tab name="Media">
-                        <candy-media :category="category"></candy-media>
-                    </candy-tab>
-
-                    <candy-tab name="Availability" handle="category-availability" dispatch="category-variants">
-                        <candy-category-availability :category="category" :languages="languages"
-                                                    v-if="category">
-                        </candy-category-availability>
-                    </candy-tab>
-
-                    <candy-tab name="Associations">
-                        <candy-tabs nested="true">
-                            <candy-tab name="Products" handle="products">
-                                <candy-category :category="category"></candy-category>
-                            </candy-tab>
-                        </candy-tabs>
-                        <candy-association-modals></candy-association-modals>
-                    </candy-tab>
-
-                    <candy-tab name="Display">
-                        <candy-display></candy-display>
-                    </candy-tab>
-
-                    <candy-tab name="URLS">
-                        <candy-tabs nested="true">
-                            <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                                <candy-locale-urls :languages="languages" :routes="routes"
-                                                   :category="category"></candy-locale-urls>
-                            </candy-tab>
-                            <candy-tab name="Redirects" handle="redirects">
-                                <candy-redirects :category="category" :routes="routes"></candy-redirects>
-                            </candy-tab>
-                        </candy-tabs>
+                        <candy-media assetable="categories" :parent="category"></candy-media>
                     </candy-tab>
 
                 </candy-tabs>
