@@ -25,7 +25,28 @@ class UserService extends BaseService
         $user->password = bcrypt($data['password']);
         $user->name = $data['name'];
         $user->email = $data['email'];
+
+        // Get the language.
+        $language = app('api')->languages()->getEnabledByLang($data['language']);
+
+        // Get the user group.
+        if ($data['group']) {
+            $group = app('api')->customerGroups()->getByHandle($data['group']);
+        } else {
+            $group = app('api')->customerGroups()->getDefaultRecord();
+        }
+
+        if (!empty($data['fields'])) {
+            $user->fields = $data['fields'];
+        }
+
         $user->save();
+
+        $user->groups()->attach($group);
+        $user->language()->associate($language);
+
+        $user->save();
+
         return $user;
     }
 }

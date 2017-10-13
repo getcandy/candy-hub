@@ -81,6 +81,15 @@ abstract class BaseService
     }
 
     /**
+     * Get a record by it's handle
+     * @return Mixed
+     */
+    public function getByHandle($handle)
+    {
+        return $this->model->where('handle', '=', $handle)->first();
+    }
+
+    /**
      * Gets paginated data for the record
      * @param  integer $length How many results per page
      * @param  int  $page   The page to start
@@ -204,8 +213,12 @@ abstract class BaseService
         return true;
     }
 
-    public function fuzzySearch($keywords, $column)
+    public function getEnabled($value, $column = 'handle')
     {
-        return $this->model->where($column, 'LIKE', '%'.$keywords.'%')->get();
+        $query = $this->model->where('enabled', '=', true);
+        if (is_array($value)) {
+            return $query->whereIn($column, $value)->first();
+        }
+        return $query->where($column, '=', $value)->first();
     }
 }

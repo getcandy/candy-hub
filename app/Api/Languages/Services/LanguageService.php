@@ -41,7 +41,7 @@ class LanguageService extends BaseService
         if (is_array($lang)) {
             return $query->whereIn('lang', $lang)->first();
         }
-        return $query->model->where('lang', '=', $lang)->first();
+        return $query->where('lang', '=', $lang)->first();
     }
 
     /**

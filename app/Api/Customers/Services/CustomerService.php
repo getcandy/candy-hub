@@ -6,8 +6,14 @@ use GetCandy\Api\Scaffold\BaseService;
 
 class CustomerService extends BaseService
 {
-    public function createGroup()
+
+    /**
+     * Registers a new customer
+     * @param  array  $data
+     * @return [type]       [description]
+     */
+    public function register(array $data)
     {
-        //
+        return app('api')->users()->create($data);
     }
 }

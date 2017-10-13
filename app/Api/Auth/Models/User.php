@@ -44,4 +44,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Language::class);
     }
+
+    public function getFieldsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function setFieldsAttribute($value)
+    {
+        $this->attributes['fields'] = json_encode($value);
+    }
 }

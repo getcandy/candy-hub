@@ -48,7 +48,7 @@ class ProductTransformer extends BaseTransformer
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
             'option_data' => $this->parseOptionData($product->option_data)
-        ]
+        ];
         return $response;
     }
 
