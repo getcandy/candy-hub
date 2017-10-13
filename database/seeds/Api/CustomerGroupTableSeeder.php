@@ -14,6 +14,7 @@ class CustomerGroupTableSeeder extends Seeder
     {
         CustomerGroup::forceCreate([
             'name' => 'Retail',
+            'default' => true,
             'system' => true
         ]);
     }
