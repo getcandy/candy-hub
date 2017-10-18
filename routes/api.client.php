@@ -21,6 +21,13 @@ $this->get('products', 'Products\ProductController@index');
  */
 $this->get('categories', 'Categories\CategoryController@index');
 
+/**
+ * Customers
+ */
+$this->resource('customers', 'Customers\CustomerController', [
+    'except' => ['index', 'edit', 'create', 'show']
+]);
+
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
     'uses' => 'Routes\RouteController@show'
