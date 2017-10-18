@@ -2,16 +2,19 @@
 
 namespace GetCandy\Http\Middleware;
 
+use Auth;
 use Closure;
+use Firebase\JWT\JWT;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Contracts\Encryption\Encrypter;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials as BaseMiddleware;
+use Laravel\Passport\Passport;
+use Laravel\Passport\TransientToken;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
-use Illuminate\Contracts\Encryption\Encrypter;
-use Laravel\Passport\Passport;
-use Firebase\JWT\JWT;
-use Laravel\Passport\TransientToken;
+use Laravel\Passport\TokenRepository;
 
 class CheckClientCredentials extends BaseMiddleware
 {
@@ -25,16 +28,22 @@ class CheckClientCredentials extends BaseMiddleware
 
     private $encrypter;
 
+    protected $provider;
+
+    protected $tokens;
+
     /**
      * Create a new middleware instance.
      *
      * @param  \League\OAuth2\Server\ResourceServer  $server
      * @return void
      */
-    public function __construct(ResourceServer $server, Encrypter $encrypter)
+    public function __construct(ResourceServer $server, Encrypter $encrypter, TokenRepository $tokens)
     {
         $this->server = $server;
         $this->encrypter = $encrypter;
+        $this->provider = Auth::createUserProvider('users');
+        $this->tokens = $tokens;
     }
 
     /**
@@ -53,33 +62,24 @@ class CheckClientCredentials extends BaseMiddleware
         $cookies = $psr->getCookieParams();
 
         if (!empty($cookies[Passport::cookie()])) {
-            $token = $this->decodeJwtTokenCookie($cookies[Passport::cookie()]);
+            try {
+                $token = $this->decodeJwtTokenCookie($cookies[Passport::cookie()]);
+            } catch (DecryptException $e) {
+                throw new AuthenticationException;
+            }
 
-            // We will compare the CSRF token in the decoded API token against the CSRF header
-            // sent with the request. If the two don't match then this request is sent from
-            // a valid source and we won't authenticate the request for further handling.
-            // if (! $this->validCsrf($token, $request) ||
-            //     time() >= $token['expiry']) {
-            //     throw new AuthenticationException;;
-            // }
-            dd(new TransientToken);
-            $psr = $psr->withAccessToken(new TransientToken);
-
-            dd($psr);
+            if ($user = $this->provider->retrieveById($token['sub'])) {
+                Auth::login($user);
+                return $next($request);
+            } else {
+                throw new AuthenticationException;
+            }
         }
 
         try {
-
-            dd($psr);
             $psr = $this->server->validateAuthenticatedRequest($psr);
-
-
         } catch (OAuthServerException $e) {
             throw new AuthenticationException;
-        }
-
-        if ($userId = $psr->getAttribute('oauth_user_id')) {
-            \Auth::loginUsingId($userId);
         }
 
         $this->validateScopes($psr, $scopes);
