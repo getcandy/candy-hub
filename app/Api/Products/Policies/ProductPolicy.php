@@ -6,22 +6,25 @@ use GetCandy\Api\Products\Models\Product;
 
 class ProductPolicy
 {
-    public function __construct()
-    {
-        dd('hit');
-    }
     public function before()
-    {   
-        dd('hit');
+    {
+        // dd('before');
         return true;
     }
     public function update(User $user, Product $product)
     {
-        dd($product);
+        return true;
     }
-
+    public function create(User $user, Product $product)
+    {
+        return true;
+    }
     public function edit()
     {
-        dd('hit');
+        return true;
+    }
+    public function view()
+    {
+        return true;
     }
 }

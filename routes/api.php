@@ -123,7 +123,7 @@ $this->post('products/{product}/routes', 'Products\ProductRouteController@update
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
 $this->resource('products', 'Products\ProductController', [
-    'except' => ['edit', 'create', 'index', 'show']
+    'except' => ['edit', 'create']
 ]);
 
 /**

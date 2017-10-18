@@ -75,11 +75,15 @@ class CheckClientCredentials extends BaseMiddleware
                 throw new AuthenticationException;
             }
         }
-
         try {
             $psr = $this->server->validateAuthenticatedRequest($psr);
         } catch (OAuthServerException $e) {
             throw new AuthenticationException;
+        }
+
+        if ($user = $this->provider->retrieveById($psr->getAttribute('oauth_user_id'))) {
+            Auth::login($user);
+            return $next($request);
         }
 
         $this->validateScopes($psr, $scopes);

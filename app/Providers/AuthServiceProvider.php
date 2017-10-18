@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::resource('product', ProductPolicy::class);
+        // Gate::resource('product', ProductPolicy::class);
 
         Passport::tokensCan([
             'read' => 'Read API'

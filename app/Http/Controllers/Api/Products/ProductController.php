@@ -16,12 +16,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductController extends BaseController
 {
-
-    public function __construct()
-    {
-        $this->authorizeResource(\GetCandy\Api\Products\Models\Product::class);
-    }
-
     /**
      * Handles the request to show all products
      * @param  Request $request
