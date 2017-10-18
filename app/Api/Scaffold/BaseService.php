@@ -30,8 +30,7 @@ abstract class BaseService
     public function getByHashedId($id)
     {
         $id = $this->model->decodeId($id);
-        $result = $this->model->findOrFail($id);
-        return $result;
+        return $this->model->findOrFail($id);
     }
 
     /**
