@@ -18,13 +18,15 @@ class CustomerGroupScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
+        $roles = app('api')->roles()->getHubAccessRoles();
         $groups = $this->getCustomerGroups();
+        $user = app('auth')->user();
 
-        $builder->whereHas('customerGroups', function ($q) use ($groups) {
-            $q->whereIn('customer_groups.id', $groups)->where('visible', '=', true);
-        });
-
-        // $this->extend($builder);
+        if (!$user || !$user->hasAnyRole($roles)) {
+            $builder->whereHas('customerGroups', function ($q) use ($groups) {
+                $q->whereIn('customer_groups.id', $groups)->where('visible', '=', true);
+            });
+        }
     }
 
     protected function getCustomerGroups()

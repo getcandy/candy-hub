@@ -34,9 +34,11 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \GetCandy\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class
         ],
-
+        'hub' => [
+            \GetCandy\Http\Middleware\Hub\HubAccess::class
+        ],
         'api' => [
             'throttle:60,1',
             'bindings'

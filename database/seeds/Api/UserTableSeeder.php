@@ -15,19 +15,28 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        $language = app('api')->languages()->getDefaultRecord();
+
+        $admin = User::create([
             'name' => 'Alec',
             'email' => 'alec@neondigital.co.uk',
             'password' => \Hash::make('password')
         ]);
 
-        $language = app('api')->languages()->getDefaultRecord();
+        $admin->language()->associate($language);
+        $admin->save();
+        $admin->assignRole('admin');
+        $admin->save();
 
+        $customer = User::create([
+            'name' => 'Shaun',
+            'email' => 'shaun@neondigital.co.uk',
+            'password' => \Hash::make('password')
+        ]);
 
-        $user->language()->associate($language);
-        $user->save();
-
-        $group = CustomerGroup::find(1);
-        $user->groups()->attach($group);
+        $customer->language()->associate($language);
+        $customer->save();
+        $customer->assignRole('customer');
+        $customer->save();
     }
 }

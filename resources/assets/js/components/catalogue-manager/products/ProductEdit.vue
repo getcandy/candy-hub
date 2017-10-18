@@ -82,7 +82,7 @@
                         level: 'error',
                         message: error.message
                     });
-                    window.location = '/catalogue-manager/products';
+                    // window.location = '/catalogue-manager/products';
                 });
             },
             getCategoryCount() {
