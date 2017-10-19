@@ -67,7 +67,6 @@
                     <thead>
                     <tr>
                         <th>Channel</th>
-                        <th>Visible</th>
                         <th>Published</th>
                         <th>Publish date</th>
                     </tr>
@@ -80,12 +79,6 @@
                                 <i class="fa fa-clock-o" aria-hidden="true" v-else></i>
                             </figure>
                             {{ channel.name }}
-                        </td>
-                        <td>
-                            <div class="checkbox">
-                                <input :id="'CH' + channel.id" type="checkbox" v-model="channel.visible">
-                                <label :for="'CH' + channel.id"><span class="check"></span></label>
-                            </div>
                         </td>
                         <td width="5%">
                             <div class="checkbox">

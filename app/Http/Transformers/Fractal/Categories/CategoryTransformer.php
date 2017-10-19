@@ -7,6 +7,7 @@ use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 
 class CategoryTransformer extends BaseTransformer
@@ -17,7 +18,7 @@ class CategoryTransformer extends BaseTransformer
         'routes'
     ];
     protected $availableIncludes = [
-        'attribute_groups','assets', 'children'
+        'attribute_groups','assets', 'children', 'channels'
     ];
 
     public function transform(Category $category)
@@ -52,6 +53,17 @@ class CategoryTransformer extends BaseTransformer
     public function includeRoutes(Category $category)
     {
         return $this->collection($category->routes, new RouteTransformer);
+    }
+
+    /**
+     * @param Category $category
+     *
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeChannels(Category $category)
+    {
+        $channels = app('api')->channels()->getChannelsWithAvailability($category, 'categories');
+        return $this->collection($channels, new ChannelTransformer);
     }
 
     public function includeAttributeGroups(Category $category)

@@ -106,6 +106,12 @@ var includes = [
       'category-edit' : 'Edit'
     }
   },
+  {
+    path: 'catalogue-manager.categories.edit',
+    components: {
+      'category-availability' : 'CategoryAvailability'
+    }
+  },
   /**
    * Pagination
    */

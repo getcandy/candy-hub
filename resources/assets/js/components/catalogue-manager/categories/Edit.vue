@@ -62,9 +62,8 @@
              */
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
-                    includes: 'attribute_groups,assets'
+                    includes: 'attribute_groups,assets,channels'
                 }).then(response => {
-                    console.log(response);
                     this.decorate(response.data);
                     this.loaded = true;
                 }).catch(error => {
@@ -97,6 +96,10 @@
                         <candy-media assetable="categories" :parent="category"></candy-media>
                     </candy-tab>
 
+                    <candy-tab name="Availability &amp; Pricing" handle="category-availability">
+                        <candy-category-availability :category="category" v-if="category"></candy-category-availability>
+                    </candy-tab>
+                
                 </candy-tabs>
             </transition>
         </template>

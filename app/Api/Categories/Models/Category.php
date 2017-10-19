@@ -2,13 +2,13 @@
 
 namespace GetCandy\Api\Categories\Models;
 
-use GetCandy\Api\Scaffold\BaseModel;
-use Kalnoy\Nestedset\NodeTrait;
-use GetCandy\Api\Traits\HasAttributes;
-use GetCandy\Api\Routes\Models\Route;
+use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Routes\Models\Route;
+use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Assetable;
-
+use GetCandy\Api\Traits\HasAttributes;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Category extends BaseModel
 {
@@ -43,6 +43,15 @@ class Category extends BaseModel
     public function getProductCount()
     {
         return $this->belongsToMany(Product::class, 'product_categories')->count();
+    }
+
+    /**
+     * Get the attributes associated to the product
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class)->withPivot('published_at');
     }
 
 }

@@ -35,7 +35,7 @@
                         {'name': 'Availability', 'width': '200px', 'type': 'text', 'source': ''},
                         {'name': '', 'width': '200px', 'type': 'button', 'source': ''}
                     ],
-                    linkUrl: 'category'
+                    linkUrl: 'categories'
                 },
                 tableParams: {
                     columns: [

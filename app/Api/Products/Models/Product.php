@@ -128,7 +128,7 @@ class Product extends BaseModel
      */
     public function channels()
     {
-        return $this->belongsToMany(Channel::class)->withPivot('visible', 'published_at');
+        return $this->belongsToMany(Channel::class)->withPivot('published_at');
     }
 
     public function customerGroups()

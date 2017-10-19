@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Channels\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
 
 class Channel extends BaseModel
@@ -22,6 +23,10 @@ class Channel extends BaseModel
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('visible', 'published_at');
+        return $this->belongsToMany(Product::class)->withPivot('published_at');
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class)->withPivot('published_at');
     }
 }
