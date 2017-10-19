@@ -59,6 +59,15 @@ var includes = [
       }
   },
   /**
+   * Catalogue Manager
+   */
+  {
+    path: 'catalogue-manager.elements',
+    components: {
+      'customer-groups' : 'CustomerGroups'
+    }
+  },
+  /**
    * Products
    */
   {

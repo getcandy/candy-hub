@@ -51,7 +51,7 @@
                 channel.published_at = moment(channel.published_at.date).format('YYYY-MM-DD HH:mm');
             });
             this.customerGroups = this.product.customer_groups.data;
-            Dispatcher.add('product-channels', this);
+            Dispatcher.add('product-availability', this);
         },
         methods: {
             save() {
@@ -78,7 +78,7 @@
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true" dispatch="product-variants">
                 <candy-variants :product="product" :languages="languages"></candy-variants>
             </candy-tab>
-            <candy-tab name="Channels" handle="channels" dispatch="product-channels">
+            <candy-tab name="Channels" handle="channels" dispatch="product-availability">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
                         <h4>Channels</h4>
@@ -109,39 +109,8 @@
                     </div>
                 </div>
             </candy-tab>
-            <candy-tab name="Customer Groups" handle="customer-groups">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <h4>Customer Groups</h4>
-                        <hr>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Group</th>
-                                <th>Visible</th>
-                                <th>Purchasable</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="group in customerGroups">
-                                <td>{{ group.name }}</td>
-                                <td>
-                                    <div class="checkbox">
-                                        <input :id="'CGV' + group.id" type="checkbox" v-model="group.visible">
-                                        <label :for="'CGV' + group.id"><span class="check"></span></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="checkbox">
-                                        <input :id="'CGP' + group.id" type="checkbox" v-model="group.purchasable">
-                                        <label :for="'CGP' + group.id"><span class="check"></span></label>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <candy-tab name="Customer Groups" handle="customer-groups" dispatch="product-availability">
+                <candy-customer-groups :groups="customerGroups"></candy-customer-groups>
             </candy-tab>
             <candy-tab name="Discounts" handle="discounts">
                 <candy-discounts></candy-discounts>
