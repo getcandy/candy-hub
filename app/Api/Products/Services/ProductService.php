@@ -11,6 +11,7 @@ use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
 use GetCandy\Events\Products\ProductCreatedEvent;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class ProductService extends BaseService
 {
@@ -55,7 +56,7 @@ class ProductService extends BaseService
                 $channelModel = app('api')->channels()->getByHashedId($channel['id']);
                 $channelData[$channelModel->id] = [
                     'visible' => $channel['visible'],
-                    'published_at' => \Carbon\Carbon::parse($channel['published_at'])
+                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
                 ];
             }
             $product->channels()->sync($channelData);

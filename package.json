@@ -35,6 +35,7 @@
     "nestable2": "^1.5.0",
     "selectize": "^0.12.4",
     "sortablejs": "^1.6.0",
+    "v-tooltip": "^2.0.0-rc.2",
     "vue-drag-and-drop-list": "^1.0.0",
     "vue-flatpickr-component": "^2.4.1",
     "vue-multiselect": "^2.0.2",

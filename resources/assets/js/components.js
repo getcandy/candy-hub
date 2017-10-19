@@ -64,7 +64,8 @@ var includes = [
   {
     path: 'catalogue-manager.elements',
     components: {
-      'customer-groups' : 'CustomerGroups'
+      'customer-groups' : 'CustomerGroups',
+      'channel-association' : 'Channels'
     }
   },
   /**

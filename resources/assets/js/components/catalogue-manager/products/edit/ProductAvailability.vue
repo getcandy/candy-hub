@@ -1,8 +1,5 @@
 <script>
 
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
-
     export default {
         data() {
             return {
@@ -10,11 +7,7 @@
                 current: {},
                 channels: [],
                 productChannels: [],
-                customerGroups: [],
-                flatPickrConfig: {
-                    enableTime: true,
-                    minDate: new Date()
-                }
+                customerGroups: []
             }
         },
         props: ['variants', 'product', 'languages'],
@@ -46,10 +39,6 @@
             }
         },
         mounted() {
-            this.channels = this.product.channels.data;
-            this.channels.forEach(channel => {
-                channel.published_at = moment(channel.published_at.date).format('YYYY-MM-DD HH:mm');
-            });
             this.customerGroups = this.product.customer_groups.data;
             Dispatcher.add('product-availability', this);
         },
@@ -66,9 +55,6 @@
                     });
                 });
             }
-        },
-        components: {
-            flatPickr
         }
     }
 </script>
@@ -78,36 +64,11 @@
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true" dispatch="product-variants">
                 <candy-variants :product="product" :languages="languages"></candy-variants>
             </candy-tab>
+            <candy-tab name="Optional Extras" handle="extras">
+                Coming soon
+            </candy-tab>
             <candy-tab name="Channels" handle="channels" dispatch="product-availability">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <h4>Channels</h4>
-                        <hr>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Channel</th>
-                                <th>Visible</th>
-                                <th>Publish Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="channel in channels">
-                                <td>{{ channel.name }}</td>
-                                <td>
-                                    <div class="checkbox">
-                                        <input :id="'CH' + channel.id" type="checkbox" v-model="channel.visible">
-                                        <label :for="'CH' + channel.id"><span class="check"></span></label>
-                                    </div>
-                                </td>
-                                <td class="publish-date">
-                                    <flat-pickr v-model="channel.published_at" :config="flatPickrConfig"></flat-pickr>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <candy-channel-association :channels="product.channels.data"></candy-channel-association>
             </candy-tab>
             <candy-tab name="Customer Groups" handle="customer-groups" dispatch="product-availability">
                 <candy-customer-groups :groups="customerGroups"></candy-customer-groups>
@@ -115,6 +76,7 @@
             <candy-tab name="Discounts" handle="discounts">
                 <candy-discounts></candy-discounts>
             </candy-tab>
+
         </candy-tabs>
     </div>
 </template>

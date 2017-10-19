@@ -48,6 +48,10 @@ config.get('languages').then(response => {
 // Include our custom v stuff here, so we know everything is loaded
 
 require('./directives/sortable');
+import Vue from 'vue'
+import { VTooltip } from 'v-tooltip'
+
+Vue.directive('tooltip', VTooltip);
 require('./filters/attributes');
 require('./filters/format-date');
 require('./filters/translate');

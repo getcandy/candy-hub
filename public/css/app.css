@@ -15848,19 +15848,23 @@ label {
 }
 
 .form-control,
-.bootstrap-tagsinput {
+.bootstrap-tagsinput,
+.datetimepicker[readonly] {
+  background-color: white;
   height: 40px;
   border-radius: 0;
   border-color: #a2a1a1;
 }
 
 .form-control:disabled,
-.bootstrap-tagsinput:disabled {
+.bootstrap-tagsinput:disabled,
+.datetimepicker[readonly]:disabled {
   cursor: text;
 }
 
 .form-control textarea,
-.bootstrap-tagsinput textarea {
+.bootstrap-tagsinput textarea,
+.datetimepicker[readonly] textarea {
   max-width: 100%;
 }
 
@@ -16298,7 +16302,15 @@ textarea.bootstrap-tagsinput {
   font-weight: 300;
 }
 
-/* Translating Forms */
+/**
+ * For when you want to display text but keep the same
+ * size as what an input would be if it was there.
+ */
+
+.input-alt {
+  line-height: 40px;
+  display: inline-block;
+}
 
 /* Tabs */
 
@@ -16535,6 +16547,16 @@ textarea.bootstrap-tagsinput {
   /* Trigger vertical scroll    */
   overflow-x: hidden;
   /* Hide the horizontal scroll */
+}
+
+.status-icon {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.status-icon i {
+  color: #959595;
+  font-size: 1em;
 }
 
 /*! Lity - v2.2.2 - 2017-07-17
@@ -17301,5 +17323,33 @@ textarea.bootstrap-tagsinput {
   background: transparent;
   border: none;
   color: #D2D2D2;
+}
+
+/**
+ * Elements
+ */
+
+.status {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid #a2a1a1;
+  display: inline-block;
+}
+
+.status-disabled {
+  background-color: #ed1d24;
+  border-color: #c71016;
+}
+
+.status-live {
+  background-color: #94bf2c;
+  border-color: #749622;
+}
+
+.status-pending {
+  background-color: #2d3c8e;
+  border-color: #2d3c8e;
 }
 

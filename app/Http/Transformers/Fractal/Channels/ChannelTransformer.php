@@ -4,6 +4,7 @@ namespace GetCandy\Http\Transformers\Fractal\Channels;
 
 use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use Carbon\Carbon;
 
 class ChannelTransformer extends BaseTransformer
 {
@@ -24,7 +25,7 @@ class ChannelTransformer extends BaseTransformer
             'handle' => $channel->handle,
             'default' => (bool) $channel->default,
             'visible' => $channel->visible,
-            'published_at' => \Carbon\Carbon::parse($channel->published_at)
+            'published_at' => $channel->published_at ? Carbon::parse($channel->published_at)->toIso8601String() : null
         ];
 
         return $data;

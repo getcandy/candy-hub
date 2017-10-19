@@ -137,3 +137,14 @@
     overflow-x: hidden;  /* Hide the horizontal scroll */
   }
 }
+
+
+
+.status-icon {
+  display:inline-block;
+  margin-right:5px;
+  i {
+    color:lighten($grey, 25%);
+    font-size:1em;
+  }
+}
