@@ -26,4 +26,13 @@ trait HasChannels
             $query->whereHandle($channel)->whereDate('published_at', '<', Carbon::now());
         });
     }
+    protected function getCustomerGroups()
+    {
+        // If there is a user, get their groups.
+        if ($user = app('auth')->user()) {
+            return $user->groups->pluck('id')->toArray();
+        } else {
+            return [app('api')->customerGroups()->getGuestId()];
+        }
+    }
 }
