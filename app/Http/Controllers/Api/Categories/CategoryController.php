@@ -15,7 +15,7 @@ class CategoryController extends BaseController
 {
     public function index(Request $request)
     {
-        $paginator = app('api')->categories()->getPaginatedData($request->keywords, $request->per_page, $request->current_page);
+        $paginator = app('api')->categories()->getPaginatedData($request->per_page, $request->current_page);
         return $this->respondWithCollection($paginator, new CategoryTransformer);
     }
 

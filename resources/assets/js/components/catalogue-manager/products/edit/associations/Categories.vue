@@ -61,6 +61,7 @@
                 this.request.send('get', '/categories', [], this.requestParams)
                     .then(response => {
                         this.categories = response.data;
+                        console.log(this.categories);
                         this.requestParams.total_pages = response.meta.pagination.total_pages;
                         this.categoriesLoaded = true;
                     });

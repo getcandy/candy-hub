@@ -13,7 +13,7 @@ trait HasChannels
         $user = app('auth')->user();
         $channels = app('api')->channels();
 
-        if ($user && $user->hasAnyRole($roles)) {
+        if (!$channel && ($user && $user->hasAnyRole($roles))) {
             return $query;
         }
 
@@ -23,7 +23,7 @@ trait HasChannels
         }
 
         return $query->whereHas('channels', function ($query) use ($channel) {
-            $query->whereHandle($channel)->whereDate('published_at', '<', Carbon::now());
+            $query->whereHandle($channel)->whereDate('published_at', '<=', Carbon::now());
         });
     }
     protected function getCustomerGroups()
