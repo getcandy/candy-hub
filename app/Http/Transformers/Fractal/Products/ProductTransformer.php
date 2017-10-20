@@ -25,16 +25,17 @@ class ProductTransformer extends BaseTransformer
      * @var array
      */
     protected $availableIncludes = [
+        'assets',
+        'associations',
         'attribute_groups',
+        'categories',
+        'channels',
+        'collections',
+        'customer_groups',
         'family',
         'layout',
-        'variants',
-        'collections',
         'routes',
-        'channels',
-        'customer_groups',
-        'assets',
-        'categories'
+        'variants',
     ];
 
     /**
@@ -47,8 +48,14 @@ class ProductTransformer extends BaseTransformer
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
-            'option_data' => $this->parseOptionData($product->option_data)
+            'option_data' => $this->parseOptionData($product->option_data),
+            'thumbnail' => $this->getThumbnail($product)
         ];
+
+        if ($product->pivot && $product->pivot->type) {
+            $response['type'] = $product->pivot->type;
+        }
+
         return $response;
     }
 
@@ -106,6 +113,15 @@ class ProductTransformer extends BaseTransformer
         return $this->collection($product->collections, new CollectionTransformer);
     }
 
+    /**
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeAssociations(Product $product)
+    {
+        return $this->collection($product->associations, $this);
+    }
 
     /**
      * @return mixed
