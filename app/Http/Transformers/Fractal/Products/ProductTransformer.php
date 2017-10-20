@@ -120,7 +120,7 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeAssociations(Product $product)
     {
-        return $this->collection($product->associations, $this);
+        return $this->collection($product->associations, new ProductAssociationTransformer);
     }
 
     /**

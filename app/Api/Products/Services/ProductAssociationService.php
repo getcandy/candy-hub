@@ -27,6 +27,6 @@ class ProductAssociationService extends BaseService
             $assoc->save();
         }
 
-        return $product;
+        return $product->associations;
     }
 }

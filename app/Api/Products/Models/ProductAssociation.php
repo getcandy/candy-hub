@@ -8,6 +8,13 @@ use GetCandy\Api\Scaffold\BaseModel;
 
 class ProductAssociation extends BaseModel
 {
+
+    /**
+     * The Hashid Channel for encoding the id
+     * @var string
+     */
+    protected $hashids = 'product';
+
     /**
      * Get the attributes associated to the product
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany

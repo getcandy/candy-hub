@@ -4,6 +4,7 @@ namespace GetCandy\Http\Controllers\Api\Products;
 
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Products\Associations\CreateRequest;
+use GetCandy\Http\Transformers\Fractal\Products\ProductAssociationTransformer;
 
 class ProductAssociationController extends BaseController
 {
@@ -16,6 +17,6 @@ class ProductAssociationController extends BaseController
     public function store($product, CreateRequest $request)
     {
         $result = app('api')->productAssociations()->store($product, $request->all());
-        return $this->respondWithSuccess();
+        return $this->respondWithCollection($result, new ProductAssociationTransformer);
     }
 }

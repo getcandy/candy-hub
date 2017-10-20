@@ -22,6 +22,7 @@
           this.groups = this.request.send('GET', 'associations/groups').then(response => {
             this.groups = response.data;
           });
+          this.associations = this.product.associations.data;
         },
         methods: {
           getResults(keywords) {
@@ -103,16 +104,16 @@
           <tr>
             <th width="80"></th>
             <th>Name</th>
-            <th>URL</th>
             <th colspan="2">Type</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products">
-            <td width="80"><img src="/images/placeholder/product.jpg" alt="Aquacomb"></td>
-            <td>AquaComb</td>
-            <td><input type="text" class="form-control" value="/aquacomb/" disabled></td>
-            <td><span class="label label-primary">Upsell</span></td>
+          <tr v-for="item in associations">
+            <td width="80">
+              <img :src="productThumbnail(item.association.data)">
+            </td>
+            <td>{{ item.association.data|attribute('name') }}</td>
+            <td><span class="label label-primary">{{ item.type.data.name }}</span></td>
             <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
           </tr>
         </tbody>
@@ -127,8 +128,6 @@
     </div>
     <candy-modal title="Add product associations" v-show="addAssociationModal" @closed="addAssociationModal = false">
         <div slot="body">
-          {{ loaded }}
-
           <div class="form-group">
             <label class="sr-only">Search</label>
             <input type="text" class="form-control search" placeholder="Search Products" v-on:input="updateKeywords">
