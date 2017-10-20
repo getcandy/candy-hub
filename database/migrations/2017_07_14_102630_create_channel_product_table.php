@@ -16,7 +16,7 @@ class CreateChannelProductTable extends Migration
         Schema::create('channel_product', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('channel_id')->unsigned();
-            $table->foreign('channel_id')->references('id')->on('products');
+            $table->foreign('channel_id')->references('id')->on('channels');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->dateTime('published_at')->nullable();

@@ -14,6 +14,7 @@ use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Assetable;
 use GetCandy\Api\Traits\CustomerGroup as CustomerGroupTrait;
 use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Traits\HasChannels;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
@@ -21,7 +22,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends BaseModel
 {
-    use Indexable, HasAttributes, Assetable, SoftDeletes, CustomerGroupTrait;
+    use Assetable,
+        CustomerGroupTrait,
+        HasAttributes,
+        HasChannels,
+        SoftDeletes,
+        Indexable;
 
     protected $settings = 'products';
 

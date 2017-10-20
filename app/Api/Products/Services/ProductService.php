@@ -55,7 +55,6 @@ class ProductService extends BaseService
             foreach ($data['channels']['data'] as $channel) {
                 $channelModel = app('api')->channels()->getByHashedId($channel['id']);
                 $channelData[$channelModel->id] = [
-                    'visible' => $channel['visible'],
                     'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
                 ];
             }
@@ -190,14 +189,9 @@ class ProductService extends BaseService
      * @param  int  $page   The page to start
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
+    public function getPaginatedData($channel = null, $length = 50, $page = null)
     {
-        if ($searchTerm) {
-            $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
-            $results = $this->model->whereIn('id', $ids);
-        } else {
-            $results = $this->model;
-        }
+        $results = $this->model->channel($channel);
         return $results->paginate($length, ['*'], 'page', $page);
     }
 

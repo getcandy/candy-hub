@@ -102,14 +102,9 @@ class CategoryService extends BaseService
         return true;
     }
 
-    public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
+    public function getPaginatedData($length = 50, $page = null)
     {
-        if ($searchTerm) {
-            $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
-            $results = $this->model->whereIn('id', $ids);
-        } else {
-            $results = $this->model->whereDoesntHave('parent');
-        }
+        $results = $this->model->whereDoesntHave('parent');
         return $results->paginate($length, ['*'], 'page', $page);
     }
 
