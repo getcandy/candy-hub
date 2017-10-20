@@ -12,7 +12,7 @@
                 channel: 'ecommerce',
                 language: locale.current(),
                 addModalOpen: false,
-                selectedCategories: ['v8l4pl01'],
+                selectedCategories: [],
                 deleteModalOpen: false,
                 deleteModalData: {},
                 search: '',

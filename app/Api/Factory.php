@@ -5,6 +5,7 @@ namespace GetCandy\Api;
 use GetCandy\Api\Assets\Services\AssetService;
 use GetCandy\Api\Assets\Services\AssetSourceService;
 use GetCandy\Api\Assets\Services\AssetTransformService;
+use GetCandy\Api\Associations\Services\AssociationGroupService;
 use GetCandy\Api\Attributes\Services\AttributeGroupService;
 use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
@@ -17,6 +18,7 @@ use GetCandy\Api\Customers\Services\CustomerGroupService;
 use GetCandy\Api\Languages\Services\LanguageService;
 use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
+use GetCandy\Api\Products\Services\ProductAssociationService;
 use GetCandy\Api\Products\Services\ProductCategoryService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
@@ -39,6 +41,11 @@ class Factory
      * @var \GetCandy\Api\Assets\Services\AssetSourceService
      */
     protected $assetSources;
+
+    /**
+     * @var \GetCandy\Api\Associations\Services\AssociationGroupService
+     */
+    protected $associationGroups;
 
     /**
      * @var AttributeService
@@ -89,6 +96,11 @@ class Factory
      * @var ProductService
      */
     protected $products;
+
+    /**
+     * @var ProductAssociationService
+     */
+    protected $productAssociations;
 
     /**
      * @var ProductFamilyService
@@ -143,6 +155,7 @@ class Factory
     public function __construct(
         AssetService $assets,
         AssetSourceService $assetSources,
+        AssociationGroupService $associationGroups,
         AttributeGroupService $attributeGroups,
         AttributeService $attributes,
         CategoryService $categories,
@@ -154,6 +167,7 @@ class Factory
         LanguageService $languages,
         LayoutService $layouts,
         PageService $pages,
+        ProductAssociationService $productAssociations,
         ProductCategoryService $productCategories,
         ProductFamilyService $productFamilies,
         ProductVariantService $productVariants,
@@ -169,6 +183,7 @@ class Factory
     ) {
         $this->assets = $assets;
         $this->assetSources = $assetSources;
+        $this->associationGroups = $associationGroups;
         $this->attributeGroups = $attributeGroups;
         $this->attributes = $attributes;
         $this->categories = $categories;
@@ -180,6 +195,7 @@ class Factory
         $this->languages = $languages;
         $this->layouts = $layouts;
         $this->pages = $pages;
+        $this->productAssociations = $productAssociations;
         $this->productFamilies = $productFamilies;
         $this->products = $products;
         $this->productCategories = $productCategories;

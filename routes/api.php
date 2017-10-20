@@ -23,6 +23,11 @@ $this->resource('assets', 'Assets\AssetController', [
 ]);
 
 /**
+ * Associations
+ */
+
+$this->get('associations/groups', 'Associations\AssociationGroupController@index');
+/**
  * Attributes
  */
 $this->put('attributes/order', 'Attributes\AttributeController@reorder');
@@ -122,6 +127,7 @@ $this->post('products/{product}/collections', 'Products\ProductCollectionControl
 $this->post('products/{product}/routes', 'Products\ProductRouteController@update');
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
+$this->post('products/{product}/associations', 'Products\ProductAssociationController@store');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);

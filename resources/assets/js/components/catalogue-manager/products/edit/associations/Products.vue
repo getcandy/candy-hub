@@ -6,7 +6,11 @@
               addAssociationModal: false,
               loading: false,
               keywords: '',
-              products: null
+              products: null,
+              groups: [],
+              groupFilter: 'upsell',
+              loaded: {},
+              associations: []
             }
         },
         props: {
@@ -14,15 +18,38 @@
             type: Object
           }
         },
+        mounted() {
+          this.groups = this.request.send('GET', 'associations/groups').then(response => {
+            this.groups = response.data;
+          });
+        },
         methods: {
           getResults(keywords) {
-            let results = this.request.send('GET', 'search/internal', {}, {keywords: keywords}).then(response => {
+            let results = this.request.send('GET', 'products', {}, {includes: 'variants', keywords: keywords}).then(response => {
               this.products = response.data.filter(entity => {
                 if (entity.id != this.product.id) {
+
+                  this.$set(this.loaded, entity.id, {
+                    association_id: entity.id,
+                    selected: false,
+                    type: _.first(this.groups).handle
+                  });
+
                   return entity;
                 }
-              })
+              });
               this.loading = false;
+            });
+          },
+          saveAssociations() {
+            let selected = _.filter(this.loaded, item => { return item.selected});
+            this.request.send('POST', 'products/' + this.product.id + '/associations', {'relations' : selected}).then(response => {
+              CandyEvent.$emit('notification', {
+                level: 'success'
+              });
+              this.addAssociationModal = false;
+              this.loaded = {};
+              this.products = [];
             });
           },
           productThumbnail(product) {
@@ -54,39 +81,23 @@
         </div>
       </div>
       <hr>
-
       <div class="custom-radio-group">
         <span class="group-label">Toggle Product Association:</span>
         <div class="toggle-radio">
-          <input type="radio" name="products" id="showAll" value="showAll" checked="checked">
+          <input type="radio" name="products" id="showAll" value="" v-model="groupFilter">
           <label for="showAll">
             <span class="check"></span>
             <span class="faux-label">Show All</span>
           </label>
         </div>
-        <div class="toggle-radio">
-          <input type="radio" name="products" id="upsells" value="upsells">
-          <label for="upsells">
+        <div class="toggle-radio" v-for="group in groups" :key="group.handle">
+          <input type="radio" :id="group.handle" :value="group.handle" v-model="groupFilter">
+          <label :for="group.handle">
             <span class="check"></span>
-            <span class="faux-label">Upsells</span>
-          </label>
-        </div>
-        <div class="toggle-radio">
-          <input type="radio" name="products" id="crossSells" value="crossSells">
-          <label for="crossSells">
-            <span class="check"></span>
-            <span class="faux-label">Cross-sells</span>
-          </label>
-        </div>
-        <div class="toggle-radio">
-          <input type="radio" name="products" id="alternate" value="alternate">
-          <label for="alternate">
-            <span class="check"></span>
-            <span class="faux-label">Alternate</span>
+            <span class="faux-label">{{ group.name }}</span>
           </label>
         </div>
       </div>
-
       <table id="productAssociations" class="table">
         <thead>
           <tr>
@@ -105,86 +116,71 @@
             <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
           </tr>
         </tbody>
+        <tfoot v-if="!associations.length">
+          <tr>
+            <td colspan="2">
+              <span class="text-muted">No products associated</span>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
     <candy-modal title="Add product associations" v-show="addAssociationModal" @closed="addAssociationModal = false">
         <div slot="body">
+          {{ loaded }}
+
           <div class="form-group">
             <label class="sr-only">Search</label>
             <input type="text" class="form-control search" placeholder="Search Products" v-on:input="updateKeywords">
           </div>
           <hr>
-          <p><em>Work in progress, need to think about how to select as Upsell, Cross-sell and Alternate Products</em></p>
-          <div class="custom-radio-group">
-            <span class="group-label">Selection Type:</span>
-              <div class="toggle-radio">
-                <input type="radio" name="products" id="selectUpsell" value="selectUpsell" checked="checked">
-                <label for="selectUpsell">
-                  <span class="check"></span>
-                  <span class="faux-label">Upsell</span>
-                </label>
-              </div>
-              <div class="toggle-radio">
-                <input type="radio" name="products" id="selectCrossSell" value="selectCrossSell">
-                <label for="selectCrossSell">
-                  <span class="check"></span>
-                  <span class="faux-label">Cross-sell</span>
-                </label>
-              </div>
-              <div class="toggle-radio">
-                <input type="radio" name="products" id="selectAlternate" value="selectAlternate">
-                <label for="selectAlternate">
-                  <span class="check"></span>
-                  <span class="faux-label">Alternate</span>
-                </label>
-              </div>
-            </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th> </th>
-                  <th>Name</th>
-                  <th>SKU</th>
-                  <th>URL</th>
-                  <th>Categories</th>
-                  <th>Collections</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody class="list">
-                <tr v-for="product in products">
-                  <td width="50"><img :src="productThumbnail(product)" alt="Aquacomb" class="img-sm"></td>
-                  <td class="name">{{ product.attribute_data.name.ecommerce.gb }}</td>
-                  <td class="sku">SKU0000001</td>
-                  <td><input type="text" class="form-control" value="/aquacomb/" disabled></td>
-                  <td class="category">Cat 1, Cat 2</td>
-                  <td class="collection">Col A, Col B</td>
-                  <td align="right">
-                    <div class="checkbox">
-                      <input :id="product.id" type="checkbox">
-                      <label :for="product.id"><span class="check"></span></label>
-                    </div>
-                  </td>
-                </tr>
-                <tr v-if="loading">
-                  <td colspan="25">
-                    <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
-                  </td>
-                </tr>
-                <tr v-if="!loading && !products">
-                  <td colspan="25">
-                    <div class="alert alert-info">
-                      Start typing to see products
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <hr>
-            <p><small>Need to make tbody scrollable with a fixed height<br>Should selected product names with selection type show below search area as well? With a potential to remove?</small></p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th> </th>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr v-for="product in products">
+                <td width="50"><img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm"></td>
+                <td class="name">{{ product|attribute('name') }}</td>
+                <td>
+                  <select class="form-control selectize" v-model="loaded[product.id].type">
+                    <option v-for="group in groups" :value="group.handle">
+                      {{ group.name }}
+                    </option>
+                  </select>
+                </td>
+
+                <td align="right">
+                  <div class="checkbox">
+                    <input :id="product.id" type="checkbox" :value="product.id" v-model="loaded[product.id].selected">
+                    <label :for="product.id"><span class="check"></span></label>
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="loading">
+                <td colspan="25">
+                  <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                </td>
+              </tr>
+              <tr v-if="!loading && !products">
+                <td colspan="25">
+                  <div class="alert alert-info">
+                    Start typing to see products
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <p><small>Need to make tbody scrollable with a fixed height<br>Should selected product names with selection type show below search area as well? With a potential to remove?</small></p>
         </div>
         <template slot="footer">
-            <button class="btn btn-primary" @click="saveUrl()">Associate products</button>
+            <button class="btn btn-primary" @click="saveAssociations()">Associate products</button>
         </template>
     </candy-modal>
   </div>

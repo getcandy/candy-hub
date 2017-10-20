@@ -141,4 +141,9 @@ class Product extends BaseModel
     {
         return $this->belongsToMany(CustomerGroup::class)->withPivot(['visible', 'purchasable']);
     }
+
+    public function associations()
+    {
+        return $this->hasMany(ProductAssociation::class);
+    }
 }

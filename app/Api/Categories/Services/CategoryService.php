@@ -107,6 +107,4 @@ class CategoryService extends BaseService
         $results = $this->model->whereDoesntHave('parent');
         return $results->paginate($length, ['*'], 'page', $page);
     }
-
-
 }
