@@ -67,6 +67,7 @@
               CandyEvent.$emit('notification', {
                 level: 'success'
               });
+              this.product.associations.data = response.data;
               this.associations = response.data;
               this.addAssociationModal = false;
               this.loaded = {};
@@ -83,6 +84,7 @@
                 message: 'Association removed'
               });
               this.associations.splice(this.toDelete, 1);
+              this.product.associations.data.splice(this.toDelete, 1);
               this.toDelete = null;
               this.showRemoval = false;
             });

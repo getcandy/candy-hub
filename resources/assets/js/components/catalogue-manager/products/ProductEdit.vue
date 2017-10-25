@@ -87,6 +87,9 @@
             },
             getCategoryCount() {
                 return this.product.categories.data.length;
+            },
+            getAssociationCount() {
+                return this.product.associations.data.length;
             }
         }
     }
@@ -139,7 +142,7 @@
                                 Tab will require counter to show how many collection associations this product has
                                 <candy-collections></candy-collections>
                             </candy-tab>
-                            <candy-tab name="Products" handle="products">
+                            <candy-tab name="Products" handle="products" :badge="getAssociationCount()">
                                 <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>
