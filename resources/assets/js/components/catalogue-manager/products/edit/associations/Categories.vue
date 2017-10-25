@@ -61,7 +61,6 @@
                 this.request.send('get', '/categories', [], this.requestParams)
                     .then(response => {
                         this.categories = response.data;
-                        console.log(this.categories);
                         this.requestParams.total_pages = response.meta.pagination.total_pages;
                         this.categoriesLoaded = true;
                     });
@@ -179,7 +178,6 @@
         <candy-modal id="addModal" title="Add this product to categories" size="modal-lg" v-show="addModalOpen" @closed="closeAddModal()">
 
             <div slot="body">
-
                 <div class="form-group">
                     <label class="sr-only">Search</label>
                     <input type="text" class="form-control search" v-model="search" placeholder="Search Categories">
