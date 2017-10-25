@@ -8,7 +8,7 @@
               keywords: '',
               products: null,
               groups: [],
-              groupFilter: 'upsell',
+              groupFilter: '',
               loaded: {},
               associations: []
             }
@@ -41,6 +41,18 @@
               });
               this.loading = false;
             });
+          },
+          getAssociations(type) {
+            if (type) {
+              return this.associations.filter(item => {
+                if (type == item.type.data.handle) {
+                  return true;
+                } else {
+                  return false;
+                }
+              });
+            }
+            return this.associations;
           },
           saveAssociations() {
             let selected = _.filter(this.loaded, item => { return item.selected});
@@ -108,7 +120,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in associations">
+          <tr v-for="item in getAssociations(groupFilter)">
             <td width="80">
               <img :src="productThumbnail(item.association.data)">
             </td>
