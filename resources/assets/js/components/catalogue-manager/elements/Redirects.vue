@@ -51,7 +51,8 @@
                 let data = this.newUrl;
                 data.slug = data.slug.slugify(true);
                 data.redirect = true;
-                this.request.send('post', '/' + this.endpoint + '/' + this.model.id + '/redirects', data)
+                data.locale = locale.current();
+                this.request.send('post', '/' + this.endpoint + '/' + this.model.id + '/routes', data)
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'

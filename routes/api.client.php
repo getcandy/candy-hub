@@ -33,3 +33,7 @@ $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
     'uses' => 'Routes\RouteController@show'
 ])->where(['slug' => '.*']);
+
+
+$this->post('password/reset', 'Auth\ResetPasswordController@reset');
+$this->post('password/reset/request', 'Auth\ForgotPasswordController@sendResetLinkEmail');
