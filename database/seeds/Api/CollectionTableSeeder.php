@@ -34,7 +34,8 @@ class CollectionTableSeeder extends Seeder
             'attribute_data' => [
                 'name' => [
                     'ecommerce' => [
-                        ['en' => 'House', 'sv' => '']
+                        'en' => 'House',
+                        'sv' => ''
                     ],
                     'mobile' => [
                         'en' => '',
