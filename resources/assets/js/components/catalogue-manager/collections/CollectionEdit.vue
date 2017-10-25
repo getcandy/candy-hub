@@ -6,6 +6,7 @@
     export default {
         data() {
             return {
+                title: '',
                 loaded: false,
                 collection: {},
                 attribute_groups: [],
@@ -66,6 +67,11 @@
                 .then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
+
+                    CandyEvent.$emit('title-changed', {
+                        prefix: 'Editing',
+                        title: this.collection
+                    });
                 }).catch(error => {
                 });
             }

@@ -67,7 +67,20 @@ CandyHelpers.install = function (Vue, options) {
 const app = new Vue({
     el: '#app',
     data: {
+      title: ''
     },
+    mounted() {
+      CandyEvent.$on('title-changed', event => {
+        if (event.prefix) {
+          this.title = event.prefix + ' ';
+        }
+        if (_.isString(event.title)) {
+          this.title += event.title;
+        } else {
+          this.title += this.$options.filters.attribute(event.title, 'name');
+        }
+      });
+    }
 });
 
 Vue.use(CandyHelpers);

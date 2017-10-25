@@ -77,6 +77,9 @@
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
+                    CandyEvent.$emit('title-changed', {
+                        title: this.product
+                    });
                 }).catch(error => {
                     CandyEvent.$emit('notification', {
                         level: 'error',
