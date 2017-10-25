@@ -128,6 +128,7 @@ $this->post('products/{product}/routes', 'Products\ProductRouteController@update
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
 $this->post('products/{product}/associations', 'Products\ProductAssociationController@store');
+$this->delete('products/{product}/associations', 'Products\ProductAssociationController@destroy');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);

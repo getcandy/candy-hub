@@ -10,7 +10,9 @@
               groups: [],
               groupFilter: '',
               loaded: {},
-              associations: []
+              associations: [],
+              showRemoval: false,
+              toDelete: null
             }
         },
         props: {
@@ -29,7 +31,12 @@
             let results = this.request.send('GET', 'products', {}, {includes: 'variants', keywords: keywords}).then(response => {
               this.products = response.data.filter(entity => {
                 if (entity.id != this.product.id) {
-
+                  let associatedIds = this.associations.map(item => {
+                    return item.association.data.id;
+                  });
+                  if (_.includes(associatedIds, entity.id)) {
+                    return false;
+                  }
                   this.$set(this.loaded, entity.id, {
                     association_id: entity.id,
                     selected: false,
@@ -60,9 +67,24 @@
               CandyEvent.$emit('notification', {
                 level: 'success'
               });
+              this.associations = response.data;
               this.addAssociationModal = false;
               this.loaded = {};
               this.products = [];
+              this.keywords = '';
+            });
+          },
+          deleteAssociation()
+          {
+            let product = this.associations[this.toDelete].association.data.id;
+            this.request.send('DELETE', 'products/' + this.product.id + '/associations', {'associations' : product}).then(response => {
+              CandyEvent.$emit('notification', {
+                level: 'success',
+                message: 'Association removed'
+              });
+              this.associations.splice(this.toDelete, 1);
+              this.toDelete = null;
+              this.showRemoval = false;
             });
           },
           productThumbnail(product) {
@@ -73,6 +95,10 @@
           },
           showProductAssociationModal() {
             this.addAssociationModal = true;;
+          },
+          showRemovalModal(item) {
+            this.toDelete = item;
+            this.showRemoval = true;
           },
           updateKeywords: _.debounce(function (e) {
             this.products = null;
@@ -120,16 +146,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in getAssociations(groupFilter)">
+          <tr v-for="(item, index) in getAssociations(groupFilter)">
             <td width="80">
               <img :src="productThumbnail(item.association.data)">
             </td>
             <td>{{ item.association.data|attribute('name') }}</td>
             <td><span class="label label-primary">{{ item.type.data.name }}</span></td>
-            <td align="right"><button class="btn btn-sm btn-default btn-action" data-toggle="modal" data-target="#removeProduct"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+            <td align="right"><button class="btn btn-sm btn-default btn-action" @click="showRemovalModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
           </tr>
         </tbody>
-        <tfoot v-if="!associations.length">
+        <tfoot v-if="!getAssociations(groupFilter).length">
           <tr>
             <td colspan="2">
               <span class="text-muted">No products associated</span>
@@ -138,6 +164,14 @@
         </tfoot>
       </table>
     </div>
+    <candy-modal title="Are you wish to remove this product?" v-show="showRemoval" @closed="showRemoval = false">
+      <template slot="body">
+        This action cannot be undone
+      </template>
+      <template slot="footer">
+        <button class="btn btn-primary" @click="deleteAssociation()">Confirm removal</button>
+      </template>
+    </candy-modal>
     <candy-modal title="Add product associations" v-show="addAssociationModal" @closed="addAssociationModal = false">
         <div slot="body">
           <div class="form-group">
@@ -154,6 +188,15 @@
                 <th></th>
               </tr>
             </thead>
+            <tfoot v-if="loading" class="text-center">
+                <tr>
+                    <td colspan="25" style="padding:40px;">
+                        <div class="loading">
+                            <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
             <tbody class="list">
               <tr v-for="product in products">
                 <td width="50"><img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm"></td>
@@ -171,11 +214,6 @@
                     <input :id="product.id" type="checkbox" :value="product.id" v-model="loaded[product.id].selected">
                     <label :for="product.id"><span class="check"></span></label>
                   </div>
-                </td>
-              </tr>
-              <tr v-if="loading">
-                <td colspan="25">
-                  <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
                 </td>
               </tr>
               <tr v-if="!loading && !products">

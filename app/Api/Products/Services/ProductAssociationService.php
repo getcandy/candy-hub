@@ -8,11 +8,20 @@ use GetCandy\Api\Scaffold\BaseService;
 
 class ProductAssociationService extends BaseService
 {
+    protected $associations;
+
     public function __construct()
     {
-        $this->model = new Product();
+        $this->model = new Product;
+        $this->associations = new ProductAssociation;
     }
 
+    /**
+     * Stores a product association
+     * @param  string $product
+     * @param  array $data
+     * @return mixed
+     */
     public function store($product, $data)
     {
         $product = $this->getByHashedId($product);
@@ -28,5 +37,26 @@ class ProductAssociationService extends BaseService
         }
 
         return $product->associations;
+    }
+
+    /**
+     * Destroys product association/s
+     * @param  string $product
+     * @param  array/string $association
+     * @return boolean
+     */
+    public function destroy($product, $association)
+    {
+        $product = $this->getByHashedId($product);
+
+        if (is_array($association)) {
+            $ref = $this->getDecodedIds($association);
+            $product->associations()->whereIn('association_id', $ref)->get()->delete();
+        } else {
+            $ref = $this->getDecodedId($association);
+            $product->associations()->where('association_id', '=', $ref)->first()->delete();
+        }
+
+        return true;
     }
 }

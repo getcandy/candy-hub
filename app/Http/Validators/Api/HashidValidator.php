@@ -18,6 +18,12 @@ class HashidValidator
             abort(500, 'hashid_is_valid expects model reference');
         }
         $method = camel_case($parameters[0]);
-        return (bool) app('api')->{$method}()->existsByHashedId($value);
+
+        $result = app('api')->{$method}()->existsByHashedId($value);
+
+        if (is_array($value)) {
+            return $result === count($value);
+        }
+        return $result;
     }
 }

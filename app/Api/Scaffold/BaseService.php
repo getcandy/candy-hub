@@ -143,6 +143,10 @@ abstract class BaseService
      */
     public function existsByHashedId($hashedId)
     {
+        if (is_array($hashedId)) {
+            $ids = $this->getDecodedIds($hashedId);
+            return $this->model->whereIn('id', $ids)->count();
+        }
         $id = $this->model->decodeId($hashedId);
         return $this->model->where('id', '=', $id)->exists();
     }
