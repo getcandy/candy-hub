@@ -5,6 +5,7 @@ namespace GetCandy\Api\Channels\Models;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Collections\Models\Collection;
 
 class Channel extends BaseModel
 {
@@ -28,5 +29,9 @@ class Channel extends BaseModel
     public function categories()
     {
         return $this->belongsToMany(Category::class)->withPivot('published_at');
+    }
+    public function collections()
+    {
+        return $this->belongsToMany(Collection::class)->withPivot('published_at');
     }
 }

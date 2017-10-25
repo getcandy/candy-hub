@@ -10,6 +10,9 @@
                 default: 4
             }
         },
+        mounted() {
+            console.log(this.pagination);
+        },
         computed: {
             isActived: function () {
                 return this.pagination.current_page;

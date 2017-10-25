@@ -216,7 +216,6 @@
                             <th width="19%">Group</th>
                         </tr>
                     </thead>
-
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="product in products">
                             <td>
@@ -235,16 +234,15 @@
 
                         </tr>
                     </tbody>
-                    <tbody v-else="loaded" class="text-center">
+                    <tfoot class="text-center" v-else>
                         <tr>
-                            <td colspan="6" style="padding:40px;">
+                            <td colspan="25" style="padding:40px;">
                                 <div class="loading">
                                     <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
-
+                    </tfoot>
                 </table>
 
                 <div class="text-center" v-if="loaded">

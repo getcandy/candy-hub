@@ -95,9 +95,9 @@ class ApiRequest {
         let paramsArr = {'params': params};
 
         return new Promise((resolve, reject) => {
-            axios.get('/api/v1/products', paramsArr)
+            axios.get('/api/v1/collections', paramsArr)
                 .then(response => {
-                    resolve((flatten) ? this.productFlatify(response.data) : response.data);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     reject(error);

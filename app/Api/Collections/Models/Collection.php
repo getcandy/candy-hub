@@ -4,14 +4,18 @@ namespace GetCandy\Api\Collections\Models;
 
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Scaffold\BaseModel;
-use GetCandy\Api\Traits\HasTranslations;
+use GetCandy\Api\Traits\Assetable;
 use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Traits\HasTranslations;
+use GetCandy\Api\Traits\HasChannels;
 
 class Collection extends BaseModel
 {
-    use HasAttributes;
+    use HasAttributes, Assetable, HasChannels;
 
     protected $hashids = 'channel';
+
+    protected $settings = 'products';
 
     /**
      * The attributes that are mass assignable.

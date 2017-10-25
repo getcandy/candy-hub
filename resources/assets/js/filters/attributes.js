@@ -16,6 +16,7 @@ Vue.filter('attribute', (obj, attr, lang, name) => {
     }
   });
 
+
   channels.forEach(channel => {
     // Always have this handy.
     if (channel.default) {
@@ -44,6 +45,5 @@ Vue.filter('attribute', (obj, attr, lang, name) => {
       ref = ref.replace(handle, defaultChannel);
     }
   }
-
   return _.get(data, ref);
 });

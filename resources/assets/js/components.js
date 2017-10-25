@@ -93,7 +93,14 @@ var includes = [
   {
     path: 'catalogue-manager.collections',
     components: {
-      'collections-table' : 'CollectionsTable'
+      'collections-table' : 'CollectionsTable',
+      'collection-edit' : 'CollectionEdit'
+    }
+  },
+  {
+    path: 'catalogue-manager.collections.edit',
+    components: {
+      'collection-details' : 'CollectionDetails'
     }
   },
   /**

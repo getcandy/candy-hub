@@ -36,18 +36,18 @@
         },
         methods: {
             loadCollections() {
-                apiRequest.loadCollections(this.params, true)
+                apiRequest.loadCollections(this.params)
                     .then(response => {
-                        this.collections = response;
-                        this.pagination = response.pagination;
+                        this.collections = response.data;
+                        this.pagination = response.meta.pagination;
                         this.loaded = true;
                     });
             },
-            productThumbnail(product) {
+            thumbnail(product) {
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }
-                return '/images/placeholder/no-image.png';
+                return '/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
@@ -56,7 +56,10 @@
                 this.loaded = false;
                 this.params.current_page = page;
                 this.loadCollections();
-            }
+            },
+            loadCollection: function (id) {
+                location.href = '/catalogue-manager/collections/' + id;
+            },
         }
     }
 </script>
@@ -176,36 +179,33 @@
                             <th width="19%">Group</th>
                         </tr>
                     </thead>
-
                     <tbody v-if="loaded">
-                        <tr class="clickable" v-for="product in collections">
-
+                        <tr class="clickable" v-for="collection in collections">
                             <td>
                                 <div class="checkbox">
-                                    <input type="checkbox" :id="'prod' + product.id" :value="product.id" v-model="selected">
-                                    <label :for="'prod' + product.id"><span class="check"></span></label>
+                                    <input type="checkbox" :id="'coll' + collection.id" :value="collection.id" v-model="selected">
+                                    <label :for="'coll' + collection.id"><span class="check"></span></label>
                                 </div>
                             </td>
-                            <td @click="loadProduct(product.id)">
-                                <img :src="productThumbnail(product)" :alt="product.name">
+                            <td @click="loadCollection(collection.id)">
+                                <img :src="thumbnail(collection)" :alt="collection.name">
                             </td>
-                            <td @click="loadProduct(product.id)">{{ product.name }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.display }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.purchasable }}</td>
-                            <td @click="loadProduct(product.id)">{{ product.group }}</td>
+                            <td @click="loadCollection(collection.id)">{{ collection|attribute('name') }}</td>
+                            <td @click="loadCollection(collection.id)">{{ collection.display }}</td>
+                            <td @click="loadCollection(collection.id)">{{ collection.purchasable }}</td>
+                            <td @click="loadCollection(collection.id)">{{ collection.group }}</td>
 
                         </tr>
                     </tbody>
-                    <tbody v-else="loaded" class="text-center">
+                    <tfoot class="text-center" v-else>
                         <tr>
-                            <td colspan="6" style="padding:40px;">
-                                <div class="page-loading">
-                                    <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                            <td colspan="25" style="padding:40px;">
+                                <div class="loading">
+                                    <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
-
+                    </tfoot>
                 </table>
 
                 <div class="text-center">

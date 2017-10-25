@@ -6,11 +6,11 @@
 
 @section('header_title')
     <small>Catalogue Manager</small>
-    <h1>Edit Product</h1>
+    <h1>Edit Collection</h1>
 @endsection
 
 @section('header_actions')
-    <candy-button style="display: inline-block;" event="save-product">Save Product</candy-button>
+    <candy-button style="display: inline-block;" event="save-product">Save Collection</candy-button>
     <button class="btn btn-default white product-menu btn-pop-over"><span class="hamburger"></span></button>
     <!-- Menu Pop Over -->
     <div class="pop-over">
@@ -23,5 +23,5 @@
 @endsection
 
 @section('content')
-  <candy-product-edit product-id="{{ $id }}"></candy-product-edit>
+  <candy-collection-edit id="{{ $id }}"></candy-collection-edit>
 @endsection
