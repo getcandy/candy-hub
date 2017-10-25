@@ -65,7 +65,9 @@ var includes = [
     path: 'catalogue-manager.elements',
     components: {
       'customer-groups' : 'CustomerGroups',
-      'channel-association' : 'Channels'
+      'channel-association' : 'Channels',
+      'urls' : 'Urls',
+      'redirects' : 'Redirects'
     }
   },
   /**
@@ -100,7 +102,8 @@ var includes = [
   {
     path: 'catalogue-manager.collections.edit',
     components: {
-      'collection-details' : 'CollectionDetails'
+      'collection-details' : 'CollectionDetails',
+      'collection-availability' : 'CollectionAvailability'
     }
   },
   /**
@@ -166,8 +169,6 @@ var includes = [
   {
     path: 'catalogue-manager.products.edit.urls',
     components: {
-      'locale-urls' : 'LocaleURLs',
-      'redirects' : 'Redirects',
       'url-modals' : 'Modals'
     }
   },

@@ -19,7 +19,7 @@ class CollectionTableSeeder extends Seeder
                 'attribute_data' => [
                     'name' => [
                         'ecommerce' => [
-                            ['en' => 'Early Sale', 'sv' => 'Tidig försäljning']
+                            'en' => 'Early Sale', 'sv' => 'Tidig försäljning'
                         ],
                         'mobile' => [
                             'en' => '',
@@ -52,10 +52,19 @@ class CollectionTableSeeder extends Seeder
             ]
         ];
 
-           $attributes = Attribute::get();
-                
+        $attributes = Attribute::get();
+
         foreach ($collections as $c) {
             $collection = Collection::create($c);
+            foreach ($collection->attribute_data['name'] as $channel => $attr_data) {
+                if ($channel == 'ecommerce') {
+                    $collection->route()->create([
+                        'default' => true,
+                        'slug' => str_slug($attr_data['en']) . '-collection',
+                        'locale' => 'en'
+                    ]);
+                }
+            }
             foreach ($attributes as $att) {
                 $collection->attributes()->attach($att);
             }

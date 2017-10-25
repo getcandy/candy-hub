@@ -8,10 +8,16 @@ use GetCandy\Api\Traits\Assetable;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\HasChannels;
+use GetCandy\Api\Traits\HasRoutes;
+use GetCandy\Api\Traits\HasCustomerGroups;
 
 class Collection extends BaseModel
 {
-    use HasAttributes, Assetable, HasChannels;
+    use Assetable,
+        HasAttributes,
+        HasChannels,
+        HasRoutes,
+        HasCustomerGroups;
 
     protected $hashids = 'channel';
 

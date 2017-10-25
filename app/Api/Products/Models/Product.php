@@ -4,17 +4,15 @@ namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Categories\Models\Category;
-use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Collections\Models\Collection;
-use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Layouts\Models\Layout;
 use GetCandy\Api\Pages\Models\Page;
-use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Assetable;
-use GetCandy\Api\Traits\CustomerGroup as CustomerGroupTrait;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Traits\HasChannels;
+use GetCandy\Api\Traits\HasCustomerGroups;
+use GetCandy\Api\Traits\HasRoutes;
 use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
@@ -23,9 +21,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends BaseModel
 {
     use Assetable,
-        CustomerGroupTrait,
+        HasCustomerGroups,
         HasAttributes,
         HasChannels,
+        HasRoutes,
         SoftDeletes,
         Indexable;
 
@@ -108,16 +107,6 @@ class Product extends BaseModel
         return $this->belongsTo(Layout::class);
     }
 
-    public function route()
-    {
-        return $this->morphOne(Route::class, 'element');
-    }
-
-    public function routes()
-    {
-        return $this->morphMany(Route::class, 'element');
-    }
-
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
@@ -126,20 +115,6 @@ class Product extends BaseModel
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_categories');
-    }
-
-    /**
-     * Get the attributes associated to the product
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function channels()
-    {
-        return $this->belongsToMany(Channel::class)->withPivot('published_at');
-    }
-
-    public function customerGroups()
-    {
-        return $this->belongsToMany(CustomerGroup::class)->withPivot(['visible', 'purchasable']);
     }
 
     public function associations()

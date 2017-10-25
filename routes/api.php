@@ -62,6 +62,7 @@ $this->resource('channels', 'Channels\ChannelController', [
 /**
  * Channels
  */
+$this->post('collections/{collection}/routes', 'Collections\CollectionRouteController@store');
 $this->resource('collections', 'Collections\CollectionController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
@@ -124,7 +125,7 @@ $this->post('products/{product}/urls', 'Products\ProductController@createUrl');
 $this->post('products/{product}/redirects', 'Products\ProductRedirectController@store');
 $this->post('products/{product}/attributes', 'Products\ProductAttributeController@update');
 $this->post('products/{product}/collections', 'Products\ProductCollectionController@update');
-$this->post('products/{product}/routes', 'Products\ProductRouteController@update');
+$this->post('products/{product}/routes', 'Products\ProductRouteController@store');
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
 $this->post('products/{product}/associations', 'Products\ProductAssociationController@store');

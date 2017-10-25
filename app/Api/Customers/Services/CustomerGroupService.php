@@ -13,21 +13,18 @@ class CustomerGroupService extends BaseService
         $this->model = new CustomerGroup;
     }
 
-    /**
-     * @param Product|null $product
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Collection|static|static[]
-     */
-    public function getGroupsWithAvailability(Product $product = null)
+    public function getGroupsWithAvailability($model, $relation)
     {
-        $groups = $this->model->get();
+        $groups = $this->model->with([$relation => function ($q) use ($model, $relation) {
+            $q->where($relation . '.id', $model->id);
+        }])->get();
         foreach ($groups as $group) {
-            $groupProduct = $group->products()->find($product->id);
-            $group->purchasable = $groupProduct ? (bool) $groupProduct->pivot->purchasable : false;
-            $group->visible = $groupProduct ? (bool) $groupProduct->pivot->visible : false;
+            $model = $group->{$relation}->first();
+            $group->published_at = $model ? $model->pivot->published_at : null;
+            $group->visible = $model ? $model->pivot->visible : false;
         }
         return $groups;
     }
-
 
     public function getGuestId()
     {

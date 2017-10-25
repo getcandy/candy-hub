@@ -40,6 +40,7 @@
                 this.collection = data;
                 this.attribute_groups = data.attribute_groups.data;
                 this.collection.attributes = this.collection.attribute_data;
+                this.routes = this.collection.routes.data;
             },
             /**
              * Loads languages
@@ -62,12 +63,11 @@
              */
             loadCollection(id) {
                 apiRequest.send('get', '/collections/' + id, {}, {
-                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes'
+                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes'
                 })
                 .then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
-
                     CandyEvent.$emit('title-changed', {
                         prefix: 'Editing',
                         title: this.collection
@@ -85,7 +85,6 @@
 
             <transition name="fade">
                 <candy-tabs>
-
                     <candy-tab name="Collection Details" handle="collection-details" :selected="true" dispatch="collection-details">
                         <candy-tabs nested="true">
                             <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
@@ -99,9 +98,21 @@
                         <candy-media assetable="collections" :parent="collection"></candy-media>
                     </candy-tab>
 
-                    <candy-tab name="Availability &amp; Pricing" handle="collection-availability">
+                    <candy-tab name="Availability &amp; Pricing" handle="collection-availability" dispatch="collection-availability">
+                        <candy-collection-availability :collection="collection" :languages="languages"></candy-collection-availability>
                     </candy-tab>
-                
+
+                    <candy-tab name="URLS">
+                        <candy-tabs nested="true">
+                            <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
+                                <candy-urls :languages="languages" :routes="routes" :model="collection" endpoint="collections"></candy-urls>
+                            </candy-tab>
+                            <candy-tab name="Redirects" handle="redirects">
+                                <candy-redirects :model="collection" endpoint="collections" :routes="routes"></candy-redirects>
+                            </candy-tab>
+                        </candy-tabs>
+                    </candy-tab>
+
                 </candy-tabs>
             </transition>
         </template>

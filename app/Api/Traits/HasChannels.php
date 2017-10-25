@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Traits;
 
 use Carbon\Carbon;
+use GetCandy\Api\Channels\Models\Channel;
 
 trait HasChannels
 {
@@ -34,5 +35,15 @@ trait HasChannels
         } else {
             return [app('api')->customerGroups()->getGuestId()];
         }
+    }
+
+
+    /**
+     * Get the attributes associated to the product
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class)->withPivot('published_at');
     }
 }

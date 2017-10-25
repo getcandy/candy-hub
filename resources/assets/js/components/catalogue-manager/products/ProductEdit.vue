@@ -78,6 +78,7 @@
                     this.decorate(response.data);
                     this.loaded = true;
                     CandyEvent.$emit('title-changed', {
+                        prefix: 'Editing',
                         title: this.product
                     });
                 }).catch(error => {
@@ -159,11 +160,10 @@
                     <candy-tab name="URLS">
                         <candy-tabs nested="true">
                             <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                                <candy-locale-urls :languages="languages" :routes="routes"
-                                                   :product="product"></candy-locale-urls>
+                                <candy-urls :languages="languages" :routes="routes" :model="product" endpoint="products"></candy-urls>
                             </candy-tab>
                             <candy-tab name="Redirects" handle="redirects">
-                                <candy-redirects :product="product" :routes="routes"></candy-redirects>
+                                <candy-redirects :model="product" endpoint="products" :routes="routes"></candy-redirects>
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>
