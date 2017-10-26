@@ -85,18 +85,15 @@
                 })
             }
         },
-        ready() {
+        mounted() {
+            CandyEvent.$on('select-tab', tab => {
+                this.selectTabByName(tab);
+            });
             var tab = window.location.hash;
 
             if (tab) {
                 this.selectTabByHref(tab);
             }
-        },
-        mounted() {
-            CandyEvent.$on('select-tab', tab => {
-                this.selectTabByName(tab);
-            });
-            
 
             if (!this.nested) {
                 this.$store.commit('addTabs', this.tabs);

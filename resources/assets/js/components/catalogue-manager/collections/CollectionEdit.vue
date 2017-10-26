@@ -87,9 +87,8 @@
                 <candy-tabs>
                     <candy-tab name="Collection Details" handle="collection-details" :selected="true" dispatch="collection-details">
                         <candy-tabs nested="true">
-                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
-                                <candy-collection-details :collection="collection" :languages="languages" :group="group">
-                                </candy-collection-details>
+                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="collection-details">
+                                <candy-collection-details :collection="collection" :languages="languages" :group="group">   </candy-collection-details>
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>

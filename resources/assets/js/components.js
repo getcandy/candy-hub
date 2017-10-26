@@ -119,7 +119,8 @@ var includes = [
   {
     path: 'catalogue-manager.categories.edit',
     components: {
-      'category-availability' : 'CategoryAvailability'
+      'category-availability' : 'CategoryAvailability',
+      'category-details'      : 'CategoryDetails'
     }
   },
   /**

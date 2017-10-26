@@ -6,7 +6,7 @@
             }
         },
         props: {
-            product: {
+            category: {
                 type: Object
             },
             languages: {
@@ -24,7 +24,7 @@
         },
         methods: {
             save() {
-                this.request.send('put', '/products/' + this.product.id, { 'attributes' : this.product.attributes })
+                this.request.send('put', '/categories/' + this.category.id, { 'attributes' : this.category.attributes })
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
@@ -45,32 +45,17 @@
                     });
                 });
                 return arr;
-            },
-            fields(group) {
-                /* TODO see if we can merge translatable
-                let fields = {};
-
-                $.each(group.attributes.data, function (key, attribute) {
-                    fields[attribute.handle] = {
-                        value: _.get(this.product.attributes, [attribute.handle]),
-                        lookups: attribute.lookups,
-                        type: attribute.type,
-                        translatable: attribute.scopeable
-                    };
-                }.bind(this));
-                return fields;
-                */
             }
         },
         mounted() {
-            Dispatcher.add('product-details', this);
+            Dispatcher.add('category-details', this);
         }
     }
 </script>
 <template>
     <div>
-        <candy-attribute-translatable :languages="languages" :channels="getChannels(product.channels.data)"
-                              :attributes="group.attributes.data" :attributeData="product.attributes"
+        <candy-attribute-translatable :languages="languages" :channels="getChannels(category.channels.data)"
+                              :attributes="group.attributes.data" :attributeData="category.attributes"
                               :request="request">
         </candy-attribute-translatable>
     </div>

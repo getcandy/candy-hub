@@ -1,7 +1,3 @@
-<!--
-  Product Edit
-  This component is responsible for displaying the product edit page.
- -->
 <script>
     export default {
         data() {
@@ -62,7 +58,7 @@
              */
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
-                    includes: 'attribute_groups,assets,channels'
+                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
@@ -81,15 +77,12 @@
                 <candy-tabs>
 
                     <candy-tab name="Category Details" handle="category-details" :selected="true" dispatch="category-details">
-
                         <candy-tabs nested="true">
-                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false">
-                                <candy-category-details :category="category" :languages="languages"
-                                                       :group="group">
+                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
+                                <candy-category-details :category="category" :languages="languages" :group="group">
                                 </candy-category-details>
                             </candy-tab>
                         </candy-tabs>
-
                     </candy-tab>
 
                     <candy-tab name="Media">
@@ -99,7 +92,18 @@
                     <candy-tab name="Availability &amp; Pricing" handle="category-availability">
                         <candy-category-availability :category="category" v-if="category"></candy-category-availability>
                     </candy-tab>
-                
+
+                    <candy-tab name="URLS">
+                        <candy-tabs nested="true">
+                            <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
+                                <candy-urls :languages="languages" :routes="routes" :model="category" endpoint="categories"></candy-urls>
+                            </candy-tab>
+                            <candy-tab name="Redirects" handle="redirects">
+                                <candy-redirects :model="category" endpoint="categories" :routes="routes"></candy-redirects>
+                            </candy-tab>
+                        </candy-tabs>
+                    </candy-tab>
+
                 </candy-tabs>
             </transition>
         </template>

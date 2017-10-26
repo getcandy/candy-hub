@@ -385,5 +385,13 @@ class CategoryTableSeeder extends Seeder
             'slug' => str_slug('Hem'),
             'locale' => 'sv'
         ]);
+
+        $attributes = \GetCandy\Api\Attributes\Models\Attribute::get();
+
+        foreach (Category::all() as $category) {
+            foreach ($attributes as $att) {
+                $category->attributes()->attach($att);
+            }
+        }
     }
 }
