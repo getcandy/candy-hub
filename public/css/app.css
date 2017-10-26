@@ -17168,6 +17168,11 @@ textarea.bootstrap-tagsinput {
   width: 100%;
 }
 
+.sidebar .side-nav ul li.active a {
+  color: white;
+  background-color: #662d91;
+}
+
 .sidebar .side-nav ul li a {
   display: block;
   width: 100%;

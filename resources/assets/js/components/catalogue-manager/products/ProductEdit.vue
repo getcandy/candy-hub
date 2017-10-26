@@ -78,7 +78,6 @@
                     this.decorate(response.data);
                     this.loaded = true;
                     CandyEvent.$emit('title-changed', {
-                        prefix: 'Editing',
                         title: this.product
                     });
                 }).catch(error => {

@@ -201,7 +201,12 @@
       li {
         display: block;
         width: 100%;
-
+        &.active {
+          a {
+            color: white;
+            background-color: $purple;
+          }
+        }
         a {
           display: block;
           width: 100%;
