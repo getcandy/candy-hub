@@ -204,7 +204,6 @@
                 if (data.thumbnail) {
                     url = data.thumbnail.data.thumbnail;
                 }
-                console.log(data);
                 return '<img class="fancytree-image" src="' + url + '" >';
             },
             getAttribute: function(data, attribute) {

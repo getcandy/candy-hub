@@ -44,7 +44,6 @@
                             //     console.log(tab.href);
                             // });
                             topTabs.forEach(tab => {
-                                console.log(tab);
                             });
                             // _.forEach(topTabs, function (tab) {
                             //     console.log(tab);

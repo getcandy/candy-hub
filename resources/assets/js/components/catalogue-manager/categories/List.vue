@@ -63,6 +63,10 @@
                 _this.createModalData['parent'] = {'id': $(this).data('parentId'), 'name': $(this).data('parentName')};
                 _this.createModalOpen = true;
             });
+
+            CandyEvent.$on('category-added', response => {
+                this.reloadTree();
+            });
         },
         watch: {
             currentView(value) {

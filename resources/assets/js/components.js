@@ -96,7 +96,7 @@ var includes = [
     path: 'catalogue-manager.collections',
     components: {
       'collections-table' : 'CollectionsTable',
-      'collection-edit' : 'CollectionEdit'
+      'collection-edit' : 'CollectionEdit',
     }
   },
   {
@@ -113,14 +113,15 @@ var includes = [
     path: 'catalogue-manager.categories',
     components: {
       'categories-list' : 'List',
-      'category-edit' : 'Edit'
+      'category-edit' : 'Edit',
+      'category-create' : 'CategoryCreate'
     }
   },
   {
     path: 'catalogue-manager.categories.edit',
     components: {
       'category-availability' : 'CategoryAvailability',
-      'category-details'      : 'CategoryDetails'
+      'category-details'      : 'CategoryDetails',
     }
   },
   /**

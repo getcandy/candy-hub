@@ -12,7 +12,7 @@
 @section('header_actions')
     <button class="btn btn-default white">Export</button>
     <button class="btn btn-default white">Import</button>
-    <button class="btn btn-success" data-toggle="modal" data-target="#createCategoryModal"><i class="fa fa-plus fa-first" aria-hidden="true"></i> Create Category</button>
+    <candy-category-create style="display: inline-block;"></candy-category-create>
 @endsection
 
 @section('content')

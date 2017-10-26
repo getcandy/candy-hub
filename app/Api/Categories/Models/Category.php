@@ -8,11 +8,19 @@ use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Assetable;
 use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Traits\HasChannels;
+use GetCandy\Api\Traits\HasCustomerGroups;
+use GetCandy\Api\Traits\HasRoutes;
 use Kalnoy\Nestedset\NodeTrait;
 
 class Category extends BaseModel
 {
-    use NodeTrait, HasAttributes, Assetable;
+    use NodeTrait,
+        HasAttributes,
+        Assetable,
+        HasChannels,
+        HasRoutes,
+        HasCustomerGroups;
 
     protected $hashids = 'main';
 
@@ -21,11 +29,6 @@ class Category extends BaseModel
     protected $fillable = [
         'attribute_data', 'parent_id'
     ];
-
-    public function routes()
-    {
-        return $this->morphMany(Route::class, 'element');
-    }
 
     public function hasChildren()
     {
@@ -44,14 +47,4 @@ class Category extends BaseModel
     {
         return $this->belongsToMany(Product::class, 'product_categories')->count();
     }
-
-    /**
-     * Get the attributes associated to the product
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function channels()
-    {
-        return $this->belongsToMany(Channel::class)->withPivot('published_at');
-    }
-
 }

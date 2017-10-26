@@ -93,6 +93,7 @@ return [
     'hashid_is_valid' => 'The selected :attribute is invalid',
     'valid_locales' => 'Invalid locale',
     'valid_structure' => 'The :attribute structure is invalid',
+    'unique_route' => 'This route has already been taken',
 
     /*
     |--------------------------------------------------------------------------

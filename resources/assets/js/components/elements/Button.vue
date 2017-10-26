@@ -21,7 +21,6 @@
         methods : {
             fire () {
                 var ref = Dispatcher.resolve(this.tab.dispatch);
-                console.log(this.tab);
                 ref.save();
             }
         }

@@ -3,11 +3,12 @@
 namespace GetCandy\Http\Controllers\Api\Categories;
 
 use GetCandy\Http\Controllers\Api\BaseController;
-use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
-use GetCandy\Http\Transformers\Fractal\Categories\CategoryFancytreeTransformer;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Categories\CreateRequest;
 use GetCandy\Http\Requests\Api\Categories\ReorderRequest;
+use GetCandy\Http\Requests\Api\Categories\UpdateRequest;
+use GetCandy\Http\Transformers\Fractal\Categories\CategoryFancytreeTransformer;
+use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -63,7 +64,7 @@ class CategoryController extends BaseController
             return $this->errorUnprocessable($e->getMessage());
         }
 
-        if($response){
+        if ($response){
             return response()->json('Successful Created',201);
         }
         return response()->json('Error',500);
@@ -90,9 +91,26 @@ class CategoryController extends BaseController
         } catch (InvalidLanguageException $e) {
             return $this->errorUnprocessable($e->getMessage());
         }
-        if($response){
+        if ($response){
             return response()->json(['status' => 'success'],200);
         }
         return response()->json(['status' => 'error'],500);
+    }
+
+
+    /**
+     * Handles the request to update  a channel
+     * @param  String        $id
+     * @param  UpdateRequest $request
+     * @return Json
+     */
+    public function update($id, UpdateRequest $request)
+    {
+        try {
+            $result = app('api')->categories()->update($id, $request->all());
+        } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($result, new CategoryTransformer);
     }
 }

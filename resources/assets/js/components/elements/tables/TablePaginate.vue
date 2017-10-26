@@ -11,7 +11,6 @@
             }
         },
         mounted() {
-            console.log(this.pagination);
         },
         computed: {
             isActived: function () {

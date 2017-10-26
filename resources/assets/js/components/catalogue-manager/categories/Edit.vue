@@ -89,7 +89,7 @@
                         <candy-media assetable="categories" :parent="category"></candy-media>
                     </candy-tab>
 
-                    <candy-tab name="Availability &amp; Pricing" handle="category-availability">
+                    <candy-tab name="Availability &amp; Pricing" handle="category-availability" dispatch="category-availability">
                         <candy-category-availability :category="category" v-if="category"></candy-category-availability>
                     </candy-tab>
 

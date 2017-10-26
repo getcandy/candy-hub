@@ -46,11 +46,13 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
 /**
  * Categories
  */
-$this->get('categories', 'Categories\CategoryController@index');
 $this->get('categories/parent/{parentID?}', 'Categories\CategoryController@getByParent');
 $this->post('categories/reorder', 'Categories\CategoryController@reorder');
-$this->post('categories/create', 'Categories\CategoryController@store');
-$this->get('categories/{id}', 'Categories\CategoryController@show');
+
+$this->post('categories/{category}/routes', 'Categories\CategoryRouteController@store');
+$this->resource('categories', 'Categories\CategoryController', [
+    'except' => ['index', 'edit', 'create', 'show']
+]);
 
 /**
  * Channels

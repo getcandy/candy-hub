@@ -7,6 +7,7 @@ use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
+use Carbon\Carbon;
 
 class CategoryService extends BaseService
 {
@@ -41,26 +42,77 @@ class CategoryService extends BaseService
     {
         // Create Category
         $category = $this->model;
-        $category->attribute_data = $category->parseAttributeData($data['attributes']);
+
+        $mapping = $category->getDataMapping();
+
+        $locale = '';
+
+        foreach ($mapping as $key => $map) {
+            $locale = key($data['name']);
+            $mapping[$key][$locale] = $data['name'][$locale];
+        }
+
+        $category->attribute_data = ['name' => $mapping];
+
         $category->save();
 
         // Create Route
-        foreach($data['routes'] as $newRoute){
-            $route = $this->route;
-
-            $route->slug        = $newRoute['slug'];
-            $route->default     = $newRoute['default'];
-            $route->locale      = $newRoute['locale'];
-
-            $category->routes()->save($route);
-        }
+        $category->routes()->create([
+            'locale' => $locale,
+            'slug' => $data['url'],
+            'redirect' => false,
+            'default' => true
+        ]);
 
         // If a parent id exists then add the category to the parent
-        if(!empty($data['parent']['id'])) {
+        if (!empty($data['parent']['id'])) {
             $parentNode = $this->getByHashedId($data['parent']['id']);
             $parentNode->prependNode($category);
         }
         return $category;
+    }
+
+    public function update($hashedId, array $data)
+    {
+        $category = $this->getByHashedId($hashedId);
+        $category->attribute_data = $data['attributes'];
+
+        if (!empty($data['channels'])) {
+            $channelData = [];
+            foreach ($data['channels']['data'] as $channel) {
+                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
+                $channelData[$channelModel->id] = [
+                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
+                ];
+            }
+            $category->channels()->sync($channelData);
+        }
+
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $category->customerGroups()->sync($groupData);
+        }
+
+        $category->save();
+        return $category;
+    }
+
+    /**
+     * Maps customer group data for a product
+     * @param  array $groups
+     * @return array
+     */
+    protected function mapCustomerGroupData($groups)
+    {
+        $groupData = [];
+        foreach ($groups as $group) {
+            $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
+            $groupData[$groupModel->id] = [
+                'visible' => $group['visible'],
+                'purchasable' => $group['purchasable']
+            ];
+        }
+        return $groupData;
     }
 
     public function reorder(array $data)
@@ -106,5 +158,25 @@ class CategoryService extends BaseService
     {
         $results = $this->model->whereDoesntHave('parent');
         return $results->paginate($length, ['*'], 'page', $page);
+    }
+
+    /**
+     * Creates a URL for a product
+     * @param  string $hashedId
+     * @param  array  $data
+     * @return Model
+     */
+    public function createUrl($hashedId, array $data)
+    {
+        $collection = $this->getByHashedId($hashedId);
+
+        $collection->routes()->create([
+            'locale' => $data['locale'],
+            'slug' => $data['slug'],
+            'description' => !empty($data['description']) ? $data['description'] : null,
+            'redirect' => !empty($data['redirect']) ? true : false,
+            'default' => false
+        ]);
+        return $collection;
     }
 }

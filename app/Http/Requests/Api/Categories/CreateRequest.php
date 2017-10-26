@@ -27,7 +27,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'attributes.*.value' => 'required|unique_category_attribute:name',
-            'routes.*.slug' => 'required|unique_route',
+            'url' => 'required|unique_route',
         ];
     }
 
