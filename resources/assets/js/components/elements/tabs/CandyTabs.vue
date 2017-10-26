@@ -27,12 +27,42 @@
             nested: {
                 default: false
             },
+            parent: {
+                default: null
+            },
             badge: ''
         },
         methods: {
             selectTab(selectedTab) {
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
+                        if (tab.$parent && tab.$parent.parent) {
+                            let href = '#' + tab.$parent.parent;
+                            let topTabs = this.$store.getters.getTabByHref(href);
+
+                            // let parent = _.filter(topTabs, tab => {
+                            //     console.log(tab.href);
+                            // });
+                            topTabs.forEach(tab => {
+                                console.log(tab);
+                            });
+                            // _.forEach(topTabs, function (tab) {
+                            //     console.log(tab);
+                            // })
+                            // topTabs.forEach(tab => {
+                            //     console.log(tab.getHref());
+                            // });
+                            // console.log(parent);
+                            // this.selectTab(tab);
+                            // CandyEvent.$emit('select-parent', '#' + tab.$parent.parent);
+                            // // // console.log('#' + tab.$parent.parent);
+                            // // this.topTabs.forEach(parent => {
+                            // //     console.log(tab.$parent.parent);
+                            // //     if (parent.href == tab.$parent.parent) {
+                            // //         this.selectTabByHref('#' + tab.$parent.parent);
+                            // //     }
+                            // // })
+                        }
                         CandyEvent.$emit('current-tab', tab);
                         tab.isActive = true;
                     } else {
@@ -55,15 +85,21 @@
                 })
             }
         },
-        mounted() {
-            CandyEvent.$on('select-tab', tab => {
-                this.selectTabByName(tab);
-            });
-
+        ready() {
             var tab = window.location.hash;
 
             if (tab) {
                 this.selectTabByHref(tab);
+            }
+        },
+        mounted() {
+            CandyEvent.$on('select-tab', tab => {
+                this.selectTabByName(tab);
+            });
+            
+
+            if (!this.nested) {
+                this.$store.commit('addTabs', this.tabs);
             }
         },
         computed: {

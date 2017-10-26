@@ -60,7 +60,7 @@
 </script>
 <template>
     <div>
-        <candy-tabs nested="true"  v-if="product">
+        <candy-tabs nested="true" v-if="product" parent="availabilitypricing">
             <candy-tab name="Pricing & Variants" handle="pricing-variants" :selected="true" dispatch="product-variants">
                 <candy-variants :product="product" :languages="languages"></candy-variants>
             </candy-tab>

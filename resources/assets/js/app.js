@@ -49,9 +49,12 @@ config.get('languages').then(response => {
 
 require('./directives/sortable');
 import Vue from 'vue'
+import Vuex from 'vuex'
 import { VTooltip } from 'v-tooltip'
+Vue.use(Vuex);
 
 Vue.directive('tooltip', VTooltip);
+
 require('./filters/attributes');
 require('./filters/format-date');
 require('./filters/translate');
@@ -64,8 +67,35 @@ CandyHelpers.install = function (Vue, options) {
   }
 };
 
+const store = new Vuex.Store({
+  state: {
+    topTabs: []
+  },
+  mutations: {
+    addTab (state, tab) {
+      state.topTabs.push(tab);
+    },
+    addTabs(state, tabs) {
+      tabs.forEach(tab => {
+        state.topTabs.push(tab);
+      });
+    }
+  },
+  getters: {
+    getTabByHref : (state, getters) => (href) => {
+      console.log('Hello');
+      console.log(state.topTabs);
+      state.topTabs.forEach(tab => {
+        console.log(tab);
+      });
+      return state.topTabs;
+    }
+  }
+})
+
 const app = new Vue({
     el: '#app',
+    store,
     data: {
       title: ''
     },
