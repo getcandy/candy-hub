@@ -26,6 +26,17 @@ class CustomerGroupService extends BaseService
         return $groups;
     }
 
+    public function create(array $data)
+    {
+        $group = $this->model;
+        $group->name = $data['name'];
+        $group->handle = $data['handle'];
+        $group->default = false;
+
+        $group->save();
+
+        return $group;
+    }
     public function getGuestId()
     {
         return $this->model->where('handle', '=', 'guest')->pluck('id')->first();

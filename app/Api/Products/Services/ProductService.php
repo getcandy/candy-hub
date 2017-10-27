@@ -118,9 +118,19 @@ class ProductService extends BaseService
 
         $mapping = $product->getDataMapping();
 
-        foreach ($mapping as $key => $map) {
-            $locale = key($data['name']);
-            $mapping[$key][$locale] = $data['name'][$locale];
+        $attributes = app('api')->attributes()->getHandles();
+
+        $attributeData = [];
+
+        foreach ($attributes as $attribute) {
+            if (!empty($data[$attribute])) {
+                foreach ($mapping as $key => $map) {
+                    $locale = key($data[$attribute]);
+                    $mapping[$key][$locale] = $data[$attribute][$locale];
+                }
+                $attributeData[$attribute] = $mapping;
+            }
+
         }
 
         $product->attribute_data = ['name' => $mapping];
@@ -139,18 +149,47 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        $product->routes()->create([
-            'locale' => app()->getLocale(),
-            'slug' => $data['url'],
-            'description' => !empty($data['description']) ? $data['description'] : null,
-            'redirect' => !empty($data['redirect']) ? true : false,
-            'default' => true
-        ]);
+        $urls = [];
+
+        if (is_array($data['url'])) {
+            foreach ($data['url'] as $locale => $url) {
+                $i = 1;
+                while (app('api')->routes()->slugExists($url)) {
+                    $url = $url . '-' . $i;
+                    $i++;
+                }
+                $urls[] = [
+                    'locale' => $locale,
+                    'slug' => $url,
+                    'default' => $locale == app()->getLocale() ? true : false
+                ];
+            }
+        } else {
+            $i = 1;
+            $url = $data['url'];
+            while (app('api')->routes()->slugExists($url)) {
+                $url = $url . '-' . $i;
+                $i++;
+            }
+            $urls[] = [
+                'locale' => app()->getLocale(),
+                'slug' => $url,
+                'default' => true
+            ];
+        }
+        $product->routes()->createMany($urls);
+
+        $sku = $data['sku'];
+        $i = 1;
+        while (app('api')->productVariants()->existsBySku($sku)) {
+            $sku = $sku . $i;
+            $i++;
+        }
 
         $this->createVariant($product, [
             'options' => [],
             'stock' => $data['stock'],
-            'sku' => $data['sku'],
+            'sku' => $sku,
             'price' => $data['price']
         ]);
 

@@ -188,6 +188,7 @@ return [
         GetCandy\Providers\RouteServiceProvider::class,
         GetCandy\Providers\CmsServiceProvider::class,
         GetCandy\Providers\PluginServiceProvider::class,
+        GetCandy\Providers\ImporterServiceProvider::class
 
     ],
 

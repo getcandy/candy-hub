@@ -15,6 +15,27 @@ $this->get('/', function () {
     return redirect()->route('login');
 });
 
+
+Route::get('foo', function () {
+    $this->importer = app('aqua.importer');
+
+    $products = $this->importer->getProducts();
+
+    // $parsed = [];
+
+    // foreach ($groups as $group) {
+    //     $parsed[$group['usergroup_id']] = [
+
+    //     ];
+
+    //     // if (!empty())
+    //     dump($group);
+    // }
+    foreach ($products as $product) {
+        dd($product);
+        // app('api')->products()->create($product);
+    }
+});
 // Authentication Routes...
 $this->group(['namespace' => 'Cms\\Auth'], function () {
     $this->get('login', 'LoginController@showLoginForm')->name('login');
@@ -67,3 +88,5 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
         ]);
     });
 });
+
+

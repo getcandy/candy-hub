@@ -26,6 +26,10 @@ class ExternalImage extends BaseUrlDriver
     public function process(array $data, $model)
     {
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
+
+        if (!$this->info) {
+            $this->getInfo($data['url']);
+        }
         $this->model = $model;
         $this->data = $data;
         $asset = $this->prepare();

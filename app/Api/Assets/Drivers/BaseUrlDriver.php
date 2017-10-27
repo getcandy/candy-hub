@@ -54,6 +54,7 @@ abstract class BaseUrlDriver
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
         $this->model = $model;
         $this->data = $data;
+
         $asset = $this->prepare();
 
         if ($model->assets()->count()) {
@@ -93,7 +94,7 @@ abstract class BaseUrlDriver
      */
     public function hashName()
     {
-        return $this->hashedName ?: $this->hashedName = Str::random(40);
+        return Str::random(40);
     }
 
     /**

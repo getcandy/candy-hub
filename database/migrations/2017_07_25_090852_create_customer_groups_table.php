@@ -18,7 +18,7 @@ class CreateCustomerGroupsTable extends Migration
             $table->string('name');
             $table->string('handle')->unique();
             $table->boolean('default')->default(false);
-            $table->boolean('system');
+            $table->boolean('system')->default(false);
             $table->timestamps();
         });
     }

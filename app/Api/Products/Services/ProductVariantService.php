@@ -60,6 +60,11 @@ class ProductVariantService extends BaseService
         return $product;
     }
 
+    public function existsBySku($sku)
+    {
+        return $this->model->where('sku', '=', $sku)->exists();
+    }
+
     /**
      * Updates a resource from the given data
      *

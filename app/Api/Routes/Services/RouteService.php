@@ -25,6 +25,11 @@ class RouteService extends BaseService
         return $route;
     }
 
+    public function slugExists($slug)
+    {
+        return $this->model->where('slug', '=', $slug)->exists();
+    }
+
     /**
      * @param $hashedId
      * @return mixed

@@ -66,6 +66,11 @@ class AttributeService extends BaseService
         return $query->find($ids);
     }
 
+    public function getHandles()
+    {
+        return $this->model->pluck('handle')->toArray();
+    }
+
     /**
      * Updates the positions of attributes
      * @param  array  $data
