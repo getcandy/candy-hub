@@ -88,6 +88,12 @@ class ImportAquaSpa extends Command
         foreach ($products as $product) {
             $model = app('api')->products()->create($product);
 
+
+            $attributes = \GetCandy\Api\Attributes\Models\Attribute::get();
+            foreach ($attributes as $att) {
+                $model->attributes()->attach($att);
+            }
+
             foreach ($product['images'] as $image) {
                 app('api')->assets()->upload($image, $model);
             }

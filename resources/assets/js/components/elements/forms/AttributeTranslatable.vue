@@ -4,9 +4,9 @@
             return {
                 translating: false,
                 defaultLanguage: locale.current(),
-                defaultChannel: 'ecommerce',
+                defaultChannel: this.$store.getters.getDefaultChannel.handle,
                 translateLanguage: locale.current(),
-                translateChannel: 'ecommerce',
+                translateChannel: this.$store.getters.getDefaultChannel.handle,
                 isDefault: true,
                 originalData: []
             }
@@ -54,6 +54,7 @@
                 var channel = '';
                 var language = '';
                 var source = {};
+
 
                 if (type === 'default') {
                     channel = this.defaultChannel;
@@ -103,7 +104,7 @@
 <template>
     <div>
 
-        <div class="row">
+        <div class="row" v-if="defaultChannel">
             <div class="col-xs-12">
 
                 <div class="row">

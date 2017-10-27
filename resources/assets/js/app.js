@@ -38,13 +38,6 @@ window.List       = require('list.js');
 window.locale     = new Locale();
 window.moment     = require('moment');
 
-config.get('channels').then(response => {
-  channels = response.data;
-});
-config.get('languages').then(response => {
-  languages = response.data;
-});
-
 // Include our custom v stuff here, so we know everything is loaded
 
 require('./directives/sortable');
@@ -53,23 +46,15 @@ import Vuex from 'vuex'
 import { VTooltip } from 'v-tooltip'
 Vue.use(Vuex);
 
-Vue.directive('tooltip', VTooltip);
-
 require('./filters/attributes');
 require('./filters/format-date');
 require('./filters/translate');
 
-var CandyHelpers = {};
-
-CandyHelpers.install = function (Vue, options) {
-  Vue.capitalize = function (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-};
 
 const store = new Vuex.Store({
   state: {
-    topTabs: []
+    topTabs: [],
+    defaultChannel: null
   },
   mutations: {
     addTab (state, tab) {
@@ -79,6 +64,9 @@ const store = new Vuex.Store({
       tabs.forEach(tab => {
         state.topTabs.push(tab);
       });
+    },
+    setDefaultChannel(state, channel) {
+      state.defaultChannel = channel;
     }
   },
   getters: {
@@ -89,9 +77,41 @@ const store = new Vuex.Store({
         console.log(tab);
       });
       return state.topTabs;
+    },
+    getDefaultChannel(state) {
+      return state.defaultChannel;
     }
   }
-})
+});
+
+var defaultChannel = null;
+
+config.get('channels').then(response => {
+  channels = response.data;
+  defaultChannel = _.filter(channels, function(channel) {
+    return channel.default;
+  });
+  console.log(store);
+  store.commit('setDefaultChannel', defaultChannel[0]);
+});
+
+config.get('languages').then(response => {
+  languages = response.data;
+});
+
+
+Vue.directive('tooltip', VTooltip);
+
+
+var CandyHelpers = {};
+
+CandyHelpers.install = function (Vue, options) {
+  Vue.capitalize = function (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+};
+
+
 
 const app = new Vue({
     el: '#app',
