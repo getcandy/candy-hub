@@ -9,7 +9,7 @@
                     keywords: '',
                     includes: 'routes'
                 },
-                channel: 'ecommerce',
+                channel: this.$store.getters.getDefaultChannel.handle,
                 language: locale.current(),
                 addModalOpen: false,
                 selectedCategories: [],
@@ -45,6 +45,7 @@
         },
         methods: {
             getAttribute(data, attribute) {
+                console.log(this.channel);
                 return data.attribute_data[attribute][this.channel][this.language];
             },
             getRoute(data) {
@@ -185,6 +186,7 @@
                 <hr>
 
                 <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
+                                :associations="true"
                              :params="tableParams" :pagination="requestParams" @change="changePage"
                              :checked="selectedCategories">
                 </candy-table>

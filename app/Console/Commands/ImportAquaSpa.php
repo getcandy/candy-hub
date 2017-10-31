@@ -14,6 +14,8 @@ class ImportAquaSpa extends Command
      */
     protected $signature = 'import {driver}';
 
+    protected $categories = [];
+
     /**
      * The console command description.
      *
@@ -40,13 +42,38 @@ class ImportAquaSpa extends Command
      */
     public function handle()
     {
+        $this->call('migrate:refresh', [
+            '--seed' => true
+        ]);
         $driver = $this->argument('driver');
         $this->importer = app($driver . '.importer');
 
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
+        $this->importCategories();
         $this->importProducts();
+    }
+
+    protected function importCategories()
+    {
+        $this->info('Importing Categories');
+        $categories = $this->importer->getCategories();
+        $bar = $this->output->createProgressBar(count($categories));
+
+        foreach ($categories as $category) {
+            $newCat = app('api')->categories()->create($category);
+
+            foreach ($category['children'] as $index => $child) {
+                $child['parent'] = [
+                    'id' => $newCat->encodedId()
+                ];
+                app('api')->categories()->create($child);
+            }
+            $bar->advance();
+        }
+        $bar->finish();
+        $this->info('');
     }
 
     protected function importChannels()
@@ -66,7 +93,7 @@ class ImportAquaSpa extends Command
 
     public function importProductFamilies()
     {
-        $this->info('Importing Channels');
+        $this->info('Importing Product Families');
         $families = $this->importer->getProductFamilies();
         $bar = $this->output->createProgressBar(count($families));
 
@@ -88,6 +115,12 @@ class ImportAquaSpa extends Command
         foreach ($products as $product) {
             $model = app('api')->products()->create($product);
 
+            if (!empty($product['categories'])) {
+                foreach ($product['categories'] as $pc) {
+                    $category = app('api')->categories()->getById($pc['category_id']);
+                    $model->categories()->attach($category);
+                }
+            }
 
             $attributes = \GetCandy\Api\Attributes\Models\Attribute::get();
             foreach ($attributes as $att) {

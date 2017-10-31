@@ -66,6 +66,11 @@ abstract class BaseService
         return $this->model->decodeId($hash);
     }
 
+    public function getById($id)
+    {
+        return $this->model->find($id);
+    }
+
     public function getDecodedIds(array $ids)
     {
         $decoded = [];
@@ -228,5 +233,39 @@ abstract class BaseService
             return $query->whereIn($column, $value)->first();
         }
         return $query->where($column, '=', $value)->first();
+    }
+
+    public function getUniqueUrl($urls)
+    {
+        $unique = [];
+
+        if (is_array($urls)) {
+            foreach ($urls as $locale => $url) {
+                $i = 1;
+                while (app('api')->routes()->slugExists($url)) {
+                    $url = $url . '-' . $i;
+                    $i++;
+                }
+                $unique[] = [
+                    'locale' => $locale,
+                    'slug' => $url,
+                    'default' => $locale == app()->getLocale() ? true : false
+                ];
+            }
+        } else {
+            $i = 1;
+            $url = $urls;
+            while (app('api')->routes()->slugExists($url)) {
+                $url = $url . '-' . $i;
+                $i++;
+            }
+            $unique[] = [
+                'locale' => app()->getLocale(),
+                'slug' => $url,
+                'default' => true
+            ];
+        }
+
+        return $unique;
     }
 }

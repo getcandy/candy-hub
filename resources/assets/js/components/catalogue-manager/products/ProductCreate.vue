@@ -17,7 +17,7 @@
                         }
                         this.families.push({
                             id: family.id,
-                            label: family.attribute_data.name.ecommerce.en
+                            label: 'FIX ME'
                         });
                     });
                 });

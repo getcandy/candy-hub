@@ -19,22 +19,9 @@ $this->get('/', function () {
 Route::get('foo', function () {
     $this->importer = app('aqua.importer');
 
-    $products = $this->importer->getProducts();
+    $products = $this->importer->getCategories();
 
-    // $parsed = [];
-
-    // foreach ($groups as $group) {
-    //     $parsed[$group['usergroup_id']] = [
-
-    //     ];
-
-    //     // if (!empty())
-    //     dump($group);
-    // }
-    foreach ($products as $product) {
-        dd($product);
-        // app('api')->products()->create($product);
-    }
+    dd($products);
 });
 // Authentication Routes...
 $this->group(['namespace' => 'Cms\\Auth'], function () {

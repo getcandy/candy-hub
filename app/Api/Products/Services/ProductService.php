@@ -133,7 +133,7 @@ class ProductService extends BaseService
 
         }
 
-        $product->attribute_data = ['name' => $mapping];
+        $product->attribute_data = $attributeData;
         $product->option_data = [];
 
         // $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
@@ -149,34 +149,23 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        $urls = [];
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $product->customerGroups()->sync($groupData);
+        }
 
-        if (is_array($data['url'])) {
-            foreach ($data['url'] as $locale => $url) {
-                $i = 1;
-                while (app('api')->routes()->slugExists($url)) {
-                    $url = $url . '-' . $i;
-                    $i++;
-                }
-                $urls[] = [
-                    'locale' => $locale,
-                    'slug' => $url,
-                    'default' => $locale == app()->getLocale() ? true : false
+        if (!empty($data['channels'])) {
+            $channelData = [];
+            foreach ($data['channels']['data'] as $channel) {
+                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
+                $channelData[$channelModel->id] = [
+                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
                 ];
             }
-        } else {
-            $i = 1;
-            $url = $data['url'];
-            while (app('api')->routes()->slugExists($url)) {
-                $url = $url . '-' . $i;
-                $i++;
-            }
-            $urls[] = [
-                'locale' => app()->getLocale(),
-                'slug' => $url,
-                'default' => true
-            ];
+            $product->channels()->sync($channelData);
         }
+
+        $urls = $this->getUniqueUrl($data['url']);
         $product->routes()->createMany($urls);
 
         $sku = $data['sku'];
@@ -228,9 +217,13 @@ class ProductService extends BaseService
      * @param  int  $page   The page to start
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($channel = null, $length = 50, $page = null)
+    public function getPaginatedData($channel = null, $length = 50, $page = null, $keywords = null)
     {
         $results = $this->model->channel($channel);
+
+        if ($keywords) {
+            $results->where('attribute_data->name->aqua-spa-supplies->en', 'like', "%{$keywords}%");
+        }
         return $results->paginate($length, ['*'], 'page', $page);
     }
 

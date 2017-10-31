@@ -181,7 +181,7 @@
             <input type="text" class="form-control search" placeholder="Search Products" v-on:input="updateKeywords">
           </div>
           <hr>
-          <table class="table">
+          <table class="table association-table">
             <thead>
               <tr>
                 <th> </th>
@@ -201,8 +201,8 @@
             </tfoot>
             <tbody class="list">
               <tr v-for="product in products">
-                <td width="50"><img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm"></td>
-                <td class="name">{{ product|attribute('name') }}</td>
+                <td width="20%"><img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm"></td>
+                <td class="name" width="60%">{{ product|attribute('name') }}</td>
                 <td>
                   <select class="form-control selectize" v-model="loaded[product.id].type">
                     <option v-for="group in groups" :value="group.handle">
@@ -227,8 +227,6 @@
               </tr>
             </tbody>
           </table>
-          <hr>
-          <p><small>Need to make tbody scrollable with a fixed height<br>Should selected product names with selection type show below search area as well? With a potential to remove?</small></p>
         </div>
         <template slot="footer">
             <button class="btn btn-primary" @click="saveAssociations()">Associate products</button>

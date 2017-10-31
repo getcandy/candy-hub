@@ -6,14 +6,18 @@ use DB;
 use GetCandy\Importers\BaseImporter;
 use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
 use GetCandy\Importers\Aqua\Models\Products\Product;
+use GetCandy\Importers\Aqua\Models\Categories\Category;
+use GetCandy\Importers\Aqua\Models\Channel;
 
 class Factory extends BaseImporter
 {
     protected $database;
+    protected $decorator;
 
-    public function __construct()
+    public function __construct(Decorator $decorator)
     {
         $this->database = DB::connection('aquaspa');
+        $this->decorator = $decorator;
     }
 
     /**
@@ -22,57 +26,17 @@ class Factory extends BaseImporter
      */
     public function getProducts()
     {
-        $products = Product::with(['descriptions', 'images', 'images.ref'])->get();
+        $products = Product::with(['images', 'channel', 'categories'])->get();
 
-        return $products->map(function ($product) {
-            $name = [];
-            $newName = null;
-            $desc = [];
-            $newDesc = null;
-            $urls = [];
-            $images = [];
+        return $products->toArray();
 
-            foreach ($product->descriptions as $description) {
-                // Name
-                if (str_slug($newName) == str_slug($description->product)) {
-                    $name[$description->lang_code] = null;
-                } else {
-                    $name[$description->lang_code] = $description->product;
-                    $urls[$description->lang_code] = str_slug($description->product);
-                }
-                $newName = $description->product;
+        // return $products;
+    }
 
-                // Description
-                if ($newDesc == $description->full_description) {
-                    $desc[$description->lang_code] = null;
-                } else {
-                    $desc[$description->lang_code] = $description->full_description;
-                }
-                $newDesc = $description->full_description;
-            }
-
-            foreach ($product->images as $image) {
-                if ($image->ref) {
-                    $images[] = [
-                        'url' => url('/aqua_assets/' . $image->ref->image_path),
-                        'mime_type' => 'external'
-                    ];
-                }
-            }
-
-            return [
-                'name' => $name,
-                'family_id' => \GetCandy\Api\Products\Models\ProductFamily::first()->encodedId(),
-                'description' => $desc,
-                'url' => $urls,
-                'stock' => $product->amount,
-                'sku' => $product->product_code,
-                'price' => $product->list_price,
-                'images' => $images
-            ];
-        });
-
-        return $products;
+    public function getCategories()
+    {
+        $categories = Category::parents()->with(['children', 'children.children'])->get()->toArray();
+        return $categories;
     }
 
     public function getProductFamilies()
@@ -97,12 +61,13 @@ class Factory extends BaseImporter
      */
     public function getChannels()
     {
-        return [
-            ['name' => 'UK', 'handle' => 'uk', 'default' => true],
-            ['name' => 'Europe', 'handle' => 'europe', 'default' => false]
-        ];
+        return Channel::all()->toArray();
     }
 
+    /**
+     * Get the customer groups
+     * @return array
+     */
     public function getCustomerGroups()
     {
         $groups = UserGroup::with('descriptions')->get();

@@ -144,7 +144,6 @@
                                 <candy-categories :product="product"></candy-categories>
                             </candy-tab>
                             <candy-tab name="Collections" handle="collections">
-                                Tab will require counter to show how many collection associations this product has
                                 <candy-collections></candy-collections>
                             </candy-tab>
                             <candy-tab name="Products" handle="products" :badge="getAssociationCount()">

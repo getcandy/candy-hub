@@ -9,6 +9,7 @@
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                keywords: '',
                 params: {
                     per_page: 25,
                     current_page: 1,
@@ -43,6 +44,7 @@
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
+                console.log(this.params);
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
@@ -56,12 +58,25 @@
                 }
                 return '/images/placeholder/no-image.svg';
             },
+            search: _.debounce(function (){
+                    this.loaded = false;
+                    this.params['keywords'] = this.keywords;
+                    this.loadProducts();
+                }, 1000
+            ),
             getVisibilty(product, ref) {
                 let groups = product[ref].data;
                 let visible = [];
                 groups.forEach(group => {
                     if (group.visible) {
                         visible.push(group.name);
+                    }
+                    if (group.published_at) {
+                        let now = moment();
+                        let publish_date = moment(group.published_at);
+                        if (!publish_date.isAfter(now)) {
+                            visible.push(group.name);
+                        }
                     }
                 });
                 if (visible.length == groups.length) {
@@ -160,7 +175,7 @@
                                   <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" placeholder="Search">
+                                <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
 
                         </div>

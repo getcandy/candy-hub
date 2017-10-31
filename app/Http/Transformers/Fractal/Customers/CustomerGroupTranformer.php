@@ -15,6 +15,5 @@ class CustomerGroupTransformer extends TransformerAbstract
             'visible' => $customerGroup->visible ? true : false,
             'purchasable' => $customerGroup->purchasable ? true : false
         ];
-
     }
 }

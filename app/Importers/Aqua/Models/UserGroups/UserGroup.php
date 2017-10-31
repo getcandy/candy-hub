@@ -7,6 +7,7 @@ use GetCandy\Importers\Aqua\Models\BaseModel;
 class UserGroup extends BaseModel
 {
     protected $table = 'cscart_usergroups';
+    public $idref = 'usergroup_id';
 
     public function descriptions()
     {

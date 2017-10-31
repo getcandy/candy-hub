@@ -22,6 +22,7 @@ class CustomerGroupService extends BaseService
             $model = $group->{$relation}->first();
             $group->published_at = $model ? $model->pivot->published_at : null;
             $group->visible = $model ? $model->pivot->visible : false;
+            $group->purchasable = $model ? $model->pivot->purchasable : false;
         }
         return $groups;
     }

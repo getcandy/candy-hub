@@ -26,7 +26,8 @@ class ProductController extends BaseController
         $paginator = app('api')->products()->getPaginatedData(
             $request->channel,
             $request->per_page,
-            $request->current_page
+            $request->current_page,
+            $request->keywords
         );
         return $this->respondWithCollection($paginator, new ProductTransformer);
     }

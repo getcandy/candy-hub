@@ -44,25 +44,33 @@ class CategoryService extends BaseService
         $category = $this->model;
 
         $mapping = $category->getDataMapping();
+        $attributes = app('api')->attributes()->getHandles();
 
-        $locale = '';
+        $attributeData = [];
 
-        foreach ($mapping as $key => $map) {
-            $locale = key($data['name']);
-            $mapping[$key][$locale] = $data['name'][$locale];
+        foreach ($attributes as $attribute) {
+            if (!empty($data[$attribute])) {
+                foreach ($mapping as $key => $map) {
+                    $locale = key($data[$attribute]);
+                    $mapping[$key][$locale] = $data[$attribute][$locale];
+                }
+                $attributeData[$attribute] = $mapping;
+            }
         }
 
-        $category->attribute_data = ['name' => $mapping];
+        $category->attribute_data = $attributeData;
+        $category->id = $data['historical_id'];
 
         $category->save();
 
-        // Create Route
-        $category->routes()->create([
-            'locale' => $locale,
-            'slug' => $data['url'],
-            'redirect' => false,
-            'default' => true
-        ]);
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $category->customerGroups()->sync($groupData);
+        }
+
+        $urls = $this->getUniqueUrl($data['url']);
+
+        $category->routes()->createMany($urls);
 
         // If a parent id exists then add the category to the parent
         if (!empty($data['parent']['id'])) {
