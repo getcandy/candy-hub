@@ -29,6 +29,7 @@ class ProductCreatedEvent
 
     public function product()
     {
+        dd($this->product);
         return $this->product;
     }
 
