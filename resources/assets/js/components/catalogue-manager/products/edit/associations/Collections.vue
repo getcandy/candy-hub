@@ -66,7 +66,7 @@
                         this.collectionsLoaded = true;
                     });
             },
-            removeCategory() {
+            removeCollection() {
                 let productID = this.product.id;
                 let collectionID = this.deleteModalData.id;
 
@@ -98,7 +98,6 @@
                             level: 'success'
                         });
                         this.productCollections = response.data;
-
                         this.closeAddModal();
                     });
             },

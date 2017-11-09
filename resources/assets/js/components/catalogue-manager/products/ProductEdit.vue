@@ -73,7 +73,7 @@
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
                     includes: 'family,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
-                    'layout,variants,associations,routes,channels,customer_groups,categories,categories.routes,collections'
+                    'layout,variants,associations,routes,channels,customer_groups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;

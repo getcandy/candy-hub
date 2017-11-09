@@ -130,6 +130,7 @@ $this->post('products/{product}/collections', 'Products\ProductCollectionControl
 $this->post('products/{product}/routes', 'Products\ProductRouteController@store');
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
 $this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
+$this->delete('products/{product}/collections/{collection}', 'Products\ProductCollectionController@destroy');
 $this->post('products/{product}/associations', 'Products\ProductAssociationController@store');
 $this->delete('products/{product}/associations', 'Products\ProductAssociationController@destroy');
 $this->resource('products', 'Products\ProductController', [

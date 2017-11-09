@@ -33,6 +33,10 @@ class CollectionService extends BaseService
         $collection->attribute_data = $data;
         $collection->save();
 
+        $urls = $this->getUniqueUrl($data['url']);
+
+        $collection->routes()->createMany($urls);
+
         event(new AttributableSavedEvent($collection));
 
         return $collection;

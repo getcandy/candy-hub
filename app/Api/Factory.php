@@ -20,6 +20,7 @@ use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Pages\Services\PageService;
 use GetCandy\Api\Products\Services\ProductAssociationService;
 use GetCandy\Api\Products\Services\ProductCategoryService;
+use GetCandy\Api\Products\Services\ProductCollectionService;
 use GetCandy\Api\Products\Services\ProductFamilyService;
 use GetCandy\Api\Products\Services\ProductService;
 use GetCandy\Api\Products\Services\ProductVariantService;
@@ -105,6 +106,11 @@ class Factory
     /**
      * @var ProductFamilyService
      */
+    protected $productCollections;
+
+    /**
+     * @var ProductFamilyService
+     */
     protected $productFamilies;
 
     /**
@@ -169,6 +175,7 @@ class Factory
         PageService $pages,
         ProductAssociationService $productAssociations,
         ProductCategoryService $productCategories,
+        ProductCollectionService $productCollections,
         ProductFamilyService $productFamilies,
         ProductVariantService $productVariants,
         ProductService $products,
@@ -199,6 +206,7 @@ class Factory
         $this->productFamilies = $productFamilies;
         $this->products = $products;
         $this->productCategories = $productCategories;
+        $this->productCollections = $productCollections;
         $this->productVariants = $productVariants;
         $this->routes = $routes;
         $this->roles = $roles;

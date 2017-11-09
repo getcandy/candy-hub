@@ -379,7 +379,7 @@
                                         <em class="help-txt">Description on what weigth is used for.</em>
                                     </label>
                                     <div class="input-group input-group-full">
-                                        <input type="number" class="form-control">
+                                        <input type="number" class="form-control" v-model="current.weight.value">
                                         <candy-select :options="['lb', 'oz', 'kg', 'g']" v-model="current.weight.unit"
                                                       :addon="true"></candy-select>
                                     </div>

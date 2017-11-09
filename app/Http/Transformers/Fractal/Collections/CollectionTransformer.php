@@ -19,6 +19,10 @@ class CollectionTransformer extends BaseTransformer
      */
     protected $attributeGroups;
 
+    protected $defaultIncludes = [
+        'routes'
+    ];
+
     /**
      * @var Array
      */
@@ -27,8 +31,7 @@ class CollectionTransformer extends BaseTransformer
         'attribute_groups',
         'products',
         'channels',
-        'customer_groups',
-        'routes'
+        'customer_groups'
     ];
 
     /**
