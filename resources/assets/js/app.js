@@ -54,7 +54,9 @@ require('./filters/translate');
 const store = new Vuex.Store({
   state: {
     topTabs: [],
-    defaultChannel: null
+    defaultChannel: {
+      handle: 'aqua-spa-supplies'
+    }
   },
   mutations: {
     addTab (state, tab) {
@@ -84,14 +86,13 @@ const store = new Vuex.Store({
   }
 });
 
-var defaultChannel = null;
+var defaultChannel = 'aqua-spa-supplies';
 
 config.get('channels').then(response => {
   channels = response.data;
   defaultChannel = _.filter(channels, function(channel) {
     return channel.default;
   });
-  console.log(store);
   store.commit('setDefaultChannel', defaultChannel[0]);
 });
 

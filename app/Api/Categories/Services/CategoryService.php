@@ -59,7 +59,7 @@ class CategoryService extends BaseService
         }
 
         $category->attribute_data = $attributeData;
-        $category->id = $data['historical_id'];
+        // $category->id = $data['historical_id'];
 
         $category->save();
 

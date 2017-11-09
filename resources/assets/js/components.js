@@ -97,6 +97,7 @@ var includes = [
     components: {
       'collections-table' : 'CollectionsTable',
       'collection-edit' : 'CollectionEdit',
+      'collection-create' : 'CollectionCreate'
     }
   },
   {

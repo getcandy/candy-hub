@@ -29,7 +29,25 @@ class CollectionService extends BaseService
     public function create(array $data)
     {
         $collection = $this->model;
-        $collection->attribute_data = $data['attributes'];
+
+        $mapping = $collection->getDataMapping();
+
+        $attributes = app('api')->attributes()->getHandles();
+
+        $attributeData = [];
+
+        foreach ($attributes as $attribute) {
+            if (!empty($data[$attribute])) {
+                foreach ($mapping as $key => $map) {
+                    $locale = key($data[$attribute]);
+                    $mapping[$key][$locale] = $data[$attribute][$locale];
+                }
+                $attributeData[$attribute] = $mapping;
+            }
+
+        }
+
+        $collection->attribute_data = $attributeData;
         $collection->save();
         return $collection;
     }

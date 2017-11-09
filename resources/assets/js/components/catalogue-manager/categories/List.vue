@@ -8,7 +8,7 @@
                 categoriesLoaded: false,
                 search: '',
                 currentView: 'tree-view',
-                channel: 'ecommerce',
+                channel: this.$store.getters.getDefaultChannel.handle,
                 language: locale.current(),
                 request: apiRequest,
                 requestParams: {
@@ -84,6 +84,7 @@
                         this.requestParams.total_pages = response.meta.pagination.total_pages;
                         this.categoriesLoaded = true;
                     });
+
             },
             slugify(value) {
                 this.category.slug = value.slugify();
