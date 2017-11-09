@@ -40,7 +40,11 @@ trait HasAttributes
 
     public function setAttributeDataAttribute($val)
     {
-        $this->attributes['attribute_data'] = json_encode($this->mapAttributes($val));
+        if (!$this->id) {
+            $this->attributes['attribute_data'] = json_encode($this->mapAttributes($val));
+        } else {
+            $this->attributes['attribute_data'] = json_encode($val);
+        }
     }
 
     /**
