@@ -7,7 +7,6 @@ use GetCandy\Api\Attributes\Models\AttributeGroup;
 
 trait HasAttributes
 {
-
     /**
      * Get all of the tags for the post.
      */
@@ -41,7 +40,7 @@ trait HasAttributes
 
     public function setAttributeDataAttribute($val)
     {
-        $this->attributes['attribute_data'] = json_encode($val);
+        $this->attributes['attribute_data'] = json_encode($this->mapAttributes($val));
     }
 
     /**
@@ -91,5 +90,28 @@ trait HasAttributes
             $structure[$channel->handle] = $languagesArray;
         }
         return $structure;
+    }
+
+    protected function mapAttributes($data)
+    {
+        $mapping = $this->getDataMapping();
+
+        $attributes = app('api')->attributes()->getHandles();
+
+        $attributeData = [];
+        $assigned = [];
+
+        foreach ($attributes as $attribute) {
+            if (!empty($data[$attribute['handle']])) {
+                foreach ($mapping as $key => $map) {
+                    $locale = key($data[$attribute['handle']]);
+                    $mapping[$key][$locale] = $data[$attribute['handle']][$locale];
+                }
+                $assigned[] = $attribute['id'];
+                $attributeData[$attribute['handle']] = $mapping;
+            }
+        }
+
+        return $attributeData;
     }
 }

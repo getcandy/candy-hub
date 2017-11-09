@@ -45,10 +45,8 @@ class Factory extends BaseImporter
             [
                 'attributes' => [
                     'name' => [
-                        'uk' => [
-                            'en' => 'Stock',
-                            'fr' => null
-                        ]
+                        'en' => 'Stock',
+                        'fr' => null
                     ]
                 ]
             ]

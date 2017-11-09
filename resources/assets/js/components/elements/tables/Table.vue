@@ -16,6 +16,9 @@
                     return [];
                 }
             },
+            itemUrl: {
+                type: String
+            },
             items: {
                 type: Array
             },
@@ -61,6 +64,9 @@
                 }.bind(this));
 
                 return slug;
+            },
+            getUrl(id) {
+                return this.itemUrl + id;
             },
             thumbnail(element) {
                 if (element.thumbnail) {
@@ -130,7 +136,7 @@
                     <td v-for="column in params.columns" :align="column.align" :width="column.width">
 
                         <template v-if="column.type === 'attribute'">
-                            {{ item|attribute(column.source) }}
+                            <a :href="getUrl(item.id)">{{ item|attribute(column.source) }}</a>
                         </template>
 
                         <template v-else-if="column.type === 'route'">

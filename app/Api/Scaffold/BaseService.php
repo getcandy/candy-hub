@@ -2,7 +2,6 @@
 
 namespace GetCandy\Api\Scaffold;
 
-use GetCandy\Events\General\AttributesUpdatedEvent;
 use GetCandy\Jobs\Attributes\SyncAttributeDataJob;
 
 abstract class BaseService

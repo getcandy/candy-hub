@@ -15,9 +15,10 @@
                         if (index == 0) {
                             this.product.family_id = family.id;
                         }
+                        console.log(family);
                         this.families.push({
                             id: family.id,
-                            label: 'FIX ME'
+                            label: family.attribute_data.name[locale.current()]
                         });
                     });
                 });

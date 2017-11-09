@@ -2,16 +2,17 @@
 
 namespace GetCandy\Api\Products\Services;
 
-use GetCandy\Api\Products\Models\Product;
+use Carbon\Carbon;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Events\Products\ProductCreatedEvent;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
-use GetCandy\Events\Products\ProductCreatedEvent;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class ProductService extends BaseService
 {
@@ -116,24 +117,8 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        $mapping = $product->getDataMapping();
-
-        $attributes = app('api')->attributes()->getHandles();
-
-        $attributeData = [];
-
-        foreach ($attributes as $attribute) {
-            if (!empty($data[$attribute])) {
-                foreach ($mapping as $key => $map) {
-                    $locale = key($data[$attribute]);
-                    $mapping[$key][$locale] = $data[$attribute][$locale];
-                }
-                $attributeData[$attribute] = $mapping;
-            }
-
-        }
-
-        $product->attribute_data = $attributeData;
+        $data['description'] = !empty($data['description']) ? $data['description'] : '';
+        $product->attribute_data = $data;
         $product->option_data = [];
 
         // $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
@@ -148,6 +133,8 @@ class ProductService extends BaseService
         } else {
             $product->save();
         }
+
+        event(new AttributableSavedEvent($product));
 
         if (!empty($data['customer_groups'])) {
             $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);

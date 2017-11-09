@@ -68,7 +68,7 @@ class AttributeService extends BaseService
 
     public function getHandles()
     {
-        return $this->model->pluck('handle')->toArray();
+        return $this->model->select(['handle', 'id'])->get()->toArray();
     }
 
     /**
@@ -190,5 +190,11 @@ class AttributeService extends BaseService
         }
 
         return !$result->exists();
+    }
+
+
+    public function getByHandles(array $handles)
+    {
+        return $this->model->whereIn('handle', $handles)->get();
     }
 }

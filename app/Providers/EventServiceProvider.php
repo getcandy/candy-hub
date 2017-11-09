@@ -4,8 +4,8 @@ namespace GetCandy\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use GetCandy\Events\General\AttributesUpdatedEvent;
-use GetCandy\Listeners\General\UpdateAttributableDataListener;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
+use GetCandy\Api\Attributes\Listeners\SyncAttributablesListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,8 +15,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        AttributesUpdatedEvent::class => [
-            UpdateAttributableDataListener::class
+        AttributableSavedEvent::class => [
+            SyncAttributablesListener::class
         ]
     ];
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 
 class CollectionService extends BaseService
 {
@@ -29,26 +30,11 @@ class CollectionService extends BaseService
     public function create(array $data)
     {
         $collection = $this->model;
-
-        $mapping = $collection->getDataMapping();
-
-        $attributes = app('api')->attributes()->getHandles();
-
-        $attributeData = [];
-
-        foreach ($attributes as $attribute) {
-            if (!empty($data[$attribute])) {
-                foreach ($mapping as $key => $map) {
-                    $locale = key($data[$attribute]);
-                    $mapping[$key][$locale] = $data[$attribute][$locale];
-                }
-                $attributeData[$attribute] = $mapping;
-            }
-
-        }
-
-        $collection->attribute_data = $attributeData;
+        $collection->attribute_data = $data;
         $collection->save();
+
+        event(new AttributableSavedEvent($collection));
+
         return $collection;
     }
 

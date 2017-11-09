@@ -238,6 +238,7 @@
                 <!-- List View -->
                 <div id="list-view" v-show="currentView === 'list-view'">
                     <candy-table :items="categories" :loaded="categoriesLoaded" :params="tableParams"
+                                    itemUrl="/catalogue-manager/categories/"
                                  :pagination="requestParams" @change="changePage">
                     </candy-table>
                 </div>
