@@ -2,12 +2,13 @@
 
 namespace GetCandy\Api\Categories\Services;
 
+use Carbon\Carbon;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
-use Carbon\Carbon;
 
 class CategoryService extends BaseService
 {
@@ -43,25 +44,12 @@ class CategoryService extends BaseService
         // Create Category
         $category = $this->model;
 
-        $mapping = $category->getDataMapping();
-        $attributes = app('api')->attributes()->getHandles();
-
-        $attributeData = [];
-
-        foreach ($attributes as $attribute) {
-            if (!empty($data[$attribute])) {
-                foreach ($mapping as $key => $map) {
-                    $locale = key($data[$attribute]);
-                    $mapping[$key][$locale] = $data[$attribute][$locale];
-                }
-                $attributeData[$attribute] = $mapping;
-            }
-        }
-
-        $category->attribute_data = $attributeData;
+        $category->attribute_data = $data;
         // $category->id = $data['historical_id'];
 
         $category->save();
+
+        event(new AttributableSavedEvent($category));
 
         if (!empty($data['customer_groups'])) {
             $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
@@ -102,6 +90,9 @@ class CategoryService extends BaseService
         }
 
         $category->save();
+
+        event(new AttributableSavedEvent($category));
+
         return $category;
     }
 

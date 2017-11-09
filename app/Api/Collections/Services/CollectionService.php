@@ -70,6 +70,9 @@ class CollectionService extends BaseService
         }
 
         $collection->save();
+
+        event(new AttributableSavedEvent($collection));
+
         return $collection;
     }
 

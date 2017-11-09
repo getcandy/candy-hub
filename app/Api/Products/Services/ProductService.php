@@ -51,6 +51,8 @@ class ProductService extends BaseService
             $product->save();
         }
 
+        event(new AttributableSavedEvent($product));
+
         if (!empty($data['channels'])) {
             $channelData = [];
             foreach ($data['channels']['data'] as $channel) {
