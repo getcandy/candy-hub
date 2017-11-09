@@ -49,6 +49,26 @@ class Product extends BaseModel
         'name', 'price', 'attribute_data', 'option_data'
     ];
 
+    /**
+     * Sets the option data attribute
+     * [
+     *     [
+     *         'label' => [
+     *             'en' => 'Colour'
+     *         ],
+     *         'options' => [
+     *             [
+     *                 position: 1,
+     *                 values: [
+     *                     'en' => 'Espresso',
+     *                     'fr' => 'Espresso'
+     *                 ]
+     *             ]
+     *         ]
+     *     ]
+     * ]
+     * @param array $value [description]
+     */
     public function setOptionDataAttribute($value)
     {
         $options = [];

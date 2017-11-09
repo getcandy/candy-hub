@@ -33,6 +33,12 @@ class Product extends BaseModel
             'published_at' => Carbon::createFromTimestamp($this->timestamp)
         ]];
 
+        $options = [];
+
+        foreach ($this->options as $option) {
+            $options[] = $option;
+        }
+
         $customerGroups = [];
 
         if ($this->usergroups()->count()) {
@@ -66,6 +72,8 @@ class Product extends BaseModel
             'stock' => $this->amount,
             'sku' => $this->product_code,
             'price' => $this->list_price,
+            'options' => $options,
+            'weight' => $this->weight,
             'channels' => [
                 'data' => $channelData
             ],
@@ -94,6 +102,10 @@ class Product extends BaseModel
         return $this->hasMany(ProductCategory::class, 'product_id', 'product_id');
     }
 
+    public function options()
+    {
+        return $this->hasMany(ProductOption::class, 'product_id', 'product_id');
+    }
     public function usergroups()
     {
         // Convert column to an array...

@@ -113,7 +113,70 @@ class ImportAquaSpa extends Command
         $bar = $this->output->createProgressBar(count($products));
 
         foreach ($products as $product) {
+            // First set up product option data...
+            $product['option_data'] = $this->mapOptionData($product['options']);
+
+            // No matter what, just create a basic product...
             $model = app('api')->products()->create($product);
+
+            // Upload assets pretty much instantly.
+            foreach ($product['images'] as $image) {
+                app('api')->assets()->upload($image, $model);
+            }
+
+            // This is seperated cause we wanna do two different things...
+            if (count($product['options'])) {
+                $variants = [];
+                foreach ($product['options'] as $index => $option) {
+                    if (!count($option['description'])) {
+                        continue;
+                    }
+                    $name = str_slug($option['description'][0]['option_name']);
+                    foreach ($option['variants'] as $vIndex => $variant) {
+                        foreach ($variant['description'] as $vDesc) {
+                            $sku = str_slug($product['sku']) . '-' . str_slug($vDesc['variant_name']);
+                            $data = [
+                                'sku' => $sku,
+                                'price' => $product['price'],
+                                'inventory' => $product['stock'],
+                                'weight' => [
+                                    'unit' => 'lb',
+                                    'value' => $product['weight']
+                                ],
+                                'options' => [
+                                    $name => [
+                                        $vDesc['lang_code'] => $vDesc['variant_name']
+                                    ]
+                                ]
+                            ];
+                            $variants[$vIndex] = $data;
+                        }
+                    }
+                }
+
+                app('api')->productVariants()->create($model->encodedId(), ['variants' => $variants]);
+                foreach ($model->variants as $variant) {
+                    $variant->image()->associate($model->primaryAsset());
+                    $variant->save();
+                }
+            } else {
+                $variant = [];
+                $variant['sku'] = $product['sku'];
+                $variant['price'] = $product['price'];
+                $variant['inventory'] = $product['stock'];
+                $variant['options'] = [];
+                $variant['weight'] = [
+                    'value' => $product['weight'],
+                    'unit' => 'lb'
+                ];
+
+                app('api')->productVariants()->create($model->encodedId(), ['variants' => [$variant]]);
+
+                foreach ($model->variants as $variant) {
+                    $variant->image()->associate($model->primaryAsset());
+                    $variant->save();
+                }
+            }
 
             if (!empty($product['categories'])) {
                 foreach ($product['categories'] as $pc) {
@@ -122,19 +185,40 @@ class ImportAquaSpa extends Command
                 }
             }
 
-            $attributes = \GetCandy\Api\Attributes\Models\Attribute::get();
-            foreach ($attributes as $att) {
-                $model->attributes()->attach($att);
-            }
-
-            foreach ($product['images'] as $image) {
-                app('api')->assets()->upload($image, $model);
-            }
             $bar->advance();
         }
 
         $bar->finish();
         $this->info('');
+    }
+
+    protected function getVariant()
+    {
+
+    }
+    protected function mapOptionData(array $options)
+    {
+        $optionData = [];
+        foreach ($options as $index => $option) {
+            foreach ($option['description'] as $description) {
+                $optionData[$index]['label'][$description['lang_code']] = $description['option_name'];
+            }
+
+            $optionData[$index]['options'] = [];
+
+            $i = 1;
+
+            foreach ($option['variants'] as $vIndex => $variant) {
+                // $optionData[$index]['options'][$vIndex]['values']
+                $values = [];
+                foreach ($variant['description'] as $item) {
+                    $values[$item['lang_code']] = $item['variant_name'];
+                }
+                $optionData[$index]['options'][$vIndex]['values'] = $values;
+                $optionData[$index]['options'][$vIndex]['position'] = $i++;
+            }
+        }
+        return $optionData;
     }
 
     protected function importCustomerGroups()

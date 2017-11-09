@@ -73,7 +73,7 @@
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
                     includes: 'family,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
-                    'layout,variants,associations,routes,channels,customer_groups,categories,categories.routes'
+                    'layout,variants,associations,routes,channels,customer_groups,categories,categories.routes,collections'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
@@ -144,7 +144,7 @@
                                 <candy-categories :product="product"></candy-categories>
                             </candy-tab>
                             <candy-tab name="Collections" handle="collections">
-                                <candy-collections></candy-collections>
+                                <candy-collections :product="product"></candy-collections>
                             </candy-tab>
                             <candy-tab name="Products" handle="products" :badge="getAssociationCount()">
                                 <candy-products :product="product"></candy-products>

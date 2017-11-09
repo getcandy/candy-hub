@@ -121,7 +121,12 @@ class ProductService extends BaseService
 
         $data['description'] = !empty($data['description']) ? $data['description'] : '';
         $product->attribute_data = $data;
+
         $product->option_data = [];
+
+        if (!empty($data['option_data'])) {
+            $product->option_data = $data['option_data'];
+        }
 
         // $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
         // $product->layout()->associate($layout);

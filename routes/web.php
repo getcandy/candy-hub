@@ -19,7 +19,7 @@ $this->get('/', function () {
 Route::get('foo', function () {
     $this->importer = app('aqua.importer');
 
-    $products = $this->importer->getCategories();
+    $products = $this->importer->getProducts();
 
     dd($products);
 });

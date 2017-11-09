@@ -43,12 +43,24 @@ class ProductVariantService extends BaseService
                     $newOption[$handle] = $optionKey;
                 }
             }
-            $product->variants()->create([
+
+            $sku = $newVariant['sku'];
+            $i = 1;
+            while (app('api')->productVariants()->existsBySku($sku)) {
+                $sku = $sku . $i;
+                $i++;
+            }
+
+            $variant = $product->variants()->create([
                 'price' => $newVariant['price'],
-                'sku' => $newVariant['sku'],
+                'sku' => $sku,
                 'stock' => $newVariant['inventory'],
                 'options' => $newVariant['options']
             ]);
+
+            $this->setMeasurements($variant, $newVariant);
+
+            $variant->save();
         }
 
         if (empty($data['options'])) {
@@ -96,7 +108,6 @@ class ProductVariantService extends BaseService
         $variant->product->update(['option_data' => $options]);
         $variant->fill($data);
 
-        $measurements = ['weight', 'height', 'width', 'depth', 'volume'];
 
         $thumbnailId = null;
 
@@ -111,13 +122,8 @@ class ProductVariantService extends BaseService
             $variant->image()->associate($asset);
         }
 
-        array_map(function ($x) use ($data, $variant) {
-            if (!empty($data[$x])) {
-                foreach ($data[$x] as $label => $value) {
-                    $variant->setAttribute($x . '_' . $label, is_numeric($value) ? $value : $value);
-                }
-            }
-        }, $measurements);
+        dd($data);
+        $this->setMeasurements($variant, $data);
 
         $variant->save();
         return $variant;
@@ -139,5 +145,28 @@ class ProductVariantService extends BaseService
             abort(404);
         }
         return $productFamily->delete();
+    }
+
+    /**
+     * Maps and sets the measurements for a variant
+     * @param ProductVariant $variant
+     * [
+     *     'weight' => [
+     *         'cm' => 100
+     *     ]
+     * ]
+     * @param array $data
+     */
+    protected function setMeasurements($variant, $data)
+    {
+        $measurements = ['weight', 'height', 'width', 'depth', 'volume'];
+
+        array_map(function ($x) use ($data, $variant) {
+            if (!empty($data[$x])) {
+                foreach ($data[$x] as $label => $value) {
+                    $variant->setAttribute($x . '_' . $label, is_numeric($value) ? $value : $value);
+                }
+            }
+        }, $measurements);
     }
 }

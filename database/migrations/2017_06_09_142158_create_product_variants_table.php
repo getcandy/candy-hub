@@ -19,7 +19,7 @@ class CreateProductVariantsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->string('sku')->unique();
             $table->json('options')->nullable();
-            $table->decimal('price', 10, 5)->unsigned();
+            $table->decimal('price', 10, 2)->unsigned();
             $table->integer('stock')->unsigned();
             $table->boolean('backorder')->default(false);
             $table->boolean('requires_shipping')->default(true);
