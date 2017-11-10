@@ -5,6 +5,7 @@ namespace GetCandy\Providers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (\Request::ip() != '84.45.128.100') {
+            throw new MaintenanceModeException(666, 666, 'No no no');
+        }
+
         Validator::extend('valid_locales', 'GetCandy\Http\Validators\Api\LocaleValidator@validate');
         Validator::extend('enabled', 'GetCandy\Http\Validators\Api\BaseValidator@enabled');
         Validator::extend('asset_url', 'GetCandy\Http\Validators\Api\AssetValidator@validAssetUrl');
