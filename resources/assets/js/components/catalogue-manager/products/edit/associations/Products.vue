@@ -28,7 +28,7 @@
         },
         methods: {
           getResults(keywords) {
-            let results = this.request.send('GET', 'products', {}, {includes: 'variants', keywords: keywords}).then(response => {
+            let results = this.request.send('GET', 'search/products', {}, {includes: 'variants', keywords: keywords}).then(response => {
               this.products = response.data.filter(entity => {
                 if (entity.id != this.product.id) {
                   let associatedIds = this.associations.map(item => {

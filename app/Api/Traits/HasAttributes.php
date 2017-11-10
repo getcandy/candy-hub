@@ -20,11 +20,20 @@ trait HasAttributes
         return $this->hasOne(AttributeGroup::class)->withTimestamps();
     }
 
-    public function attribute($handle, $channel = 'ecommerce', $locale = 'en')
+    public function attribute($handle, $channel = null, $locale = 'en')
     {
-        if (empty($this->attribute_data[$handle][$channel][$locale])) {
+        $defaultChannel = app('api')->channels()->getDefaultRecord();
+        $defaultLocale = 'en';
+        if (!$channel) {
+            $channel = $defaultChannel->handle;
+        }
+
+        if (is_null($this->attribute_data[$handle][$channel][$locale])) {
+            return $this->attribute_data[$handle][$defaultChannel->handle][$defaultLocale];
+        } elseif ($this->attribute_data[$handle][$channel][$locale] == '') {
             return null;
         }
+
         return $this->attribute_data[$handle][$channel][$locale];
     }
 
@@ -99,17 +108,16 @@ trait HasAttributes
     protected function mapAttributes($data)
     {
         $mapping = $this->getDataMapping();
-
         $attributes = app('api')->attributes()->getHandles();
-
         $attributeData = [];
         $assigned = [];
 
         foreach ($attributes as $attribute) {
             if (!empty($data[$attribute['handle']])) {
                 foreach ($mapping as $key => $map) {
-                    $locale = key($data[$attribute['handle']]);
-                    $mapping[$key][$locale] = $data[$attribute['handle']][$locale];
+                    foreach ($data[$attribute['handle']] as $locale => $value) {
+                        $mapping[$key][$locale] = $value;
+                    }
                 }
                 $assigned[] = $attribute['id'];
                 $attributeData[$attribute['handle']] = $mapping;

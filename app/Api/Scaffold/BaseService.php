@@ -239,9 +239,10 @@ abstract class BaseService
         $unique = [];
 
         if (is_array($urls)) {
+            $previousUrl = null;
             foreach ($urls as $locale => $url) {
                 $i = 1;
-                while (app('api')->routes()->slugExists($url)) {
+                while (app('api')->routes()->slugExists($url) || $previousUrl == $url) {
                     $url = $url . '-' . $i;
                     $i++;
                 }
@@ -250,6 +251,7 @@ abstract class BaseService
                     'slug' => $url,
                     'default' => $locale == app()->getLocale() ? true : false
                 ];
+                $previousUrl = $url;
             }
         } else {
             $i = 1;

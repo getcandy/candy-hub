@@ -5,10 +5,10 @@ namespace GetCandy\Api\Products\Services;
 use Carbon\Carbon;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Products\Events\ProductCreatedEvent;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
-use GetCandy\Events\Products\ProductCreatedEvent;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
@@ -284,5 +284,15 @@ class ProductService extends BaseService
 
         $product->collections()->sync($ids);
         return $product;
+    }
+
+    public function getSearchedIds($ids = [], $length = 50, $page = null, $keywords = null)
+    {
+        $parsedIds = [];
+        foreach ($ids as $hash) {
+            $parsedIds[] = $this->model->decodeId($hash);
+        }
+
+        return $this->model->with($this->with)->whereIn('id', $parsedIds)->paginate($length, ['*'], 'page', $page);
     }
 }

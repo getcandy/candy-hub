@@ -44,8 +44,15 @@
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
-                console.log(this.params);
                 apiRequest.send('GET', 'products', [], this.params)
+                    .then(response => {
+                        this.products = response.data;
+                        this.params.total_pages = response.meta.pagination.total_pages;
+                        this.loaded = true;
+                    });
+            },
+            searchProducts() {
+                apiRequest.send('GET', 'search/products', [], this.params)
                     .then(response => {
                         this.products = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;
@@ -61,7 +68,13 @@
             search: _.debounce(function (){
                     this.loaded = false;
                     this.params['keywords'] = this.keywords;
-                    this.loadProducts();
+
+                    if (this.keywords) {
+                        this.searchProducts();
+                    } else {
+                        this.loadProducts();
+                    }
+                    
                 }, 1000
             ),
             getVisibilty(product, ref) {

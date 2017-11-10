@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Attributes\Listeners\SyncAttributablesListener;
-use GetCandy\Events\ProductCreatedEvent;
-use GetCandy\Listeners\Products\AddProductToIndexListener;
+use GetCandy\Api\Products\Events\ProductCreatedEvent;
+use GetCandy\Api\Products\Listeners\AddToIndexListener as ProductIndexListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,7 +21,7 @@ class EventServiceProvider extends ServiceProvider
             SyncAttributablesListener::class
         ],
         ProductCreatedEvent::class => [
-            AddProductToIndexListener::class
+            ProductIndexListener::class
         ],
     ];
 

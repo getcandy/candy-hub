@@ -20,13 +20,6 @@ class LanguageTableSeeder extends Seeder
         ]);
 
         Language::create([
-            'lang' => 'sv',
-            'iso' => 'se',
-            'name' => 'Sverige',
-            'default' => false
-        ]);
-
-        Language::create([
             'lang' => 'fr',
             'iso' => 'fr',
             'name' => 'Français',

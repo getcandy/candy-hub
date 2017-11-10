@@ -136,7 +136,7 @@ trait Fractal
      * @param  object $callback The transformer to use
      * @return array
      */
-    protected function respondWithItem($item, $callback)
+    protected function respondWithItem($item, $callback, $meta = [])
     {
         if (app('request')->includes) {
             $this->parseIncludes(app('request')->includes);
@@ -144,9 +144,9 @@ trait Fractal
 
         $resource = new Item($item, $callback);
 
-        $meta = [
+        $meta = array_merge([
             'lang' => app()->getLocale()
-        ];
+        ], $meta);
 
         // if (app('env') != 'production') {
         //     $meta['profile'] = app('debugbar')->getData();
