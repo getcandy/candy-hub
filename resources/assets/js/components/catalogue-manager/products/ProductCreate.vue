@@ -5,7 +5,8 @@
                 request : apiRequest,
                 createProduct: false,
                 product: this.baseProduct(),
-                families: []
+                families: [],
+                channel: this.$store.getters.getDefaultChannel.handle
             }
         },
         mounted() {
@@ -18,7 +19,7 @@
                         console.log(family);
                         this.families.push({
                             id: family.id,
-                            label: family.attribute_data.name[locale.current()]
+                            label: family.attribute_data.name[this.channel][locale.current()]
                         });
                     });
                 });

@@ -74,7 +74,6 @@
                     } else {
                         this.loadProducts();
                     }
-                    
                 }, 1000
             ),
             getVisibilty(product, ref) {
