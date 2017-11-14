@@ -45,7 +45,6 @@
         },
         methods: {
             getAttribute(data, attribute) {
-                console.log(this.channel);
                 return data.attribute_data[attribute][this.channel][this.language];
             },
             getRoute(data) {

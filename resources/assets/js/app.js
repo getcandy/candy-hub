@@ -53,7 +53,7 @@ require('./filters/translate');
 
 const store = new Vuex.Store({
   state: {
-    topTabs: [],
+    topTabs: {},
     defaultChannel: {
       handle: 'aqua-spa-supplies'
     }
@@ -64,7 +64,7 @@ const store = new Vuex.Store({
     },
     addTabs(state, tabs) {
       tabs.forEach(tab => {
-        state.topTabs.push(tab);
+        state.topTabs[tab.href] = tab;
       });
     },
     setDefaultChannel(state, channel) {
@@ -72,12 +72,7 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    getTabByHref : (state, getters) => (href) => {
-      console.log('Hello');
-      console.log(state.topTabs);
-      state.topTabs.forEach(tab => {
-        console.log(tab);
-      });
+    getTopTabs(state) {
       return state.topTabs;
     },
     getDefaultChannel(state) {
@@ -85,6 +80,10 @@ const store = new Vuex.Store({
     }
   }
 });
+
+let items = store.getters.getTopTabs;
+
+console.log(items);
 
 var defaultChannel = 'aqua-spa-supplies';
 

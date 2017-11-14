@@ -38,13 +38,16 @@
                     if (tab.name == selectedTab.name) {
                         if (tab.$parent && tab.$parent.parent) {
                             let href = '#' + tab.$parent.parent;
-                            let topTabs = this.$store.getters.getTabByHref(href);
+                            // let topTabs = this.$store.getters.getTabByHref(href);
 
                             // let parent = _.filter(topTabs, tab => {
                             //     console.log(tab.href);
                             // });
-                            topTabs.forEach(tab => {
-                            });
+                            // topTabs.forEach(tab => {
+                            //     console.log(tab);
+                            // });
+                            // console.log(topTabs);
+                            // console.log(topTabs.length);
                             // _.forEach(topTabs, function (tab) {
                             //     console.log(tab);
                             // })

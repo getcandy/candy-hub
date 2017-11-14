@@ -40,7 +40,6 @@
                     this.collection = this.baseCollection();
                     CandyEvent.$emit('collection-added', response.data);
                 }).catch(response => {
-                    console.log(response);
                     CandyEvent.$emit('notification', {
                         level: 'error',
                         message: 'Missing / Invalid fields'

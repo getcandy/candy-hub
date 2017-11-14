@@ -16,7 +16,6 @@
                         if (index == 0) {
                             this.product.family_id = family.id;
                         }
-                        console.log(family);
                         this.families.push({
                             id: family.id,
                             label: family.attribute_data.name[this.channel][locale.current()]
