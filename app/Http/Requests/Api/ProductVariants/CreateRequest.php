@@ -24,9 +24,15 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'variants.*.sku' => 'required|unique:product_variants'
-        ];
+        $rules = [];
+
+        foreach ($this->variants as $index => $variant) {
+            if (empty($variant['id'])) {
+                $rules['sku'] = 'unique:product_variants';
+            }
+        }
+
+        return $rules;
     }
 
     public function messages()
