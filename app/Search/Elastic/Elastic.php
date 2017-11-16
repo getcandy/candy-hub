@@ -66,10 +66,25 @@ class Elastic implements SearchContract
     public function indexObject(Model $model)
     {
         // Get the indexer.
+        // $indexer = $this->getIndexer($model);
+        // $index =
+        // $elasticaType = $index->getType($indexer->type);
+        // $response = $elasticaType->addDocument($indexer->getIndexDocument($model));
+
         $indexer = $this->getIndexer($model);
-        $index = $this->getIndex('getcandy');
-        $elasticaType = $index->getType($indexer->type);
-        $response = $elasticaType->addDocument($indexer->getIndexDocument($model));
+        $indexables = $indexer->getIndexDocument($model);
+
+        foreach ($indexables as $indexable) {
+            $index = $this->getIndex($indexable->getIndex());
+            $elasticaType = $index->getType($indexer->type);
+
+            $document = new Document(
+                $indexable->getId(),
+                $indexable->getData()
+            );
+
+            $response = $elasticaType->addDocument($document);
+        }
         return true;
     }
 
@@ -124,6 +139,8 @@ class Elastic implements SearchContract
         if (! $elasticaStatus->indexExists('getcandy') and ! $elasticaStatus->aliasExists('getcandy')) {
             // Requested index does not exist
             $index->create();
+
+            // $index->setSettings();
             // ...and create it's alias name
             //$index->addAlias($this->indexName);
             // ...and update the mappings
