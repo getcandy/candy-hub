@@ -35,6 +35,19 @@ class ProductIndexer extends BaseIndexer
                 $indexable->setIndex($item['index']);
                 $indexable->setData($item['data']);
                 $indexable->set('objectID', $indexable->getId());
+
+                if (isset($product->primaryAsset()->thumbnail)) {
+                    $transform = $product->primaryAsset()->thumbnail->first();
+                    $path = $transform->location . '/' . $transform->filename;
+                    $url = \Storage::disk($product->primaryAsset()->disk)->url($path);
+                    $indexable->set('image', url($url));
+                }
+
+                $productCategories = $product->categories()->get();
+                $indexable->set('categories', [$productCategories[0]->name]);// Just en for the mo! TODO Need to make better
+                $productRoute = $product->route()->get();
+                $indexable->set('slug', $productRoute[0]['slug']); // Just en for the mo! TODO Need to make better
+
                 foreach ($product->variants as $variant) {
                     if (!$indexable->min_price || $indexable->min_price > $variant->price) {
                         $indexable->set('min_price', $variant->price);

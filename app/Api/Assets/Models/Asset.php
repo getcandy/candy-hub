@@ -57,6 +57,14 @@ class Asset extends BaseModel
         return $this->hasMany(AssetTransform::class);
     }
 
+    public function thumbnail()
+    {
+        return $this->transforms()->whereHas('transform', function ($q) {
+            $q->whereHandle('thumbnail');
+        });
+
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
