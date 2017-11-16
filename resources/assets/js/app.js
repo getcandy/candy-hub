@@ -81,15 +81,9 @@ const store = new Vuex.Store({
   }
 });
 
-let items = store.getters.getTopTabs;
-
-console.log(items);
-
-var defaultChannel = 'aqua-spa-supplies';
-
 config.get('channels').then(response => {
   channels = response.data;
-  defaultChannel = _.filter(channels, function(channel) {
+  var defaultChannel = _.filter(channels, function(channel) {
     return channel.default;
   });
   store.commit('setDefaultChannel', defaultChannel[0]);
@@ -99,9 +93,7 @@ config.get('languages').then(response => {
   languages = response.data;
 });
 
-
 Vue.directive('tooltip', VTooltip);
-
 
 var CandyHelpers = {};
 
@@ -110,8 +102,6 @@ CandyHelpers.install = function (Vue, options) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 };
-
-
 
 const app = new Vue({
     el: '#app',
