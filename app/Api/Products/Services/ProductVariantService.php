@@ -118,7 +118,6 @@ class ProductVariantService extends BaseService
             $variant->image()->associate($asset);
         }
 
-        dd($data);
         $this->setMeasurements($variant, $data);
 
         $variant->save();
