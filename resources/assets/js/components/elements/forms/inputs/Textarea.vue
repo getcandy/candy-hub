@@ -22,7 +22,7 @@
         data() {
             return {
                 config: {
-                    btns: [['formatting'], ['bold', 'italic'], ['link']]
+                    btns: [['formatting'], ['bold', 'italic'], ['link'], ['unorderedList', 'orderedList'], ['removeformat'], ['viewHTML']]
                 }
             }
         },
