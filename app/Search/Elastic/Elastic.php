@@ -94,7 +94,7 @@ class Elastic implements SearchContract
      * @param  Elastica\Index $index
      * @return void
      */
-    public function updateMappings()
+    public function updateMappings($index)
     {
         $elasticaType = $index->getType($this->indexer->type);
 
