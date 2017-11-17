@@ -293,6 +293,12 @@ class ProductService extends BaseService
             $parsedIds[] = $this->model->decodeId($hash);
         }
 
-        return $this->model->with($this->with)->whereIn('id', $parsedIds)->paginate($length, ['*'], 'page', $page);
+        $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
+
+
+        return $this->model->with($this->with)
+            ->whereIn('id', $parsedIds)
+            ->orderByRaw("field(id,{$placeholders})", $parsedIds)
+            ->paginate($length, ['*'], 'page', $page);
     }
 }

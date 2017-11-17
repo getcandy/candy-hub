@@ -36,32 +36,33 @@ class ProductIndexer extends BaseIndexer
                 // $indexable->setData($item['data']);
                 $indexable->set('id', $item['data']['id']);
                 $indexable->set('name', $item['data']['name']);
+                $indexable->set('description', $item['data']['description']);
 
-                // if (isset($product->primaryAsset()->thumbnail)) {
-                //     $transform = $product->primaryAsset()->thumbnail->first();
-                //     $path = $transform->location . '/' . $transform->filename;
-                //     $url = \Storage::disk($product->primaryAsset()->disk)->url($path);
-                //     $indexable->set('image', url($url));
-                // }
+                if (isset($product->primaryAsset()->thumbnail)) {
+                    $transform = $product->primaryAsset()->thumbnail->first();
+                    $path = $transform->location . '/' . $transform->filename;
+                    $url = \Storage::disk($product->primaryAsset()->disk)->url($path);
+                    $indexable->set('image', url($url));
+                }
 
                 // $productCategories = $product->categories()->get();
                 // $indexable->set('categories', [$productCategories[0]->name]);// Just en for the mo! TODO Need to make better
                 // $productRoute = $product->route()->get();
                 // $indexable->set('slug', $productRoute[0]['slug']); // Just en for the mo! TODO Need to make better
 
-                // foreach ($product->variants as $variant) {
-                //     if (!$indexable->min_price || $indexable->min_price > $variant->price) {
-                //         $indexable->set('min_price', $variant->price);
-                //     }
-                //     if (!$indexable->max_price || $indexable->max_price > $variant->price) {
-                //         $indexable->set('max_price', $variant->price);
-                //     }
-                //     foreach ($variant->options as $handle => $option) {
-                //         if (!empty($option[$lang])) {
-                //             $indexable->add($handle, $option[$lang]);
-                //         }
-                //     }
-                // }
+                foreach ($product->variants as $variant) {
+                    if (!$indexable->min_price || $indexable->min_price > $variant->price) {
+                        $indexable->set('min_price', $variant->price);
+                    }
+                    if (!$indexable->max_price || $indexable->max_price < $variant->price) {
+                        $indexable->set('max_price', $variant->price);
+                    }
+                    // foreach ($variant->options as $handle => $option) {
+                    //     if (!empty($option[$lang])) {
+                    //         $indexable->add($handle, $option[$lang]);
+                    //     }
+                    // }
+                }
                 $indexables->push($indexable);
             }
         }
@@ -71,7 +72,7 @@ class ProductIndexer extends BaseIndexer
     public function rankings()
     {
         return [
-            "name^5", "name.english^4"
+            "name.english^3", "description^1"
         ];
     }
 
@@ -85,15 +86,30 @@ class ProductIndexer extends BaseIndexer
             'id' => [
                 'type' => 'string'
             ],
-            'name' => [
+            'description' => [
                 'type' => 'string',
                 'analyzer' => 'standard',
-                // 'fields' => [
-                //     'english' => [
-                //         'type' => 'string',
-                //         'analyzer' => 'english'
-                //     ]
-                // ]
+            ],
+            'image' => [
+                'type' => 'string'
+            ],
+            'min_price' => [
+                "type" => "scaled_float",
+                "scaling_factor" => 100
+            ],
+            'max_price' => [
+                "type" => "scaled_float",
+                "scaling_factor" => 100
+            ],
+            'name' => [
+                'type' => 'text',
+                'analyzer' => 'standard',
+                'fields' => [
+                    'english' => [
+                        'type' => 'string',
+                        'analyzer' => 'english'
+                    ]
+                ]
             ]
         ];
     }
