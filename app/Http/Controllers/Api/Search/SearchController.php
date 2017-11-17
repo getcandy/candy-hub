@@ -22,9 +22,10 @@ class SearchController extends BaseController
         $results = $client->against(Product::class)->search($request->keywords);
 
         $ids = [];
-
-        foreach ($results['hits'] as $result) {
-            $ids[] = $result['id'];
+        if (count($results)) {
+            foreach ($results as $r) {
+                $ids[] = $r->getSource()['id'];
+            }
         }
 
         $products = app('api')->products()->getSearchedIds($ids);

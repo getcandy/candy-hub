@@ -33,34 +33,35 @@ class ProductIndexer extends BaseIndexer
             foreach ($attribute as $lang => $item) {
                 $indexable = new Indexable(app('api')->productVariants()->getDecodedId($item['data']['id']));
                 $indexable->setIndex($item['index']);
-                $indexable->setData($item['data']);
-                $indexable->set('objectID', $indexable->getId());
+                // $indexable->setData($item['data']);
+                $indexable->set('id', $item['data']['id']);
+                $indexable->set('name', $item['data']['name']);
 
-                if (isset($product->primaryAsset()->thumbnail)) {
-                    $transform = $product->primaryAsset()->thumbnail->first();
-                    $path = $transform->location . '/' . $transform->filename;
-                    $url = \Storage::disk($product->primaryAsset()->disk)->url($path);
-                    $indexable->set('image', url($url));
-                }
+                // if (isset($product->primaryAsset()->thumbnail)) {
+                //     $transform = $product->primaryAsset()->thumbnail->first();
+                //     $path = $transform->location . '/' . $transform->filename;
+                //     $url = \Storage::disk($product->primaryAsset()->disk)->url($path);
+                //     $indexable->set('image', url($url));
+                // }
 
-                $productCategories = $product->categories()->get();
-                $indexable->set('categories', [$productCategories[0]->name]);// Just en for the mo! TODO Need to make better
-                $productRoute = $product->route()->get();
-                $indexable->set('slug', $productRoute[0]['slug']); // Just en for the mo! TODO Need to make better
+                // $productCategories = $product->categories()->get();
+                // $indexable->set('categories', [$productCategories[0]->name]);// Just en for the mo! TODO Need to make better
+                // $productRoute = $product->route()->get();
+                // $indexable->set('slug', $productRoute[0]['slug']); // Just en for the mo! TODO Need to make better
 
-                foreach ($product->variants as $variant) {
-                    if (!$indexable->min_price || $indexable->min_price > $variant->price) {
-                        $indexable->set('min_price', $variant->price);
-                    }
-                    if (!$indexable->max_price || $indexable->max_price > $variant->price) {
-                        $indexable->set('max_price', $variant->price);
-                    }
-                    foreach ($variant->options as $handle => $option) {
-                        if (!empty($option[$lang])) {
-                            $indexable->add($handle, $option[$lang]);
-                        }
-                    }
-                }
+                // foreach ($product->variants as $variant) {
+                //     if (!$indexable->min_price || $indexable->min_price > $variant->price) {
+                //         $indexable->set('min_price', $variant->price);
+                //     }
+                //     if (!$indexable->max_price || $indexable->max_price > $variant->price) {
+                //         $indexable->set('max_price', $variant->price);
+                //     }
+                //     foreach ($variant->options as $handle => $option) {
+                //         if (!empty($option[$lang])) {
+                //             $indexable->add($handle, $option[$lang]);
+                //         }
+                //     }
+                // }
                 $indexables->push($indexable);
             }
         }
@@ -81,15 +82,18 @@ class ProductIndexer extends BaseIndexer
     public function mapping()
     {
         return [
+            'id' => [
+                'type' => 'string'
+            ],
             'name' => [
                 'type' => 'string',
                 'analyzer' => 'standard',
-                'fields' => [
-                    'english' => [
-                        'type' => 'string',
-                        'analyzer' => 'english'
-                    ]
-                ]
+                // 'fields' => [
+                //     'english' => [
+                //         'type' => 'string',
+                //         'analyzer' => 'english'
+                //     ]
+                // ]
             ]
         ];
     }

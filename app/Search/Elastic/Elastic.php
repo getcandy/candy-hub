@@ -78,6 +78,7 @@ class Elastic implements SearchContract
             $index = $this->getIndex($indexable->getIndex());
             $elasticaType = $index->getType($indexer->type);
 
+            // dd($indexable->getId());
             $document = new Document(
                 $indexable->getId(),
                 $indexable->getData()
@@ -130,13 +131,13 @@ class Elastic implements SearchContract
      * Returns the index for the model
      * @return Elastica\Index
      */
-    public function getIndex()
+    public function getIndex($name = null)
     {
-        $index = $this->client()->getIndex('getcandy');
+        $index = $this->client()->getIndex($name);
 
         $elasticaStatus = new Status($this->client());
 
-        if (! $elasticaStatus->indexExists('getcandy') and ! $elasticaStatus->aliasExists('getcandy')) {
+        if (! $elasticaStatus->indexExists($name) and ! $elasticaStatus->aliasExists($name)) {
             // Requested index does not exist
             $index->create();
 
@@ -144,7 +145,7 @@ class Elastic implements SearchContract
             // ...and create it's alias name
             //$index->addAlias($this->indexName);
             // ...and update the mappings
-            $this->updateMappings();
+            $this->updateMappings($index);
         }
         return $index;
     }
@@ -167,8 +168,9 @@ class Elastic implements SearchContract
 
         $search = new \Elastica\Search($this->client);
 
+
         $search
-            ->addIndex('getcandy')
+            ->addIndex('dev_aqua_en')
             ->addType($this->indexer->type)
             ->setOption(\Elastica\Search::OPTION_TIMEOUT, '100ms')
             ->setOption(\Elastica\Search::OPTION_SEARCH_TYPE, \Elastica\Search::OPTION_SEARCH_TYPE_DFS_QUERY_THEN_FETCH);
@@ -209,14 +211,7 @@ class Elastic implements SearchContract
             ));
 
         $results = $search->search();
-
-        $ids = [];
-        if (count($results)) {
-            foreach ($results as $r) {
-                $ids[] = $r->getSource()['id'];
-            }
-        }
-        return $ids;
+        return $results;
     }
 
     /**
