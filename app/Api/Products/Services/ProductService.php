@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Events\ProductCreatedEvent;
+use GetCandy\Api\Products\Events\ProductSavedEvent;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
@@ -67,6 +68,9 @@ class ProductService extends BaseService
             $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
             $product->customerGroups()->sync($groupData);
         }
+
+        event(new ProductCreatedEvent($product));
+
         return $product;
     }
 
@@ -176,7 +180,7 @@ class ProductService extends BaseService
             'price' => $data['price']
         ]);
 
-        // event(new ProductCreatedEvent($product));
+        event(new ProductCreatedEvent($product));
         return $product;
     }
 
