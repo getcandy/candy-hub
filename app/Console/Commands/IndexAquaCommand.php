@@ -12,7 +12,7 @@ class IndexAquaCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'index:aqua';
+    protected $signature = 'index:products';
 
     /**
      * The console command description.
@@ -40,6 +40,8 @@ class IndexAquaCommand extends Command
     {
         $products = \GetCandy\Api\Products\Models\Product::with('variants')->get();
         $bar = $this->output->createProgressBar($products->count());
+
+        app(SearchContract::class)->reset();
 
         foreach ($products as $product) {
             app(SearchContract::class)->indexObject($product);
