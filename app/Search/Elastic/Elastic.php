@@ -92,8 +92,8 @@ class Elastic implements SearchContract
 
     public function reset()
     {
-        if ($this->hasIndex('dev_aqua_en')) {
-            $this->client()->getIndex('dev_aqua_en')->delete();
+        if ($this->hasIndex('dev_test_en')) {
+            $this->client()->getIndex('dev_test_en')->delete();
         }
     }
 
@@ -119,7 +119,7 @@ class Elastic implements SearchContract
      */
     public function createIndex()
     {
-        $index = $this->client()->getIndex('dev_aqua_en');
+        $index = $this->client()->getIndex('getcandy');
         $index->create();
     }
 
@@ -182,7 +182,7 @@ class Elastic implements SearchContract
 
 
         $search
-            ->addIndex('dev_aqua_en')
+            ->addIndex('dev_test_en')
             ->addType($this->indexer->type);
 
 

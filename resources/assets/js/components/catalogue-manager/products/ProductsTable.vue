@@ -5,10 +5,12 @@
         data() {
             return {
                 loaded: false,
+                savedSearches: [],
                 products: [],
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                filters: [],
                 keywords: '',
                 params: {
                     per_page: 25,
@@ -38,12 +40,26 @@
             CandyEvent.$on('product-added', product => {
                 this.loadProducts();
             });
+
+            apiRequest.send('GET', '/saved-searches/product')
+                .then(response => {
+                    this.savedSearches = response.data;
+                });
         },
         methods: {
+            isActive(terms) {
+                if (terms == 'all' && !this.keywords) {
+                    return true;
+                } else if (terms.payload && this.keywords == terms.payload.keywords) {
+                    return true;
+                }
+                return false;
+            },
             loadProduct: function (id) {
                 location.href = '/catalogue-manager/products/' + id;
             },
             loadProducts() {
+                this.loaded = false;
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
@@ -52,12 +68,50 @@
                     });
             },
             searchProducts() {
+                this.loaded = false;
                 apiRequest.send('GET', 'search/products', [], this.params)
                     .then(response => {
                         this.products = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;
                         this.loaded = true;
                     });
+            },
+            applySavedSearch(search) {
+                if (search && search.payload.keywords) {
+                    this.params['keywords'] = search.payload.keywords;
+                    this.keywords = search.payload.keywords;
+                }
+
+                if (search && search.payload.filters) {
+                    this.params['filters'] = search.payload.filters;
+                }
+                this.searchProducts();
+            },
+            deleteSaved(index) {
+                let search = this.savedSearches[index];
+                this.savedSearches.splice(index, 1);
+                apiRequest.send('DELETE', 'saved-searches/' + search.id);
+                
+                if (this.keywords == search.payload.keywords) {
+                    this.keywords = '';
+                }
+                
+            },
+            resetSearch() {
+                this.params['keywords'] = null;
+                this.keywords = '';
+                this.params['filters'] = null;
+                this.loadProducts();
+            },
+            saveSearch() {
+                apiRequest.send('POST', '/saved-searches', {
+                    type: 'product',
+                    name: this.keywords,
+                    keywords: this.keywords,
+                    filters: this.filters
+                }).then(response => {
+                    this.savedSearches.push(response.data);
+                });
             },
             productThumbnail(product) {
                 if (product.thumbnail) {
@@ -133,18 +187,17 @@
 
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#all-products" aria-controls="all-products" role="tab" data-toggle="tab">
+            <li role="presentation" :class="{'active' : isActive('all')}">
+                <a href="#all-products" aria-controls="all-products" role="tab" data-toggle="tab" @click="resetSearch()">
                     All Products
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#shoes" aria-controls="shoes" role="tab" data-toggle="tab">
-                    Shoes <i class="fa fa-times" aria-hidden="true"></i>
+            <li role="presentation" v-for="(search, index) in savedSearches" :key="search.id" :class="{'active' : isActive(search)}">
+                <a href="#shoes" aria-controls="shoes" role="tab" data-toggle="tab" @click="applySavedSearch(search)">
+                    {{ search.name }} <i class="fa fa-times" aria-hidden="true" @click="deleteSaved(index)"></i>
                 </a>
             </li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content section block">
             <div role="tabpanel" class="tab-pane active" id="all-products">
@@ -193,7 +246,7 @@
                         </div>
                         <div class="form-group col-xs-12 col-md-2">
 
-                            <button type="submit" class="btn btn-default btn-full" @click.prevent="loadProducts();">
+                            <button type="button" class="btn btn-default btn-full" @click="saveSearch()">
                                 <i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search
                             </button>
 

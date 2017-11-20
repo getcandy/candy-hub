@@ -7,6 +7,7 @@ use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use Illuminate\Http\Request;
 use GetCandy\Search\SearchContract;
 use GetCandy\Api\Products\Models\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SearchController extends BaseController
 {

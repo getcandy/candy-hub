@@ -84,14 +84,14 @@ class ProductIndexer extends BaseIndexer
     {
         return [
             'id' => [
-                'type' => 'text'
+                'type' => 'string'
             ],
             'description' => [
-                'type' => 'text',
+                'type' => 'string',
                 'analyzer' => 'standard',
             ],
-            'image' => [
-                'type' => 'text'
+            'thumbnail' => [
+                'type' => 'string'
             ],
             'min_price' => [
                 "type" => "scaled_float",
@@ -106,7 +106,7 @@ class ProductIndexer extends BaseIndexer
                 'analyzer' => 'standard',
                 'fields' => [
                     'english' => [
-                        'type' => 'text',
+                        'type' => 'string',
                         'analyzer' => 'english'
                     ]
                 ]
