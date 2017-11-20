@@ -28,7 +28,6 @@
                     img.src = src;
                // }, 2000
                 }
-            ),
         },
         mounted() {
             if (this.item.thumbnail) {
