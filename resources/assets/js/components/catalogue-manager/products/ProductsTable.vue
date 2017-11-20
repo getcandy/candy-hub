@@ -305,7 +305,7 @@
                                 </div>
                             </td>
                             <td @click="loadProduct(product.id)">
-                                <img :src="productThumbnail(product)" :alt="product|attribute('name')">
+                                <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
                             </td>
                             <td @click="loadProduct(product.id)">{{ product|attribute('name') }}</td>
                             <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'customer_groups') }}</td>

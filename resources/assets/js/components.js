@@ -9,6 +9,7 @@ var includes = [
     path: 'elements',
     components: {
       'alert' : 'AlertPanel',
+      'thumbnail-loader' : 'ThumbnailLoader',
       'media' : 'Media',
       'button' : 'Button',
       'modal' : 'Modal',
