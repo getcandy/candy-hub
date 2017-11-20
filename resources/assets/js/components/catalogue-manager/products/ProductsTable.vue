@@ -117,7 +117,7 @@
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }
-                return '/images/placeholder/no-image.svg';
+                return '/images/placeholder/no-image.png';
             },
             search: _.debounce(function (){
                     this.loaded = false;

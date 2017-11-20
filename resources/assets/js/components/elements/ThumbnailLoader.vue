@@ -8,7 +8,7 @@
     export default {
         data() {
             return {
-                imageSrc: '/images/placeholder/no-image.svg'
+                imageSrc: '/images/placeholder/no-image.png'
             }
         },
         props: {
