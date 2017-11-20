@@ -182,7 +182,7 @@ class Elastic implements SearchContract
 
 
         $search
-            ->addIndex('dev_test_en')
+            ->addIndex(config('search.index'))
             ->addType($this->indexer->type);
 
 
