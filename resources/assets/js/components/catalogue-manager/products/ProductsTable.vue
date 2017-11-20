@@ -128,7 +128,7 @@
                     } else {
                         this.loadProducts();
                     }
-                }, 1000
+                }, 500
             ),
             getVisibilty(product, ref) {
                 let groups = product[ref].data;
