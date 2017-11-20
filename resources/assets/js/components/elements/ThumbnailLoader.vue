@@ -17,7 +17,7 @@
             }
         },
         methods: {
-            load: _.debounce(function () {
+            load() { //_.debounce(function () {
                     let src = this.item.thumbnail.data.thumbnail,
                         img = new Image(),
                         that = this;
@@ -26,7 +26,8 @@
                         that.imageSrc = this.src
                     }
                     img.src = src;
-                }, 1000
+               // }, 2000
+                }
             ),
         },
         mounted() {
