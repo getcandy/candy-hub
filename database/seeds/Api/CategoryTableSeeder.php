@@ -16,17 +16,7 @@ class CategoryTableSeeder extends Seeder
         $fashion = Category::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Fashion', 'sv' => 'Mode'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Fashion', 'sv' => 'Mode'
                 ]
             ]
         ]);
@@ -48,17 +38,7 @@ class CategoryTableSeeder extends Seeder
         $item = $fashion->children()->create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Tops & Blouses', 'sv' => 'Toppar & Blusar'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Tops & Blouses', 'sv' => 'Toppar & Blusar'
                 ]
             ]
 
@@ -81,17 +61,7 @@ class CategoryTableSeeder extends Seeder
         $item = $fashion->children()->create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Knitwear', 'sv' => 'Stickat'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Knitwear', 'sv' => 'Stickat'
                 ]
             ]
         ]);
@@ -113,17 +83,7 @@ class CategoryTableSeeder extends Seeder
         $item = $fashion->children()->create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Cardigans & Wraps'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Cardigans & Wraps'
                 ]
             ]
         ]);
@@ -139,17 +99,7 @@ class CategoryTableSeeder extends Seeder
         $acc = $fashion->children()->create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Accessories', 'sv' => 'Tillbehör'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Accessories', 'sv' => 'Tillbehör'
                 ]
             ]
         ]);
@@ -171,19 +121,11 @@ class CategoryTableSeeder extends Seeder
         $thing = new Category();
 
         $thing->attribute_data = [
+            'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Eye lashes', 'sv' => 'Ögonfransar'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
-                ]///////////////////////////////////////////////////////////////////////////////////////////
+                    'en' => 'Eye lashes', 'sv' => 'Ögonfransar'
+                ]
+            ]
         ];
 
         $thing->appendToNode($acc)->save();
@@ -205,17 +147,7 @@ class CategoryTableSeeder extends Seeder
         $item = $fashion->children()->create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Coats & Jackets', 'sv' => 'Jackor'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Coats & Jackets', 'sv' => 'Jackor'
                 ]
             ]
         ]);
@@ -237,17 +169,7 @@ class CategoryTableSeeder extends Seeder
         $item = $fashion->children()->create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Dresses & Skirts', 'sv' => 'Klänningar & Kjolar'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Dresses & Skirts', 'sv' => 'Klänningar & Kjolar'
                 ]
             ]
         ]);
@@ -269,17 +191,7 @@ class CategoryTableSeeder extends Seeder
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Shoes', 'sv' => 'Skor'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Shoes', 'sv' => 'Skor'
                 ]
             ]
         ]);
@@ -299,17 +211,7 @@ class CategoryTableSeeder extends Seeder
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Bags', 'sv' => 'påsar'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Bags', 'sv' => 'påsar'
                 ]
             ]
         ]);
@@ -329,17 +231,7 @@ class CategoryTableSeeder extends Seeder
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'Jewellery', 'sv' => 'Smycke'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'Jewellery', 'sv' => 'Smycke'
                 ]
             ]
         ]);
@@ -359,17 +251,7 @@ class CategoryTableSeeder extends Seeder
         $item = Category::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'en' => 'House', 'sv' => 'Hem'
-                    ],
-                    'mobile' => [
-                        'en' => '',
-                        'sv' => ''
-                    ],
-                    'print' => [
-                        'en' => '',
-                        'sv' => ''
-                    ]
+                    'en' => 'House', 'sv' => 'Hem'
                 ]
             ]
         ]);
