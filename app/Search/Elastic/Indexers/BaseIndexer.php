@@ -17,19 +17,24 @@ abstract class BaseIndexer
     protected function getIndexables(Model $model)
     {
         $attributes = $this->attributeMapping($model);
-
+        
         $indexables = collect();
-
+        
         foreach ($attributes as $attribute) {
             foreach ($attribute as $lang => $item) {
+                // Base Stuff
+                $indexable = $this->getIndexable($model);
+                $indexable->setIndex(config('search.index_prefix') . '_' .  $lang);
                 
-                $indexable = $this->getIndexable($item);
                 $indexable->set('image', $this->getThumbnail($model));
 
                 $indexable->set('departments', $this->getCategories($model));
-                $indexable->set('id', $item['data']['id']);
-                $indexable->set('name', $item['data']['name']);
-                $indexable->set('description', $item['data']['description']);
+
+                if (!empty($item['data'])) {
+                    foreach ($item['data'] as $field => $value) {
+                        $indexable->set($field, $value);
+                    }
+                }
     
                 foreach ($model->variants as $variant) {
                     if (!$indexable->min_price || $indexable->min_price > $variant->price) {
@@ -55,11 +60,14 @@ abstract class BaseIndexer
     public function attributeMapping(Model $model)
     {
         $mapping = [];
+        $searchable = $this->getIndexableAttributes($model);
+        
         foreach ($model->attribute_data as $field => $channel) {
+            if (!$searchable->contains($field)) {
+                continue;
+            }
             foreach ($channel as $channelName => $locales) {
                 foreach ($locales as $locale => $value) {
-                    $mapping[$model->id][$locale]['index'] = config('search.index_prefix') . '_' .  $locale;
-                    $mapping[$model->id][$locale]['data']['id'] = $model->encodedId();
                     $mapping[$model->id][$locale]['data'][$field] = strip_tags($model->attribute($field, $channelName, $locale));
                 }
             }
@@ -68,16 +76,29 @@ abstract class BaseIndexer
     }
 
     /**
+     * Gets any attributes which are marked as searchable
+     *
+     * @param Model $model
+     * @return void
+     */
+    protected function getIndexableAttributes(Model $model)
+    {
+        return $model->attributes()->whereSearchable(true)->get()->map(function ($attribute) {
+            return $attribute->handle;
+        });
+    }
+
+    /**
      * Gets an indexable object
      *
      * @param array $attributes
      * @return Indexable
      */
-    protected function getIndexable(array $item)
+    protected function getIndexable(Model $model)
     {
-        $indexable = new Indexable(app('api')->productVariants()->getDecodedId($item['data']['id']));
-        $indexable->set('id', $item['data']['id']);
-        $indexable->setIndex($item['index']);
+        $indexable = new Indexable(
+            $model->encodedId()
+        );
         return $indexable;
     }
 

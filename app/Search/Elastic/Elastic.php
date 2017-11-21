@@ -33,6 +33,11 @@ class Elastic implements SearchContract
     protected $indexer;
 
     /**
+     * @var string
+     */
+    protected $lang = 'en';
+
+    /**
      * @var array
      */
     protected $indexers = [
@@ -42,6 +47,12 @@ class Elastic implements SearchContract
     public function __construct(Client $client)
     {
         $this->client = $client;
+    }
+
+    public function language($lang = 'en')
+    {
+        $this->lang = $lang;
+        return $this;
     }
 
     public function against($types)
@@ -94,10 +105,10 @@ class Elastic implements SearchContract
         return true;
     }
 
-    public function reset()
+    public function reset($index)
     {
-        if ($this->hasIndex('dev_test_en')) {
-            $this->client()->getIndex('dev_test_en')->delete();
+        if ($this->hasIndex($index)) {
+            $this->client()->getIndex($index)->delete();
         }
     }
 
@@ -171,6 +182,11 @@ class Elastic implements SearchContract
         return $this->search($searchterm);
     }
 
+    protected function getSearchIndex($indexer)
+    {
+        return config('search.index_prefix') . $this->lang;
+    }
+
     /**
      * Searches the index
      * @param  string $keywords
@@ -184,9 +200,8 @@ class Elastic implements SearchContract
 
         $search = new \Elastica\Search($this->client);
 
-
         $search
-            ->addIndex(config('search.index'))
+            ->addIndex(config('search.index_prefix') . '_' .  $this->lang)
             ->addType($this->indexer->type);
 
 
@@ -219,7 +234,11 @@ class Elastic implements SearchContract
             ));
         
         // TODO: This needs to allow for multiple categories being set.
-        if (!empty($filters['category'])) {
+        if (!empty($filters['categories'])) {
+
+            foreach ($filters['categories']['values'] as $value) {
+
+            }
             $postFilter = new NestedQuery();
             $postFilter->setPath('departments');
         

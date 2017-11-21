@@ -8,13 +8,31 @@ use Illuminate\Http\Request;
 use GetCandy\Search\SearchContract;
 use GetCandy\Api\Products\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use GetCandy\Http\Requests\Api\Search\SearchRequest;
 
 class SearchController extends BaseController
 {
-    public function search(Request $request, SearchContract $client)
-    {
-        $results = $client->against(Product::class)->search($request->keywords);
+    protected $types = [
+        'product' => Product::class
+    ];
 
+    /**
+     * Performs a search against a type
+     *
+     * @param Request $request
+     * @param SearchContract $client
+     * 
+     * @return Array
+     */
+    public function search(SearchRequest $request, SearchContract $client)
+    {
+        if (empty($this->types[$request->type])) {
+            return $this->errorWrongArgs('Invalid type');
+        }
+        $results = $client
+            ->language(app()->getLocale())
+            ->against($this->types[$request->type])
+            ->search($request->keywords, $request->filters);
         dd($results);
     }
 

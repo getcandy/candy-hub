@@ -12,12 +12,12 @@ class CustomerGroupTableSeeder extends Seeder
      */
     public function run()
     {
-        CustomerGroup::forceCreate([
-            'name' => 'Retail',
-            'handle' => 'retail',
-            'default' => true,
-            'system' => true
-        ]);
+        // CustomerGroup::forceCreate([
+        //     'name' => 'Retail',
+        //     'handle' => 'retail',
+        //     'default' => true,
+        //     'system' => true
+        // ]);
 
         CustomerGroup::forceCreate([
             'name' => 'Guest',

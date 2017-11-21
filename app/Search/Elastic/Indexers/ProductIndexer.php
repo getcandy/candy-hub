@@ -42,10 +42,10 @@ class ProductIndexer extends BaseIndexer
     {
         return [
             'id' => [
-                'type' => 'string'
+                'type' => 'text'
             ],
             'description' => [
-                'type' => 'string',
+                'type' => 'text',
                 'analyzer' => 'standard',
             ],
             'departments' => [
@@ -56,12 +56,12 @@ class ProductIndexer extends BaseIndexer
                         'index' => 'not_analyzed'
                     ],
                     'name' => [
-                        'type' => 'string'
+                        'type' => 'text'
                     ]
                 ]
             ],
             'thumbnail' => [
-                'type' => 'string'
+                'type' => 'text'
             ],
             'min_price' => [
                 "type" => "scaled_float",
@@ -72,11 +72,11 @@ class ProductIndexer extends BaseIndexer
                 "scaling_factor" => 100
             ],
             'name' => [
-                'type' => 'string',
+                'type' => 'text',
                 'analyzer' => 'standard',
                 'fields' => [
-                    'english' => [
-                        'type' => 'string',
+                    'en' => [
+                        'type' => 'text',
                         'analyzer' => 'english'
                     ]
                 ]

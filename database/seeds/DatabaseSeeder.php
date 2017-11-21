@@ -20,19 +20,19 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingsTableSeeder::class);
         $this->call(AssociationGroupTableSeeder::class);
         $this->call(CustomerGroupTableSeeder::class);
-        $this->call(ChannelTableSeeder::class);
+        // $this->call(ChannelTableSeeder::class);
         $this->call(LanguageTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(AttributesTableSeeder::class);
-        $this->call(CategoryTableSeeder::class);
-        $this->call(ProductFamilyTableSeeder::class);
-        $this->call(CollectionTableSeeder::class);
-        $this->call(ProductTableSeeder::class);
+        // $this->call(CategoryTableSeeder::class);
+        // $this->call(ProductFamilyTableSeeder::class);
+        // $this->call(CollectionTableSeeder::class);
+        // $this->call(ProductTableSeeder::class);
         $this->call(CurrencyTableSeeder::class);
         $this->call(TaxTableSeeder::class);
         $this->call(AssetSourceTableSeeder::class);
-        $this->call(TagsTableSeeder::class);
+        // $this->call(TagsTableSeeder::class);
         \Artisan::call('passport:install');
     }
 }

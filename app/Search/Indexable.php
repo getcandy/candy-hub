@@ -13,6 +13,7 @@ class Indexable
     public function __construct($id = null)
     {
         $this->id = $id;
+        $this->set('id', $id);
     }
 
     public function __get($attribute)

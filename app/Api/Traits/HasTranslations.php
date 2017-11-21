@@ -21,4 +21,15 @@ trait HasTranslations
     {
         return json_decode($value, true);
     }
+
+    public function translation($val, $locale = 'en')
+    {
+        if (is_null($this->name[$locale])) {
+            return $this->name['en'];
+        } elseif ($this->name[$locale] == '') {
+            return null;
+        }
+
+        return $this->name[$locale];
+    }
 }
