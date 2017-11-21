@@ -17,6 +17,7 @@ use Elastica\Query\Match;
 use Elastica\Query\Term;
 use Elastica\Query\BoolQuery;
 use Elastica\Aggregation\Filter as FilterAggregation;
+use Elastica\Suggest\Phrase;
 
 class Elastic implements SearchContract
 {
@@ -228,21 +229,24 @@ class Elastic implements SearchContract
             ->addIndex(config('search.index_prefix') . '_' .  $this->lang)
             ->addType($this->indexer->type);
 
-        $boolQuery = new BoolQuery;
+        $query = new \Elastica\Query();
+        
 
-        $disMaxQuery = $this->generateDisMax($keywords);
+        if ($keywords) {
+            $boolQuery = new BoolQuery;
+            $disMaxQuery = $this->generateDisMax($keywords);
+            $boolQuery->addMust($disMaxQuery);
 
-        $boolQuery->addMust($disMaxQuery);
-
+            $query->setQuery($boolQuery);
+        }
+        
         // Terms aggregation...
         // $termsAgg = new Terms("genders");
         // $termsAgg->setField("gender");
         // $termsAgg->setSize(10);
 
-        $query = new \Elastica\Query();
 
         $query
-            ->setQuery($boolQuery)
             ->setHighlight($this->getHighlight());
 
         $query->addAggregation(
@@ -260,6 +264,15 @@ class Elastic implements SearchContract
         $query->addAggregation(
             $this->getCategoryPostAgg()
         );
+
+        // // Did you mean...
+        // $phrase = new Phrase(
+        //     'name',
+        //     'name'
+        // );
+
+        // $generator = new \Elastica\Suggest\CandidateGenerator\DirectGenerator('name');
+        // $generator->setSuggestMode('always');
 
         $search->setQuery($query);
 
