@@ -30,8 +30,8 @@ class CategoryTransformer extends BaseTransformer
             'depth' => $category->depth,
             'product_count' => $category->getProductCount(),
             'lazy' => $category->hasChildren(),
-            'thumbnail' => $this->getThumbnail($category),
-            'test' => 1
+            'hasChildren' => $category->hasChildren(),
+            'thumbnail' => $this->getThumbnail($category)
         ];
 /*
         $children = [];
