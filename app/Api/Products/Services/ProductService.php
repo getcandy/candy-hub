@@ -289,20 +289,4 @@ class ProductService extends BaseService
         $product->collections()->sync($ids);
         return $product;
     }
-
-    public function getSearchedIds($ids = [], $length = 50, $page = null, $keywords = null)
-    {
-        $parsedIds = [];
-        foreach ($ids as $hash) {
-            $parsedIds[] = $this->model->decodeId($hash);
-        }
-
-        $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
-
-
-        return $this->model->with($this->with)
-            ->whereIn('id', $parsedIds)
-            ->orderByRaw("field(id,{$placeholders})", $parsedIds)
-            ->paginate($length, ['*'], 'page', $page);
-    }
 }

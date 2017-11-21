@@ -14,6 +14,9 @@ use Elastica\Aggregation\Terms;
 use Elastica\Aggregation\Nested as NestedAggregation;
 use Elastica\Query\Nested as NestedQuery;
 use Elastica\Query\Match;
+use Elastica\Query\Term;
+use Elastica\Query\BoolQuery;
+use Elastica\Aggregation\Filter as FilterAggregation;
 
 class Elastic implements SearchContract
 {
@@ -36,6 +39,11 @@ class Elastic implements SearchContract
      * @var string
      */
     protected $lang = 'en';
+
+    /**
+     * @var array
+     */
+    protected $categories = [];
 
     /**
      * @var array
@@ -189,7 +197,9 @@ class Elastic implements SearchContract
 
     /**
      * Searches the index
+     * 
      * @param  string $keywords
+     * 
      * @return array
      */
     public function search($keywords, $filters = [])
@@ -204,8 +214,7 @@ class Elastic implements SearchContract
             ->addIndex(config('search.index_prefix') . '_' .  $this->lang)
             ->addType($this->indexer->type);
 
-
-        $boolQuery = new \Elastica\Query\BoolQuery;
+        $boolQuery = new BoolQuery;
 
         $disMaxQuery = $this->generateDisMax($keywords);
 
@@ -220,35 +229,23 @@ class Elastic implements SearchContract
 
         $query
             ->setQuery($boolQuery)
-            ->setHighlight(array(
-                'pre_tags' => array('<em class="highlight">'),
-                'post_tags' => array('</em>'),
-                'fields' => array(
-                    'name' => array(
-                        'number_of_fragments' => 0,
-                    ),
-                    'description' => array(
-                        'number_of_fragments' => 0,
-                    ),
-                ),
-            ));
-        
-        // TODO: This needs to allow for multiple categories being set.
+            ->setHighlight($this->getHighlight());
+
+        $query->addAggregation(
+            $this->getCategoryPreAgg()
+        );
+
         if (!empty($filters['categories'])) {
-
-            foreach ($filters['categories']['values'] as $value) {
-
-            }
-            $postFilter = new NestedQuery();
-            $postFilter->setPath('departments');
-        
-            $postFilterQuery = new Match;
-            $postFilterQuery->setField('departments.id', $filters['category']);
-
-            $postFilter->setQuery($postFilterQuery);
-        
-            $query->setPostFilter($postFilter);
+            $query->setPostFilter(
+                $this->getCategoryFilter($filters['categories']['values'])
+            );
         }
+
+        // Do the post category thing
+        // Get our category aggregations
+        $query->addAggregation(
+            $this->getCategoryPostAgg()
+        );
 
         $search->setQuery($query);
 
@@ -256,9 +253,108 @@ class Elastic implements SearchContract
         return $results;
     }
 
-    protected function getCategoryFilter()
+    /**
+     * Gets the category post aggregation
+     *
+     * @return NestedAggregation
+     */
+    protected function getCategoryPostAgg()
     {
+        $nestedAggPost = new NestedAggregation(
+            'categories_after',
+            'departments'
+        );
 
+        $agg = new FilterAggregation('categories_after_filter');
+
+        // Add boolean
+        $postBool = new BoolQuery();
+        
+        foreach ($this->categories as $category) {
+            $term = new Term;
+            $term->setTerm('departments.id', $category);
+            $postBool->addShould($term);
+        }
+
+        // Need to set another agg on categories_remaining
+        $childAgg = new \Elastica\Aggregation\Terms('categories_post_inner');
+        $childAgg->setField('departments.id');
+
+        // Do the terms in the categories loop...
+        $agg->setFilter($postBool);
+        $agg->addAggregation($childAgg);
+
+        $nestedAggPost->addAggregation($agg);
+
+        return $nestedAggPost;
+    }
+
+    /**
+     * Returns the category before aggregation
+     *
+     * @return NestedAggregation
+     */
+    protected function getCategoryPreAgg()
+    {
+        // Get our category aggregations
+        $nestedAggBefore = new NestedAggregation(
+            'categories_before',
+            'departments'
+        );
+
+        $childAgg = new \Elastica\Aggregation\Terms('categories_before_inner');
+        $childAgg->setField('departments.id');
+
+        $nestedAggBefore->addAggregation($childAgg);
+
+        return $nestedAggBefore;
+    }
+
+    /**
+     * Gets the highlight for the search query
+     *
+     * @return array
+     */
+    protected function getHighlight()
+    {
+        return [
+            'pre_tags' => ['<em class="highlight">'],
+            'post_tags' => ['</em>'],
+            'fields' => [
+                'name' => [
+                    'number_of_fragments' => 0,
+                ],
+                'description' => [
+                    'number_of_fragments' => 0,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Gets the category post filter
+     *
+     * @param array $categories
+     * 
+     * @return void
+     */
+    protected function getCategoryFilter($categories = [])
+    {
+        $postFilter = new NestedQuery();
+        $postFilter->setPath('departments');
+
+        $postFilterQuery = new BoolQuery;
+
+        foreach ($categories as $value) {
+            $term = new Term;
+            $term->setTerm('departments.id', $value);
+            $postFilterQuery->addShould($term);         
+            $this->categories[] = $value;                   
+        }
+
+        $postFilter->setQuery($postFilterQuery);
+
+        return $postFilter;
     }
 
     protected function generateAggregates()
@@ -266,6 +362,13 @@ class Elastic implements SearchContract
 
     }
 
+    /**
+     * Generates the DisMax query
+     *
+     * @param string $keywords
+     * 
+     * @return void
+     */
     protected function generateDisMax($keywords)
     {
         $disMaxQuery = new \Elastica\Query\DisMax();

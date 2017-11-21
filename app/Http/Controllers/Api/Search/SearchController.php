@@ -4,6 +4,7 @@ namespace GetCandy\Http\Controllers\Api\Search;
 
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
+use GetCandy\Http\Transformers\Fractal\Search\SearchResultTransformer;
 use Illuminate\Http\Request;
 use GetCandy\Search\SearchContract;
 use GetCandy\Api\Products\Models\Product;
@@ -33,7 +34,9 @@ class SearchController extends BaseController
             ->language(app()->getLocale())
             ->against($this->types[$request->type])
             ->search($request->keywords, $request->filters);
-        dd($results);
+        
+            
+        return $this->respondWithItem($results, new SearchResultTransformer);
     }
 
     public function products(Request $request, SearchContract $client)

@@ -33,6 +33,10 @@ class CategoryTransformer extends BaseTransformer
             'hasChildren' => $category->hasChildren(),
             'thumbnail' => $this->getThumbnail($category)
         ];
+
+        if (!is_null($category->aggregate_selected)) {
+            $data['aggregate_selected'] = $category->aggregate_selected;
+        }
 /*
         $children = [];
 
