@@ -1,19 +1,31 @@
 <template>
     <div>
-        <textarea class="form-control"
+        <trumbowyg class="form-control"
                   rows="8"
                   :value="value"
-                  @input="updateValue($event.target.value)"
+                  @tbw-change="updateValue($event.target.value)"
                   :required="required"
+                  :config="config"
                   :placeholder="placeholder"
                   :disabled="disabled">
             {{ value }}
-        </textarea>
+        </trumbowyg>
     </div>
 </template>
 
 <script>
+    import trumbowyg from 'vue-trumbowyg';
+    // Import editor css
+    import 'trumbowyg/dist/ui/trumbowyg.css';
+
     export default {
+        data() {
+            return {
+                config: {
+                    btns: [['formatting'], ['bold', 'italic'], ['link'], ['unorderedList', 'orderedList'], ['removeformat'], ['viewHTML']]
+                }
+            }
+        },
         props: {
             value: {
                 type: String
@@ -33,6 +45,9 @@
             updateValue: function (value) {
                 this.$emit('input', value);
             }
+        },
+        components: {
+          trumbowyg
         }
     }
 </script>

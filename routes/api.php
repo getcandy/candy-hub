@@ -152,6 +152,13 @@ $this->resource('routes', 'Routes\RouteController', [
 ]);
 
 /**
+ * Saved search
+ */
+$this->post('saved-searches', 'Search\SavedSearchController@store');
+$this->delete('saved-searches/{id}', 'Search\SavedSearchController@destroy');
+$this->get('saved-searches/{type}', 'Search\SavedSearchController@getByType');
+
+/**
  * Tags
  */
 $this->resource('tags', 'Tags\TagController', [

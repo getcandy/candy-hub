@@ -124,46 +124,16 @@ class ProductTableSeeder extends Seeder
                     ],
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'en' => 'Blundstone boots',
-                                'sv' => 'Blundstone stövlar'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Red Dog',
+                            'sv' => 'Röd hund'
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Leather',
+                            'sv' => 'Läder'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'en' => 'Legendary lightweight boots made by Blundstone in Tasmania since 1932. Their iconic soles have been engineered for optimum comfort, shock absorption and all-weathers.',
-                                'sv' => 'Legendariska lätta stövlar gjorda av Blundstone i Tasmanien sedan 1932. Deras ikoniska sålar har konstruerats för optimal komfort, stötdämpning och alla väder.'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Legendary lightweight boots made by Blundstone in Tasmania since 1932. Their iconic soles have been engineered for optimum comfort, shock absorption and all-weathers.',
+                            'sv' => 'Legendariska lätta stövlar gjorda av Blundstone i Tasmanien sedan 1932. Deras ikoniska sålar har konstruerats för optimal komfort, stötdämpning och alla väder.'
                         ]
                     ]
                 ],
@@ -171,46 +141,33 @@ class ProductTableSeeder extends Seeder
                     'layout' => $featured,
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'en' => 'Hoxton Socks',
-                                'sv' => 'Hoxton sockor',
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'The Red Dog',
+                            'sv' => 'Den röda hunden',
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'en' => 'Wool',
-                                'sv' => 'Ull'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Wool',
+                            'sv' => 'Ull'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'en' => 'Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
-                                'sv' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
+                            'sv' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
+                        ]
+                    ]
+                ],
+                [
+                    'layout' => $featured,
+                    'attribute_data' => [
+                        'name' => [
+                            'en' => 'The Red Boat',
+                            'sv' => 'Den röda hunden',
+                        ],
+                        'material' => [
+                            'en' => 'Wool',
+                            'sv' => 'Ull'
+                        ],
+                        'description' => [
+                            'en' => 'Dog Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
+                            'sv' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
                         ]
                     ]
                 ],
@@ -218,46 +175,16 @@ class ProductTableSeeder extends Seeder
                     'layout' => $basic,
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'en' => 'Sofa socks - Oatmeal',
-                                'sv' => 'Soffa strumpor - Havregryn'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Red Dogs',
+                            'sv' => 'Röda hundar'
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'en' => 'Wool',
-                                'sv' => 'Ull'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Wool',
+                            'sv' => 'Ull'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'en' => 'Warm cable-knit house socks handknitted in Nepal from pure wool.Fairtrade',
-                                'sv' => 'Varm kabelstickade husstrumpor handknitted i Nepal från ren ull.Fairtrade'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Warm cable-knit house socks handknitted in Nepal from pure wool.Fairtrade',
+                            'sv' => 'Varm kabelstickade husstrumpor handknitted i Nepal från ren ull.Fairtrade'
                         ]
                     ]
                 ]
@@ -268,140 +195,16 @@ class ProductTableSeeder extends Seeder
                     'layout' => $basic,
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'en' => 'Boat tote',
-                                'sv' => 'Båt tote'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Red panda & barking dog',
+                            'sv' => 'Röd panda & skällhund'
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'en' => 'Cotton',
-                                'sv' => 'Bomull'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'Cotton',
+                            'sv' => 'Bomull'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'en' => 'A classic American tote crafted from durable 24oz cotton-canvas with steel hardware and sturdy leather handles. An adjustable long belt-like strap makes it extremely versatile. Joshu&Vela. Made in San Francisco. W55cm H30cm D21cm.',
-                                'sv' => null
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    'layout' => $featured,
-                    'attribute_data' => [
-                        'name' => [
-                            'ecommerce' => [
-                                'en' => 'Check bag',
-                                'sv' => 'Rutig väska'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
-                        ],
-                        'material' => [
-                            'ecommerce' => [
-                                'en' => 'Cotton',
-                                'sv' => 'Bomull'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
-                        ],
-                        'description' => [
-                            'ecommerce' => [
-                                'en' => 'Artisanal checked cotton tote with recycled, wipeable plastic interior and studded leather handles. Interior zip pocket.',
-                                'sv' => null
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    'layout' => $basic,
-                    'attribute_data' => [
-                        'name' => [
-                            'ecommerce' => [
-                                'en' => 'Heda Bag',
-                                'sv' => 'Heda väska'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
-                        ],
-                        'material' => [
-                            'ecommerce' => [
-                                'en' => 'Leather',
-                                'sv' => 'Läder'
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
-                        ],
-                        'description' => [
-                            'ecommerce' => [
-                                'en' => 'Tan leather bag with handy shoulder or longer cross body strap. Lined in cotton twill with interior pockets.',
-                                'sv' => null
-                            ],
-                            'mobile' => [
-                                'en' => null,
-                                'sv' => null
-                            ],
-                            'print' => [
-                                'en' => null,
-                                'sv' => null
-                            ]
+                            'en' => 'A classic American tote crafted from durable 24oz cotton-canvas with steel hardware and sturdy leather handles. An adjustable long belt-like strap makes it extremely versatile. Joshu&Vela. Made in San Francisco. W55cm H30cm D21cm.',
+                            'sv' => null
                         ]
                     ]
                 ]

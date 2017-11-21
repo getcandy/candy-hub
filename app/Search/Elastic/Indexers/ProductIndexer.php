@@ -24,18 +24,13 @@ class ProductIndexer extends BaseIndexer
      */
     public function getIndexDocument(Product $product)
     {
-        $data = $product->toArray();
-        $data['name'] = json_decode($product->name, true)['en'];
-        return new Document(
-            $product->id,
-            $data
-        );
+        return $this->getIndexables($product);
     }
 
     public function rankings()
     {
         return [
-            "name^5", "name.english^4"
+            "name.english^3", "description^1"
         ];
     }
 
@@ -46,6 +41,36 @@ class ProductIndexer extends BaseIndexer
     public function mapping()
     {
         return [
+            'id' => [
+                'type' => 'string'
+            ],
+            'description' => [
+                'type' => 'string',
+                'analyzer' => 'standard',
+            ],
+            'departments' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'string',
+                        'index' => 'not_analyzed'
+                    ],
+                    'name' => [
+                        'type' => 'string'
+                    ]
+                ]
+            ],
+            'thumbnail' => [
+                'type' => 'string'
+            ],
+            'min_price' => [
+                "type" => "scaled_float",
+                "scaling_factor" => 100
+            ],
+            'max_price' => [
+                "type" => "scaled_float",
+                "scaling_factor" => 100
+            ],
             'name' => [
                 'type' => 'string',
                 'analyzer' => 'standard',

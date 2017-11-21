@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Events\ProductCreatedEvent;
+use GetCandy\Api\Products\Events\ProductSavedEvent;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
@@ -67,6 +68,9 @@ class ProductService extends BaseService
             $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
             $product->customerGroups()->sync($groupData);
         }
+
+        event(new ProductCreatedEvent($product));
+
         return $product;
     }
 
@@ -176,7 +180,7 @@ class ProductService extends BaseService
             'price' => $data['price']
         ]);
 
-        // event(new ProductCreatedEvent($product));
+        event(new ProductCreatedEvent($product));
         return $product;
     }
 
@@ -293,6 +297,12 @@ class ProductService extends BaseService
             $parsedIds[] = $this->model->decodeId($hash);
         }
 
-        return $this->model->with($this->with)->whereIn('id', $parsedIds)->paginate($length, ['*'], 'page', $page);
+        $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
+
+
+        return $this->model->with($this->with)
+            ->whereIn('id', $parsedIds)
+            ->orderByRaw("field(id,{$placeholders})", $parsedIds)
+            ->paginate($length, ['*'], 'page', $page);
     }
 }

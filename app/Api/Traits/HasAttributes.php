@@ -111,7 +111,6 @@ trait HasAttributes
         $attributes = app('api')->attributes()->getHandles();
         $attributeData = [];
         $assigned = [];
-
         foreach ($attributes as $attribute) {
             if (!empty($data[$attribute['handle']])) {
                 foreach ($mapping as $key => $map) {

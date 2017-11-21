@@ -37,7 +37,7 @@ class ProductVariantService extends BaseService
                     $optionKey = str_slug($value);
                     // If this is the first time this option is being set...
                     if (empty($options[$handle])) {
-                        $options[$handle]['label'][$lang] = title_case($value);
+                        $options[$handle]['label'][$lang] = title_case($handle);
                     }
                     $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
                     $newOption[$handle] = $optionKey;
@@ -63,11 +63,7 @@ class ProductVariantService extends BaseService
             $variant->save();
         }
 
-        if (empty($data['options'])) {
-            $product->update(['option_data' => $options]);
-        } else {
-            $product->update(['option_data' => $data['options']]);
-        }
+        $product->update(['option_data' => $options]);
 
         return $product;
     }
@@ -122,7 +118,6 @@ class ProductVariantService extends BaseService
             $variant->image()->associate($asset);
         }
 
-        dd($data);
         $this->setMeasurements($variant, $data);
 
         $variant->save();

@@ -10,6 +10,10 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Search\Elastic\Indexers\ProductIndexer;
 use GetCandy\Search\SearchContract;
 use Illuminate\Database\Eloquent\Model;
+use Elastica\Aggregation\Terms;
+use Elastica\Aggregation\Nested as NestedAggregation;
+use Elastica\Query\Nested as NestedQuery;
+use Elastica\Query\Match;
 
 class Elastic implements SearchContract
 {
@@ -66,11 +70,35 @@ class Elastic implements SearchContract
     public function indexObject(Model $model)
     {
         // Get the indexer.
-        $indexer = $this->getIndexer($model);
-        $index = $this->getIndex('getcandy');
-        $elasticaType = $index->getType($indexer->type);
-        $response = $elasticaType->addDocument($indexer->getIndexDocument($model));
+        // $indexer = $this->getIndexer($model);
+        // $index =
+        // $elasticaType = $index->getType($indexer->type);
+        // $response = $elasticaType->addDocument($indexer->getIndexDocument($model));
+
+        $this->against($model);
+
+        $indexables = $this->indexer->getIndexDocument($model);
+
+        foreach ($indexables as $indexable) {
+            $index = $this->getIndex($indexable->getIndex());
+
+            $elasticaType = $index->getType($this->indexer->type);
+
+            $document = new Document(
+                $indexable->getId(),
+                $indexable->getData()
+            );
+
+            $response = $elasticaType->addDocument($document);
+        }
         return true;
+    }
+
+    public function reset()
+    {
+        if ($this->hasIndex('dev_test_en')) {
+            $this->client()->getIndex('dev_test_en')->delete();
+        }
     }
 
     /**
@@ -78,7 +106,7 @@ class Elastic implements SearchContract
      * @param  Elastica\Index $index
      * @return void
      */
-    public function updateMappings()
+    public function updateMappings($index)
     {
         $elasticaType = $index->getType($this->indexer->type);
 
@@ -111,24 +139,30 @@ class Elastic implements SearchContract
         return $this->client;
     }
 
+    public function hasIndex($name)
+    {
+        $elasticaStatus = new Status($this->client());
+        return $elasticaStatus->indexExists($name) or $elasticaStatus->aliasExists($name);
+    }
+
     /**
      * Returns the index for the model
      * @return Elastica\Index
      */
-    public function getIndex()
+    public function getIndex($name = null)
     {
-        $index = $this->client()->getIndex('getcandy');
+        $index = $this->client()->getIndex($name);
 
-        $elasticaStatus = new Status($this->client());
-
-        if (! $elasticaStatus->indexExists('getcandy') and ! $elasticaStatus->aliasExists('getcandy')) {
+        if (!$this->hasIndex($name)) {
             // Requested index does not exist
             $index->create();
+            // $index->setSettings();
             // ...and create it's alias name
             //$index->addAlias($this->indexName);
             // ...and update the mappings
-            $this->updateMappings();
+            $this->updateMappings($index);
         }
+
         return $index;
     }
 
@@ -142,7 +176,7 @@ class Elastic implements SearchContract
      * @param  string $keywords
      * @return array
      */
-    public function search($keywords)
+    public function search($keywords, $filters = [])
     {
         if (!$this->indexer) {
             abort(400, 'You need to set an indexer first');
@@ -150,34 +184,27 @@ class Elastic implements SearchContract
 
         $search = new \Elastica\Search($this->client);
 
+
         $search
-            ->addIndex('getcandy')
-            ->addType($this->indexer->type)
-            ->setOption(\Elastica\Search::OPTION_TIMEOUT, '100ms')
-            ->setOption(\Elastica\Search::OPTION_SEARCH_TYPE, \Elastica\Search::OPTION_SEARCH_TYPE_DFS_QUERY_THEN_FETCH);
+            ->addIndex(config('search.index'))
+            ->addType($this->indexer->type);
 
-        $multiMatchQuery = new \Elastica\Query\MultiMatch();
-        $multiMatchQuery->setType('best_fields');
-        $multiMatchQuery->setQuery($keywords);
-        $multiMatchQuery->setTieBreaker(0.5);
-        $multiMatchQuery->setFuzziness(100);
 
-        $multiMatchQuery->setFields($this->indexer->rankings());
+        $boolQuery = new \Elastica\Query\BoolQuery;
+
+        $disMaxQuery = $this->generateDisMax($keywords);
+
+        $boolQuery->addMust($disMaxQuery);
+
+        // Terms aggregation...
+        // $termsAgg = new Terms("genders");
+        // $termsAgg->setField("gender");
+        // $termsAgg->setSize(10);
 
         $query = new \Elastica\Query();
-        $query
-            ->setFrom(0)
-            ->setSize(1)
-            ->setMinScore(0);
-
-        $query->setQuery($multiMatchQuery);
-
-        $search->setQuery($query);
 
         $query
-            ->setFrom(0)
-            ->setSize(100)
-            // ->setMinScore()  // We'll only grab results with a score of at least 50% of the first result
+            ->setQuery($boolQuery)
             ->setHighlight(array(
                 'pre_tags' => array('<em class="highlight">'),
                 'post_tags' => array('</em>'),
@@ -190,16 +217,58 @@ class Elastic implements SearchContract
                     ),
                 ),
             ));
+        
+        // TODO: This needs to allow for multiple categories being set.
+        if (!empty($filters['category'])) {
+            $postFilter = new NestedQuery();
+            $postFilter->setPath('departments');
+        
+            $postFilterQuery = new Match;
+            $postFilterQuery->setField('departments.id', $filters['category']);
+
+            $postFilter->setQuery($postFilterQuery);
+        
+            $query->setPostFilter($postFilter);
+        }
+
+        $search->setQuery($query);
 
         $results = $search->search();
+        return $results;
+    }
 
-        $ids = [];
-        if (count($results)) {
-            foreach ($results as $r) {
-                $ids[] = $r->getSource()['id'];
-            }
-        }
-        return $ids;
+    protected function getCategoryFilter()
+    {
+
+    }
+
+    protected function generateAggregates()
+    {
+
+    }
+
+    protected function generateDisMax($keywords)
+    {
+        $disMaxQuery = new \Elastica\Query\DisMax();
+        $disMaxQuery->setBoost(1.5);
+        $disMaxQuery->setTieBreaker(1);
+
+        $multiMatchQuery = new \Elastica\Query\MultiMatch();
+        $multiMatchQuery->setType('phrase');
+        $multiMatchQuery->setQuery($keywords);
+        $multiMatchQuery->setFields($this->indexer->rankings());
+
+        $disMaxQuery->addQuery($multiMatchQuery);
+
+        $multiMatchQuery = new \Elastica\Query\MultiMatch();
+        $multiMatchQuery->setType('best_fields');
+        $multiMatchQuery->setQuery($keywords);
+
+        $multiMatchQuery->setFields($this->indexer->rankings());
+
+        $disMaxQuery->addQuery($multiMatchQuery);
+
+        return $disMaxQuery;
     }
 
     /**

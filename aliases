@@ -12,6 +12,9 @@ alias serve=serve-laravel
 alias xoff='sudo phpdismod -s cli xdebug'
 alias xon='sudo phpenmod -s cli xdebug'
 
+alias elastic='/etc/init.d/elasticsearch start'
+alias kibana='/etc/init.d/kibana start'
+
 function artisan() {
     php artisan "$@"
 }

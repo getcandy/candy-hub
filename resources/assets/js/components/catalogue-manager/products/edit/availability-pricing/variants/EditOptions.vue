@@ -87,7 +87,7 @@
                 }
 
                 option.options.forEach(option => {
-                    if (option.values.en.toUpperCase() == value.toUpperCase()) {
+                    if (option.values[locale.current()].toUpperCase() == value.toUpperCase()) {
                         deny = true;
                         return;
                     }
@@ -100,7 +100,7 @@
                 option.options.push({
                     position: 3,
                     values: {
-                        en: value
+                        [locale.current()]: value
                     }
                 });
                 this.$refs[handle + '_option'][0].value = null;
@@ -123,7 +123,7 @@
                 this.options.push({
                     options: [],
                     label: {
-                        en: event.target.value
+                        [locale.current()]: event.target.value
                     },
                     position: this.options.length + 1
                 });
@@ -161,38 +161,43 @@
              * @return {Array}
              */
             generateVariants() {
-                let optionValues = [];
-                this.variants = [];
-                // console.log(this.options);
+                let optionValues = this.getOptionValues();
 
-                /**
-                 * We want to get the options into a format where we can
-                 * get all the variations whilst keeping the option name
-                 * associated to it. The logic below will give us something like:
-                 * [[{size: 10}, {size: 20}, {size: 30}],[{colour: 'red'}]]
-                 *
-                 * So we can pass this to our allPossibleCases method and hopefully
-                 * it will generate the variants
-                 */
-                this.options.forEach((option, index) => {
-                    let childValues = [];
+                let optionsToRemove = [];
 
-                    option.options.forEach(child => {
-                        childValues.push({[option.label.en.trim()] : child.values.en});
+                _.each(this.variants, variant => {
+                    optionValues.forEach((options, optionValueIndex) => {
+                        options.forEach((value, optionIndex) => {
+                            let field = Object.keys(value);
+                            if (!variant.options[field[0].slugify()]) {
+                                variant.options[field[0].slugify()] = {
+                                    [locale.current()] : value[field]
+                                };
+                            };
+                            if (variant.options[field[0].slugify()][locale.current()] == value[field]) {
+                                console.log(optionValues[optionValueIndex]);
+                                optionsToRemove.push(optionValueIndex);
+                            }
+                        });
                     });
-                    optionValues.push(childValues);
                 });
 
-                // Get all possible values
-                optionValues = this.getAllCombinations(optionValues);
+                optionValues = _.filter(optionValues, (item, index) => {
+                    if (optionsToRemove.includes(index)) {
+                        return false;
+                    }
+                    return true;
+                });
 
                 optionValues.forEach(variant => {
                     let label = '';
                     let data = {};
+
+
                     variant.forEach((value, index) => {
                         let keys = Object.keys(value);
                         label += keys + ' ' + value[keys] + ((index + 1) < variant.length ? ', ' : ' ');
-                        data[keys[0].slugify()] = {en: value[keys]};
+                        data[keys[0].slugify()] = {[locale.current()]: value[keys]};
                     });
 
                     this.variants.push({
@@ -206,6 +211,17 @@
 
 
                 this.product.variants.data = this.variants;
+            },
+            getOptionValues() {
+                let optionValues = [];
+                this.options.forEach((option, index) => {
+                    let childValues = [];
+                    option.options.forEach(child => {
+                        childValues.push({[option.label.en.trim()] : child.values.en});
+                    });
+                    optionValues.push(childValues);
+                });
+                return this.getAllCombinations(optionValues);
             },
             /**
              * Gets all the possible combinations for the variants

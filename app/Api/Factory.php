@@ -27,6 +27,7 @@ use GetCandy\Api\Products\Services\ProductVariantService;
 use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Auth\Services\RoleService;
 use GetCandy\Api\Search\Services\SearchService;
+use GetCandy\Api\Search\Services\SavedSearchService;
 use GetCandy\Api\Settings\Services\SettingService;
 use GetCandy\Api\Tags\Services\TagService;
 use GetCandy\Api\Taxes\Services\TaxService;
@@ -129,6 +130,11 @@ class Factory
     protected $roles;
 
     /**
+     * @var SavedSearchService
+     */
+    protected $savedSearch;
+
+    /**
      * @var \GetCandy\Api\Services\SearchService;
      */
     protected $search;
@@ -181,6 +187,7 @@ class Factory
         ProductService $products,
         RouteService $routes,
         RoleService $roles,
+        SavedSearchService $savedSearch,
         SearchService $search,
         SettingService $settings,
         TagService $tags,
@@ -210,6 +217,7 @@ class Factory
         $this->productVariants = $productVariants;
         $this->routes = $routes;
         $this->roles = $roles;
+        $this->savedSearch = $savedSearch;
         $this->search = $search;
         $this->settings = $settings;
         $this->tags = $tags;
