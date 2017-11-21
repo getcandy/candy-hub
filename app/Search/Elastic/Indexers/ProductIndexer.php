@@ -52,8 +52,8 @@ class ProductIndexer extends BaseIndexer
                 'type' => 'nested',
                 'properties' => [
                     'id' => [
-                        'type' => 'string',
-                        'index' => 'not_analyzed'
+                        'type' => 'keyword',
+                        'index' => true
                     ],
                     'name' => [
                         'type' => 'text'
