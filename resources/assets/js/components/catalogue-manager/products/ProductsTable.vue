@@ -13,6 +13,7 @@
                 filters: [],
                 keywords: '',
                 params: {
+                    type: 'product',
                     per_page: 25,
                     current_page: 1,
                     includes: 'channels,customer_groups,family,attribute_groups'
@@ -69,7 +70,7 @@
             },
             searchProducts() {
                 this.loaded = false;
-                apiRequest.send('GET', 'search/products', [], this.params)
+                apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.products = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;

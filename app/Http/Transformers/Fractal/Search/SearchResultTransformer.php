@@ -52,10 +52,24 @@ class SearchResultTransformer extends BaseTransformer
 
             $transformer = new $this->types[$handle];
 
-            $results[$type] = app()->fractal->createData(
-                $this->collection($models, new $this->types[$handle])
-            )->toArray();
+
+            // $results[$type] = app()->fractal->createData(
+            //     $this->collection($models, new $this->types[$handle])
+            // )->toArray();
         }
+
+
+//         if ($paginator instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+//             $collection = $paginator->getCollection();
+//         } else {
+//             $collection = $paginator;
+//         }
+// $resource = new Collection($collection, $callback);
+//         if ($paginator instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+//             $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
+//         }
+
+
         return $results;
     }
 

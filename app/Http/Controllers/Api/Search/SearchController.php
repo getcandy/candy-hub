@@ -3,13 +3,13 @@
 namespace GetCandy\Http\Controllers\Api\Search;
 
 use GetCandy\Http\Controllers\Api\BaseController;
-use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use GetCandy\Http\Transformers\Fractal\Search\SearchResultTransformer;
 use Illuminate\Http\Request;
 use GetCandy\Search\SearchContract;
 use GetCandy\Api\Products\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Search\SearchRequest;
+
 
 class SearchController extends BaseController
 {
@@ -35,8 +35,10 @@ class SearchController extends BaseController
             ->against($this->types[$request->type])
             ->search($request->keywords, $request->filters);
         
-            
-        return $this->respondWithItem($results, new SearchResultTransformer);
+        $results = app('api')->search()->getResults(
+            $results, $request->type, $request->page, $request->per_page ?: 50, $request->includes
+        );
+        return response($results, 200);
     }
 
     public function products(Request $request, SearchContract $client)
