@@ -50,7 +50,6 @@ require('./filters/attributes');
 require('./filters/format-date');
 require('./filters/translate');
 
-
 const store = new Vuex.Store({
   state: {
     topTabs: {},
