@@ -12,6 +12,7 @@
                 checkedCount: 0,
                 filters: [],
                 keywords: '',
+                meta: [],
                 params: {
                     type: 'product',
                     per_page: 25,
@@ -48,6 +49,10 @@
                 });
         },
         methods: {
+            suggest(term) {
+                this.keywords = term;
+                this.searchProducts();
+            },
             isActive(terms) {
                 if (terms == 'all' && !this.keywords) {
                     return true;
@@ -74,6 +79,7 @@
                     .then(response => {
                         this.products = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;
+                        this.meta = response.meta;
                         this.loaded = true;
                     });
             },
@@ -185,7 +191,6 @@
 
 <template>
     <div>
-
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" :class="{'active' : isActive('all')}">
@@ -254,7 +259,18 @@
                         </div>
                     </div>
                 </form>
+                <template v-if="meta.suggestions">
 
+                    <template v-for="item in meta.suggestions">
+                        <template v-for="suggestion in item">
+                            <template v-for="option in suggestion.options">
+                                Did you mean <a href="#" @click="suggest(option.text)">{{ option.highlighted }}</a>?
+                            </template>
+                        </template>
+                    </template>
+                    <hr>
+                </template>
+                
                 <!-- Filter List -->
                 <div class="filters">
                     <div class="filter active">Visible on Storefront

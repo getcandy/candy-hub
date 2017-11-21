@@ -57,7 +57,8 @@ class SearchService
         }
 
         $resource->setMeta([
-            'aggregation' => $this->getSearchAggregator($results)
+            'aggregation' => $this->getSearchAggregator($results),
+            'suggestions' => $results->getSuggests()
         ]);
 
         return app()->fractal->createData($resource)->toArray();

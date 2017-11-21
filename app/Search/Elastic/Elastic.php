@@ -18,6 +18,7 @@ use Elastica\Query\Term;
 use Elastica\Query\BoolQuery;
 use Elastica\Aggregation\Filter as FilterAggregation;
 use Elastica\Suggest\Phrase;
+use Elastica\Suggest;
 
 class Elastic implements SearchContract
 {
@@ -253,6 +254,7 @@ class Elastic implements SearchContract
             $this->getCategoryPreAgg()
         );
 
+
         if (!empty($filters['categories'])) {
             $query->setPostFilter(
                 $this->getCategoryFilter($filters['categories']['values'])
@@ -265,15 +267,28 @@ class Elastic implements SearchContract
             $this->getCategoryPostAgg()
         );
 
-        // // Did you mean...
-        // $phrase = new Phrase(
-        //     'name',
-        //     'name'
-        // );
 
-        // $generator = new \Elastica\Suggest\CandidateGenerator\DirectGenerator('name');
-        // $generator->setSuggestMode('always');
 
+        // Did you mean...
+        $phrase = new Phrase(
+            'name',
+            'name'
+        );
+        $phrase->setGramSize(3);
+        $phrase->setSize(1);
+        $phrase->setText($keywords);
+
+        $generator = new \Elastica\Suggest\CandidateGenerator\DirectGenerator('name');
+        $generator->setSuggestMode('always');
+        $generator->setField('name');
+        $phrase->addCandidateGenerator($generator);
+
+        $phrase->setHighlight('<strong>', '</strong>');
+        $suggest = new Suggest;
+        $suggest->addSuggestion($phrase);
+
+        $query->setSuggest($suggest);
+        
         $search->setQuery($query);
 
         $results = $search->search();
