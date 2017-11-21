@@ -44,10 +44,10 @@ class IndexAquaCommand extends Command
         $langs = app('api')->languages()->getDataList();
 
         foreach ($langs as $lang) {
-            app(SearchContract::class)->reset(config('search.index_prefix') . '_' . $lang->lang);
-            app(SearchContract::class)->reset('dev_test_sv');
+            // app(SearchContract::class)->reset(config('search.index_prefix') . '_' . $lang->lang);
+            // app(SearchContract::class)->reset('dev_test_sv');
             app(SearchContract::class)->reset('dev_test_en');
-            app(SearchContract::class)->reset('dev_test_fr');
+            // app(SearchContract::class)->reset('dev_test_fr');
         }
 
         foreach ($products as $product) {

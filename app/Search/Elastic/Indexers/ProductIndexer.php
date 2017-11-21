@@ -52,7 +52,7 @@ class ProductIndexer extends BaseIndexer
                 'type' => 'nested',
                 'properties' => [
                     'id' => [
-                        'type' => 'text',
+                        'type' => 'string',
                         'index' => 'not_analyzed'
                     ],
                     'name' => [
@@ -78,6 +78,10 @@ class ProductIndexer extends BaseIndexer
                     'en' => [
                         'type' => 'text',
                         'analyzer' => 'english'
+                    ],
+                    'trigram' => [
+                        'type' => 'text',
+                        'analyzer' => 'trigram'
                     ]
                 ]
             ]

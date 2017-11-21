@@ -173,11 +173,25 @@ class Elastic implements SearchContract
         $index = $this->client()->getIndex($name);
 
         if (!$this->hasIndex($name)) {
-            // Requested index does not exist
-            $index->create();
-            // $index->setSettings();
-            // ...and create it's alias name
-            //$index->addAlias($this->indexName);
+            $index->create([
+                'analysis' => [
+                    'analyzer' => [
+                        'trigram' => [
+                            'type' => 'custom',
+                            'tokenizer' => 'standard',
+                            'filter' => ['standard', 'shingle']
+                        ]
+                    ],
+                    'filter' => [
+                        'shingle' => [
+                            'type' => 'shingle',
+                            'min_shingle_size' => 2,
+                            'max_shingle_size' => 3
+                        ]
+                    ]
+                ]
+            ]);
+            $index->addAlias($name . '_alias');
             // ...and update the mappings
             $this->updateMappings($index);
         }
