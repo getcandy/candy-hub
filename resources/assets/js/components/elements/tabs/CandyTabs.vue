@@ -27,6 +27,10 @@
             nested: {
                 default: false
             },
+            initial: {
+                type: String,
+                default: null
+            },
             parent: {
                 default: null
             },
@@ -36,7 +40,56 @@
             selectTab(selectedTab) {
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
-                        if (tab.$parent && tab.$parent.parent) {
+                        console.log(1);
+                        CandyEvent.$emit('current-tab', tab);
+                        tab.isActive = true;
+                        // this.selectTab(tab);
+                    } else {
+                        tab.isActive = false;
+                    }
+                });
+            },
+            selectTabByName(name) {
+                this.tabs.forEach(tab => {
+                    if (tab.name == name) {
+                        this.selectTab(tab);
+                    }
+                });
+            },
+            selectTabByHref(href) {
+                this.tabs.forEach(tab => {
+                    if (tab.getHref() == href) {
+                        this.selectTab(tab);
+                    }
+                })
+            }
+        },
+        mounted() {
+            this.tabs = this.$children;
+
+            CandyEvent.$on('select-tab', tab => {
+                this.selectTabByName(tab);
+            });
+            if (this.initial) {
+                this.selectTabByHref('#' + this.initial);
+            }
+
+            if (!this.nested) {
+                this.$store.commit('addTabs', this.tabs);
+            }
+        },
+        computed: {
+            filteredTabs() {
+                return this.$children;
+            }
+        },
+        created() {
+        }
+    }
+</script>
+
+/**
+ if (tab.$parent && tab.$parent.parent) {
                             let href = '#' + tab.$parent.parent;
                             // let topTabs = this.$store.getters.getTabByHref(href);
 
@@ -65,49 +118,4 @@
                             // //     }
                             // // })
                         }
-                        CandyEvent.$emit('current-tab', tab);
-                        tab.isActive = true;
-                    } else {
-                        tab.isActive = false;
-                    }
-                });
-            },
-            selectTabByName(name) {
-                this.tabs.forEach(tab => {
-                    if (tab.name == name) {
-                        this.selectTab(tab);
-                    }
-                });
-            },
-            selectTabByHref(href) {
-                this.tabs.forEach(tab => {
-                    if (tab.getHref() == href) {
-                        this.selectTab(tab);
-                    }
-                })
-            }
-        },
-        mounted() {
-            CandyEvent.$on('select-tab', tab => {
-                this.selectTabByName(tab);
-            });
-            var tab = window.location.hash;
-
-            if (tab) {
-                this.selectTabByHref(tab);
-            }
-
-            if (!this.nested) {
-                this.$store.commit('addTabs', this.tabs);
-            }
-        },
-        computed: {
-            filteredTabs() {
-                return this.$children;
-            }
-        },
-        created() {
-            this.tabs = this.$children;
-        }
-    }
-</script>
+*/

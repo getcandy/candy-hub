@@ -14,8 +14,11 @@
                 className: 'btn btn-success',
             }
         },
-        created () {
-            CandyEvent.$on('current-tab', tab => this.tab = tab);
+        mounted () {
+            CandyEvent.$on('current-tab', tab => {
+                this.tab = tab;
+                console.log('hit');
+            });
             CandyEvent.$on('notification', finished => this.processing = false);
         },
         methods : {

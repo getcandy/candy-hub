@@ -110,7 +110,7 @@
             </div>
 
             <transition name="fade">
-                <candy-tabs>
+                <candy-tabs initial="productdetails">
 
                     <candy-tab name="Product Details" :selected="true" dispatch="product-details">
                         <candy-tabs nested="true">
