@@ -275,7 +275,7 @@ class Elastic implements SearchContract
      *
      * @return Suggest
      */
-    protected function getSuggest()
+    protected function getSuggest($keywords)
     {
         // Did you mean...
         $phrase = new Phrase(
