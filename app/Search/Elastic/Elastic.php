@@ -261,7 +261,7 @@ class Elastic implements SearchContract
         );
 
         $query->setSuggest(
-            $this->getSuggest();
+            $this->getSuggest()
         );
         
         $search->setQuery($query);
