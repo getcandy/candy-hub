@@ -102,7 +102,6 @@
                 if (this.keywords == search.payload.keywords) {
                     this.keywords = '';
                 }
-                
             },
             resetSearch() {
                 this.params['keywords'] = null;
@@ -209,7 +208,7 @@
             <div role="tabpanel" class="tab-pane active" id="all-products">
 
                 <!-- Search Form -->
-                <form>
+                <form v-on:submit.prevent>
                     <div class="row">
                         <div class="col-xs-12 col-md-2">
 
