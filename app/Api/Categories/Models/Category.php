@@ -32,10 +32,12 @@ class Category extends BaseModel
 
     public function hasChildren()
     {
-        $children = $this->hasMany(Category::class, 'parent_id')
-            ->count();
+        return (bool) $this->children()->count();
+    }
 
-        return (bool) $children;
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function parent()
