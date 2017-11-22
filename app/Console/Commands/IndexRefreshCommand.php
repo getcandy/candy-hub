@@ -40,25 +40,19 @@ class IndexRefreshCommand extends Command
     {
         $products = \GetCandy\Api\Products\Models\Product::with('variants')->take(10)->get();
         // $categories = \GetCandy\Api\Categories\Models\Category::whereNull('parent_id')->get();
-    
         $bar = $this->output->createProgressBar($products->count() + $categories->count());
-
         $langs = app('api')->languages()->getDataList();
-
         foreach ($langs as $lang) {
             app(SearchContract::class)->reset(config('search.index_prefix') . '_' . $lang->lang);
         }
-
         foreach ($products as $product) {
             app(SearchContract::class)->indexObject($product);
             $bar->advance();
         }
-
         // foreach ($categories as $category) {
         //     app(SearchContract::class)->indexObject($category);
         //     $bar->advance();
         // }
-
         $bar->finish();
     }
 }

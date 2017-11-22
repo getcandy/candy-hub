@@ -228,14 +228,12 @@ class Elastic implements SearchContract
         }
 
         $search = new \Elastica\Search($this->client);
-
         $search
             ->addIndex(config('search.index_prefix') . '_' .  $this->lang)
             ->addType($this->indexer->type);
 
         $query = new \Elastica\Query();
         
-
         if ($keywords) {
             $boolQuery = new BoolQuery;
             $disMaxQuery = $this->generateDisMax($keywords);
@@ -244,19 +242,13 @@ class Elastic implements SearchContract
             $query->setQuery($boolQuery);
         }
         
-        // Terms aggregation...
-        // $termsAgg = new Terms("genders");
-        // $termsAgg->setField("gender");
-        // $termsAgg->setSize(10);
-
-
-        $query
-            ->setHighlight($this->getHighlight());
+        $query->setHighlight(
+            $this->getHighlight()
+        );
 
         $query->addAggregation(
             $this->getCategoryPreAgg()
         );
-
 
         if (!empty($filters['categories'])) {
             $query->setPostFilter(
@@ -264,14 +256,27 @@ class Elastic implements SearchContract
             );
         }
 
-        // Do the post category thing
-        // Get our category aggregations
         $query->addAggregation(
             $this->getCategoryPostAgg()
         );
 
+        $query->setSuggest(
+            $this->getSuggest();
+        );
+        
+        $search->setQuery($query);
 
+        $results = $search->search();
+        return $results;
+    }
 
+    /**
+     * Get the suggester
+     *
+     * @return Suggest
+     */
+    protected function getSuggest()
+    {
         // Did you mean...
         $phrase = new Phrase(
             'name',
@@ -290,12 +295,7 @@ class Elastic implements SearchContract
         $suggest = new Suggest;
         $suggest->addSuggestion($phrase);
 
-        $query->setSuggest($suggest);
-        
-        $search->setQuery($query);
-
-        $results = $search->search();
-        return $results;
+        return $suggest;
     }
 
     /**
