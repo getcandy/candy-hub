@@ -93,7 +93,7 @@
                         </candy-tabs>
                     </candy-tab>
 
-                    <candy-tab name="Media">
+                    <candy-tab name="Media" dispatch="save-media">
                         <candy-media assetable="collections" :parent="collection"></candy-media>
                     </candy-tab>
 
