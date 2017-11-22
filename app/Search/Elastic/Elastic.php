@@ -233,6 +233,7 @@ class Elastic implements SearchContract
             ->addType($this->indexer->type);
 
         $query = new \Elastica\Query();
+        $query->setParam('size', 2000);
         
         if ($keywords) {
             $boolQuery = new BoolQuery;

@@ -38,9 +38,9 @@ class IndexRefreshCommand extends Command
      */
     public function handle()
     {
-        $products = \GetCandy\Api\Products\Models\Product::with('variants')->take(10)->get();
+        $products = \GetCandy\Api\Products\Models\Product::with('variants')->get();
         // $categories = \GetCandy\Api\Categories\Models\Category::whereNull('parent_id')->get();
-        $bar = $this->output->createProgressBar($products->count() + $categories->count());
+        $bar = $this->output->createProgressBar($products->count());
         $langs = app('api')->languages()->getDataList();
         foreach ($langs as $lang) {
             app(SearchContract::class)->reset(config('search.index_prefix') . '_' . $lang->lang);
