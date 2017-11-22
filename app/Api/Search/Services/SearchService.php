@@ -58,10 +58,34 @@ class SearchService
 
         $resource->setMeta([
             'aggregation' => $this->getSearchAggregator($results),
-            'suggestions' => $results->getSuggests()
+            'suggestions' => $this->getSuggestions($results)
         ]);
 
         return app()->fractal->createData($resource)->toArray();
+    }
+
+    /**
+     * Get the search suggestions
+     *
+     * @param ResultSet $results
+     * 
+     * @return array
+     */
+    public function getSuggestions($results)
+    {
+        $suggestions = [];
+        
+        foreach ($results->getSuggests() as $field => $item) {
+            foreach ($item as $suggestion) {
+                if (count($suggestion['options'])) {
+                    foreach ($suggestion['options'] as $option) {
+                        $suggestions[$field][] = $option;
+                    }
+                }
+            }
+        }
+
+        return $suggestions;
     }
 
     /**

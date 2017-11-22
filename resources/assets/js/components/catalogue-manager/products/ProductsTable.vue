@@ -51,7 +51,7 @@
         methods: {
             suggest(term) {
                 this.keywords = term;
-                this.searchProducts();
+                this.search();
             },
             isActive(terms) {
                 if (terms == 'all' && !this.keywords) {
@@ -260,12 +260,9 @@
                     </div>
                 </form>
                 <template v-if="meta.suggestions">
-
-                    <template v-for="item in meta.suggestions">
-                        <template v-for="suggestion in item">
-                            <template v-for="option in suggestion.options">
-                                Did you mean <a href="#" @click="suggest(option.text)">{{ option.highlighted }}</a>?
-                            </template>
+                    <template v-for="(options, field) in meta.suggestions">
+                        <template v-for="option in options">
+                            Did you mean <a href="#" @click="suggest(option.text)"><span v-html="option.highlighted"></span></a>?
                         </template>
                     </template>
                     <hr>
