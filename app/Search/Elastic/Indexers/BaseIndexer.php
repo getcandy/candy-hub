@@ -35,15 +35,18 @@ abstract class BaseIndexer
                         $indexable->set($field, $value);
                     }
                 }
-    
-                foreach ($model->variants as $variant) {
-                    if (!$indexable->min_price || $indexable->min_price > $variant->price) {
-                        $indexable->set('min_price', $variant->price);
-                    }
-                    if (!$indexable->max_price || $indexable->max_price < $variant->price) {
-                        $indexable->set('max_price', $variant->price);
+                
+                if ($model->variants) {
+                    foreach ($model->variants as $variant) {
+                        if (!$indexable->min_price || $indexable->min_price > $variant->price) {
+                            $indexable->set('min_price', $variant->price);
+                        }
+                        if (!$indexable->max_price || $indexable->max_price < $variant->price) {
+                            $indexable->set('max_price', $variant->price);
+                        }
                     }
                 }
+                
                 $indexables->push($indexable);
             }
         }

@@ -12,7 +12,8 @@ use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
 class SearchService
 {
     protected $types = [
-        'product' => ProductTransformer::class
+        'product' => ProductTransformer::class,
+        'category' => CategoryTransformer::class
     ];
 
     /**

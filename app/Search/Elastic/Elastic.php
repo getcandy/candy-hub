@@ -6,8 +6,10 @@ use Elastica\Client;
 use Elastica\Document;
 use Elastica\Status;
 use Elastica\Type\Mapping;
+use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Search\Elastic\Indexers\ProductIndexer;
+use GetCandy\Search\Elastic\Indexers\CategoryIndexer;
 use GetCandy\Search\SearchContract;
 use Illuminate\Database\Eloquent\Model;
 use Elastica\Aggregation\Terms;
@@ -52,6 +54,7 @@ class Elastic implements SearchContract
      */
     protected $indexers = [
         Product::class => ProductIndexer::class,
+        Category::class => CategoryIndexer::class
     ];
 
     public function __construct(Client $client)
