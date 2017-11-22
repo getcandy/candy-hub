@@ -260,10 +260,12 @@ class Elastic implements SearchContract
             $this->getCategoryPostAgg()
         );
 
-        $query->setSuggest(
-            $this->getSuggest($keywords)
-        );
-        
+        if ($keywords) {
+            $query->setSuggest(
+                $this->getSuggest($keywords)
+            );
+        }
+    
         $search->setQuery($query);
 
         $results = $search->search();
