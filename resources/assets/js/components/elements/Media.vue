@@ -51,6 +51,8 @@
                 this.assets.push(event.asset);
             });
 
+            Dispatcher.add('save-media', this);
+
             apiRequest.send('GET', '/tags').then(response => {
                 response.data.forEach(tag => {
                     this.defaultTags.push(tag);
