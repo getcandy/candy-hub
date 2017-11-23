@@ -26,11 +26,25 @@ class YouTube extends BaseUrlDriver
         $this->manager = app('youtube');
     }
 
+    /**
+     * Get the video unique id
+     *
+     * @param string $url
+     * 
+     * @return string
+     */
     public function getUniqueId($url)
     {
         return $this->manager->parseVidFromURL($url);
     }
 
+    /**
+     * Get the video info
+     *
+     * @param string $url
+     *
+     * @return array
+     */
     public function getInfo($url)
     {
         if (!$this->info) {

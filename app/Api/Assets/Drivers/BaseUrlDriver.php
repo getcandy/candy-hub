@@ -123,6 +123,13 @@ abstract class BaseUrlDriver
         return $image;
     }
 
+    /**
+     * Get the OEM data
+     *
+     * @param array $params
+     * 
+     * @return mixed
+     */
     protected function getOemData($params = [])
     {
         $client = new Client();

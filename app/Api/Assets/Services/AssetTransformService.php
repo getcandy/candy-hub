@@ -125,6 +125,12 @@ class AssetTransformService extends BaseService
         }
     }
 
+    /**
+     * Get the image
+     *
+     * @param [type] $asset
+     * @return void
+     */
     protected function getImage($asset)
     {
         if ($asset->external) {

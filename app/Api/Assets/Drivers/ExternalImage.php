@@ -5,6 +5,7 @@ namespace GetCandy\Api\Assets\Drivers;
 use GetCandy\Api\Assets\Jobs\GenerateTransforms;
 use GetCandy\Api\Assets\Models\Asset;
 use Storage;
+use Illuminate\Database\Eloquent\Model;
 
 class ExternalImage extends BaseUrlDriver
 {
@@ -23,7 +24,15 @@ class ExternalImage extends BaseUrlDriver
         $this->manager = app('image');
     }
 
-    public function process(array $data, $model)
+    /**
+     * Process the external image
+     *
+     * @param array $data
+     * @param Model $model
+     * 
+     * @return Asset
+     */
+    public function process(array $data, Model $model)
     {
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
 
@@ -33,8 +42,6 @@ class ExternalImage extends BaseUrlDriver
         $this->model = $model;
         $this->data = $data;
         $asset = $this->prepare();
-
-        // dd($asset->location);
 
         if ($model->assets()->count()) {
             // Get anything that isn't an "application";
@@ -96,6 +103,13 @@ class ExternalImage extends BaseUrlDriver
         return $asset;
     }
 
+    /**
+     * Get the asset info
+     *
+     * @param string $url
+     * 
+     * @return array
+     */
     public function getInfo($url)
     {
         $image = $this->getImageFromUrl($url);
