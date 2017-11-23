@@ -54,15 +54,10 @@ class ProductService extends BaseService
 
         event(new AttributableSavedEvent($product));
 
-        if (!empty($data['channels'])) {
-            $channelData = [];
-            foreach ($data['channels']['data'] as $channel) {
-                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
-                $channelData[$channelModel->id] = [
-                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
-                ];
-            }
-            $product->channels()->sync($channelData);
+        if (!empty($data['channels']['data'])) {
+            $product->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
         }
         if (!empty($data['customer_groups'])) {
             $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
@@ -137,7 +132,7 @@ class ProductService extends BaseService
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
-            if (! $family) {
+            if (!$family) {
                 abort(422);
             }
             $family->products()->save($product);
@@ -152,15 +147,10 @@ class ProductService extends BaseService
             $product->customerGroups()->sync($groupData);
         }
 
-        if (!empty($data['channels'])) {
-            $channelData = [];
-            foreach ($data['channels']['data'] as $channel) {
-                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
-                $channelData[$channelModel->id] = [
-                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
-                ];
-            }
-            $product->channels()->sync($channelData);
+        if (!empty($data['channels']['data'])) {
+            $product->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
         }
 
         $urls = $this->getUniqueUrl($data['url']);
@@ -184,6 +174,7 @@ class ProductService extends BaseService
         return $product;
     }
 
+
     /**
      * Creates a product variant
      * @param  Product $product
@@ -194,10 +185,6 @@ class ProductService extends BaseService
     {
         $data['attribute_data'] = $product->attribute_data;
         return $product->variants()->create($data);
-    }
-
-    public function saveOptions(array $data = [])
-    {
     }
 
     /**
@@ -239,9 +226,11 @@ class ProductService extends BaseService
             return [];
         }
 
-        $product = $this->model
-            ->with(['attributes', 'family', 'family.attributes'])
-            ->find($id);
+        $product = $this->model->with([
+            'attributes',
+            'family', 
+            'family.attributes'
+        ])->find($id);
 
         foreach ($product->family->attributes as $attribute) {
             $attributes[$attribute->handle] = $attribute;
@@ -288,5 +277,25 @@ class ProductService extends BaseService
 
         $product->collections()->sync($ids);
         return $product;
+    }
+
+
+    /**
+     * Sets the channel mapping
+     *
+     * @param array $channels
+     * 
+     * @return array
+     */
+    protected function setChannelMapping($channels = [])
+    {
+        $channelData = [];
+        foreach ($channels as $channel) {
+            $channelModel = app('api')->channels()->getByHashedId($channel['id']);
+            $channelData[$channelModel->id] = [
+                'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
+            ];
+        }
+        return $channelData;
     }
 }
