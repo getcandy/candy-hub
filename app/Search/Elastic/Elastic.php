@@ -2,25 +2,25 @@
 
 namespace GetCandy\Search\Elastic;
 
+use Elastica\Aggregation\Filter as FilterAggregation;
+use Elastica\Aggregation\Nested as NestedAggregation;
+use Elastica\Aggregation\Terms;
 use Elastica\Client;
 use Elastica\Document;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Match;
+use Elastica\Query\Nested as NestedQuery;
+use Elastica\Query\Term;
 use Elastica\Status;
+use Elastica\Suggest;
+use Elastica\Suggest\Phrase;
 use Elastica\Type\Mapping;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
-use GetCandy\Search\Elastic\Indexers\ProductIndexer;
 use GetCandy\Search\Elastic\Indexers\CategoryIndexer;
+use GetCandy\Search\Elastic\Indexers\ProductIndexer;
 use GetCandy\Search\SearchContract;
 use Illuminate\Database\Eloquent\Model;
-use Elastica\Aggregation\Terms;
-use Elastica\Aggregation\Nested as NestedAggregation;
-use Elastica\Query\Nested as NestedQuery;
-use Elastica\Query\Match;
-use Elastica\Query\Term;
-use Elastica\Query\BoolQuery;
-use Elastica\Aggregation\Filter as FilterAggregation;
-use Elastica\Suggest\Phrase;
-use Elastica\Suggest;
 
 class Elastic implements SearchContract
 {
@@ -221,7 +221,7 @@ class Elastic implements SearchContract
      * 
      * @return array
      */
-    public function search($keywords, $filters = [])
+    public function search($keywords, $filters = [], $page = 1, $perPage = 25)
     {
         if (!$this->indexer) {
             abort(400, 'You need to set an indexer first');
@@ -233,13 +233,13 @@ class Elastic implements SearchContract
             ->addType($this->indexer->type);
 
         $query = new \Elastica\Query();
-        $query->setParam('size', 2000);
+        $query->setParam('size', $perPage);
+        $query->setParam('from', $page == 1 ? 1 : $page * $perPage);
         
         if ($keywords) {
             $boolQuery = new BoolQuery;
             $disMaxQuery = $this->generateDisMax($keywords);
             $boolQuery->addMust($disMaxQuery);
-
             $query->setQuery($boolQuery);
         }
         

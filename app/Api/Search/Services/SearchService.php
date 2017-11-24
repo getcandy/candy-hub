@@ -27,7 +27,7 @@ class SearchService
      * 
      * @return array
      */
-    public function getResults(ResultSet $results, $type, $page = null, $perpage = 50, $includes = null)
+    public function getResults(ResultSet $results, $type, $includes = null)
     {
         $ids = [];
 
@@ -41,28 +41,48 @@ class SearchService
             }
         }
 
-        $models = app('api')->{str_plural($type)}()->getSearchedIds($ids, $perpage, $page);
-
-        $transformer = new $this->types[$type];
-
-        if ($models instanceof \Illuminate\Pagination\LengthAwarePaginator) {
-            $collection = $models->getCollection();
+        if (count($results)) {
+            $collection = app('api')->{str_plural($type)}()->getSearchedIds($ids);
         } else {
-            $collection = $models;
+            $collection = collect();
         }
 
-        $resource = new Collection($collection, $transformer);
         
-        if ($models instanceof \Illuminate\Pagination\LengthAwarePaginator) {
-            $resource->setPaginator(new IlluminatePaginatorAdapter($models));
-        }
+        $transformer = new $this->types[$type];
+        $resource = new Collection($collection, $transformer);
 
         $resource->setMeta([
+            'pagination' => $this->getPagination($results),
             'aggregation' => $this->getSearchAggregator($results),
             'suggestions' => $this->getSuggestions($results)
         ]);
 
         return app()->fractal->createData($resource)->toArray();
+    }
+
+    /**
+     * Get the pagination for the results
+     *
+     * @param array $results
+     * 
+     * @return array
+     */
+    protected function getPagination($results)
+    {
+        $query = $results->getQuery();
+        $page = $query->getParam('from') / $query->getParam('size');
+
+        $pagination = [
+            'pagination' => [
+                'total' => $results->getTotalHits(),
+                'count' => $results->count(),
+                'per_page' => $query->getParam('size'),
+                'current_page' => $page <= 1 ? 1 : $page,
+                'total_pages' => floor($results->getTotalHits() / $query->getParam('size'))
+            ]
+        ];
+
+        return $pagination;
     }
 
     /**

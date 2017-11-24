@@ -270,7 +270,7 @@ abstract class BaseService
         return $unique;
     }
 
-    public function getSearchedIds($ids = [], $length = 50, $page = null, $keywords = null)
+    public function getSearchedIds($ids = [])
     {
         $parsedIds = [];
         foreach ($ids as $hash) {
@@ -283,6 +283,6 @@ abstract class BaseService
         return $this->model->with($this->with)
             ->whereIn('id', $parsedIds)
             ->orderByRaw("field(id,{$placeholders})", $parsedIds)
-            ->paginate($length, ['*'], 'page', $page);
+            ->get();
     }
 }

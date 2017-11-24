@@ -34,13 +34,22 @@ class SearchController extends BaseController
             $results = $client
                 ->language(app()->getLocale())
                 ->against($this->types[$request->type])
-                ->search($request->keywords, $request->filters);
+                ->search(
+                    $request->keywords, 
+                    $request->filters,
+                    $request->page ?: 1,
+                    $request->per_page ?: 25
+                );
         } catch (\Elastica\Exception\Connection\HttpException $e) {
+            return $this->errorInternalError($e->getMessage());
+        } catch (\Elastica\Exception\ResponseException $e) {
             return $this->errorInternalError($e->getMessage());
         }
 
         $results = app('api')->search()->getResults(
-            $results, $request->type, $request->page, $request->per_page ?: 50, $request->includes
+            $results,
+            $request->type,
+            $request->includes
         );
         return response($results, 200);
     }
