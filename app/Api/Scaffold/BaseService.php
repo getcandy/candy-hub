@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Scaffold;
 
 use GetCandy\Jobs\Attributes\SyncAttributeDataJob;
+use Carbon\Carbon;
 
 abstract class BaseService
 {
@@ -279,10 +280,28 @@ abstract class BaseService
 
         $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
 
-
         return $this->model->with($this->with)
             ->whereIn('id', $parsedIds)
             ->orderByRaw("field(id,{$placeholders})", $parsedIds)
             ->get();
+    }
+
+    /**
+     * Gets the mapping for the channel data
+     *
+     * @param array $data
+     * 
+     * @return void
+     */
+    protected function getChannelMapping($data)
+    {
+        $channelData = [];
+        foreach ($data as $channel) {
+            $channelModel = app('api')->channels()->getByHashedId($channel['id']);
+            $channelData[$channelModel->id] = [
+                'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
+            ];
+        }
+        return $channelData;
     }
 }
