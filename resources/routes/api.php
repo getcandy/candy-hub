@@ -74,7 +74,7 @@ $this->resource('collections', 'Collections\CollectionController', [
  */
 
 $this->resource('customers/groups', 'Customers\CustomerGroupController', [
-    'except' => ['edit', 'create', 'show']
+    'except' => ['index', 'edit', 'create', 'show']
 ]);
 
 

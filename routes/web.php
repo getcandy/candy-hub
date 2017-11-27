@@ -73,6 +73,18 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'as' => 'hub.categories.edit',
             'uses' => 'CategoriesController@getEdit'
         ]);
+        $this->get('discounts', [
+            'as' => 'hub.discounts.index',
+            'uses' => 'DiscountController@getIndex'
+        ]);
+        $this->get('discounts/create', [
+            'as' => 'hub.discounts.create',
+            'uses' => 'DiscountController@getCreate'
+        ]);
+        $this->get('discounts/{id}', [
+            'as' => 'hub.discounts.edit',
+            'uses' => 'DiscountController@getEdit'
+        ]);
     });
 });
 

@@ -30,6 +30,8 @@ $this->resource('customers', 'Customers\CustomerController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
 
+$this->get('customers/groups', 'Customers\CustomerGroupController@index');
+
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
     'uses' => 'Routes\RouteController@show'

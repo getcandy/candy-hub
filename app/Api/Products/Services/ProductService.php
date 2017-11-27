@@ -163,17 +163,31 @@ class ProductService extends BaseService
             $i++;
         }
 
-        $this->createVariant($product, [
+        $variant = $this->createVariant($product, [
             'options' => [],
             'stock' => $data['stock'],
             'sku' => $sku,
-            'price' => $data['price']
+            'price' => $data['price'],
+            'pricing' => $this->getPriceMapping($data['price'])
         ]);
 
         event(new ProductCreatedEvent($product));
         return $product;
     }
 
+    protected function getPriceMapping($price)
+    {
+        $customerGroups = app('api')->customerGroups()->all();
+        return $customerGroups->map(function ($group) use ($price) {
+            return [
+                $group->handle => [
+                    'price' => $price,
+                    'compare_at' => 0,
+                    'tax' => 0
+                ]
+            ];
+        })->toArray();
+    }
 
     /**
      * Creates a product variant

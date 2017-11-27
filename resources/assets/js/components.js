@@ -83,6 +83,12 @@ var includes = [
     }
   },
   {
+    path: 'catalogue-manager.discounts',
+    components: {
+      'create-discount': 'CreateDiscount'
+    }
+  },
+  {
     path: 'catalogue-manager.products.edit',
     components: {
       'product-details' : 'ProductDetails',

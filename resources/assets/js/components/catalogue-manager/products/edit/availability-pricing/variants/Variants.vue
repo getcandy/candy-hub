@@ -10,6 +10,7 @@
                 createVariant: false,
                 editOptions: false,
                 changeImage: false,
+                groupPricing: false,
                 assets: [],
                 variants: [],
                 dzOptions: {
@@ -153,6 +154,14 @@
                 }
                 return cmsquared;
             },
+            singlePrice() {
+                return _.first(this.current.pricing);
+            },
+            customerGroups() {
+                return _.filter(this.product.customer_groups.data, function (item) {
+                    return item.purchasable ? true : false;
+                });
+            },
             dropzoneUrl() {
                 return '/api/v1/products/' + this.product.id + '/assets';
             },
@@ -288,32 +297,69 @@
                         <h4>Pricing</h4>
                         <hr>
                         <div class="row">
-                            <div class="col-xs-12 col-md-5">
+                            <div class="col-xs-12 col-md-12">
                                 <div class="form-group">
-                                    <label>Price</label>
-                                    <div class="input-group input-group-full">
-                                        <span class="input-group-addon">&pound;</span>
-                                        <input type="number" class="form-control" v-model="current.price">
-                                    </div>
+                                    <label for="groupPricing">
+                                        <input id="groupPricing" type="checkbox" v-model="groupPricing">
+                                        <span class="faux-label"> Individual Customer Group Pricing</span>
+                                    </label>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-md-5">
-                                <div class="form-group">
-                                    <label>Compare at Price</label>
-                                    <div class="input-group input-group-full">
-                                        <span class="input-group-addon">&pound;</span>
-                                        <input type="number" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-md-2">
-                                <div class="form-group">
-                                    <label>Tax</label>
-                                    <candy-select :options="['0%','5%','20%']"></candy-select>
+                                <div class="row">
+                                    <template v-if="groupPricing">
+                                        <template v-for="group in customerGroups">
+                                            <div class="col-md-4">
+                                                <div class="form-group" >
+                                                    <label>{{ group.name }}</label>
+                                                    <div class="input-group input-group-full">
+                                                        <span class="input-group-addon">&pound;</span>
+                                                        <input type="number" class="form-control" v-model="current.price">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Compare at Price</label>
+                                                    <div class="input-group input-group-full">
+                                                        <span class="input-group-addon">&pound;</span>
+                                                        <input type="number" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4"> 
+                                                <div class="form-group">
+                                                    <label>Tax</label>
+                                                    <candy-select :options="['0%','5%','20%']"></candy-select>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template v-else>
+                                        <div class="col-md-4">
+                                            <label>Price</label>
+                                            <div class="input-group input-group-full">
+                                                <span class="input-group-addon">&pound;</span>
+                                                <input type="number" class="form-control" v-model="singlePrice">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Compare at Price</label>
+                                                <div class="input-group input-group-full">
+                                                    <span class="input-group-addon">&pound;</span>
+                                                    <input type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4"> 
+                                            <div class="form-group">
+                                                <label>Tax</label>
+                                                <candy-select :options="['0%','5%','20%']"></candy-select>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
-
                         <h4>Inventory</h4>
                         <hr>
                         <div class="row">

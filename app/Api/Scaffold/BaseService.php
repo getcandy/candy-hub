@@ -56,6 +56,11 @@ abstract class BaseService
         return (bool) $this->model->count();
     }
 
+    public function all()
+    {
+        return $this->model->get();
+    }
+
     /**
      * Gets the decoded id for the model
      * @param  string $hash

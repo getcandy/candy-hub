@@ -16,7 +16,7 @@ class ProductVariant extends BaseModel
      */
     protected $hashids = 'product';
 
-    protected $fillable = ['options', 'price', 'sku', 'stock'];
+    protected $fillable = ['options', 'price', 'sku', 'stock', 'pricing'];
 
 
     public function product()
@@ -47,6 +47,11 @@ class ProductVariant extends BaseModel
             $options[str_slug($option)] = str_slug($value);
         }
         $this->attributes['options'] = json_encode($options);
+    }
+
+    public function setPricingAttribute($val)
+    {
+        $this->attributes['pricing'] = json_encode($val);
     }
 
     public function image()

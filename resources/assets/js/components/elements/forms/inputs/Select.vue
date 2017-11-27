@@ -25,7 +25,11 @@
                 default: false
             }
         },
-
+        created() {
+            CandyEvent.$on('selectUpdated', event => {
+                this.refresh();
+            });
+        },
         mounted() {
             this.refresh();
         },

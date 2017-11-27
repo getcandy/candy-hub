@@ -49,7 +49,7 @@ abstract class BaseUrlDriver
      *
      * @return \GetCandy\Api\Assets\Models\Asset
      */
-    public function process(array $data, $model)
+    public function process(array $data, Model $model)
     {
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
         $this->model = $model;

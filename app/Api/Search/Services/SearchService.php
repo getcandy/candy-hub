@@ -39,14 +39,10 @@ class SearchService
             foreach ($results as $r) {
                 $ids[] = $r->getSource()['id'];
             }
-        }
-
-        if (count($results)) {
             $collection = app('api')->{str_plural($type)}()->getSearchedIds($ids);
         } else {
             $collection = collect();
         }
-
         
         $transformer = new $this->types[$type];
         $resource = new Collection($collection, $transformer);

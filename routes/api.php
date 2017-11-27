@@ -77,8 +77,6 @@ $this->resource('customers/groups', 'Customers\CustomerGroupController', [
     'except' => ['edit', 'create', 'show']
 ]);
 
-
-
 $this->resource('customers', 'Customers\CustomerController', [
     'except' => ['index', 'edit', 'create', 'show', 'store']
 ]);
@@ -87,6 +85,13 @@ $this->resource('customers', 'Customers\CustomerController', [
  * Currencies
  */
 $this->resource('currencies', 'Currencies\CurrencyController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
+ * Discounts
+ */
+$this->resource('discounts', 'Discounts\DiscountController', [
     'except' => ['edit', 'create']
 ]);
 

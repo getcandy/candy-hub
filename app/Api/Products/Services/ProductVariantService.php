@@ -55,7 +55,8 @@ class ProductVariantService extends BaseService
                 'price' => $newVariant['price'],
                 'sku' => $sku,
                 'stock' => $newVariant['inventory'],
-                'options' => $newVariant['options']
+                'options' => $newVariant['options'],
+                'pricing' => $this->getPriceMapping($newVariant['price'])
             ]);
 
             $this->setMeasurements($variant, $newVariant);
@@ -66,6 +67,20 @@ class ProductVariantService extends BaseService
         $product->update(['option_data' => $options]);
 
         return $product;
+    }
+
+    protected function getPriceMapping($price)
+    {
+        $customerGroups = app('api')->customerGroups()->all();
+        return $customerGroups->map(function ($group) use ($price) {
+            return [
+                $group->handle => [
+                    'price' => $price,
+                    'compare_at' => 0,
+                    'tax' => 0
+                ]
+            ];
+        })->toArray();
     }
 
     public function existsBySku($sku)

@@ -27,7 +27,7 @@ class CreateRequest extends FormRequest
         return [
             'name' => 'required',
             'url' => 'required|unique:routes,slug',
-            'stock' => 'required',
+            'stock' => 'required|numeric',
             'family_id' => 'required',
             'price' => 'required',
             'sku' => 'required|unique:product_variants,sku'
