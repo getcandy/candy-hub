@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('valid_locales', 'GetCandy\Http\Validators\Api\LocaleValidator@validate');
         Validator::extend('enabled', 'GetCandy\Http\Validators\Api\BaseValidator@enabled');
         Validator::extend('asset_url', 'GetCandy\Http\Validators\Api\AssetValidator@validAssetUrl');
+        Validator::extend('valid_discount', 'GetCandy\Api\Discounts\Validators\DiscountValidator@validate');
     }
 
     /**

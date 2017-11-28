@@ -49,9 +49,21 @@ class ProductTransformer extends BaseTransformer
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
             'option_data' => $this->parseOptionData($product->option_data),
-            'thumbnail' => $this->getThumbnail($product)
+            'thumbnail' => $this->getThumbnail($product),
+            'max_price' => $product->max_price,
+            'min_price' => $product->min_price
         ];
 
+        if ($product->original_min_price) {
+            $response['original_min_price'] = (float) $product->original_min_price;
+        }
+
+        if ($product->original_max_price) {
+            $response['original_max_price'] = (float) $product->original_max_price;
+        }
+
+        $response['discounts'] = $product->discounts;
+    
         if ($product->pivot && $product->pivot->type) {
             $response['type'] = $product->pivot->type;
         }

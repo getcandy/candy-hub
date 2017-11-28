@@ -15,11 +15,12 @@ class AddDiscountCriteriaItems extends Migration
     {
         Schema::create('discount_criteria_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('discount_criteria_group_id')->unsigned();
-            $table->foreign('discount_criteria_group_id')->references('id')->on('discount_criteria_groups');
-            $table->string('modifier');
+            $table->integer('discount_criteria_set_id')->unsigned();
+            $table->foreign('discount_criteria_set_id')->references('id')->on('discount_criteria_sets')->onDelete('cascade');
+            $table->string('operator');
             $table->string('target');
             $table->string('source');
+            $table->string('value');
             $table->timestamps();
         });
     }

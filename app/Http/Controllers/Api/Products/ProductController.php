@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use GetCandy\Api\Products\Events\ProductViewedEvent;
 
 class ProductController extends BaseController
 {
@@ -44,6 +45,9 @@ class ProductController extends BaseController
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
+
+        event(new ProductViewedEvent($product));
+    
         return $this->respondWithItem($product, new ProductTransformer);
     }
 

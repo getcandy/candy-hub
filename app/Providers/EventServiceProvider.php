@@ -8,7 +8,9 @@ use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Attributes\Listeners\SyncAttributablesListener;
 use GetCandy\Api\Products\Events\ProductCreatedEvent;
 use GetCandy\Api\Products\Events\ProductUpdatedEvent;
+use GetCandy\Api\Products\Events\ProductViewedEvent;
 use GetCandy\Api\Products\Listeners\AddToIndexListener as ProductIndexListener;
+use GetCandy\Api\Discounts\Listeners\AddDiscountToProductListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ProductUpdatedEvent::class => [
             ProductIndexListener::class
         ],
+        ProductViewedEvent::class => [
+            AddDiscountToProductListener::class
+        ]
     ];
 
     /**

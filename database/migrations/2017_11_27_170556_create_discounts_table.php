@@ -18,6 +18,9 @@ class CreateDiscountsTable extends Migration
             $table->string('name');
             $table->string('result');
             $table->string('value');
+            $table->timestamp('start_at');
+            $table->timestamp('end_at')->nullable();
+            $table->boolean('stackable')->default(false);
             $table->timestamps();
         });
     }

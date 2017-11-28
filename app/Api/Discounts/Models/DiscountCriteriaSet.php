@@ -4,7 +4,7 @@ namespace GetCandy\Api\Discounts\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
 
-class DiscountCriteriaGroup extends BaseModel
+class DiscountCriteriaSet extends BaseModel
 {
     public function discount()
     {

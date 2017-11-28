@@ -7,6 +7,7 @@ return [
     'hub_access' => ['editor'],
 
     'discounters' => [
-        GetCandy\Api\Discounts\Criteria\Coupon::class
+        'coupon' => GetCandy\Api\Discounts\Criteria\Coupon::class,
+        'customer_group' => GetCandy\Api\Discounts\Criteria\CustomerGroup::class
     ]
 ];

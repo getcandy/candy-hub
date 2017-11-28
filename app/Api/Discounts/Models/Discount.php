@@ -6,8 +6,8 @@ use GetCandy\Api\Scaffold\BaseModel;
 
 class Discount extends BaseModel
 {
-    public function groups()
+    public function sets()
     {
-        return $this->hasMany(DiscountCriteriaGroup::class);
+        return $this->hasMany(DiscountCriteriaSet::class);
     }
 }

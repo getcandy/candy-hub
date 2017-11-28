@@ -42,4 +42,9 @@ class CustomerGroupService extends BaseService
     {
         return $this->model->where('handle', '=', 'guest')->pluck('id')->first();
     }
+
+    public function userIsInGroup($group, $user)
+    {
+        return $user->groups()->where('handle', '=', $group)->exists();
+    }
 }

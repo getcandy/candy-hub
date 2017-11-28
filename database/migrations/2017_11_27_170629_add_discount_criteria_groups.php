@@ -13,10 +13,10 @@ class AddDiscountCriteriaGroups extends Migration
      */
     public function up()
     {
-        Schema::create('discount_criteria_groups', function (Blueprint $table) {
+        Schema::create('discount_criteria_sets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('discount_id')->unsigned();
-            $table->foreign('discount_id')->references('id')->on('discounts');
+            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
             $table->timestamps();
         });
     }

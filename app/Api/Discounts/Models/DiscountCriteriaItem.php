@@ -5,10 +5,10 @@ use GetCandy\Api\Scaffold\BaseModel;
 
 class DiscountCriteriaItem extends BaseModel
 {
-    protected $fillable = ['modifier', 'target', 'source'];
+    protected $fillable = ['operator', 'target', 'source', 'value'];
 
-    public function group()
+    public function set()
     {
-        return $this->belongsTo(DiscountCriteriaGroup::class);
+        return $this->belongsTo(DiscountCriteriaSet::class, 'awawd');
     }
 }
