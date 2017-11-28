@@ -9,11 +9,9 @@
                 customerGroups: [],
                 discount: {
                     name: '',
-                    result: 'percentage_amount',
-                    value: '',
                     start_at: '',
                     end_at: '',
-                    stackable: false,
+                    stop_rules: false,
                     sets: []
                 },
                 flatPickrConfig: {
@@ -92,7 +90,7 @@
 
 <template>
     <div>
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Name</label>
@@ -202,6 +200,6 @@
             </div>
         </template>
         <hr>
-        <button class="btn btn-primary" @click="addSet">Add Set</button>
+        <button class="btn btn-primary" @click="addSet">Add Set</button>-->
     </div>
 </template>
