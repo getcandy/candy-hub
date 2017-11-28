@@ -15,12 +15,15 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('result');
-            $table->string('value');
+            $table->integer('channel_id')->unsigned();
+            $table->foreign('channel_id')->references('id')->on('channels');
+            $table->json('attribute_data');
+            $table->integer('status');
             $table->timestamp('start_at');
             $table->timestamp('end_at')->nullable();
-            $table->boolean('stackable')->default(false);
+            $table->integer('priority')->default(0);
+            $table->boolean('stop_rules')->default(false);
+            $table->integer('uses')->default(0);
             $table->timestamps();
         });
     }

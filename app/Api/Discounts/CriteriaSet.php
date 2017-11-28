@@ -6,44 +6,33 @@ class CriteriaSet
 {
     protected $sets = [];
 
-    protected $value;
+    public $scope;
 
-    protected $type;
+    public $outcome;
 
     public function add($set)
     {
-        $classname = config('getcandy.discounters.' . $set->source);
+        $classname = config('getcandy.discounters.' . $set->type);
         $criteria = new $classname;
-        $criteria->setValue($set->value);
+        $criteria->setCriteria($set->criteria);
         $this->sets[] = $criteria;
     }
 
-    public function setType($type)
+    public function count()
     {
-        $this->type = $type;
-        return $this;
+        return count($this->sets);
     }
 
-    public function setValue($value)
+    public function getSets()
     {
-        $this->value = $value;
+        return $this->sets;
     }
 
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function process($user)
+    public function process($user, $product = null, $basket = null)
     {
         $apply = false;
         foreach ($this->sets as $set) {
-            $apply = $set->check($user);
+            $apply = $set->check($user, $product, $basket);
         }
         return $apply;
     }

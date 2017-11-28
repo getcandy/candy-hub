@@ -6,6 +6,8 @@ use GetCandy\Api\Scaffold\BaseModel;
 
 class DiscountCriteriaSet extends BaseModel
 {
+    protected $fillable = ['scope', 'outcome'];
+
     public function discount()
     {
         return $this->belongsTo(Discount::class);

@@ -4,16 +4,34 @@ namespace GetCandy\Api\Discounts;
 
 class Factory
 {
-    public function process($discounts, $user, $product = null, $basket = null)
+    protected $rewards = [];
+
+    public function getApplied($discounts, $user, $product = null, $basket = null)
     {
         foreach ($discounts as $index => $discount) {
-            $discounts[$index]['applied'] = false;
-            foreach ($discount['criteria'] as $criteria) {
-                $discounts[$index]['applied'] = $criteria->process($user);
+            foreach ($discount->getCriteria() as $criteria) {
+                $fail = 1;
+                $pass = 1;
+
+                if (!$criteria->process($user, $product, $basket)) {
+                    $fail++;
+                } else {
+                    $pass++;
+                }
+                if ($criteria->scope == 'any' && $pass) {
+                    $discount->applied = true;
+                } elseif ($criteria->scope == 'all' && ($criteria->count() == $pass)) {
+                    $discount->applied = true;
+                } else {
+                    $discount->applied = false;
+                }
+            }
+            if ($discount->stop) {
+                break;
             }
         }
         return collect($discounts)->filter(function ($discount) {
-            return $discount['applied'];
+            return $discount->applied;
         });
     }
 
@@ -24,30 +42,36 @@ class Factory
         $product->original_min_price = $product->min_price;
 
         foreach ($discounts as $index => $discount) {
-            $product->setAttribute('discounts', [
-                $index => [
-                    'name' => $discount['name'],
-                    'value' => $discount['value'],
-                    'type' => $discount['result']
-                ]
-            ]);
-            switch ($discount['result']) {
-                case 'percentage_amount':
-                    $product->max_price = $this->applyPercentage($product->max_price, $discount['value']);
-                    $product->min_price = $this->applyPercentage($product->min_price, $discount['value']);
-                    break;
-                case 'fixed_amount':
-                    $product->max_price = $this->applyFixedAmount($product->max_price, $discount['value']);
-                    $product->min_price = $this->applyFixedAmount($product->min_price, $discount['value']);
-                    break;
-                case 'to_fixed_price':
-                    $product->max_price = $this->applyToFixedAmount($product->max_price, $discount['value']);
-                    $product->min_price = $this->applyToFixedAmount($product->min_price, $discount['value']);
-                    break;
-                default:
-                    //
+
+            $model = $discount->getModel();
+
+            $labels[] = [
+                'name' => $model->name,
+                'description' => $model->description
+            ];
+
+            foreach ($discount->getRewards() as $reward) {
+                switch ($reward['type']) {
+                    case 'percentage_amount':
+                        $product->max_price = $this->applyPercentage($product->max_price, $reward['payload']['value']);
+                        $product->min_price = $this->applyPercentage($product->min_price, $reward['payload']['value']);
+                        break;
+                    case 'fixed_amount':
+                        $product->max_price = $this->applyFixedAmount($product->max_price, $reward['payload']['value']);
+                        $product->min_price = $this->applyFixedAmount($product->min_price, $reward['payload']['value']);
+                        break;
+                    case 'to_fixed_price':
+                        $product->max_price = $this->applyToFixedAmount($product->max_price, $reward['payload']['value']);
+                        $product->min_price = $this->applyToFixedAmount($product->min_price, $reward['payload']['value']);
+                        break;
+                    default:
+                        //
+                }
             }
         }
+
+        $product->setAttribute('discounts', $labels);
+        
     }
 
     protected function applyPercentage($price, $amount)

@@ -5,7 +5,7 @@ use GetCandy\Api\Scaffold\BaseModel;
 
 class DiscountCriteriaItem extends BaseModel
 {
-    protected $fillable = ['operator', 'target', 'source', 'value'];
+    protected $fillable = ['type', 'criteria'];
 
     public function set()
     {

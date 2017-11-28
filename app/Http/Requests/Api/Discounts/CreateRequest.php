@@ -23,10 +23,10 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'sets' => 'valid_discount',
-            'name' => 'required',
-            'result' => 'required',
-            'value' => 'required'
+            // 'sets' => 'valid_discount',
+            // 'name' => 'required',
+            // 'result' => 'required',
+            // 'value' => 'required'
         ];
     }
 

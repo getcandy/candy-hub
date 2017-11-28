@@ -17,10 +17,8 @@ class AddDiscountCriteriaItems extends Migration
             $table->increments('id');
             $table->integer('discount_criteria_set_id')->unsigned();
             $table->foreign('discount_criteria_set_id')->references('id')->on('discount_criteria_sets')->onDelete('cascade');
-            $table->string('operator');
-            $table->string('target');
-            $table->string('source');
-            $table->string('value');
+            $table->string('type');
+            $table->json('criteria');
             $table->timestamps();
         });
     }
@@ -32,6 +30,9 @@ class AddDiscountCriteriaItems extends Migration
      */
     public function down()
     {
+        Schema::table('discount_criteria_items', function (Blueprint $table) {
+            $table->dropForeign(['discount_criteria_set_id']);
+        });
         Schema::dropIfExists('discount_criteria_items');
     }
 }

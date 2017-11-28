@@ -16,7 +16,9 @@ class AddDiscountCriteriaGroups extends Migration
         Schema::create('discount_criteria_sets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('discount_id')->unsigned();
-            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
+            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('CASCADE');
+            $table->string('scope');
+            $table->boolean('outcome');
             $table->timestamps();
         });
     }
@@ -28,6 +30,9 @@ class AddDiscountCriteriaGroups extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discount_criteria_groups');
+        Schema::table('discount_criteria_sets', function (Blueprint $table) {
+            $table->dropForeign(['discount_id']);
+        });
+        Schema::dropIfExists('discount_criteria_sets');
     }
 }

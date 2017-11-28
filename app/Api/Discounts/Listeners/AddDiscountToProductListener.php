@@ -24,7 +24,7 @@ class AddDiscountToProductListener
     {
         $product = $event->product();
         $discounts = app('api')->discounts()->get();
-        $criteriaSets = app('api')->discounts()->parse($discounts);
+        $sets = app('api')->discounts()->parse($discounts);
 
         $product->max_price = 0;
         $product->min_price = 0;
@@ -38,8 +38,8 @@ class AddDiscountToProductListener
             }
         }
 
-        $discounts = $this->factory->process($criteriaSets, \Auth::user());
-
-        $this->factory->apply($discounts, $product);
+        $applied = $this->factory->getApplied($sets, \Auth::user(), $product);
+        
+        $this->factory->apply($applied, $product);
     }
 }
