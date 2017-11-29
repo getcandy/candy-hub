@@ -41,6 +41,8 @@ class Factory
         $product->original_max_price = $product->max_price;
         $product->original_min_price = $product->min_price;
 
+        $labels = [];
+
         foreach ($discounts as $index => $discount) {
 
             $model = $discount->getModel();
