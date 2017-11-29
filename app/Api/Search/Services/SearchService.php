@@ -69,13 +69,11 @@ class SearchService
         $page = $query->getParam('from') / $query->getParam('size');
 
         $pagination = [
-            'pagination' => [
-                'total' => $results->getTotalHits(),
-                'count' => $results->count(),
-                'per_page' => $query->getParam('size'),
-                'current_page' => $page <= 1 ? 1 : $page,
-                'total_pages' => floor($results->getTotalHits() / $query->getParam('size'))
-            ]
+            'total' => $results->getTotalHits(),
+            'count' => $results->count(),
+            'per_page' => $query->getParam('size'),
+            'current_page' => $page <= 1 ? 1 : $page,
+            'total_pages' => floor($results->getTotalHits() / $query->getParam('size'))
         ];
 
         return $pagination;
