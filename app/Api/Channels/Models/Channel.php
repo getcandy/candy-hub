@@ -6,6 +6,7 @@ use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Discounts\Models\Discount;
 
 class Channel extends BaseModel
 {
@@ -33,5 +34,9 @@ class Channel extends BaseModel
     public function collections()
     {
         return $this->belongsToMany(Collection::class)->withPivot('published_at');
+    }
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class)->withPivot('published_at');
     }
 }

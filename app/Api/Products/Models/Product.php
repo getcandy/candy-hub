@@ -27,7 +27,7 @@ class Product extends BaseModel
         HasRoutes,
         SoftDeletes,
         Indexable;
-
+    
     protected $settings = 'products';
 
     protected $dates = ['deleted_at'];

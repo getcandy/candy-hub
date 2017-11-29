@@ -4,10 +4,14 @@ namespace GetCandy\Api\Discounts\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Traits\HasChannels;
 
 class Discount extends BaseModel
 {
-    use HasAttributes;
+    use HasAttributes,
+        HasChannels;
+
+    protected $hashids = 'main';
 
     public function sets()
     {

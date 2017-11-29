@@ -4,6 +4,7 @@ namespace GetCandy\Http\Transformers\Fractal\Products;
 
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Traits\IncludesAttributes;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
@@ -16,10 +17,7 @@ use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 
 class ProductTransformer extends BaseTransformer
 {
-    /**
-     * @var
-     */
-    protected $attributeGroups;
+    use IncludesAttributes;
 
     /**
      * @var array
@@ -136,19 +134,6 @@ class ProductTransformer extends BaseTransformer
     }
 
     /**
-     * @return mixed
-     */
-    public function getAttributeGroups()
-    {
-        if (!$this->attributeGroups) {
-            $this->attributeGroups = AttributeGroup::select('id', 'name', 'handle', 'position')
-                ->orderBy('position', 'asc')->with(['attributes'])->get();
-        }
-        return $this->attributeGroups;
-    }
-
-
-    /**
      * @param \GetCandy\Api\Products\Models\Product $product
      *
      * @return \League\Fractal\Resource\Collection
@@ -156,30 +141,6 @@ class ProductTransformer extends BaseTransformer
     public function includeAssets(Product $product)
     {
         return $this->collection($product->assets()->orderBy('position', 'asc')->get(), new AssetTransformer);
-    }
-
-    /**
-     * @param \GetCandy\Api\Products\Models\Product $product
-     *
-     * @return \League\Fractal\Resource\Collection
-     */
-    public function includeAttributeGroups(Product $product)
-    {
-        $attributeIds = $product->attributes->pluck('id')->toArray();
-
-        if ($product->family) {
-            $attributeIds = array_merge(
-                $attributeIds,
-                $product->family->attributes->pluck('id')->toArray()
-            );
-        }
-
-        $attributeGroups = $this->getAttributeGroups()->filter(function ($group) use ($attributeIds) {
-            if ($group->attributes->whereIn('id', $attributeIds)->count()) {
-                return $group;
-            }
-        });
-        return $this->collection($attributeGroups, new AttributeGroupTransformer);
     }
 
     /**

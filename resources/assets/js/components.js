@@ -85,7 +85,9 @@ var includes = [
   {
     path: 'catalogue-manager.discounts',
     components: {
-      'create-discount': 'CreateDiscount'
+      'edit-discount': 'EditDiscount',
+      'discounts-table' : 'DiscountsTable',
+      'discount-details': 'DiscountDetails'
     }
   },
   {

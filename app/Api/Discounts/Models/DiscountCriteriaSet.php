@@ -8,6 +8,8 @@ class DiscountCriteriaSet extends BaseModel
 {
     protected $fillable = ['scope', 'outcome'];
 
+    protected $hashids = 'main';
+
     public function discount()
     {
         return $this->belongsTo(Discount::class);

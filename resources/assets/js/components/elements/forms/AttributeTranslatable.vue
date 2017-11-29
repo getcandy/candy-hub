@@ -16,7 +16,10 @@
                 type: Object
             },
             channels: {
-                type: Array
+                type: Array,
+                default() {
+                    return [];
+                }
             },
             languages: {
                 type : Array
