@@ -97,7 +97,7 @@
                         <candy-media assetable="collections" :parent="collection"></candy-media>
                     </candy-tab>
 
-                    <candy-tab name="Availability &amp; Pricing" handle="collection-availability" dispatch="collection-availability">
+                    <candy-tab name="Availability" handle="collection-availability" dispatch="collection-availability">
                         <candy-collection-availability :collection="collection" :languages="languages"></candy-collection-availability>
                     </candy-tab>
 

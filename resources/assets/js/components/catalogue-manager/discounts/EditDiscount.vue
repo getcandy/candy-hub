@@ -30,17 +30,11 @@
     <div>
         <template v-if="loaded">
             <candy-tabs initial="productdetails">
-                <candy-tab name="Basic information" :selected="true" dispatch="product-details">
+                <candy-tab name="Basic information"  dispatch="product-details">
                     <candy-discount-details :discount="discount"></candy-discount-details>
                 </candy-tab>
-                <candy-tab name="Conditions">
-                    <div class="tab-content sub-content section block">
-                        <div class="row">
-                            <div class="col-md-12">
-                                Conditions
-                            </div>
-                        </div>
-                    </div>
+                <candy-tab name="Conditions" :selected="true">
+                    <candy-discount-conditions :discount="discount"></candy-discount-conditions>
                 </candy-tab>
                 <candy-tab name="Rewards">
                     <div class="tab-content sub-content section block">
@@ -50,6 +44,9 @@
                             </div>
                         </div>
                     </div>
+                </candy-tab>
+                <candy-tab name="Availability" handle="collection-availability" dispatch="collection-availability">
+                    <candy-discount-availability :discount="discount"></candy-discount-availability>
                 </candy-tab>
             </candy-tabs>
         </template>

@@ -85,9 +85,23 @@ var includes = [
   {
     path: 'catalogue-manager.discounts',
     components: {
-      'edit-discount': 'EditDiscount',
       'discounts-table' : 'DiscountsTable',
-      'discount-details': 'DiscountDetails'
+      'edit-discount': 'EditDiscount'
+    }
+  },
+  {
+    path: 'catalogue-manager.discounts.edit',
+    components: {
+      'discount-details': 'DiscountDetails',
+      'discount-availability': 'DiscountAvailability',
+      'discount-conditions' : 'DiscountConditions',
+    }
+  },
+  {
+    path: 'catalogue-manager.discounts.types',
+    components: {
+      'discounts-product-in': 'ProductIn',
+      'discounts-user-in' : 'UserIn'
     }
   },
   {
