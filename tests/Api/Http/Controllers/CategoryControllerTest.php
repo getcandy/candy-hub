@@ -17,9 +17,8 @@ class CategoryControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
 
-
         $response->assertJsonStructure([
-            'data' => [['id', 'attribute_data', 'depth', 'children']]
+            'data' => [['id', 'attribute_data', 'depth']]
         ]);
 
         $this->assertEquals(200, $response->status());

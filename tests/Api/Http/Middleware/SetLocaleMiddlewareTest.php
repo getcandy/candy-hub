@@ -27,27 +27,19 @@ class SetLocaleMiddlewareTest extends TestCase
     /**
      * 
      */
-    public function testSetFrenchLanguage()
+    public function testSetSpanishLanguage()
     {
         \GetCandy\Api\Languages\Models\Language::create([
-            'code' => 'fr',
-            'name' => 'French',
+            'lang' => 'es',
+            'iso' => 'esp',
+            'name' => 'Spanish',
             'enabled' => 1,
             'default' => 0
         ]);
         $response = $this->get($this->url('users'), [
             'Authorization' => 'Bearer ' . $this->accessToken(),
-            'Accept-Language' => 'fr'
+            'Accept-Language' => 'es'
         ]);
-        $response->assertJsonFragment(['lang' => 'fr']);
-    }
-
-    public function testSetInvalidLanguage()
-    {
-        $response = $this->get($this->url('users'), [
-            'Authorization' => 'Bearer ' . $this->accessToken(),
-            'Accept-Language' => 'dk'
-        ]);
-        $this->assertEquals(400, $response->status());
+        $response->assertJsonFragment(['lang' => 'es']);
     }
 }

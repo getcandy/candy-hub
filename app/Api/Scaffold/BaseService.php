@@ -109,7 +109,7 @@ abstract class BaseService
      * @param  int  $page   The page to start
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($length = 50, $page = null)
+    public function getPaginatedData($length = 50, $page = null, $includes = [])
     {
         return $this->model->paginate($length, ['*'], 'page', $page);
     }
@@ -201,9 +201,9 @@ abstract class BaseService
      * @return boolean
      */
     public function validateAttributeData(array $data)
-    {
-        foreach ($data as $attribute => $structure) {
-            if (!$this->validateStructure($this->model->getDataMapping(), $structure)) {
+    {   
+        foreach ($data as $locale => $value) {
+            if (is_array($value)) {
                 return false;
             }
         }

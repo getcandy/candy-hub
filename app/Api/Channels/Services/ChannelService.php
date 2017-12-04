@@ -102,6 +102,13 @@ class ChannelService extends BaseService
             $newDefault->save();
         }
 
+        $channel->products()->sync([]);
+        $channel->categories()->sync([]);
+        $channel->collections()->sync([]);
+        foreach  ($channel->discount as $discount) {
+            $discount->delete();
+        }
+
         return $channel->delete();
     }
 

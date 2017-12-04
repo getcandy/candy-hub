@@ -65,13 +65,10 @@ class CollectionControllerTest extends TestCase
         $response = $this->post(
             $this->url('collections'),
             [
-                'attributes' => [
-                    'name' => [
-                        'ecommerce' => [
-                            'en' => ['Neon']
-                        ]
-                    ]
-                ]
+                'name' => [
+                    'en' =>'Neon'
+                ],
+                'url' => 'neon'
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -96,7 +93,7 @@ class CollectionControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'attributes'
+            'name', 'url'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -113,14 +110,16 @@ class CollectionControllerTest extends TestCase
                             'en' => 'Foo'
                         ]
                     ]
-                ]
+                ],
+                'url' => 'foo'
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
             ]
         );
+
         $response->assertJsonStructure([
-            'attributes'
+            'name'
         ]);
 
         $this->assertEquals(422, $response->status());
