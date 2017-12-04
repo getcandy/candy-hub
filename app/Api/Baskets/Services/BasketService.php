@@ -31,18 +31,6 @@ class BasketService extends BaseService
             $basket = new $this->model;
             $basket->save();
         }
-    
-        $line = $basket->lines()->create([
-            'quantity' => $data['quantity'],
-            'price' => $data['price'],
-            'product_variant_id' => app('api')->productVariants()->getDecodedId($data['variant'])
-        ]);
-        return $basket;
-    }
-
-    public function update($id, array $data)
-    {
-        $basket = $this->getByHashedId($id);
 
         $variants = collect($data['variants'])->map(function ($item) {
             return [
