@@ -19,6 +19,12 @@ $this->post('customers', 'Customers\CustomerController@store');
 $this->get('products', 'Products\ProductController@index');
 
 /**
+ * Baskets
+ */
+$this->get('baskets', 'Products\ProductController@index');
+$this->post('baskets/{id?}', 'Baskets\BasketController@store');
+
+/**
  * Categories
  */
 $this->get('categories', 'Categories\CategoryController@index');
