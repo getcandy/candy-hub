@@ -100,8 +100,8 @@ var includes = [
   {
     path: 'catalogue-manager.discounts.types',
     components: {
-      'discounts-product-in': 'ProductIn',
-      'discounts-user-in' : 'UserIn'
+      'discounts-product-in-list': 'ProductInList',
+      'discounts-user-in-list' : 'UserInList'
     }
   },
   {

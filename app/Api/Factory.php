@@ -9,6 +9,8 @@ use GetCandy\Api\Associations\Services\AssociationGroupService;
 use GetCandy\Api\Attributes\Services\AttributeGroupService;
 use GetCandy\Api\Attributes\Services\AttributeService;
 use GetCandy\Api\Auth\Services\UserService;
+use GetCandy\Api\Baskets\Services\BasketService;
+use GetCandy\Api\Baskets\Services\BasketLineService;
 use GetCandy\Api\Categories\Services\CategoryService;
 use GetCandy\Api\Channels\Services\ChannelService;
 use GetCandy\Api\Collections\Services\CollectionService;
@@ -59,6 +61,16 @@ class Factory
      * @var AttributeGroupService
      */
     protected $attributeGroups;
+
+    /**
+     * @var BasketService
+     */
+    protected $baskets;
+
+    /**
+     * @var BasketLineService
+     */
+    protected $basketLines;
 
     /**
      * @var CategoryService
@@ -176,6 +188,8 @@ class Factory
         AssociationGroupService $associationGroups,
         AttributeGroupService $attributeGroups,
         AttributeService $attributes,
+        BasketService $baskets,
+        BasketLineService $basketLines,
         CategoryService $categories,
         ChannelService $channels,
         CollectionService $collections,
@@ -207,6 +221,8 @@ class Factory
         $this->associationGroups = $associationGroups;
         $this->attributeGroups = $attributeGroups;
         $this->attributes = $attributes;
+        $this->baskets = $baskets;
+        $this->basketLines = $basketLines;
         $this->categories = $categories;
         $this->channels = $channels;
         $this->collections = $collections;

@@ -60,6 +60,15 @@ return [
             'salt' => env('HASHIDS_CHANNEL_SALT', 'channel'),
             'length' => 8,
         ],
+        'checkout' => [
+            'alphabet' => $alphabet,
+            'salt' => env('HASHIDS_CHECKOUT_SALT', 'checkout')
+        ],
+        'basket' => [
+            'alphabet' => $alphabet,
+            'length' => 15,
+            'salt' => env('HASHIDS_BASKET_SALT', 'basket')
+        ],
         'currency' => [
             'alphabet' => $alphabet,
             'salt' => env('HASHIDS_CURRENCY_SALT', 'currency'),
