@@ -255,14 +255,13 @@ class ProductTableSeeder extends Seeder
                     'attribute_data' => $data['attribute_data'],
                     'option_data' => (!empty($data['option_data']) ? $data['option_data'] : [])
                 ]);
-
-
-                $group = \GetCandy\Api\Customers\Models\CustomerGroup::find($fake->numberBetween(1, 2));
+                    
+                $group = \GetCandy\Api\Customers\Models\CustomerGroup::find(1);
                 $product->customerGroups()->attach($group->id, [
                     'visible' => $fake->boolean,
                     'purchasable' => $fake->boolean
                 ]);
-
+                    
                 foreach ($attributes as $att) {
                     $product->attributes()->attach($att);
                 }
@@ -279,7 +278,7 @@ class ProductTableSeeder extends Seeder
                     }
                 }
                 $product->save();
-
+                
                 if (!empty($data['variants'])) {
                     foreach ($data['variants'] as $variant) {
                         $product->variants()->create($variant);

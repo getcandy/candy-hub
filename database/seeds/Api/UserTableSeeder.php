@@ -37,6 +37,6 @@ class UserTableSeeder extends Seeder
         $customer->language()->associate($language);
         $customer->save();
         $customer->assignRole('customer');
-        $customer->save();
+        $customer->save();       
     }
 }
