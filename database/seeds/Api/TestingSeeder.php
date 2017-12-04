@@ -26,7 +26,7 @@ class TestingSeeder extends Seeder
         $this->call(CollectionTableSeeder::class);
         $this->call(ProductTableSeeder::class);
         $this->call(CurrencyTableSeeder::class);
-        // $this->call(TaxTableSeeder::class);
+        $this->call(TaxTableSeeder::class);
         $this->call(AssetSourceTableSeeder::class);
         $this->call(TagsTableSeeder::class);
 

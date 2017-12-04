@@ -216,13 +216,9 @@ class ProductService extends BaseService
      * @param  int  $page   The page to start
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($channel = null, $length = 50, $page = null, $keywords = null)
+    public function getPaginatedData($channel = null, $length = 50, $page = null)
     {
         $results = $this->model->channel($channel);
-
-        if ($keywords) {
-            $results->where('attribute_data->name->aqua-spa-supplies->en', 'like', "%{$keywords}%");
-        }
         return $results->paginate($length, ['*'], 'page', $page);
     }
 

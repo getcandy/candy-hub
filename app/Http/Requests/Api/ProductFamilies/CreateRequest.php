@@ -14,7 +14,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'array|required|valid_structure:product_families',
+            'name' => 'array|required|valid_structure:product_families',
         ];
     }
 }

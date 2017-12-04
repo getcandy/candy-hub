@@ -7,6 +7,7 @@ use GetCandy\Api\Taxes\Models\Tax;
 /**
  * @group api
  * @group controllers
+ * @group tax
  */
 class TaxControllerTest extends TestCase
 {
@@ -21,9 +22,8 @@ class TaxControllerTest extends TestCase
         $response = $this->get($this->url('taxes'), [
             'Authorization' => 'Bearer ' . $this->accessToken()
         ]);
-
         $response->assertJsonStructure([
-            'data' => [$this->baseStructure],
+            'data',
             'meta' => ['pagination']
         ]);
 

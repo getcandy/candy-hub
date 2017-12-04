@@ -153,7 +153,7 @@ class CategoryService extends BaseService
         return true;
     }
 
-    public function getPaginatedData($length = 50, $page = null)
+    public function getPaginatedData($length = 50, $page = null, $includes = [])
     {
         $results = $this->model->whereDoesntHave('parent');
         return $results->paginate($length, ['*'], 'page', $page);

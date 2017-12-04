@@ -7,6 +7,7 @@ use GetCandy\Api\Products\Models\ProductFamily;
 /**
  * @group controllers
  * @group api
+ * @group product_families
  */
 class ProductFamilyControllerTest extends TestCase
 {
@@ -110,13 +111,9 @@ class ProductFamilyControllerTest extends TestCase
         $response = $this->post(
             $this->url('product-families'),
             [
-                'attributes' => [
-                    'name' =>  [
-                        'ecommerce' => [
-                            'en' => 'Foo'
-                        ]
-                    ]
-                ],
+                'name' =>  [
+                    'en' => 'Foo'
+                ]
             ],
             [
                 'Authorization' => 'Bearer ' . $this->accessToken()
@@ -141,7 +138,7 @@ class ProductFamilyControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'attributes'
+            'name'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -154,10 +151,8 @@ class ProductFamilyControllerTest extends TestCase
             $this->url('product-families/' . $id),
             [
                 'attributes' => [
-                    'name' =>  [
-                        'ecommerce' => [
-                            'en' => 'Foo'
-                        ]
+                    'name' => [
+                        'en' => 'Foo'
                     ]
                 ],
                 'default' => true
@@ -175,10 +170,8 @@ class ProductFamilyControllerTest extends TestCase
             $this->url('product-families/123123'),
             [
                 'attributes' => [
-                    'name' =>  [
-                        'ecommerce' => [
-                            'en' => 'Foo'
-                        ]
+                    'name' => [
+                        'en' => 'Foo'
                     ]
                 ]
             ],

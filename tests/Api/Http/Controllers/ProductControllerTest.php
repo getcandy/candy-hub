@@ -241,14 +241,13 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'attributes' =>  [
-                    'name' => [
-                        "ecommerce" => [
-                            "en" => "Spring water"
-                        ]
-                    ]
+                'name' => [
+                    "en" => "Spring water"
                 ],
+                'url' => 'spring-water',
                 'sku' => 'Foo',
+                'stock' => 1,
+                'price' => 29.99,
                 'family_id' => $family->encodedId(),
                 'layout_id' => $layout,
             ],
@@ -275,7 +274,7 @@ class ProductControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'attributes', 'family_id'
+            'name', 'family_id'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -290,15 +289,16 @@ class ProductControllerTest extends TestCase
         $response = $this->post(
             $this->url('products'),
             [
-                'attributes' => [
-                    'name' => [
+                'name' => [
+                    'ecommerce' => [
                         'ecommerce' => [
-                            'ecommerce' => [
-                                'en' => 'Foo'
-                            ]
+                            'en' => 'Foo'
                         ]
                     ]
                 ],
+                'url' => 'Foo',
+                'stock' => 1,
+                'price' => 19.99,
                 'sku' => 'Foo',
                 'family_id' => $family->encodedId(),
                 'layout_id' => $layout,
@@ -309,7 +309,7 @@ class ProductControllerTest extends TestCase
         );
 
         $response->assertJsonStructure([
-            'attributes'
+            'name'
         ]);
 
         $this->assertEquals(422, $response->status());
@@ -347,6 +347,7 @@ class ProductControllerTest extends TestCase
     //     $this->assertEquals(422, $response->status());
     // }
 
+
     public function testUpdate()
     {
         Event::fake();
@@ -359,9 +360,10 @@ class ProductControllerTest extends TestCase
 
         $data = [];
 
+
         foreach ($attributes as $attribute) {
             if ($attribute->required) {
-                $data[$attribute->handle][$defaultChannel->handle][$defaultLanguage->code] = 'Foo';
+                $data[$attribute->handle][$defaultChannel->handle][$defaultLanguage->lang] = 'Foo';
             }
         }
 
@@ -405,6 +407,7 @@ class ProductControllerTest extends TestCase
         );
         $this->assertTrue($product->attributes->count() == 1);
     }
+
     public function testMissingUpdate()
     {
         $response = $this->put(
@@ -412,9 +415,7 @@ class ProductControllerTest extends TestCase
             [
                 'attributes' => [
                     'name' =>  [
-                        'ecommerce' => [
-                            'en' => 'Foo'
-                        ]
+                        'en' => 'Foo'
                     ]
                 ],
             ],
@@ -431,9 +432,7 @@ class ProductControllerTest extends TestCase
         $product = Product::create([
             'attribute_data' => [
                 'name' =>  [
-                    'ecommerce' => [
-                        'en' => 'Foo'
-                    ]
+                    'en' => 'Foo'
                 ]
             ]
         ]);

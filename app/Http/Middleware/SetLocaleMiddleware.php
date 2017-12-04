@@ -21,10 +21,17 @@ class SetLocaleMiddleware
     {
         $locale = $request->header('accept-language');
         $defaultLanguage = app('api')->languages()->getDefaultRecord()->lang;
+        
         if (!$locale) {
+            
             $locale = $defaultLanguage;
         } else {
-            $languages = explode(',', Locale::getPrimaryLanguage($locale));
+            
+            if (extension_loaded('intl')) {
+                $languages = explode(',', Locale::getPrimaryLanguage($locale));
+            } else {
+                $languages = explode(',', $locale);
+            }
             $requestedLocale = app('api')->languages()->getEnabledByLang($languages);
             if (!$requestedLocale) {
                 $locale = $defaultLanguage;
@@ -32,6 +39,7 @@ class SetLocaleMiddleware
                 $locale = $requestedLocale->lang;
             }
         }
+        
         app()->setLocale($locale);
         return $next($request);
     }

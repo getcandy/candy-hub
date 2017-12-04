@@ -25,7 +25,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|valid_structure:products',
             'url' => 'required|unique:routes,slug',
             'stock' => 'required|numeric',
             'family_id' => 'required',

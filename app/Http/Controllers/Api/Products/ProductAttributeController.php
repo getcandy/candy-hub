@@ -5,6 +5,7 @@ namespace GetCandy\Http\Controllers\Api\Products;
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Products\CreateUrlRequest;
 use GetCandy\Http\Requests\Api\Products\UpdateAttributesRequest;
+use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;

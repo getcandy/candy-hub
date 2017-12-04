@@ -119,6 +119,7 @@ class LanguageService extends BaseService
             );
         }
 
+
         if ($language->default && $newDefault = $this->getNewSuggestedDefault()) {
             $newDefault->default = true;
             $newDefault->save();

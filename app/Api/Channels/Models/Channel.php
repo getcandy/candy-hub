@@ -39,4 +39,9 @@ class Channel extends BaseModel
     {
         return $this->belongsToMany(Discount::class)->withPivot('published_at');
     }
+
+    public function discount()
+    {
+        return $this->hasMany(Discount::class);
+    }
 }

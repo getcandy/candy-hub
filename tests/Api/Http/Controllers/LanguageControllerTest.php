@@ -212,9 +212,15 @@ class LanguageControllerTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
-    public function testCannotDestroyLastChannel()
+    public function testCannotDestroyLastLanguage()
     {
-        Language::first()->delete();
+        $id = Language::first()->encodedId();
+        $response = $this->delete(
+            $this->url('languages/' . $id),
+            [],
+            ['Authorization' => 'Bearer ' . $this->accessToken()]
+        );
+
         $id = Language::first()->encodedId();
         $response = $this->delete(
             $this->url('languages/' . $id),

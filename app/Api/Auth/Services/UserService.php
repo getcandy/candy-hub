@@ -26,11 +26,14 @@ class UserService extends BaseService
         $user->name = $data['name'];
         $user->email = $data['email'];
 
-        // Get the language.
-        $language = app('api')->languages()->getEnabledByLang($data['language']);
+        if (empty($data['language'])) {
+            $lang = app('api')->languages()->getDefaultRecord();
+        } else {
+            $lang = app('api')->languages()->getEnabledByLang($data['language']);
+        }
 
         // Get the user group.
-        if ($data['group']) {
+        if (!empty($data['group'])) {
             $group = app('api')->customerGroups()->getByHandle($data['group']);
         } else {
             $group = app('api')->customerGroups()->getDefaultRecord();
@@ -43,7 +46,7 @@ class UserService extends BaseService
         $user->save();
 
         $user->groups()->attach($group);
-        $user->language()->associate($language);
+        $user->language()->associate($lang);
 
         $user->save();
 
