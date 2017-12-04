@@ -25,7 +25,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'quantity' => 'required|numeric|min:1',
-            'variant' => 'required',
+            'variant' => 'required|hashid_is_valid:product_variants',
             'price' => 'required|numeric',
             'basket_id' => 'hashid_is_valid:baskets'
         ];
