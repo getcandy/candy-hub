@@ -1,20 +1,16 @@
 <?php
-namespace GetCandy\Api\Baskets\Models;
+namespace GetCandy\Api\Orders\Models;
 
-use GetCandy\Api\Auth\Models\User;
-use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Auth\Models\User;
 use GetCandy\Api\Traits\HasCompletion;
-use Illuminate\Database\Eloquent\Scope;
 
-class Basket extends BaseModel
+class Order extends BaseModel
 {
-    use HasCompletion;
-
-    protected $hashids = 'basket';
+    protected $hashids = 'order';
 
     protected $fillable = [
-        'lines', 'completed_at', 'merged_id'
+        'lines'
     ];
 
     /**
@@ -35,10 +31,5 @@ class Basket extends BaseModel
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function order()
-    {
-        return $this->hasOne(Order::class);
     }
 }

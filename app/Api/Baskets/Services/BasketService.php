@@ -5,6 +5,7 @@ use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Auth\Models\User;
 use Carbon\Carbon;
+use GetCandy\Api\Baskets\Events\BasketStoredEvent;
 
 class BasketService extends BaseService
 {
@@ -19,13 +20,13 @@ class BasketService extends BaseService
     }
 
     /**
-     * Create a basket
+     * Store a basket
      *
      * @param array $data
      * 
      * @return Basket
      */
-    public function create(array $data, $user = null)
+    public function store(array $data, $user = null)
     {
         if (!empty($data['basket_id'])) {
             $basket = $this->getByHashedId($data['basket_id']);
@@ -51,6 +52,8 @@ class BasketService extends BaseService
 
         $basket->lines()->delete();
         $basket->lines()->createMany($variants->toArray());
+
+        event(new BasketStoredEvent($basket));
 
         return $basket;
     }

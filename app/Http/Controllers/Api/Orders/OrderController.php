@@ -2,10 +2,10 @@
 namespace GetCandy\Http\Controllers\Api\Baskets;
 
 use GetCandy\Http\Controllers\Api\BaseController;
-use GetCandy\Http\Transformers\Fractal\Baskets\BasketTransformer;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Baskets\CreateRequest;
 use GetCandy\Http\Requests\Api\Baskets\UpdateRequest;
+use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,8 +18,8 @@ class BasketController extends BaseController
      */
     public function index(Request $request)
     {
-        $attributes = app('api')->baskets()->getPaginatedData($request->per_page);
-        return $this->respondWithCollection($attributes, new BasketTransformer);
+        $orders = app('api')->orders()->getPaginatedData($request->per_page);
+        return $this->respondWithCollection($orders, new OrderTransformer);
     }
 
     /**
@@ -46,27 +46,7 @@ class BasketController extends BaseController
      */
     public function store(CreateRequest $request)
     {
-        $basket = app('api')->baskets()->store($request->all(), $request->user());
-        return $this->respondWithItem($basket, new BasketTransformer);
-    }
-
-    /**
-     * Gets the basket for the current user
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function current(Request $request)
-    {
-        $basket = app('api')->baskets()->getforUser($request->user());
-        if (!$basket) {
-            return $this->errorNotFound("Basket does't exist");
-        }
-        return $this->respondWithItem($basket, new BasketTransformer);
-    }
-
-    public function resolve(Request $request)
-    {
-        $basket = app('api')->baskets()->resolve($request->user(), $request->basket_id, $request->merge);
+        $order = app('api')->orders()->store($request->basket_id);
+        return $this->respondWithItem($order, new OrderTransformer);
     }
 }
