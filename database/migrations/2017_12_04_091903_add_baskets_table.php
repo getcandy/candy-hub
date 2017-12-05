@@ -17,7 +17,8 @@ class AddBasketsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->boolean('merged')->default(0);
+            $table->integer('merged_id')->unsigned()->nullable();
+            $table->foreign('merged_id')->references('id')->on('baskets')->onDelete('cascade');
             $table->timestamp('resolved_at')->nullable();
             $table->timestamps();
         });

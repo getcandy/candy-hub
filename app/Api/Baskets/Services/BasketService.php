@@ -102,13 +102,21 @@ class BasketService extends BaseService
      */
     public function merge($guestBasket, $userBasket)
     {
-        $newLines = $userBasket->lines->merge($guestBasket->lines);
+        $newLines = $guestBasket->lines;
+        $overrides = $newLines->pluck('variant.id');
+        $oldLines = $userBasket->lines->filter(function ($line) use ($overrides) {
+            if (!$overrides->contains($line->variant->id)) {
+                return $line;
+            }
+        });
         $guestBasket->update([
             'resolved_at' => Carbon::now(),
             'merged_id' => $userBasket->id
         ]);
         $userBasket->lines()->delete();
-        $userBasket->lines()->createMany($newLines->toArray());
+        $userBasket->lines()->createMany(
+            $newLines->merge($oldLines)->toArray()
+        );
         return $userBasket;
     }
 }
