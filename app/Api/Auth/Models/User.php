@@ -2,6 +2,7 @@
 
 namespace GetCandy\Api\Auth\Models;
 
+use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Traits\Hashids;
@@ -50,6 +51,11 @@ class User extends Authenticatable
     public function getFieldsAttribute($value)
     {
         return json_decode($value, true);
+    }
+
+    public function basket()
+    {
+        return $this->hasOne(Basket::class);
     }
 
     public function setFieldsAttribute($value)

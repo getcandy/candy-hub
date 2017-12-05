@@ -44,6 +44,12 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
 ]);
 
 /**
+ * Baskets
+ */
+$this->post('baskets/resolve', 'Baskets\BasketController@resolve');
+
+
+/**
  * Categories
  */
 $this->get('categories/parent/{parentID?}', 'Categories\CategoryController@getByParent');

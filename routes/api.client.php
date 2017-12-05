@@ -18,15 +18,16 @@ $this->get('products/{product}', 'Products\ProductController@show');
 $this->post('customers', 'Customers\CustomerController@store');
 $this->get('products', 'Products\ProductController@index');
 
-$this->resource('baskets', 'Baskets\BasketController', [
-    'except' => ['edit', 'create']
-]);
+
 
 /**
  * Baskets
  */
 $this->get('baskets', 'Products\ProductController@index');
-$this->post('baskets/{id?}', 'Baskets\BasketController@store');
+$this->get('baskets/current', 'Baskets\BasketController@current');
+$this->resource('baskets', 'Baskets\BasketController', [
+    'except' => ['edit', 'create']
+]);
 
 /**
  * Categories

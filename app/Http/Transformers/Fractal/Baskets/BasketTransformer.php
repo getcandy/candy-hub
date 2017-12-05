@@ -28,6 +28,9 @@ class BasketTransformer extends BaseTransformer
 
     protected function includeUser(Basket $basket)
     {
+        if (!$basket->user) {
+            return null;
+        }
         return $this->item($basket->user, new UserTransformer);
     }
 }

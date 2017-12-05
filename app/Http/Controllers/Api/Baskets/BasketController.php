@@ -37,19 +37,36 @@ class BasketController extends BaseController
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 
+    /**
+     * Store either a new or existing basket
+     *
+     * @param CreateRequest $request
+     * 
+     * @return void
+     */
     public function store(CreateRequest $request)
     {
         $basket = app('api')->baskets()->create($request->all(), $request->user());
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 
-    public function update($id, UpdateRequest $request)
+    /**
+     * Gets the basket for the current user
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function current(Request $request)
     {
-        try {
-            $result = app('api')->baskets()->update($id, $request->all());
-        } catch (NotFoundHttpException $e) {
-            return $this->errorNotFound();
+        $basket = app('api')->baskets()->getforUser($request->user());
+        if (!$basket) {
+            return $this->errorNotFound("Basket does't exist");
         }
-        return $this->respondWithItem($result, new BasketTransformer);
+        return $this->respondWithItem($basket, new BasketTransformer);
+    }
+
+    public function resolve(Request $request)
+    {
+        $basket = app('api')->baskets()->resolve($request->user(), $request->basket_id, $request->merge);
     }
 }

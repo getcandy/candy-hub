@@ -3,9 +3,13 @@ namespace GetCandy\Api\Baskets\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Auth\Models\User;
+use Illuminate\Database\Eloquent\Scope;
+use GetCandy\Api\Traits\HasResolves;
 
 class Basket extends BaseModel
 {
+    use HasResolves;
+
     protected $hashids = 'basket';
 
     protected $fillable = [
