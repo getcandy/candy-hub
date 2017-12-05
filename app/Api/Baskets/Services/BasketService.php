@@ -53,11 +53,27 @@ class BasketService extends BaseService
         return $basket;
     }
 
+    /**
+     * Get a basket for a user
+     *
+     * @param User $user
+     * 
+     * @return Mixed
+     */
     public function getForUser(User $user)
     {
         return $user->basket;
     }
 
+    /**
+     * Resolves a guest basket with an existing basket
+     *
+     * @param User $user
+     * @param string $basketId
+     * @param boolean $merge
+     * 
+     * @return Basket
+     */
     public function resolve($user, $basketId, $merge = false)
     {
         // Guest basket
@@ -74,13 +90,25 @@ class BasketService extends BaseService
 
         $user->basket()->save($basket);
         $userBasket->save();
-        dd($user);
-
         return $basket;
     }
 
-    public function merge($first, $second)
+    /**
+     * Merges two baskets
+     *
+     * @param Basket $guestBasket
+     * @param Basket $userBasket
+     * @return Basket
+     */
+    public function merge($guestBasket, $userBasket)
     {
-        dd('hi');
+        $newLines = $userBasket->lines->merge($guestBasket->lines);
+        $guestBasket->update([
+            'resolved_at' => Carbon::now(),
+            'merged' => true
+        ]);
+        $userBasket->lines()->delete();
+        $userBasket->lines()->createMany($newLines->toArray());
+        return $userBasket;
     }
 }

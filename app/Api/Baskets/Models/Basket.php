@@ -13,7 +13,7 @@ class Basket extends BaseModel
     protected $hashids = 'basket';
 
     protected $fillable = [
-        'quantity'
+        'lines', 'resolved_at', 'merged'
     ];
 
     /**
