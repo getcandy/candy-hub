@@ -18,6 +18,10 @@ $this->get('products/{product}', 'Products\ProductController@show');
 $this->post('customers', 'Customers\CustomerController@store');
 $this->get('products', 'Products\ProductController@index');
 
+$this->resource('baskets', 'Baskets\BasketController', [
+    'except' => ['edit', 'create']
+]);
+
 /**
  * Categories
  */

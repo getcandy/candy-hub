@@ -39,7 +39,7 @@ class BasketController extends BaseController
 
     public function store(CreateRequest $request)
     {
-        $basket = app('api')->baskets()->create($request->all());
+        $basket = app('api')->baskets()->create($request->all(), $request->user());
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 

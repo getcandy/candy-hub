@@ -24,7 +24,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'variants' => 'required|array',
+            'variants' => 'required|array|unique_lines',
             'variants.*.id' => 'required|hashid_is_valid:product_variants',
             'variants.*.price' => 'required|numeric',
             'variants.*.quantity' => 'required|numeric|min:1',

@@ -15,7 +15,8 @@ class AddBasketsTable extends Migration
     {
         Schema::create('baskets', function (Blueprint $table) {
             $table->increments('id');
-            $table->datetime('abandoned_at')->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

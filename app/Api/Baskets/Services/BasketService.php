@@ -23,14 +23,19 @@ class BasketService extends BaseService
      * 
      * @return Basket
      */
-    public function create(array $data)
+    public function create(array $data, $user = null)
     {
         if (!empty($data['basket_id'])) {
             $basket = $this->getByHashedId($data['basket_id']);
         } else {
             $basket = new $this->model;
-            $basket->save();
         }
+
+        if ($user) {
+            $basket->user()->associate($user);
+        }
+
+        $basket->save();
 
         $variants = collect($data['variants'])->map(function ($item) {
             return [

@@ -43,10 +43,6 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
     'except' => ['edit', 'create']
 ]);
 
-$this->resource('baskets', 'Baskets\BasketController', [
-    'except' => ['edit', 'create']
-]);
-
 /**
  * Categories
  */

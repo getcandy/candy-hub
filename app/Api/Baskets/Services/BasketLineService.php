@@ -15,4 +15,13 @@ class BasketLineService extends BaseService
     {
         $this->model = new BasketLine();
     }
+
+    public function variantExists($id, $variant)
+    {
+        $id = $this->getDecodedId($id);
+        return $this->model->where('id', '=', $id)->whereHas('variant', function ($q) use ($variant) {
+            $realId = app('api')->productVariants()->getDecodedId($variant);
+            return $q->where('id', '=', $realId);
+        })->exists();
+    }
 }
