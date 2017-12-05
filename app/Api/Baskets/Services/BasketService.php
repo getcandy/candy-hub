@@ -29,7 +29,7 @@ class BasketService extends BaseService
     {
         if (!empty($data['basket_id'])) {
             $basket = $this->getByHashedId($data['basket_id']);
-        } elseif ($user) {
+        } elseif ($user && $user->basket) {
             $basket = $user->basket;
         } else {
             $basket = new $this->model;
@@ -87,9 +87,9 @@ class BasketService extends BaseService
             $userBasket->merged = true;
             return $this->merge($basket, $userBasket);
         }
-
+        $basket->resolved_at = Carbon::now();
         $user->basket()->save($basket);
-        $userBasket->save();
+        $basket->save();
         return $basket;
     }
 

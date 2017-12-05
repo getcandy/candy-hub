@@ -24,7 +24,6 @@ $this->get('products', 'Products\ProductController@index');
  * Baskets
  */
 $this->get('baskets', 'Products\ProductController@index');
-$this->get('baskets/current', 'Baskets\BasketController@current');
 $this->resource('baskets', 'Baskets\BasketController', [
     'except' => ['edit', 'create']
 ]);

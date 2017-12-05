@@ -47,6 +47,7 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
  * Baskets
  */
 $this->post('baskets/resolve', 'Baskets\BasketController@resolve');
+$this->get('baskets/current', 'Baskets\BasketController@current');
 
 
 /**
