@@ -4,6 +4,8 @@ namespace GetCandy\Api\Orders\Models;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Auth\Models\User;
 use GetCandy\Api\Traits\HasCompletion;
+use GetCandy\Api\Baskets\Models\Basket;
+use Illuminate\Database\Eloquent\Builder;
 
 class Order extends BaseModel
 {
@@ -14,13 +16,36 @@ class Order extends BaseModel
     ];
 
     /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('open', function (Builder $builder) {
+            $builder->where('status', '=', 'open');
+        });
+
+        static::addGlobalScope('not_expired', function (Builder $builder) {
+            $builder->where('status', '!=', 'expired');
+        });
+    }
+
+    /**
      * Get the basket lines
      *
      * @return void
      */
     public function lines()
     {
-        return $this->hasMany(BasketLine::class);
+        return $this->hasMany(OrderLine::class);
+    }
+
+    public function basket()
+    {
+        return $this->belongsTo(Basket::class);
     }
 
     /**

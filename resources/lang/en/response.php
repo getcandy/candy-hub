@@ -9,7 +9,8 @@ return [
         'internal' => 'Internal server error',
         'forbidden' => 'Forbidden',
         'invalid_lang' => 'Invalid language code {:lang}',
-        'minimum_record' => 'You must have at least 1 enabled record in the database'
+        'minimum_record' => 'You must have at least 1 enabled record in the database',
+        'expired' => 'This resource has expired'
     ],
     'success' => [
         'sync' => ':element successfully synced'

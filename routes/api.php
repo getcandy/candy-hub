@@ -49,6 +49,10 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
 $this->post('baskets/resolve', 'Baskets\BasketController@resolve');
 $this->get('baskets/current', 'Baskets\BasketController@current');
 
+/**
+ * Payments
+ */
+$this->post('payments/{id}/refund', 'Payments\PaymentController@refund');
 
 /**
  * Categories
@@ -114,6 +118,13 @@ $this->resource('languages', 'Languages\LanguageController', [
  */
 $this->resource('layouts', 'Layouts\LayoutController', [
     'except' => ['edit', 'create']
+]);
+
+/**
+ * Orders
+ */
+$this->resource('orders', 'Orders\OrderController', [
+    'only' => ['index']
 ]);
 
 /**

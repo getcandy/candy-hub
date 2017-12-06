@@ -46,7 +46,11 @@ return [
     'image'                => 'The :attribute must be an image.',
     'in'                   => 'The selected :attribute is invalid.',
     'in_array'             => 'The :attribute field does not exist in :other.',
+    //TODO: MOVE THIS WHEN IT GOES INTO A PACKAGE!
     'unique_lines'         => 'You have duplicate items in your basket',
+    'valid_payment_token'  => 'The payment token is invalid or expired',
+    'valid_order'          => 'Invalid order',
+    // STOP
     'integer'              => 'The :attribute must be an integer.',
     'ip'                   => 'The :attribute must be a valid IP address.',
     'ipv4'                 => 'The :attribute must be a valid IPv4 address.',

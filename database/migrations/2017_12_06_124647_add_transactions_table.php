@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddOrderLinesTable extends Migration
+class AddTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class AddOrderLinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_lines', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
+            $table->decimal('amount', 10, 2)->default(0);
+            $table->string('transaction_id');
+            $table->string('merchant');
+            $table->boolean('success');
+            $table->text('status');
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->integer('quantity');
-            $table->decimal('total', 10, 2);
-            $table->string('sku');
-            $table->string('product');
-            $table->string('variant')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class AddOrderLinesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_lines');
+        Schema::dropIfExists('transactions');
     }
 }

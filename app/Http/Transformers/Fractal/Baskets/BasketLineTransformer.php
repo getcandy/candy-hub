@@ -17,7 +17,7 @@ class BasketLineTransformer extends BaseTransformer
         $data = [
             'id' => $line->encodedId(),
             'quantity' => $line->quantity,
-            'price' => $line->price
+            'total' => $line->total
         ];
         return $data;
     }

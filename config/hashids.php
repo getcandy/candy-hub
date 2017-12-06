@@ -79,10 +79,10 @@ return [
             'salt' => env('HASHIDS_LANGUAGE_SALT', 'language'),
             'length' => 8,
         ],
-        'basket' => [
+        'order' => [
             'alphabet' => $alphabet,
             'length' => 15,
-            'salt' => env('HASHIDS_BASKET_SALT', 'order')
+            'salt' => env('HASHIDS_ORDER_SALT', 'order')
         ],
         'product' => [
             'alphabet' => $alphabet,

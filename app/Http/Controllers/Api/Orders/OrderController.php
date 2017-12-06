@@ -1,15 +1,17 @@
 <?php
-namespace GetCandy\Http\Controllers\Api\Baskets;
+namespace GetCandy\Http\Controllers\Api\Orders;
 
 use GetCandy\Http\Controllers\Api\BaseController;
-use GetCandy\Http\Requests\Api\Baskets\CreateRequest;
-use GetCandy\Http\Requests\Api\Baskets\UpdateRequest;
+use GetCandy\Http\Requests\Api\Orders\CreateRequest;
+use GetCandy\Http\Requests\Api\Orders\ProcessRequest;
+use GetCandy\Http\Requests\Api\Orders\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
+use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BasketController extends BaseController
+class OrderController extends BaseController
 {
 
     /**
@@ -18,7 +20,7 @@ class BasketController extends BaseController
      */
     public function index(Request $request)
     {
-        $orders = app('api')->orders()->getPaginatedData($request->per_page);
+        $orders = app('api')->orders()->getPaginatedData($request->per_page, $request->page, $request->user());
         return $this->respondWithCollection($orders, new OrderTransformer);
     }
 
@@ -30,11 +32,16 @@ class BasketController extends BaseController
     public function show($id)
     {
         try {
-            $basket = app('api')->baskets()->getByHashedId($id);
+            $order = app('api')->orders()->getByHashedId($id);
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
-        return $this->respondWithItem($basket, new BasketTransformer);
+
+        if ($order->status == 'expired') {
+            return $this->errorExpired();
+        }
+
+        return $this->respondWithItem($order, new OrderTransformer);
     }
 
     /**
@@ -48,5 +55,40 @@ class BasketController extends BaseController
     {
         $order = app('api')->orders()->store($request->basket_id);
         return $this->respondWithItem($order, new OrderTransformer);
+    }
+
+    /**
+     * Process an order
+     *
+     * @param ProcessRequest $request
+     *
+     * @return json
+     */
+    public function process(ProcessRequest $request)
+    {
+        $transaction = app('api')->orders()->process($request->all());
+        switch ($transaction->status) {
+            case 'processor_declined':
+                return $this->errorForbidden('Payment was declined');
+            default:
+                return $this->respondWithItem($transaction, new TransactionTransformer);
+        }
+    }
+
+    /**
+     * Expire an order
+     *
+     * @param ExpireRequest $request
+     * 
+     * @return json
+     */
+    public function expire($id)
+    {
+        try {
+            $result = app('api')->orders()->expire($id);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithNoContent();
     }
 }

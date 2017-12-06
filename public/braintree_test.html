@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Braintree Test</title>
+    <!-- Load the Client component. -->
+    <script src="https://js.braintreegateway.com/web/3.26.0/js/client.min.js"></script>
+
+    <!-- Load the 3D Secure component. -->
+    <script src="https://js.braintreegateway.com/web/3.26.0/js/three-d-secure.min.js"></script>
+
+    <script src="https://js.braintreegateway.com/web/dropin/1.9.2/js/dropin.min.js"></script>
+
+</head>
+<body>
+    <div id="dropin-container"></div>
+    <button id="submit-button">Request payment method</button>
+    <hr>
+    <div id="nonce"></div>
+    <script>
+        var button = document.querySelector('#submit-button');
+
+        braintree.dropin.create({
+            authorization: 'eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI2NWI3MjU1NDMwMjVhNzlkZjFkOWQ5MjBlYWIzY2FiOTY2NGY2NmJiN2UwMmE0YzZhMGU1OThkMDZkZDM1MjNkfGNyZWF0ZWRfYXQ9MjAxNy0xMi0wNlQxMToxNTo0Ny43NjAwNzYwMTErMDAwMFx1MDAyNm1lcmNoYW50X2lkPTJ5c210M3I0Zjd0cXdqd3JcdTAwMjZwdWJsaWNfa2V5PTR3NmdzZGNneXg5bW1kNjUiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMnlzbXQzcjRmN3Rxd2p3ci9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzJ5c210M3I0Zjd0cXdqd3IvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzJ5c210M3I0Zjd0cXdqd3IifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiTmVvbiBEaWdpdGFsIiwiY2xpZW50SWQiOm51bGwsInByaXZhY3lVcmwiOiJodHRwOi8vZXhhbXBsZS5jb20vcHAiLCJ1c2VyQWdyZWVtZW50VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3RvcyIsImJhc2VVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFzc2V0c1VybCI6Imh0dHBzOi8vY2hlY2tvdXQucGF5cGFsLmNvbSIsImRpcmVjdEJhc2VVcmwiOm51bGwsImFsbG93SHR0cCI6dHJ1ZSwiZW52aXJvbm1lbnROb05ldHdvcmsiOnRydWUsImVudmlyb25tZW50Ijoib2ZmbGluZSIsInVudmV0dGVkTWVyY2hhbnQiOmZhbHNlLCJicmFpbnRyZWVDbGllbnRJZCI6Im1hc3RlcmNsaWVudDMiLCJiaWxsaW5nQWdyZWVtZW50c0VuYWJsZWQiOnRydWUsIm1lcmNoYW50QWNjb3VudElkIjoibmVvbmRpZ2l0YWwiLCJjdXJyZW5jeUlzb0NvZGUiOiJFVVIifSwibWVyY2hhbnRJZCI6IjJ5c210M3I0Zjd0cXdqd3IiLCJ2ZW5tbyI6Im9mZiJ9',
+            container: '#dropin-container'
+        }, function (createErr, instance) {
+            button.addEventListener('click', function () {
+                instance.requestPaymentMethod(function (err, payload) {
+                    // Submit payload.nonce to your server
+                    document.getElementById('nonce').innerHTML = payload.nonce;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

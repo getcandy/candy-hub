@@ -8,7 +8,7 @@ class BasketLine extends BaseModel
 {
     protected $hashids = 'basket';
 
-    protected $fillable = ['quantity', 'product_variant_id', 'price'];
+    protected $fillable = ['quantity', 'product_variant_id', 'total'];
 
     public function variant()
     {

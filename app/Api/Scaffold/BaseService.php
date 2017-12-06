@@ -109,7 +109,7 @@ abstract class BaseService
      * @param  int  $page   The page to start
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($length = 50, $page = null, $includes = [])
+    public function getPaginatedData($length = 50, $page = null)
     {
         return $this->model->paginate($length, ['*'], 'page', $page);
     }

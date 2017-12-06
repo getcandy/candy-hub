@@ -23,7 +23,7 @@ trait HasAttributes
     public function attribute($handle, $channel = null, $locale = 'en')
     {
         $defaultChannel = app('api')->channels()->getDefaultRecord();
-        $defaultLocale = 'en';
+        $defaultLocale = app()->getLocale();
         if (!$channel) {
             $channel = $defaultChannel->handle;
         }

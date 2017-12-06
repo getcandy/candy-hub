@@ -41,4 +41,13 @@ class Basket extends BaseModel
     {
         return $this->hasOne(Order::class);
     }
+
+    public function getTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->lines as $line) {
+            $total += $line->total;
+        }
+        return $total;
+    }
 }

@@ -35,4 +35,13 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'braintree' => [
+        'key' => env('BRAINTREE_PUBLIC_KEY'),
+        'secret' => env('BRAINTREE_PRIVATE_KEY'),
+        '3D_secure' => env('3D_SECURE', false),
+        'merchants' => [
+            'default' => env('BRAINTREE_MERCHANT')
+        ]
+    ]
+
 ];

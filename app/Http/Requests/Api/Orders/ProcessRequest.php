@@ -1,9 +1,9 @@
 <?php
-namespace GetCandy\Http\Requests\Api\Baskets;
+namespace GetCandy\Http\Requests\Api\Orders;
 
 use GetCandy\Http\Requests\Api\FormRequest;
 
-class CreateRequest extends FormRequest
+class ProcessRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'variants' => 'required|array|unique_lines',
-            'variants.*.id' => 'required|hashid_is_valid:product_variants',
-            'variants.*.quantity' => 'required|numeric|min:1',
-            'basket_id' => 'hashid_is_valid:baskets'
+            'order_id' => 'required|hashid_is_valid:orders|valid_order',
+            'payment_token' => 'required|valid_payment_token'
         ];
     }
 }

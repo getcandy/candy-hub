@@ -2,7 +2,7 @@
 namespace GetCandy\Http\Transformers\Fractal\Orders;
 
 use Carbon\Carbon;
-use GetCandy\Api\Baskets\Models\BasketLine;
+use GetCandy\Api\Orders\Models\OrderLine;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Products\ProductVariantTransformer;
 
@@ -12,17 +12,20 @@ class OrderLineTransformer extends BaseTransformer
         'variant'
     ];
 
-    public function transform(BasketLine $line)
+    public function transform(OrderLine $line)
     {
         $data = [
             'id' => $line->encodedId(),
             'quantity' => $line->quantity,
-            'price' => $line->price
+            'total' => $line->total,
+            'product' => $line->product,
+            'sku' => $line->sku,
+            'variant' => $line->variant
         ];
         return $data;
     }
 
-    protected function includeVariant(BasketLine $line)
+    protected function includeVariant(OrderLine $line)
     {
         return $this->item($line->variant, new ProductVariantTransformer);
     }

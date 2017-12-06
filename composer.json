@@ -16,6 +16,7 @@
         "algolia/algoliasearch-client-php": "^1.23",
         "barryvdh/laravel-cors": "^0.9.2",
         "barryvdh/laravel-debugbar": "^2.4",
+        "braintree/braintree_php": "^3.26",
         "guzzlehttp/guzzle": "^6.2",
         "hashids/hashids": "^2.0",
         "intervention/image": "^2.4",

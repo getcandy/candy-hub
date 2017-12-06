@@ -17,7 +17,11 @@ class OrderTransformer extends BaseTransformer
     public function transform(Order $order)
     {
         $data = [
-            'id' => $order->encodedId()
+            'id' => $order->encodedId(),
+            'total' => $order->total,
+            'vat' => $order->vat,
+            'shipping' => $order->shipping,
+            'status' => $order->status
         ];
         return $data;
     }

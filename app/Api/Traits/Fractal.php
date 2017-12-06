@@ -49,6 +49,17 @@ trait Fractal
     }
 
     /**
+     * Generates a response with a 410 HTTP header and a given message
+     *
+     * @param mixed $message
+     * @return void
+     */
+    public function errorExpired($message = null)
+    {
+        return $this->setStatusCode(410)->respondWithError( ($message ? : trans('response.error.expired')));
+    }
+
+    /**
     * Generates a Response with a 500 HTTP header and a given message.
     * @return  Response
     */

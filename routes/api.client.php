@@ -40,6 +40,21 @@ $this->resource('customers', 'Customers\CustomerController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
 
+/**
+ * Orders
+ */
+
+$this->post('orders/process', 'Orders\OrderController@process');
+$this->post('orders/{id}/expire', 'Orders\OrderController@expire'); 
+$this->resource('orders', 'Orders\OrderController', [
+    'only' => ['store', 'show']
+]);
+
+/**
+ * Payments
+ */
+$this->get('payments/provider', 'Payments\PaymentController@provider');
+
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
     'uses' => 'Routes\RouteController@show'

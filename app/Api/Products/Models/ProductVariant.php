@@ -24,6 +24,24 @@ class ProductVariant extends BaseModel
         return $this->belongsTo(Product::class);
     }
 
+    public function getNameAttribute()
+    {
+        //TODO: Figure out a more dynamic way to do this
+        $name = '';
+        $localeUsed = 'en';
+        $locale = app()->getLocale();
+        $i = 0;
+
+        foreach ($this->options as $handle => $option) {
+            if (!empty($option[$locale])) {
+                $localeUsed = $locale;
+            } 
+            $name .= $option[$localeUsed] . ($i == count($this->options) ? ', ' : '');
+        }
+
+        return $name;
+    }
+
     public function getOptionsAttribute($val)
     {
         $values = [];

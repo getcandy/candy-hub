@@ -18,6 +18,9 @@ class AddOrdersTable extends Migration
             $table->integer('basket_id')->unsigned();
             $table->foreign('basket_id')->references('id')->on('baskets');
             $table->integer('user_id')->unsigned()->nullable();
+            $table->decimal('total', 10, 2);
+            $table->decimal('vat', 10, 2);
+            $table->decimal('shipping', 10, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('status')->default('open')->index();
             $table->timestamps();
