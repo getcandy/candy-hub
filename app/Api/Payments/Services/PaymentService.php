@@ -1,6 +1,7 @@
 <?php
 namespace GetCandy\Api\Payments\Services;
 
+use GetCandy\Api\Payments\Exceptions\AlreadyRefundedException;
 use GetCandy\Api\Payments\Models\Transaction;
 use GetCandy\Api\Scaffold\BaseService;
 
@@ -50,18 +51,34 @@ class PaymentService extends BaseService
         return $transaction;
     }
 
+    /**
+     * Refund a sale
+     *
+     * @param string $token
+     * 
+     * @return void
+     */
     public function refund($token)
     {
         $transaction = $this->getByHashedId($token);
+        $order = $transaction->order;
+
+        if ($order->status == 'refunded') {
+            throw new AlreadyRefundedException();
+        }
+
         $result = $this->getProvider()->refund($transaction->transaction_id, $transaction->amount);
         $refund = new Transaction;
         $refund->success = $result->success;
-        dd($result);
         $refund->status = $result->transaction->type;
         $refund->amount = -abs($result->transaction->amount);
         $refund->transaction_id = $result->transaction->id;
         $refund->merchant = $this->getProvider()->getName();
-        $refund->order_id = $transaction->order->id;
+        $refund->order_id = $order->id;
+
+        $order->status = 'refunded';
+        $order->save();
+
         $refund->save();
         return $transaction;
     }

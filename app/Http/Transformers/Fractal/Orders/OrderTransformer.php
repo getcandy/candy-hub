@@ -7,11 +7,12 @@ use Carbon\Carbon;
 use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
 use GetCandy\Http\Transformers\Fractal\Baskets\BasketTransformer;
 use GetCandy\Http\Transformers\Fractal\Orders\OrderLineTransformer;
+use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 
 class OrderTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'lines', 'user', 'basket'
+        'lines', 'user', 'basket', 'transactions'
     ];
 
     public function transform(Order $order)
@@ -42,5 +43,10 @@ class OrderTransformer extends BaseTransformer
             return null;
         }
         return $this->item($order->user, new UserTransformer);
+    }
+
+    protected function includeTransactions(Order $order)
+    {
+        return $this->collection($order->transactions, new TransactionTransformer);
     }
 }

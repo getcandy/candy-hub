@@ -6,6 +6,7 @@ use GetCandy\Api\Auth\Models\User;
 use GetCandy\Api\Traits\HasCompletion;
 use GetCandy\Api\Baskets\Models\Basket;
 use Illuminate\Database\Eloquent\Builder;
+use GetCandy\Api\Payments\Models\Transaction;
 
 class Order extends BaseModel
 {
@@ -56,5 +57,10 @@ class Order extends BaseModel
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

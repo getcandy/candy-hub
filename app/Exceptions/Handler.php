@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use GetCandy\Api\Traits\Fractal;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use GetCandy\Exceptions\Api\AuthorizationException;
 
 class Handler extends ExceptionHandler
 {
@@ -71,6 +72,8 @@ class Handler extends ExceptionHandler
                     break;
             }
             return $response;
+        } elseif ($exception instanceof AuthorizationException) {
+            return $this->errorUnauthorized();
         }
         return parent::render($request, $exception);
     }

@@ -43,11 +43,10 @@ class BasketService extends BaseService
         $basket->save();
 
         $variants = collect($data['variants'])->map(function ($item) {
-            $variant = app('api')->productVariants()->getByHashedId($item['id']);
             return [
-                'product_variant_id' => $variant->id,
+                'product_variant_id' => app('api')->productVariants()->getDecodedId($item['id']),
                 'quantity' => $item['quantity'],
-                'total' => $variant->price
+                'total' => $item ['price']
             ];
         });
 

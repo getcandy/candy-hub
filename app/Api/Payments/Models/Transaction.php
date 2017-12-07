@@ -14,6 +14,6 @@ class Transaction extends BaseModel
 
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class)->withoutGlobalScope('open');
     }
 }

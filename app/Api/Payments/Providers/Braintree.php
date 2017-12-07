@@ -7,6 +7,7 @@ use Braintree_ClientToken;
 use Braintree_PaymentMethodNonce;
 use Braintree_Exception_NotFound;
 use Braintree_Transaction;
+use Braintree_Test_Transaction;
 
 class Braintree extends AbstractProvider
 {
@@ -33,6 +34,15 @@ class Braintree extends AbstractProvider
         return config('services.braintree.3D_secure');
     }
 
+    //TODO: REMOVE BEFORE LIVE
+    private function settle($sale)
+    {
+        if (!app()->isLocal()) {
+            return $sale;
+        }
+        return Braintree_Test_Transaction::settle($sale->transaction->id);
+    }
+
     public function validateToken($token)
     {
         try {
@@ -49,19 +59,23 @@ class Braintree extends AbstractProvider
 
     public function charge($token, $amount, $options = [])
     {
-        $transaction = Braintree_Transaction::sale([
+        $sale = Braintree_Transaction::sale([
             'amount' => $amount,
             'paymentMethodNonce' => $token,
             'options' => [
                 'submitForSettlement' => true
             ]
         ]);
-        return $transaction;
+        
+        //TODO: REMOVE BEFORE LIVE
+        $this->settle($sale);
+
+        return $sale;
     }
 
     public function refund($token, $amount = null)
     {
-        $transaction = Braintree_Transaction::refund($token,  $amount);
+        $transaction = Braintree_Transaction::refund($token, $amount);
         return $transaction;
     }
 }
