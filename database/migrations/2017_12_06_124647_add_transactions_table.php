@@ -19,7 +19,8 @@ class AddTransactionsTable extends Migration
             $table->string('transaction_id');
             $table->string('merchant');
             $table->boolean('success');
-            $table->text('status');
+            $table->string('status');
+            $table->text('notes')->nullable();
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamps();

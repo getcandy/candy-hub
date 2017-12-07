@@ -47,7 +47,7 @@ class PaymentService extends BaseService
         $transaction->status = $result->transaction->status;
         $transaction->transaction_id = $result->transaction->id;
         $transaction->amount = $result->transaction->amount;
-        $transaction->merchant = $this->getProvider()->getName();
+        $transaction->merchant = $result->transaction->merchantAccountId;
         return $transaction;
     }
 
@@ -68,15 +68,20 @@ class PaymentService extends BaseService
         }
 
         $result = $this->getProvider()->refund($transaction->transaction_id, $transaction->amount);
+
         $refund = new Transaction;
         $refund->success = $result->success;
-        $refund->status = $result->transaction->type;
-        $refund->amount = -abs($result->transaction->amount);
-        $refund->transaction_id = $result->transaction->id;
-        $refund->merchant = $this->getProvider()->getName();
+
+        $refund->status = $result->success ? $result->transaction->type : 'error';
+        $refund->amount = $result->success ? -abs($result->transaction->amount) : $result->params['transaction']['amount'];
+        $refund->transaction_id = $result->success ? $result->transaction->id : $result->params['id'];
+        $refund->merchant = $result->success ? '-' : $result->params['merchantId'];
         $refund->order_id = $order->id;
 
-        $order->status = 'refunded';
+        $order->status = $result->success ? 'refunded' : $order->status;
+
+        $refund->notes = $result->success ?: $result->message;
+
         $order->save();
 
         $refund->save();

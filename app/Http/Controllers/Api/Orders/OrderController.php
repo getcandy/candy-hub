@@ -93,7 +93,7 @@ class OrderController extends BaseController
         return $this->respondWithNoContent();
     }
 
-    public function shipping($id, StoreAddressRequest $request)
+    public function shippingAddress($id, StoreAddressRequest $request)
     {
         try {
             $order = app('api')->orders()->setShipping($id, $request->all());
@@ -103,7 +103,12 @@ class OrderController extends BaseController
         return $this->respondWithItem($order, new OrderTransformer);
     }
 
-    public function billing($id, StoreAddressRequest $request)
+    public function shippingOption(Request $request)
+    {
+        // 
+    }
+
+    public function billingAddress($id, StoreAddressRequest $request)
     {
         try {
             $order = app('api')->orders()->setBilling($id, $request->all());

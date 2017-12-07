@@ -68,7 +68,7 @@ class Braintree extends AbstractProvider
         ]);
         
         //TODO: REMOVE BEFORE LIVE
-        $this->settle($sale);
+        // $this->settle($sale);
 
         return $sale;
     }
@@ -77,5 +77,11 @@ class Braintree extends AbstractProvider
     {
         $transaction = Braintree_Transaction::refund($token, $amount);
         return $transaction;
+    }
+
+    public function void($token)
+    {
+        $result = Braintree_Transaction::void($token);
+        return $result;
     }
 }
