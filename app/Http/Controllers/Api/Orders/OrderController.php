@@ -5,6 +5,7 @@ use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Orders\CreateRequest;
 use GetCandy\Http\Requests\Api\Orders\ProcessRequest;
 use GetCandy\Http\Requests\Api\Orders\UpdateRequest;
+use GetCandy\Http\Requests\Api\Orders\StoreAddressRequest;
 use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
 use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -90,5 +91,25 @@ class OrderController extends BaseController
             return $this->errorNotFound();
         }
         return $this->respondWithNoContent();
+    }
+
+    public function shipping($id, StoreAddressRequest $request)
+    {
+        try {
+            $order = app('api')->orders()->setShipping($id, $request->all());
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($order, new OrderTransformer);
+    }
+
+    public function billing($id, StoreAddressRequest $request)
+    {
+        try {
+            $order = app('api')->orders()->setBilling($id, $request->all());
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($order, new OrderTransformer);
     }
 }

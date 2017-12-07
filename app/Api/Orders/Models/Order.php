@@ -35,6 +35,43 @@ class Order extends BaseModel
     }
 
     /**
+     * Gets the shipping details
+     *
+     * @return array
+     */
+    public function getShippingDetailsAttribute()
+    {
+        return $this->getDetails('shipping');
+    }
+
+    /**
+     * Gets back the billing details
+     *
+     * @return array
+     */
+    public function getBillingDetailsAttribute()
+    {
+        return $this->getDetails('billing');
+    }
+
+    /**
+     * Gets the details, mainly for contact info
+     *
+     * @param string $type
+     * 
+     * @return array
+     */
+    protected function getDetails($type)
+    {
+        return collect($this->attributes)->filter(function ($value, $key) use ($type) {
+            return strpos($key, $type . '_') === 0;
+        })->mapWithKeys(function ($item, $key) use ($type) {
+            $newkey = str_replace($type . '_', '', $key);
+            return [$newkey => $item];
+        })->toArray();
+    }
+
+    /**
      * Get the basket lines
      *
      * @return void

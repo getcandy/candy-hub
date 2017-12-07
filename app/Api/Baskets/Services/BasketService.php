@@ -40,6 +40,12 @@ class BasketService extends BaseService
             $basket->user()->associate($user);
         }
 
+        if (empty($data['currency'])) {
+            $basket->currency = app('api')->currencies()->getDefaultRecord()->code;
+        } else {
+            $basket->currency = $data['currency'];
+        }
+
         $basket->save();
 
         $variants = collect($data['variants'])->map(function ($item) {

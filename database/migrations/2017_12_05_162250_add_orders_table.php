@@ -23,6 +23,33 @@ class AddOrdersTable extends Migration
             $table->decimal('shipping', 10, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('status')->default('open')->index();
+
+            $table->string('currency');
+
+            $table->string('billing_phone')->nullable();
+            $table->string('billing_firstname')->nullable();
+            $table->string('billing_lastname')->nullable();
+            $table->string('billing_address')->nullable();
+            $table->string('billing_address_two')->nullable();
+            $table->string('billing_address_three')->nullable();
+            $table->string('billing_city')->nullable();
+            $table->string('billing_county')->nullable();
+            $table->string('billing_state')->nullable();
+            $table->string('billing_country')->nullable();
+            $table->string('billing_zip')->nullable();
+
+            $table->string('shipping_phone')->nullable();
+            $table->string('shipping_firstname')->nullable();
+            $table->string('shipping_lastname')->nullable();
+            $table->string('shipping_address')->nullable();
+            $table->string('shipping_address_two')->nullable();
+            $table->string('shipping_address_three')->nullable();
+            $table->string('shipping_city')->nullable();
+            $table->string('shipping_county')->nullable();
+            $table->string('shipping_state')->nullable();
+            $table->string('shipping_country')->nullable();
+            $table->string('shipping_zip')->nullable();
+
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use GetCandy\Api\Auth\Models\User;
 use League\Fractal\TransformerAbstract;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Languages\LanguageTransformer;
+use GetCandy\Http\Transformers\Fractal\Addresses\AddressTransformer;
 
 class UserTransformer extends BaseTransformer
 {
@@ -14,7 +15,7 @@ class UserTransformer extends BaseTransformer
     ];
 
     protected $availableIncludes = [
-        'store'
+        'store','addresses'
     ];
 
     public function transform(User $user)
@@ -30,5 +31,10 @@ class UserTransformer extends BaseTransformer
     public function includeLanguage(User $user)
     {
         return $this->item($user->language, new LanguageTransformer);
+    }
+
+    public function includeAddresses(User $user)
+    {
+        return $this->collection($user->addresses, new AddressTransformer);
     }
 }

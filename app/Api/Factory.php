@@ -2,6 +2,7 @@
 
 namespace GetCandy\Api;
 
+use GetCandy\Api\Addresses\Services\AddressService;
 use GetCandy\Api\Assets\Services\AssetService;
 use GetCandy\Api\Assets\Services\AssetSourceService;
 use GetCandy\Api\Assets\Services\AssetTransformService;
@@ -39,6 +40,11 @@ use GetCandy\Api\Taxes\Services\TaxService;
 
 class Factory
 {
+    /**
+     * @var AddressService
+     */
+    protected $addresses;
+
     /**
      * @var AssetService
      */
@@ -195,6 +201,7 @@ class Factory
     protected $users;
 
     public function __construct(
+        AddressService $addresses,
         AssetService $assets,
         AssetSourceService $assetSources,
         AssetTransformService $transforms,
@@ -230,6 +237,7 @@ class Factory
         TaxService $taxes,
         UserService $users
     ) {
+        $this->addresses = $addresses;
         $this->assetSources = $assetSources;
         $this->assets = $assets;
         $this->associationGroups = $associationGroups;

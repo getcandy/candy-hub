@@ -30,6 +30,7 @@ class OrderService extends BaseService
         $order->basket()->associate($basket);
         $order->user()->associate(app('auth')->user());
         $order->total = $basket->total;
+        $order->currency = $basket->currency;
         $order->shipping = 0;
         $order->vat = 0;
 
@@ -40,6 +41,73 @@ class OrderService extends BaseService
         );
 
         return $order;
+    }
+
+    /**
+     * Set the delivery details
+     *
+     * @param string $id
+     * @param array $data
+     * 
+     * @return Order
+     */
+    public function setShipping($id, array $data)
+    {
+        $order = $this->getByHashedId($id);
+        $this->setFields($order, $data, 'shipping');
+        $user = app('auth')->user();
+
+        $order->save();
+        
+        // If this address doesn't exist, create it.
+        if ($user && !app('api')->addresses()->exists($user, $order->shipping_details, 'shipping')) {
+            app('api')->addresses()->addShipping($user, $order->shipping_details);
+        }
+
+        return $order;
+    }
+
+    /**
+     * Set the delivery details
+     *
+     * @param string $id
+     * @param array $data
+     *
+     * @return Order
+     */
+    public function setBilling($id, array $data)
+    {
+        $order = $this->getByHashedId($id);
+        $this->setFields($order, $data, 'billing');
+        $user = app('auth')->user();
+
+        $order->save();
+        
+        // If this address doesn't exist, create it.
+        if ($user && !app('api')->addresses()->exists($user, $order->billing_details, 'billing')) {
+            app('api')->addresses()->addBilling($user, $order->billing_details);
+        }
+
+        return $order;
+    }
+
+    /**
+     * Sets the fields for contact info on the order
+     *
+     * @param string $order
+     * @param array $fields
+     * @param string $prefix
+     * 
+     * @return void
+     */
+    protected function setFields($order, array $fields, $prefix)
+    {
+        foreach ($fields as $handle => $value) {
+            $field = $prefix . '_' . $handle;
+            if (array_key_exists($field, $order->getAttributes())) {
+                $order->setAttribute($field, $value);
+            }
+        }
     }
 
     /**
@@ -79,6 +147,7 @@ class OrderService extends BaseService
         $order->total = $basket->total;
         $order->shipping = 0;
         $order->vat = 0;
+        $order->currency = $basket->currency;
 
         $order->lines()->delete();
 
@@ -115,6 +184,13 @@ class OrderService extends BaseService
         return $lines;
     }
 
+    /**
+     * Determines whether an active order exists with this id
+     *
+     * @param string $orderId
+     * 
+     * @return boolean
+     */
     public function isActive($orderId)
     {
         $realId = $this->getDecodedId($orderId);

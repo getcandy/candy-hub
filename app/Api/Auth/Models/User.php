@@ -2,6 +2,7 @@
 
 namespace GetCandy\Api\Auth\Models;
 
+use GetCandy\Api\Addresses\Models\Address;
 use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Languages\Models\Language;
@@ -61,5 +62,10 @@ class User extends Authenticatable
     public function setFieldsAttribute($value)
     {
         $this->attributes['fields'] = json_encode($value);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

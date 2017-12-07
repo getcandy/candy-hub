@@ -20,7 +20,7 @@ class CreateBasketLinesTable extends Migration
             $table->integer('product_variant_id')->unsigned();
             $table->foreign('product_variant_id')->references('id')->on('product_variants');
             $table->integer('quantity');
-            $table->decimal('price', 10, 2);
+            $table->decimal('total', 10, 2);
             $table->timestamps();
         });
     }
