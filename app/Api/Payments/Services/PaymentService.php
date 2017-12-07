@@ -79,12 +79,13 @@ class PaymentService extends BaseService
         $refund->order_id = $order->id;
 
         $order->status = $result->success ? 'refunded' : $order->status;
-
+        $transaction->status = 'refunded';
         $refund->notes = $result->success ?: $result->message;
 
         $order->save();
 
         $refund->save();
-        return $transaction;
+
+        return $refund;
     }
 }

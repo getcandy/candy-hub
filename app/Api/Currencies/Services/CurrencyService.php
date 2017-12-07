@@ -92,6 +92,11 @@ class CurrencyService extends BaseService
         return $currency;
     }
 
+    public function getByCode($code) 
+    {
+        return $this->model->where('code', '=', $code)->firstOrFail();
+    }
+
     /**
      * Deletes a resource by its given hashed ID
      *

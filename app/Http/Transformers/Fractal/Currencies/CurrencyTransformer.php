@@ -15,6 +15,7 @@ class CurrencyTransformer extends BaseTransformer
             'id' => $currency->encodedId(),
             'name' => $currency->name,
             'code' => $currency->code,
+            'format' => $currency->format,
             'decimal' => $currency->decimal_point,
             'thousand' => $currency->thousand_point,
             'exchange_rate' => $currency->exchange_rate,

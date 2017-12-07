@@ -86,6 +86,15 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'uses' => 'DiscountController@getEdit'
         ]);
     });
+
+    $this->group(['prefix' => 'order-processing', 'namespace' => 'Cms\\OrderProcessing'], function () {
+        $this->get('orders', [
+            'as' => 'hub.orders.index',
+            'uses' => 'OrderController@getIndex'
+        ]);
+        $this->get('orders/{id}', [
+            'as' => 'hub.orders.edit',
+            'uses' => 'OrderController@getEdit'
+        ]);
+    });
 });
-
-

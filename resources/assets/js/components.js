@@ -198,6 +198,13 @@ var includes = [
       'url-modals' : 'Modals'
     }
   },
+  {
+    path: 'order-processing.orders',
+    components: {
+      'orders-table' : 'OrdersTable',
+      'order-edit' : 'OrderEdit'
+    }
+  }
 ]
 
 includes.forEach(include => {

@@ -17,10 +17,11 @@ class TransactionTransformer extends BaseTransformer
         return [
             'id' => $transaction->encodedId(),
             'transaction_id' => $transaction->transaction_id,
-            'provider' => $transaction->merchant,
+            'merchant' => $transaction->merchant,
             'amount' => $transaction->amount,
             'success' => (bool) $transaction->success,
-            'status' => $transaction->status
+            'status' => $transaction->status,
+            'notes' => $transaction->notes
         ];
     }
 

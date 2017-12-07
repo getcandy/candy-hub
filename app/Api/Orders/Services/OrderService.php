@@ -131,7 +131,9 @@ class OrderService extends BaseService
     public function getByHashedId($id)
     {
         $id = $this->model->decodeId($id);
-        return $this->model->withoutGlobalScope('open')->findOrFail($id);
+
+        $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
+        return $query->findOrFail($id);
     }
 
     /**
@@ -231,7 +233,7 @@ class OrderService extends BaseService
      */
     public function getPaginatedData($length = 50, $page = 1, $user = null)
     {
-        $query = $this->model->withoutGlobalScope('open');
+        $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         if (!app('auth')->user()->hasRole('admin')) {
             $query = $query->whereHas('user', function ($q) use ($user) {
                 $q->whereId($user->id);

@@ -34,6 +34,13 @@ $this->resource('baskets', 'Baskets\BasketController', [
 $this->get('categories', 'Categories\CategoryController@index');
 
 /**
+ * Currencies
+ */
+$this->resource('currencies', 'Currencies\CurrencyController', [
+    'except' => ['edit', 'create']
+]);
+
+/**
  * Customers
  */
 $this->resource('customers', 'Customers\CustomerController', [

@@ -38,10 +38,6 @@ class OrderController extends BaseController
             return $this->errorNotFound();
         }
 
-        if ($order->status == 'expired') {
-            return $this->errorExpired();
-        }
-
         return $this->respondWithItem($order, new OrderTransformer);
     }
 

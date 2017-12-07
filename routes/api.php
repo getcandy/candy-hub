@@ -93,13 +93,6 @@ $this->resource('customers', 'Customers\CustomerController', [
 ]);
 
 /**
- * Currencies
- */
-$this->resource('currencies', 'Currencies\CurrencyController', [
-    'except' => ['edit', 'create']
-]);
-
-/**
  * Discounts
  */
 $this->resource('discounts', 'Discounts\DiscountController', [

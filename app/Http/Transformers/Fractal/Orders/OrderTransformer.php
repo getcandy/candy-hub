@@ -21,7 +21,10 @@ class OrderTransformer extends BaseTransformer
             'id' => $order->encodedId(),
             'total' => $order->total,
             'vat' => $order->vat,
-            'shipping' => $order->shipping,
+            'currency' => $order->currency,
+            'shipping_cost' => $order->shipping,
+            'billing' => $order->billing_details,
+            'shipping' => $order->shipping_details,
             'status' => $order->status
         ];
         return $data;

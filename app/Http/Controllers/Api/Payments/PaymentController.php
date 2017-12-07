@@ -6,6 +6,8 @@ use GetCandy\Http\Transformers\Fractal\Payments\ProviderTransformer;
 use Illuminate\Http\Request;
 use GetCandy\Http\Requests\Api\Payments\RefundRequest;
 use GetCandy\Api\Payments\Exceptions\AlreadyRefundedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PaymentController extends BaseController
 {
@@ -21,7 +23,14 @@ class PaymentController extends BaseController
             $result = app('api')->payments()->refund($id);
         } catch (AlreadyRefundedException $e) {
             return $this->errorWrongArgs('Refund already issued');
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
         }
+
+        if (!$result->success) {
+            return $this->errorWrongArgs($result->notes);
+        }
+
         return $this->respondWithSuccess('Refund successful');
     }
 }
