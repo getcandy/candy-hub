@@ -155,8 +155,12 @@ class OrderService extends BaseService
      */
     public function getPaginatedData($length = 50, $page = 1, $user = null)
     {
-        return $this->model->withoutGlobalScope('open')->whereHas('user', function ($q) use ($user) {
-            $q->whereId($user->id);
-        })->paginate($length, ['*'], 'page', $page);
+        $query = $this->model->withoutGlobalScope('open');
+        if (!app('auth')->user()->hasRole('admin')) {
+            $query = $query->whereHas('user', function ($q) use ($user) {
+                $q->whereId($user->id);
+            });
+        }
+        return $query->paginate($length, ['*'], 'page', $page);
     }
 }
