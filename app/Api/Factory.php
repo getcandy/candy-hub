@@ -35,6 +35,9 @@ use GetCandy\Api\Routes\Services\RouteService;
 use GetCandy\Api\Search\Services\SavedSearchService;
 use GetCandy\Api\Search\Services\SearchService;
 use GetCandy\Api\Settings\Services\SettingService;
+use GetCandy\Api\Shipping\Services\ShippingMethodService;
+use GetCandy\Api\Shipping\Services\ShippingZoneService;
+use GetCandy\Api\Shipping\Services\ShippingPriceService;
 use GetCandy\Api\Tags\Services\TagService;
 use GetCandy\Api\Taxes\Services\TaxService;
 
@@ -181,6 +184,21 @@ class Factory
     protected $settings;
 
     /**
+     * @var ShippingMethodService
+     */
+    protected $shippingMethods;
+
+    /**
+     * @var ShippingPriceService
+     */
+    protected $shippingPrices;
+
+    /**
+     * @var ShippingZoneService
+     */
+    protected $shippingZones;
+
+    /**
      * @var TagService
      */
     protected $tags;
@@ -233,6 +251,9 @@ class Factory
         SavedSearchService $savedSearch,
         SearchService $search,
         SettingService $settings,
+        ShippingMethodService $shippingMethods,
+        ShippingZoneService $shippingZones,
+        ShippingPriceService $shippingPrices,
         TagService $tags,
         TaxService $taxes,
         UserService $users
@@ -268,6 +289,9 @@ class Factory
         $this->savedSearch = $savedSearch;
         $this->search = $search;
         $this->settings = $settings;
+        $this->shippingMethods = $shippingMethods;
+        $this->shippingZones = $shippingZones;
+        $this->shippingPrices = $shippingPrices;
         $this->tags = $tags;
         $this->taxes = $taxes;
         $this->transforms = $transforms;

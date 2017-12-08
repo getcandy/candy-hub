@@ -76,3 +76,8 @@ $this->post('password/reset/request', 'Auth\ForgotPasswordController@sendResetLi
 
 $this->get('search', 'Search\SearchController@search');
 $this->get('search/products', 'Search\SearchController@products');
+
+/**
+ * Shipping
+ */
+$this->get('shipping', 'Shipping\ShippingMethodController@index');

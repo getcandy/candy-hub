@@ -175,6 +175,17 @@ $this->delete('saved-searches/{id}', 'Search\SavedSearchController@destroy');
 $this->get('saved-searches/{type}', 'Search\SavedSearchController@getByType');
 
 /**
+ * Shipping
+ */
+$this->resource('shipping/zone', 'Shipping\ShippingZoneController', [
+    'except' => ['index', 'edit', 'create']
+]);
+$this->post('shipping/{id}/prices', 'Shipping\ShippingPriceController@store');
+$this->resource('shipping', 'Shipping\ShippingMethodController', [
+    'except' => ['index', 'edit', 'create']
+]);
+
+/**
  * Tags
  */
 $this->resource('tags', 'Tags\TagController', [
