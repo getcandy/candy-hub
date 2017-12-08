@@ -7,6 +7,10 @@ use GetCandy\Api\Shipping\Models\ShippingPrice;
 
 class ShippingPriceTransformer extends BaseTransformer
 {
+    protected $availableIncludes = [
+        'method'  
+    ];
+
     public function transform(ShippingPrice $price)
     {
         return [
@@ -34,5 +38,10 @@ class ShippingPriceTransformer extends BaseTransformer
                 'unit' => $price->volume_unit
             ],
         ];
+    }
+
+    protected function includeMethod($price)
+    {
+        return $this->item($price->method, new ShippingMethodTransformer);
     }
 }

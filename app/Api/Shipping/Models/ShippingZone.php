@@ -2,6 +2,7 @@
 namespace GetCandy\Api\Shipping\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Countries\Models\Country;
 
 class ShippingZone extends BaseModel
 {
@@ -14,8 +15,13 @@ class ShippingZone extends BaseModel
         'name'
     ];
 
-    protected function method()
+    public function methods()
     {
-        return $this->belongsTo(ShippingMethod::class);
+        return $this->belongsToMany(ShippingMethod::class, 'shipping_method_zones');
+    }
+
+    public function countries()
+    {
+        return $this->belongsToMany(Country::class, 'shipping_zone_country');
     }
 }

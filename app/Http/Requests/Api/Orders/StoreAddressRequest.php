@@ -24,16 +24,17 @@ class StoreAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => 'required',
-            'city' => 'required',
-            'county' => 'required_without:state',
-            'email' => 'required',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'phone' => 'required',
-            'state' => 'required_without:county',
-            'zip' => 'required',
-            'country' => 'required'
+            'address_id' => 'hashid_is_valid:addresses',
+            'address' => 'required_without:address_id',
+            'city' => 'required_without:address_id',
+            'county' => 'required_without_all:address_id,state',
+            'email' => 'required_without:address_id',
+            'firstname' => 'required_without:address_id',
+            'lastname' => 'required_without:address_id',
+            'phone' => 'required_without:address_id',
+            'state' => 'required_without_all:address_id,county',
+            'zip' => 'required_without:address_id',
+            'country' => 'required_without:address_id'
         ];
     }
 }

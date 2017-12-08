@@ -305,6 +305,9 @@ class Factory
                 'service' => $name
             ]), 1);
         }
-        return $this->{$name};
+        return app()->make(
+            get_class($this->{$name})
+        );
+        // return ;
     }
 }

@@ -50,4 +50,13 @@ class Basket extends BaseModel
         }
         return $total;
     }
+
+    public function getWeightAttribute()
+    {
+        $weight = 0;
+        foreach ($this->lines as $line) {
+            $weight += (float) $line->variant->weight_value;
+        }
+        return $weight;
+    }
 }

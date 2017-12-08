@@ -54,7 +54,8 @@ $this->resource('customers', 'Customers\CustomerController', [
 $this->post('orders/process', 'Orders\OrderController@process');
 $this->post('orders/{id}/expire', 'Orders\OrderController@expire');
 $this->put('orders/{id}/shipping/address', 'Orders\OrderController@shippingAddress');
-$this->put('orders/{id}/shipping/option', 'Orders\OrderController@shippingOption');
+$this->put('orders/{id}/shipping/options', 'Orders\OrderController@shippingOption');
+$this->get('orders/{id}/shipping/options', 'Orders\OrderController@shippingOptions');
 $this->put('orders/{id}/billing/address', 'Orders\OrderController@billingAddress');
 $this->resource('orders', 'Orders\OrderController', [
     'only' => ['store', 'show']

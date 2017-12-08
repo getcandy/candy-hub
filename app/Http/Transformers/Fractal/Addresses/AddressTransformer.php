@@ -12,6 +12,7 @@ class AddressTransformer extends BaseTransformer
     public function transform(Address $address)
     {
         return [
+            'id' => $address->encodedId(),
             'firstname' => $address->firstname,
             'lastname' => $address->lastname,
             'email' => $address->email,

@@ -7,6 +7,7 @@ use GetCandy\Http\Requests\Api\Orders\ProcessRequest;
 use GetCandy\Http\Requests\Api\Orders\UpdateRequest;
 use GetCandy\Http\Requests\Api\Orders\StoreAddressRequest;
 use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
+use GetCandy\Http\Transformers\Fractal\Shipping\ShippingPriceTransformer;
 use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -99,9 +100,10 @@ class OrderController extends BaseController
         return $this->respondWithItem($order, new OrderTransformer);
     }
 
-    public function shippingOption(Request $request)
+    public function shippingOptions($orderId, Request $request)
     {
-        // 
+        $options = app('api')->shippingMethods()->getForOrder($orderId);
+        return $this->respondWithCollection($options, new ShippingPriceTransformer);
     }
 
     public function billingAddress($id, StoreAddressRequest $request)

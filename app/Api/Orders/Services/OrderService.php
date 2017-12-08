@@ -14,7 +14,6 @@ class OrderService extends BaseService
      * @var Basket
      */
     protected $model;
-    protected $baskets;
 
     public function __construct()
     {
@@ -54,16 +53,21 @@ class OrderService extends BaseService
     public function setShipping($id, array $data)
     {
         $order = $this->getByHashedId($id);
-        $this->setFields($order, $data, 'shipping');
+        
         $user = app('auth')->user();
 
         $order->save();
         
         // If this address doesn't exist, create it.
-        if ($user && !app('api')->addresses()->exists($user, $order->shipping_details, 'shipping')) {
-            app('api')->addresses()->addShipping($user, $order->shipping_details);
+        if (!empty($data['address_id'])) {
+            $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
+            $data = $shipping->toArray();
+        } elseif ($user) {
+            app('api')->addresses()->addShipping($user, $data);
         }
 
+        $this->setFields($order, $data, 'shipping');
+    
         return $order;
     }
 
@@ -78,15 +82,18 @@ class OrderService extends BaseService
     public function setBilling($id, array $data)
     {
         $order = $this->getByHashedId($id);
-        $this->setFields($order, $data, 'billing');
         $user = app('auth')->user();
 
         $order->save();
-        
-        // If this address doesn't exist, create it.
-        if ($user && !app('api')->addresses()->exists($user, $order->billing_details, 'billing')) {
-            app('api')->addresses()->addBilling($user, $order->billing_details);
+
+        if (!empty($data['address_id'])) {
+            $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
+            $data = $shipping->toArray();
+        } elseif ($user) {
+            app('api')->addresses()->addBilling($user, $data);
         }
+
+        $this->setFields($order, $data, 'billing');
 
         return $order;
     }

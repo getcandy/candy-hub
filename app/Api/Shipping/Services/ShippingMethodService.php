@@ -4,6 +4,7 @@ namespace GetCandy\Api\Shipping\Services;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Shipping\Models\ShippingMethod;
 use GetCandy\Api\Shipping\Models\ShippingZone;
+use GetCandy\Api\Shipping\ShippingCalculator;
 
 class ShippingMethodService extends BaseService
 {
@@ -43,5 +44,23 @@ class ShippingMethodService extends BaseService
         $shipping->type = $data['type'];
         $shipping->save();
         return $shipping;
+    }
+
+    public function getForOrder($orderId)
+    {
+        // // Get the zones for this order...
+        $order = app('api')->orders()->getByHashedId($orderId);
+        $zones = app('api')->shippingZones()->getByCountryName($order->shipping_details['country']);
+
+        $calculator = new ShippingCalculator(app());
+
+        $options = [];
+
+        foreach ($zones as $zone) {
+            foreach ($zone->methods as $index => $method) {
+                $options[$index] = $calculator->with($method)->calculate($order);
+            }
+        }
+        return collect($options);
     }
 }
