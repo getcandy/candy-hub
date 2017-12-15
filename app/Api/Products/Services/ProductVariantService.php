@@ -31,16 +31,8 @@ class ProductVariantService extends BaseService
         $options = $product->option_data;
 
         foreach ($data['variants'] as $newVariant) {
-            foreach ($newVariant['options'] as $handle => $option) {
-                foreach ($option as $lang => $value) {
-                    $optionKey = str_slug($value);
-                    // If this is the first time this option is being set...
-                    if (empty($options[$handle])) {
-                        $options[$handle]['label'][$lang] = title_case($handle);
-                    }
-                    $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
-                }
-            }
+
+            $options = $this->mapOptions($options, $newVariant['options']);
 
             $sku = $newVariant['sku'];
             $i = 1;
@@ -102,19 +94,9 @@ class ProductVariantService extends BaseService
 
         $options = $variant->product->option_data;
 
-        foreach ($data['options'] as $handle => $option) {
-            foreach ($option as $lang => $value) {
-                $optionKey = str_slug($value);
-                // If this is the first time this option is being set...
-                if (empty($options[$handle])) {
-                    $options[$handle]['label'][$lang] = title_case($value);
-                }
-                $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
-                $newOption[$handle] = $optionKey;
-            }
-        }
-
-        $variant->product->update(['option_data' => $options]);
+        $variant->product->update([
+            'option_data' => $this->mapOptions($options, $data['options'])
+        ]);
         $variant->fill($data);
 
 
@@ -135,6 +117,30 @@ class ProductVariantService extends BaseService
 
         $variant->save();
         return $variant;
+    }
+
+
+    /**
+     * Map and merge variant options
+     *
+     * @param array $options
+     * @param array $newOptions
+     *
+     * @return array
+     */
+    protected function mapOptions($options, $newOptions)
+    {
+        foreach ($newOptions as $handle => $option) {
+            foreach ($option as $lang => $value) {
+                $optionKey = str_slug($value);
+                // If this is the first time this option is being set...
+                if (empty($options[$handle])) {
+                    $options[$handle]['label'][$lang] = title_case($value);
+                }
+                $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
+            }
+        }
+        return $options;
     }
 
     /**
