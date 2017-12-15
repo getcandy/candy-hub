@@ -52,6 +52,41 @@ class OrderService extends BaseService
      */
     public function setShipping($id, array $data)
     {
+        return $this->addAddress(
+            $id,
+            $data,
+            'shipping'
+        );
+    }
+
+     /**
+     * Set the delivery details
+     *
+     * @param string $id
+     * @param array $data
+     *
+     * @return Order
+     */
+    public function setBilling($id, array $data)
+    {
+        return $this->addAddress(
+            $id,
+            $data,
+            'billing'
+        );
+    }
+
+    /**
+     * Adds an address for a
+     *
+     * @param string $id
+     * @param array $data
+     * @param string $type
+     * 
+     * @return Order
+     */
+    protected function addAddress($id, $data, $type)
+    {
         $order = $this->getByHashedId($id);
         
         $user = app('auth')->user();
@@ -63,37 +98,10 @@ class OrderService extends BaseService
             $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
             $data = $shipping->toArray();
         } elseif ($user) {
-            app('api')->addresses()->addShipping($user, $data);
+            app('api')->addresses()->addAddress($user, $data, $type);
         }
 
-        $this->setFields($order, $data, 'shipping');
-    
-        return $order;
-    }
-
-    /**
-     * Set the delivery details
-     *
-     * @param string $id
-     * @param array $data
-     *
-     * @return Order
-     */
-    public function setBilling($id, array $data)
-    {
-        $order = $this->getByHashedId($id);
-        $user = app('auth')->user();
-
-        $order->save();
-
-        if (!empty($data['address_id'])) {
-            $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
-            $data = $shipping->toArray();
-        } elseif ($user) {
-            app('api')->addresses()->addBilling($user, $data);
-        }
-
-        $this->setFields($order, $data, 'billing');
+        $this->setFields($order, $data, $type);
 
         return $order;
     }

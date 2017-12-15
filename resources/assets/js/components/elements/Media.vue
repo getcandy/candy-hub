@@ -148,7 +148,7 @@
             getFilteredResults(type) {
                 if (type) {
                     return this.assets.filter(asset => {
-                        if (type == 'images') {
+                        if (filter.includes(asset.type)) {
                             return asset.kind == 'image';
                         } else if (type == 'videos') {
                             return asset.external && asset.kind != 'image';

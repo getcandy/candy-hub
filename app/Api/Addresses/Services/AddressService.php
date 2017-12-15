@@ -33,34 +33,6 @@ class AddressService extends BaseService
     }
 
     /**
-     * Adds a billing address
-     *
-     * @param User $user
-     * @param array $data
-     * 
-     * @return void
-     */
-    public function addBilling($user, $data)
-    {
-        $data['billing'] = true;
-        return $this->create($user, $data);
-    }
-
-    /**
-     * Adds a shipping address
-     *
-     * @param User $user
-     * @param array $data
-     *
-     * @return void
-     */
-    public function addShipping($user, $data)
-    {
-        $data['shipping'] = true;
-        return $this->create($user, $data);
-    }
-    
-    /**
      * Create a new address
      *
      * @param User $user
