@@ -55,7 +55,7 @@ class LanguageService extends BaseService
      *
      * @return GetCandy\Api\Models\Language
      */
-    public function update($hashedId, $data)
+    public function update($hashedId, array $data)
     {
         $language = $this->getByHashedId($hashedId);
 

@@ -61,7 +61,7 @@ class CurrencyService extends BaseService
      *
      * @return GetCandy\Api\Models\Currency
      */
-    public function update($id, $data)
+    public function update($id, array $data)
     {
         $currency = $this->getByHashedId($id);
 

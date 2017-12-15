@@ -84,7 +84,7 @@ class AssetService extends BaseService
      * 
      * @return Asset
      */
-    public function update($id, $data = [])
+    public function update($id, array $data)
     {
         $asset = $this->getByHashedId($id);
         $asset->fill($data);

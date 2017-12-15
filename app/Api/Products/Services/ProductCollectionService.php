@@ -14,7 +14,7 @@ class ProductCollectionService extends BaseService
         $this->model = new Product();
     }
 
-    public function update($product, $data)
+    public function update($product, array $data)
     {
         $product = $this->getByHashedId($product);
         $collection_ids = app('api')->collections()->getDecodedIds($data['collections']);

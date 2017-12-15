@@ -14,7 +14,7 @@ class ProductCategoryService extends BaseService
         $this->model = new Product();
     }
 
-    public function update($product, $data)
+    public function update($product, array $data)
     {
         $product = $this->getByHashedId($product);
         $category_ids = app('api')->categories()->getDecodedIds($data['categories']);

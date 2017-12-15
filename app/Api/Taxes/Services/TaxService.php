@@ -50,7 +50,7 @@ class TaxService extends BaseService
      *
      * @return GetCandy\Api\Models\Tax
      */
-    public function update($id, $data)
+    public function update($id, array $data)
     {
         $tax = $this->getByHashedId($id);
 
