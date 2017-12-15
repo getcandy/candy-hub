@@ -35,6 +35,7 @@
         },
         methods: {
             updateValue(value) {
+                console.log(value);
                 this.$emit('input', value);
             },
             refresh() {

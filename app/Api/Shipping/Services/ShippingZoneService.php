@@ -23,6 +23,13 @@ class ShippingZoneService extends BaseService
         $shipping = new ShippingZone;
         $shipping->fill($data);
         $shipping->save();
+
+        if (!empty($data['countries'])) {
+            $shipping->countries()->attach(
+                app('api')->countries()->getDecodedIds($data['countries'])
+            );
+        }
+
         return $shipping;
     }
 

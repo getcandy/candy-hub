@@ -1,14 +1,19 @@
 <?php
 namespace GetCandy\Http\Transformers\Fractal\Shipping;
 
-use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use Illuminate\Database\Eloquent\Model;
 use GetCandy\Api\Shipping\Models\ShippingPrice;
+use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Currencies\CurrencyTransformer;
 
 class ShippingPriceTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'method'  
+        'method'
+    ];
+
+    protected $defaultIncludes = [
+        'currency'
     ];
 
     public function transform(ShippingPrice $price)
@@ -17,31 +22,26 @@ class ShippingPriceTransformer extends BaseTransformer
             'id' => $price->encodedId(),
             'rate' => $price->rate,
             'fixed' => (bool) $price->fixed,
-            'weight' => [
-                'value' => $price->min_weight,
-                'unit' => $price->weight_unit
-            ],
-            'height' => [
-                'value' => $price->min_height,
-                'unit' => $price->height_unit
-            ],
-            'width' => [
-                'value' => $price->min_width,
-                'unit' => $price->width_unit
-            ],
-            'depth' => [
-                'value' => $price->min_depth,
-                'unit' => $price->depth_unit
-            ],
-            'volume' => [
-                'value' => $price->min_volume,
-                'unit' => $price->volume_unit
-            ],
+            'min_weight' => $price->min_weight,
+            'weight_unit' => $price->weight_unit,
+            'min_height' => $price->min_height,
+            'height_unit' => $price->height_unit,
+            'min_width' => $price->min_width,
+            'width_unit' => $price->width_unit,
+            'min_depth' => $price->min_depth,
+            'depth_unit' => $price->depth_unit,
+            'min_volume' => $price->min_volume,
+            'volume_unit' => $price->volume_unit,
         ];
     }
 
     protected function includeMethod($price)
     {
         return $this->item($price->method, new ShippingMethodTransformer);
+    }
+
+    protected function includeCurrency($price)
+    {
+        return $this->item($price->currency, new CurrencyTransformer);
     }
 }

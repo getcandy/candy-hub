@@ -18,7 +18,7 @@ class ShippingCalculator extends Manager
     public function with($method)
     {
         $this->method = $method;
-        return $this->driver($method->type);
+        return $this->createDriver($method->type);
     }
 
     public function createStandardDriver()

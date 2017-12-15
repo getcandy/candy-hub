@@ -20,20 +20,27 @@ trait HasAttributes
         return $this->hasOne(AttributeGroup::class)->withTimestamps();
     }
 
-    public function attribute($handle, $channel = null, $locale = 'en')
+    public function attribute($handle, $channel = null, $locale = null)
     {
         $defaultChannel = app('api')->channels()->getDefaultRecord();
-        $defaultLocale = app()->getLocale();
+        $userLocale = app()->getLocale();
+
+        if (!$locale) {
+            $locale = app('api')->languages()->getDefaultRecord();
+        }
+
         if (!$channel) {
             $channel = $defaultChannel->handle;
         }
-
-        if (is_null($this->attribute_data[$handle][$channel][$locale])) {
-            return $this->attribute_data[$handle][$defaultChannel->handle][$defaultLocale];
+       
+        if (!empty($this->attribute_data[$handle][$channel][$userLocale])) {
+            return $this->attribute_data[$handle][$channel][$userLocale];
+        } elseif (is_null($this->attribute_data[$handle][$channel][$userLocale])) {
+            $channel = $defaultChannel->handle;
+            $locale = $locale->lang;
         } elseif ($this->attribute_data[$handle][$channel][$locale] == '') {
             return null;
         }
-
         return $this->attribute_data[$handle][$channel][$locale];
     }
 

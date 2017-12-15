@@ -30,7 +30,7 @@
         },
         methods: {
             currencySymbol(total) {
-                return this.currency.format.replace('{price}', total);
+                return this.currency.format.replace('{price}', total.money());
                 // return 'ho';
             },
             /**
@@ -62,7 +62,6 @@
                     return false;
                 }
                 this.$set(this.transactions[index], 'refunding', true);
-                console.log(this.transactions[index]);
             },
             status(order) {
                 var type = 'success'
@@ -131,7 +130,7 @@
                                                 <tr>
                                                     <td colspan="2"></td>
                                                     <td colspan="2"><strong>Shipping</strong></td>
-                                                    <td v-html="currencySymbol(order.shipping_cost)"></td>
+                                                    <td v-html="currencySymbol(order.shipping_total)"></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2"></td>

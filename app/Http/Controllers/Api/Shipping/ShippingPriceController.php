@@ -46,7 +46,7 @@ class ShippingPriceController extends BaseController
         return $this->respondWithItem($result, new ShippingPriceTransformer);
     }
 
-    public function update($id, UpdateRequest $request)
+    public function update($id, Request $request)
     {
         try {
             $result = app('api')->shippingPrices()->update($id, $request->all());
@@ -54,5 +54,21 @@ class ShippingPriceController extends BaseController
             return $this->errorNotFound();
         }
         return $this->respondWithItem($result, new ShippingPriceTransformer);
+    }
+
+    /**
+     * Handles the request to delete a channel
+     * @param  String        $id
+     * @param  DeleteRequest $request
+     * @return Json
+     */
+    public function destroy($id)
+    {
+        try {
+            $result = app('api')->shippingPrices()->delete($id);
+        } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithNoContent();
     }
 }

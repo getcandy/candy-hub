@@ -96,5 +96,17 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'as' => 'hub.orders.edit',
             'uses' => 'OrderController@getEdit'
         ]);
+        $this->get('shipping', [
+            'as' => 'hub.shipping.index',
+            'uses' => 'ShippingController@getIndex'
+        ]);
+        $this->get('shipping/create', [
+            'as' => 'hub.shipping.create',
+            'uses' => 'ShippingController@getCreate'
+        ]);
+        $this->get('shipping/{id}', [
+            'as' => 'hub.shipping.edit',
+            'uses' => 'ShippingController@getEdit'
+        ]);
     });
 });

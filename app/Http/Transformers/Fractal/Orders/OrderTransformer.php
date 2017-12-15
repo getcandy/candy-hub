@@ -22,7 +22,8 @@ class OrderTransformer extends BaseTransformer
             'total' => $order->total,
             'vat' => $order->vat,
             'currency' => $order->currency,
-            'shipping_cost' => $order->shipping,
+            'shipping_total' => $order->shipping_total,
+            'shipping_method' => $order->shipping_method,
             'billing' => $order->billing_details,
             'shipping' => $order->shipping_details,
             'status' => $order->status

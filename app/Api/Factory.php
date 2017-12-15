@@ -2,44 +2,45 @@
 
 namespace GetCandy\Api;
 
-use GetCandy\Api\Addresses\Services\AddressService;
-use GetCandy\Api\Assets\Services\AssetService;
-use GetCandy\Api\Assets\Services\AssetSourceService;
-use GetCandy\Api\Assets\Services\AssetTransformService;
-use GetCandy\Api\Associations\Services\AssociationGroupService;
-use GetCandy\Api\Attributes\Services\AttributeGroupService;
-use GetCandy\Api\Attributes\Services\AttributeService;
-use GetCandy\Api\Auth\Services\RoleService;
-use GetCandy\Api\Auth\Services\UserService;
-use GetCandy\Api\Baskets\Services\BasketLineService;
-use GetCandy\Api\Baskets\Services\BasketService;
-use GetCandy\Api\Categories\Services\CategoryService;
-use GetCandy\Api\Channels\Services\ChannelService;
-use GetCandy\Api\Collections\Services\CollectionService;
-use GetCandy\Api\Currencies\Services\CurrencyService;
-use GetCandy\Api\Customers\Services\CustomerGroupService;
-use GetCandy\Api\Customers\Services\CustomerService;
-use GetCandy\Api\Discounts\Services\DiscountService;
-use GetCandy\Api\Languages\Services\LanguageService;
-use GetCandy\Api\Layouts\Services\LayoutService;
-use GetCandy\Api\Orders\Services\OrderService;
-use GetCandy\Api\Pages\Services\PageService;
-use GetCandy\Api\Payments\Services\PaymentService;
-use GetCandy\Api\Products\Services\ProductAssociationService;
-use GetCandy\Api\Products\Services\ProductCategoryService;
-use GetCandy\Api\Products\Services\ProductCollectionService;
-use GetCandy\Api\Products\Services\ProductFamilyService;
-use GetCandy\Api\Products\Services\ProductService;
-use GetCandy\Api\Products\Services\ProductVariantService;
-use GetCandy\Api\Routes\Services\RouteService;
-use GetCandy\Api\Search\Services\SavedSearchService;
-use GetCandy\Api\Search\Services\SearchService;
-use GetCandy\Api\Settings\Services\SettingService;
-use GetCandy\Api\Shipping\Services\ShippingMethodService;
-use GetCandy\Api\Shipping\Services\ShippingZoneService;
-use GetCandy\Api\Shipping\Services\ShippingPriceService;
 use GetCandy\Api\Tags\Services\TagService;
+use GetCandy\Api\Auth\Services\UserService;
 use GetCandy\Api\Taxes\Services\TaxService;
+use GetCandy\Api\Auth\Services\RoleService;
+use GetCandy\Api\Pages\Services\PageService;
+use GetCandy\Api\Routes\Services\RouteService;
+use GetCandy\Api\Assets\Services\AssetService;
+use GetCandy\Api\Orders\Services\OrderService;
+use GetCandy\Api\Search\Services\SearchService;
+use GetCandy\Api\Layouts\Services\LayoutService;
+use GetCandy\Api\Baskets\Services\BasketService;
+use GetCandy\Api\Payments\Services\PaymentService;
+use GetCandy\Api\Channels\Services\ChannelService;
+use GetCandy\Api\Settings\Services\SettingService;
+use GetCandy\Api\Products\Services\ProductService;
+use GetCandy\Api\Addresses\Services\AddressService;
+use GetCandy\Api\Countries\Services\CountryService;
+use GetCandy\Api\Customers\Services\CustomerService;
+use GetCandy\Api\Languages\Services\LanguageService;
+use GetCandy\Api\Assets\Services\AssetSourceService;
+use GetCandy\Api\Search\Services\SavedSearchService;
+use GetCandy\Api\Discounts\Services\DiscountService;
+use GetCandy\Api\Baskets\Services\BasketLineService;
+use GetCandy\Api\Categories\Services\CategoryService;
+use GetCandy\Api\Currencies\Services\CurrencyService;
+use GetCandy\Api\Attributes\Services\AttributeService;
+use GetCandy\Api\Assets\Services\AssetTransformService;
+use GetCandy\Api\Shipping\Services\ShippingZoneService;
+use GetCandy\Api\Products\Services\ProductFamilyService;
+use GetCandy\Api\Collections\Services\CollectionService;
+use GetCandy\Api\Shipping\Services\ShippingPriceService;
+use GetCandy\Api\Products\Services\ProductVariantService;
+use GetCandy\Api\Customers\Services\CustomerGroupService;
+use GetCandy\Api\Shipping\Services\ShippingMethodService;
+use GetCandy\Api\Products\Services\ProductCategoryService;
+use GetCandy\Api\Attributes\Services\AttributeGroupService;
+use GetCandy\Api\Products\Services\ProductCollectionService;
+use GetCandy\Api\Products\Services\ProductAssociationService;
+use GetCandy\Api\Associations\Services\AssociationGroupService;
 
 class Factory
 {
@@ -92,6 +93,11 @@ class Factory
      * @var ChannelService
      */
     protected $channels;
+
+    /**
+     * @var CountryService
+     */
+    protected $countries;
 
     /**
      * @var CurrencyService
@@ -232,6 +238,7 @@ class Factory
         ChannelService $channels,
         CollectionService $collections,
         CurrencyService $currencies,
+        CountryService $countries,
         CustomerGroupService $customerGroups,
         CustomerService $customers,
         DiscountService $discounts,
@@ -269,6 +276,7 @@ class Factory
         $this->categories = $categories;
         $this->channels = $channels;
         $this->collections = $collections;
+        $this->countries = $countries;
         $this->currencies = $currencies;
         $this->customerGroups = $customerGroups;
         $this->customers = $customers;

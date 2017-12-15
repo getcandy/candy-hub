@@ -41,7 +41,6 @@ class DiscountTransformer extends BaseTransformer
         return $this->collection($discount->sets, new DiscountSetTransformer);
     }
 
-
     /**
      * @param Product $product
      *

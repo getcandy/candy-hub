@@ -21,9 +21,11 @@ class ShippingPriceService extends BaseService
     public function create($shippingMethodId, array $data)
     {
         $method = app('api')->shippingMethods()->getByHashedId($shippingMethodId);
+        $currency = app('api')->currencies()->getByHashedId($data['currency_id']);
         $price = new ShippingPrice;
         $price->fill($data);
         $price->method()->associate($method);
+        $price->currency()->associate($currency);
         $price->save();
         return $price;
     }
@@ -38,10 +40,12 @@ class ShippingPriceService extends BaseService
      */
     public function update($id, array $data)
     {
-        $shipping = $this->getByHashedId($id);
-        $shipping->fill($data);
-        $shipping->save();
-        return $shipping;
+        $price = $this->getByHashedId($id);
+        $currency = app('api')->currencies()->getByHashedId($data['currency_id']);
+        $price->currency()->associate($currency);
+        $price->fill($data);
+        $price->save();
+        return $price;
     }
 
     /**

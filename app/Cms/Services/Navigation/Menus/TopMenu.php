@@ -19,8 +19,9 @@ class TopMenu extends Menu
 
         $orderProcessingItems = [
             new NavItem('Orders', route('hub.orders.index')),
-            new NavItem('Returns', route('hub.products.index')),
-            new NavItem('Customers', route('hub.products.index')),
+            new NavItem('Returns', route('hub.orders.index')),
+            new NavItem('Customers', route('hub.orders.index')),
+            new NavItem('Shipping', route('hub.shipping.index')),
         ];
 
         $marketingItems = [

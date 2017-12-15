@@ -2,9 +2,13 @@
 namespace GetCandy\Api\Shipping\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasCustomerGroups;
+use GetCandy\Api\Currencies\Models\Currency;
 
 class ShippingPrice extends BaseModel
 {
+    use HasCustomerGroups;
+
     /**
      * @var string
      */
@@ -28,5 +32,10 @@ class ShippingPrice extends BaseModel
     public function method()
     {
         return $this->belongsTo(ShippingMethod::class, 'shipping_method_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
     }
 }

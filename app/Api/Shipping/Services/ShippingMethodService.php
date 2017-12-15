@@ -1,6 +1,7 @@
 <?php
 namespace GetCandy\Api\Shipping\Services;
 
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Shipping\Models\ShippingMethod;
 use GetCandy\Api\Shipping\Models\ShippingZone;
@@ -26,6 +27,7 @@ class ShippingMethodService extends BaseService
         $shipping->attribute_data = $data;
         $shipping->type = $data['type'];
         $shipping->save();
+        event(new AttributableSavedEvent($shipping));
         return $shipping;
     }
 

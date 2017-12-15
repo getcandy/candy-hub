@@ -105,7 +105,7 @@ class ChannelService extends BaseService
         $channel->products()->sync([]);
         $channel->categories()->sync([]);
         $channel->collections()->sync([]);
-        foreach  ($channel->discount as $discount) {
+        foreach ($channel->discount as $discount) {
             $discount->delete();
         }
 
@@ -114,11 +114,11 @@ class ChannelService extends BaseService
 
     public function getChannelsWithAvailability($model, $relation)
     {
-        $channels = $this->model->with([$relation => function ($q) use ($model, $relation) {
+        $channels = $this->model->with([camel_case($relation) => function ($q) use ($model, $relation) {
             $q->where($relation . '.id', $model->id);
         }])->get();
         foreach ($channels as $channel) {
-            $model = $channel->{$relation}->first();
+            $model = $channel->{camel_case($relation)}->first();
             $channel->published_at = $model ? $model->pivot->published_at : null;
         }
         return $channels;

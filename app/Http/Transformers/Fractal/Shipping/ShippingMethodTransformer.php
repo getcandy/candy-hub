@@ -1,14 +1,18 @@
 <?php
 namespace GetCandy\Http\Transformers\Fractal\Shipping;
 
-use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use Illuminate\Database\Eloquent\Model;
+use GetCandy\Api\Traits\IncludesAttributes;
 use GetCandy\Api\Shipping\Models\ShippingMethod;
+use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
 
 class ShippingMethodTransformer extends BaseTransformer
 {
+    use IncludesAttributes;
+    
     protected $availableIncludes = [
-        'zones', 'prices'
+        'zones', 'prices', 'attribute_groups', 'channels'
     ];
 
     public function transform(ShippingMethod $method)
@@ -27,5 +31,16 @@ class ShippingMethodTransformer extends BaseTransformer
     protected function includeZones(ShippingMethod $method)
     {
         return $this->collection($method->zones, new ShippingZoneTransformer);
+    }
+
+    /**
+     * @param ShippingMethod $method
+     *
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeChannels(ShippingMethod $method)
+    {
+        $channels = app('api')->channels()->getChannelsWithAvailability($method, 'shipping_methods');
+        return $this->collection($channels, new ChannelTransformer);
     }
 }

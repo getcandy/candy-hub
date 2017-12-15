@@ -115,4 +115,14 @@ class OrderController extends BaseController
         }
         return $this->respondWithItem($order, new OrderTransformer);
     }
+
+    public function shippingPrice($id, Request $request)
+    {
+        try {
+            $order = app('api')->orders()->setDeliveryPrice($id, $request->price_id);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($order, new OrderTransformer);
+    }
 }

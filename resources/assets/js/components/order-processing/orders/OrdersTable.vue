@@ -7,6 +7,7 @@
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                currencies: [],
                 params: {
                     per_page: 50,
                     current_page: 1,
@@ -40,7 +41,10 @@
                     .then(response => {
                         this.orders = response.data;
                         this.pagination = response.meta.pagination;
-                        this.loaded = true;
+                        apiRequest.send('GET', 'currencies').then(response => {
+                            this.currencies = response.data;
+                            this.loaded = true;
+                        });
                     });
             },
             status(order) {
@@ -84,6 +88,12 @@
             },
             loadOrder: function (id) {
                 location.href = '/order-processing/orders/' + id;
+            },
+            localisedPrice(amount, currency) {
+                var currency = _.find(this.currencies, item => {
+                    return item.code == currency;
+                });
+                return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
             }
         }
     }
@@ -100,7 +110,6 @@
                 </a>
             </li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content section block">
             <div role="tabpanel" class="tab-pane active" id="all-collections">
@@ -135,10 +144,14 @@
                             <td @click="loadOrder(order.id)"><span class="label" :class="status(order).class">{{ status(order).text }}</span></td>
                             <td @click="loadOrder(order.id)">{{ order.billing.firstname }} {{ order.billing.lastname }}</td>
                             <td @click="loadOrder(order.id)">
-                                {{ order.total }}
+                                <span v-html="localisedPrice(order.total, order.currency)"></span>
                             </td>
-                            <td @click="loadOrder(order.id)">{{ order.vat }}</td>
-                            <td @click="loadOrder(order.id)">{{ order.shipping_cost }}</td>
+                            <td @click="loadOrder(order.id)">
+                                <span v-html="localisedPrice(order.vat, order.currency)"></span>
+                            </td>
+                            <td @click="loadOrder(order.id)">
+                                <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
+                            </td>
                             <td @click="loadOrder(order.id)">{{ order.currency }}</td>
                         </tr>
 

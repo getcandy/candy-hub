@@ -177,10 +177,12 @@ $this->get('saved-searches/{type}', 'Search\SavedSearchController@getByType');
 /**
  * Shipping
  */
-$this->resource('shipping/zone', 'Shipping\ShippingZoneController', [
-    'except' => ['index', 'edit', 'create']
+$this->resource('shipping/zones', 'Shipping\ShippingZoneController', [
+    'except' => ['edit', 'create']
 ]);
 $this->post('shipping/{id}/prices', 'Shipping\ShippingPriceController@store');
+$this->delete('shipping/prices/{id}', 'Shipping\ShippingPriceController@destroy');
+$this->put('shipping/prices/{id}', 'Shipping\ShippingPriceController@update');
 $this->resource('shipping', 'Shipping\ShippingMethodController', [
     'except' => ['index', 'edit', 'create']
 ]);

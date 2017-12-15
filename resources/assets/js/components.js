@@ -198,11 +198,30 @@ var includes = [
       'url-modals' : 'Modals'
     }
   },
+  /**
+   * Order Processing
+   */
   {
     path: 'order-processing.orders',
     components: {
       'orders-table' : 'OrdersTable',
       'order-edit' : 'OrderEdit'
+    }
+  },
+  {
+    path: 'order-processing.shipping',
+    components: {
+      'shipping-table': 'ShippingTable',
+      'shipping-edit': 'ShippingEdit',
+      'shipping-create': 'ShippingCreate'
+    }
+  },
+  {
+    path: 'order-processing.shipping.edit',
+    components: {
+      'shipping-details': 'ShippingDetails',
+      'add-shipping-price': 'AddShippingPrice',
+      'shipping-prices': 'ShippingPrices',
     }
   }
 ]

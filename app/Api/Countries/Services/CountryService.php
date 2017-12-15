@@ -2,19 +2,19 @@
 namespace GetCandy\Api\Countries\Services;
 
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Api\Countries\Models\Country;
 
 class CountryService extends BaseService
 {
-
-    /**
-     * Registers a new customer
-     * @param  array  $data
-     * @return [type]       [description]
-     */
-    public function register(array $data)
+    public function __construct()
     {
-        $user = app('api')->users()->create($data);
-        $user->assignRole('customer');
-        return $user;
+        $this->model = new Country;
+    }
+
+    public function getGroupedByRegion()
+    {
+        $countries = $this->model->get();
+
+        return $countries->groupBy('region');
     }
 }

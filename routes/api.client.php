@@ -34,6 +34,11 @@ $this->resource('baskets', 'Baskets\BasketController', [
 $this->get('categories', 'Categories\CategoryController@index');
 
 /**
+ * Countries
+ */
+$this->get('countries', 'Countries\CountryController@index');
+
+/**
  * Currencies
  */
 $this->resource('currencies', 'Currencies\CurrencyController', [
@@ -56,6 +61,7 @@ $this->post('orders/{id}/expire', 'Orders\OrderController@expire');
 $this->put('orders/{id}/shipping/address', 'Orders\OrderController@shippingAddress');
 $this->put('orders/{id}/shipping/options', 'Orders\OrderController@shippingOption');
 $this->get('orders/{id}/shipping/options', 'Orders\OrderController@shippingOptions');
+$this->put('orders/{id}/shipping/price', 'Orders\OrderController@shippingPrice');
 $this->put('orders/{id}/billing/address', 'Orders\OrderController@billingAddress');
 $this->resource('orders', 'Orders\OrderController', [
     'only' => ['store', 'show']

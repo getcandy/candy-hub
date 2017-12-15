@@ -23,7 +23,8 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'rate' => 'required|numeric'
+            'rate' => 'required|numeric',
+            'currency_id' => 'required|hashid_is_valid:currencies'
         ];
     }
 }

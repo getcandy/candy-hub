@@ -3,10 +3,11 @@
 namespace GetCandy\Api\Channels\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
-use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Products\Models\Product;
-use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Discounts\Models\Discount;
+use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Shipping\Models\ShippingMethod;
 
 class Channel extends BaseModel
 {
@@ -38,6 +39,11 @@ class Channel extends BaseModel
     public function discounts()
     {
         return $this->belongsToMany(Discount::class)->withPivot('published_at');
+    }
+
+    public function shippingMethods()
+    {
+        return $this->belongsToMany(ShippingMethod::class, 'shipping_method_channel')->withPivot('published_at');
     }
 
     public function discount()

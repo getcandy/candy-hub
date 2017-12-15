@@ -97,6 +97,27 @@ class OrderService extends BaseService
 
         return $order;
     }
+    
+    /**
+     * Sets the delivery price on an
+     *
+     * @param string $orderId
+     * @param string $priceId
+     * 
+     * @return Order
+     */
+    public function setDeliveryPrice($orderId, $priceId)
+    {
+        $price = app('api')->shippingPrices()->getByHashedId($priceId);
+        $order = app('api')->orders()->getByHashedId($orderId);
+
+        $order->shipping_total = $price->rate;
+        $order->shipping_method = $price->method->attribute('name');
+
+        $order->save();
+
+        return $order;
+    }
 
     /**
      * Sets the fields for contact info on the order
@@ -133,7 +154,6 @@ class OrderService extends BaseService
 
         return true;
     }
-
 
     public function getByHashedId($id)
     {
@@ -197,7 +217,7 @@ class OrderService extends BaseService
      * Determines whether an active order exists with this id
      *
      * @param string $orderId
-     * 
+     *
      * @return boolean
      */
     public function isActive($orderId)
@@ -215,9 +235,12 @@ class OrderService extends BaseService
     public function process(array $data)
     {
         $order = $this->getByHashedId($data['order_id']);
+
+        $total = $order->total + $order->shipping_total;
+
         $transaction = app('api')->payments()->charge(
             $data['payment_token'],
-            $order->total
+            $total
         );
 
         if ($transaction->success) {
