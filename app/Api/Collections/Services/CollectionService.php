@@ -43,62 +43,6 @@ class CollectionService extends BaseService
     }
 
     /**
-     * Updates a resource from the given data
-     *
-     * @param  string $id
-     * @param  array  $data
-     *
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
-     * @return Collection
-     */
-    public function update($hashedId, array $data)
-    {
-        $collection = $this->getByHashedId($hashedId);
-        $collection->attribute_data = $data['attributes'];
-
-        if (!empty($data['channels'])) {
-            $channelData = [];
-            foreach ($data['channels']['data'] as $channel) {
-                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
-                $channelData[$channelModel->id] = [
-                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
-                ];
-            }
-            $collection->channels()->sync($channelData);
-        }
-
-        if (!empty($data['customer_groups'])) {
-            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
-            $collection->customerGroups()->sync($groupData);
-        }
-
-        $collection->save();
-
-        event(new AttributableSavedEvent($collection));
-
-        return $collection;
-    }
-
-    /**
-     * Maps customer group data for a product
-     * @param  array $groups
-     * @return array
-     */
-    protected function mapCustomerGroupData($groups)
-    {
-        $groupData = [];
-        foreach ($groups as $group) {
-            $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
-            $groupData[$groupModel->id] = [
-                'visible' => $group['visible'],
-                'purchasable' => $group['purchasable']
-            ];
-        }
-        return $groupData;
-    }
-
-    /**
      * Deletes a resource by its given hashed ID
      *
      * @param  string $id
@@ -113,25 +57,6 @@ class CollectionService extends BaseService
         return $collection->delete();
     }
 
-    /**
-     * Creates a URL for a product
-     * @param  string $hashedId
-     * @param  array  $data
-     * @return Model
-     */
-    public function createUrl($hashedId, array $data)
-    {
-        $collection = $this->getByHashedId($hashedId);
-
-        $collection->routes()->create([
-            'locale' => $data['locale'],
-            'slug' => $data['slug'],
-            'description' => !empty($data['description']) ? $data['description'] : null,
-            'redirect' => !empty($data['redirect']) ? true : false,
-            'default' => false
-        ]);
-        return $collection;
-    }
 
     /**
      * Gets paginated data for the record

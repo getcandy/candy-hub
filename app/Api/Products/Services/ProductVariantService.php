@@ -31,7 +31,6 @@ class ProductVariantService extends BaseService
         $options = $product->option_data;
 
         foreach ($data['variants'] as $newVariant) {
-            $newOption = [];
             foreach ($newVariant['options'] as $handle => $option) {
                 foreach ($option as $lang => $value) {
                     $optionKey = str_slug($value);
@@ -40,7 +39,6 @@ class ProductVariantService extends BaseService
                         $options[$handle]['label'][$lang] = title_case($handle);
                     }
                     $options[$handle]['options'][$optionKey]['values'][$lang] = $value;
-                    $newOption[$handle] = $optionKey;
                 }
             }
 

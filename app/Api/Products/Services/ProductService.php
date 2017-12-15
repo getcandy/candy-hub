@@ -70,44 +70,6 @@ class ProductService extends BaseService
     }
 
     /**
-     * Maps customer group data for a product
-     * @param  array $groups
-     * @return array
-     */
-    protected function mapCustomerGroupData($groups)
-    {
-        $groupData = [];
-        foreach ($groups as $group) {
-            $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
-            $groupData[$groupModel->id] = [
-                'visible' => $group['visible'],
-                'purchasable' => $group['purchasable']
-            ];
-        }
-        return $groupData;
-    }
-
-    /**
-     * Creates a URL for a product
-     * @param  string $hashedId
-     * @param  array  $data
-     * @return Model
-     */
-    public function createUrl($hashedId, array $data)
-    {
-        $product = $this->getByHashedId($hashedId);
-
-        $product->routes()->create([
-            'locale' => $data['locale'],
-            'slug' => $data['slug'],
-            'description' => !empty($data['description']) ? $data['description'] : null,
-            'redirect' => !empty($data['redirect']) ? true : false,
-            'default' => false
-        ]);
-        return $product;
-    }
-
-    /**
      * Creates a resource from the given data
      *
      * @throws \GetCandy\Exceptions\InvalidLanguageException
@@ -287,25 +249,5 @@ class ProductService extends BaseService
 
         $product->collections()->sync($ids);
         return $product;
-    }
-
-
-    /**
-     * Sets the channel mapping
-     *
-     * @param array $channels
-     * 
-     * @return array
-     */
-    protected function setChannelMapping($channels = [])
-    {
-        $channelData = [];
-        foreach ($channels as $channel) {
-            $channelModel = app('api')->channels()->getByHashedId($channel['id']);
-            $channelData[$channelModel->id] = [
-                'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
-            ];
-        }
-        return $channelData;
     }
 }

@@ -68,52 +68,6 @@ class CategoryService extends BaseService
         return $category;
     }
 
-    public function update($hashedId, array $data)
-    {
-        $category = $this->getByHashedId($hashedId);
-        $category->attribute_data = $data['attributes'];
-
-        if (!empty($data['channels'])) {
-            $channelData = [];
-            foreach ($data['channels']['data'] as $channel) {
-                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
-                $channelData[$channelModel->id] = [
-                    'published_at' => $channel['published_at'] ? Carbon::parse($channel['published_at']) : null
-                ];
-            }
-            $category->channels()->sync($channelData);
-        }
-
-        if (!empty($data['customer_groups'])) {
-            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
-            $category->customerGroups()->sync($groupData);
-        }
-
-        $category->save();
-
-        event(new AttributableSavedEvent($category));
-
-        return $category;
-    }
-
-    /**
-     * Maps customer group data for a product
-     * @param  array $groups
-     * @return array
-     */
-    protected function mapCustomerGroupData($groups)
-    {
-        $groupData = [];
-        foreach ($groups as $group) {
-            $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
-            $groupData[$groupModel->id] = [
-                'visible' => $group['visible'],
-                'purchasable' => $group['purchasable']
-            ];
-        }
-        return $groupData;
-    }
-
     public function reorder(array $data)
     {
         $response = false;
@@ -157,25 +111,5 @@ class CategoryService extends BaseService
     {
         $results = $this->model->whereDoesntHave('parent');
         return $results->paginate($length, ['*'], 'page', $page);
-    }
-
-    /**
-     * Creates a URL for a product
-     * @param  string $hashedId
-     * @param  array  $data
-     * @return Model
-     */
-    public function createUrl($hashedId, array $data)
-    {
-        $collection = $this->getByHashedId($hashedId);
-
-        $collection->routes()->create([
-            'locale' => $data['locale'],
-            'slug' => $data['slug'],
-            'description' => !empty($data['description']) ? $data['description'] : null,
-            'redirect' => !empty($data['redirect']) ? true : false,
-            'default' => false
-        ]);
-        return $collection;
     }
 }
