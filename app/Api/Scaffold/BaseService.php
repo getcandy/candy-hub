@@ -285,10 +285,15 @@ abstract class BaseService
 
         $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
 
-        return $this->model->with($this->with)
-            ->whereIn('id', $parsedIds)
-            ->orderByRaw("field(id,{$placeholders})", $parsedIds)
-            ->get();
+
+        $query = $this->model->with($this->with)
+            ->whereIn('id', $parsedIds);
+        
+        if (count($parsedIds)) {
+            $query = $query->orderByRaw("field(id,{$placeholders})", $parsedIds);
+        }
+            
+        return $query->get();
     }
 
     /**
