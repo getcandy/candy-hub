@@ -8,6 +8,7 @@ use GetCandy\Api\Discounts\Discount as DiscountFactory;
 use GetCandy\Api\Discounts\Models\Discount;
 use GetCandy\Api\Discounts\RewardSet;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Api\Discounts\Models\DiscountCriteriaItem;
 
 class DiscountService extends BaseService
 {
@@ -44,29 +45,39 @@ class DiscountService extends BaseService
      * 
      * @return Discount
      */
-    public function store($id, array $data)
+    public function update($id, array $data)
     {
         $discount = $this->getByHashedId($id);
-        $discount->end_at = \Carbon\Carbon::parse($data['start']);
+        $discount->start_at = Carbon::parse($data['start_at']);
+        $discount->end_at = Carbon::parse($data['start_at']);
         $discount->priority = $data['priority'];
         $discount->stop_rules = $data['stop_rules'];
         $discount->status = $data['status'];
-        $discount->channel_id = app('api')->channels()->getByHashedId($data['channel'])->id;
 
         $discount->save();
 
         event(new AttributableSavedEvent($discount));
 
-        foreach ($data['rewards'] as $reward) {
-            $discount->rewards()->create($reward);
+        if (!empty($data['rewards'])) {
+            foreach ($data['rewards'] as $reward) {
+                $discount->rewards()->create($reward);
+            }
         }
 
+        if (!empty($data['sets']['data'])) {
+            $data['sets'] = $data['sets']['data'];
+        }
+        
         foreach ($data['sets'] as $set) {
             $groupModel = $discount->sets()->create([
                 'scope' => $set['scope'],
                 'outcome' => $set['outcome']
             ]);
-            foreach ($set['criteria'] as $item) {
+
+            if (!empty($set['items']['data'])) {
+                $set['items'] = $set['items']['data'];
+            }
+            foreach ($set['items'] as $item) {
                 $groupModel->items()->create($item);
             }
         }
@@ -81,6 +92,11 @@ class DiscountService extends BaseService
     public function get()
     {
         return $this->model->orderBy('priority', 'desc')->with(['sets', 'sets.items'])->get();
+    }
+
+    public function getByCoupon($coupon)
+    {
+        return DiscountCriteriaItem::where('criteria->value', '=', $coupon)->first();
     }
 
     public function parse($discounts)

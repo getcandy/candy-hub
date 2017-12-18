@@ -64,6 +64,14 @@ class BasketService extends BaseService
         return $basket;
     }
 
+    public function addDiscount($basketId, $coupon)
+    {
+        $basket = $this->getByHashedId($basketId);
+        $coupon = app('api')->discounts()->getByCoupon($coupon);
+        dd($coupon);
+        $basket->discounts()->attach($coupon->discount, ['coupon' => $coupon]);
+    }
+
     /**
      * Get a basket for a user
      *

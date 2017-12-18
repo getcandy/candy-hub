@@ -2,10 +2,11 @@
 namespace GetCandy\Api\Baskets\Models;
 
 use GetCandy\Api\Auth\Models\User;
-use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Traits\HasCompletion;
 use Illuminate\Database\Eloquent\Scope;
+use GetCandy\Api\Discounts\Models\Discount;
 
 class Basket extends BaseModel
 {
@@ -25,6 +26,11 @@ class Basket extends BaseModel
     public function lines()
     {
         return $this->hasMany(BasketLine::class);
+    }
+
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class)->withPivot('coupon');
     }
 
     /**

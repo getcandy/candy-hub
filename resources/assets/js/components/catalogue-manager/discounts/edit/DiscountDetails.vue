@@ -1,4 +1,7 @@
 <script>
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
+
     export default {
         data() {
             return {
@@ -42,6 +45,9 @@
                 });
                 return arr;
             }
+        },
+        components: {
+            flatPickr
         }
     }
 </script>
@@ -75,6 +81,18 @@
                         :request="request"
                     >
                     </candy-attribute-translatable>
+                    <div class="form-group">
+                        <label>Start date</label>
+                        <flat-pickr class="datetimepicker" v-model="discount.start_at"></flat-pickr>
+                    </div>
+                    <div class="form-group">
+                        <label>End date</label>
+                        <flat-pickr class="datetimepicker" v-model="discount.end_at"></flat-pickr>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <input type="number" v-model="discount.priority" class="form-control">
+                    </div>
             </candy-tab>
         </candy-tabs>
     </div>

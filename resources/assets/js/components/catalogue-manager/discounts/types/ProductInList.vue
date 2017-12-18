@@ -7,7 +7,6 @@
                 unsearched: true,
                 selected: [],
                 keywords: '',
-                payload: {},
                 params: {
                     type: 'product',
                     per_page: 25,
@@ -20,14 +19,17 @@
                 type: Object
             }
         },
-        mounted() {
-            this.payload = this.criteria;
+        computed: {
+            payload() {
+                return _.map(this.selected, function (item) {
+                    return item.id;
+                });
+            }
         },
         watch: {
             selected: function (values) {
-                this.payload = _.map(this.selected, function (item) {
-                    return item.id;
-                });
+        // LOOK AT this.$emit('val') on the v-model component to get it updated...
+                
             }
         },
         methods: {
@@ -38,7 +40,6 @@
                         this.products = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;
                         this.meta = response.meta;
-                        console.log(response.data);
                         this.loading = false;
                     });
             },
@@ -67,6 +68,7 @@
 <template>
     <div>
         <h5>Product in list</h5>
+        {{ payload }}
         <div class="filters">
             <div class="filter active" v-for="(product, index) in selected">
                 {{ product|attribute('name') }}

@@ -2,8 +2,8 @@
     export default {
         data() {
             return {
-                products: [],
-                loaded: false
+                code: '',
+                payload: {}
             }
         },
         props: {
@@ -11,17 +11,10 @@
                 type: Object
             }
         },
-        computed: {
-            selected() {
-                return _.filter(this.products, product => {
-                    return _.includes(this.criteria.products, product.id);
-                });
-            }
-        },
-        mounted() { 
-        },
-        methods: {
-            remove(id) {
+        mounted() {
+            this.payload = this.criteria;
+            if (!this.payload.value) {
+                this.$set(this.payload, 'value', '');
             }
         }
     }
@@ -30,9 +23,11 @@
 
 <template>
     <div>
+        {{ payload }}
+        {{ criteria }}
         <div class="form-group">
             <label for="">When the coupon equals</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" v-model="payload.value">
         </div>
         
     </div>

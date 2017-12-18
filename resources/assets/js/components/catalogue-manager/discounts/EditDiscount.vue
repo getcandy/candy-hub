@@ -15,7 +15,16 @@
                 type: String
             }
         },
+        methods: {
+            save() {
+                apiRequest.send('PUT', 'discounts/' + this.id, this.discount).then(response => {
+                    this.discount = response.data;
+                    this.loaded = true;
+                });
+            }
+        },
         mounted() {
+            Dispatcher.add('save-discount', this);
             apiRequest.send('GET', 'discounts/' + this.id, {}, {
                 includes: 'channels,sets,rewards,sets.items,attribute_groups,attribute_groups.attributes'
             }).then(response => {
@@ -29,14 +38,14 @@
 <template>
     <div>
         <template v-if="loaded">
-            <candy-tabs initial="productdetails">
-                <candy-tab name="Basic information"  dispatch="product-details">
+            <candy-tabs initial="save-discount">
+                <candy-tab name="Basic information" :selected="true"  dispatch="save-discount">
                     <candy-discount-details :discount="discount"></candy-discount-details>
                 </candy-tab>
-                <candy-tab name="Conditions" :selected="true">
+                <candy-tab name="Conditions" dispatch="save-discount">
                     <candy-discount-conditions :discount="discount"></candy-discount-conditions>
                 </candy-tab>
-                <candy-tab name="Rewards">
+                <candy-tab name="Rewards" dispatch="save-discount">
                     <div class="tab-content sub-content section block">
                         <div class="row">
                             <div class="col-md-12">
@@ -45,7 +54,7 @@
                         </div>
                     </div>
                 </candy-tab>
-                <candy-tab name="Availability" handle="collection-availability" dispatch="collection-availability">
+                <candy-tab name="Availability" handle="collection-availability" dispatch="save-discount">
                     <candy-discount-availability :discount="discount"></candy-discount-availability>
                 </candy-tab>
             </candy-tabs>

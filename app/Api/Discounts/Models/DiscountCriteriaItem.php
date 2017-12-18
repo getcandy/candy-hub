@@ -9,6 +9,11 @@ class DiscountCriteriaItem extends BaseModel
 
     protected $hashids = 'main';
 
+    public function setCriteriaAttribute($val)
+    {
+        $this->attributes['criteria'] = json_encode($val);
+    }
+
     public function set()
     {
         return $this->belongsTo(DiscountCriteriaSet::class, 'awawd');

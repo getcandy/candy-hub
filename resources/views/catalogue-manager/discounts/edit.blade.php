@@ -9,6 +9,10 @@
     <h1>Create Discount</h1>
 @endsection
 
+@section('header_actions')
+    <candy-button style="display: inline-block;" event="save-discount">Save Discount</candy-button>
+@stop
+
 @section('content')
     <candy-edit-discount id="{{ $id }}"></candy-edit-discount>
 @stop

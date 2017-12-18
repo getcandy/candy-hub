@@ -2,11 +2,12 @@
 
 namespace GetCandy\Http\Controllers\Api\Discounts;
 
+use Illuminate\Http\Request;
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Discounts\CreateRequest;
-use GetCandy\Http\Transformers\Fractal\Discounts\DiscountTransformer;
+use GetCandy\Http\Requests\Api\Discounts\UpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
+use GetCandy\Http\Transformers\Fractal\Discounts\DiscountTransformer;
 
 class DiscountController extends BaseController
 {
@@ -25,9 +26,9 @@ class DiscountController extends BaseController
         app('api')->discounts()->create($request->all());
     }
 
-    public function update(UpdateRequest $request)
+    public function update($id, UpdateRequest $request)
     {
-        app('api')->discounts()->update($request->all());
+        app('api')->discounts()->update($id, $request->all());
     }
     /**
      * Shows the discount resource
