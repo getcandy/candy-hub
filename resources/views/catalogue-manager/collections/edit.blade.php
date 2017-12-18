@@ -10,7 +10,7 @@
 @endsection
 
 @section('header_actions')
-    <candy-button style="display: inline-block;" event="save-product">Save Collection</candy-button>
+    <candy-button style="display: inline-block;" event="save-collection">Save Collection</candy-button>
     <button class="btn btn-default white product-menu btn-pop-over"><span class="hamburger"></span></button>
     <!-- Menu Pop Over -->
     <div class="pop-over">
