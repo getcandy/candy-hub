@@ -1,6 +1,5 @@
 <?php
-
-namespace GetCandy\Http\Requests\Api\ProductVariants;
+namespace GetCandy\Http\Requests\Api\Discounts;
 
 use GetCandy\Http\Requests\Api\FormRequest;
 
@@ -13,7 +12,6 @@ class CreateRequest extends FormRequest
      */
     public function authorize()
     {
-        // return $this->user()->can('create', Product::class);
         return $this->user()->hasRole('admin');
     }
 
@@ -24,22 +22,18 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [];
-
-        foreach ($this->variants as $index => $variant) {
-            if (empty($variant['id'])) {
-                $rules['sku'] = 'unique:product_variants';
-            }
-        }
-
-        return $rules;
+        return [
+            // 'sets' => 'valid_discount',
+            // 'name' => 'required',
+            // 'result' => 'required',
+            // 'value' => 'required'
+        ];
     }
 
     public function messages()
     {
         return [
-            'variants.*.sku.unique' => 'This SKU has already been taken',
-            'variants.*.sku.required' => 'The SKU field is required',
+            'valid_discount' => 'You have duplicate items in your criteria'
         ];
     }
 }

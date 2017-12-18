@@ -25,6 +25,10 @@ class DiscountController extends BaseController
         app('api')->discounts()->create($request->all());
     }
 
+    public function update(UpdateRequest $request)
+    {
+        app('api')->discounts()->update($request->all());
+    }
     /**
      * Shows the discount resource
      *

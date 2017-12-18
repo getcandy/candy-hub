@@ -14,7 +14,7 @@ class DeleteRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Product::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     /**
