@@ -100,7 +100,7 @@ class OrderController extends BaseController
         return $this->respondWithItem($order, new OrderTransformer);
     }
 
-    public function shippingOptions($orderId, Request $request)
+    public function shippingMethods($orderId, Request $request)
     {
         $options = app('api')->shippingMethods()->getForOrder($orderId);
         return $this->respondWithCollection($options, new ShippingPriceTransformer);

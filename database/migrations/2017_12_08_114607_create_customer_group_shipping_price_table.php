@@ -19,6 +19,7 @@ class CreateCustomerGroupShippingPriceTable extends Migration
             $table->foreign('shipping_price_id')->references('id')->on('shipping_prices');
             $table->integer('customer_group_id')->unsigned();
             $table->foreign('customer_group_id')->references('id')->on('customer_groups');
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }

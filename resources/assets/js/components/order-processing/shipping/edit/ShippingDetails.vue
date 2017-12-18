@@ -75,6 +75,14 @@
                         :request="request"
                     >
                     </candy-attribute-translatable>
+                    <div class="form-group">
+                        <label>Carrier</label>
+                        <select class="form-control selectize" v-model="method.type">
+                            <option value="">-- Please select</option>
+                            <option value="standard">Standard</option>
+                            <option value="dhl">DHL</option>
+                        </select>
+                    </div>
             </candy-tab>
         </candy-tabs>
     </div>

@@ -10,6 +10,8 @@
                     currency_id: ''
                 },
                 prices: [],
+                hideNew: false,
+                customerGroups: [],
                 newPrice: {
                     currency_id: '',
                     rate: '',
@@ -69,13 +71,14 @@
                 return this.editable.length || price.id === this.editable.id;
             },
             setEditing(price) {
+                this.hideNew = true;
                 if (this.editable.length) {
                     this.saveEditable(price);
                 }
                 this.editable = price;
             },
-            savePrice(price)
-            {
+            savePrice(price) {
+                this.hideNew = false;
                 apiRequest.send('put', 'shipping/prices/' + this.editable.id, this.editable).then(response => {
                 });
                 this.setEditing({});
@@ -144,7 +147,7 @@
         <hr>
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Rate</th>
@@ -311,6 +314,10 @@
 </template>
 
 <style lang="scss" scoped>
+.disabled {
+    opacity:.5;
+    pointer-events: none;
+}
     .fade-enter-active, .fade-leave-active {
         transition: opacity 1s;
     }

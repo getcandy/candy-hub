@@ -12,13 +12,14 @@ class ShippingMethodTransformer extends BaseTransformer
     use IncludesAttributes;
     
     protected $availableIncludes = [
-        'zones', 'prices', 'attribute_groups', 'channels'
+        'zones', 'prices', 'attribute_groups', 'channels', 'customer_groups'
     ];
 
     public function transform(ShippingMethod $method)
     {
         return [
             'id' => $method->encodedId(),
+            'type' => $method->type,
             'attribute_data' => $method->attribute_data
         ];
     }

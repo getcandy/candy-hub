@@ -15,11 +15,11 @@ class CustomerGroupService extends BaseService
 
     public function getGroupsWithAvailability($model, $relation)
     {
-        $groups = $this->model->with([$relation => function ($q) use ($model, $relation) {
+        $groups = $this->model->with([camel_case($relation) => function ($q) use ($model, $relation) {
             $q->where($relation . '.id', $model->id);
         }])->get();
         foreach ($groups as $group) {
-            $model = $group->{$relation}->first();
+            $model = $group->{camel_case($relation)}->first();
             $group->published_at = $model ? $model->pivot->published_at : null;
             $group->visible = $model ? $model->pivot->visible : false;
             $group->purchasable = $model ? $model->pivot->purchasable : false;

@@ -33,7 +33,7 @@
              */
             loadMethod(id) {
                 apiRequest.send('get', '/shipping/' + id, {}, {
-                    includes: 'prices.currency,zones,channels,attribute_groups.attributes'
+                    includes: 'prices.customer_groups,prices.currency,zones,channels,attribute_groups.attributes'
                 })
                 .then(response => {
                     this.method = response.data;
@@ -70,7 +70,7 @@
                                 Zones!
                             </candy-tab>
                             <candy-tab name="Channels">
-                                Channels!
+                                <candy-channel-association :channels="method.channels.data"></candy-channel-association>
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>

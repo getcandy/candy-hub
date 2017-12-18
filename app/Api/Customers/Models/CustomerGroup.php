@@ -2,11 +2,12 @@
 
 namespace GetCandy\Api\Customers\Models;
 
-use GetCandy\Api\Products\Models\Product;
-use GetCandy\Api\Collections\Models\Collection;
-use GetCandy\Api\Scaffold\BaseModel;
-use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Auth\Models\User;
+use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Shipping\Models\ShippingPrice;
 
 class CustomerGroup extends BaseModel
 {
@@ -45,5 +46,10 @@ class CustomerGroup extends BaseModel
     public function categories()
     {
         return $this->belongsToMany(Category::class)->withPivot('visible', 'purchasable');
+    }
+
+    public function shippingPrices()
+    {
+        return $this->belongsToMany(ShippingPrice::class, 'shipping_customer_group_price')->withPivot('visible');
     }
 }

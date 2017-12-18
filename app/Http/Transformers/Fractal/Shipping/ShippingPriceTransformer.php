@@ -1,15 +1,17 @@
 <?php
 namespace GetCandy\Http\Transformers\Fractal\Shipping;
 
-use Illuminate\Database\Eloquent\Model;
 use GetCandy\Api\Shipping\Models\ShippingPrice;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Currencies\CurrencyTransformer;
+use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
+use Illuminate\Database\Eloquent\Model;
 
 class ShippingPriceTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'method'
+        'method',
+        'customer_groups'
     ];
 
     protected $defaultIncludes = [
@@ -43,5 +45,16 @@ class ShippingPriceTransformer extends BaseTransformer
     protected function includeCurrency($price)
     {
         return $this->item($price->currency, new CurrencyTransformer);
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeCustomerGroups(ShippingPrice $price)
+    {
+        $groups = app('api')->customerGroups()->getGroupsWithAvailability($price, 'shipping_prices');
+        return $this->collection($groups, new CustomerGroupTransformer);
     }
 }
