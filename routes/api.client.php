@@ -62,6 +62,7 @@ $this->put('orders/{id}/shipping/address', 'Orders\OrderController@shippingAddre
 $this->put('orders/{id}/shipping/methods', 'Orders\OrderController@shippingMethod');
 $this->get('orders/{id}/shipping/methods', 'Orders\OrderController@shippingMethods');
 $this->put('orders/{id}/shipping/cost', 'Orders\OrderController@shippingCost');
+$this->put('orders/{id}/contact', 'Orders\OrderController@addContact');
 $this->put('orders/{id}/billing/address', 'Orders\OrderController@billingAddress');
 $this->resource('orders', 'Orders\OrderController', [
     'only' => ['store', 'show']

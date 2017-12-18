@@ -280,6 +280,14 @@ class OrderService extends BaseService
         return $query->paginate($length, ['*'], 'page', $page);
     }
 
+    /**
+     * Set the shipping cost and method on an order
+     *
+     * @param string $orderId
+     * @param string $priceId
+     * 
+     * @return Order
+     */
     public function setShippingCost($orderId, $priceId)
     {
         $order = $this->getByHashedId($orderId);
@@ -289,6 +297,30 @@ class OrderService extends BaseService
         $order->shipping_method = $price->method->attribute('name');
         $order->save();
 
+        return $order;
+    }
+
+    /**
+     * Set the contact details on an order
+     *
+     * @param string $orderId
+     * @param array $data
+     * 
+     * @return Order
+     */
+    public function setContact($orderId, array $data)
+    {
+        $order = $this->getByHashedId($orderId);
+        
+        if (!empty($data['contact_email'])) {
+            $order->contact_email = $data['contact_email'];
+        }
+
+        if (!empty($data['contact_phone'])) {
+            $order->contact_phone = $data['contact_phone'];
+        }
+
+        $order->save();
         return $order;
     }
 }

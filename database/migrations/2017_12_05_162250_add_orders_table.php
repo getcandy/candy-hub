@@ -21,7 +21,7 @@ class AddOrdersTable extends Migration
             $table->decimal('total', 10, 2);
             $table->decimal('vat', 10, 2);
             $table->decimal('shipping_total', 10, 2);
-            $table->string('shipping_method');
+            $table->string('shipping_method')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('status')->default('open')->index();
 
