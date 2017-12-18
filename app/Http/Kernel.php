@@ -17,6 +17,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \GetCandy\Http\Middleware\TrimStrings::class,
+        \GetCandy\Http\Middleware\SetCurrencyMiddleware::class,
+        \GetCandy\Http\Middleware\SetTaxMiddleware::class
         //\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -41,7 +43,7 @@ class Kernel extends HttpKernel
         ],
         'api' => [
             'throttle:60,1',
-            'bindings'
+            'bindings',
         ],
         'api:client' => [
             'throttle:60,1',

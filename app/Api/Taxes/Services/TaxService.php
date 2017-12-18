@@ -40,6 +40,11 @@ class TaxService extends BaseService
         return $tax;
     }
 
+    public function getByName($name)
+    {
+        return $this->model->where('name', '=', $name)->firstOrFail();
+    }
+
     /**
      * Updates a resource from the given data
      *

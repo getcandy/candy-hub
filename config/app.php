@@ -238,7 +238,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'CurrencyConverter' => Facades\GetCandy\Api\Currencies\CurrencyConverter::class,
+        'TaxCalculator' => Facades\GetCandy\Api\Taxes\TaxCalculator::class,
+        'PriceCalculator' => Facades\GetCandy\Api\Pricing\PriceCalculator::class
     ],
 
 ];

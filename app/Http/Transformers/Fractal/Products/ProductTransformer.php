@@ -14,6 +14,7 @@ use GetCandy\Http\Transformers\Fractal\Collections\CollectionTransformer;
 use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
+use PriceCalculator;
 
 class ProductTransformer extends BaseTransformer
 {
@@ -43,21 +44,22 @@ class ProductTransformer extends BaseTransformer
      */
     public function transform(Product $product)
     {
+        $this->applyDiscounts($product);
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
             'option_data' => $this->parseOptionData($product->option_data),
             'thumbnail' => $this->getThumbnail($product),
-            'max_price' => $product->max_price,
-            'min_price' => $product->min_price
+            'max_price' => PriceCalculator::get($product->max_price),
+            'min_price' => PriceCalculator::get($product->min_price)
         ];
 
         if ($product->original_min_price) {
-            $response['original_min_price'] = (float) $product->original_min_price;
+            $response['original_min_price'] = (float) PriceCalculator::get($product->original_min_price);
         }
 
         if ($product->original_max_price) {
-            $response['original_max_price'] = (float) $product->original_max_price;
+            $response['original_max_price'] = (float) PriceCalculator::get($product->original_max_price);
         }
 
         $response['discounts'] = $product->discounts;
@@ -67,6 +69,28 @@ class ProductTransformer extends BaseTransformer
         }
 
         return $response;
+    }
+
+    protected function applyDiscounts(Product $product)
+    {
+        $discounts = app('api')->discounts()->get();
+        $sets = app('api')->discounts()->parse($discounts);
+
+        $product->max_price = 0;
+        $product->min_price = 0;
+
+        foreach ($product->variants as $variant) {
+            $product->max_price = $variant->price > $product->max_price ? $variant->price : $product->max_price;
+            if ($product->min_price) {
+                $product->min_price = $variant->price < $product->min_price ? $variant->price : $product->min_price;
+            } else {
+                $product->min_price = $product->max_price;
+            }
+        }
+
+        $applied = \Facades\GetCandy\Api\Discounts\Factory::getApplied($sets, \Auth::user(), $product);
+
+        \Facades\GetCandy\Api\Discounts\Factory::apply($applied, $product);
     }
 
     protected function parseOptionData($data)

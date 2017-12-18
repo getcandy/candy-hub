@@ -23,10 +23,8 @@ class SetLocaleMiddleware
         $defaultLanguage = app('api')->languages()->getDefaultRecord()->lang;
         
         if (!$locale) {
-            
             $locale = $defaultLanguage;
         } else {
-            
             if (extension_loaded('intl')) {
                 $languages = explode(',', Locale::getPrimaryLanguage($locale));
             } else {
