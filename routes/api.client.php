@@ -61,7 +61,7 @@ $this->post('orders/{id}/expire', 'Orders\OrderController@expire');
 $this->put('orders/{id}/shipping/address', 'Orders\OrderController@shippingAddress');
 $this->put('orders/{id}/shipping/methods', 'Orders\OrderController@shippingMethod');
 $this->get('orders/{id}/shipping/methods', 'Orders\OrderController@shippingMethods');
-$this->put('orders/{id}/shipping/price', 'Orders\OrderController@shippingPrice');
+$this->put('orders/{id}/shipping/cost', 'Orders\OrderController@shippingCost');
 $this->put('orders/{id}/billing/address', 'Orders\OrderController@billingAddress');
 $this->resource('orders', 'Orders\OrderController', [
     'only' => ['store', 'show']

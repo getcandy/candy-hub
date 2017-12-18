@@ -279,4 +279,16 @@ class OrderService extends BaseService
         }
         return $query->paginate($length, ['*'], 'page', $page);
     }
+
+    public function setShippingCost($orderId, $priceId)
+    {
+        $order = $this->getByHashedId($orderId);
+        $price = app('api')->shippingPrices()->getByHashedId($priceId);
+
+        $order->shipping_total = $price->rate;
+        $order->shipping_method = $price->method->attribute('name');
+        $order->save();
+
+        return $order;
+    }
 }
