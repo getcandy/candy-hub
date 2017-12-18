@@ -15,6 +15,9 @@
         },
         mounted() {
             this.loadDiscounts();
+            CandyEvent.$on('discount-added', product => {
+                this.loadDiscounts();
+            });
         },
         methods: {
             loadDiscount: function (id) {

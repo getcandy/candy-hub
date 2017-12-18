@@ -10,7 +10,7 @@
 @endsection
 
 @section('header_actions')
-    <candy-product-create style="display: inline-block;"></candy-product-create>
+    <candy-create-discount style="display: inline-block;"></candy-create-discount>
 @endsection
 
 @section('content')

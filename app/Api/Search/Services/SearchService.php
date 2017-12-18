@@ -34,7 +34,7 @@ class SearchService
         if ($includes) {
             app()->fractal->parseIncludes($includes);
         }
-
+        
         if ($results->count()) {
             foreach ($results as $r) {
                 $ids[] = $r->getSource()['id'];
@@ -47,11 +47,13 @@ class SearchService
         $transformer = new $this->types[$type];
         $resource = new Collection($collection, $transformer);
 
+
         $resource->setMeta([
             'pagination' => $this->getPagination($results),
             'aggregation' => $this->getSearchAggregator($results),
             'suggestions' => $this->getSuggestions($results)
         ]);
+        
 
         return app()->fractal->createData($resource)->toArray();
     }
@@ -75,7 +77,7 @@ class SearchService
             'current_page' => $page <= 1 ? 1 : $page,
             'total_pages' => floor($results->getTotalHits() / $query->getParam('size'))
         ];
-
+        
         return $pagination;
     }
 

@@ -86,7 +86,8 @@ var includes = [
     path: 'catalogue-manager.discounts',
     components: {
       'discounts-table' : 'DiscountsTable',
-      'edit-discount': 'EditDiscount'
+      'edit-discount': 'EditDiscount',
+      'create-discount': 'CreateDiscount'
     }
   },
   {
@@ -101,7 +102,8 @@ var includes = [
     path: 'catalogue-manager.discounts.types',
     components: {
       'discounts-product-in-list': 'ProductInList',
-      'discounts-user-in-list' : 'UserInList'
+      'discounts-user-in-list' : 'UserInList',
+      'discounts-coupon' : 'Coupon'
     }
   },
   {

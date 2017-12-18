@@ -2,11 +2,12 @@
 
 namespace GetCandy\Api\Discounts\Services;
 
-use GetCandy\Api\Scaffold\BaseService;
-use GetCandy\Api\Discounts\Models\Discount;
+use Carbon\Carbon;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Discounts\Discount as DiscountFactory;
+use GetCandy\Api\Discounts\Models\Discount;
 use GetCandy\Api\Discounts\RewardSet;
+use GetCandy\Api\Scaffold\BaseService;
 
 class DiscountService extends BaseService
 {
@@ -26,13 +27,32 @@ class DiscountService extends BaseService
     {
         $discount = new Discount;
         $discount->attribute_data = $data;
-        $discount->start_at = \Carbon\Carbon::parse($data['start']);
+        $discount->start_at = Carbon::now();
+        $discount->status = 'draft';
+        $discount->save();
+
+        event(new AttributableSavedEvent($discount));
+
+        return $discount;
+    }
+
+    /**
+     * Update an existing discount
+     *
+     * @param string $id
+     * @param array $data
+     * 
+     * @return Discount
+     */
+    public function store($id, array $data)
+    {
+        $discount = $this->getByHashedId($id);
         $discount->end_at = \Carbon\Carbon::parse($data['start']);
         $discount->priority = $data['priority'];
         $discount->stop_rules = $data['stop_rules'];
         $discount->status = $data['status'];
         $discount->channel_id = app('api')->channels()->getByHashedId($data['channel'])->id;
-        
+
         $discount->save();
 
         event(new AttributableSavedEvent($discount));
@@ -50,7 +70,7 @@ class DiscountService extends BaseService
                 $groupModel->items()->create($item);
             }
         }
-        dd($data);
+        return $discount;
     }
 
     /**
@@ -89,8 +109,8 @@ class DiscountService extends BaseService
                 foreach ($set->items as $item) {
                     $criteriaSet->add($item);
                 }
+                $sets[] = $factory->addCriteria($criteriaSet);
             }
-            $sets[] = $factory->addCriteria($criteriaSet);
         }
         return collect($sets);
     }

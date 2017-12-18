@@ -15,7 +15,7 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('channel_id')->unsigned();
+            $table->integer('channel_id')->unsigned()->nullable();
             $table->foreign('channel_id')->references('id')->on('channels');
             $table->json('attribute_data');
             $table->integer('status');
