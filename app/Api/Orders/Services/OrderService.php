@@ -30,7 +30,7 @@ class OrderService extends BaseService
         $order->user()->associate(app('auth')->user());
         $order->total = $basket->total;
         $order->currency = $basket->currency;
-        $order->shipping = 0;
+        $order->shipping_total = 0;
         $order->vat = 0;
 
         $order->save();
