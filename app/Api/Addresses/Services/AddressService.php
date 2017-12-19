@@ -32,6 +32,12 @@ class AddressService extends BaseService
         return $query->where($type, '=', true)->exists();
     }
 
+    public function addAddress($user, $data, $type)
+    {
+        $data[$type] = true;
+        return $this->create($user, $data);
+    }
+
     /**
      * Create a new address
      *

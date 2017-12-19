@@ -16,6 +16,6 @@ class DiscountCriteriaItem extends BaseModel
 
     public function set()
     {
-        return $this->belongsTo(DiscountCriteriaSet::class, 'awawd');
+        return $this->belongsTo(DiscountCriteriaSet::class, 'discount_criteria_set_id');
     }
 }

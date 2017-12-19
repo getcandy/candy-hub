@@ -58,8 +58,13 @@ class ShippingMethodService extends BaseService
 
         $options = [];
 
+
         foreach ($zones as $zone) {
             foreach ($zone->methods as $index => $method) {
+                $option = $calculator->with($method)->calculate($order);
+                if (!$option) {
+                    continue;
+                }
                 $options[$index] = $calculator->with($method)->calculate($order);
             }
         }

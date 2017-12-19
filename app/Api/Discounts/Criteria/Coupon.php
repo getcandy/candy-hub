@@ -6,6 +6,27 @@ use GetCandy\Api\Discounts\Contracts\DiscountCriteriaContract;
 
 class Coupon implements DiscountCriteriaContract
 {
+    public function getArea()
+    {
+        return 'basket';
+    }
+
+    public function setCriteria($criteria)
+    {
+        $this->criteria = json_decode($criteria, true)['value'];
+    }
+
+    public function check($user = null, $product = null, $basket = null)
+    {
+        if (!$basket) {
+            return false;
+        }
+        $coupons = $basket->discounts->map(function ($item) {
+            return $item->pivot->coupon;
+        });
+        return $coupons->contains($this->criteria);
+    }
+
     public function getLabel()
     {
         return 'Coupon code';

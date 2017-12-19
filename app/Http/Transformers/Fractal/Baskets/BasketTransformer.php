@@ -1,22 +1,24 @@
 <?php
 namespace GetCandy\Http\Transformers\Fractal\Baskets;
 
-use GetCandy\Http\Transformers\Fractal\BaseTransformer;
-use GetCandy\Api\Baskets\Models\Basket;
 use Carbon\Carbon;
+use GetCandy\Api\Discounts\Factory;
+use GetCandy\Api\Baskets\Models\Basket;
+use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
+use GetCandy\Http\Transformers\Fractal\Discounts\DiscountTransformer;
 
 class BasketTransformer extends BaseTransformer
 {
-
     protected $availableIncludes = [
-        'lines', 'user'
+        'lines', 'user', 'discounts'
     ];
 
     public function transform(Basket $basket)
     {
         $data = [
-            'id' => $basket->encodedId()
+            'id' => $basket->encodedId(),
+            'total' => $basket->total
         ];
         return $data;
     }
@@ -32,5 +34,10 @@ class BasketTransformer extends BaseTransformer
             return null;
         }
         return $this->item($basket->user, new UserTransformer);
+    }
+
+    protected function includeDiscounts(Basket $basket)
+    {
+        return $this->collection($basket->discounts, new DiscountTransformer);
     }
 }

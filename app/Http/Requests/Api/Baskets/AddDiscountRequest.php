@@ -24,10 +24,14 @@ class AddDiscountRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'variants' => 'required|array',
-            // 'variants.*.id' => 'required|hashid_is_valid:product_variants',
-            // 'variants.*.price' => 'required|numeric',
-            // 'variants.*.quantity' => 'required|numeric|min:1',
+            'coupon' => 'required|check_coupon:' . $this->id
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'check_coupon' => 'The coupon is either invalid, expired or cannot be used'
         ];
     }
 }

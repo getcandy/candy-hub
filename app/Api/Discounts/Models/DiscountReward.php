@@ -5,7 +5,7 @@ use GetCandy\Api\Scaffold\BaseModel;
 
 class DiscountReward extends BaseModel
 {
-    protected $fillable = ['payload', 'type'];
+    protected $fillable = ['value', 'type'];
 
     protected $hashids = 'main';
 

@@ -41,6 +41,7 @@ class BasketController extends BaseController
     public function discount($basketId, AddDiscountRequest $request)
     {
         $basket = app('api')->baskets()->addDiscount($basketId, $request->coupon);
+        return $this->respondWithItem($basket, new BasketTransformer);
     }
 
     /**

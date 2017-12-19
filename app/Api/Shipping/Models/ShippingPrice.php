@@ -4,6 +4,7 @@ namespace GetCandy\Api\Shipping\Models;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasCustomerGroups;
 use GetCandy\Api\Currencies\Models\Currency;
+use GetCandy\Api\Customers\Models\CustomerGroup;
 
 class ShippingPrice extends BaseModel
 {
@@ -37,5 +38,10 @@ class ShippingPrice extends BaseModel
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function customerGroups()
+    {
+        return $this->belongsToMany(CustomerGroup::class, 'shipping_customer_group_price')->withPivot(['visible', 'purchasable']);
     }
 }

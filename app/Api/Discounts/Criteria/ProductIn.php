@@ -7,6 +7,11 @@ class ProductIn implements DiscountCriteriaContract
 {
     protected $criteria;
 
+    public function getArea()
+    {
+        return 'catalog';
+    }
+
     public function setCriteria($criteria)
     {
         $this->criteria = json_decode($criteria, true);

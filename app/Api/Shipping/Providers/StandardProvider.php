@@ -8,6 +8,7 @@ class StandardProvider extends AbstractProvider
     {
         $basket = $order->basket;
         $weight = $basket->weight;
+
         $price = $this->method->prices->filter(function ($item) use ($weight) {
             if ($weight > $item->min_weight) {
                 return $item;

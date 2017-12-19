@@ -103,6 +103,9 @@ class OrderService extends BaseService
 
         $this->setFields($order, $data, $type);
 
+
+        $order->save();
+
         return $order;
     }
     

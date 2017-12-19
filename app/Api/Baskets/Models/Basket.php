@@ -2,6 +2,7 @@
 namespace GetCandy\Api\Baskets\Models;
 
 use GetCandy\Api\Auth\Models\User;
+use GetCandy\Api\Discounts\Factory;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Traits\HasCompletion;
@@ -50,11 +51,10 @@ class Basket extends BaseModel
 
     public function getTotalAttribute()
     {
-        $total = 0;
-        foreach ($this->lines as $line) {
-            $total += $line->total;
-        }
-        return $total;
+        $factory = new Factory;
+        $sets = app('api')->discounts()->parse($this->discounts);
+        $applied = $factory->getApplied($sets, \Auth::user(), null, $this);
+        return $factory->applyToBasket($applied, $this);
     }
 
     public function getWeightAttribute()

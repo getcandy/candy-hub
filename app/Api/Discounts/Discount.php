@@ -44,7 +44,7 @@ class Discount
 
     public function getRewards()
     {
-        return $this->reward->getRewards();
+        return collect($this->reward->getRewards());
     }
 
     public function getCriteria()

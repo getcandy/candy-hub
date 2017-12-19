@@ -12,7 +12,7 @@ class DiscountTransformer extends BaseTransformer
     use IncludesAttributes;
     
     protected $availableIncludes = [
-        'sets', 'attribute_groups', 'channels'
+        'sets', 'attribute_groups', 'channels', 'rewards'
     ];
 
     public function transform(Discount $discount)
@@ -50,5 +50,10 @@ class DiscountTransformer extends BaseTransformer
     {
         $channels = app('api')->channels()->getChannelsWithAvailability($discount, 'discounts');
         return $this->collection($channels, new ChannelTransformer);
+    }
+
+    public function includeRewards(Discount $discount)
+    {
+        return $this->collection($discount->rewards, new DiscountRewardTransformer);
     }
 }

@@ -112,7 +112,7 @@ class DiscountService extends BaseService
             foreach ($discount->rewards as $reward) {
                 $rewardSet->add([
                     'type' => $reward->type,
-                    'payload' => json_decode($reward->payload, true)
+                    'value' => $reward->value
                 ]);
             }
 
