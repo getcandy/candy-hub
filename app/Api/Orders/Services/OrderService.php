@@ -34,6 +34,10 @@ class OrderService extends BaseService
         $order->vat = 0;
 
         $order->save();
+
+        $order->discounts()->createMany(
+            $this->mapOrderDiscounts($basket)
+        );
         
         $order->lines()->createMany(
             $this->mapOrderLines($basket)
@@ -222,6 +226,27 @@ class OrderService extends BaseService
         }
 
         return $lines;
+    }
+
+    protected function mapOrderDiscounts($basket)
+    {
+        $discounts = [];
+
+        foreach ($basket->discounts as $discount) {
+            $amount = 0;
+
+            foreach ($discount->rewards as $reward) {
+                array_push($discounts, [
+                    'coupon' => $discount->pivot->coupon,
+                    'name' => $discount->attribute('name'),
+                    'description' => $discount->attribute('description'),
+                    'type' => $reward->type,
+                    'amount' => $reward->value
+                ]);
+            }
+        }
+
+        return $discounts;
     }
 
     /**

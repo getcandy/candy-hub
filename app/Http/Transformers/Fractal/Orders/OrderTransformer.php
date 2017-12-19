@@ -12,7 +12,7 @@ use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 class OrderTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'lines', 'user', 'basket', 'transactions'
+        'lines', 'user', 'basket', 'transactions', 'discounts'
     ];
 
     public function transform(Order $order)
@@ -39,6 +39,11 @@ class OrderTransformer extends BaseTransformer
     protected function includeBasket(Order $order)
     {
         return $this->item($order->basket, new BasketTransformer);
+    }
+
+    protected function includeDiscounts(Order $order)
+    {
+        return $this->collection($order->discounts, new OrderDiscountTransformer);
     }
 
     protected function includeUser(Order $order)

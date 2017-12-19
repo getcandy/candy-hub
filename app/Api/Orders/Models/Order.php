@@ -100,4 +100,10 @@ class Order extends BaseModel
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function discounts()
+    {
+        // dd($this->id);
+        return $this->hasMany(OrderDiscount::class);
+    }
 }

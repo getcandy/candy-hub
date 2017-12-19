@@ -35,6 +35,8 @@ trait HasAttributes
        
         if (!empty($this->attribute_data[$handle][$channel][$userLocale])) {
             return $this->attribute_data[$handle][$channel][$userLocale];
+        } elseif (empty($this->attribute_data[$handle][$channel][$userLocale])) {
+            return null;
         } elseif (is_null($this->attribute_data[$handle][$channel][$userLocale])) {
             $channel = $defaultChannel->handle;
             $locale = $locale->lang;
