@@ -24,6 +24,9 @@ class OrderTransformer extends BaseTransformer
             'currency' => $order->currency,
             'shipping_total' => $order->shipping_total,
             'shipping_method' => $order->shipping_method,
+            'customer_name' => $order->customer_name,
+            'contact_phone' => $order->contact_phone,
+            'contact_email' => $order->contact_email,
             'billing' => $order->billing_details,
             'shipping' => $order->shipping_details,
             'status' => $order->status

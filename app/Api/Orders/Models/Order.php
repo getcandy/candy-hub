@@ -71,6 +71,22 @@ class Order extends BaseModel
         })->toArray();
     }
 
+    public function getCustomerNameAttribute()
+    {
+        if ($billing = $this->getDetails('billing')) {
+            $name = $billing['firstname'] . ' ' . $billing['lastname'];
+        }
+
+        if ($this->user) {
+            $name = $this->user->name;
+        }
+        
+        if (!$name || $name == ' ') {
+            return 'Guest';
+        }
+        return $name;
+    }
+
     /**
      * Get the basket lines
      *

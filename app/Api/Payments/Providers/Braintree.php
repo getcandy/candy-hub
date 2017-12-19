@@ -68,7 +68,7 @@ class Braintree extends AbstractProvider
         ]);
         
         //TODO: REMOVE BEFORE LIVE
-        // $this->settle($sale);
+        $this->settle($sale);
 
         return $sale;
     }

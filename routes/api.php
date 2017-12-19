@@ -53,6 +53,7 @@ $this->get('baskets/current', 'Baskets\BasketController@current');
  * Payments
  */
 $this->post('payments/{id}/refund', 'Payments\PaymentController@refund');
+$this->post('payments/{id}/void', 'Payments\PaymentController@void');
 
 /**
  * Categories

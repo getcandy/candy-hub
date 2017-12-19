@@ -47,7 +47,7 @@
 
                     CandyEvent.$emit('title-changed', {
                         prefix: 'Order for ',
-                        title: this.order.billing.firstname + ' ' + this.order.billing.lastname
+                        title: this.order.customer_name
                     });
 
                     apiRequest.send('GET', 'currencies/' + this.order.currency).then(response => {
@@ -62,6 +62,39 @@
                     return false;
                 }
                 this.$set(this.transactions[index], 'refunding', true);
+
+                var transaction = this.transactions[index];
+
+                apiRequest.send('post', '/payments/' + transaction.id + '/refund').then(response => {
+                    this.$set(this.transactions[index], 'refunding', false);
+                    this.$set(this.transactions, index, response.data);
+                }).catch(response => {
+                    this.$set(this.transactions[index], 'refunding', false);
+                    CandyEvent.$emit('notification', {
+                        level: 'error',
+                        message: error.message
+                    });
+                });
+
+            },
+            voidit(index) {
+                if (!confirm('Are you sure?')) {
+                    return false;
+                }
+                this.$set(this.transactions[index], 'voiding', true);
+    
+                var transaction = this.transactions[index];
+
+                apiRequest.send('post', '/payments/' + transaction.id + '/void').then(response => {
+                    this.$set(this.transactions, index, response.data);
+                }).catch(response => {
+                    this.$set(this.transactions[index], 'voiding', false);
+                    
+                    CandyEvent.$emit('notification', {
+                        level: 'error',
+                        message: error.message
+                    });
+                });
             },
             status(order) {
                 var type = 'success'
@@ -168,6 +201,7 @@
                                                         <td>{{ item.merchant }}</td>
                                                         <td>
                                                             <span class="text-success" v-if="item.success">Processed</span>
+                                                            <span class="text-info" v-else-if="item.status == 'voided'">Voided</span>
                                                             <span class="text-danger" v-else>Failed</span>
                                                         </td>
                                                         <td v-html="currencySymbol(item.amount)"></td>
@@ -176,10 +210,13 @@
                                                         </td>
                                                         <td>{{ item.notes }}</td>
                                                         <td>
-                                                            <button type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement'">Void</button>
+                                                            <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
                                                             <button @click="refund(index)" type="button" class="btn btn-small btn-info" v-if="item.status == 'settled' && !item.refunding">Issue Refund</button>
                                                             <button  type="button" class="btn btn-small btn-warning" v-if="item.refunding" disabled>
                                                                 <i class="fa fa-refresh fa-spin"></i> Refunding
+                                                            </button>
+                                                            <button  type="button" class="btn btn-small btn-warning" v-if="item.voiding" disabled>
+                                                                <i class="fa fa-refresh fa-spin"></i> voiding
                                                             </button>
                                                         </td>
                                                     </tr>

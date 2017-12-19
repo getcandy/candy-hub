@@ -78,14 +78,29 @@ class PaymentService extends BaseService
         $refund->merchant = $result->success ? '-' : $result->params['merchantId'];
         $refund->order_id = $order->id;
 
-        $order->status = $result->success ? 'refunded' : $order->status;
+        $order->status = $refund->successs ? 'refunded' : $order->status;
         $transaction->status = 'refunded';
         $refund->notes = $result->success ?: $result->message;
 
         $order->save();
-
+        $transaction->save();
         $refund->save();
 
         return $refund;
+    }
+
+    public function void($transactionId)
+    {
+        $transaction = $this->getByHashedId($transactionId);
+
+        $result = $this->getProvider()->void($transaction->transaction_id);
+
+
+        $transaction->success = $result->success;
+        $transaction->status = $result->success ? $result->transaction->status : $transaction->status;
+        $transaction->notes = $result->message;
+
+        $transaction->save();
+        return $transaction;
     }
 }

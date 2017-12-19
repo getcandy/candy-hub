@@ -344,12 +344,12 @@ class OrderService extends BaseService
     {
         $order = $this->getByHashedId($orderId);
         
-        if (!empty($data['contact_email'])) {
-            $order->contact_email = $data['contact_email'];
+        if (!empty($data['email'])) {
+            $order->contact_email = $data['email'];
         }
 
-        if (!empty($data['contact_phone'])) {
-            $order->contact_phone = $data['contact_phone'];
+        if (!empty($data['phone'])) {
+            $order->contact_phone = $data['phone'];
         }
 
         $order->save();

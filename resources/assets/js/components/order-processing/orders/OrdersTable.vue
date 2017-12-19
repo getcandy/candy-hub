@@ -142,7 +142,9 @@
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="order in orders">
                             <td @click="loadOrder(order.id)"><span class="label" :class="status(order).class">{{ status(order).text }}</span></td>
-                            <td @click="loadOrder(order.id)">{{ order.billing.firstname }} {{ order.billing.lastname }}</td>
+                            <td @click="loadOrder(order.id)">
+                                {{ order.customer_name }}
+                            </td>
                             <td @click="loadOrder(order.id)">
                                 <span v-html="localisedPrice(order.total, order.currency)"></span>
                             </td>

@@ -106,10 +106,10 @@ class OrderController extends BaseController
         return $this->respondWithCollection($options, new ShippingPriceTransformer);
     }
 
-    public function addContact($orderId)
+    public function addContact($orderId, Request $request)
     {
         try {
-            $order = app('api')->orders()->setContact($id, $request->all());
+            $order = app('api')->orders()->setContact($orderId, $request->all());
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
