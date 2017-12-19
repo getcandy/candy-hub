@@ -6,6 +6,8 @@ return [
      */
     'hub_access' => ['editor'],
 
+    'default_customer_group' => 'retail',
+
     'discounters' => [
         'coupon' => GetCandy\Api\Discounts\Criteria\Coupon::class,
         'customer-group' => GetCandy\Api\Discounts\Criteria\CustomerGroup::class,
