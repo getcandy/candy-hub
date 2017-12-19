@@ -7,6 +7,7 @@ use GetCandy\Http\Requests\Api\Baskets\CreateRequest;
 use GetCandy\Http\Requests\Api\Baskets\UpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Baskets\AddDiscountRequest;
+use GetCandy\Http\Requests\Api\Baskets\DeleteDiscountRequest;
 use GetCandy\Http\Transformers\Fractal\Baskets\BasketTransformer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -38,9 +39,15 @@ class BasketController extends BaseController
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 
-    public function discount($basketId, AddDiscountRequest $request)
+    public function addDiscount($basketId, AddDiscountRequest $request)
     {
         $basket = app('api')->baskets()->addDiscount($basketId, $request->coupon);
+        return $this->respondWithItem($basket, new BasketTransformer);
+    }
+
+    public function deleteDiscounts($basketId, DeleteDiscountRequest $request)
+    {
+        $basket = app('api')->baskets()->deleteDiscount($basketId, $request->coupon);
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 

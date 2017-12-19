@@ -64,6 +64,14 @@ class BasketService extends BaseService
         return $basket;
     }
 
+    /**
+     * Adds a discount to a basket
+     *
+     * @param string $basketId
+     * @param string $coupon
+     * 
+     * @return Basket
+     */
     public function addDiscount($basketId, $coupon)
     {
         $basket = $this->getByHashedId($basketId);
@@ -71,6 +79,25 @@ class BasketService extends BaseService
         $discount = $discountCriteria->set->discount;
         $discount->increment('uses');
         $basket->discounts()->attach($discount->id, ['coupon' => $coupon]);
+        return $basket;
+    }
+
+    /**
+     * Delete a discount
+     *
+     * @param string $basketId
+     * @param string $discountId
+     * @return void
+     */
+    public function deleteDiscount($basketId, $coupon)
+    {
+        $basket = $this->getByHashedId($basketId);
+        $discount = $basket->discounts()->where('coupon', '=', $coupon)->first();
+
+        $basket->discounts()->detach($discount);
+
+        event(new BasketStoredEvent($basket));
+        
         return $basket;
     }
 

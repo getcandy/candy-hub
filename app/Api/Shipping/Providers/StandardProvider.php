@@ -10,7 +10,7 @@ class StandardProvider extends AbstractProvider
         $weight = $basket->weight;
 
         $price = $this->method->prices->filter(function ($item) use ($weight) {
-            if ($weight > $item->min_weight) {
+            if ($weight >= $item->min_weight) {
                 return $item;
             };
         })->sortByDesc('min_weight')->first();

@@ -57,8 +57,7 @@ class ShippingMethodService extends BaseService
         $calculator = new ShippingCalculator(app());
 
         $options = [];
-
-
+        
         foreach ($zones as $zone) {
             foreach ($zone->methods as $index => $method) {
                 $option = $calculator->with($method)->calculate($order);

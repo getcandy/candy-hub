@@ -22,7 +22,8 @@ $this->get('products', 'Products\ProductController@index');
  * Baskets
  */
 $this->get('baskets', 'Products\ProductController@index');
-$this->put('baskets/{id}/discounts', 'Baskets\BasketController@discount');
+$this->put('baskets/{id}/discounts', 'Baskets\BasketController@addDiscount');
+$this->delete('baskets/{id}/discounts', 'Baskets\BasketController@deleteDiscounts');
 $this->resource('baskets', 'Baskets\BasketController', [
     'except' => ['edit', 'create']
 ]);
