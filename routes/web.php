@@ -100,9 +100,9 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'as' => 'hub.shipping.index',
             'uses' => 'ShippingController@getIndex'
         ]);
-        $this->get('shipping/create', [
-            'as' => 'hub.shipping.create',
-            'uses' => 'ShippingController@getCreate'
+        $this->get('shipping/zones', [
+            'as' => 'hub.shipping.zones',
+            'uses' => 'ShippingController@getZones'
         ]);
         $this->get('shipping/{id}', [
             'as' => 'hub.shipping.edit',

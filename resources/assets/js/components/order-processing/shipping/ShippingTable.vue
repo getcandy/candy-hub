@@ -14,6 +14,9 @@
         },
         mounted() {
             this.loadMethods();
+            CandyEvent.$on('shipping-method-added', product => {
+                this.loadMethods();
+            });
         },
         methods: {
             loadMethods() {
@@ -52,27 +55,21 @@
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+                <a href="#shipping-methods" aria-controls="shipping-methods" role="tab" data-toggle="tab">
                     Shipping Methods
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
-                    Shipping Zones
                 </a>
             </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content section block">
             <div role="tabpanel" class="tab-pane active" id="all-collections">
-
                 <!-- Search Form -->
                 <form>
                     <div class="row">
                         <div class="form-group col-xs-12 col-md-8">
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
-                                  <i class="fa fa-search" aria-hidden="true"></i>
+                                    <fa icon="search" />
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
                                 <input type="text" class="form-control" id="search" placeholder="Search">
@@ -94,14 +91,20 @@
                                 {{ method|attribute('name') }}
                             </td>
                             <td>
-                                <template v-for="price, index in method.prices.data">
-                                    {{ price.rate }}<span v-if="index < method.prices.data.length - 1">,</span>
+                                <template v-if="method.prices.data.length">
+                                    <template v-for="price, index in method.prices.data">
+                                        {{ price.rate }}<span v-if="index < method.prices.data.length - 1">,</span>
+                                    </template>
                                 </template>
+                                <span class="text-info" v-else>No prices set</span>
                             </td>
                             <td>
-                                <template v-for="zone in method.zones.data">
-                                    {{ zone.name }}<span v-if="index < method.zones.data.length - 1">,</span>
+                                <template v-if="method.zones.data.length">
+                                    <template v-for="zone in method.zones.data">
+                                        {{ zone.name }}<span v-if="index < method.zones.data.length - 1">,</span>
+                                    </template>
                                 </template>
+                                <span class="text-info" v-else>No zones set</span>
                             </td>
                         </tr>
 
@@ -111,7 +114,7 @@
                         <tr>
                             <td colspan="25" style="padding:40px;">
                                 <div class="loading">
-                                    <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                                    <span><fa icon="spinner" size="3x" spin /></span> <strong>Loading</strong>
                                 </div>
                             </td>
                         </tr>

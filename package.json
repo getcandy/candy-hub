@@ -25,6 +25,9 @@
     "jquery.fancytree": "^2.24.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.0",
+    "@fortawesome/fontawesome-free-solid": "^5.0.2",
+    "@fortawesome/vue-fontawesome": "0.0.22",
     "babel-polyfill": "^6.23.0",
     "bootstrap-tagsinput": "^0.7.1",
     "flag-icon-css": "^2.8.0",

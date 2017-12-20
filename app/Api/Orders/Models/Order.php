@@ -73,6 +73,8 @@ class Order extends BaseModel
 
     public function getCustomerNameAttribute()
     {
+        $name = null;
+        
         if ($billing = $this->getDetails('billing')) {
             $name = $billing['firstname'] . ' ' . $billing['lastname'];
         }

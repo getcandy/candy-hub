@@ -29,8 +29,6 @@ class StoreAddressRequest extends FormRequest
             'city' => 'required_without:address_id',
             'county' => 'required_without_all:address_id,state',
             'email' => 'email',
-            'firstname' => 'required_without:address_id',
-            'lastname' => 'required_without:address_id',
             'state' => 'required_without_all:address_id,county',
             'zip' => 'required_without:address_id',
             'country' => 'required_without:address_id'

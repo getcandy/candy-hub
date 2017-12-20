@@ -24,6 +24,13 @@ require('dropzone');
 require('lity');
 require('selectize');
 
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import icons from '@fortawesome/fontawesome-free-solid'
+import fontawesome from '@fortawesome/fontawesome'
+fontawesome.library.add(icons)
+
+Vue.component('fa', FontAwesomeIcon);
+
 /**
  * Bind some bits to the window for usage.
  */
