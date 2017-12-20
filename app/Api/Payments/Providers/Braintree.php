@@ -14,7 +14,7 @@ class Braintree extends AbstractProvider
     public function __construct()
     {
         Braintree_Configuration::environment(config('getcandy.payments.environment'));
-        Braintree_Configuration::merchantId(config('services.braintree.merchants.default'));
+        Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
         Braintree_Configuration::publicKey(config('services.braintree.key'));
         Braintree_Configuration::privateKey(config('services.braintree.secret'));
     }
@@ -57,11 +57,22 @@ class Braintree extends AbstractProvider
         return true;
     }
 
-    public function charge($token, $amount, $options = [])
+    protected function getMerchant($currency)
     {
+        return config(
+            'services.braintree.merchants.' . strtolower($currency),
+            config('services.braintree.merchants.default')
+        );
+    }
+
+    public function charge($token, $amount, $currency)
+    {
+        $merchant = $this->getMerchant($currency);
+
         $sale = Braintree_Transaction::sale([
             'amount' => $amount,
             'paymentMethodNonce' => $token,
+            'merchantAccountId' => $merchant,
             'options' => [
                 'submitForSettlement' => true
             ]

@@ -280,7 +280,8 @@ class OrderService extends BaseService
 
         $transaction = app('api')->payments()->charge(
             $data['payment_token'],
-            $total
+            $total,
+            $order->currency
         );
 
         if ($transaction->success) {

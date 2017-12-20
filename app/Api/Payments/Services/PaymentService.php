@@ -39,9 +39,9 @@ class PaymentService extends BaseService
         return $this->getProvider()->validateToken($token);
     }
 
-    public function charge($token, $amount)
+    public function charge($token, $amount, $currency)
     {
-        $result = $this->getProvider()->charge($token, $amount);
+        $result = $this->getProvider()->charge($token, $amount, $currency);
         $transaction = new Transaction;
         $transaction->success = $result->success;
         $transaction->status = $result->transaction->status;
