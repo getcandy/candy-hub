@@ -2,11 +2,14 @@
 namespace GetCandy\Api\Shipping\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasChannels;
 use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Channels\Models\Channel;
 
 class ShippingMethod extends BaseModel
 {
-    use HasAttributes;
+    use HasAttributes,
+        HasChannels;
 
     /**
      * @var string
@@ -18,13 +21,22 @@ class ShippingMethod extends BaseModel
         'type'
     ];
 
-    protected function zones()
+    public function zones()
     {
         return $this->belongsToMany(ShippingZone::class, 'shipping_method_zones');
     }
 
-    protected function prices()
+    public function prices()
     {
         return $this->hasMany(ShippingPrice::class);
+    }
+
+    /**
+     * Get the attributes associated to the product
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class, 'shipping_method_channel')->withPivot('published_at');
     }
 }

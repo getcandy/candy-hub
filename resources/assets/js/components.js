@@ -232,6 +232,7 @@ var includes = [
       'shipping-details': 'ShippingDetails',
       'add-shipping-price': 'AddShippingPrice',
       'shipping-prices': 'ShippingPrices',
+      'shipping-method-zones': 'ShippingZones',
     }
   }
 ]

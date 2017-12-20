@@ -12,7 +12,7 @@ class ShippingMethodTransformer extends BaseTransformer
     use IncludesAttributes;
     
     protected $availableIncludes = [
-        'zones', 'prices', 'attribute_groups', 'channels', 'customer_groups'
+        'zones', 'prices', 'attribute_groups', 'channels'
     ];
 
     public function transform(ShippingMethod $method)

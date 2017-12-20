@@ -25,8 +25,16 @@
                 this.loaded = false;
                 this.loadMethod(this.id);
             });
+            Dispatcher.add('save-shipping-method', this);
         },
         methods: {
+            save() {
+                apiRequest.send('PUT', '/shipping/' + this.method.id, this.method).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success'
+                    });
+                })
+            },
             /**
              * Loads the product by its encoded ID
              * @param  {String} id
@@ -57,8 +65,8 @@
     <div>
         <template v-if="loaded">
             <transition name="fade">
-                <candy-tabs>
-                    <candy-tab name="Basic information"  dispatch="product-details" :selected="true">
+                <candy-tabs initial="save-shipping-method">
+                    <candy-tab name="Basic information"  dispatch="save-shipping-method" :selected="true">
                         <candy-shipping-details :method="method"></candy-shipping-details>
                     </candy-tab>
                     <candy-tab name="Availability & Pricing">
@@ -66,10 +74,10 @@
                             <candy-tab name="Prices" selected="true">
                                 <candy-shipping-prices :method="method"></candy-shipping-prices>
                             </candy-tab>
-                            <candy-tab name="Zones">
-                                Zones!
+                            <candy-tab name="Zones" dispatch="save-shipping-method-zones">
+                                <candy-shipping-method-zones :method="method"></candy-shipping-method-zones>
                             </candy-tab>
-                            <candy-tab name="Channels">
+                            <candy-tab name="Channels" dispatch="save-shipping-method">
                                 <candy-channel-association :channels="method.channels.data"></candy-channel-association>
                             </candy-tab>
                         </candy-tabs>

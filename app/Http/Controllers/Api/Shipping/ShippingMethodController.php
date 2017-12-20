@@ -6,6 +6,7 @@ use GetCandy\Http\Transformers\Fractal\Shipping\ShippingMethodTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use GetCandy\Http\Requests\Api\Shipping\CreateRequest;
+use GetCandy\Http\Requests\Api\Shipping\UpdateRequest;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -56,5 +57,11 @@ class ShippingMethodController extends BaseController
             return $this->errorNotFound();
         }
         return $this->respondWithItem($result, new ShippingMethodTransformer);
+    }
+
+    public function updateZones($id, Request $request)
+    {
+        $method = app('api')->shippingMethods()->updateZones($id, $request->all());
+        return $this->respondWithItem($method, new ShippingMethodTransformer);
     }
 }
