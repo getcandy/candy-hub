@@ -202,7 +202,7 @@
         display: block;
         width: 100%;
         &.active {
-          a {
+          a, svg {
             color: white;
             background-color: $purple;
           }
@@ -210,11 +210,17 @@
         a {
           display: block;
           width: 100%;
-          padding: 15px 60px;
-
+          padding: 15px 20px;
+          svg {
+            color: lighten(#2d3c8e, 20%);
+            width:40px;
+          }
           &:hover, &:active {
             color: white;
             background-color: $purple;
+            svg {
+              color:white;
+            }
           }
         }
       }
