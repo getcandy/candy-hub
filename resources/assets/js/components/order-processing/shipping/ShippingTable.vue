@@ -25,10 +25,6 @@
                         this.methods = response.data;
                         this.pagination = response.meta.pagination;
                         this.loaded = true;
-                        // apiRequest.send('GET', 'currencies').then(response => {
-                        //     this.currencies = response.data;
-                        //     this.loaded = true;
-                        // });
                     });
             },
             changePage(page) {
@@ -37,7 +33,7 @@
                 this.loadOrders();
             },
             loadMethod: function (id) {
-                location.href = '/order-processing/shipping/' + id;
+                location.href = '/order-processing/shipping-methods/' + id;
             },
             localisedPrice(amount, currency) {
                 var currency = _.find(this.currencies, item => {
@@ -62,21 +58,7 @@
         </ul>
         <!-- Tab panes -->
         <div class="tab-content section block">
-            <div role="tabpanel" class="tab-pane active" id="all-collections">
-                <!-- Search Form -->
-                <form>
-                    <div class="row">
-                        <div class="form-group col-xs-12 col-md-8">
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">
-                                    <fa icon="search" />
-                                </span>
-                                <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" placeholder="Search">
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div role="tabpanel" class="tab-pane active" id="all-methods">
                 <table class="table table-striped collection-table">
                     <thead>
                         <tr>
@@ -92,7 +74,7 @@
                             </td>
                             <td>
                                 <template v-if="method.prices.data.length">
-                                    <template v-for="price, index in method.prices.data">
+                                    <template v-for="(price, index) in method.prices.data">
                                         {{ price.rate }}<span v-if="index < method.prices.data.length - 1">,</span>
                                     </template>
                                 </template>
@@ -100,7 +82,7 @@
                             </td>
                             <td>
                                 <template v-if="method.zones.data.length">
-                                    <template v-for="zone in method.zones.data">
+                                    <template v-for="(zone, index) in method.zones.data">
                                         {{ zone.name }}<span v-if="index < method.zones.data.length - 1">,</span>
                                     </template>
                                 </template>

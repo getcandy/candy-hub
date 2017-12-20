@@ -9,12 +9,11 @@ class NavItem
     protected $subItems;
     protected $icon;
 
-    public function __construct($title, $route, $subItems = [], $icon = null)
+    public function __construct($title, $route, $subItems = [])
     {
         $this->title = $title;
         $this->route = $route;
         $this->subItems = $subItems;
-        $this->icon = $icon;
     }
 
     public function getTitle()
@@ -25,11 +24,6 @@ class NavItem
     public function getUrl()
     {
         return $this->route;
-    }
-
-    public function getIcon()
-    {
-        return $this->icon;
     }
 
     public function getSubItems()

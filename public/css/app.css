@@ -17168,8 +17168,7 @@ textarea.bootstrap-tagsinput {
   width: 100%;
 }
 
-.sidebar .side-nav ul li.active a,
-.sidebar .side-nav ul li.active svg {
+.sidebar .side-nav ul li.active a {
   color: white;
   background-color: #662d91;
 }
@@ -17177,23 +17176,13 @@ textarea.bootstrap-tagsinput {
 .sidebar .side-nav ul li a {
   display: block;
   width: 100%;
-  padding: 15px 20px;
-}
-
-.sidebar .side-nav ul li a svg {
-  color: #5769ca;
-  width: 40px;
+  padding: 15px 60px;
 }
 
 .sidebar .side-nav ul li a:hover,
 .sidebar .side-nav ul li a:active {
   color: white;
   background-color: #662d91;
-}
-
-.sidebar .side-nav ul li a:hover svg,
-.sidebar .side-nav ul li a:active svg {
-  color: white;
 }
 
 .content-panel {

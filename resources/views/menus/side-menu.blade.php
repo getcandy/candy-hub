@@ -2,9 +2,6 @@
         @foreach ($navItems as $navItem)
             <li @if(request()-> segment(2) == str_slug($navItem->getTitle())) class="active" @endif>
               <a href="{{ $navItem->getUrl() }}" title="Go to {{ $navItem->getTitle() }}">
-                @if ($navItem->getIcon())
-                  <fa icon="{{ $navItem->getIcon() }}"></fa>
-                @endif
                 {{ $navItem->getTitle() }}
               </a>
 

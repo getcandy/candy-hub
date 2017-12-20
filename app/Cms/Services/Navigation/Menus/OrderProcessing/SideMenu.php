@@ -9,11 +9,11 @@ class SideMenu extends Menu
     public function __construct()
     {
         $this->navItems = [
-            new NavItem('Orders', route('hub.orders.index'), [], 'credit-card'),
-            new NavItem('Returns', route('hub.orders.index'), [], 'undo'),
-            new NavItem('Customers', route('hub.orders.index'), [], 'users'),
-            new NavItem('Shipping Methods', route('hub.shipping.index'), [], 'truck'),
-            new NavItem('Shipping Zones', route('hub.shipping.zones'), [], 'globe'),
+            new NavItem('Orders', route('hub.orders.index')),
+            new NavItem('Returns', route('hub.orders.index')),
+            new NavItem('Customers', route('hub.orders.index')),
+            new NavItem('Shipping Methods', route('hub.shipping.index')),
+            new NavItem('Shipping Zones', route('hub.shipping.zones')),
         ];
 
         $this->view = 'menus.side-menu';
