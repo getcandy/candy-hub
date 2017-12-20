@@ -17,13 +17,22 @@
         mounted () {
             CandyEvent.$on('current-tab', tab => {
                 this.tab = tab;
-                console.log('hit');
             });
             CandyEvent.$on('notification', finished => this.processing = false);
         },
+        props: {
+            override: {
+                type: String,
+                default: null
+            }
+        },
         methods : {
             fire () {
-                var ref = Dispatcher.resolve(this.tab.dispatch);
+                if (this.override) {
+                    var ref = Dispatcher.resolve(this.override);
+                } else {
+                    var ref = Dispatcher.resolve(this.tab.dispatch);
+                }
                 ref.save();
             }
         }

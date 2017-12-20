@@ -211,15 +211,23 @@ var includes = [
     }
   },
   {
-    path: 'order-processing.shipping',
+    path: 'order-processing.shipping.methods',
     components: {
-      'shipping-table': 'ShippingTable',
-      'shipping-edit': 'ShippingEdit',
-      'shipping-create': 'ShippingCreate'
+      'shipping-methods-table': 'ShippingTable',
+      'shipping-method-edit': 'ShippingEdit',
+      'shipping-method-create': 'ShippingCreate'
     }
   },
   {
-    path: 'order-processing.shipping.edit',
+    path: 'order-processing.shipping.zones',
+    components: {
+      'shipping-zones-table': 'ShippingZonesTable',
+      'shipping-zone-edit': 'ShippingZoneEdit',
+      'shipping-zone-create': 'ShippingZoneCreate'
+    }
+  },
+  {
+    path: 'order-processing.shipping.methods.edit',
     components: {
       'shipping-details': 'ShippingDetails',
       'add-shipping-price': 'AddShippingPrice',

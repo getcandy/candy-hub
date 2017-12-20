@@ -45,6 +45,15 @@ class ShippingZoneService extends BaseService
     {
         $shipping = $this->getByHashedId($id);
         $shipping->fill($data);
+
+        $shipping->countries()->detach();
+
+        if (!empty($data['countries'])) {
+            $shipping->countries()->attach(
+                app('api')->countries()->getDecodedIds($data['countries'])
+            );
+        }
+
         $shipping->save();
         return $shipping;
     }

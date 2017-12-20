@@ -3,6 +3,7 @@ namespace GetCandy\Http\Controllers\Api\Shipping;
 
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Shipping\Zones\CreateRequest;
+use GetCandy\Http\Requests\Api\Shipping\Zones\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\Shipping\ShippingZoneTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
