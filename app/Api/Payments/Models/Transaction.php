@@ -16,4 +16,9 @@ class Transaction extends BaseModel
     {
         return $this->belongsTo(Order::class)->withoutGlobalScope('open');
     }
+
+    public function scopeCharged($query)
+    {
+        return $query->where('status', '!=', 'voided')->where('status', '!=', 'refunded')->where('success', '=', true);
+    }
 }

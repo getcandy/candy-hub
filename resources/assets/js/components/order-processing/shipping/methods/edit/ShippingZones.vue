@@ -14,7 +14,6 @@
         mounted() {
             this.loadZones();
             Dispatcher.add('save-shipping-method-zones', this);
-
             this.selected = _.map(this.method.zones.data, item => {
                 return item.id;
             });
@@ -29,6 +28,16 @@
                     });
                 })
             },
+            toggle(zone) {
+                if (this.selected.includes(zone)) {
+                    this.selected.splice(
+                        this.selected.indexOf(zone),
+                        1
+                    );
+                } else {
+                    this.selected.push(zone);
+                }
+            },
             loadZones() {
                 apiRequest.send('GET', '/shipping/zones').then(response => {
                     this.zones = response.data;
@@ -38,8 +47,12 @@
     }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped="true">
+    .table {
+        tr {
+            cursor: pointer;
+        }
+    }
 </style>
 
 <template>
@@ -49,16 +62,20 @@
                 <h4>Shipping Zones</h4>
                 <p>Choose which shipping zones are eligible for "{{ method|attribute('name') }}" shipping</p>
                 <hr>
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Active</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="zone in zones">
+                        <tr v-for="zone in zones" @click="toggle(zone.id)">
+                            <td width="25%">
+                                {{ zone.name }}
+                            </td>
                             <td>
-                                <label><input type="checkbox" :value="zone.id" v-model="selected"> {{ zone.name }}</label>
+                                <input type="checkbox" :value="zone.id" v-model="selected">
                             </td>
                         </tr>
                     </tbody>

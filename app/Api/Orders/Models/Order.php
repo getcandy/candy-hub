@@ -50,6 +50,16 @@ class Order extends BaseModel
         });
     }
 
+    public function getChargedAmountAttribute()
+    {
+        $total = 0;
+        $transactions = $this->transactions()->charged()->pluck('amount');
+        foreach ($transactions as $amount) {
+            $total += $amount;
+        }
+        return $total;
+    }
+
     /**
      * Gets the shipping details
      *

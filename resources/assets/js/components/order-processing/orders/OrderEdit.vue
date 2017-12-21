@@ -20,7 +20,7 @@
             }
         },
         created() {
-            this.loadOrder(this.id);
+            this.loadOrder();
         },
         mounted() {
             CandyEvent.$on('order-updated', event => {
@@ -37,8 +37,8 @@
              * Loads the product by its encoded ID
              * @param  {String} id
              */
-            loadOrder(id) {
-                apiRequest.send('get', '/orders/' + id, {}, {
+            loadOrder() {
+                apiRequest.send('get', '/orders/' + this.id, {}, {
                     includes: 'user,lines,transactions'
                 })
                 .then(response => {
@@ -67,7 +67,7 @@
 
                 apiRequest.send('post', '/payments/' + transaction.id + '/refund').then(response => {
                     this.$set(this.transactions[index], 'refunding', false);
-                    this.$set(this.transactions, index, response.data);
+                    this.loadOrder();
                 }).catch(response => {
                     this.$set(this.transactions[index], 'refunding', false);
                     CandyEvent.$emit('notification', {
@@ -86,10 +86,9 @@
                 var transaction = this.transactions[index];
 
                 apiRequest.send('post', '/payments/' + transaction.id + '/void').then(response => {
-                    this.$set(this.transactions, index, response.data);
+                    this.loadOrder();
                 }).catch(response => {
                     this.$set(this.transactions[index], 'voiding', false);
-                    
                     CandyEvent.$emit('notification', {
                         level: 'error',
                         message: error.message

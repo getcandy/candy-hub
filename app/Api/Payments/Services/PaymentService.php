@@ -70,36 +70,91 @@ class PaymentService extends BaseService
 
         $result = $this->getProvider()->refund($transaction->transaction_id, $transaction->amount);
 
-        $refund = new Transaction;
-        $refund->success = $result->success;
+        if ($result->success) {
+            $data = [
+                'transaction_id' => $result->transaction->id,
+                'success' => true,
+                'amount' => -abs($result->transaction->amount),
+                'status' => $result->transaction->type,
+                'merchant' => '-',
+                'order' => $order,
+                'notes' => $result->message
+            ];
+        } else {
+            $data = [
+                'transaction_id' => $result->params['id'],
+                'success' => false,
+                'amount' => $result->params['transaction']['amount'],
+                'status' => 'error',
+                'merchant' => $result->params['merchantId'],
+                'order' => $order,
+                'notes' => ''
+            ];
+        }
 
-        $refund->status = $result->success ? $result->transaction->type : 'error';
-        $refund->amount = $result->success ? -abs($result->transaction->amount) : $result->params['transaction']['amount'];
-        $refund->transaction_id = $result->success ? $result->transaction->id : $result->params['id'];
-        $refund->merchant = $result->success ? '-' : $result->params['merchantId'];
-        $refund->order_id = $order->id;
+        $refund = $this->createTransaction($data);
+        
+        // Add up each transaction that isn't voided or refunded and successful.
+        
+        // TODO Improve the way this is checked...
+        if ($order->transactions()->charged()->count() === 1 && $order->total === $transaction->amount) {
+            $order->status = 'refunded';
+        }
 
-        $order->status = $refund->successs ? 'refunded' : $order->status;
         $transaction->status = 'refunded';
-        $refund->notes = $result->success ?: $result->message;
-
         $order->save();
         $transaction->save();
-        $refund->save();
 
         return $refund;
     }
 
+    /**
+     * Creates a transaction
+     *
+     * @param array $data
+     * 
+     * @return Transaction
+     */
+    protected function createTransaction(array $data)
+    {
+        $transaction = new Transaction;
+        $transaction->success = $data['success'];
+        $transaction->status = $data['status'];
+        $transaction->amount = $data['amount'];
+        $transaction->transaction_id = $data['transaction_id'];
+        $transaction->merchant = $data['merchant'];
+        $transaction->order_id = $data['order']->id;
+        $transaction->notes = $data['notes'];
+        $transaction->save();
+        return $transaction;
+    }
+
+    /**
+     * Voids a transaction
+     *
+     * @param string $transactionId
+     * 
+     * @return Transaction
+     */
     public function void($transactionId)
     {
         $transaction = $this->getByHashedId($transactionId);
+        $order = $transaction->order;
 
         $result = $this->getProvider()->void($transaction->transaction_id);
 
-
         $transaction->success = $result->success;
-        $transaction->status = $result->success ? $result->transaction->status : $transaction->status;
-        $transaction->notes = $result->message;
+        $transaction->status = 'voided';
+        
+        if (!$result->success) {
+            $transaction->notes = $result->message;
+        }
+
+        // TODO Improve the way this is checked...
+        if ($order->transactions()->charged()->count() === 1 && $order->total === $transaction->amount) {
+            $order->status = 'voided';
+            $order->save();
+        }
 
         $transaction->save();
         return $transaction;
