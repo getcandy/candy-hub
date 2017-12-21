@@ -9,6 +9,15 @@
             dispatch: {
                 type: String
             },
+            cols: {
+                type: Array,
+                default() {
+                    return [
+                        'visible',
+                        'purchasable'
+                    ]
+                }
+            },
             groups: {
                 type: Array
             }
@@ -26,23 +35,16 @@
                     <thead>
                     <tr>
                         <th>Group</th>
-                        <th>Visible</th>
-                        <th>Purchasable</th>
+                        <th v-for="col in cols">{{ col|capitalize }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="group in groups" :key="group.id">
                         <td>{{ group.name }}</td>
-                        <td>
+                        <td v-for="col in cols">
                             <div class="checkbox">
-                                <input :id="'CGV' + group.id" type="checkbox" v-model="group.visible">
-                                <label :for="'CGV' + group.id"><span class="check"></span></label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="checkbox">
-                                <input :id="'CGP' + group.id" type="checkbox" v-model="group.purchasable">
-                                <label :for="'CGP' + group.id"><span class="check"></span></label>
+                                <input :id="'CG' + col + group.id" type="checkbox" v-model="group[col]">
+                                <label :for="'CG' + col + group.id"><span class="check"></span></label>
                             </div>
                         </td>
                     </tr>

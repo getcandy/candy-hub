@@ -10,24 +10,10 @@
                     currency_id: ''
                 },
                 prices: [],
-                hideNew: false,
-                customerGroups: [],
-                newPrice: {
-                    currency_id: '',
-                    rate: '',
-                    fixed: '',
-                    min_weight: 0,
-                    weight_unit: 'kg',
-                    min_height: 0,
-                    height_unit: 'cm',
-                    min_width: 0,
-                    width_unit: 'cm',
-                    min_depth: 0,
-                    depth_unit: 'cm',
-                    min_volume: 0,
-                    volume_unit: 'l'
-                },
-                currencies: []
+                current: {},
+                currencies: [],
+                defaultCurrency: '',
+                carbon: null
             }
         },
         props: {
@@ -39,18 +25,22 @@
         mounted() {
             apiRequest.send('get', 'currencies').then(response => {
                 this.currencies = response.data;
-                this.newPrice.currency_id = _.find(this.currencies, item => {
+                this.defaultCurrency = _.find(this.currencies, item => {
                     return item.default;
                 }).id;
             });
             this.prices = this.method.prices.data;
-
             _.each(this.prices, price => {
                 this.$set(price, 'currency_id', price.currency.data.id);
             });
         },
         computed: {
-            
+            modalTitle() {
+                return this.current.id ? 'Edit Price' : 'Create Price';
+            },
+            editing() {
+                return Object.keys(this.current).length != 0;
+            }
         },
         methods: {
             symbol(price) {
@@ -67,21 +57,12 @@
                     return price.currency_id == item.id;
                 })
             },
-            isEditing(price) {
-                return this.editable.length || price.id === this.editable.id;
-            },
-            setEditing(price) {
-                this.hideNew = true;
-                if (this.editable.length) {
-                    this.saveEditable(price);
-                }
-                this.editable = price;
-            },
             savePrice(price) {
-                this.hideNew = false;
-                apiRequest.send('put', 'shipping/prices/' + this.editable.id, this.editable).then(response => {
-                });
-                this.setEditing({});
+                if (this.current.id) {
+                    this.update();
+                } else {
+                    this.create();
+                }
             },
             currencySelect() {
                 var options = _.map(this.currencies, item => {
@@ -94,40 +75,57 @@
             },
             destroy(price) {
                 this.prices.splice(this.prices.indexOf(price), 1);
-                apiRequest.send('delete', '/shipping/prices/' + price.id);
+                apiRequest.send('delete', '/shipping/prices/' + price.id).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Price deleted'
+                    });  
+                });
+            },
+            edit(price) {
+                this.current = JSON.parse(JSON.stringify(price));
+                this.current.currency_id = this.current.currency.data.id;
+            },
+            add() {
+                this.current = {
+                    currency_id: this.defaultCurrency,
+                    rate: '',
+                    fixed: '',
+                    min_weight: 0,
+                    weight_unit: 'kg',
+                    min_height: 0,
+                    height_unit: 'cm',
+                    min_width: 0,
+                    width_unit: 'cm',
+                    min_depth: 0,
+                    depth_unit: 'cm',
+                    min_volume: 0,
+                    volume_unit: 'l',
+                    customer_groups: {
+                        data: []
+                    }
+                };
             },
             create() {
-                apiRequest.send('post', '/shipping/' + this.method.id + '/prices', this.newPrice)
+                apiRequest.send('post', '/shipping/' + this.method.id + '/prices', this.current)
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
                         });
-                        CandyEvent.$emit('shipping-price-added', {
-                            price: this.price
-                        });
-                        this.modalOpen = false;
-                        this.prices.push(response.data);
-                        this.newPrice = {
-                            currency_id: '',
-                            rate: '',
-                            fixed: '',
-                            min_weight: 0,
-                            weight_unit: 'kg',
-                            min_height: 0,
-                            height_unit: 'cm',
-                            min_width: 0,
-                            width_unit: 'cm',
-                            min_depth: 0,
-                            depth_unit: 'cm',
-                            min_volume: 0,
-                            volume_unit: 'l'
-                        };
+                        CandyEvent.$emit('shipping-prices-updated');
+                        this.current = {};
                     }).catch(response => {
                         CandyEvent.$emit('notification', {
                             level: 'error',
                             message: 'Missing / Invalid fields'
                         });
                     });
+            },
+            update() {
+                console.log(this.current);
+                apiRequest.send('put', 'shipping/prices/' + this.current.id, this.current).then(response => {
+                    CandyEvent.$emit('shipping-prices-updated');
+                });
             }
         }
     }
@@ -140,6 +138,9 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h4>Shipping method prices</h4>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <button class="btn btn-primary" @click="add()"><fa icon="plus"></fa> Add price</button>
                     </div>
                 </div>
             </div> <!-- col-xs-12 -->
@@ -160,145 +161,32 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>
-                                <div class="input-group input-group-full">
-                                    <span class="input-group-addon" v-html="symbol(newPrice)"></span>
-                                    <input type="number" class="form-control" v-model="newPrice.rate">
-                                </div>   
-                            </th>
-                            <th>
-                                <candy-select :options="currencySelect()" v-if="currencies.length" v-model="newPrice.currency_id"></candy-select>
-                            </th>
-                            <th>
-                                <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="newPrice.min_weight">
-                                    <candy-select :options="['lb', 'oz', 'kg', 'g']" v-model="newPrice.weight_unit"
-                                                    :addon="true"></candy-select>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="newPrice.min_height">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="newPrice.height_unit"
-                                                    :addon="true"></candy-select>
-                                </div>   
-                            </th>
-                            <th>
-                                <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="newPrice.min_width">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="newPrice.width_unit"
-                                                    :addon="true"></candy-select>
-                                </div> 
-                            </th>
-                            <th>
-                                <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="newPrice.min_depth">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="newPrice.depth_unit"
-                                                    :addon="true"></candy-select>
-                                </div> 
-                            </th>
-                            <th>
-                                <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="newPrice.min_volume">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="newPrice.volume_unit"
-                                                    :addon="true"></candy-select>
-                                </div> 
-                            </th>
-                            <th class="text-right">
-                                <button class="btn btn-sm btn-success" @click="create()" type="button">Add Price</button>
-                            </th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         <tr v-for="price in prices">
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <div class="input-group input-group-full">
-                                        <span class="input-group-addon" v-html="symbol(price)"></span>
-                                        <input type="number" class="form-control" v-model="editable.rate">
-                                    </div>                                                          
-                                </template>
-                                <template v-else>
-                                    {{ price.rate }}
-                                </template>
+                                {{ price.rate }}
                             </td>
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <candy-select :options="currencySelect()" v-if="currencies.length" v-model="editable.currency_id"></candy-select>                                                           
-                                </template>
-                                <template v-else>
-                                    {{ price.currency.data.name }}
-                                </template>
+                                {{ price.currency.data.name }}
                             </td>
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <div class="input-group input-group-full">
-                                        <input type="number" class="form-control" v-model="editable.min_weight">
-                                        <candy-select :options="['lb', 'oz', 'kg', 'g']" v-model="editable.weight_unit"
-                                                        :addon="true"></candy-select>
-                                    </div>                                                    
-                                </template>
-                                <template v-else>
-                                    {{ price.min_weight }}{{ price.weight_unit }}
-                                </template>
-                                
+                                {{ price.min_weight }}{{ price.weight_unit }}
                             </td>
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <div class="input-group input-group-full">
-                                        <input type="number" class="form-control" v-model="editable.min_height">
-                                        <candy-select :options="['cm','mm', 'in']" v-model="editable.height_unit"
-                                                        :addon="true"></candy-select>
-                                    </div>                                                    
-                                </template>
-                                <template v-else>
-                                    {{ price.min_height }}{{ price.height_unit }}
-                                </template>
+                                {{ price.min_height }}{{ price.height_unit }}
                             </td>
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <div class="input-group input-group-full">
-                                        <input type="number" class="form-control" v-model="editable.min_width">
-                                        <candy-select :options="['cm','mm', 'in']" v-model="editable.width_unit"
-                                                        :addon="true"></candy-select>
-                                    </div>                                                    
-                                </template>
-                                <template v-else>
-                                    {{ price.min_width }}{{ price.width_unit }}
-                                </template>
+                                {{ price.min_width }}{{ price.width_unit }}
                             </td>
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <div class="input-group input-group-full">
-                                        <input type="number" class="form-control" v-model="editable.min_depth">
-                                        <candy-select :options="['cm','mm', 'in']" v-model="editable.depth_unit"
-                                                        :addon="true"></candy-select>
-                                    </div>                                                    
-                                </template>
-                                <template v-else>
-                                    {{ price.min_depth }}{{ price.depth_unit }}
-                                </template>
+                                {{ price.min_depth }}{{ price.depth_unit }}
                             </td>
                             <td>
-                                <template v-if="isEditing(price)">
-                                    <div class="input-group input-group-full">
-                                        <input type="number" class="form-control" v-model="editable.min_volume">
-                                        <candy-select :options="['cm','mm', 'in']" v-model="editable.volume_unit"
-                                                        :addon="true"></candy-select>
-                                    </div>                                                    
-                                </template>
-                                <template v-else>
-                                    {{ price.min_volume }}{{ price.volume_unit }}
-                                </template>
+                                {{ price.min_volume }}{{ price.volume_unit }}
                             </td>
                             <th class="text-right" width="10%">
-                                <button class="btn btn-sm btn-default btn-action" @click="setEditing(price)" v-if="!isEditing(price)">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-success btn-action" @click="savePrice(price)" v-else>
-                                    <i class="fa fa-check"></i>
+                                <button class="btn btn-sm btn-default btn-action" @click="edit(price)">
+                                    <fa icon="edit"></fa>
                                 </button>
                                 <button class="btn btn-sm btn-default btn-action" @click="destroy(price)">
                                     <i class="fa fa-trash"></i>
@@ -309,6 +197,86 @@
                 </table>
             </div>
         </div>
+            <candy-modal :title="modalTitle" v-show="editing" @closed="current = {}">
+                <div slot="body" class="text-left">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Rate</label>
+                                <div class="input-group input-group-full">
+                                    <span class="input-group-addon" v-html="symbol(current)"></span>
+                                    <input type="number" class="form-control" v-model="current.rate">
+                                </div>   
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Currency</label>
+                                <candy-select :options="currencySelect()" v-if="currencies.length" v-model="current.currency_id"></candy-select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Width</label>
+                                <div class="input-group input-group-full">
+                                    <input type="number" class="form-control" v-model="current.min_width">
+                                    <candy-select :options="['cm','mm', 'in']" v-model="current.width_unit"
+                                                    :addon="true"></candy-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Weight</label>
+                                <div class="input-group input-group-full">
+                                    <input type="number" class="form-control" v-model="current.min_weight">
+                                    <candy-select :options="['lb', 'oz', 'kg', 'g']" v-model="current.weight_unit"
+                                                    :addon="true"></candy-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Height</label>
+                                <div class="input-group input-group-full">
+                                    <input type="number" class="form-control" v-model="current.min_height">
+                                    <candy-select :options="['cm','mm', 'in']" v-model="current.height_unit"
+                                                    :addon="true"></candy-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Depth</label>
+                                <div class="input-group input-group-full">
+                                    <input type="number" class="form-control" v-model="current.min_depth">
+                                    <candy-select :options="['cm','mm', 'in']" v-model="current.depth_unit"
+                                                    :addon="true"></candy-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Volume</label>
+                                <div class="input-group input-group-full">
+                                    <input type="number" class="form-control" v-model="current.min_volume">
+                                    <candy-select :options="['cm','mm', 'in']" v-model="current.volume_unit"
+                                                    :addon="true"></candy-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <candy-customer-groups :groups="current.customer_groups.data" :cols="['visible']" v-if="current.customer_groups"></candy-customer-groups>
+                </div>
+                <template slot="footer">
+                    <button class="btn btn-primary" @click="savePrice()">Save Options</button>
+                </template>
+            </candy-modal>
     </div>
 
 </template>

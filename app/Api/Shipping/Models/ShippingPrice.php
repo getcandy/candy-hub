@@ -42,6 +42,6 @@ class ShippingPrice extends BaseModel
 
     public function customerGroups()
     {
-        return $this->belongsToMany(CustomerGroup::class, 'shipping_customer_group_price')->withPivot(['visible', 'purchasable']);
+        return $this->belongsToMany(CustomerGroup::class, 'shipping_customer_group_price')->withPivot(['visible']);
     }
 }

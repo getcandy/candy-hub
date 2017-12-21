@@ -25,6 +25,10 @@
                 this.loaded = false;
                 this.loadMethod(this.id);
             });
+            CandyEvent.$on('shipping-prices-updated', event => {
+                this.loaded = false;
+                this.loadMethod(this.id);
+            });
             Dispatcher.add('save-shipping-method', this);
         },
         methods: {

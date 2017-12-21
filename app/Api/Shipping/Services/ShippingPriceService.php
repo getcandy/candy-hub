@@ -42,10 +42,35 @@ class ShippingPriceService extends BaseService
     {
         $price = $this->getByHashedId($id);
         $currency = app('api')->currencies()->getByHashedId($data['currency_id']);
+
+        // event(new AttributableSavedEvent($product));
+
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $price->customerGroups()->sync($groupData);
+        }
+
         $price->currency()->associate($currency);
         $price->fill($data);
         $price->save();
         return $price;
+    }
+
+    /**
+     * Maps customer group data for a model
+     * @param  array $groups
+     * @return array
+     */
+    protected function mapCustomerGroupData($groups)
+    {
+        $groupData = [];
+        foreach ($groups as $group) {
+            $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
+            $groupData[$groupModel->id] = [
+                'visible' => $group['visible']
+            ];
+        }
+        return $groupData;
     }
 
     /**
