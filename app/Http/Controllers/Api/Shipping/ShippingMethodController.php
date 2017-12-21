@@ -19,7 +19,7 @@ class ShippingMethodController extends BaseController
      */
     public function index(Request $request)
     {
-        $orders = app('api')->shippingMethods()->getPaginatedData($request->per_page, $request->page);
+        $orders = app('api')->shippingMethods()->getPaginatedData($request->per_page, $request->current_page);
         return $this->respondWithCollection($orders, new ShippingMethodTransformer);
     }
 

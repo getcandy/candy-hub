@@ -23,7 +23,7 @@ class OrderController extends BaseController
      */
     public function index(Request $request)
     {
-        $orders = app('api')->orders()->getPaginatedData($request->per_page, $request->page, $request->user());
+        $orders = app('api')->orders()->getPaginatedData($request->per_page, $request->current_page, $request->user());
         return $this->respondWithCollection($orders, new OrderTransformer);
     }
 
@@ -107,7 +107,12 @@ class OrderController extends BaseController
 
     public function shippingMethods($orderId, Request $request)
     {
-        $options = app('api')->shippingMethods()->getForOrder($orderId);
+        try {
+            $options = app('api')->shippingMethods()->getForOrder($orderId);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        
         return $this->respondWithCollection($options, new ShippingPriceTransformer);
     }
 

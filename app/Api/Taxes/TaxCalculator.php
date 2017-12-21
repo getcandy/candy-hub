@@ -37,6 +37,18 @@ class TaxCalculator
         return $this;
     }
 
+    public function amount($price)
+    {
+        if ($this->deductable) {
+            return 0;
+        }
+        
+        if (!$this->rate) {
+            $this->setDefault();
+        }
+        return round((($this->rate->percentage / 100) * $price), 2);
+    }
+
     public function deduct($price)
     {
         if (!$this->deductable) {

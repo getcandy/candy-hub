@@ -37,7 +37,7 @@
         },
         methods: {
             loadOrders() {
-                apiRequest.send('get', '/orders', this.params)
+                apiRequest.send('get', '/orders', [], this.params)
                     .then(response => {
                         this.orders = response.data;
                         this.pagination = response.meta.pagination;

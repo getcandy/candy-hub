@@ -8,6 +8,7 @@ use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
+use TaxCalculator;
 
 class OrderService extends BaseService
 {
@@ -37,9 +38,12 @@ class OrderService extends BaseService
         $order->total = $basket->total;
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
-        $order->vat = 0;
+        $order->vat = TaxCalculator::amount($basket->total);
 
         $order->save();
+
+        $order->discounts()->delete();
+        $order->lines()->delete();
 
         $order->discounts()->createMany(
             $this->mapOrderDiscounts($basket)
@@ -138,6 +142,7 @@ class OrderService extends BaseService
 
         $order->shipping_total = $price->rate;
         $order->shipping_method = $price->method->attribute('name');
+        $order->total = $order->total + $price->rate;
 
         $order->save();
 
@@ -354,8 +359,15 @@ class OrderService extends BaseService
         $order = $this->getByHashedId($orderId);
         $price = app('api')->shippingPrices()->getByHashedId($priceId);
 
-        $order->shipping_total = $price->rate;
+        // Take off any previous shipping costs
+        if ($order->shipping_total) {
+            $order->total -= $order->shipping_total;
+        }
+
+        $order->shipping_total = round($price->rate, 2);
         $order->shipping_method = $price->method->attribute('name');
+        $order->total += round($price->rate, 2);
+
         $order->save();
 
         return $order;

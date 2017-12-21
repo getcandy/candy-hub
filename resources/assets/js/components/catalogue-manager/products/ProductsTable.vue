@@ -66,6 +66,7 @@
             },
             loadProducts() {
                 this.loaded = false;
+                console.log(this.params);
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
