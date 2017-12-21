@@ -24,7 +24,7 @@ class CreateCountriesTable extends Migration
             $table->timestamps();
         });
 
-        $countries = json_decode(file_get_contents(storage_path('app/imports/countries.json')), true);
+        $countries = json_decode(file_get_contents(base_path('countries.json')), true);
 
         foreach ($countries as $country) {
             $name = ['en' => $country['name']['common']];
