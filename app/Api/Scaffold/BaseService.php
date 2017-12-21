@@ -5,6 +5,7 @@ namespace GetCandy\Api\Scaffold;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use GetCandy\Jobs\Attributes\SyncAttributeDataJob;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 
 abstract class BaseService
 {
