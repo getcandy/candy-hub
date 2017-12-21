@@ -10,6 +10,7 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use PriceCalculator;
 
 class ProductVariantTransformer extends BaseTransformer
 {
@@ -24,7 +25,7 @@ class ProductVariantTransformer extends BaseTransformer
             'sku' => $variant->sku,
             'backorder' => (bool) $variant->backorder,
             'requires_shipping' => (bool) $variant->requires_shipping,
-            'price' => $variant->price,
+            'price' => PriceCalculator::get($variant->price),
             'inventory' => $variant->stock,
             'thumbnail' => $this->getThumbnail($variant),
             'weight' => [

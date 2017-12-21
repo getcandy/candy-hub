@@ -4,6 +4,8 @@ namespace GetCandy\Api\Payments\Providers;
 
 abstract class AbstractProvider
 {
+    protected $billing;
+
     /**
      * Gets the name of the provider
      *

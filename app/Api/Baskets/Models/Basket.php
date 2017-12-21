@@ -8,6 +8,7 @@ use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Traits\HasCompletion;
 use Illuminate\Database\Eloquent\Scope;
 use GetCandy\Api\Discounts\Models\Discount;
+use TaxCalculator;
 
 class Basket extends BaseModel
 {
@@ -54,7 +55,8 @@ class Basket extends BaseModel
         $factory = new Factory;
         $sets = app('api')->discounts()->parse($this->discounts);
         $applied = $factory->getApplied($sets, \Auth::user(), null, $this);
-        return $factory->applyToBasket($applied, $this);
+        $total = $factory->applyToBasket($applied, $this);
+        return TaxCalculator::deduct($total);
     }
 
     public function getWeightAttribute()

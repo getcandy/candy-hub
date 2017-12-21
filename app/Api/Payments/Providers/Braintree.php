@@ -65,22 +65,28 @@ class Braintree extends AbstractProvider
         );
     }
 
-    public function charge($token, $amount, $currency)
+    public function charge($token, $order)
     {
-        $merchant = $this->getMerchant($currency);
+        $merchant = $this->getMerchant($order->currency);
+
+        $billing = $order->getDetails('billing');
 
         $sale = Braintree_Transaction::sale([
-            'amount' => $amount,
+            'amount' => $order->amount,
             'paymentMethodNonce' => $token,
             'merchantAccountId' => $merchant,
+            'billing' => [
+                'firstName' => $billing['firstname'],
+                'lastName' => $billing['lastname'],
+                'locality' => $billing['city'],
+                'region' =>   $billing['county'] ?: $billing['state'],
+                'streetAddress' => $billing['billing_address']
+            ],
             'options' => [
                 'submitForSettlement' => true
             ]
         ]);
-        
-        //TODO: REMOVE BEFORE LIVE
-        $this->settle($sale);
-
+    
         return $sale;
     }
 
