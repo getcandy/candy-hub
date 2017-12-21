@@ -1,9 +1,10 @@
 <?php
 namespace GetCandy\Api\Payments\Services;
 
-use GetCandy\Api\Payments\Exceptions\AlreadyRefundedException;
-use GetCandy\Api\Payments\Models\Transaction;
+use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Api\Payments\Models\Transaction;
+use GetCandy\Api\Payments\Exceptions\AlreadyRefundedException;
 
 class PaymentService extends BaseService
 {
@@ -39,9 +40,9 @@ class PaymentService extends BaseService
         return $this->getProvider()->validateToken($token);
     }
 
-    public function charge($token, $amount, $currency)
+    public function charge($token, Order $order)
     {
-        $result = $this->getProvider()->charge($token, $amount, $currency);
+        $result = $this->getProvider()->charge($token, $order);
         $transaction = new Transaction;
         $transaction->success = $result->success;
         $transaction->status = $result->transaction->status;

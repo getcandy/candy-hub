@@ -69,18 +69,32 @@ class Braintree extends AbstractProvider
     {
         $merchant = $this->getMerchant($order->currency);
 
-        $billing = $order->getDetails('billing');
+        $billing = $order->billingDetails;
+        $shipping = $order->shippingDetails;
 
         $sale = Braintree_Transaction::sale([
-            'amount' => $order->amount,
+            'amount' => $order->total,
             'paymentMethodNonce' => $token,
             'merchantAccountId' => $merchant,
+            'customer' => [
+                'firstName' => $billing['firstname'],
+                'lastName' => $billing['lastname']
+            ],
             'billing' => [
                 'firstName' => $billing['firstname'],
                 'lastName' => $billing['lastname'],
                 'locality' => $billing['city'],
                 'region' =>   $billing['county'] ?: $billing['state'],
-                'streetAddress' => $billing['billing_address']
+                'postalCode' =>   $billing['zip'],
+                'streetAddress' => $billing['address']
+            ],
+            'shipping' => [
+                'firstName' => $shipping['firstname'],
+                'lastName' => $shipping['lastname'],
+                'locality' => $shipping['city'],
+                'region' => $shipping['county'] ? : $shipping['state'],
+                'postalCode' =>   $shipping['zip'],
+                'streetAddress' => $shipping['address']
             ],
             'options' => [
                 'submitForSettlement' => true

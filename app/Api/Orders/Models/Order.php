@@ -16,6 +16,22 @@ class Order extends BaseModel
         'lines'
     ];
 
+    protected $required = [
+        'total',
+        'currency',
+        'billing_firstname',
+        'billing_lastname',
+        'billing_address',
+        'billing_city',
+        'billing_country',
+        'billing_zip'
+    ];
+
+    public function getRequiredAttribute()
+    {
+        return collect($this->required);
+    }
+
     /**
      * The "booting" method of the model.
      *

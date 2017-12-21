@@ -29,7 +29,7 @@ abstract class AbstractProvider
      *
      * @return void
      */
-    abstract public function charge($token, $amount, $currency);
+    abstract public function charge($token, $order);
 
     /**
      * Refund a transaction

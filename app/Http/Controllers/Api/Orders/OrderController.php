@@ -12,6 +12,7 @@ use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 
 class OrderController extends BaseController
 {
@@ -64,12 +65,16 @@ class OrderController extends BaseController
      */
     public function process(ProcessRequest $request)
     {
-        $transaction = app('api')->orders()->process($request->all());
-        switch ($transaction->status) {
-            case 'processor_declined':
-                return $this->errorForbidden('Payment was declined');
-            default:
-                return $this->respondWithItem($transaction, new TransactionTransformer);
+        try {
+            $transaction = app('api')->orders()->process($request->all());
+            switch ($transaction->status) {
+                case 'processor_declined':
+                    return $this->errorForbidden('Payment was declined');
+                default:
+                    return $this->respondWithItem($transaction, new TransactionTransformer);
+            }
+        } catch (IncompleteOrderException $e) {
+            return $this->errorForbidden('The order is missing billing information');
         }
     }
 

@@ -2,11 +2,12 @@
 
 namespace GetCandy\Api\Orders\Services;
 
-use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Factory;
+use GetCandy\Api\Auth\Models\User;
 use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseService;
-use GetCandy\Api\Auth\Models\User;
+use GetCandy\Api\Baskets\Models\Basket;
+use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 
 class OrderService extends BaseService
 {
@@ -25,8 +26,13 @@ class OrderService extends BaseService
         // // Get the basket
         $basket = app('api')->baskets()->getByHashedId($basketId);
 
-        $order = new Order;
-        $order->basket()->associate($basket);
+        if ($basket->order) {
+            $order = $basket->order;
+        } else {
+            $order = new Order;
+            $order->basket()->associate($basket);
+        }
+
         $order->user()->associate(app('auth')->user());
         $order->total = $basket->total;
         $order->currency = $basket->currency;
@@ -94,6 +100,10 @@ class OrderService extends BaseService
         $order = $this->getByHashedId($id);
         
         $user = app('auth')->user();
+
+        if (!empty($data['vat_no'])) {
+            $order->vat_no = $data['vat_no'];
+        }
 
         $order->save();
         
@@ -267,6 +277,21 @@ class OrderService extends BaseService
     }
 
     /**
+     * Checks whether an order is processable
+     *
+     * @param Order $order
+     * 
+     * @return boolean
+     */
+    protected function isProcessable(Order $order)
+    {
+        $fields = $order->required->filter(function ($field) use ($order) {
+            return $order->getAttribute($field);
+        });
+        return $fields->count() === $order->required->count();
+    }
+
+    /**
      * Process an order for payment
      *
      * @param array $data
@@ -276,12 +301,15 @@ class OrderService extends BaseService
     {
         $order = $this->getByHashedId($data['order_id']);
 
+        if (!$this->isProcessable($order)) {
+            throw new IncompleteOrderException;
+        }
+
         $total = $order->total + $order->shipping_total;
 
         $transaction = app('api')->payments()->charge(
             $data['payment_token'],
-            $total,
-            $order->currency
+            $order
         );
 
         if ($transaction->success) {
