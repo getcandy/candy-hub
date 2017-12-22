@@ -36,7 +36,7 @@
                     <h3 class="panel-title">Sales this week</h3>
                 </header>
                 <div class="panel-body">
-                    <span class="dashboard-figure">&pound;20,492.47</span>
+                    <span class="dashboard-figure">&pound;{{ number_format($sales_total, 2) }}</span>
                 </div>
                 <footer class="panel-footer">
                     <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 81.54%</span> from last week
@@ -49,7 +49,7 @@
                     <h3 class="panel-title">Total Orders</h3>
                 </header>
                 <div class="panel-body">
-                    <span class="dashboard-figure">10</span>
+                    <span class="dashboard-figure">{{ $order_count }}</span>
                 </div>
                 <footer class="panel-footer">
                     <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 10%</span> from last week
@@ -62,7 +62,7 @@
                     <h3 class="panel-title">Taxes</h3>
                 </header>
                 <div class="panel-body">
-                    <span class="dashboard-figure">&pound;3,294.41</span>
+                    <span class="dashboard-figure">&pound;{{ number_format($tax_total, 2) }}</span>
                 </div>
                 <footer class="panel-footer">
                     <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 80.42%</span> from last week
@@ -75,7 +75,7 @@
                     <h3 class="panel-title">Abandoned / Live Carts</h3>
                 </header>
                 <div class="panel-body">
-                    <span class="dashboard-figure">178</span>
+                    <span class="dashboard-figure">{{ $basket_count }}</span>
                 </div>
                 <footer class="panel-footer">
                     <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 296.67%</span> from last week
@@ -102,6 +102,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($recent_orders as $order)
                             <tr>
                                 <td><span class="label label-success">Complete</span></td>
                                 <td><a href="#">#GWf42dGS</a></td>
@@ -109,41 +110,11 @@
                                 <td>23/12/2017</td>
                                 <td>&pound;2,300.00</td>
                             </tr>
-                            <tr>
-                                <td><span class="label label-success">Complete</span></td>
-                                <td><a href="#">#BWagssES</a></td>
-                                <td>Alec Ritson</td>
-                                <td>22/12/2017</td>
-                                <td>&pound;1,300.00</td>
-                            </tr>
-                            <tr>
-                                <td><span class="label label-danger">Voided</span></td>
-                                <td><a href="#">#SEGS8id</a></td>
-                                <td>Guest</td>
-                                <td>19/12/2017</td>
-                                <td>&euro;50.00</td>
-                            </tr>
-                            <tr>
-                                <td><span class="label label-success">Complete</span></td>
-                                <td><a href="#">#EGRD3e</a></td>
-                                <td>Jim Bean</td>
-                                <td>19/12/2017</td>
-                                <td>&pound;234.00</td>
-                            </tr>
-                            <tr>
-                                <td><span class="label label-success">Complete</span></td>
-                                <td><a href="#">#GSE7dsf</a></td>
-                                <td>Guest</td>
-                                <td>19/12/2017</td>
-                                <td>&euro;35.00</td>
-                            </tr>
-                            <tr>
-                                <td><span class="label label-warning">Refunded</span></td>
-                                <td><a href="#">#46RTFsd</a></td>
-                                <td>Guest</td>
-                                <td>19/12/2017</td>
-                                <td>&pound;20.00</td>
-                            </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5">No orders</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -168,7 +139,7 @@
                     <h3 class="panel-title">Active products</h3>
                 </header>
                 <div class="panel-body">
-                    <h4 class="no-mar">919</h4>
+                    <h4 class="no-mar">{{ $product_count }}</h4>
                 </div>
             </div>
         </div>
@@ -185,20 +156,10 @@
         <div class="col-md-2">
             <div class="panel">
                 <header class="panel-heading">
-                    <h3 class="panel-title">Active products</h3>
-                </header>
-                <div class="panel-body">
-                    <h4 class="no-mar">577</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="panel">
-                <header class="panel-heading">
                     <h3 class="panel-title">Registered Customers</h3>
                 </header>
                 <div class="panel-body">
-                    <h4 class="no-mar">1,527</h4>
+                    <h4 class="no-mar">{{ $user_count }}</h4>
                 </div>
             </div>
         </div>
@@ -208,7 +169,7 @@
                     <h3 class="panel-title">Categories</h3>
                 </header>
                 <div class="panel-body">
-                    <h4 class="no-mar">116</h4>
+                    <h4 class="no-mar">{{ $category_count }}</h4>
                 </div>
             </div>
         </div>
@@ -218,7 +179,7 @@
                     <h3 class="panel-title">Channels</h3>
                 </header>
                 <div class="panel-body">
-                    <h4 class="no-mar">2</h4>
+                    <h4 class="no-mar">{{ $channel_count }}</h4>
                 </div>
             </div>
         </div>
