@@ -47,6 +47,8 @@ class Category extends BaseModel
 
         $customerGroups = [];
 
+        $customerGroups = [];
+
         if ($this->usergroups()->count()) {
             foreach ($this->userGroups()->get() as $group) {
                 $handle = str_slug($group->descriptions->first()->usergroup);
@@ -59,6 +61,31 @@ class Category extends BaseModel
             }
         }
 
-        return array_merge($decorator->getdata($this), ['customer_groups' => $customerGroups]);
+        // // Gotta try and get our guest ones out...
+        foreach (explode(',', $this->usergroup_ids) as $groupId) {
+            if ($groupId == 0) {
+                $groups = \GetCandy\Api\Customers\Models\CustomerGroup::all();
+                foreach ($groups as $group) {
+                    $customerGroups['data'][] = [
+                        'id' => $group->encodedId(),
+                        'visible' => true,
+                        'purchasable' => true
+                    ];
+                }
+            }
+        }
+
+        $channelData = [
+            [
+                'id' => app('api')->channels()->getByHandle('aqua-spa-supplies')->encodedId(),
+                'published_at' => \Carbon\Carbon::createFromTimestamp($this->timestamp)
+            ],
+            [
+                'id' => app('api')->channels()->getByHandle('europe-aqua-spa-supplies')->encodedId(),
+                'published_at' => \Carbon\Carbon::createFromTimestamp($this->timestamp)
+            ]
+        ];
+
+        return array_merge($decorator->getdata($this), ['channels' => ['data' => $channelData], 'customer_groups' => $customerGroups]);
     }
 }

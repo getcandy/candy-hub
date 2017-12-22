@@ -2,8 +2,9 @@
 
 namespace GetCandy\Console\Commands;
 
-use Illuminate\Console\Command;
 use DB;
+use Illuminate\Console\Command;
+use GetCandy\Api\Categories\Models\Category;
 
 class ImportAquaSpa extends Command
 {
@@ -48,6 +49,8 @@ class ImportAquaSpa extends Command
         $driver = $this->argument('driver');
         $this->importer = app($driver . '.importer');
 
+        \Auth::loginUsingId(1);        
+
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
@@ -70,8 +73,10 @@ class ImportAquaSpa extends Command
                 ];
                 app('api')->categories()->create($child);
             }
+            
             $bar->advance();
         }
+
         $bar->finish();
         $this->info('');
     }

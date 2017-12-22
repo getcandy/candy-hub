@@ -56,6 +56,12 @@ class CategoryService extends BaseService
             $category->customerGroups()->sync($groupData);
         }
 
+        if (!empty($data['channels']['data'])) {
+            $category->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
+        }
+
         $urls = $this->getUniqueUrl($data['url']);
 
         $category->routes()->createMany($urls);

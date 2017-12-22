@@ -36,6 +36,7 @@ class Factory extends BaseImporter
     public function getCategories()
     {
         $categories = Category::parents()->with(['children', 'children.children'])->get()->toArray();
+
         return $categories;
     }
 
