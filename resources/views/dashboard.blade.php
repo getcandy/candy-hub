@@ -105,10 +105,10 @@
                             @forelse($recent_orders as $order)
                             <tr>
                                 <td><span class="label label-success">Complete</span></td>
-                                <td><a href="#">#GWf42dGS</a></td>
-                                <td>Guest</td>
-                                <td>23/12/2017</td>
-                                <td>&pound;2,300.00</td>
+                                <td><a href="#">#{{ $order->encodedId() }}</a></td>
+                                <td>{{ $order->customer_name }}</td>
+                                <td>{{ $order->created_at }}</td>
+                                <td>&pound;{{ number_format($order->total, 2) }}</td>
                             </tr>
                             @empty
                                 <tr>

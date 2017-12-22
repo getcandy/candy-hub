@@ -13,11 +13,12 @@ class DashboardController extends Controller
 {
     public function getIndex()
     {
-        $orders = Order::count();
-        $sales = Order::where('status', '=', 'complete')->sum('total');
-        $taxes = Order::where('status', '=', 'complete')->sum('vat');
+        $orderCollection = Order::withoutGlobalScope('open')->withoutGlobalScope('not_expired');
+        $orders = $orderCollection->count();
+        $sales = $orderCollection->where('status', '=', 'complete')->sum('total');
+        $taxes = $orderCollection->sum('vat');
         $baskets = Basket::count();
-        $recentOrders = Order::take(8);
+        $recentOrders = $orderCollection->take(8)->get();
         $products = Product::count();
         $users = User::count();
         $categories = Category::count();
