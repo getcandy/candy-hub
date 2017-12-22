@@ -25,6 +25,11 @@
 @section('content')
 
     <div class="row">
+    <div class="col-md-12 text-center">
+        <div class="alert alert-warning">
+            Test Data
+        </div>
+    </div>
         <div class="col-md-3">
             <div class="panel">
                 <header class="panel-heading">
