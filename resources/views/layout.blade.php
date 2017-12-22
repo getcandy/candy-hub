@@ -50,6 +50,6 @@
     </div>
     <div class="main-purple-overlay"></div>
     @include('partials.scripts')
-
+    @yield('scripts')
   </body>
 </html>

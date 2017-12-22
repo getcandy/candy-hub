@@ -16794,6 +16794,20 @@ textarea.bootstrap-tagsinput {
   background-color: #d8e4f9;
 }
 
+.dashboard-figure {
+  font-size: 3em;
+  font-weight: light;
+  line-height: 1;
+}
+
+.dashboard-figure svg {
+  width: 5px;
+}
+
+.no-mar {
+  margin: 0;
+}
+
 .pop-over {
   visibility: hidden;
   opacity: 0;
@@ -17173,16 +17187,31 @@ textarea.bootstrap-tagsinput {
   background-color: #662d91;
 }
 
+.sidebar .side-nav ul li.active a svg {
+  color: white;
+}
+
 .sidebar .side-nav ul li a {
   display: block;
   width: 100%;
-  padding: 15px 60px;
+  padding: 15px 60px 15px 40px;
+}
+
+.sidebar .side-nav ul li a svg {
+  color: rgba(45, 60, 142, 0.4);
+  width: 15px;
+  margin-right: 10px;
 }
 
 .sidebar .side-nav ul li a:hover,
 .sidebar .side-nav ul li a:active {
   color: white;
   background-color: #662d91;
+}
+
+.sidebar .side-nav ul li a:hover svg,
+.sidebar .side-nav ul li a:active svg {
+  color: white;
 }
 
 .content-panel {

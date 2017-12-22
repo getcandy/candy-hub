@@ -57,6 +57,9 @@ require('./filters/attributes');
 require('./filters/format-date');
 require('./filters/translate');
 
+require('chart.js');
+require('chartjs-color');
+
 Vue.filter('capitalize', function (value) {
   if (!value) return ''
   value = value.toString()
