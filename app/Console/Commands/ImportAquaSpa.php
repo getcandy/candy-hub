@@ -103,7 +103,7 @@ class ImportAquaSpa extends Command
         $bar = $this->output->createProgressBar(count($families));
 
         foreach ($families as $family) {
-            app('api')->productFamilies()->create($family);
+            app('api')->productFamilies()->create($family['attributes']);
             $bar->advance();
         }
 
