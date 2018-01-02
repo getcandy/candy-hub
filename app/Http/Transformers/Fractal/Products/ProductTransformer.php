@@ -78,13 +78,18 @@ class ProductTransformer extends BaseTransformer
 
         $product->max_price = 0;
         $product->min_price = 0;
+        $product->original_max_price = 0;
+        $product->original_min_price = 0;
 
         foreach ($product->variants as $variant) {
             $product->max_price = $variant->price > $product->max_price ? $variant->price : $product->max_price;
+            $product->original_max_price = $variant->original_price > $product->original_max_price ? $variant->original_price : $product->original_max_price;
             if ($product->min_price) {
                 $product->min_price = $variant->price < $product->min_price ? $variant->price : $product->min_price;
+                $product->original_min_price = $variant->original_price < $product->original_min_price ? $variant->original_price : $product->original_min_price;
             } else {
                 $product->min_price = $product->max_price;
+                $product->original_min_price = $variant->original_price;
             }
         }
 

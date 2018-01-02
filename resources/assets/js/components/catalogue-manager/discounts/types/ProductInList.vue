@@ -5,8 +5,9 @@
                 products: [],
                 loading: false,
                 unsearched: true,
-                selected: [],
+                payload: {},
                 keywords: '',
+                selected: [],
                 params: {
                     type: 'product',
                     per_page: 25,
@@ -16,20 +17,15 @@
         },
         props: {
             criteria: {
-                type: Array
+                type: Object
             }
         },
-        computed: {
-            payload() {
-                return _.map(this.selected, function (item) {
-                    return item.id;
-                });
-            }
-        },
-        watch: {
-            selected: function (values) {
-        // LOOK AT this.$emit('val') on the v-model component to get it updated...
-                
+        mounted() {
+            this.payload = this.criteria;
+            if (!this.payload.value) {
+                this.$set(this.payload, 'value', []);
+            } else {
+                this.getSelectedModels();
             }
         },
         methods: {
@@ -43,11 +39,26 @@
                         this.loading = false;
                     });
             },
+            sync() {
+                this.payload.value = _.map(this.selected, item => {
+                    return item.id;
+                });
+            },
             remove(id) {
-                this.criteria.products.splice(this.criteria.products.indexOf(id), 1);
+                this.selected.splice(this.selected.indexOf(id), 1);
             },
             unselect(index) {
                 this.selected.splice(index, 1);
+                this.sync();
+            },
+            getSelectedModels()
+            {
+                apiRequest.send('GET', 'products', [], {
+                    'ids' : this.payload.value
+                })
+                .then(response => {
+                    this.selected = response.data;
+                });
             },
             search: _.debounce(function (){
                     this.unsearched = false;
@@ -67,7 +78,6 @@
 
 <template>
     <div>
-        {{ criteria }}
         <h5>Product in list</h5>
         <div class="filters">
             <div class="filter active" v-for="(product, index) in selected">
@@ -99,7 +109,7 @@
                 <tr v-for="product in products" :key="product.id">
                     <td>
                         <label>
-                            <input type="checkbox" v-model="selected" :value="product">
+                            <input type="checkbox" v-model="selected" @change="sync" :value="product">
                             {{ product|attribute('name') }}
                         </label>
                     </td>

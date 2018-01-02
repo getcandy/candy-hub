@@ -38,7 +38,6 @@ class AddDiscountToProductListener
             }
         }
 
-
         $applied = $this->factory->getApplied($sets, \Auth::user(), $product);
 
         $this->factory->apply($applied, $product);

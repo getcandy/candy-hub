@@ -178,9 +178,15 @@ class ProductService extends BaseService
      * @param  int  $page   The page to start
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($channel = null, $length = 50, $page = null)
+    public function getPaginatedData($channel = null, $length = 50, $page = null, $ids = [])
     {
         $results = $this->model->channel($channel);
+
+        if (count($ids)) {
+            $realIds = $this->getDecodedIds($ids);
+            $results->whereIn('id', $realIds);
+        }
+
         return $results->paginate($length, ['*'], 'page', $page);
     }
 
@@ -200,7 +206,7 @@ class ProductService extends BaseService
 
         $product = $this->model->with([
             'attributes',
-            'family', 
+            'family',
             'family.attributes'
         ])->find($id);
 

@@ -28,7 +28,7 @@ class ProductController extends BaseController
             $request->channel,
             $request->per_page,
             $request->current_page,
-            $request->includes
+            $request->ids
         );
         return $this->respondWithCollection($paginator, new ProductTransformer);
     }

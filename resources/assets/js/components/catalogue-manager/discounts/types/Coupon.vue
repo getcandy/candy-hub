@@ -23,8 +23,6 @@
 
 <template>
     <div>
-        {{ payload }}
-        {{ criteria }}
         <div class="form-group">
             <label for="">When the coupon equals</label>
             <input type="text" class="form-control" v-model="payload.value">

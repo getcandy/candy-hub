@@ -17,16 +17,16 @@
         },
         methods: {
             save() {
-                apiRequest.send('PUT', 'discounts/' + this.id, this.discount).then(response => {
-                    this.discount = response.data;
-                    this.loaded = true;
+                let data = this.discount;
+                data.includes = 'channels,sets,rewards,sets.items,attribute_groups.attributes';
+                apiRequest.send('PUT', 'discounts/' + this.id, data).then(response => {
                 });
             }
         },
         mounted() {
             Dispatcher.add('save-discount', this);
             apiRequest.send('GET', 'discounts/' + this.id, {}, {
-                includes: 'channels,sets,rewards,sets.items,attribute_groups,attribute_groups.attributes'
+                includes: 'channels,sets,rewards,sets.items,attribute_groups.attributes'
             }).then(response => {
                 this.discount = response.data;
                 this.loaded = true;

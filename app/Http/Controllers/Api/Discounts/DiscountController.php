@@ -28,7 +28,8 @@ class DiscountController extends BaseController
 
     public function update($id, UpdateRequest $request)
     {
-        app('api')->discounts()->update($id, $request->all());
+        $discount = app('api')->discounts()->update($id, $request->all());
+        return $this->respondWithItem($discount, new DiscountTransformer);
     }
     /**
      * Shows the discount resource

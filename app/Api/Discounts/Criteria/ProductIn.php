@@ -25,8 +25,8 @@ class ProductIn implements DiscountCriteriaContract
     protected function getRealIds()
     {
         $ids = [];
-        if (!empty($this->criteria['products'])) {
-            $ids = app('api')->products()->getDecodedIds($this->criteria['products']);
+        if (!empty($this->criteria['value'])) {
+            $ids = app('api')->products()->getDecodedIds($this->criteria['value']);
         }
         return collect($ids);
     }

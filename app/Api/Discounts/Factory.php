@@ -55,8 +55,6 @@ class Factory
     public function apply($discounts, $product)
     {
         $product->discounts = [];
-        $product->original_max_price = $product->max_price;
-        $product->original_min_price = $product->min_price;
 
         $labels = [];
 
@@ -70,21 +68,21 @@ class Factory
             ];
 
             foreach ($discount->getRewards() as $reward) {
-                switch ($reward['type']) {
-                    case 'percentage_amount':
-                        $product->max_price = $this->applyPercentage($product->max_price, $reward->value);
-                        $product->min_price = $this->applyPercentage($product->min_price, $reward->value);
-                        break;
-                    case 'fixed_amount':
-                        $product->max_price = $this->applyFixedAmount($product->max_price, $reward->value);
-                        $product->min_price = $this->applyFixedAmount($product->min_price, $reward->value);
-                        break;
-                    case 'to_fixed_price':
-                        $product->max_price = $this->applyToFixedAmount($product->max_price, $reward->value);
-                        $product->min_price = $this->applyToFixedAmount($product->min_price, $reward->value);
-                        break;
-                    default:
-                        //
+                foreach ($product->variants as $variant) {
+                    $variant->original_price = $variant->price;
+                    switch ($reward['type']) {
+                        case 'percentage_amount':
+                            $variant->price = $this->applyPercentage($variant->price, $reward['value']);
+                            break;
+                        case 'fixed_amount':
+                            $variant->price = $this->applyFixedAmount($variant->price, $reward['value']);
+                            break;
+                        case 'to_fixed_price':
+                            $variant->price = $this->applyToFixedAmount($variant->price, $reward['value']);
+                            break;
+                        default:
+                            //
+                    }
                 }
             }
         }
