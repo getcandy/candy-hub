@@ -55,8 +55,8 @@ class Category extends BaseModel
                 $group = app('api')->customerGroups()->getByHandle($handle);
                 $customerGroups['data'][] = [
                     'id' => $group->encodedId(),
-                    'visible' => true,
-                    'purchasable' => true
+                    'visible' => $this->status == 'A',
+                    'purchasable' => $this->status == 'A'
                 ];
             }
         }
@@ -68,8 +68,8 @@ class Category extends BaseModel
                 foreach ($groups as $group) {
                     $customerGroups['data'][] = [
                         'id' => $group->encodedId(),
-                        'visible' => true,
-                        'purchasable' => true
+                        'visible' => $this->status == 'A',
+                        'purchasable' => $this->status == 'A'
                     ];
                 }
             }
@@ -97,16 +97,14 @@ class Category extends BaseModel
             }
         }
 
-        dump($this->descriptions);
-
         $channelData = [
             [
                 'id' => app('api')->channels()->getByHandle('aqua-spa-supplies')->encodedId(),
-                'published_at' => \Carbon\Carbon::createFromTimestamp($this->timestamp)
+                'published_at' => $this->status == 'A' ? \Carbon\Carbon::createFromTimestamp($this->timestamp) : null
             ],
             [
                 'id' => app('api')->channels()->getByHandle('europe-aqua-spa-supplies')->encodedId(),
-                'published_at' => \Carbon\Carbon::createFromTimestamp($this->timestamp)
+                'published_at' => $this->status == 'A' ? \Carbon\Carbon::createFromTimestamp($this->timestamp) : null
             ]
         ];
 
