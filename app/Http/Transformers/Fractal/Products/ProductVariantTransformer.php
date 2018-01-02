@@ -11,6 +11,7 @@ use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use PriceCalculator;
+use TaxCalculator;
 
 class ProductVariantTransformer extends BaseTransformer
 {
@@ -20,12 +21,14 @@ class ProductVariantTransformer extends BaseTransformer
 
     public function transform(ProductVariant $variant)
     {
+        // $price = 
         $response = [
             'id' => $variant->encodedId(),
             'sku' => $variant->sku,
             'backorder' => (bool) $variant->backorder,
             'requires_shipping' => (bool) $variant->requires_shipping,
             'price' => PriceCalculator::get($variant->price),
+            'tax_amount' => TaxCalculator::amount($variant->price),
             'inventory' => $variant->stock,
             'thumbnail' => $this->getThumbnail($variant),
             'weight' => [

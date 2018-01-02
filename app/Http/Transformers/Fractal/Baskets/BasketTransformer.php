@@ -7,6 +7,7 @@ use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
 use GetCandy\Http\Transformers\Fractal\Discounts\DiscountTransformer;
+use TaxCalculator;
 
 class BasketTransformer extends BaseTransformer
 {
@@ -18,7 +19,8 @@ class BasketTransformer extends BaseTransformer
     {
         $data = [
             'id' => $basket->encodedId(),
-            'total' => $basket->total
+            'total' => $basket->total,
+            'vat_total' => TaxCalculator::amount($basket->total)
         ];
         return $data;
     }
