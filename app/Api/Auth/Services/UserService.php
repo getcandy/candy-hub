@@ -32,20 +32,17 @@ class UserService extends BaseService
             $lang = app('api')->languages()->getEnabledByLang($data['language']);
         }
 
-        // Get the user group.
-        if (!empty($data['group'])) {
-            $group = app('api')->customerGroups()->getByHandle($data['group']);
-        } else {
-            $group = app('api')->customerGroups()->getDefaultRecord();
-        }
-
         if (!empty($data['fields'])) {
             $user->fields = $data['fields'];
         }
 
         $user->save();
 
-        $user->groups()->attach($group);
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']);
+            $user->customerGroups()->sync($groupData);
+        }
+
         $user->language()->associate($lang);
 
         $user->save();

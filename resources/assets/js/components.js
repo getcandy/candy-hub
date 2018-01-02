@@ -96,6 +96,7 @@ var includes = [
       'discount-details': 'DiscountDetails',
       'discount-availability': 'DiscountAvailability',
       'discount-conditions' : 'DiscountConditions',
+      'discount-rewards' : 'DiscountRewards'
     }
   },
   {

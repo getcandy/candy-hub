@@ -47,11 +47,7 @@
                 </candy-tab>
                 <candy-tab name="Rewards" dispatch="save-discount">
                     <div class="tab-content sub-content section block">
-                        <div class="row">
-                            <div class="col-md-12">
-                                Rewards
-                            </div>
-                        </div>
+                        <candy-discount-rewards :discount="discount"></candy-discount-rewards>
                     </div>
                 </candy-tab>
                 <candy-tab name="Availability" handle="collection-availability" dispatch="save-discount">

@@ -8,6 +8,7 @@ use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
 use GetCandy\Importers\Aqua\Models\Products\Product;
 use GetCandy\Importers\Aqua\Models\Categories\Category;
 use GetCandy\Importers\Aqua\Models\Channel;
+use GetCandy\Importers\Aqua\Models\Users\User;
 
 class Factory extends BaseImporter
 {
@@ -35,9 +36,13 @@ class Factory extends BaseImporter
 
     public function getCategories()
     {
-        $categories = Category::parents()->with(['children', 'children.children'])->get()->toArray();
-
+        $categories = Category::parents()->with(['children', 'children.children'])->where('company_id', '=', 1)->get()->toArray();
         return $categories;
+    }
+
+    public function getUsers()
+    {
+        return User::all();
     }
 
     public function getProductFamilies()

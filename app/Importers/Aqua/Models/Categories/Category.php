@@ -75,6 +75,30 @@ class Category extends BaseModel
             }
         }
 
+        // French Categories
+        $frenchCats = $this->where('company_id', '=', 2)->get();
+
+        foreach ($frenchCats as $fCategory) {
+            $frenchDescription = $fCategory->descriptions->first(function ($item, $key) {
+                return $item->lang_code == 'fr';
+            });
+
+            $searchedName = $fCategory->descriptions->first(function ($item, $key) {
+                return $item->lang_code == 'en';
+            })->category;
+
+            if ($this->isMatchedCategory($searchedName)) {
+                // Get Current descriptions minus the french one...
+                $descriptions = $this->descriptions->reject(function ($item) {
+                    return $item->lang_code == 'fr';
+                });
+                $descriptions->add($frenchDescription);
+                $this->descriptions = $descriptions;
+            }
+        }
+
+        dump($this->descriptions);
+
         $channelData = [
             [
                 'id' => app('api')->channels()->getByHandle('aqua-spa-supplies')->encodedId(),
@@ -88,4 +112,38 @@ class Category extends BaseModel
 
         return array_merge($decorator->getdata($this), ['channels' => ['data' => $channelData], 'customer_groups' => $customerGroups]);
     }
+
+    protected function isMatchedCategory($name)
+    {
+        return (bool)$this->descriptions->first(function ($desc, $key) use ($name) {
+            return $desc->lang_code == 'en' and $desc->category == $name;
+        });
+    }
+
+    /**
+     * foreach ($french as $fCategory) {
+            // Get the french description...
+            $frenchDescription = $fCategory->descriptions->first(function ($item, $key) {
+                return $item->lang_code == 'fr';
+            });
+
+            // Do this so we can look for the right one to associate...
+            $searchedName = $fCategory->descriptions->first(function ($item, $key) {
+                return $item->lang_code == 'en';
+            })->category;
+
+            dump($frenchDescription->category, $searchedName);
+            
+            foreach ($english as $englishCategory) {
+                if ($this->isMatchedCategory($englishCategory->descriptions, $frenchDescription)) {
+                    // Get Current descriptions minus the french one...
+                    $descriptions = $englishCategory->descriptions->reject(function ($item) {
+                        return $item->lang_code == 'fr';
+                    });
+                    $descriptions->add($frenchDescription);
+                    $englishCategory->descriptions = $descriptions;
+                }
+            }
+        }
+     */
 }
