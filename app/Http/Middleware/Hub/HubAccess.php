@@ -11,7 +11,7 @@ class HubAccess
     {
         $roles = app('api')->roles()->getHubAccessRoles();
         if (!$request->user()->hasAnyRole($roles)) {
-            throw new AuthenticationException;
+            abort(400, 'Unauthorised');
         }
         return $next($request);
     }
