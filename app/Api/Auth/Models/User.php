@@ -7,6 +7,7 @@ use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Traits\Hashids;
+use GetCandy\Api\Traits\HasCustomerGroups;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;

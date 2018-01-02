@@ -39,8 +39,8 @@ class UserService extends BaseService
         $user->save();
 
         if (!empty($data['customer_groups'])) {
-            $groupData = $this->mapCustomerGroupData($data['customer_groups']);
-            $user->customerGroups()->sync($groupData);
+            $groupData = app('api')->customerGroups()->getDecodedIds($data['customer_groups']);
+            $user->groups()->sync($groupData);
         }
 
         $user->language()->associate($lang);

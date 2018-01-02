@@ -14,6 +14,11 @@ class User extends BaseModel
         return $this->belongsToMany(UserGroup::class, 'cscart_usergroup_links', 'user_id', 'usergroup_id', 'user_id', 'usergroup_id');
     }
 
+    protected function profiles()
+    {
+        return $this->hasMany(UserProfile::class, 'user_id', 'user_id');
+    }
+
     // $related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
     //     $parentKey = null, $relatedKey = null, $relation = null
 
@@ -35,7 +40,12 @@ class User extends BaseModel
         $groups = [];
 
         foreach ($this->groups as $group) {
-            // $groups[] = $this->
+            $model = app('api')->customerGroups()->getByHandle(str_slug($group->descriptions->first()->usergroup));
+            $groups[] = $model->encodedId();
         }
+
+        $data['customer_groups'] = $groups;
+
+        return $data;
     }
 }

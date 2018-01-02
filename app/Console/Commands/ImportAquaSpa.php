@@ -66,11 +66,20 @@ class ImportAquaSpa extends Command
 
         $bar = $this->output->createProgressBar(count($users));
 
-        // foreach ($users as $user) {
-        //     dump($user->groups);
-        //     // app('api')->users()->create($user->toArray());
-        //     // $bar->advance();
-        // }
+        foreach ($users as $user) {
+            $user = $user;
+
+            $model = app('api')->users()->create($user->toArray());
+
+            foreach ($user->profiles as $addresses) {
+                foreach ($addresses->toArray() as $type => $data) {
+                    app('api')->addresses()->addAddress($model, $data, $type);
+                }
+            }
+
+            // dd($model);
+            $bar->advance();
+        }
         // dd('end');
         $bar->finish();
         $this->info('');
