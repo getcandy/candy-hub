@@ -10,7 +10,7 @@ class CustomerGroupController extends BaseController
 {
     public function index(Request $request)
     {
-        $groups = app('api')->customerGroups()->getPaginatedData($request->keywords, $request->per_page);
+        $groups = app('api')->customerGroups()->getPaginatedData($request->per_page);
         return $this->respondWithCollection($groups, new CustomerGroupTransformer());
     }
 }

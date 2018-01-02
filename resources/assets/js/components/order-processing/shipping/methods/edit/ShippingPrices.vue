@@ -87,24 +87,25 @@
                 this.current.currency_id = this.current.currency.data.id;
             },
             add() {
-                this.current = {
-                    currency_id: this.defaultCurrency,
-                    rate: '',
-                    fixed: '',
-                    min_weight: 0,
-                    weight_unit: 'kg',
-                    min_height: 0,
-                    height_unit: 'cm',
-                    min_width: 0,
-                    width_unit: 'cm',
-                    min_depth: 0,
-                    depth_unit: 'cm',
-                    min_volume: 0,
-                    volume_unit: 'l',
-                    customer_groups: {
-                        data: []
-                    }
-                };
+                apiRequest.send('get', '/customers/groups').then(response => {
+                    
+                    this.current = {
+                        currency_id: this.defaultCurrency,
+                        rate: '',
+                        fixed: '',
+                        min_weight: 0,
+                        weight_unit: 'kg',
+                        min_height: 0,
+                        height_unit: 'cm',
+                        min_width: 0,
+                        width_unit: 'cm',
+                        min_depth: 0,
+                        depth_unit: 'cm',
+                        min_volume: 0,
+                        volume_unit: 'l',
+                        customer_groups: response
+                    };
+                });
             },
             create() {
                 apiRequest.send('post', '/shipping/' + this.method.id + '/prices', this.current)
@@ -122,7 +123,6 @@
                     });
             },
             update() {
-                console.log(this.current);
                 apiRequest.send('put', 'shipping/prices/' + this.current.id, this.current).then(response => {
                     CandyEvent.$emit('shipping-prices-updated');
                 });
@@ -265,7 +265,7 @@
                                 <label>Min Volume</label>
                                 <div class="input-group input-group-full">
                                     <input type="number" class="form-control" v-model="current.min_volume">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="current.volume_unit"
+                                    <candy-select :options="['l', 'ml']" v-model="current.volume_unit"
                                                     :addon="true"></candy-select>
                                 </div>
                             </div>
