@@ -56,31 +56,32 @@ class DiscountService extends BaseService
 
         $discount->save();
 
-        event(new AttributableSavedEvent($discount));
+        // event(new AttributableSavedEvent($discount));
 
         if (!empty($data['rewards'])) {
+            $discount->rewards()->delete();
             foreach ($data['rewards'] as $reward) {
                 $discount->rewards()->create($reward);
             }
         }
 
         if (!empty($data['sets']['data'])) {
-            $data['sets'] = $data['sets']['data'];
+            $discount->sets()->delete();
+            foreach ($data['sets']['data'] as $set) {
+                $groupModel = $discount->sets()->create([
+                    'scope' => $set['scope'],
+                    'outcome' => $set['outcome']
+                ]);
+
+                if (!empty($set['items']['data'])) {
+                    $set['items'] = $set['items']['data'];
+                }
+                foreach ($set['items'] as $item) {
+                    $groupModel->items()->create($item);
+                }
+            }
         }
         
-        foreach ($data['sets'] as $set) {
-            $groupModel = $discount->sets()->create([
-                'scope' => $set['scope'],
-                'outcome' => $set['outcome']
-            ]);
-
-            if (!empty($set['items']['data'])) {
-                $set['items'] = $set['items']['data'];
-            }
-            foreach ($set['items'] as $item) {
-                $groupModel->items()->create($item);
-            }
-        }
         return $discount;
     }
 

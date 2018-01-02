@@ -21,7 +21,7 @@ class DiscountController extends BaseController
         return $this->respondWithCollection($paginator, new DiscountTransformer);
     }
 
-    public function store(CreateRequest $request)
+    public function store(Request $request)
     {
         app('api')->discounts()->create($request->all());
     }

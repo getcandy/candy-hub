@@ -16,7 +16,7 @@
         },
         props: {
             criteria: {
-                type: Object
+                type: Array
             }
         },
         computed: {
@@ -67,8 +67,8 @@
 
 <template>
     <div>
+        {{ criteria }}
         <h5>Product in list</h5>
-        {{ payload }}
         <div class="filters">
             <div class="filter active" v-for="(product, index) in selected">
                 {{ product|attribute('name') }}
