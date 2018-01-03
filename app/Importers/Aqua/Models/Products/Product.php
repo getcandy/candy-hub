@@ -47,8 +47,8 @@ class Product extends BaseModel
                 $group = app('api')->customerGroups()->getByHandle($handle);
                 $customerGroups['data'][] = [
                     'id' => $group->encodedId(),
-                    'visible' => true,
-                    'purchasable' => true
+                    'visible' => $this->status == 'A',
+                    'purchasable' => $this->status == 'A'
                 ];
             }
         }
@@ -60,8 +60,8 @@ class Product extends BaseModel
                 foreach ($groups as $group) {
                     $customerGroups['data'][] = [
                         'id' => $group->encodedId(),
-                        'visible' => true,
-                        'purchasable' => true
+                        'visible' => $this->status == 'A',
+                        'purchasable' => $this->status == 'A'
                     ];
                 }
             }
