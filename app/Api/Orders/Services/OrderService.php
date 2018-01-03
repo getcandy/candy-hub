@@ -203,7 +203,7 @@ class OrderService extends BaseService
     public function syncWithBasket(Order $order, Basket $basket)
     {
         $order->total = $basket->total;
-        $order->vat = $baket->vat_total;
+        $order->vat = $basket->vat_total;
         $order->currency = $basket->currency;
 
         $order->lines()->delete();
