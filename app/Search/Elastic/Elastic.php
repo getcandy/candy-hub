@@ -234,7 +234,7 @@ class Elastic implements SearchContract
 
         $query = new \Elastica\Query();
         $query->setParam('size', $perPage);
-        $query->setParam('from', $page == 1 ? 1 : $page * $perPage);
+        $query->setParam('from', ($page - 1) * $perPage);
         
         if ($keywords) {
             $boolQuery = new BoolQuery;
