@@ -8,12 +8,12 @@ class TaxCalculator
 {
     protected $rate;
 
-    protected $deductable = false;
+    protected $taxable = false;
 
-    public function setDeductable($type)
+    public function setTax($type)
     {
         $this->set($type);
-        $this->deductable = true;
+        $this->taxable = true;
         return $this;
     }
 
@@ -39,21 +39,27 @@ class TaxCalculator
 
     public function amount($price)
     {
-        if ($this->deductable) {
+        if (!$this->taxable) {
             return 0;
         }
-        
         if (!$this->rate) {
             $this->setDefault();
         }
-        return round((($this->rate->percentage / 100) * $price), 2);
+        return $this->amountToAdd($price);
+    }
+
+    protected function amountToAdd($price)
+    {
+        $exVat = $price * (($this->rate->percentage + 100) / 100);
+        $amount =  $exVat - $price;
+        return round($amount, 2);
     }
 
     public function deduct($price)
     {
-        if (!$this->deductable) {
+        if (!$this->taxable) {
             return $price;
         }
-        return round($price * ((100 - $this->rate->percentage) / 100), 2);
+        return round($price + $this->amountToAdd($price), 2);
     }
 }
