@@ -48,7 +48,7 @@ class ElasticIndexCommand extends Command
         }
 
         foreach ($model->get() as $model) {
-            $search->on($model)->index($model);
+            app(SearchContract::class)->indexObject($model);
             echo '.';
         }
         $this->info('Done!');
