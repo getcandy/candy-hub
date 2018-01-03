@@ -43,10 +43,9 @@ class SearchService
         } else {
             $collection = collect();
         }
-        
+
         $transformer = new $this->types[$type];
         $resource = new Collection($collection, $transformer);
-
 
         $resource->setMeta([
             'pagination' => $this->getPagination($results),
@@ -121,6 +120,7 @@ class SearchService
 
         $aggs = $results->getAggregations();
 
+
         $results = [];
 
         $selected = [];
@@ -137,6 +137,7 @@ class SearchService
                 }
             }
         }
+
 
         $selected = collect($selected);
 

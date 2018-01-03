@@ -242,7 +242,7 @@ class Elastic implements SearchContract
             $boolQuery->addMust($disMaxQuery);
             $query->setQuery($boolQuery);
         }
-        
+
         $query->setHighlight(
             $this->getHighlight()
         );
@@ -252,14 +252,20 @@ class Elastic implements SearchContract
         );
 
         if (!empty($filters['categories'])) {
+            $categories = $filters['categories']['values'];
+            $filter = $this->getCategoryFilter($categories);
+
+            $query->setQuery($filter);
             $query->setPostFilter(
-                $this->getCategoryFilter($filters['categories']['values'])
+                $filter
             );
         }
 
         $query->addAggregation(
             $this->getCategoryPostAgg()
         );
+
+        // dd($query);
 
         if ($keywords) {
             $query->setSuggest(
@@ -396,8 +402,8 @@ class Elastic implements SearchContract
         foreach ($categories as $value) {
             $term = new Term;
             $term->setTerm('departments.id', $value);
-            $postFilterQuery->addShould($term);         
-            $this->categories[] = $value;                   
+            $postFilterQuery->addShould($term);
+            $this->categories[] = $value;
         }
 
         $postFilter->setQuery($postFilterQuery);
