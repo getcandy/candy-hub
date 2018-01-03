@@ -72,7 +72,7 @@
                             <td @click="loadMethod(method.id)">
                                 {{ method|attribute('name') }}
                             </td>
-                            <td>
+                            <td @click="loadMethod(method.id)">
                                 <template v-if="method.prices.data.length">
                                     <template v-for="(price, index) in method.prices.data">
                                         {{ price.rate }}<span v-if="index < method.prices.data.length - 1">,</span>
@@ -80,7 +80,7 @@
                                 </template>
                                 <span class="text-info" v-else>No prices set</span>
                             </td>
-                            <td>
+                            <td @click="loadMethod(method.id)">
                                 <template v-if="method.zones.data.length">
                                     <template v-for="(zone, index) in method.zones.data">
                                         {{ zone.name }}<span v-if="index < method.zones.data.length - 1">,</span>
