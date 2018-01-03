@@ -5,6 +5,7 @@ namespace GetCandy\Http\Transformers\Fractal\Categories;
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
+use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
@@ -19,7 +20,7 @@ class CategoryTransformer extends BaseTransformer
         'routes'
     ];
     protected $availableIncludes = [
-        'attribute_groups','assets', 'children', 'channels', 'customer_groups'
+        'attribute_groups','assets', 'children', 'channels', 'customer_groups', 'products'
     ];
 
     public function transform(Category $category)
@@ -54,6 +55,11 @@ class CategoryTransformer extends BaseTransformer
     public function includeChildren(Category $category)
     {
         return $this->collection($category->children, $this);
+    }
+
+    public function includeProducts(Category $category)
+    {
+        return $this->collection($category->products, new ProductTransformer);
     }
 
     public function includeRoutes(Category $category)
