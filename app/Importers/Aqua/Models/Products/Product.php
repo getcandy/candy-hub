@@ -30,7 +30,7 @@ class Product extends BaseModel
         $handle = str_slug($channel->company);
         $channelData = [[
             'id' => app('api')->channels()->getByHandle($handle)->encodedId(),
-            'published_at' => Carbon::createFromTimestamp($this->timestamp)
+            'published_at' => $this->status == 'A' ? Carbon::createFromTimestamp($this->timestamp) : null
         ]];
 
         $options = [];
