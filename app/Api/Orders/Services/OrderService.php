@@ -38,7 +38,7 @@ class OrderService extends BaseService
         $order->total = $basket->total;
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
-        $order->vat = TaxCalculator::amount($basket->total);
+        $order->vat = $basket->vat_total;
 
         $order->save();
 
@@ -120,7 +120,6 @@ class OrderService extends BaseService
         }
 
         $this->setFields($order, $data, $type);
-
 
         $order->save();
 
@@ -204,7 +203,7 @@ class OrderService extends BaseService
     public function syncWithBasket(Order $order, Basket $basket)
     {
         $order->total = $basket->total;
-        $order->vat = 0;
+        $order->vat = $baket->vat_total;
         $order->currency = $basket->currency;
 
         $order->lines()->delete();

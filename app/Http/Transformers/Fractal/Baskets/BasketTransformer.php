@@ -20,7 +20,7 @@ class BasketTransformer extends BaseTransformer
         $data = [
             'id' => $basket->encodedId(),
             'total' => $basket->total,
-            'vat_total' => TaxCalculator::amount($basket->total)
+            'vat_total' => $basket->vat_total
         ];
         return $data;
     }
