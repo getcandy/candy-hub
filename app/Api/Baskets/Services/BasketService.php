@@ -52,7 +52,7 @@ class BasketService extends BaseService
             return [
                 'product_variant_id' => app('api')->productVariants()->getDecodedId($item['id']),
                 'quantity' => $item['quantity'],
-                'total' => $item ['price']
+                'total' => $item['quantity'] * $item['price']
             ];
         });
 
