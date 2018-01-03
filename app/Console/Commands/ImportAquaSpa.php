@@ -5,6 +5,7 @@ namespace GetCandy\Console\Commands;
 use DB;
 use Illuminate\Console\Command;
 use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Products\Models\Product;
 
 class ImportAquaSpa extends Command
 {
@@ -54,9 +55,16 @@ class ImportAquaSpa extends Command
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
-        $this->importUsers();
+        // $this->importUsers();
         $this->importCategories();
         $this->importProducts();
+        
+        $this->info('Reindexing');
+        $this->call('elastic:index', [
+            '--model' => Product::class
+        ]);
+
+        $this->info('Done!');
     }
 
     protected function importUsers()
