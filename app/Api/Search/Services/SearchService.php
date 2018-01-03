@@ -27,7 +27,7 @@ class SearchService
      * 
      * @return array
      */
-    public function getResults(ResultSet $results, $type, $includes = null)
+    public function getResults(ResultSet $results, $type, $includes = null, $page = 1)
     {
         $ids = [];
 
@@ -48,7 +48,7 @@ class SearchService
         $resource = new Collection($collection, $transformer);
 
         $resource->setMeta([
-            'pagination' => $this->getPagination($results),
+            'pagination' => $this->getPagination($results, $page),
             'aggregation' => $this->getSearchAggregator($results),
             'suggestions' => $this->getSuggestions($results)
         ]);
@@ -64,20 +64,17 @@ class SearchService
      * 
      * @return array
      */
-    protected function getPagination($results)
+    protected function getPagination($results, $page)
     {
         $query = $results->getQuery();
-        $page = $query->getParam('from') / $query->getParam('size');
         $totalPages = floor($results->getTotalHits() / $query->getParam('size'));
-
         $pagination = [
             'total' => $results->getTotalHits(),
             'count' => $results->count(),
             'per_page' => $query->getParam('size'),
-            'current_page' => $page <= 1 ? 1 : $page,
+            'current_page' => $page,
             'total_pages' =>  $totalPages <= 0 ? 1 : $totalPages
         ];
-        
         return $pagination;
     }
 

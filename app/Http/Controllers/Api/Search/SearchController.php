@@ -49,7 +49,8 @@ class SearchController extends BaseController
         $results = app('api')->search()->getResults(
             $results,
             $request->type,
-            $request->includes
+            $request->includes,
+            $request->page ? : 1
         );
         return response($results, 200);
     }
