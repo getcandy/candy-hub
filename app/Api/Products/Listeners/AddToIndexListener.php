@@ -27,6 +27,6 @@ class AddToIndexListener
     public function handle(ProductCreatedEvent $event)
     {
         $product = $event->product();
-        app(SearchContract::class)->indexObject($product);
+        app(SearchContract::class)->indexer()->indexObject($product);
     }
 }

@@ -18,6 +18,7 @@ use GetCandy\Search\ClientContract;
 class Search extends AbstractProvider implements ClientContract
 {
     protected $categories = [];
+    protected $channel = null;
 
     public function with($searchterm)
     {
@@ -27,6 +28,28 @@ class Search extends AbstractProvider implements ClientContract
     protected function getSearchIndex($indexer)
     {
         return config('search.index_prefix') . $this->lang;
+    }
+
+    /**
+     * Set the channel to filter on
+     * 
+     * @return void
+     */
+    public function on($channel = null)
+    {
+        if (!$channel) {
+            $this->setChannelDefault();
+        } else {
+            $this->channel = $channel;
+        }
+        return $this;
+    }
+
+    protected function setChannelDefault()
+    {
+        $channel = app('api')->channels()->getDefaultRecord()->handle;
+        $this->channel = $channel;
+        return $this;
     }
 
     /**
@@ -42,6 +65,10 @@ class Search extends AbstractProvider implements ClientContract
             abort(400, 'You need to set an indexer first');
         }
 
+        if (!$this->channel) {
+            $this->setChannelDefault();
+        }
+
         $search = new \Elastica\Search($this->client);
         $search
             ->addIndex(config('search.index_prefix') . '_' . $this->lang)
@@ -51,12 +78,35 @@ class Search extends AbstractProvider implements ClientContract
         $query->setParam('size', $perPage);
         $query->setParam('from', ($page - 1) * $perPage);
 
+        $boolQuery = new BoolQuery;
+
         if ($keywords) {
-            $boolQuery = new BoolQuery;
             $disMaxQuery = $this->generateDisMax($keywords);
             $boolQuery->addMust($disMaxQuery);
-            $query->setQuery($boolQuery);
         }
+
+        $filter = $this->getCustomerGroupFilter();
+
+        $boolQuery->addFilter($filter);
+
+
+        $boolQuery->addFilter(
+            $this->getChannelFilter()
+        );
+
+        if (!empty($filters['categories'])) {
+            $categories = $filters['categories']['values'];
+            $filter = $this->getCategoryFilter($categories);
+
+            $boolQuery->addFilter(
+                $filter
+            );
+            $query->setPostFilter(
+                $filter
+            );
+        }
+        
+        $query->setQuery($boolQuery);
 
         $query->setHighlight(
             $this->getHighlight()
@@ -65,16 +115,6 @@ class Search extends AbstractProvider implements ClientContract
         $query->addAggregation(
             $this->getCategoryPreAgg()
         );
-
-        if (!empty($filters['categories'])) {
-            $categories = $filters['categories']['values'];
-            $filter = $this->getCategoryFilter($categories);
-
-            $query->setQuery($filter);
-            $query->setPostFilter(
-                $filter
-            );
-        }
 
         $query->addAggregation(
             $this->getCategoryPostAgg()
@@ -209,11 +249,6 @@ class Search extends AbstractProvider implements ClientContract
      */
     protected function getCategoryFilter($categories = [])
     {
-        // $postFilter = new NestedQuery();
-        // $postFilter->setPath('departments');
-
-        $query = new BoolQuery;
-
         $filter = new BoolQuery;
 
         foreach ($categories as $value) {
@@ -229,13 +264,43 @@ class Search extends AbstractProvider implements ClientContract
             $this->categories[] = $value;
         }
 
-        $query->addFilter($filter);
+        return $filter;
+    }
 
-        // // $postFilterQuery->setMinimumShouldMatch(1);
+    protected function getCustomerGroupFilter()
+    {
+        $filter = new BoolQuery;
 
-        // $postFilter->setQuery($postFilterQuery);
+        $groups = app('api')->users()->getCustomerGroups(app('auth')->user());
 
-        return $query;
+        foreach ($groups as $model) {
+            $cat = new NestedQuery();
+            $cat->setPath('customer_groups');
+            $term = new Term;
+            $term->setTerm('customer_groups.id', $model->encodedId());
+
+            $cat->setQuery($term);
+
+            $filter->addMust($cat);
+        }
+
+        return $filter;
+    }
+
+    protected function getChannelFilter()
+    {
+        $filter = new BoolQuery;
+
+        $cat = new NestedQuery();
+        $cat->setPath('channels');
+        $term = new Term;
+        $term->setTerm('channels.handle', $this->channel);
+
+        $cat->setQuery($term);
+
+        $filter->addMust($cat);
+      
+        return $filter;
     }
 
     /**

@@ -60,6 +60,38 @@ class ProductIndexer extends BaseIndexer
                     ]
                 ]
             ],
+            'customer_groups' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ],
+                    'handle' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ]
+                ]
+            ],
+            'channels' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ],
+                    'handle' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ]
+                ]
+            ],
             'thumbnail' => [
                 'type' => 'text'
             ],

@@ -40,6 +40,7 @@ class SearchController extends BaseController
             $results = $client
                 ->client()
                 ->language(app()->getLocale())
+                ->on($request->channel)
                 ->against($this->types[$request->type])
                 ->search(
                     $request->keywords,

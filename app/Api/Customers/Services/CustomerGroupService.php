@@ -43,6 +43,11 @@ class CustomerGroupService extends BaseService
         return $this->model->where('handle', '=', config('getcandy.default_customer_group'))->pluck('id')->first();
     }
 
+    public function getGuest()
+    {
+        return $this->model->where('default', '=', true)->first();
+    }
+
     public function userIsInGroup($group, $user)
     {
         return $user->groups()->where('handle', '=', $group)->exists();

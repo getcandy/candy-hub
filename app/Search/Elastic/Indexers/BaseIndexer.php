@@ -4,6 +4,7 @@ namespace GetCandy\Search\Elastic\Indexers;
 
 use Illuminate\Database\Eloquent\Model;
 use GetCandy\Search\Indexable;
+use Carbon\Carbon;
 
 abstract class BaseIndexer
 {
@@ -29,6 +30,8 @@ abstract class BaseIndexer
                 $indexable->set('image', $this->getThumbnail($model));
 
                 $indexable->set('departments', $this->getCategories($model));
+                $indexable->set('customer_groups', $this->getCustomerGroups($model));
+                $indexable->set('channels', $this->getChannels($model));
 
                 if (!empty($item['data'])) {
                     foreach ($item['data'] as $field => $value) {
@@ -134,6 +137,28 @@ abstract class BaseIndexer
             return [
                 'id' => $item->encodedId(),
                 'name' => $item->attribute('name', null, $lang)
+            ];
+        })->toArray();
+    }
+
+    protected function getCustomerGroups(Model $model, $lang = 'en')
+    {
+        return $model->customerGroups()->where('visible', '=', true)->where('purchasable', '=', true)->get()->map(function ($item) use ($lang) {
+            return [
+                'id' => $item->encodedId(),
+                'handle' => $item->handle,
+                'name' => $item->name
+            ];
+        })->toArray();
+    }
+
+    protected function getChannels(Model $model, $lang = 'en')
+    {
+        return $model->channels()->whereDate('published_at', '<=', Carbon::now())->get()->map(function ($item) use ($lang) {
+            return [
+                'id' => $item->encodedId(),
+                'handle' => $item->handle,
+                'name' => $item->name
             ];
         })->toArray();
     }

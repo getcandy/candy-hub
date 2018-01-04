@@ -12,6 +12,14 @@ class UserService extends BaseService
         $this->model = new User();
     }
 
+    public function getCustomerGroups($user = null)
+    {
+        if ($user) {
+            return $user->groups;
+        } else {
+            return [app('api')->customerGroups()->getGuest()];
+        }
+    }
     /**
      * Creates a resource from the given data
      *
