@@ -48,16 +48,18 @@ class BasketService extends BaseService
 
         $basket->save();
 
-        $variants = collect($data['variants'])->map(function ($item) {
-            return [
-                'product_variant_id' => app('api')->productVariants()->getDecodedId($item['id']),
-                'quantity' => $item['quantity'],
-                'total' => $item['quantity'] * $item['price']
-            ];
-        });
-
         $basket->lines()->delete();
-        $basket->lines()->createMany($variants->toArray());
+
+        if (!empty($data['variants'])) {
+            $variants = collect($data['variants'])->map(function ($item) {
+                return [
+                    'product_variant_id' => app('api')->productVariants()->getDecodedId($item['id']),
+                    'quantity' => $item['quantity'],
+                    'total' => $item['quantity'] * $item['price']
+                ];
+            });
+            $basket->lines()->createMany($variants->toArray());
+        }
 
         event(new BasketStoredEvent($basket));
 
