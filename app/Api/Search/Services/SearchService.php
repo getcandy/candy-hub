@@ -39,11 +39,10 @@ class SearchService
             foreach ($results as $r) {
                 $ids[] = $r->getSource()['id'];
             }
-            $collection = app('api')->{str_plural($type)}()->getSearchedIds($ids);
+            $collection = app('api')->{str_plural($type)}()->getSearchedIds($ids, true);
         } else {
             $collection = collect();
         }
-
         $transformer = new $this->types[$type];
         $resource = new Collection($collection, $transformer);
 
@@ -53,7 +52,6 @@ class SearchService
             'suggestions' => $this->getSuggestions($results)
         ]);
         
-
         return app()->fractal->createData($resource)->toArray();
     }
 
@@ -67,7 +65,8 @@ class SearchService
     protected function getPagination($results, $page)
     {
         $query = $results->getQuery();
-        $totalPages = floor($results->getTotalHits() / $query->getParam('size'));
+        $totalPages = ceil($results->getTotalHits() / $query->getParam('size'));
+
         $pagination = [
             'total' => $results->getTotalHits(),
             'count' => $results->count(),

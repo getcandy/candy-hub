@@ -31,7 +31,7 @@ abstract class BaseService
     public function getByHashedId($id)
     {
         $id = $this->model->decodeId($id);
-        return $this->model->findOrFail($id);
+        return $this->model->withoutGlobalScopes()->findOrFail($id);
     }
 
     /**
@@ -45,7 +45,7 @@ abstract class BaseService
         foreach ($ids as $hash) {
             $parsedIds[] = $this->model->decodeId($hash);
         }
-        return $this->model->with($this->with)->find($parsedIds);
+        return $this->model->withoutGlobalScopes()->with($this->with)->find($parsedIds);
     }
 
     /**
@@ -286,8 +286,8 @@ abstract class BaseService
 
         $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
 
-
         $query = $this->model->with($this->with)
+            ->withoutGlobalScopes()
             ->whereIn('id', $parsedIds);
         
         if (count($parsedIds)) {
