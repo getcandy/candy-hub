@@ -70,7 +70,7 @@ class SearchService
         $pagination = [
             'total' => $results->getTotalHits(),
             'count' => $results->count(),
-            'per_page' => $query->getParam('size'),
+            'per_page' => (int) $query->getParam('size'),
             'current_page' => (int) $page,
             'total_pages' => (int) ($totalPages <= 0 ? 1 : $totalPages)
         ];
