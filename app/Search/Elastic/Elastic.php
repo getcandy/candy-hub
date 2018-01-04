@@ -402,7 +402,7 @@ class Elastic implements SearchContract
         foreach ($categories as $value) {
             $term = new Term;
             $term->setTerm('departments.id', $value);
-            $postFilterQuery->addShould($term);
+            $postFilterQuery->addMust($term);
             $this->categories[] = $value;
         }
 
