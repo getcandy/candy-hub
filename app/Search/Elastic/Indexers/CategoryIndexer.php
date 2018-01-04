@@ -31,7 +31,7 @@ class CategoryIndexer extends BaseIndexer
     public function rankings()
     {
         return [
-            "name.english^3"
+            "name^5", "name.english^3", "description^1"
         ];
     }
 
@@ -54,6 +54,38 @@ class CategoryIndexer extends BaseIndexer
                     ],
                     'name' => [
                         'type' => 'text'
+                    ]
+                ]
+            ],
+            'customer_groups' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ],
+                    'handle' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ]
+                ]
+            ],
+            'channels' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ],
+                    'handle' => [
+                        'type' => 'keyword',
+                        'index' => true
                     ]
                 ]
             ],

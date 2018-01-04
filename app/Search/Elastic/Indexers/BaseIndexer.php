@@ -8,6 +8,10 @@ use Carbon\Carbon;
 
 abstract class BaseIndexer
 {
+    public function getIndexName($lang = 'en')
+    {
+        return config('search.index_prefix') . '_' . $this->type . '_' . $lang;
+    }
 
     /**
      * Gets a collection of indexables, based on a model
@@ -25,7 +29,9 @@ abstract class BaseIndexer
             foreach ($attribute as $lang => $item) {
                 // Base Stuff
                 $indexable = $this->getIndexable($model);
-                $indexable->setIndex(config('search.index_prefix') . '_' .  $lang);
+                $indexable->setIndex(
+                    $this->getIndexName($lang)
+                );
                 
                 $indexable->set('image', $this->getThumbnail($model));
 

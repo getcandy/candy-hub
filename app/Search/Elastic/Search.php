@@ -71,7 +71,7 @@ class Search extends AbstractProvider implements ClientContract
 
         $search = new \Elastica\Search($this->client);
         $search
-            ->addIndex(config('search.index_prefix') . '_' . $this->lang)
+            ->addIndex($this->indexer->getIndexName())
             ->addType($this->indexer->type);
 
         $query = new Query();
