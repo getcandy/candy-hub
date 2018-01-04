@@ -42,14 +42,14 @@ class ElasticIndexCommand extends Command
         $model = new $model;
 
         $search = app(SearchContract::class);
-
-        if (!$search->hasIndexer($model)) {
+        
+        if (!$search->indexer()->hasIndexer($model)) {
             $this->error("No Indexer found for {$model}");
         }
 
+        $search->indexer()->reset('dev_test_en');
         foreach ($model->get() as $model) {
-            dd($model);
-            app(SearchContract::class)->indexObject($model);
+            app(SearchContract::class)->indexer()->indexObject($model);
             echo '.';
         }
         $this->info('Done!');

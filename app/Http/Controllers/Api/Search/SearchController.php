@@ -38,6 +38,7 @@ class SearchController extends BaseController
 
         try {
             $results = $client
+                ->client()
                 ->language(app()->getLocale())
                 ->against($this->types[$request->type])
                 ->search(
