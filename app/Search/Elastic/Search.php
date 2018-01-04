@@ -58,23 +58,23 @@ class Search extends AbstractProvider implements ClientContract
             $query->setQuery($boolQuery);
         }
 
-        // $query->setHighlight(
-        //     $this->getHighlight()
-        // );
+        $query->setHighlight(
+            $this->getHighlight()
+        );
 
-        // $query->addAggregation(
-        //     $this->getCategoryPreAgg()
-        // );
+        $query->addAggregation(
+            $this->getCategoryPreAgg()
+        );
 
-        // if (!empty($filters['categories'])) {
-        //     $categories = $filters['categories']['values'];
-        //     $filter = $this->getCategoryFilter($categories);
+        if (!empty($filters['categories'])) {
+            $categories = $filters['categories']['values'];
+            $filter = $this->getCategoryFilter($categories);
 
-        //     $query->setQuery($filter);
-        //     $query->setPostFilter(
-        //         $filter
-        //     );
-        // }
+            $query->setQuery($filter);
+            $query->setPostFilter(
+                $filter
+            );
+        }
 
         $query->addAggregation(
             $this->getCategoryPostAgg()
