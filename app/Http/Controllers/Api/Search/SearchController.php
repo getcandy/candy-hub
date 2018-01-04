@@ -30,14 +30,20 @@ class SearchController extends BaseController
             return $this->errorWrongArgs('Invalid type');
         }
 
+        if ($request->current_page) {
+            $page = $request->current_page;
+        } else {
+            $page = $request->page;
+        }
+
         try {
             $results = $client
                 ->language(app()->getLocale())
                 ->against($this->types[$request->type])
                 ->search(
-                    $request->keywords, 
+                    $request->keywords,
                     $request->filters,
-                    $request->page ?: 1,
+                    $page ?: 1,
                     $request->per_page ?: 25
                 );
         } catch (\Elastica\Exception\Connection\HttpException $e) {
