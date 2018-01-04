@@ -327,7 +327,7 @@ class Elastic implements SearchContract
         foreach ($this->categories as $category) {
             $term = new Term;
             $term->setTerm('departments.id', $category);
-            $postBool->addShould($term);
+            $postBool->addMust($term);
         }
 
         // Need to set another agg on categories_remaining
@@ -394,23 +394,33 @@ class Elastic implements SearchContract
      */
     protected function getCategoryFilter($categories = [])
     {
-        $postFilter = new NestedQuery();
-        $postFilter->setPath('departments');
+        // $postFilter = new NestedQuery();
+        // $postFilter->setPath('departments');
 
-        $postFilterQuery = new BoolQuery;
+        $query = new BoolQuery;
+
+        $filter = new BoolQuery;
 
         foreach ($categories as $value) {
+            $cat = new NestedQuery();
+            $cat->setPath('departments');
+
             $term = new Term;
             $term->setTerm('departments.id', $value);
-            $postFilterQuery->addShould($term);
+
+            $cat->setQuery($term);
+            
+            $filter->addMust($cat);
             $this->categories[] = $value;
         }
 
-        $postFilterQuery->setMinimumShouldMatch(count($categories));
+        $query->addFilter($filter);
 
-        $postFilter->setQuery($postFilterQuery);
+        // // $postFilterQuery->setMinimumShouldMatch(1);
 
-        return $postFilter;
+        // $postFilter->setQuery($postFilterQuery);
+
+        return $query;
     }
 
     protected function generateAggregates()
