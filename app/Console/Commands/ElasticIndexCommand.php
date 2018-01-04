@@ -47,7 +47,9 @@ class ElasticIndexCommand extends Command
             $this->error("No Indexer found for {$model}");
         }
 
-        $search->indexer()->reset('dev_test_en');
+        //TODO: DO this dynamically.
+        $search->indexer()->reset('dev_test_categories_en');
+        $search->indexer()->reset('dev_test_products_en');
         foreach ($model->get() as $model) {
             app(SearchContract::class)->indexer()->indexObject($model);
             echo '.';
