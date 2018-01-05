@@ -138,10 +138,6 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <strong>Order Status:</strong> <span :class="status(order).class">{{ status(order).text }}</span><br>
-                                        <strong>Account: </strong>
-                                        <span v-if="!order.user">Guest</span>
-                                        <span v-else>{{ order.user.name }}</span>
                                         <h3>Order Lines</h3>
                                         <table class="table table-bordered">
                                             <thead>
@@ -180,6 +176,38 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <div class="row">
+                                            <div class="col-md-4 col-offset-md-1">
+                                                <h4>Billing Information</h4>
+                                                <hr>
+                                                <strong>Name</strong><br>
+                                                {{ order.billing.firstname }} {{ order.billing.lastname }}<br><br>
+                                                <strong>Address</strong><br>
+                                                {{ order.billing.address }}<br>
+                                                {{ order.billing.address_two }}<br v-if="order.billing.address_two">
+                                                {{ order.billing.address_three }}<br v-if="order.billing.address_three">
+                                                {{ order.billing.city }}<br>
+                                                {{ order.billing.county }}<br v-if="order.billing.county">
+                                                {{ order.billing.state }}<br v-if="order.billing.state">
+                                                {{ order.billing.country }}<br>
+                                                {{ order.billing.zip }}
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h4>Shipping Information</h4>
+                                                <hr>
+                                                <strong>Name</strong><br>
+                                                {{ order.shipping.firstname }} {{ order.shipping.lastname }}<br><br>
+                                                <strong>Address</strong><br>
+                                                {{ order.shipping.address }}<br>
+                                                {{ order.shipping.address_two }}<br v-if="order.shipping.address_two">
+                                                {{ order.shipping.address_three }}<br v-if="order.shipping.address_three">
+                                                {{ order.shipping.city }}<br>
+                                                {{ order.shipping.county }}<br v-if="order.shipping.county">
+                                                {{ order.shipping.state }}<br v-if="order.shipping.state">
+                                                {{ order.shipping.country }}<br>
+                                                {{ order.shipping.zip }}
+                                            </div>
+                                        </div>
                                         <template v-if="transactions.length">
                                             <h3>Transactions</h3>                                        
                                             <table class="table table-bordered">
@@ -223,34 +251,27 @@
                                             </table>
                                         </template>
                                     </div>
-                                    <div class="col-md-4">
-                                        <h3>Billing Information</h3>
-                                        <hr>
-                                        <strong>Name</strong><br>
-                                        {{ order.billing.firstname }} {{ order.billing.lastname }}<br><br>
-                                        <strong>Address</strong><br>
-                                        {{ order.billing.address }}<br>
-                                        {{ order.billing.address_two }}<br v-if="order.billing.address_two">
-                                        {{ order.billing.address_three }}<br v-if="order.billing.address_three">
-                                        {{ order.billing.city }}<br>
-                                        {{ order.billing.county }}<br v-if="order.billing.county">
-                                        {{ order.billing.state }}<br v-if="order.billing.state">
-                                        {{ order.billing.country }}<br>
-                                        {{ order.billing.zip }}
+                                    <div class="col-md-3">
+                                        <h4>Order ID</h4>
+                                        #{{ order.id }}
 
-                                        <h3>Shipping Information</h3>
-                                        <hr>
-                                        <strong>Name</strong><br>
-                                        {{ order.shipping.firstname }} {{ order.shipping.lastname }}<br><br>
-                                        <strong>Address</strong><br>
-                                        {{ order.shipping.address }}<br>
-                                        {{ order.shipping.address_two }}<br v-if="order.shipping.address_two">
-                                        {{ order.shipping.address_three }}<br v-if="order.shipping.address_three">
-                                        {{ order.shipping.city }}<br>
-                                        {{ order.shipping.county }}<br v-if="order.shipping.county">
-                                        {{ order.shipping.state }}<br v-if="order.shipping.state">
-                                        {{ order.shipping.country }}<br>
-                                        {{ order.shipping.zip }}
+                                        <h4>Account</h4>
+                                        <span v-if="!order.user">Guest</span>
+                                        <span v-else>{{ order.user.data.name }}</span>
+
+                                        <h4>Status</h4>
+                                        <select class="form-control" v-model="order.status">
+                                            <option value="complete">Complete</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="dispatched">Dispatched</option>
+                                            <option value="voided">Voided</option>
+                                            <option value="returned">Returned</option>
+                                        </select>
+                                        
+                                        <h4>Tracking No.</h4>
+                                        <input class="form-control">
+                                        
+                                        <button class="btn btn-primary">Update order</button>
                                     </div>
                                 </div>
                             </div>
