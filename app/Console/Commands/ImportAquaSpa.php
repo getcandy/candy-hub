@@ -50,7 +50,7 @@ class ImportAquaSpa extends Command
         $driver = $this->argument('driver');
         $this->importer = app($driver . '.importer');
 
-        \Auth::loginUsingId(1);        
+        \Auth::loginUsingId(1);
 
         $this->importChannels();
         $this->importProductFamilies();
@@ -58,11 +58,6 @@ class ImportAquaSpa extends Command
         // $this->importUsers();
         $this->importCategories();
         $this->importProducts();
-        
-        $this->info('Reindexing');
-        $this->call('elastic:index', [
-            '--model' => Product::class
-        ]);
 
         $this->info('Done!');
     }

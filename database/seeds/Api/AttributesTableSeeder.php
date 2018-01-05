@@ -28,6 +28,7 @@ class AttributesTableSeeder extends Seeder
         $attribute->group_id = $group->id;
         $attribute->required = true;
         $attribute->scopeable = 1;
+        $attribute->searchable = 1;
         $attribute->save();
 
         $attribute = new Attribute();
@@ -39,32 +40,53 @@ class AttributesTableSeeder extends Seeder
         $attribute->required = true;
         $attribute->type = 'textarea';
         $attribute->scopeable = 1;
+        $attribute->searchable = 1;
         $attribute->save();
 
-        $attribute = new Attribute();
-        $attribute->name = ['en' => 'Orientation', 'sv' => 'Orientering'];
-        $attribute->handle = 'orientation';
-        $attribute->position = 3;
-        $attribute->group_id = $group->id;
-        $attribute->type = 'select';
-        $attribute->scopeable = 0;
-        $attribute->lookups = [
-            ['value' => 'landscape', 'label' => 'Landscape'],
-            ['value' => 'portrait', 'label' => 'Portrait'],
-        ];
-        $attribute->save();
+        // $group = AttributeGroup::create([
+        //     'name' => ['en' => 'General', 'sv' => 'Allmän'],
+        //     'handle' => 'general',
+        //     'position' => 2
+        // ]);
 
         $group = AttributeGroup::create([
-            'name' => ['en' => 'General', 'sv' => 'Allmän'],
-            'handle' => 'general',
-            'position' => 1
+            'name' => ['en' => 'SEO', 'sv' => 'SEO'],
+            'handle' => 'seo',
+            'position' => 3
         ]);
 
         $attribute = new Attribute();
-        $attribute->name = ['en' => 'Material', 'sv' => 'Väv'];
-        $attribute->handle = 'material';
+        $attribute->name = ['en' => 'Page Title', 'sv' => 'Titre de la page'];
+        $attribute->handle = 'page_title';
         $attribute->position = 1;
         $attribute->group_id = $group->id;
+        $attribute->channeled = 1;
+        $attribute->required = false;
+        $attribute->scopeable = 1;
+        $attribute->searchable = 1;
+        $attribute->save();
+
+        $attribute = new Attribute();
+        $attribute->name = ['en' => 'Meta description', 'sv' => 'Meta description'];
+        $attribute->handle = 'meta_description';
+        $attribute->position = 2;
+        $attribute->group_id = $group->id;
+        $attribute->channeled = 1;
+        $attribute->required = false;
+        $attribute->scopeable = 1;
+        $attribute->searchable = 1;
+        $attribute->type = 'textarea';
+        $attribute->save();
+
+        $attribute = new Attribute();
+        $attribute->name = ['en' => 'Meta Keywords', 'sv' => 'Titre de la page'];
+        $attribute->handle = 'meta_keywords';
+        $attribute->position = 3;
+        $attribute->group_id = $group->id;
+        $attribute->channeled = 1;
+        $attribute->required = false;
+        $attribute->scopeable = 1;
+        $attribute->searchable = 1;
         $attribute->save();
     }
 }

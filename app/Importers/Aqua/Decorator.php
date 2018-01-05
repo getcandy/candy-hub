@@ -13,9 +13,18 @@ class Decorator
         $desc = [];
         $newDesc = null;
         $urls = [];
+        $metaDescription = [];
+        $pageTitle = [];
+        $metaKeywords = [];
+
         foreach ($model->descriptions as $description) {
+
             $name[$description->lang_code] = $description->{$basename};
+
             $urls[$description->lang_code] = str_slug($description->{$basename});
+            $metaDescription[$description->lang_code] = $description->meta_description;
+            $pageTitle[$description->lang_code] = $description->page_title;
+            $metaKeywords[$description->lang_code] = $description->meta_keywords;
 
             $desc[$description->lang_code] = $description->{$descriptionField};
         }
@@ -24,7 +33,10 @@ class Decorator
             'historical_id' => $model->getAttribute($model->idref),
             'name' => $name,
             'description' => $desc,
-            'url' => $urls
+            'url' => $urls,
+            'meta_description' => $metaDescription,
+            'page_title' => $pageTitle,
+            'meta_keywords' => $metaKeywords
         ];
     }
 }
