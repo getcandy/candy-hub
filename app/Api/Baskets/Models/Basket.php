@@ -56,7 +56,7 @@ class Basket extends BaseModel
         $sets = app('api')->discounts()->parse($this->discounts);
         $applied = $factory->getApplied($sets, \Auth::user(), null, $this);
         $total = $factory->applyToBasket($applied, $this);
-        return TaxCalculator::deduct($total);
+        return $total;
     }
 
     public function getVatTotalAttribute()
