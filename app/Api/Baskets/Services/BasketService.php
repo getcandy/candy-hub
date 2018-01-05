@@ -36,7 +36,7 @@ class BasketService extends BaseService
             $basket = new $this->model;
         }
 
-        if ($user) {
+        if ($user && !$user->basket) {
             $basket->user()->associate($user);
         }
 
