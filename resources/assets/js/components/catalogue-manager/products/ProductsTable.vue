@@ -322,8 +322,8 @@
                                 <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
                             </td>
                             <td @click="loadProduct(product.id)">{{ product|attribute('name') }}</td>
-                            <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'customer_groups') }}</td>
                             <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'channels') }}</td>
+                            <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'customer_groups') }}</td>
                             <td @click="loadProduct(product.id)">{{ getAttributeGroups(product) }}</td>
 
                         </tr>
