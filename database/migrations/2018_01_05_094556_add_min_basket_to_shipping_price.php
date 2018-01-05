@@ -25,8 +25,5 @@ class AddMinBasketToShippingPrice extends Migration
      */
     public function down()
     {
-        Schema::table('shipping_prices', function (Blueprint $table) {
-            $table->dropColumn('min_basket', 10, 2);
-        });
     }
 }
