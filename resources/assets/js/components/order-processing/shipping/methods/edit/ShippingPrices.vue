@@ -93,6 +93,7 @@
                         currency_id: this.defaultCurrency,
                         rate: '',
                         fixed: '',
+                        min_basket: 0,
                         min_weight: 0,
                         weight_unit: 'kg',
                         min_height: 0,
@@ -153,6 +154,7 @@
                         <tr>
                             <th>Rate</th>
                             <th>Currency</th>
+                            <th>Min Basket Amount</th>
                             <th>Min Weight</th>
                             <th>Min Height</th>
                             <th>Min Width</th>
@@ -164,10 +166,13 @@
                     <tbody>
                         <tr v-for="price in prices">
                             <td>
-                                {{ price.rate }}
+                                {{ currency(price.rate) }}{{ price.rate }}
                             </td>
                             <td>
                                 {{ price.currency.data.name }}
+                            </td>
+                            <td>
+                                {{ price.min_basket }}
                             </td>
                             <td>
                                 {{ price.min_weight }}{{ price.weight_unit }}
@@ -218,7 +223,17 @@
                     </div>
                     
                     <div class="row">
-                         <div class="col-md-4">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Basket Amount</label>
+                                <em class="help-txt">This is the inclusive minimum amount to get this price</em>
+                                <div class="input-group input-group-full">
+                                    <span class="input-group-addon" v-html="symbol(current)"></span>
+                                    <input type="number" class="form-control" v-model="current.min_basket">
+                                </div>   
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Min Width</label>
                                 <div class="input-group input-group-full">
@@ -238,6 +253,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Min Height</label>
@@ -248,8 +265,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Min Depth</label>
