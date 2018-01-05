@@ -160,11 +160,12 @@
                                         v-model="attributeData[attribute.handle]"
                                         :options="attribute.lookups" :required="attribute.required">
                             </candy-select>
-                            <candy-textarea v-if="attribute.type == 'textarea'"
-                                            :id="'default-'+ attribute.id"
-                                            :value="get(attribute.handle, 'default')"
-                                            @input="set(attribute.handle, $event, 'default')"
-                                            :required="attribute.required">
+                            <candy-textarea v-if="attribute.type == 'textarea' || attribute.type == 'richtext'"
+                                :richtext="attribute.type == 'richtext'"
+                                :id="'default-'+ attribute.id"
+                                :value="get(attribute.handle, 'default')"
+                                @input="set(attribute.handle, $event, 'default')"
+                                :required="attribute.required">
                             </candy-textarea>
 
                             <!-- Errors -->

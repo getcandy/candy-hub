@@ -1,15 +1,28 @@
 <template>
     <div>
-        <trumbowyg class="form-control"
+        <template v-if="richtext">
+            <trumbowyg class="form-control"
+                    rows="8"
+                    :value="value"
+                    @tbw-change="updateValue($event.target.value)"
+                    :required="required"
+                    :config="config"
+                    :placeholder="placeholder"
+                    :disabled="disabled">
+                {{ value }}
+            </trumbowyg>
+        </template>
+        <template v-else>
+            <textarea class="form-control"
                   rows="8"
                   :value="value"
-                  @tbw-change="updateValue($event.target.value)"
+                  @input="updateValue($event.target.value)"
                   :required="required"
-                  :config="config"
                   :placeholder="placeholder"
                   :disabled="disabled">
-            {{ value }}
-        </trumbowyg>
+                {{ value }}
+            </textarea>
+        </template>
     </div>
 </template>
 
@@ -27,6 +40,10 @@
             }
         },
         props: {
+            richtext: {
+                type: Boolean,
+                default: false
+            },
             value: {
                 type: String
             },
