@@ -4,6 +4,8 @@ namespace GetCandy\Console\Commands;
 
 use Illuminate\Console\Command;
 use GetCandy\Search\SearchContract;
+use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Categories\Models\Category;
 
 class ElasticIndexCommand extends Command
 {
@@ -12,7 +14,7 @@ class ElasticIndexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'elastic:index {--model=}';
+    protected $signature = 'elastic:index {--reset=false}';
 
     /**
      * The console command description.
@@ -20,6 +22,11 @@ class ElasticIndexCommand extends Command
      * @var string
      */
     protected $description = 'Indexes a model for Elasticsearch';
+
+    protected $indexables = [
+        Product::class,
+        Category::class
+    ];
 
     /**
      * Create a new command instance.
@@ -38,23 +45,38 @@ class ElasticIndexCommand extends Command
      */
     public function handle()
     {
-        $model = $this->option('model');
-        $model = new $model;
-
         $search = app(SearchContract::class);
         
-        if (!$search->indexer()->hasIndexer($model)) {
-            $this->error("No Indexer found for {$model}");
-        }
-
         //TODO: DO this dynamically.
-        $search->indexer()->reset('dev_test_categories_en');
-        $search->indexer()->reset('dev_test_products_en');
+        foreach ($this->indexables as $indexable) {
 
-        foreach ($model->withoutGlobalScopes()->get() as $model) {
-            app(SearchContract::class)->indexer()->indexObject($model);
-            echo '.';
+            $this->info('Indexing ' . $indexable);
+
+            $model = new $indexable;
+
+            if (!$search->indexer()->hasIndexer($model)) {
+                $this->error("No Indexer found for {$model}");
+            }
+
+            $indexer = $search->indexer()->getIndexer($model);
+
+            if ($this->confirm('Do you want to reset the index?')) {
+                $search->indexer()->reset($indexer->getIndexName());
+            }
+            
+            $items = $model->withoutGlobalScopes()->get();
+
+            $bar = $this->output->createProgressBar($items->count());
+
+            foreach ($items as $model) {
+                app(SearchContract::class)->indexer()->indexObject($model);
+                $bar->advance();
+            }
+
+            $bar->finish();
+            $this->info('');
         }
+        
         $this->info('Done!');
     }
 }

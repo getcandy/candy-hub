@@ -86,7 +86,7 @@ abstract class AbstractProvider
      * @param  mixed $model
      * @return mixed
      */
-    protected function getIndexer($model)
+    public function getIndexer($model)
     {
         if (is_object($model)) {
             $model = get_class($model);
