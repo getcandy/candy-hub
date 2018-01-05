@@ -8,12 +8,14 @@ class StandardProvider extends AbstractProvider
     {
         $basket = $order->basket;
         $weight = $basket->weight;
+        $total = $basket->total;
 
-        $price = $this->method->prices->filter(function ($item) use ($weight) {
-            if ($weight >= $item->min_weight) {
+        $price = $this->method->prices->filter(function ($item) use ($weight, $total) {
+            if ($total > $item->min_basket && $weight >= $item->min_weight) {
                 return $item;
             };
-        })->sortByDesc('min_weight')->first();
+        })->sortBy('rate')->first();
+
         return $price;
     }
 }
