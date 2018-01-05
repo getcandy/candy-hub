@@ -65,6 +65,9 @@ class Search extends AbstractProvider implements ClientContract
             abort(400, 'You need to set an indexer first');
         }
 
+        $roles = app('api')->roles()->getHubAccessRoles();
+        $user = app('auth')->user();
+        
         if (!$this->channel) {
             $this->setChannelDefault();
         }
@@ -89,10 +92,11 @@ class Search extends AbstractProvider implements ClientContract
 
         $boolQuery->addFilter($filter);
 
-
-        $boolQuery->addFilter(
-            $this->getChannelFilter()
-        );
+        if ($user && !$user->hasAnyRole($roles)) {
+            $boolQuery->addFilter(
+                $this->getChannelFilter()
+            );
+        }
 
         if (!empty($filters['categories'])) {
             $categories = $filters['categories']['values'];
