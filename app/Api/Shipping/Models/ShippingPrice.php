@@ -18,6 +18,7 @@ class ShippingPrice extends BaseModel
     protected $fillable = [
         'rate',
         'fixed',
+        'min_basket',
         'min_weight',
         'weight_unit',
         'min_width',
