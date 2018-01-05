@@ -16,7 +16,7 @@ class SetTaxMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->inc_vat) {
+        if (!$request->exc_vat) {
             TaxCalculator::setTax('VAT');
         }
         return $next($request);
