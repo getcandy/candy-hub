@@ -13,7 +13,7 @@ class CountryTransformer extends BaseTransformer
     {
         return [
             'id' => $country->encodedId(),
-            'name' => json_decode($country->name, true),
+            'name' => $country->name,
             'region' => $country->region,
             'iso_a_2' => $country->iso_a_2,
             'iso_a_3' => $country->iso_a_3,

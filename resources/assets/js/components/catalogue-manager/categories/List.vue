@@ -6,15 +6,23 @@
             return {
                 categories: [],
                 categoriesLoaded: false,
-                search: '',
+                savedSearches: [],
                 currentView: 'tree-view',
                 channel: this.$store.getters.getDefaultChannel.handle,
                 language: locale.current(),
                 request: apiRequest,
+                meta: [],
+                keywords: '',
                 requestParams: {
                     per_page: 25,
                     current_page: 1,
                     keywords: '',
+                    includes: 'routes,assets'
+                },
+                params: {
+                    type: 'category',
+                    per_page: 25,
+                    current_page: 1,
                     includes: 'routes,assets'
                 },
                 reloadList: false,
@@ -89,23 +97,47 @@
             slugify(value) {
                 this.category.slug = value.slugify();
             },
+            search() {
+                this.categoriesLoaded = false;
+                apiRequest.send('GET', 'search', [], this.params)
+                    .then(response => {
+                        this.categories = response.data;
+                        this.params.total_pages = response.meta.pagination.total_pages;
+                        this.meta = response.meta;
+                        this.categoriesLoaded = true;
+                    });
+            },
+            resetSearch() {
+                this.params['keywords'] = null;
+                this.keywords = '';
+                this.params['filters'] = null;
+                this.loadProducts();
+            },
             createCategory() {
                 let _this = this;
 
-                this.createModalData['attributes'] = [{
-                    'key': 'name',
-                    'value': this.category.name,
-                    'channel': this.channel,
-                    'locale': this.language
-                }];
+                // this.createModalData['attributes'] = [{
+                //     'key': 'name',
+                //     'value': this.category.name,
+                //     'channel': this.channel,
+                //     'locale': this.language
+                // }];
 
-                this.createModalData['routes'] = [{
-                    'slug': this.category.name,
-                    'locale': this.language,
-                    'default': 1
-                }];
+                // this.createModalData['routes'] = [{
+                //     'slug': this.category.name,
+                //     'locale': this.language,
+                //     'default': 1
+                // }];
 
-                this.request.send('post', '/categories/create', this.createModalData)
+                this.request.send('post', '/categories', {
+                    'name' : {
+                        [this.language] : this.category.name
+                    },
+                    'url' : this.category.name.slugify(),
+                    'parent' : {
+                        'id' : this.createModalData.parent.id
+                    }
+                })
                     .then(response => {
                         _this.reloadTree();
                         _this.closeCreateModal();
@@ -117,12 +149,32 @@
             },
             reloadTree() {
                 this.reloadList = true;
-                if(this.currentView === 'list-view'){
+                if (this.currentView === 'list-view') {
                     this.loadCategories();
-                }else{
+                } else {
                     this.categoriesLoaded = false;
                 }
             },
+            saveSearch() {
+                apiRequest.send('POST', '/saved-searches', {
+                    type: 'category',
+                    name: this.keywords,
+                    keywords: this.keywords,
+                    filters: this.filters
+                }).then(response => {
+                    this.savedSearches.push(response.data);
+                });
+            },
+            search: _.debounce(function (){
+                    this.loaded = false;
+                    this.params['keywords'] = this.keywords;
+                    if (this.keywords) {
+                        this.search();
+                    } else {
+                        this.loadCategories();
+                    }
+                }, 500
+            ),
             closeCreateModal() {
                 this.createModalOpen = false;
                 this.category = {
@@ -161,6 +213,11 @@
             <li role="presentation">
                 <a href="#list-view" aria-controls="list-view" role="tab" data-toggle="tab" @click="currentView = 'list-view'">
                     List View
+                </a>
+            </li>
+            <li role="presentation" v-for="(search, index) in savedSearches" :key="search.id" :class="{'active' : isActive(search)}">
+                <a href="#" role="tab" data-toggle="tab" @click="applySavedSearch(search)">
+                    {{ search.name }} <i class="fa fa-times" aria-hidden="true" @click="deleteSaved(index)"></i>
                 </a>
             </li>
         </ul>
@@ -207,13 +264,13 @@
                                   <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" @input="filter" placeholder="Search">
+                                <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
 
                         </div>
                         <div class="form-group col-xs-12 col-md-2">
 
-                            <button type="submit" class="btn btn-default btn-full" @click.prevent="loadProducts();">
+                            <button type="submit" class="btn btn-default btn-full" @click="saveSearch()">
                                 <i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search
                             </button>
 

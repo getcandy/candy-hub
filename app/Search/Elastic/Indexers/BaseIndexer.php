@@ -139,7 +139,17 @@ abstract class BaseIndexer
      */
     protected function getCategories(Model $model, $lang = 'en')
     {
-        return $model->categories()->get()->map(function ($item) use ($lang) {
+        $categories = $model->categories()->get();
+
+        foreach ($categories as $category) {
+            $parent = $category->parent;
+            while ($parent) {
+                $categories->push($parent);
+                $parent = $parent->parent;
+            }
+        }
+
+        return $categories->map(function ($item) use ($lang) {
             return [
                 'id' => $item->encodedId(),
                 'name' => $item->attribute('name', null, $lang)

@@ -45,8 +45,12 @@ class CategoryService extends BaseService
         $category = $this->model;
 
         $category->attribute_data = $data;
-        $category->id = $data['historical_id'];
 
+        //TODO: REMOVE AS FROM IMPORT
+        if (!empty($data['historical_id'])) {
+            $category->id = $data['historical_id'];
+        }
+        
         $category->save();
 
         event(new AttributableSavedEvent($category));
