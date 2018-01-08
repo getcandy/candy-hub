@@ -12,7 +12,7 @@ use TaxCalculator;
 class BasketTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'lines', 'user', 'discounts', 'routes'
+        'lines', 'user', 'discounts'
     ];
 
     public function transform(Basket $basket)
@@ -26,11 +26,6 @@ class BasketTransformer extends BaseTransformer
     }
 
     protected function includeLines(Basket $basket)
-    {
-        return $this->collection($basket->lines, new BasketLineTransformer);
-    }
-
-    protected function includeRoutes(Basket $basket)
     {
         return $this->collection($basket->lines, new BasketLineTransformer);
     }
