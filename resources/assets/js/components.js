@@ -83,7 +83,7 @@ var includes = [
     }
   },
   {
-    path: 'catalogue-manager.discounts',
+    path: 'marketing.discounts',
     components: {
       'discounts-table' : 'DiscountsTable',
       'edit-discount': 'EditDiscount',
@@ -91,7 +91,7 @@ var includes = [
     }
   },
   {
-    path: 'catalogue-manager.discounts.edit',
+    path: 'marketing.discounts.edit',
     components: {
       'discount-details': 'DiscountDetails',
       'discount-availability': 'DiscountAvailability',
@@ -100,7 +100,7 @@ var includes = [
     }
   },
   {
-    path: 'catalogue-manager.discounts.types',
+    path: 'marketing.discounts.types',
     components: {
       'discounts-product-in-list': 'ProductInList',
       'discounts-user-in-list' : 'UserInList',

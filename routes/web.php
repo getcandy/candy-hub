@@ -73,18 +73,6 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'as' => 'hub.categories.edit',
             'uses' => 'CategoriesController@getEdit'
         ]);
-        $this->get('discounts', [
-            'as' => 'hub.discounts.index',
-            'uses' => 'DiscountController@getIndex'
-        ]);
-        $this->get('discounts/create', [
-            'as' => 'hub.discounts.create',
-            'uses' => 'DiscountController@getCreate'
-        ]);
-        $this->get('discounts/{id}', [
-            'as' => 'hub.discounts.edit',
-            'uses' => 'DiscountController@getEdit'
-        ]);
     });
 
     $this->group(['prefix' => 'order-processing', 'namespace' => 'Cms\\OrderProcessing'], function () {
@@ -114,5 +102,16 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'uses' => 'ShippingController@getZone'
         ]);
         
+    });
+
+    $this->group(['prefix' => 'marketing-suite', 'namespace' => 'Cms\\MarketingSuite'], function () {
+        $this->get('discounts', [
+            'as' => 'hub.discounts.index',
+            'uses' => 'DiscountController@getIndex'
+        ]);
+        $this->get('discounts/{id}', [
+            'as' => 'hub.discounts.edit',
+            'uses' => 'DiscountController@getEdit'
+        ]);
     });
 });

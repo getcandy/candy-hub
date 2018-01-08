@@ -25,7 +25,7 @@ class TopMenu extends Menu
         ];
 
         $marketingItems = [
-            new NavItem('Coupons', route('hub.products.index'))
+            new NavItem('Discounts', route('hub.discounts.index'))
         ];
 
         $reportItems = [
