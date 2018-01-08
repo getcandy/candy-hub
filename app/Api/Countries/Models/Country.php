@@ -14,11 +14,6 @@ class Country extends BaseModel
      */
     protected $hashids = 'main';
 
-    public function getNameAttribute($val)
-    {
-        return json_decode($val, true);
-    }
-
     protected $fillable = [
         'name',
         'iso_a_2',

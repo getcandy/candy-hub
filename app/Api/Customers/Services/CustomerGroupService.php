@@ -32,7 +32,8 @@ class CustomerGroupService extends BaseService
         $group = $this->model;
         $group->name = $data['name'];
         $group->handle = $data['handle'];
-        $group->default = false;
+        $group->default = !empty($data['default']) ? $data['default'] : false;
+        $group->system = !empty($data['system']) ? $data['system'] : false;
 
         $group->save();
 

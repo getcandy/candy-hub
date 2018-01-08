@@ -38,10 +38,10 @@ class AssetSourceTableSeeder extends Seeder
         ]);
 
         \GetCandy\Api\Assets\Models\Transform::create([
-            'name' => 'Hero',
-            'handle' => 'hero',
-            'mode' => 'crop',
-            'width' => 800,
+            'name' => 'Large Thumbnail',
+            'handle' => 'large_thumbnail',
+            'mode' => 'fit',
+            'width' => 485,
             'height' => 400
         ]);
     }

@@ -6,13 +6,13 @@ use GetCandy\Api\Assets\Models\AssetTransform;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use Storage;
 
-
 class AssetTransformTransformer extends BaseTransformer
 {
     public function transform(AssetTransform $transform)
     {
         return [
             'id' => $transform->encodedId(),
+            'handle' => $transform->transform->handle,
             'url' => $this->getUrl($transform)
         ];
     }
