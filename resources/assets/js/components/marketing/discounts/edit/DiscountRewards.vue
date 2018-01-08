@@ -37,6 +37,9 @@
                     amount: ''
                 };
             },
+            remove(index) {
+                this.rewards.splice(index, 1);
+            },
             reorder ({oldIndex, newIndex}) {
                 const movedItem = this.rewards.splice(oldIndex, 1)[0];
                 this.rewards.splice(newIndex, 0, movedItem);
@@ -46,7 +49,6 @@
 </script>
 <template>
     <div>
-        {{ rewards }}
         <div class="row" style="min-width:917px">
             <div class="col-md-12">
                 <table class="table sortable">
@@ -77,7 +79,7 @@
                         </tr>
                     </tfoot>
                     <tbody v-sortable="sortableOptions">
-                        <tr v-for="reward in rewards">
+                        <tr v-for="(reward, index) in rewards" :key="index">
                             <td class="handle">
                                 <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -97,7 +99,7 @@
                             </td>
                             <td>{{ reward.value }}</td>
                             <td>
-                                <button class="btn btn-sm btn-default btn-action"><fa icon="trash" aria-hidden="true" title="Delete"></fa></button>
+                                <button class="btn btn-sm btn-default btn-action" @click="remove(reward)"><fa icon="trash" aria-hidden="true" title="Delete"></fa></button>
                             </td>
                         </tr>
                     </tbody>

@@ -20,6 +20,9 @@
                 let data = this.discount;
                 data.includes = 'channels,sets,rewards,sets.items,attribute_groups.attributes';
                 apiRequest.send('PUT', 'discounts/' + this.id, data).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success'
+                    });
                 });
             }
         },

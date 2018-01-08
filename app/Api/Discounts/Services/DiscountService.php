@@ -58,9 +58,10 @@ class DiscountService extends BaseService
 
         // event(new AttributableSavedEvent($discount));
 
-        if (!empty($data['rewards'])) {
-            $discount->rewards()->delete();
-            foreach ($data['rewards'] as $reward) {
+        $discount->rewards()->delete();
+
+        if (!empty($data['rewards']['data'])) {
+            foreach ($data['rewards']['data'] as $reward) {
                 $discount->rewards()->create($reward);
             }
         }

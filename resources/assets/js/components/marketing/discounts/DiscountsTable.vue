@@ -21,7 +21,7 @@
         },
         methods: {
             loadDiscount: function (id) {
-                location.href = '/catalogue-manager/discounts/' + id;
+                location.href = '/marketing-suite/discounts/' + id;
             },
             loadDiscounts() {
                 this.loaded = false;
@@ -83,8 +83,8 @@
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
-                        <tr class="clickable" v-for="discount in discounts">
-                            <td @click="loadDiscount(discount.id)">{{ discount|attribute('name') }}</td>
+                        <tr class="clickable" v-for="discount in discounts" @click="loadDiscount(discount.id)">
+                            <td>{{ discount|attribute('name') }}</td>
                             <td>{{ discount.start_at|formatDate }}</td>
                             <td>{{ discount.end_at|formatDate }}</td>
                             <td>{{ discount.priority }}</td>
