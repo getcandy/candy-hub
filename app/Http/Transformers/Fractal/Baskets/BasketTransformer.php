@@ -30,6 +30,11 @@ class BasketTransformer extends BaseTransformer
         return $this->collection($basket->lines, new BasketLineTransformer);
     }
 
+    protected function includeRoutes(Basket $basket)
+    {
+        return $this->collection($basket->lines, new BasketLineTransformer);
+    }
+
     protected function includeUser(Basket $basket)
     {
         if (!$basket->user) {
