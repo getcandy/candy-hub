@@ -8,7 +8,7 @@ trait HasTranslations
      * Sets the name attribute to a json string
      * @param array $value
      */
-    public function setNameAttribute(array $value)
+    public function setNameAttribute($value)
     {
         if (is_array($value)) {
             $this->attributes['name'] = json_encode($value);
