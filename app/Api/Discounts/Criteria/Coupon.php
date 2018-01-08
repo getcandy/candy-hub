@@ -21,10 +21,14 @@ class Coupon implements DiscountCriteriaContract
         if (!$basket) {
             return false;
         }
+        
         $coupons = $basket->discounts->map(function ($item) {
             return $item->pivot->coupon;
         });
-        return $coupons->contains($this->criteria);
+
+        $check = $coupons->contains($this->criteria);
+
+        return $check;
     }
 
     public function getLabel()

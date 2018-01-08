@@ -2,6 +2,9 @@
 
 namespace GetCandy\Api\Discounts;
 
+use GetCandy\Api\Discounts\Criteria\ProductIn;
+use GetCandy\Api\Discounts\Criteria\Coupon;
+
 class Factory
 {
     protected $rewards = [];
@@ -10,6 +13,7 @@ class Factory
     {
         foreach ($discounts as $index => $discount) {
             foreach ($discount->getCriteria() as $criteria) {
+
                 $fail = 0;
                 $pass = 0;
 
@@ -21,7 +25,7 @@ class Factory
 
                 if ($criteria->scope == 'any' && $pass) {
                     $discount->applied = true;
-                } elseif ($criteria->scope == 'all' && ($criteria->count() == $pass)) {
+                } elseif ($criteria->scope == 'all' && ($discount->getCriteria()->count() == $pass)) {
                     $discount->applied = true;
                 } else {
                     $discount->applied = false;
@@ -31,6 +35,7 @@ class Factory
                 break;
             }
         }
+
         return collect($discounts)->filter(function ($discount) {
             return $discount->applied;
         });
@@ -39,17 +44,52 @@ class Factory
 
     public function applyToBasket($discounts, $basket)
     {
-        $total = 0;
+
+        $lines = collect();
+
+        $subtotal = 0;
+
         foreach ($basket->lines as $line) {
-            $total += $line->total;
+            $subtotal += $line->total;
         }
+
+        // Go through each discount
         foreach ($discounts as $discount) {
-            $model = $discount->getModel();
-            foreach ($discount->getRewards() as $reward) {
-                $total = $this->applyPercentage($total, $reward['value']);
+            // Go through each set
+            foreach ($discount->getCriteria() as $criteria) {
+                foreach ($criteria->getSets() as $set) {
+                    if ($set instanceof ProductIn) {
+                        // Go through each basket line and see which ones apply...
+                        foreach ($basket->lines as $line) {
+                            $productId = $line->variant->product->id;
+                            if ($set->getRealIds()->contains($productId)) {
+                                $lines->push($line);
+                            }
+                        }
+                        $discountable = 0;
+                        foreach ($lines as $line) {
+                            $discountable += $line->total;
+                        }
+
+                        $subtotal -= $discountable;
+
+                        foreach ($discount->getRewards() as $reward) {
+                            $discountable = $this->applyPercentage($discountable, $reward['value']);
+                        }
+
+                        $subtotal += $discountable;
+                        
+                        break;
+                    } elseif ($set instanceof Coupon) {
+                        foreach ($discount->getRewards() as $reward) {
+                            $subtotal = $this->applyPercentage($subtotal, $reward['value']);
+                        }
+                    }
+                }
             }
         }
-        return $total;
+
+        return $subtotal;
     }
 
     public function apply($discounts, $product)

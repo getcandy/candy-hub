@@ -49,7 +49,7 @@ class DiscountService extends BaseService
     {
         $discount = $this->getByHashedId($id);
         $discount->start_at = Carbon::parse($data['start_at']);
-        $discount->end_at = Carbon::parse($data['start_at']);
+        $discount->end_at = Carbon::parse($data['end_at']);
         $discount->priority = $data['priority'];
         $discount->stop_rules = $data['stop_rules'];
         $discount->status = $data['status'];
@@ -64,6 +64,12 @@ class DiscountService extends BaseService
             foreach ($data['rewards']['data'] as $reward) {
                 $discount->rewards()->create($reward);
             }
+        }
+
+        if (!empty($data['channels']['data'])) {
+            $discount->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
         }
 
         if (!empty($data['sets']['data'])) {

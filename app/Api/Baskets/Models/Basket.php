@@ -63,6 +63,7 @@ class Basket extends BaseModel
     {
         return TaxCalculator::amount($this->total);
     }
+
     public function getWeightAttribute()
     {
         $weight = 0;

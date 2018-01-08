@@ -22,7 +22,7 @@ class ProductIn implements DiscountCriteriaContract
         return $this->criteria;
     }
 
-    protected function getRealIds()
+    public function getRealIds()
     {
         $ids = [];
         if (!empty($this->criteria['value'])) {
@@ -31,8 +31,16 @@ class ProductIn implements DiscountCriteriaContract
         return collect($ids);
     }
 
-    public function check($user, $product)
+    public function check($user, $product = null, $basket = null)
     {
-        return $this->getRealIds()->contains($product->id);
+        // If we are not checking a product, its a basket...
+        if ($product) {
+            return $this->getRealIds()->contains($product->id);
+        }
+        $check = false;
+        foreach ($basket->lines as $line) {
+            $check = $this->getRealIds()->contains($line->variant->product->id);
+        }
+        return $check;
     }
 }

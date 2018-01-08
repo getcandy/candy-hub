@@ -82,6 +82,15 @@
                     >
                     </candy-attribute-translatable>
                     <div class="form-group">
+                        <div class="checkbox">
+                            <input id="isActive" type="checkbox" value="1" v-model="discount.status">
+                            <label for="isActive">
+                                <span class="check"></span>
+                                Is Active
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Start date</label>
                         <flat-pickr class="datetimepicker" v-model="discount.start_at"></flat-pickr>
                     </div>
@@ -93,6 +102,7 @@
                         <label>Priority</label>
                         <input type="number" v-model="discount.priority" class="form-control">
                     </div>
+                    
             </candy-tab>
         </candy-tabs>
     </div>
