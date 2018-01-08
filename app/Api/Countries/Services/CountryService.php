@@ -16,9 +16,9 @@ class CountryService extends BaseService
         $countries = $this->model->get();
 
         $countries = $countries->sort(function ($a, $b) {
-            return strcmp($a->translation('name'), $a->translation('name'));
-        });
+            return strcmp($a->translation('name'), $b->translation('name'));
+        })->groupBy('region');
         
-        return $countries->groupBy('region');
+        return $countries;
     }
 }
