@@ -7,6 +7,7 @@ use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
 use GetCandy\Http\Transformers\Fractal\Discounts\DiscountTransformer;
+use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use TaxCalculator;
 
 class BasketTransformer extends BaseTransformer
@@ -28,6 +29,11 @@ class BasketTransformer extends BaseTransformer
     protected function includeLines(Basket $basket)
     {
         return $this->collection($basket->lines, new BasketLineTransformer);
+    }
+
+    public function includeRoutes(Basket $basket)
+    {
+        return $this->collection($basket->routes, new RouteTransformer);
     }
 
     protected function includeUser(Basket $basket)
