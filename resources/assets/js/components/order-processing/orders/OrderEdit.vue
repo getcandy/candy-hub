@@ -253,23 +253,29 @@
                                     </div>
                                     <div class="col-md-3">
                                         <h4>Order ID</h4>
-                                        #{{ order.id }}
+                                        <code style="padding:5px">#{{ order.id }}</code>
 
                                         <h4>Account</h4>
                                         <span v-if="!order.user">Guest</span>
                                         <span v-else>{{ order.user.data.name }}</span>
 
-                                        <h4>Status</h4>
-                                        <select class="form-control" v-model="order.status">
-                                            <option value="complete">Complete</option>
-                                            <option value="processing">Processing</option>
-                                            <option value="dispatched">Dispatched</option>
-                                            <option value="voided">Voided</option>
-                                            <option value="returned">Returned</option>
-                                        </select>
+                                        <hr> 
+                                        <div class="form-group">
+                                            <label>Order status</label>
+                                            <select class="form-control" v-model="order.status">
+                                                <option value="open">Open</option>
+                                                <option value="complete">Complete</option>
+                                                <option value="processing">Processing</option>
+                                                <option value="dispatched">Dispatched</option>
+                                                <option value="voided">Voided</option>
+                                                <option value="returned">Returned</option>
+                                            </select>
+                                        </div>
                                         
-                                        <h4>Tracking No.</h4>
-                                        <input class="form-control">
+                                        <div class="form-group">
+                                            <label>Tracking Number</label>
+                                            <input class="form-control" v-model="order.tracking">
+                                        </div>
                                         
                                         <button class="btn btn-primary">Update order</button>
                                     </div>
