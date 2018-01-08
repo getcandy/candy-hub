@@ -6,6 +6,7 @@ use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Assets\Models\Asset;
+use GetCandy\Api\Taxes\Models\Tax;
 
 class ProductVariant extends BaseModel
 {
@@ -75,5 +76,10 @@ class ProductVariant extends BaseModel
     public function image()
     {
         return $this->belongsTo(Asset::class, 'asset_id');
+    }
+
+    public function tax()
+    {
+        return $this->belongsTo(Tax::class, 'tax_id');
     }
 }

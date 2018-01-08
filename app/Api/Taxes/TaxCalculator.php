@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Taxes;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use GetCandy\Api\Taxes\Models\Tax;
 
 class TaxCalculator
 {
@@ -30,7 +31,11 @@ class TaxCalculator
     public function set($rate)
     {
         try {
-            $this->rate = app('api')->taxes()->getByName($rate);
+            if ($rate instanceof Tax) {
+                $this->rate = $rate;
+            } else {
+                $this->rate = app('api')->taxes()->getByName($rate);
+            }
         } catch (ModelNotFoundException $e) {
             $this->setDefault();
         }
@@ -39,11 +44,8 @@ class TaxCalculator
 
     public function amount($price)
     {
-        if (!$this->taxable) {
-            return 0;
-        }
         if (!$this->rate) {
-            $this->setDefault();
+            return 0;
         }
         return $this->amountToAdd($price);
     }

@@ -49,6 +49,12 @@ class ProductVariantService extends BaseService
                 'pricing' => $this->getPriceMapping($newVariant['price'])
             ]);
 
+            if (!empty($newVariant['tax_id'])) {
+                $variant->tax()->associate(
+                    app('api')->taxes()->getByHashedId($newVariant['tax_id'])
+                );
+            }
+
             $this->setMeasurements($variant, $newVariant);
 
             $variant->save();
@@ -111,6 +117,12 @@ class ProductVariantService extends BaseService
         if ($thumbnailId) {
             $asset = app('api')->assets()->getByHashedId($thumbnailId);
             $variant->image()->associate($asset);
+        }
+
+        if (!empty($data['tax'])) {
+            $variant->tax()->associate(
+                app('api')->taxes()->getByHashedId($data['tax'])
+            );
         }
 
         $this->setMeasurements($variant, $data);

@@ -72,6 +72,7 @@ class Product extends BaseModel
             'stock' => $this->amount,
             'sku' => $this->product_code,
             'price' => $this->list_price,
+            'tax_id' => $this->tax_ids ? app('api')->taxes()->getDefaultRecord()->encodedId() : null,
             'options' => $options,
             'weight' => $this->weight,
             'channels' => [

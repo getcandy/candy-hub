@@ -17,6 +17,11 @@ class Config {
             requested: false,
             data: []
         }
+
+        this.taxes = {
+            requested: false,
+            data: []
+        }
     }
 
     /**

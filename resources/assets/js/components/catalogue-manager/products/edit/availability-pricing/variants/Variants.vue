@@ -49,6 +49,7 @@
                 this.assets.push(event.asset);
             });
             Dispatcher.add('product-variants', this);
+
         },
         methods: {
             save() {
@@ -142,6 +143,18 @@
             }
         },
         computed: {
+            taxes() {
+                let options = [
+                    {label: 'None', value: ''}
+                ];
+                _.each(this.$store.getters.getTaxes, item => {
+                    options.push({
+                        label: item.name + ' (' + item.percentage + '%)',
+                        value: item.id
+                    });
+                });
+                return options;
+            },
             volume() {
                 // Convert height to cm...
                 let height = this.convertToCm(this.current.height),
@@ -155,7 +168,7 @@
                 return cmsquared;
             },
             singlePrice() {
-                return _.first(this.current.pricing);
+                return this.current.price;
             },
             customerGroups() {
                 return _.filter(this.product.customer_groups.data, function (item) {
@@ -187,10 +200,10 @@
     <div>
         <div class="row">
             <div class="col-xs-12">
-
                 <!--
                   Page Header
                 -->
+                {{ current }}
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">

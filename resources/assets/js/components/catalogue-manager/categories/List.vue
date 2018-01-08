@@ -101,7 +101,6 @@
                 this.categoriesLoaded = false;
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
-                        console.log(response);
                         this.categories = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;
                         this.meta = response.meta;

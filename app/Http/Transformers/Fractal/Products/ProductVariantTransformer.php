@@ -10,13 +10,14 @@ use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Taxes\TaxTransformer;
 use PriceCalculator;
 use TaxCalculator;
 
 class ProductVariantTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'product'
+        'product', 'tax'
     ];
 
     public function transform(ProductVariant $variant)
@@ -27,8 +28,8 @@ class ProductVariantTransformer extends BaseTransformer
             'sku' => $variant->sku,
             'backorder' => (bool) $variant->backorder,
             'requires_shipping' => (bool) $variant->requires_shipping,
-            'price' => PriceCalculator::get($variant->price),
-            'vat_total' => TaxCalculator::amount($variant->price),
+            'price' => $variant->price,
+            'tax_total' => $this->getTax($variant),
             'inventory' => $variant->stock,
             'thumbnail' => $this->getThumbnail($variant),
             'weight' => [
@@ -57,9 +58,25 @@ class ProductVariantTransformer extends BaseTransformer
         return $response;
     }
 
+    public function includeTax(ProductVariant $variant)
+    {
+        if (!$variant->tax) {
+            return null;
+        }
+        return $this->item($variant->tax, new TaxTransformer);
+    }
+
     public function includeProduct(ProductVariant $variant)
     {
         return $this->item($variant->product, new ProductTransformer);
+    }
+
+    protected function getTax($variant)
+    {
+        if (!$variant->tax) {
+            return 0;
+        }
+        return TaxCalculator::set($variant->tax)->amount($variant->price);
     }
 
     protected function getThumbnail($variant)

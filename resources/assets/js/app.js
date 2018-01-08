@@ -61,7 +61,7 @@ require('chart.js');
 require('chartjs-color');
 
 Vue.filter('capitalize', function (value) {
-  if (!value) return ''
+  if (!value) return value;
   value = value.toString()
   return value.charAt(0).toUpperCase() + value.slice(1)
 })
@@ -69,6 +69,7 @@ Vue.filter('capitalize', function (value) {
 const store = new Vuex.Store({
   state: {
     topTabs: {},
+    taxes: [],
     defaultChannel: {
       handle: 'aqua-spa-supplies'
     }
@@ -84,6 +85,9 @@ const store = new Vuex.Store({
     },
     setDefaultChannel(state, channel) {
       state.defaultChannel = channel;
+    },
+    setTaxes(state, taxes) {
+      state.taxes = taxes;
     }
   },
   getters: {
@@ -92,6 +96,9 @@ const store = new Vuex.Store({
     },
     getDefaultChannel(state) {
       return state.defaultChannel;
+    },
+    getTaxes(state) {
+      return state.taxes;
     }
   }
 });
@@ -103,6 +110,10 @@ config.get('channels').then(response => {
   });
   store.commit('setDefaultChannel', defaultChannel[0]);
 });
+
+config.get('taxes').then(response => {
+  store.commit('setTaxes', response.data);
+})
 
 config.get('languages').then(response => {
   languages = response.data;

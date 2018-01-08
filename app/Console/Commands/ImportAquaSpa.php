@@ -187,6 +187,7 @@ class ImportAquaSpa extends Command
                                 'sku' => $sku,
                                 'price' => $product['price'],
                                 'inventory' => $product['stock'],
+                                'tax_id' => $product['tax_id'],
                                 'weight' => [
                                     'unit' => 'lb',
                                     'value' => $product['weight']
@@ -212,6 +213,7 @@ class ImportAquaSpa extends Command
                 $variant['sku'] = $product['sku'];
                 $variant['price'] = $product['price'];
                 $variant['inventory'] = $product['stock'];
+                $variant['tax_id'] = $product['tax_id'];
                 $variant['options'] = [];
                 $variant['weight'] = [
                     'value' => $product['weight'],

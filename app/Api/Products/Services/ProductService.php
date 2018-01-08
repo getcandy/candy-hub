@@ -132,6 +132,13 @@ class ProductService extends BaseService
             'price' => $data['price'],
             'pricing' => $this->getPriceMapping($data['price'])
         ]);
+        
+        if (!empty($data['tax_id'])) {
+            $variant->tax()->associate(
+                app('api')->taxes()->getByHashedId($data['tax_id'])
+            );
+            $variant->save();
+        }
 
         event(new ProductCreatedEvent($product));
         return $product;
