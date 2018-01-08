@@ -12,7 +12,7 @@ use TaxCalculator;
 class BasketTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'lines', 'user', 'discounts'
+        'lines', 'user', 'discounts', 'routes'
     ];
 
     public function transform(Basket $basket)
