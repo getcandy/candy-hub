@@ -52,6 +52,7 @@ class ImportAquaSpa extends Command
 
         \Auth::loginUsingId(1);
 
+        $this->importShippingZones();
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
@@ -139,6 +140,18 @@ class ImportAquaSpa extends Command
 
         $bar->finish();
         $this->info('');
+    }
+
+    public function importShippingZones()
+    {
+        $this->info('Importing Shipping Zones');
+        $zones = $this->importer->getShippingZones();
+        $bar = $this->output->createProgressBar(count($zones));
+        foreach ($zones as $zone) {
+            app('api')->shippingZones()->create($zone);
+            $bar->advance();
+        }
+        $bar->finish();
     }
 
     public function importProducts()
