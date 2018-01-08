@@ -61,7 +61,7 @@ class ProductVariantTransformer extends BaseTransformer
     public function includeTax(ProductVariant $variant)
     {
         if (!$variant->tax) {
-            return null;
+            return $this->null();
         }
         return $this->item($variant->tax, new TaxTransformer);
     }

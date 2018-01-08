@@ -119,12 +119,15 @@ class ProductVariantService extends BaseService
             $variant->image()->associate($asset);
         }
 
-        if (!empty($data['tax'])) {
+        if (!empty($data['tax_id'])) {
             $variant->tax()->associate(
-                app('api')->taxes()->getByHashedId($data['tax'])
+                app('api')->taxes()->getByHashedId($data['tax_id'])
             );
+        } else {
+            $variant->tax()->dissociate();
         }
 
+        
         $this->setMeasurements($variant, $data);
 
         $variant->save();

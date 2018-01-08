@@ -32,9 +32,8 @@
         },
         created() {
             this.variants = this.product.variants.data;
-            this.current = this.variants[0];
+            this.selectVariant(0);
         },
-
         mounted() {
             this.assets = this.product.assets.data;
             CandyEvent.$on('asset_deleted', event => {
@@ -49,7 +48,6 @@
                 this.assets.push(event.asset);
             });
             Dispatcher.add('product-variants', this);
-
         },
         methods: {
             save() {
@@ -69,6 +67,12 @@
             },
             selectVariant(index) {
                 this.current = this.variants[index];
+                let tax = null;
+                if (this.current.tax.data.id) {
+                    tax = this.current.tax.data.id;
+                }
+                this.$set(this.current, 'tax_id', tax);
+
                 this.currentIndex = index;
             },
             setImage(asset) {
@@ -145,7 +149,7 @@
         computed: {
             taxes() {
                 let options = [
-                    {label: 'None', value: ''}
+                    {label: 'None', value: ' '}
                 ];
                 _.each(this.$store.getters.getTaxes, item => {
                     options.push({
@@ -203,7 +207,6 @@
                 <!--
                   Page Header
                 -->
-                {{ current }}
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
@@ -366,7 +369,7 @@
                                         <div class="col-md-4"> 
                                             <div class="form-group">
                                                 <label>Tax</label>
-                                                <candy-select :options="['0%','5%','20%']"></candy-select>
+                                                <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
                                             </div>
                                         </div>
                                     </template>
