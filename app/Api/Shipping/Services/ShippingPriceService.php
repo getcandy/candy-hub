@@ -27,6 +27,12 @@ class ShippingPriceService extends BaseService
         $price->method()->associate($method);
         $price->currency()->associate($currency);
         $price->save();
+
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $price->customerGroups()->sync($groupData);
+        }
+
         return $price;
     }
 
