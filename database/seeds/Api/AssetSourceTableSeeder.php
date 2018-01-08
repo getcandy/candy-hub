@@ -33,8 +33,8 @@ class AssetSourceTableSeeder extends Seeder
             'name' => 'Thumbnail',
             'handle' => 'thumbnail',
             'mode' => 'fit',
-            'width' => 100,
-            'height' => 100
+            'width' => 250,
+            'height' => 250
         ]);
 
         \GetCandy\Api\Assets\Models\Transform::create([
