@@ -9,6 +9,7 @@ use GetCandy\Importers\Aqua\Models\Products\Product;
 use GetCandy\Importers\Aqua\Models\Categories\Category;
 use GetCandy\Importers\Aqua\Models\Channel;
 use GetCandy\Importers\Aqua\Models\Users\User;
+use GetCandy\Api\Countries\Models\Country;
 
 class Factory extends BaseImporter
 {
@@ -84,5 +85,26 @@ class Factory extends BaseImporter
                 'default' => $name == 'Retail' ? true : false
             ];
         });
+    }
+
+    public function getShippingZones()
+    {
+        $countries = Country::all();
+        return [
+            [
+                'name' => 'United Kingdom',
+                'countries' => [$countries->filter(function ($item) {
+                    return $item->name['en'] == 'United Kingdom';
+                })->first()->encodedId()]
+            ],
+            [
+                'name' => 'Europe',
+                'countries' => $countries->where('region', '=', 'Europe')->filter(function ($item) {
+                    return $item->name['en'] != 'United Kingdom';
+                })->map(function ($item) {
+                    return $item->encodedId();
+                })->toArray()
+            ]
+        ];
     }
 }
