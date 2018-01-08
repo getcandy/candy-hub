@@ -69,6 +69,13 @@
                             <th>Active</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr v-if="!zones.length">
+                            <td colspan="2">
+                                <span class="text-info">You have not configured any shipping zones</span>
+                            </td>
+                        </tr>
+                    </tfoot>
                     <tbody>
                         <tr v-for="zone in zones" @click="toggle(zone.id)">
                             <td width="25%">
