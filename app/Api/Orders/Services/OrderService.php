@@ -38,7 +38,9 @@ class OrderService extends BaseService
         $order->total = $basket->total;
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
-        $order->vat = $basket->vat_total;
+
+
+        $order->vat = $basket->tax_total;
 
         $order->save();
 
