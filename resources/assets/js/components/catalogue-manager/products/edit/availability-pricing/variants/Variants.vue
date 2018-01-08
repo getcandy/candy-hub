@@ -322,13 +322,13 @@
                                 </div>
                                 <div class="row">
                                     <template v-if="groupPricing">
-                                        <template v-for="group in customerGroups">
+                                        <template v-for="(group, name) in current.pricing">
                                             <div class="col-md-4">
                                                 <div class="form-group" >
-                                                    <label>{{ group.name }}</label>
+                                                    <label>{{ name }}</label>
                                                     <div class="input-group input-group-full">
                                                         <span class="input-group-addon">&pound;</span>
-                                                        <input type="number" class="form-control" v-model="current.price">
+                                                        <input type="number" class="form-control" v-model="group.price">
                                                     </div>
                                                 </div>
                                             </div>
@@ -337,14 +337,14 @@
                                                     <label>Compare at Price</label>
                                                     <div class="input-group input-group-full">
                                                         <span class="input-group-addon">&pound;</span>
-                                                        <input type="number" class="form-control">
+                                                        <input type="number" class="form-control" v-model="group.compare_at">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4"> 
                                                 <div class="form-group">
                                                     <label>Tax</label>
-                                                    <candy-select :options="['0%','5%','20%']"></candy-select>
+                                                    <candy-select :options="taxes" v-model="group.tax"></candy-select>
                                                 </div>
                                             </div>
                                         </template>
