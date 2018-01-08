@@ -97,10 +97,11 @@
             slugify(value) {
                 this.category.slug = value.slugify();
             },
-            search() {
+            searchCategories() {
                 this.categoriesLoaded = false;
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
+                        console.log(response);
                         this.categories = response.data;
                         this.params.total_pages = response.meta.pagination.total_pages;
                         this.meta = response.meta;
@@ -111,7 +112,7 @@
                 this.params['keywords'] = null;
                 this.keywords = '';
                 this.params['filters'] = null;
-                this.loadProducts();
+                this.loadCategories();
             },
             createCategory() {
                 let _this = this;
@@ -166,10 +167,9 @@
                 });
             },
             search: _.debounce(function (){
-                    this.loaded = false;
                     this.params['keywords'] = this.keywords;
                     if (this.keywords) {
-                        this.search();
+                        this.searchCategories();
                     } else {
                         this.loadCategories();
                     }
@@ -231,11 +231,11 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-2">
 
-                            <button type="button" class="btn btn-default btn-full btn-pop-over">
+                            <!--<button type="button" class="btn btn-default btn-full btn-pop-over">
                                 Add Filter <i class="fa fa-angle-down fa-last" aria-hidden="true"></i>
-                            </button>
+                            </button>-->    
 
-                            <!-- Filter Pop Over -->
+                            <!-- Filter Pop Over 
                             <div class="pop-over">
                                 <form>
                                     <label>Show all products where:</label>
@@ -254,7 +254,7 @@
                                     </div>
                                     <button type="button" class="btn btn-default">Add filter</button>
                                 </form>
-                            </div>
+                            </div>-->
 
                         </div>
                         <div class="form-group col-xs-12 col-md-8">
