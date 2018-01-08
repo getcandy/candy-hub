@@ -12,7 +12,7 @@ class TopMenu extends Menu
             new NavItem('Products', route('hub.products.index')),
             new NavItem('Collections', route('hub.collections.index')),
             new NavItem('Categories', route('hub.categories.index')),
-            new NavItem('Media', route('hub.index')),
+            // new NavItem('Media', route('hub.index')),
             // new NavItem('Attributes', route('hub.index')),
             // new NavItem('Aliases', route('hub.index'))
         ];
