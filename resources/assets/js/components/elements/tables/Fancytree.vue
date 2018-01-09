@@ -79,7 +79,10 @@
     export default {
         data() {
             return {
-                data: []
+                data: [],
+                pagination: {
+                    current_page: 1
+                }
             };
         },
         props: {
@@ -160,8 +163,8 @@
                         data.result = request.promise();
 
                         apiRequest.send('get', this.sourceURL + nodeID, [],  {
-                            includes: 'children, assets'
-                        })
+                                includes: 'children, assets'
+                            })
                             .then(response => {
                                 request.resolve(response.data.children.data);
                             })
@@ -211,23 +214,29 @@
             },
             reloadData: function() {
                 apiRequest.send('get', this.sourceURL, [], {
-                    includes: 'assets'
+                    per_page: 15,
+                    current_page: this.pagination.current_page
                 })
-                    .then(response => {
-                        this.data = response.data;
-                        $('#treetable').fancytree("getTree").reload();
-                    });
+                .then(response => {
+                    this.data = response.data;
+                    this.pagination = response.meta.pagination;
+
+                    var tree = $('#treetable').fancytree('getTree');
+                    tree.reload(this.data);
+                });
             },
             loadData: function() {
                 apiRequest.send('get', this.sourceURL, [], {
-                    includes: 'assets'
+                    per_page: 15,
+                    current_page: this.pagination.current_page
                 })
-                    .then(response => {
-                        this.data = response.data;
-                        CandyEvent.$nextTick( function(){
-                            this.initFancytable();
-                        }.bind(this));
-                    });
+                .then(response => {
+                    this.data = response.data;
+                    this.pagination = response.meta.pagination;
+                    CandyEvent.$nextTick( function(){
+                        this.initFancytable();
+                    }.bind(this));
+                });
             },
             save(node, movedNode, action) {
                 let data = {
@@ -246,8 +255,11 @@
                         message: 'Missing / Invalid fields'
                     });
                 });
-
             },
+            changePage(page) {
+                this.pagination.current_page = page;
+                this.reloadData();
+            }
 
         }
     }
@@ -277,6 +289,10 @@
                 </tr>
             </tbody>
         </table>
+        <div class="text-center">
+            <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
+        </div>
+        
 
     </div>
 </template>

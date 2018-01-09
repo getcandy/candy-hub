@@ -10,8 +10,6 @@
                 default: 4
             }
         },
-        mounted() {
-        },
         computed: {
             isActived: function () {
                 return this.pagination.current_page;

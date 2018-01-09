@@ -99,6 +99,7 @@
             },
             searchCategories() {
                 this.categoriesLoaded = false;
+                
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.categories = response.data;
