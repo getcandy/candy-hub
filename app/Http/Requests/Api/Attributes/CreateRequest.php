@@ -11,7 +11,7 @@ class CreateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Attribute::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
     public function rules(Attribute $attribute)
     {

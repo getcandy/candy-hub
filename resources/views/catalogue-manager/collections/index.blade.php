@@ -10,7 +10,7 @@
 @endsection
 
 @section('header_actions')
-    <candy-disabled pos="bottom">
+    <candy-disabled pos="bottom" :inline="true">
       <button class="btn btn-default white">Export</button>
       <button class="btn btn-default white">Import</button>
     </candy-disabled>

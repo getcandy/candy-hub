@@ -10,7 +10,7 @@ class UpdateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('update', Language::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
     public function rules(Language $language)
     {

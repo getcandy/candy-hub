@@ -9,8 +9,7 @@ class UpdateRequest extends FormRequest
 {
     public function authorize()
     {
-        // return $this->user()->can('update', Channel::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
     public function rules(Channel $channel)
     {

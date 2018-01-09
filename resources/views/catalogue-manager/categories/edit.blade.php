@@ -10,16 +10,27 @@
 @endsection
 
 @section('header_actions')
+    
+    <candy-disabled pos="bottom" :inline="true">
+        <button class="btn btn-default white category-menu btn-pop-over"><span class="hamburger"></span></button>
+        <!-- Menu Pop Over -->
+        <div class="pop-over">
+            <ul class="menu">
+                <li><a href="#" title="Duplicate category">Duplicate</a></li>
+                <li><a href="#" title="View category on live site">View</a></li>
+            </ul>
+        </div>
+    </candy-disabled>
+
+    <candy-delete
+      element="category"
+      endpoint="/categories/{{ $id }}"
+      id="{{ $id }}"
+      redirect="/catalogue-manager/categories"
+      style="display: inline-block;"
+    ></candy-delete>
+
     <candy-button style="display: inline-block;" event="save-category">Save Category</candy-button>
-    <button class="btn btn-default white category-menu btn-pop-over"><span class="hamburger"></span></button>
-    <!-- Menu Pop Over -->
-    <div class="pop-over">
-        <ul class="menu">
-            <li><a href="#" title="Duplicate category">Duplicate</a></li>
-            <li><a href="#" title="View category on live site">View</a></li>
-        </ul>
-    </div>
-    <button class="btn btn-default white"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 @endsection
 
 @section('content')

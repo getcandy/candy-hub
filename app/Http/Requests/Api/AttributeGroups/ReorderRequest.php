@@ -12,7 +12,7 @@ class ReorderRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', AttributeGroup::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     public function rules()

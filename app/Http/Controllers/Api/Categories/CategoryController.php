@@ -6,6 +6,7 @@ use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Categories\CreateRequest;
 use GetCandy\Http\Requests\Api\Categories\ReorderRequest;
 use GetCandy\Http\Requests\Api\Categories\UpdateRequest;
+use GetCandy\Http\Requests\Api\Categories\DeleteRequest;
 use GetCandy\Http\Transformers\Fractal\Categories\CategoryFancytreeTransformer;
 use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -112,5 +113,22 @@ class CategoryController extends BaseController
             return $this->errorNotFound();
         }
         return $this->respondWithItem($result, new CategoryTransformer);
+    }
+
+    /**
+     * Handles the request to delete a category
+     * @param  String        $id
+     * @param  DeleteRequest $request
+     * @return Json
+     */
+    public function destroy($id, DeleteRequest $request)
+    {
+
+        try {
+            $result = app('api')->categories()->delete($id);
+        } catch (NotFoundHttpException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithNoContent();
     }
 }
