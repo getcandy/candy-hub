@@ -278,9 +278,9 @@
                 </form>
 
                 <!-- Applied Filter List -->
-                <div class="filters">
+                <!-- <div class="filters">
 
-                </div>
+                </div> -->
 
                 <hr>
 

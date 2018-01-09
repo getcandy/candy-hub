@@ -332,15 +332,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Compare at Price</label>
-                                                    <div class="input-group input-group-full">
-                                                        <span class="input-group-addon">&pound;</span>
-                                                        <input type="number" class="form-control" v-model="group.compare_at">
+                                            <candy-disabled>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Compare at Price</label>
+                                                        <div class="input-group input-group-full">
+                                                            <span class="input-group-addon">&pound;</span>
+                                                            <input type="number" class="form-control" v-model="group.compare_at">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </candy-disabled>
                                             <div class="col-md-4"> 
                                                 <div class="form-group">
                                                     <label>Tax</label>
@@ -357,6 +359,7 @@
                                                 <input type="number" class="form-control" v-model="singlePrice">
                                             </div>
                                         </div>
+                                        <candy-disabled>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Compare at Price</label>
@@ -366,6 +369,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        </candy-disabled>
                                         <div class="col-md-4"> 
                                             <div class="form-group">
                                                 <label>Tax</label>
@@ -378,14 +382,16 @@
                         </div>
                         <h4>Inventory</h4>
                         <hr>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-5">
-                                <div class="form-group">
-                                    <label>Inventory Policy</label>
-                                    <candy-select :options="['Option 1','Option 2','Option 3']"></candy-select>
+                        <candy-disabled>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-5">
+                                    <div class="form-group">
+                                        <label>Inventory Policy</label>
+                                        <candy-select :options="['Option 1','Option 2','Option 3']"></candy-select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </candy-disabled>
                         <div class="row">
                             <div class="col-xs-6 col-md-5">
                                 <div class="form-group">
@@ -406,6 +412,7 @@
                                 </div>
                             </div>
                         </div>
+                        <candy-disabled>
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -416,6 +423,7 @@
                                 </div>
                             </div>
                         </div>
+                        </candy-disabled>
 
                         <h4>Shipping</h4>
                         <hr>
@@ -425,6 +433,7 @@
                                 <span class="faux-label"> This product requires shipping</span>
                             </label>
                         </div>
+                        <candy-disabled>
                         <div class="row">
                             <div class="col-xs-12 col-md-5">
                                 <div class="form-group">
@@ -433,6 +442,7 @@
                                 </div>
                             </div>
                         </div>
+                        </candy-disabled>
                         <div class="row">
                             <div class="col-xs-12 col-md-5">
                                 <div class="form-group">

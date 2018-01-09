@@ -11,7 +11,9 @@
 
 @section('header_actions')
     <candy-button style="display: inline-block;" event="save-product">Save Product</candy-button>
-    <button class="btn btn-default white product-menu btn-pop-over"><span class="hamburger"></span></button>
+    <candy-disabled :pos="bottom">
+      <button class="btn btn-default white product-menu btn-pop-over"><span class="hamburger"></span></button>
+    </candy-disabled>
     <!-- Menu Pop Over -->
     <div class="pop-over">
       <ul class="menu">

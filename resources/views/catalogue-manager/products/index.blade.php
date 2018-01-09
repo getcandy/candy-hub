@@ -10,8 +10,10 @@
 @endsection
 
 @section('header_actions')
-    <button class="btn btn-default white">Export</button>
-    <button class="btn btn-default white">Import</button>
+    <candy-disabled pos="bottom" :inline="true">
+      <button class="btn btn-default white">Export</button>
+      <button class="btn btn-default white">Import</button>
+    </candy-disabled>
     <candy-product-create style="display: inline-block;"></candy-product-create>
 @endsection
 

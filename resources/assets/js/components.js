@@ -8,6 +8,7 @@ var includes = [
   {
     path: 'elements',
     components: {
+      'disabled': 'Disabled',
       'alert' : 'AlertPanel',
       'thumbnail-loader' : 'ThumbnailLoader',
       'media' : 'Media',

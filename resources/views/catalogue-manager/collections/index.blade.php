@@ -10,8 +10,10 @@
 @endsection
 
 @section('header_actions')
-    <button class="btn btn-default white">Export</button>
-    <button class="btn btn-default white">Import</button>
+    <candy-disabled pos="bottom">
+      <button class="btn btn-default white">Export</button>
+      <button class="btn btn-default white">Import</button>
+    </candy-disabled>
     <candy-collection-create style="display: inline-block;"></candy-collection-create>
 @endsection
 
