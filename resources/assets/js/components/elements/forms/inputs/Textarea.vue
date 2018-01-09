@@ -7,8 +7,7 @@
                     @tbw-change="updateValue($event.target.value)"
                     :required="required"
                     :config="config"
-                    :placeholder="placeholder"
-                    :disabled="disabled">
+                    :placeholder="placeholder">
                 {{ value }}
             </trumbowyg>
         </template>
@@ -39,6 +38,14 @@
                 }
             }
         },
+        watch: {
+            disabled() {
+                this.setState();
+            }
+        },
+        mounted() {
+            this.setState();
+        },
         props: {
             richtext: {
                 type: Boolean,
@@ -59,6 +66,12 @@
             }
         },
         methods: {
+            setState() {
+                if (this.richtext) {
+                    let textarea = this.$children[0].$el;
+                    $(textarea).trumbowyg(this.disabled ? 'disable' : 'enable');
+                }
+            },
             updateValue: function (value) {
                 this.$emit('input', value);
             }

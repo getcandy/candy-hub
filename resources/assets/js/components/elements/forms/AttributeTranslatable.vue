@@ -234,8 +234,9 @@
                                         :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
                                         :disabled="(get(attribute.handle) === null || isDefault)">
                             </candy-input>
-                            <candy-textarea v-if="attribute.translatable && attribute.type === 'textarea'"
+                            <candy-textarea v-if="attribute.translatable && attribute.type === 'textarea' || attribute.type == 'richtext'"
                                             :value="get(attribute.handle)"
+                                            :richtext="attribute.type == 'richtext'"
                                             @input="set(attribute.handle, $event)"
                                             :required="attribute.required"
                                             :placeholder="(get(attribute.handle) === null ? get(attribute.handle, 'default') : '')"
