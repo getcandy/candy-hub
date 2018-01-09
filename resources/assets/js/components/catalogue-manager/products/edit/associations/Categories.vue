@@ -90,7 +90,6 @@
                 this.loading = true;
                 this.requestParams.current_page = page;
                 this.getResults(this.keywords);
-                console.log('hit');
             },
             save() {
                 this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': this.selectedCategories})

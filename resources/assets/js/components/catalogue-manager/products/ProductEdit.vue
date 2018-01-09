@@ -146,7 +146,7 @@
                             <candy-tab name="Collections" handle="collections">
                                 <candy-collections :product="product"></candy-collections>
                             </candy-tab>
-                            <candy-tab name="Products" handle="products" :badge="getAssociationCount()">
+                            <candy-tab name="Products" handle="products" :badge="getAssociationCount()" dispatch="product-associations">
                                 <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>

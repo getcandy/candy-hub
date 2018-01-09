@@ -3,16 +3,23 @@
         data() {
             return {
               request: apiRequest,
-              addAssociationModal: false,
-              loading: false,
-              keywords: '',
-              products: null,
-              groups: [],
-              groupFilter: '',
-              loaded: {},
-              associations: [],
-              showRemoval: false,
-              toDelete: null
+              selected: [],
+              results: [],
+              types: [],
+              associations : [],
+              addAssociationModal : false,
+              toDelete : {},
+              filter: '',
+              showRemoval : false,
+              loading : false,
+              products: [],
+              requestParams: {
+                per_page: 6,
+                current_page: 1,
+                keywords: '',
+                type: 'product'
+              },
+              meta: []
             }
         },
         props: {
@@ -21,38 +28,24 @@
           }
         },
         mounted() {
-          this.groups = this.request.send('GET', 'associations/groups').then(response => {
-            this.groups = response.data;
-          });
           this.associations = this.product.associations.data;
+          
+          this.request.send('GET', 'associations/groups').then(response => {
+            this.types = response.data;
+          });
+
+          _.each(this.associations, item => {
+            this.selected.push(item.association.data.id);  
+          });
+
+          Dispatcher.add('product-associations', this);
         },
         methods: {
-          getResults(keywords) {
-            let results = this.request.send('GET', 'search', {}, {
-                includes: 'variants',
-                type: 'product',
-                keywords: keywords
-              }).then(response => {
-              this.products = response.data.filter(entity => {
-                if (entity.id != this.product.id) {
-                  let associatedIds = this.associations.map(item => {
-                    return item.association.data.id;
-                  });
-                  if (_.includes(associatedIds, entity.id)) {
-                    return false;
-                  }
-                  this.$set(this.loaded, entity.id, {
-                    association_id: entity.id,
-                    selected: false,
-                    type: _.first(this.groups).handle
-                  });
-
-                  return entity;
-                }
-              });
-              this.loading = false;
-            });
-          },
+          /**
+           * 
+           * Listing Methods
+           * 
+           */
           getAssociations(type) {
             if (type) {
               return this.associations.filter(item => {
@@ -65,22 +58,11 @@
             }
             return this.associations;
           },
-          saveAssociations() {
-            let selected = _.filter(this.loaded, item => { return item.selected});
-            this.request.send('POST', 'products/' + this.product.id + '/associations', {'relations' : selected}).then(response => {
-              CandyEvent.$emit('notification', {
-                level: 'success'
-              });
-              this.product.associations.data = response.data;
-              this.associations = response.data;
-              this.addAssociationModal = false;
-              this.loaded = {};
-              this.products = [];
-              this.keywords = '';
-            });
+          showRemovalModal(item) {
+            this.toDelete = item;
+            this.showRemoval = true;
           },
-          deleteAssociation()
-          {
+          deleteAssociation() {
             let product = this.associations[this.toDelete].association.data.id;
             this.request.send('DELETE', 'products/' + this.product.id + '/associations', {'associations' : product}).then(response => {
               CandyEvent.$emit('notification', {
@@ -88,9 +70,48 @@
                 message: 'Association removed'
               });
               this.associations.splice(this.toDelete, 1);
-              this.product.associations.data.splice(this.toDelete, 1);
               this.toDelete = null;
               this.showRemoval = false;
+            });
+          },
+          save() {
+            // Map it out so our API can understand it.
+            let relations = _.map(this.associations, item => {
+              return {
+                'association_id': item.association.data.id,
+                'type' : item.type.data.id
+              }
+            });
+            this.request.send('POST', 'products/' + this.product.id + '/associations', {'relations' : relations}).then(response => {
+              CandyEvent.$emit('notification', {
+                level: 'success'
+              });
+              this.addAssociationModal = false;
+              this.results = [];
+              this.keywords = '';
+            });
+          },
+          /**
+           * 
+           * Modal Methods
+           * 
+          */
+          showProductAssociationModal() {
+            this.addAssociationModal = true;
+          },
+          changePage(page) {
+            this.results = [];
+            this.loading = true;
+            this.requestParams.current_page = page;
+            this.getResults(this.keywords);
+          },
+          getResults(keywords) {
+            this.requestParams.keywords = this.keywords;
+            let results = this.request.send('GET', 'search', {}, this.requestParams).then(response => {
+                  this.results = response.data;
+                  this.requestParams.total_pages = response.meta.pagination.total_pages;
+                  this.meta = response.meta;
+                  this.loading = false;
             });
           },
           productThumbnail(product) {
@@ -99,16 +120,36 @@
               }
               return '/images/placeholder/no-image.svg';
           },
-          showProductAssociationModal() {
-            this.addAssociationModal = true;;
+          alreadyLinked(product) {
+            return this.selected.contains(product.id);
           },
-          showRemovalModal(item) {
-            this.toDelete = item;
-            this.showRemoval = true;
+          assign(product) {
+            this.selected.push(product.id);
+            let association = {
+              type: {
+                data: this.types[0]
+              },
+              association: {
+                data : product
+              }
+            }
+            this.associations.push(association);
+          },
+          detatch(product) {
+            this.selected.splice(this.selected.indexOf(product.id), 1);
+
+            let association = _.filter(this.associations, item => {
+              return item.association.data.id == product.id;
+            });
+
+
+            this.associations.splice(this.associations.indexOf(association[0]), 1);
           },
           updateKeywords: _.debounce(function (e) {
-            this.products = null;
+            this.results = null;
             this.loading = true;
+            this.keywords = e.target.value;
+            this.requestParams.current_page = 1;
             this.getResults(e.target.value);
           }, 500)
         }
@@ -116,7 +157,10 @@
 </script>
 <template>
   <div class="row">
-    <div class="col-xs-12 col-md-11">
+    <div class="col-xs-12">
+      <!--
+        Page Title and button
+      -->
       <div class="row">
         <div class="col-xs-12 col-sm-6">
           <h4>Product Associations</h4>
@@ -125,43 +169,41 @@
           <button type="button" class="btn btn-primary" @click="showProductAssociationModal">Add a Product</button>
         </div>
       </div>
-      <hr>
-      <div class="custom-radio-group">
-        <span class="group-label">Toggle Product Association:</span>
-        <div class="toggle-radio">
-          <input type="radio" name="products" id="showAll" value="" v-model="groupFilter">
-          <label for="showAll">
-            <span class="check"></span>
-            <span class="faux-label">Show All</span>
-          </label>
-        </div>
-        <div class="toggle-radio" v-for="group in groups" :key="group.handle">
-          <input type="radio" :id="group.handle" :value="group.handle" v-model="groupFilter">
-          <label :for="group.handle">
-            <span class="check"></span>
-            <span class="faux-label">{{ group.name }}</span>
-          </label>
-        </div>
-      </div>
+      <!--
+        Listing Table
+      -->
       <table id="productAssociations" class="table">
         <thead>
           <tr>
             <th width="80"></th>
             <th>Name</th>
-            <th colspan="2">Type</th>
+            <th width="20%">Type</th>
+            <th></th>
+            
+            <!-- <th colspan="2">Type</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in getAssociations(groupFilter)">
+          <tr v-for="(item, index) in getAssociations(filter)">
             <td width="80">
               <img :src="productThumbnail(item.association.data)">
             </td>
             <td>{{ item.association.data|attribute('name') }}</td>
-            <td><span class="label label-primary">{{ item.type.data.name }}</span></td>
-            <td align="right"><button class="btn btn-sm btn-default btn-action" @click="showRemovalModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+            <td>
+              <select class="form-control" v-model="item.type.data.id">
+                <option value>-- Please select</option>
+                <option :value="item.id" v-for="item in types">{{ item.name }}</option>
+              </select>
+            </td>
+            <!-- <td><span class="label label-primary">{{ item.type.data.name }}</span></td> -->
+            <td align="right">
+              <button class="btn btn-sm btn-default btn-action" @click="showRemovalModal(index)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
-        <tfoot v-if="!getAssociations(groupFilter).length">
+        <tfoot v-if="!getAssociations(filter).length">
           <tr>
             <td colspan="2">
               <span class="text-muted">No products associated</span>
@@ -169,16 +211,11 @@
           </tr>
         </tfoot>
       </table>
-    </div>
-    <candy-modal title="Are you wish to remove this product?" v-show="showRemoval" @closed="showRemoval = false">
-      <template slot="body">
-        This action cannot be undone
-      </template>
-      <template slot="footer">
-        <button class="btn btn-primary" @click="deleteAssociation()">Confirm removal</button>
-      </template>
-    </candy-modal>
-    <candy-modal title="Add product associations" v-show="addAssociationModal" @closed="addAssociationModal = false">
+
+      <!--
+        Modal
+      -->
+      <candy-modal title="Add product associations" v-show="addAssociationModal" @closed="addAssociationModal = false">
         <div slot="body">
           <div class="form-group">
             <label class="sr-only">Search</label>
@@ -190,7 +227,6 @@
               <tr>
                 <th> </th>
                 <th>Name</th>
-                <th>Type</th>
                 <th></th>
               </tr>
             </thead>
@@ -204,7 +240,21 @@
                 </tr>
             </tfoot>
             <tbody class="list">
-              <tr v-for="product in products">
+              <tr v-for="product in results">
+                <td width="10%">
+                  <img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm">
+                </td>
+                <td class="name" width="40%">{{ product|attribute('name') }}</td>
+                <td align="right">
+                    <button @click="assign(product)" class="btn btn-sm btn-action btn-success" v-if="!alreadyLinked(product)">
+                        <fa icon="plus"></fa>
+                    </button>
+                    <button @click="detatch(product)" class="btn btn-sm btn-default btn-action" v-else>
+                        <fa icon="trash"></fa>
+                    </button>
+                </td>
+              </tr>
+              <!-- <tr v-for="product in products">
                 <td width="20%"><img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm"></td>
                 <td class="name" width="60%">{{ product|attribute('name') }}</td>
                 <td>
@@ -221,7 +271,7 @@
                     <label :for="product.id"><span class="check"></span></label>
                   </div>
                 </td>
-              </tr>
+              </tr> -->
               <tr v-if="!loading && !products">
                 <td colspan="25">
                   <div class="alert alert-info">
@@ -231,10 +281,26 @@
               </tr>
             </tbody>
           </table>
+          <div class="text-center">
+            <candy-table-paginate :pagination="requestParams" @change="changePage" v-if="!loading"></candy-table-paginate>
+          </div>
         </div>
         <template slot="footer">
-            <button class="btn btn-primary" @click="saveAssociations()">Associate products</button>
+            <button class="btn btn-primary" @click="save()">Associate products</button>
         </template>
-    </candy-modal>
+      </candy-modal>
+
+      <!--
+        Delete Association
+      -->
+      <candy-modal title="Are you wish to remove this product?" v-show="showRemoval" @closed="showRemoval = false">
+        <template slot="body">
+          This action cannot be undone
+        </template>
+        <template slot="footer">
+          <button class="btn btn-primary" @click="deleteAssociation()">Confirm removal</button>
+        </template>
+      </candy-modal>
+    </div>
   </div>
 </template>
