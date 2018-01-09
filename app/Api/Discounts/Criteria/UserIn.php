@@ -24,6 +24,7 @@ class UserIn implements DiscountCriteriaContract
 
     public function check($user)
     {
+        return false;
         return $this->getRealIds()->contains($user->id);
     }
 }

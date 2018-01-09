@@ -28,7 +28,7 @@ class Coupon implements DiscountCriteriaContract
 
         $check = $coupons->contains($this->criteria);
 
-        return $check;
+        return false;
     }
 
     public function getLabel()
