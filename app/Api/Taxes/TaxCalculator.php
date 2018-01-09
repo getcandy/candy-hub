@@ -52,12 +52,15 @@ class TaxCalculator
 
     protected function amountToAdd($price)
     {
+        if (!$this->taxable) {
+            return 0;
+        }
         $exVat = $price * (($this->rate->percentage + 100) / 100);
         $amount =  $exVat - $price;
         return round($amount, 2);
     }
 
-    public function deduct($price)
+    public function add($price)
     {
         if (!$this->taxable) {
             return $price;

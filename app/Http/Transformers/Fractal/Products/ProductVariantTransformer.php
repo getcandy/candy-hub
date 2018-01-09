@@ -28,8 +28,8 @@ class ProductVariantTransformer extends BaseTransformer
             'sku' => $variant->sku,
             'backorder' => (bool) $variant->backorder,
             'requires_shipping' => (bool) $variant->requires_shipping,
-            'price' => $variant->price,
-            'tax_total' => $this->getTax($variant),
+            'price' => $variant->total_price,
+            'tax_total' => $variant->tax_total,
             'inventory' => $variant->stock,
             'thumbnail' => $this->getThumbnail($variant),
             'weight' => [
@@ -69,14 +69,6 @@ class ProductVariantTransformer extends BaseTransformer
     public function includeProduct(ProductVariant $variant)
     {
         return $this->item($variant->product, new ProductTransformer);
-    }
-
-    protected function getTax($variant)
-    {
-        if (!$variant->tax) {
-            return 0;
-        }
-        return TaxCalculator::set($variant->tax)->amount($variant->price);
     }
 
     protected function getThumbnail($variant)

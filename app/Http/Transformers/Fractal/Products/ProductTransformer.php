@@ -50,8 +50,8 @@ class ProductTransformer extends BaseTransformer
             'attribute_data' => $product->attribute_data,
             'option_data' => $this->parseOptionData($product->option_data),
             'thumbnail' => $this->getThumbnail($product),
-            'max_price' => PriceCalculator::get($product->max_price),
-            'min_price' => PriceCalculator::get($product->min_price)
+            'max_price' => $product->max_price,
+            'min_price' => $product->min_price
         ];
 
         if ($product->original_min_price) {
@@ -82,10 +82,10 @@ class ProductTransformer extends BaseTransformer
         $product->original_min_price = 0;
 
         foreach ($product->variants as $variant) {
-            $product->max_price = $variant->price > $product->max_price ? $variant->price : $product->max_price;
+            $product->max_price = $variant->total_price > $product->max_price ? $variant->total_price : $product->max_price;
             $product->original_max_price = $variant->original_price > $product->original_max_price ? $variant->original_price : $product->original_max_price;
             if ($product->min_price) {
-                $product->min_price = $variant->price < $product->min_price ? $variant->price : $product->min_price;
+                $product->min_price = $variant->total_price < $product->min_price ? $variant->total_price : $product->min_price;
                 $product->original_min_price = $variant->original_price < $product->original_min_price ? $variant->original_price : $product->original_min_price;
             } else {
                 $product->min_price = $product->max_price;
@@ -95,7 +95,7 @@ class ProductTransformer extends BaseTransformer
 
         $applied = \Facades\GetCandy\Api\Discounts\Factory::getApplied($sets, \Auth::user(), $product);
 
-        \Facades\GetCandy\Api\Discounts\Factory::apply($applied, $product);
+        // \Facades\GetCandy\Api\Discounts\Factory::apply($applied, $product);
     }
 
     protected function parseOptionData($data)

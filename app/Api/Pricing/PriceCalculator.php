@@ -7,10 +7,9 @@ use CurrencyConverter;
 
 class PriceCalculator
 {
-    public function get($amount)
+    public function get($price, $tax = 0)
     {
-        $converted = CurrencyConverter::convert($amount);
-        $untaxed = TaxCalculator::deduct($converted);
-        return $untaxed;
+        $converted = CurrencyConverter::convert($price + $tax);
+        return $converted;
     }
 }

@@ -7,6 +7,8 @@ use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Assets\Models\Asset;
 use GetCandy\Api\Taxes\Models\Tax;
+use PriceCalculator;
+use Facades\GetCandy\Api\Taxes\TaxCalculator;
 
 class ProductVariant extends BaseModel
 {
@@ -54,6 +56,19 @@ class ProductVariant extends BaseModel
             }
         }
         return $values;
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        return $this->price + $this->tax_total;
+    }
+
+    public function getTaxTotalAttribute()
+    {
+        if (!$this->tax) {
+            return 0;
+        }
+        return TaxCalculator::set($this->tax)->amount($this->price);
     }
 
     public function setOptionsAttribute($val)
