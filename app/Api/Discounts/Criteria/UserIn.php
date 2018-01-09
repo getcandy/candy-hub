@@ -19,7 +19,7 @@ class UserIn implements DiscountCriteriaContract
 
     protected function getRealIds()
     {
-        return collect(app('api')->users()->getDecodedIds($this->criteria['users']));
+        return collect(app('api')->users()->getDecodedIds($this->criteria['value']));
     }
 
     public function check($user)

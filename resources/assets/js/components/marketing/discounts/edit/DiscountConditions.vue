@@ -78,6 +78,7 @@
                                         <li><a href="#" @click="addCondition(index, 'coupon')">Coupon</a></li>
                                         <li><a href="#" @click="addCondition(index, 'product-in-list')">Product in list</a></li>
                                         <li><a href="#" @click="addCondition(index, 'user-in-list')">User in list</a></li>
+                                        <li><a href="#" @click="addCondition(index, 'customer-groups')">Customer groups</a></li>
                                     </ul>
                                 </div>
                                 <button class="btn btn-danger btn-sm btn-action" @click="deleteSet(index)"><i class="fa fa-trash"></i></button>
