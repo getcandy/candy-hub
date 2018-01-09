@@ -4,6 +4,7 @@ namespace GetCandy\Api\Categories\Models;
 
 use GetCandy\Api\Channels\Models\Channel;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\Assetable;
@@ -53,5 +54,15 @@ class Category extends BaseModel
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_categories');
+    }
+
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class, 'category_channel');
+    }
+
+    public function customerGroups()
+    {
+        return $this->belongsToMany(CustomerGroup::class, 'category_customer_group');
     }
 }

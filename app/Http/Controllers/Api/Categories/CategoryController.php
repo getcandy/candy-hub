@@ -121,9 +121,8 @@ class CategoryController extends BaseController
      * @param  DeleteRequest $request
      * @return Json
      */
-    public function destroy($id, DeleteRequest $request)
+    public function destroy($id, Request $request)
     {
-
         try {
             $result = app('api')->categories()->delete($id);
         } catch (NotFoundHttpException $e) {

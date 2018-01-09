@@ -5,7 +5,12 @@
         <button class="btn btn-default white" @click="showModal = true"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
         <candy-modal title="Confirm deletion" v-show="showModal" size="modal-md" @closed="showModal = false">
             <div slot="body">
-                This will send this {{ element }} into the recycling bin.
+                <p>Are you sure you want to delete this {{ element }}?</p>
+                <template v-if="warning">
+                    <div class="alert alert-danger">
+                        <p>{{ warning }}</p>
+                    </div>
+                </template>
             </div>
             <template slot="footer">
                 <button type="button" class="btn btn-primary" @click="trash">Delete {{ element }}</button>
@@ -23,6 +28,10 @@
             }
         },
         props : {
+            warning: {
+                type: String,
+                default: null
+            },
             endpoint : {
                 type: String
             },
