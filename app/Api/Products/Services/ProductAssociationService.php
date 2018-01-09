@@ -26,9 +26,11 @@ class ProductAssociationService extends BaseService
     {
         $product = $this->getByHashedId($product);
 
+        $product->associations()->delete();
+    
         foreach ($data['relations'] as $index => $relation) {
             $relation['association'] = $this->getByHashedId($relation['association_id']);
-            $relation['type'] = app('api')->associationGroups()->getByHandle($relation['type']);
+            $relation['type'] = app('api')->associationGroups()->getByHashedId($relation['type']);
             $assoc = new ProductAssociation;
             $assoc->group()->associate($relation['type']);
             $assoc->association()->associate($relation['association']);
