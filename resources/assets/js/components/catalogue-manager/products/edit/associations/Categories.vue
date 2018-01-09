@@ -7,7 +7,8 @@
                     per_page: 6,
                     current_page: 1,
                     keywords: '',
-                    includes: 'routes'
+                    includes: 'routes',
+                    type: 'category'
                 },
                 channel: this.$store.getters.getDefaultChannel.handle,
                 language: locale.current(),
@@ -19,13 +20,12 @@
                 categories: [],
                 categoriesLoaded: false,
                 productCategories: [],
-                tableParams: {
-                    columns: [
-                        {'name': '', 'width': '50px', 'type': 'image', 'align': 'left', 'source': 'name'},
-                        {'name': 'Title', 'width': '*', 'type': 'attribute', 'align': 'left', 'source': 'name'},
-                        {'name': 'URL', 'width': '50%', 'type': 'route', 'align': 'left', 'source': 'slug'}
-                    ]
-                }
+                /**
+                    Adding associations
+                 */
+                results: [],
+                loading: false,
+                meta: []
             }
         },
         mounted() {
@@ -46,6 +46,12 @@
         methods: {
             getAttribute(data, attribute) {
                 return data.attribute_data[attribute][this.channel][this.language];
+            },
+            thumbnail(product) {
+              if (product.thumbnail) {
+                  return product.thumbnail.data.thumbnail;
+              }
+              return '/images/placeholder/no-image.svg';
             },
             getRoute(data) {
                 let slug = '';
@@ -80,24 +86,19 @@
                 this.request.send('delete', '/products/' + productID + '/categories/' + categoryID);
             },
             changePage(page) {
-                this.loaded = false;
+                this.results = [];
+                this.loading = true;
                 this.requestParams.current_page = page;
-                this.loadCategories();
+                this.getResults(this.keywords);
+                console.log('hit');
             },
             save() {
-                let ids = [];
-                _.forEach(this.selectedCategories, value => {
-                    ids.push(value);
-                });
-
-                this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': ids})
+                this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': this.selectedCategories})
                     .then(response => {
-                        this.categoriesLoaded = true;
                         CandyEvent.$emit('notification', {
                             level: 'success'
                         });
-                        this.productCategories = response.data;
-
+                        this.results = [];
                         this.closeAddModal();
                     });
             },
@@ -117,10 +118,33 @@
                 this.deleteModalData = {};
                 this.deleteModalOpen = false;
             },
-            addSelected(ids){
-                this.selectedCategories = ids;
-            }
-        }
+            assign(category) {
+                this.selectedCategories.push(category.id);
+                this.productCategories.push(category);
+            },
+            detatch(category) {
+                this.selectedCategories.splice(this.selectedCategories.indexOf(category.id), 1);
+                this.productCategories.splice(this.productCategories.indexOf(category), 1);
+            },
+            getResults() {
+                this.requestParams.keywords = this.keywords;
+                let results = this.request.send('GET', 'search', {}, this.requestParams).then(response => {
+                    this.results = response.data;
+                    this.requestParams.total_pages = response.meta.pagination.total_pages;
+                    this.meta = response.meta;
+                    this.loading = false;
+                });
+            },
+            alreadyLinked(category) {
+                return this.selectedCategories.contains(category.id);
+            },
+            updateKeywords: _.debounce(function (e) {
+                this.results = [];
+                this.loading = true;
+                this.keywords = e.target.value;
+                this.getResults();
+            }, 500)
+        } // end
     }
 </script>
 
@@ -159,7 +183,7 @@
                         </td>
                         <td align="right">
                             <button class="btn btn-sm btn-default btn-action" @click="openDeleteModal(category)">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                <fa icon="trash"></fa>
                             </button>
                         </td>
                     </tr>
@@ -180,20 +204,66 @@
             <div slot="body">
                 <div class="form-group">
                     <label class="sr-only">Search</label>
-                    <input type="text" class="form-control search" v-model="search" placeholder="Search Categories">
+                    <input type="text" class="form-control search" v-model="search" placeholder="Search Categories" v-on:input="updateKeywords">
                 </div>
                 <hr>
+                <table class="table association-table">
+                    <thead>
+                        <tr>
+                            <th width="10%"></th>
+                            <th width="40%">Name</th>
+                            <th>Route</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot v-if="loading" class="text-center">
+                        <tr>
+                            <td colspan="25" style="padding:40px;">
+                                <div class="loading">
+                                    <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    <tbody class="list">
+                        <tr v-for="category in results">
+                            <td width="10%"><img :src="thumbnail(category)" :alt="category|attribute('name')" class="img-sm"></td>
+                            <td class="name" width="40%">{{ category|attribute('name') }}</td>
+                            <td>
+                                {{ getRoute(category) }}
+                            </td>
+                            <td align="right">
+                                <button @click="assign(category)" class="btn btn-sm btn-action btn-success" v-if="!alreadyLinked(category)">
+                                    <fa icon="plus"></fa>
+                                </button>
+                                <button @click="detatch(category)" class="btn btn-sm btn-default btn-action" v-else>
+                                    <fa icon="trash"></fa>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr v-if="!loading && !results.length">
+                            <td colspan="25">
+                                <div class="alert alert-info">
+                                    Start typing to see categories
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
+                <div class="text-center">
+                    <candy-table-paginate :pagination="requestParams" @change="changePage" v-if="!loading"></candy-table-paginate>
+                </div>
+                <!-- <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
                                 :associations="true"
                              :params="tableParams" :pagination="requestParams" @change="changePage"
                              :checked="selectedCategories">
-                </candy-table>
+                </candy-table> -->
 
             </div>
 
             <div slot="footer">
-                <button type="button" class="btn btn-primary" @click="save()">Add to Categories</button>
+                <button type="button" class="btn btn-primary" @click="save()">Save Assignments</button>
             </div>
 
         </candy-modal>
