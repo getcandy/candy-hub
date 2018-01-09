@@ -20,6 +20,31 @@ class UserService extends BaseService
             return [app('api')->customerGroups()->getGuest()];
         }
     }
+
+    /**
+     * Gets paginated data for the record
+     * @param  integer $length How many results per page
+     * @param  int  $page   The page to start
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedData($length = 50, $page = null, $keywords = null, $ids = [])
+    {
+        $query = $this->model;
+        if ($keywords) {
+            $query = $query
+                ->where('name', 'LIKE', '%'.$keywords.'%')
+                ->orWhere('company_name', 'LIKE', '%' . $keywords . '%')
+                ->orWhere('email', 'LIKE', '%' . $keywords . '%');
+        }
+
+        if (count($ids)) {
+            $realIds = $this->getDecodedIds($ids);
+            $query = $query->whereIn('id', $realIds);
+        }
+
+        return $query->paginate($length, ['*'], 'page', $page);
+    }
+
     /**
      * Creates a resource from the given data
      *

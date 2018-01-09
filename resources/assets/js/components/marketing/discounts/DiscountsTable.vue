@@ -8,7 +8,7 @@
                 discounts: [],
                 checkedCount: 0,
                 params: {
-                    per_page: 25,
+                    per_page: 15,
                     current_page: 1
                 }
             }
@@ -35,18 +35,12 @@
             getAttributeGroups(discount) {
                 let groups = discount.attribute_groups.data,
                     visible = [];
-
                 groups.forEach(group => {
                     visible.push(group.name);
                 });
-
-                // if (visible.length == groups.length) {
-                //     return 'All';
-                // }
                 if (!visible.length) {
                     return 'None';
                 }
-
                 return visible.join(', ');
             },
             changePage(page) {
@@ -101,13 +95,18 @@
                             </td>
                         </tr>
                     </tfoot>
+                    <tbody v-if="!discounts.length">
+                        <tr>
+                            <td colspan="25" class="text-center">
+                                <span class="text-info">You haven't created any discounts</span>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-
                 <div class="text-center" v-if="loaded">
                     <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
