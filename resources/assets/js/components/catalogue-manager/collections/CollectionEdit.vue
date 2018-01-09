@@ -84,7 +84,7 @@
         <template v-if="loaded">
 
             <transition name="fade">
-                <candy-tabs>
+                <candy-tabs initial="collectiondetails">
                     <candy-tab name="Collection Details" handle="collection-details" :selected="true" dispatch="collection-details">
                         <candy-tabs nested="true">
                             <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="collection-details">

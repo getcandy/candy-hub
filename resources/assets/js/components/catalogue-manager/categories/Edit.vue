@@ -74,7 +74,7 @@
         <template v-if="loaded">
 
             <transition name="fade">
-                <candy-tabs>
+                <candy-tabs initial="categorydetails">
 
                     <candy-tab name="Category Details" handle="category-details" :selected="true" dispatch="category-details">
                         <candy-tabs nested="true">
