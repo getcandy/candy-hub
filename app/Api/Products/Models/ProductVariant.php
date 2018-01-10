@@ -58,17 +58,22 @@ class ProductVariant extends BaseModel
         return $values;
     }
 
+    protected function pricing()
+    {
+        $tax = 0;
+        if ($this->tax) {
+            $tax = $this->tax->percentage;
+        }
+        return PriceCalculator::get($this->price, $tax);
+    }
     public function getTotalPriceAttribute()
     {
-        return $this->price + $this->tax_total;
+        return $this->pricing()->amount;
     }
 
     public function getTaxTotalAttribute()
     {
-        if (!$this->tax) {
-            return 0;
-        }
-        return TaxCalculator::set($this->tax)->amount($this->price);
+        return $this->pricing()->tax;
     }
 
     public function setOptionsAttribute($val)

@@ -30,6 +30,6 @@ class CurrencyConverter
 
     public function convert($price, $currency = null)
     {
-        return round($price * $this->currency->exchange_rate, 2);
+        return round($price / $this->currency->exchange_rate, 2);
     }
 }
