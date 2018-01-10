@@ -29,7 +29,7 @@ class ProductVariantTransformer extends BaseTransformer
             'backorder' => (bool) $variant->backorder,
             'requires_shipping' => (bool) $variant->requires_shipping,
             'price' => $variant->total_price,
-            'tax_total' => $variant->tax_total,
+            'tax_total' => round($variant->tax_total, 2),
             'inventory' => $variant->stock,
             'thumbnail' => $this->getThumbnail($variant),
             'weight' => [

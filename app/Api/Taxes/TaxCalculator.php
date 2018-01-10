@@ -31,7 +31,9 @@ class TaxCalculator
     public function set($rate)
     {
         try {
-            if ($rate instanceof Tax) {
+            if (!is_object($rate) && $rate == 0) {
+                $this->rate = 0;
+            } elseif ($rate instanceof Tax) {
                 $this->rate = $rate;
             } else {
                 $this->rate = app('api')->taxes()->getByName($rate);
@@ -57,7 +59,7 @@ class TaxCalculator
         }
         $exVat = $price * (($this->rate->percentage + 100) / 100);
         $amount =  $exVat - $price;
-        return number_format($amount, 2);
+        return $amount;
     }
 
     public function add($price)
@@ -65,6 +67,6 @@ class TaxCalculator
         if (!$this->taxable) {
             return $price;
         }
-        return number_format($price + $this->amountToAdd($price), 2);
+        return $price + $this->amountToAdd($price);
     }
 }

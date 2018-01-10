@@ -5,6 +5,7 @@ namespace GetCandy\Api\Products\Services;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
+use PriceCalculator;
 
 class ProductVariantService extends BaseService
 {
@@ -70,6 +71,42 @@ class ProductVariantService extends BaseService
         $product->update(['option_data' => $options]);
 
         return $product;
+    }
+
+    /**
+     * Gets any tiered pricing for this variant.
+     *
+     * @param ProductVariant $variant
+     * @param int $quantity
+     * @param mixed $user
+     * 
+     * @return void
+     */
+    public function getTieredPrice($variant, $quantity, $user = null)
+    {
+        $groups = app('api')->users()->getCustomerGroups($user);
+
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $price = $variant->tiers()->whereIn('customer_group_id', $ids)
+            ->where('lower_limit', '<=', $quantity)
+            ->orderBy('price', 'asc')
+            ->first();
+        
+        if (!$price) {
+            return null;
+        }
+
+        $tax = 0;
+
+        if ($variant->tax) {
+            $tax = $variant->tax->percentage;
+        }
+        return PriceCalculator::get($price->price, $tax);
     }
 
     public function existsBySku($sku)

@@ -21,7 +21,7 @@ class BasketTransformer extends BaseTransformer
         $data = [
             'id' => $basket->encodedId(),
             'total' => $basket->total,
-            'tax_total' => $basket->tax_total
+            'tax_total' => round($basket->tax_total, 3)
         ];
         return $data;
     }

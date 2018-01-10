@@ -173,13 +173,8 @@ class ImportAquaSpa extends Command
             }
 
             foreach ($product['prices'] as $index => $price) {
-                if (!in_array($price['group']['usergroup_id'], [3, 9])) {
-                    $product['prices'][$index]['tax_id'] = $price['tax_id'];
-                } else {
-                    $product['prices'][$index]['tax_id'] = null;
-                }
+                $product['prices'][$index]['tax_id'] = $price['tax_id'];
             }
-
 
             // This is seperated cause we wanna do two different things...
             if (count($product['options'])) {

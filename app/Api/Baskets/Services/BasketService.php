@@ -80,17 +80,48 @@ class BasketService extends BaseService
 
     protected function remapLines($basket, $variants = [])
     {
-        if ($variants) {
-            $variants = collect($variants)->map(function ($item) {
-                $variant = app('api')->productVariants()->getByHashedId($item['id']);
-                return [
-                    'product_variant_id' => $variant->id,
-                    'quantity' => $item['quantity'],
-                    'total' => $item['quantity'] * $variant->total_price
-                ];
-            });
-            $basket->lines()->createMany($variants->toArray());
-        }
+        $service = app('api')->productVariants();
+
+        $variants = collect($variants)->map(function ($item) use ($service) {
+            $variant = $service->getByHashedId($item['id']);
+
+            $tieredPrice = $service->getTieredPrice($variant, $item['quantity'], \Auth::user());
+
+            if ($tieredPrice) {
+                $price = $tieredPrice->amount;
+            } else {
+                $price = $variant->total_price;
+            }
+
+            return [
+                'product_variant_id' => $variant->id,
+                'quantity' => $item['quantity'],
+                'total' => $item['quantity'] * $price
+            ];
+        });
+
+        $basket->lines()->createMany($variants->toArray());
+        
+        // if ($variants) {
+        //     $variants = collect($variants)->map(function ($item) use ($service) {
+
+        //         $variant = $service->getByHashedId($item['id']);
+        //         $tieredPrice = $service->getTieredPrice($variant, $item['quantity'], \Auth::user());
+
+        //         if ($tieredPrice) {
+        //             $price = $tieredPrice->amount;
+        //         } else {
+        //             $price = $variant->total_price;
+        //         }
+
+        //         return [
+        //             'product_variant_id' => $variant->id,
+        //             'quantity' => $item['quantity'],
+        //             'total' => $item['quantity'] * $price
+        //         ];
+        //     });
+        //     $basket->lines()->createMany($variants->toArray());
+        // }
     }
 
     /**

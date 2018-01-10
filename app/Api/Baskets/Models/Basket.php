@@ -64,7 +64,12 @@ class Basket extends BaseModel
         $taxTotal = 0;
         foreach ($this->lines as $line) {
             if ($line->variant->tax) {
-                $taxTotal += TaxCalculator::set($line->variant->tax)->amount($line->total);
+                $tieredPrice = app('api')->productVariants()->getTieredPrice($line->variant, $line->quantity, \Auth::user());
+                if ($tieredPrice) {
+                    $taxTotal += $tieredPrice->tax;
+                } else {
+                    $taxTotal += TaxCalculator::set($line->variant->tax)->amount($line->total);
+                }
             }
         }
         return $taxTotal;

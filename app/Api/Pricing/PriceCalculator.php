@@ -22,6 +22,7 @@ class PriceCalculator
     {
         $converted = CurrencyConverter::convert($price);
         $taxamount = TaxCalculator::set($tax)->amount($converted);
+
         $this->pricing = [
             'amount' => number_format($converted + $taxamount, 2),
             'tax' => $taxamount
