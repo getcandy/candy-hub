@@ -46,7 +46,7 @@ class SearchController extends BaseController
                     $request->keywords,
                     $request->filters,
                     $page ?: 1,
-                    $request->per_page ?: 25
+                    $request->per_page ?: 10
                 );
         } catch (\Elastica\Exception\Connection\HttpException $e) {
             return $this->errorInternalError($e->getMessage());

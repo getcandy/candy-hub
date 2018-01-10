@@ -13,6 +13,7 @@ var Config      = require('./classes/Config');
 require('./bootstrap');
 require('./classes/Errors');
 require('./classes/Form');
+
 require('./components');
 require('babel-core/register');
 require('babel-polyfill');
