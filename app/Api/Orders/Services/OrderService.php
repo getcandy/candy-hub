@@ -238,7 +238,7 @@ class OrderService extends BaseService
         foreach ($basket->lines as $line) {
             array_push($lines, [
                 'sku' => $line->variant->sku,
-                'total' => $line->total,
+                'total' => $line->current_total,
                 'quantity' => $line->quantity,
                 'product' => $line->variant->product->attribute('name'),
                 'variant' => $line->variant->name

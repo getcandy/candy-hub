@@ -10,7 +10,7 @@ class DeleteRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('delete', Currency::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     public function rules()

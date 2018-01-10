@@ -50,7 +50,7 @@ class Factory
         $subtotal = 0;
 
         foreach ($basket->lines as $line) {
-            $subtotal += $line->total;
+            $subtotal += $line->current_total;
         }
 
         // Go through each discount

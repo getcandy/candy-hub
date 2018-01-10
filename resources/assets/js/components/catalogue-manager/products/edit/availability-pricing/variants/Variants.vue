@@ -11,6 +11,8 @@
                 editOptions: false,
                 changeImage: false,
                 groupPricing: false,
+                customerGroups: [],
+                pricing: [],
                 assets: [],
                 variants: [],
                 dzOptions: {
@@ -36,6 +38,9 @@
         },
         mounted() {
             this.assets = this.product.assets.data;
+
+            this.groupPricing = this.current.pricing.data.length > 1;
+
             CandyEvent.$on('asset_deleted', event => {
                 this.assets.splice(event.index, 1);
                 this.variants.forEach(variant => {
@@ -47,11 +52,53 @@
             CandyEvent.$on('media_asset_uploaded', event => {
                 this.assets.push(event.asset);
             });
+
+            this.request.send('GET', 'customers/groups').then(response => {
+                this.customerGroups = response.data;
+                this.setGroupPricing();
+            });
+
             Dispatcher.add('product-variants', this);
         },
         methods: {
+            setGroupPricing() {
+                let pricing = this.current.pricing.data;
+
+                _.each(this.customerGroups, group => {
+                    let tier = _.find(pricing, price => {
+                        return price.group.data.id == group.id;
+                    });
+
+                    let tax = null,
+                    price = this.current.price;
+
+                    if (tier) {
+                        if (tier.tax.data.id) {
+                            tax = tier.tax.data.id;
+                        }
+                        price = tier.price;
+                    }
+
+                    this.pricing.push({
+                        name: group.name,
+                        customer_group_id: group.id,
+                        tax_id: tax,
+                        price: price
+                    });
+
+                });
+            },
             save() {
-                this.request.send('put', '/products/variants/' + this.current.id, this.current)
+                let data = this.current;
+                data.pricing = this.pricing;
+
+                if (!this.groupPricing) {
+                    data.pricing = [];
+                }
+
+                data.group_pricing = this.groupPricing;
+
+                this.request.send('put', '/products/variants/' + this.current.id, data)
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success',
@@ -173,11 +220,6 @@
             },
             singlePrice() {
                 return this.current.price;
-            },
-            customerGroups() {
-                return _.filter(this.product.customer_groups.data, function (item) {
-                    return item.purchasable ? true : false;
-                });
             },
             dropzoneUrl() {
                 return '/api/v1/products/' + this.product.id + '/assets';
@@ -322,10 +364,10 @@
                                 </div>
                                 <div class="row">
                                     <template v-if="groupPricing">
-                                        <template v-for="(group, name) in current.pricing">
+                                        <template v-for="group in pricing">
                                             <div class="col-md-4">
                                                 <div class="form-group" >
-                                                    <label>{{ name }}</label>
+                                                    <label>{{ group.name }}</label>
                                                     <div class="input-group input-group-full">
                                                         <span class="input-group-addon">&pound;</span>
                                                         <input type="number" class="form-control" v-model="group.price">
@@ -346,7 +388,7 @@
                                             <div class="col-md-4"> 
                                                 <div class="form-group">
                                                     <label>Tax</label>
-                                                    <candy-select :options="taxes" v-model="group.tax"></candy-select>
+                                                    <candy-select :options="taxes" v-model="group.tax_id"></candy-select>
                                                 </div>
                                             </div>
                                         </template>

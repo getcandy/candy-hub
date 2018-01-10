@@ -10,6 +10,11 @@ class BasketLine extends BaseModel
 
     protected $fillable = ['quantity', 'product_variant_id', 'total'];
 
+    public function getCurrentTotalAttribute()
+    {
+        return $this->quantity * $this->variant->total_price;
+    }
+
     public function variant()
     {
         return $this->belongsTo(ProductVariant::class, 'product_variant_id');

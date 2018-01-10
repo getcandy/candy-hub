@@ -57,7 +57,7 @@ class TaxCalculator
         }
         $exVat = $price * (($this->rate->percentage + 100) / 100);
         $amount =  $exVat - $price;
-        return round($amount, 2);
+        return number_format($amount, 2);
     }
 
     public function add($price)
@@ -65,6 +65,6 @@ class TaxCalculator
         if (!$this->taxable) {
             return $price;
         }
-        return round($price + $this->amountToAdd($price), 2);
+        return number_format($price + $this->amountToAdd($price), 2);
     }
 }

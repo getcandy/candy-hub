@@ -36,9 +36,11 @@ class ExternalImage extends BaseUrlDriver
     {
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
 
-        if (!$this->info) {
+        // if (!$this->info) {
             $this->getInfo($data['url']);
-        }
+        // }
+
+
         $this->model = $model;
         $this->data = $data;
         $asset = $this->prepare();
@@ -58,6 +60,7 @@ class ExternalImage extends BaseUrlDriver
         $image = $this->getImageFromUrl($data['url']);
 
         $storage = Storage::disk($this->source->disk);
+
         $storage->put(
             $asset->location . '/' . $asset->filename,
             $image->stream()->getContents()
@@ -117,7 +120,7 @@ class ExternalImage extends BaseUrlDriver
         if (!$image) {
             return null;
         }
-        if (!$this->info) {
+        // if (!$this->info) {
             return $this->info = [
                 'thumbnail_url' => $url,
                 'width' => $image->width(),
@@ -125,7 +128,7 @@ class ExternalImage extends BaseUrlDriver
                 'kind' => $image->mime(),
                 'title' => basename($url)
             ];
-        }
-        return $this->info;
+        // }/
+        // return $this->info;
     }
 }

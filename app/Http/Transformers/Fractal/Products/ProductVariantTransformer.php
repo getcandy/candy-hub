@@ -17,7 +17,7 @@ use TaxCalculator;
 class ProductVariantTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'product', 'tax'
+        'product', 'tax', 'pricing'
     ];
 
     public function transform(ProductVariant $variant)
@@ -69,6 +69,11 @@ class ProductVariantTransformer extends BaseTransformer
     public function includeProduct(ProductVariant $variant)
     {
         return $this->item($variant->product, new ProductTransformer);
+    }
+
+    public function includePricing(ProductVariant $variant)
+    {
+        return $this->collection($variant->customerPricing, new ProductCustomerPriceTransformer);
     }
 
     protected function getThumbnail($variant)

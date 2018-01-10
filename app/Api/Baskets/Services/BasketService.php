@@ -18,6 +18,32 @@ class BasketService extends BaseService
     {
         $this->model = new Basket();
     }
+    
+    /**
+     * Gets either a new or existing basket for a user
+     *
+     * @param mixed $id
+     * @param mixed $user
+     * 
+     * @return Basket
+     */
+    protected function getBasket($id = null, $user = null)
+    {
+        $basket = new $this->model;
+        if ($id) {
+            $basket = $this->getByHashedId($id);
+        } elseif ($user && $user->basket) {
+            $basket = $user->basket;
+        }
+
+        $basket->save();
+
+        if ($user && !$user->basket) {
+            $basket->user()->associate($user);
+        }
+
+        return $basket;
+    }
 
     /**
      * Store a basket
@@ -28,17 +54,10 @@ class BasketService extends BaseService
      */
     public function store(array $data, $user = null)
     {
-        if (!empty($data['basket_id'])) {
-            $basket = $this->getByHashedId($data['basket_id']);
-        } elseif ($user && $user->basket) {
-            $basket = $user->basket;
-        } else {
-            $basket = new $this->model;
-        }
-
-        if ($user && !$user->basket) {
-            $basket->user()->associate($user);
-        }
+        $basket = $this->getBasket(
+            !empty($data['basket_id']) ? $data['basket_id'] : null,
+            $user
+        );
 
         if (empty($data['currency'])) {
             $basket->currency = app('api')->currencies()->getDefaultRecord()->code;
@@ -46,24 +65,32 @@ class BasketService extends BaseService
             $basket->currency = $data['currency'];
         }
 
-        $basket->save();
-
         $basket->lines()->delete();
 
         if (!empty($data['variants'])) {
-            $variants = collect($data['variants'])->map(function ($item) {
-                return [
-                    'product_variant_id' => app('api')->productVariants()->getDecodedId($item['id']),
-                    'quantity' => $item['quantity'],
-                    'total' => $item['quantity'] * $item['price']
-                ];
-            });
-            $basket->lines()->createMany($variants->toArray());
+            $this->remapLines($basket, $data['variants']);
         }
+        
+        $basket->save();
 
         event(new BasketStoredEvent($basket));
 
         return $basket;
+    }
+
+    protected function remapLines($basket, $variants = [])
+    {
+        if ($variants) {
+            $variants = collect($variants)->map(function ($item) {
+                $variant = app('api')->productVariants()->getByHashedId($item['id']);
+                return [
+                    'product_variant_id' => $variant->id,
+                    'quantity' => $item['quantity'],
+                    'total' => $item['quantity'] * $variant->total_price
+                ];
+            });
+            $basket->lines()->createMany($variants->toArray());
+        }
     }
 
     /**

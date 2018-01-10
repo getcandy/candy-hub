@@ -74,6 +74,9 @@ class UserService extends BaseService
         if (!empty($data['customer_groups'])) {
             $groupData = app('api')->customerGroups()->getDecodedIds($data['customer_groups']);
             $user->groups()->sync($groupData);
+        } else {
+            $default = app('api')->customerGroups()->getDefaultRecord();
+            $user->groups()->attach($default);
         }
 
         $user->language()->associate($lang);

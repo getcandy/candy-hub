@@ -45,8 +45,7 @@ class ProductVariantService extends BaseService
                 'price' => $newVariant['price'],
                 'sku' => $sku,
                 'stock' => $newVariant['inventory'],
-                'options' => $newVariant['options'],
-                'pricing' => $this->getPriceMapping($newVariant['price'])
+                'options' => $newVariant['options']
             ]);
 
             if (!empty($newVariant['tax_id'])) {
@@ -63,20 +62,6 @@ class ProductVariantService extends BaseService
         $product->update(['option_data' => $options]);
 
         return $product;
-    }
-
-    protected function getPriceMapping($price)
-    {
-        $customerGroups = app('api')->customerGroups()->all();
-        return $customerGroups->map(function ($group) use ($price) {
-            return [
-                $group->handle => [
-                    'price' => $price,
-                    'compare_at' => 0,
-                    'tax' => 0
-                ]
-            ];
-        })->toArray();
     }
 
     public function existsBySku($sku)
@@ -100,11 +85,13 @@ class ProductVariantService extends BaseService
 
         $options = $variant->product->option_data;
 
-        $variant->product->update([
-            'option_data' => $this->mapOptions($options, $data['options'])
-        ]);
+        if (!empty($data['options'])) {
+            $variant->product->update([
+                'option_data' => $this->mapOptions($options, $data['options'])
+            ]);
+        }
+        
         $variant->fill($data);
-
 
         $thumbnailId = null;
 
@@ -127,13 +114,46 @@ class ProductVariantService extends BaseService
             $variant->tax()->dissociate();
         }
 
-        
         $this->setMeasurements($variant, $data);
+        
+        if (isset($data['group_pricing']) && !$data['group_pricing']) {
+            $variant->customerPricing()->delete();
+        }
+
+        if (!empty($data['pricing'])) {
+            $this->setGroupPricing($variant, $data['pricing']);
+        }
 
         $variant->save();
         return $variant;
     }
 
+
+    /**
+     * Sets and creates the customer group pricing
+     *
+     * @param array $variant
+     * @param array $prices
+     * 
+     * @return void
+     */
+    protected function setGroupPricing($variant, $prices = [])
+    {
+        $variant->customerPricing()->delete();
+
+        foreach ($prices as $price) {
+            $price['customer_group_id'] = app('api')->customerGroups()->getDecodedId($price['customer_group_id']);
+
+            // dd($price);
+            if (!empty($price['tax_id'])) {
+                $price['tax_id'] = app('api')->taxes()->getDecodedId($price['tax_id']);
+            } else {
+                $price['tax_id'] = null;
+            }
+
+            $variant->customerPricing()->create($price);
+        }
+    }
 
     /**
      * Map and merge variant options

@@ -9,7 +9,7 @@ class ReorderRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     public function rules()

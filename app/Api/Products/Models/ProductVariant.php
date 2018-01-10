@@ -19,7 +19,7 @@ class ProductVariant extends BaseModel
      */
     protected $hashids = 'product';
 
-    protected $fillable = ['options', 'price', 'sku', 'stock', 'pricing'];
+    protected $fillable = ['options', 'price', 'sku', 'stock'];
 
 
     public function product()
@@ -58,17 +58,43 @@ class ProductVariant extends BaseModel
         return $values;
     }
 
+    protected function pricing()
+    {
+        //TODO: Refactor this to it's own service
+        $groups = app('api')->users()->getCustomerGroups(\Auth::user());
+
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $pricing = $this->customerPricing()
+            ->whereIn('customer_group_id', $ids)
+            ->orderBy('price', 'asc')
+            ->first();
+
+        if ($pricing) {
+            $tax = $pricing->tax ? $pricing->tax->percentage : 0;
+            $price = $pricing->price;
+        } else {
+            $tax = 0;
+            $price = $this->price;
+            if ($this->tax) {
+                $tax = $this->tax->percentage;
+            }
+        }
+        return PriceCalculator::get($price, $tax);
+    }
+
     public function getTotalPriceAttribute()
     {
-        return $this->price + $this->tax_total;
+        return $this->pricing()->amount;
     }
 
     public function getTaxTotalAttribute()
     {
-        if (!$this->tax) {
-            return 0;
-        }
-        return TaxCalculator::set($this->tax)->amount($this->price);
+        return $this->pricing()->tax;
     }
 
     public function setOptionsAttribute($val)
@@ -83,11 +109,6 @@ class ProductVariant extends BaseModel
         $this->attributes['options'] = json_encode($options);
     }
 
-    public function setPricingAttribute($val)
-    {
-        $this->attributes['pricing'] = json_encode($val);
-    }
-
     public function image()
     {
         return $this->belongsTo(Asset::class, 'asset_id');
@@ -96,5 +117,10 @@ class ProductVariant extends BaseModel
     public function tax()
     {
         return $this->belongsTo(Tax::class, 'tax_id');
+    }
+
+    public function customerPricing()
+    {
+        return $this->hasMany(ProductCustomerPrice::class);
     }
 }

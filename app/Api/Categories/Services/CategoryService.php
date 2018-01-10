@@ -122,4 +122,34 @@ class CategoryService extends BaseService
         $results = $this->model->whereDoesntHave('parent');
         return $results->paginate($length, ['*'], 'page', $page);
     }
+
+    /**
+     * Deletes a resource by its given hashed ID
+     *
+     * @param  string $id
+     *
+     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @return Boolean
+     */
+    public function delete($id)
+    {
+        $category = $this->getByHashedId($id);
+
+        // Remove all associations
+        foreach ($category->children as $child) {
+            $child->customerGroups()->detach();
+            $child->products()->sync([]);
+            $child->customerGroups()->sync([]);
+            $child->channels()->sync([]);
+            $child->delete();
+        }
+    
+        $category->customerGroups()->detach();
+        $category->products()->sync([]);
+        $category->customerGroups()->sync([]);
+        $category->channels()->sync([]);
+
+        return $category->delete();
+    }
 }

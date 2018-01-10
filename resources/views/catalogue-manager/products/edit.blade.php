@@ -10,8 +10,8 @@
 @endsection
 
 @section('header_actions')
-    <candy-button style="display: inline-block;" event="save-product">Save Product</candy-button>
-    <candy-disabled pos="bottom">
+    
+    <candy-disabled pos="bottom" :inline="true">
       <button class="btn btn-default white product-menu btn-pop-over"><span class="hamburger"></span></button>
     </candy-disabled>
     <!-- Menu Pop Over -->
@@ -21,6 +21,7 @@
         <li><a href="#" title="View product on live site">View</a></li>
       </ul>
     </div>
+    <candy-button style="display: inline-block;" event="save-product">Save Product</candy-button>
     <candy-delete
       element="product"
       endpoint="/products/{{ $id }}"

@@ -13,6 +13,11 @@ class CriteriaSet
     public function add($set)
     {
         $classname = config('getcandy.discounters.' . $set->type);
+        
+        if (!class_exists($classname)) {
+            return $this;
+        }
+
         $criteria = new $classname;
         $criteria->setCriteria($set->criteria);
         $this->sets[] = $criteria;
