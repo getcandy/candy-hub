@@ -60,13 +60,20 @@ class ProductVariant extends BaseModel
 
     protected function pricing()
     {
-        // $groups = app('api')->users()->getCustomerGroups(\Auth::user())->only('id');
+        //TODO: Refactor this to it's own service
+        $groups = app('api')->users()->getCustomerGroups(\Auth::user());
 
-        // $pricing = $this->customerPricing()
-        //     ->whereIn('customer_group_id', $groups)
-        //     ->orderBy('price', 'asc')
-        //     ->first();
-        $pricing = null;
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $pricing = $this->customerPricing()
+            ->whereIn('customer_group_id', $ids)
+            ->orderBy('price', 'asc')
+            ->first();
+
         if ($pricing) {
             $tax = $pricing->tax ? $pricing->tax->percentage : 0;
             $price = $pricing->price;
