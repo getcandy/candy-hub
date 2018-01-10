@@ -67,6 +67,11 @@ class Product extends BaseModel
             }
         }
 
+        $tiers = $this->prices()->where('lower_limit', '>', 1)->where('usergroup_id', '>', 0)->get();
+        $prices = $this->prices()->where('lower_limit', '=', 1)->where('usergroup_id', '>', 0)->get();
+
+        // dd($tiers);
+
         return array_merge($decorator->getdata($this), [
             'family_id' => \GetCandy\Api\Products\Models\ProductFamily::first()->encodedId(),
             'stock' => $this->amount,
@@ -74,6 +79,8 @@ class Product extends BaseModel
             'price' => $this->list_price,
             'tax_id' => $this->tax_ids ? app('api')->taxes()->getDefaultRecord()->encodedId() : null,
             'options' => $options,
+            'tiers' => $tiers ? $tiers->toArray() : [],
+            'prices' => $prices ? $prices->toArray() : [],
             'weight' => $this->weight,
             'channels' => [
                 'data' => $channelData
@@ -91,6 +98,11 @@ class Product extends BaseModel
     public function images()
     {
         return $this->hasMany(ImageLink::class, 'object_id', 'product_id')->where('object_type', '=', 'product');
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(ProductPrice::class, 'product_id', 'product_id');
     }
 
     public function channel()

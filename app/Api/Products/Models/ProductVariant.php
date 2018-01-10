@@ -123,4 +123,9 @@ class ProductVariant extends BaseModel
     {
         return $this->hasMany(ProductCustomerPrice::class);
     }
+
+    public function tiers()
+    {
+        return $this->hasMany(ProductPricingTier::class);
+    }
 }

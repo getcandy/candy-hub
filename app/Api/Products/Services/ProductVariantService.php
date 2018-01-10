@@ -57,6 +57,14 @@ class ProductVariantService extends BaseService
             $this->setMeasurements($variant, $newVariant);
 
             $variant->save();
+
+            if (!empty($newVariant['pricing'])) {
+                $this->setGroupPricing($variant, $newVariant['pricing']);
+            }
+
+            if (!empty($newVariant['tiers'])) {
+                $this->setPricingTiers($variant, $newVariant['tiers']);
+            }
         }
 
         $product->update(['option_data' => $options]);
@@ -119,7 +127,7 @@ class ProductVariantService extends BaseService
         if (isset($data['group_pricing']) && !$data['group_pricing']) {
             $variant->customerPricing()->delete();
         }
-
+        
         if (!empty($data['pricing'])) {
             $this->setGroupPricing($variant, $data['pricing']);
         }
@@ -141,10 +149,10 @@ class ProductVariantService extends BaseService
     {
         $variant->customerPricing()->delete();
 
+
         foreach ($prices as $price) {
             $price['customer_group_id'] = app('api')->customerGroups()->getDecodedId($price['customer_group_id']);
 
-            // dd($price);
             if (!empty($price['tax_id'])) {
                 $price['tax_id'] = app('api')->taxes()->getDecodedId($price['tax_id']);
             } else {
@@ -152,6 +160,16 @@ class ProductVariantService extends BaseService
             }
 
             $variant->customerPricing()->create($price);
+        }
+    }
+
+    protected function setPricingTiers($variant, $tiers = [])
+    {
+        $variant->tiers()->delete();
+
+        foreach ($tiers as $tier) {
+            $tier['customer_group_id'] = app('api')->customerGroups()->getDecodedId($tier['customer_group_id']);
+            $variant->tiers()->create($tier);
         }
     }
 

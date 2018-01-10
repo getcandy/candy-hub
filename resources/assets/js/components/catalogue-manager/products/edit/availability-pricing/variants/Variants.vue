@@ -38,8 +38,8 @@
         },
         mounted() {
             this.assets = this.product.assets.data;
-
-            this.groupPricing = this.current.pricing.data.length > 1;
+            
+            this.groupPricing = this.current.pricing.data.length >= 1;
 
             CandyEvent.$on('asset_deleted', event => {
                 this.assets.splice(event.index, 1);
@@ -77,15 +77,17 @@
                             tax = tier.tax.data.id;
                         }
                         price = tier.price;
+                    } else {
+                        tax = _.find(this.$store.getters.getTaxes, item => {
+                            return item.default;
+                        }).id;
                     }
-
                     this.pricing.push({
                         name: group.name,
                         customer_group_id: group.id,
                         tax_id: tax,
                         price: price
                     });
-
                 });
             },
             save() {

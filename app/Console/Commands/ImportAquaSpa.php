@@ -172,6 +172,15 @@ class ImportAquaSpa extends Command
                 app('api')->assets()->upload($image, $model);
             }
 
+            foreach ($product['prices'] as $index => $price) {
+                if (!in_array($price['group']['usergroup_id'], [3, 9])) {
+                    $product['prices'][$index]['tax_id'] = $price['tax_id'];
+                } else {
+                    $product['prices'][$index]['tax_id'] = null;
+                }
+            }
+
+
             // This is seperated cause we wanna do two different things...
             if (count($product['options'])) {
                 $variants = [];
@@ -188,6 +197,8 @@ class ImportAquaSpa extends Command
                                 'price' => $product['price'],
                                 'inventory' => $product['stock'],
                                 'tax_id' => $product['tax_id'],
+                                'tiers' => $product['tiers'],
+                                'pricing' => $product['prices'],
                                 'weight' => [
                                     'unit' => 'lb',
                                     'value' => $product['weight']
@@ -214,6 +225,8 @@ class ImportAquaSpa extends Command
                 $variant['price'] = $product['price'];
                 $variant['inventory'] = $product['stock'];
                 $variant['tax_id'] = $product['tax_id'];
+                $variant['pricing'] = $product['prices'];
+                $variant['tiers'] = $product['tiers'];
                 $variant['options'] = [];
                 $variant['weight'] = [
                     'value' => $product['weight'],

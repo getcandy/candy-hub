@@ -23,5 +23,15 @@ class CurrencyTableSeeder extends Seeder
             'thousand_point' => ',',
             'default' => true
         ]);
+
+        Currency::create([
+            'code' => 'EUR',
+            'name' => 'Euro',
+            'enabled' => true,
+            'exchange_rate' => 0.87260,
+            'format' => '&euro;{price}',
+            'decimal_point' => '.',
+            'thousand_point' => ','
+        ]);
     }
 }

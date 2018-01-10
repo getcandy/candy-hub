@@ -33,6 +33,6 @@ class ProductCustomerPrice extends BaseModel
 
     public function tax()
     {
-        return $this->belongsTo(Tax::class, 'customer_group_id');
+        return $this->belongsTo(Tax::class, 'tax_id');
     }
 }
