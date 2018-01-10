@@ -109,6 +109,54 @@ class ProductVariantService extends BaseService
         return PriceCalculator::get($price->price, $tax);
     }
 
+    /**
+     * Gets the variants true price
+     *
+     * @param ProductVariant $variant
+     * @param mixed $user
+     * 
+     * @return void
+     */
+    public function getVariantPrice($variant, $user = null)
+    {
+        $groups = app('api')->users()->getCustomerGroups($user);
+
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $pricing = null;
+
+        // If the user is an admin, fall through
+        if (!$user || ($user && !$user->hasRole('admin'))) {
+            $pricing = $variant->customerPricing()
+                ->whereIn('customer_group_id', $ids)
+                ->orderBy('price', 'asc')
+                ->first();
+        }
+        
+        if ($pricing) {
+            $tax = $pricing->tax ? $pricing->tax->percentage : 0;
+            $price = $pricing->price;
+        } else {
+            $tax = 0;
+            $price = $variant->price;
+            if ($variant->tax) {
+                $tax = $variant->tax->percentage;
+            }
+        }
+        return PriceCalculator::get($price, $tax);
+    }
+
+    /**
+     * Checks whether a variant exists by its SKU
+     *
+     * @param string $sku
+     * 
+     * @return void
+     */
     public function existsBySku($sku)
     {
         return $this->model->where('sku', '=', $sku)->exists();
