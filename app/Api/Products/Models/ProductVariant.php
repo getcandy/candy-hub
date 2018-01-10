@@ -19,7 +19,7 @@ class ProductVariant extends BaseModel
      */
     protected $hashids = 'product';
 
-    protected $fillable = ['options', 'price', 'sku', 'stock', 'pricing'];
+    protected $fillable = ['options', 'price', 'sku', 'stock'];
 
 
     public function product()
@@ -60,12 +60,26 @@ class ProductVariant extends BaseModel
 
     protected function pricing()
     {
-        $tax = 0;
-        if ($this->tax) {
-            $tax = $this->tax->percentage;
+        $groups = app('api')->users()->getCustomerGroups(\Auth::user())->only('id');
+
+        $pricing = $this->customerPricing()
+            ->whereIn('customer_group_id', $groups)
+            ->orderBy('price', 'asc')
+            ->first();
+        
+        if ($pricing) {
+            $tax = $pricing->tax ? $pricing->tax->percentage : 0;
+            $price = $pricing->price;
+        } else {
+            $tax = 0;
+            $price = $this->price;
+            if ($this->tax) {
+                $tax = $this->tax->percentage;
+            }
         }
-        return PriceCalculator::get($this->price, $tax);
+        return PriceCalculator::get($price, $tax);
     }
+
     public function getTotalPriceAttribute()
     {
         return $this->pricing()->amount;
@@ -88,11 +102,6 @@ class ProductVariant extends BaseModel
         $this->attributes['options'] = json_encode($options);
     }
 
-    public function setPricingAttribute($val)
-    {
-        $this->attributes['pricing'] = json_encode($val);
-    }
-
     public function image()
     {
         return $this->belongsTo(Asset::class, 'asset_id');
@@ -101,5 +110,10 @@ class ProductVariant extends BaseModel
     public function tax()
     {
         return $this->belongsTo(Tax::class, 'tax_id');
+    }
+
+    public function customerPricing()
+    {
+        return $this->hasMany(ProductCustomerPrice::class);
     }
 }

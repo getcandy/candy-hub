@@ -17,7 +17,7 @@ class UserService extends BaseService
         if ($user) {
             return $user->groups;
         } else {
-            return [app('api')->customerGroups()->getGuest()];
+            return collect(app('api')->customerGroups()->getGuest());
         }
     }
 
