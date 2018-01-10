@@ -15,8 +15,8 @@ class CreateProductPricingTiersTable extends Migration
     {
         Schema::create('product_pricing_tiers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('product_variant_id')->unsigned();
+            $table->foreign('product_variant_id')->references('id')->on('product_variants');
             $table->integer('customer_group_id')->unsigned();
             $table->foreign('customer_group_id')->references('id')->on('customer_groups');
             $table->integer('lower_limit')->unsigned();
