@@ -3,15 +3,11 @@
 namespace GetCandy\Api\Products\Models;
 
 use GetCandy\Api\Scaffold\BaseModel;
-use GetCandy\Api\Traits\HasTranslations;
-use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use GetCandy\Api\Taxes\Models\Tax;
 
 class ProductCustomerPrice extends BaseModel
 {
-    use HasAttributes;
-
     protected $fillable = [
         'customer_group_id',
         'tax_id',
