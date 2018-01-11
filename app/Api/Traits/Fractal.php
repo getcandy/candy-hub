@@ -194,10 +194,6 @@ trait Fractal
             'lang' => app()->getLocale()
         ], $meta);
 
-        if (app('env') != 'production') {
-            $meta['profile'] = app('debugbar')->getData();
-        }
-
         $resource->setMeta($meta);
 
 

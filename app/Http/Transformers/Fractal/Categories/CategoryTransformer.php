@@ -20,7 +20,7 @@ class CategoryTransformer extends BaseTransformer
         // 'routes'
     ];
     protected $availableIncludes = [
-        'attribute_groups','assets', 'children', 'channels', 'customer_groups', 'products'
+        'attribute_groups','assets', 'channels', 'customer_groups', 'products'
     ];
 
     public function transform(Category $category)
@@ -29,27 +29,13 @@ class CategoryTransformer extends BaseTransformer
             'id' => $category->encodedId(),
             'attribute_data' => $category->attribute_data,
             'depth' => $category->depth ?: 0,
-            'product_count' => $category->getProductCount(),
-            'lazy' => $category->hasChildren(),
-            'hasChildren' => $category->hasChildren(),
-            'thumbnail' => $this->getThumbnail($category)
+            'thumbnail' => $this->getThumbnail($category),
+            'parent_id' => app('api')->categories()->getEncodedId($category->parent_id)
         ];
 
         if (!is_null($category->aggregate_selected)) {
             $data['aggregate_selected'] = $category->aggregate_selected;
         }
-/*
-        $children = [];
-
-        $i = 0;
-        while ($category->children->count() > $i) {
-            $transformer = $this->item($category->children->offsetGet($i), new CategoryTransformer);
-            $children[] = app()->fractal->createData($transformer)->toArray();
-            $i++;
-        }
-
-        $data['children'] = $children;
-*/
         return $data;
     }
     public function includeChildren(Category $category)

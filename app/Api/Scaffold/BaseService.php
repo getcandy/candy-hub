@@ -72,6 +72,11 @@ abstract class BaseService
         return $this->model->decodeId($hash);
     }
 
+    public function getEncodedId($id)
+    {
+        return $this->model->encode($id);
+    }
+
     public function getById($id)
     {
         return $this->model->find($id);

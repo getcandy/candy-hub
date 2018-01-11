@@ -117,10 +117,14 @@ class CategoryService extends BaseService
         return true;
     }
 
-    public function getPaginatedData($length = 50, $page = null, $includes = [])
+    public function getPaginatedData($length = 50, $page = null, $depth = null)
     {
-        $results = $this->model->whereDoesntHave('parent');
-        return $results->paginate($length, ['*'], 'page', $page);
+        if ($depth) {
+            $results = Category::withDepth()->having('depth', '<', $depth)->get();
+        } else {
+            $results = Category::paginate($length, ['*'], 'page', $page);
+        }
+        return $results;
     }
 
     /**
