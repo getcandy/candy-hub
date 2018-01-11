@@ -84,7 +84,7 @@ class ProductVariantService extends BaseService
      */
     public function getTieredPrice($variant, $quantity, $user = null)
     {
-        $groups = app('api')->users()->getCustomerGroups($user);
+        $groups = \GetCandy::getGroups();
 
         $ids = [];
 
@@ -142,7 +142,7 @@ class ProductVariantService extends BaseService
             $price = $pricing->price;
         } else {
             $tax = 0;
-            $price = $variant->price;
+            $price = 1;
             if ($variant->tax) {
                 $tax = $variant->tax->percentage;
             }

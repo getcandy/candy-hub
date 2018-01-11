@@ -45,12 +45,12 @@ class ProductTransformer extends BaseTransformer
     public function transform(Product $product)
     {
         $response = [
-            'id' => $product->encodedId(),
-            'attribute_data' => $product->attribute_data,
-            'option_data' => $this->parseOptionData($product->option_data),
-            'thumbnail' => $this->getThumbnail($product),
-            'max_price' => $product->max_price,
-            'min_price' => $product->min_price
+                'id' => $product->encodedId(),
+                'attribute_data' => $product->attribute_data,
+                'option_data' => $this->parseOptionData($product->option_data),
+                'thumbnail' => $this->getThumbnail($product),
+                'max_price' => $product->max_price,
+                'min_price' => $product->min_price
         ];
 
         if ($product->original_min_price) {
@@ -72,8 +72,8 @@ class ProductTransformer extends BaseTransformer
 
     protected function applyDiscounts(Product $product)
     {
-        $discounts = app('api')->discounts()->get();
-        $sets = app('api')->discounts()->parse($discounts);
+        // $discounts = app('api')->discounts()->get();
+        // $sets = app('api')->discounts()->parse($discounts);
 
         $product->max_price = 0;
         $product->min_price = 0;
@@ -92,9 +92,10 @@ class ProductTransformer extends BaseTransformer
             }
         }
 
-        $applied = \Facades\GetCandy\Api\Discounts\Factory::getApplied($sets, \Auth::user(), $product);
+        // $applied = \Facades\GetCandy\Api\Discounts\Factory::getApplied($sets, \Auth::user(), $product);
 
         // \Facades\GetCandy\Api\Discounts\Factory::apply($applied, $product);
+        return $product;
     }
 
     protected function parseOptionData($data)

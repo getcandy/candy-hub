@@ -241,7 +241,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'CurrencyConverter' => Facades\GetCandy\Api\Currencies\CurrencyConverter::class,
         'TaxCalculator' => Facades\GetCandy\Api\Taxes\TaxCalculator::class,
-        'PriceCalculator' => Facades\GetCandy\Api\Pricing\PriceCalculator::class
+        'PriceCalculator' => Facades\GetCandy\Api\Pricing\PriceCalculator::class,
+        'GetCandy' => Facades\GetCandy\Api\Helpers\GetCandy::class
     ],
 
 ];

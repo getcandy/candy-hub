@@ -17,6 +17,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \GetCandy\Http\Middleware\TrimStrings::class,
+        \GetCandy\Http\Middleware\SetCustomerGroups::class,
         \GetCandy\Http\Middleware\SetCurrencyMiddleware::class,
         \GetCandy\Http\Middleware\SetTaxMiddleware::class
         //\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,

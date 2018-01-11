@@ -14,11 +14,7 @@ class UserService extends BaseService
 
     public function getCustomerGroups($user = null)
     {
-        if ($user) {
-            return $user->groups;
-        } else {
-            return [app('api')->customerGroups()->getGuest()];
-        }
+        return \GetCandy::getGroups();
     }
 
     /**
