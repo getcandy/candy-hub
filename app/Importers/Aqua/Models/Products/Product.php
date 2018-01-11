@@ -74,8 +74,11 @@ class Product extends BaseModel
             }
         }
 
+
         $tiers = $this->prices()->where('lower_limit', '>', 1)->where('usergroup_id', '>', 0)->get();
         $prices = $this->prices()->where('lower_limit', '=', 1)->where('usergroup_id', '>', 0)->get();
+
+        $defaultPrice = $this->prices()->where('lower_limit', '=', 1)->where('usergroup_id', '=', 0)->first();
 
         // dd($tiers);
 
@@ -83,7 +86,7 @@ class Product extends BaseModel
             'family_id' => \GetCandy\Api\Products\Models\ProductFamily::first()->encodedId(),
             'stock' => $this->amount,
             'sku' => $this->product_code,
-            'price' => $this->list_price,
+            'price' => $defaultPrice ? $defaultPrice->price : $this->list_price,
             'tax_id' => $this->tax_ids ? app('api')->taxes()->getDefaultRecord()->encodedId() : null,
             'options' => $options,
             'tiers' => $tiers ? $tiers->toArray() : [],
