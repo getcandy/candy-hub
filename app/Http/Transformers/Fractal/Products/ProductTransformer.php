@@ -44,22 +44,16 @@ class ProductTransformer extends BaseTransformer
      */
     public function transform(Product $product)
     {
+        $this->applyDiscounts($product);
         $response = [
-                'id' => $product->encodedId(),
-                'attribute_data' => $product->attribute_data,
-                'option_data' => $this->parseOptionData($product->option_data),
-                'thumbnail' => $this->getThumbnail($product),
-                'max_price' => $product->max_price,
-                'min_price' => $product->min_price
+            'id' => $product->encodedId(),
+            'attribute_data' => $product->attribute_data,
+            'option_data' => $this->parseOptionData($product->option_data),
+            'thumbnail' => $this->getThumbnail($product),
+            'max_price' => $product->max_price,
+            'min_price' => $product->min_price,
+            'variant_count' => $product->variants->count()
         ];
-
-        if ($product->original_min_price) {
-            $response['original_min_price'] = (float) PriceCalculator::get($product->original_min_price);
-        }
-
-        if ($product->original_max_price) {
-            $response['original_max_price'] = (float) PriceCalculator::get($product->original_max_price);
-        }
 
         $response['discounts'] = $product->discounts;
     
