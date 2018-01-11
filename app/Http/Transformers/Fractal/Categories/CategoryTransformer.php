@@ -16,11 +16,8 @@ class CategoryTransformer extends BaseTransformer
 {
     protected $attributeGroups;
 
-    protected $defaultIncludes = [
-        // 'routes'
-    ];
     protected $availableIncludes = [
-        'attribute_groups','assets', 'channels', 'customer_groups', 'products'
+        'attribute_groups','assets', 'channels', 'customer_groups', 'products', 'routes'
     ];
 
     public function transform(Category $category)
