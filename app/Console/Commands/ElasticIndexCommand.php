@@ -66,6 +66,7 @@ class ElasticIndexCommand extends Command
             
             $items = $model->withoutGlobalScopes()->get();
 
+
             $bar = $this->output->createProgressBar($items->count());
 
             foreach ($items as $model) {

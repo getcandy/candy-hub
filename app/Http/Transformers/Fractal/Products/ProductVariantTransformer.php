@@ -17,7 +17,7 @@ use TaxCalculator;
 class ProductVariantTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'product', 'tax', 'pricing'
+        'product', 'tax', 'pricing', 'tiers'
     ];
 
     public function transform(ProductVariant $variant)
@@ -86,5 +86,13 @@ class ProductVariantTransformer extends BaseTransformer
 
         $data = $this->item($variant->image, new AssetTransformer);
         return app()->fractal->createData($data)->toArray();
+    }
+
+    public function includeTiers(ProductVariant $product)
+    {
+        if (!$product->tiers) {
+            return $this->null();
+        }
+        return $this->collection($product->tiers, new ProductPricingTierTransformer);
     }
 }

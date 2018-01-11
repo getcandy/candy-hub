@@ -12,6 +12,8 @@
                 changeImage: false,
                 groupPricing: false,
                 customerGroups: [],
+                customerGroupSelect: [],
+                priceTiers: [],
                 pricing: [],
                 assets: [],
                 variants: [],
@@ -56,6 +58,20 @@
             this.request.send('GET', 'customers/groups').then(response => {
                 this.customerGroups = response.data;
                 this.setGroupPricing();
+                this.customerGroupSelect = _.map(response.data, item => {
+                    return {
+                        label: item.name,
+                        value: item.id
+                    };
+                });
+                
+                this.priceTiers = _.map(this.current.tiers.data, item => {
+                    return {
+                        'lower_limit' : item.lower_limit,
+                        'price' : item.price,
+                        'customer_group_id' : item.group.data.id
+                    };
+                });                
             });
 
             Dispatcher.add('product-variants', this);
@@ -90,12 +106,27 @@
                     });
                 });
             },
+            addPriceTier() {
+                this.priceTiers.push({
+                    'lower_limit' : '',
+                    'price' : '',
+                    'customer_group_id' : this.customerGroups[0].id
+                });
+            },
+            removeTier(index) {
+                this.priceTiers.splice(index, 1);
+            },
             save() {
                 let data = this.current;
                 data.pricing = this.pricing;
+                data.tiers = this.priceTiers;
 
                 if (!this.groupPricing) {
                     data.pricing = [];
+                }
+
+                if (!this.priceTiers) {
+                    data.priceTiers = [];
                 }
 
                 data.group_pricing = this.groupPricing;
@@ -424,6 +455,43 @@
                                 </div>
                             </div>
                         </div>
+
+                        <h4>Price Tiers</h4>
+                        <hr>
+                        <div class="row" v-for="(tier, index) in priceTiers">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Lower limit</label>
+                                    <input type="text" v-model="tier.lower_limit" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Price</label>
+                                <div class="input-group input-group-full">
+                                    <span class="input-group-addon">&pound;</span>
+                                    <input type="number" class="form-control" v-model="tier.price">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Customer Group</label>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <candy-select :options="customerGroupSelect" v-model="tier.customer_group_id"></candy-select>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button @click="removeTier(index)" class="btn btn-default btn-sm btn-action">
+                                            <fa icon="trash"></fa>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" @click="addPriceTier">
+                            <fa icon="plus"></fa> Add tier
+                        </button>
+
                         <h4>Inventory</h4>
                         <hr>
                         <candy-disabled>

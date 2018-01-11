@@ -158,6 +158,7 @@ class ImportAquaSpa extends Command
     {
         $this->info('Importing Products');
         $products = $this->importer->getProducts();
+
         $bar = $this->output->createProgressBar(count($products));
 
         foreach ($products as $product) {
@@ -175,7 +176,7 @@ class ImportAquaSpa extends Command
             foreach ($product['prices'] as $index => $price) {
                 $product['prices'][$index]['tax_id'] = $product['tax_id'];
             }
-
+            
             // This is seperated cause we wanna do two different things...
             if (count($product['options'])) {
                 $variants = [];
@@ -208,7 +209,7 @@ class ImportAquaSpa extends Command
                         }
                     }
                 }
-
+                
                 app('api')->productVariants()->create($model->encodedId(), ['variants' => $variants]);
                 foreach ($model->variants as $variant) {
                     $variant->image()->associate($model->primaryAsset());
@@ -229,7 +230,7 @@ class ImportAquaSpa extends Command
                 ];
 
                 app('api')->productVariants()->create($model->encodedId(), ['variants' => [$variant]]);
-
+                
                 foreach ($model->variants as $variant) {
                     $variant->image()->associate($model->primaryAsset());
                     $variant->save();

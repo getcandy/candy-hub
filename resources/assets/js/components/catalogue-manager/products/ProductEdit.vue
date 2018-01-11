@@ -73,7 +73,7 @@
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
                     excl_tax: true,
-                    includes: 'family,variants.pricing.tax,variants.pricing.group,variants.tax,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
+                    includes: 'family,variants.pricing.tax,variants.pricing.group,variants.tiers.group,variants.tax,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
                     'layout,associations,routes,channels,customer_groups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);

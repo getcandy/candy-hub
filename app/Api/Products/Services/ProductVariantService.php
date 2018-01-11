@@ -217,6 +217,10 @@ class ProductVariantService extends BaseService
             $this->setGroupPricing($variant, $data['pricing']);
         }
 
+        if (!empty($data['tiers'])) {
+            $this->setPricingTiers($variant, $data['tiers']);
+        }
+
         $variant->save();
         return $variant;
     }
