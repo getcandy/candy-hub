@@ -49,6 +49,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
         if (($request->headers->get('accept-content') || $request->ajax()) && $exception instanceof HttpException) {
             $statusCode = $exception->getStatusCode();
             switch ($statusCode) {
