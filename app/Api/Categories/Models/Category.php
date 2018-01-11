@@ -31,6 +31,15 @@ class Category extends BaseModel
         'attribute_data', 'parent_id'
     ];
 
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), [
+            'thumbnail' => $this->primaryAsset(),
+            'routes' => [
+                'data' => $this->routes
+            ]
+        ]);
+    }
     public function hasChildren()
     {
         return (bool) $this->children()->count();

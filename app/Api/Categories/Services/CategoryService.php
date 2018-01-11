@@ -127,6 +127,11 @@ class CategoryService extends BaseService
         return $results;
     }
 
+    public function getCategoryTree()
+    {
+        return Category::get()->toTree();
+    }
+
     /**
      * Deletes a resource by its given hashed ID
      *

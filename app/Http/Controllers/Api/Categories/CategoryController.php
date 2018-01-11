@@ -8,6 +8,7 @@ use GetCandy\Http\Requests\Api\Categories\ReorderRequest;
 use GetCandy\Http\Requests\Api\Categories\UpdateRequest;
 use GetCandy\Http\Requests\Api\Categories\DeleteRequest;
 use GetCandy\Http\Transformers\Fractal\Categories\CategoryFancytreeTransformer;
+use GetCandy\Http\Transformers\Fractal\Categories\CategoryTreeTransformer;
 use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -17,12 +18,8 @@ class CategoryController extends BaseController
 {
     public function index(Request $request)
     {
-        $paginator = app('api')->categories()->getPaginatedData(
-            $request->per_page,
-            $request->current_page,
-            $request->depth
-        );
-        return $this->respondWithCollection($paginator, new CategoryTransformer);
+        $collection = app('api')->categories()->getCategoryTree();
+        return $this->respondWithItem($collection, new CategoryTreeTransformer);
     }
 
     public function show($id)

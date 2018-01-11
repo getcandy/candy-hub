@@ -27,7 +27,8 @@ class CategoryTransformer extends BaseTransformer
             'attribute_data' => $category->attribute_data,
             'depth' => $category->depth ?: 0,
             'thumbnail' => $this->getThumbnail($category),
-            'parent_id' => app('api')->categories()->getEncodedId($category->parent_id)
+            'parent_id' => app('api')->categories()->getEncodedId($category->parent_id),
+            'descendants' => $category->descendants
         ];
 
         if (!is_null($category->aggregate_selected)) {
