@@ -17,7 +17,7 @@ class CategoryTransformer extends BaseTransformer
     protected $attributeGroups;
 
     protected $defaultIncludes = [
-        'routes'
+        // 'routes'
     ];
     protected $availableIncludes = [
         'attribute_groups','assets', 'children', 'channels', 'customer_groups', 'products'
@@ -28,7 +28,7 @@ class CategoryTransformer extends BaseTransformer
         $data = [
             'id' => $category->encodedId(),
             'attribute_data' => $category->attribute_data,
-            'depth' => $category->depth,
+            'depth' => $category->depth ?: 0,
             'product_count' => $category->getProductCount(),
             'lazy' => $category->hasChildren(),
             'hasChildren' => $category->hasChildren(),
@@ -54,7 +54,10 @@ class CategoryTransformer extends BaseTransformer
     }
     public function includeChildren(Category $category)
     {
-        return $this->collection($category->children, $this);
+        $desc = $category->descendants()->withDepth()->having('depth', '<', 3)->get();
+        // dump($category);
+        // dd($desc);
+        return $this->collection($desc, $this);
     }
 
     public function includeProducts(Category $category)
