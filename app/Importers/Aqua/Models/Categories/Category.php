@@ -5,6 +5,7 @@ namespace GetCandy\Importers\Aqua\Models\Categories;
 use GetCandy\Importers\Aqua\Models\BaseModel;
 use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
 use GetCandy\Importers\Aqua\Decorator;
+use GetCandy\Importers\Aqua\Models\Channel;
 
 class Category extends BaseModel
 {
@@ -116,6 +117,11 @@ class Category extends BaseModel
         return (bool)$this->descriptions->first(function ($desc, $key) use ($name) {
             return $desc->lang_code == 'en' and $desc->category == $name;
         });
+    }
+
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class, 'company_id', 'company_id');
     }
 
     /**

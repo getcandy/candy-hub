@@ -234,12 +234,11 @@ class ProductService extends BaseService
      * @param  string $id
      * @return array
      */
-    public function getCategories($product)
+    public function getCategories(Product $product)
     {
         $product = $this->model
             ->with(['categories', 'routes'])
             ->find($product->id);
-
         return $product->categories;
     }
 

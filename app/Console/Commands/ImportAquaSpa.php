@@ -173,7 +173,7 @@ class ImportAquaSpa extends Command
             }
 
             foreach ($product['prices'] as $index => $price) {
-                $product['prices'][$index]['tax_id'] = $price['tax_id'];
+                $product['prices'][$index]['tax_id'] = $product['tax_id'];
             }
 
             // This is seperated cause we wanna do two different things...

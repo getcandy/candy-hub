@@ -223,7 +223,6 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeCategories(Product $product)
     {
-        $categories = app('api')->products()->getCategories($product);
-        return $this->collection($categories, new CategoryTransformer);
+        return $this->collection($product->categories, new CategoryTransformer);
     }
 }

@@ -28,11 +28,18 @@ class Product extends BaseModel
         $channel = $this->channel;
 
         $handle = str_slug($channel->company);
-        $channelData = [[
-            'id' => app('api')->channels()->getByHandle($handle)->encodedId(),
-            'published_at' => $this->status == 'A' ? Carbon::createFromTimestamp($this->timestamp) : null
-        ]];
 
+        $channelData = [];
+
+        foreach ($this->categories as $category) {
+            $handle = str_slug($category->category->channel->company);
+            $id = app('api')->channels()->getByHandle($handle)->encodedId();
+            $channelData[$id] = [
+                'id' => app('api')->channels()->getByHandle($handle)->encodedId(),
+                'published_at' => $this->status == 'A' ? Carbon::createFromTimestamp($this->timestamp) : null
+            ];
+        }
+        
         $options = [];
 
         foreach ($this->options as $option) {
