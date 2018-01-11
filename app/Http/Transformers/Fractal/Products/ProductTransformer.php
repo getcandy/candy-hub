@@ -44,7 +44,6 @@ class ProductTransformer extends BaseTransformer
      */
     public function transform(Product $product)
     {
-        $this->applyDiscounts($product);
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
