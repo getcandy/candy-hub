@@ -9,6 +9,7 @@ use GetCandy\Importers\Aqua\Models\Products\Product;
 use GetCandy\Importers\Aqua\Models\Categories\Category;
 use GetCandy\Importers\Aqua\Models\Channel;
 use GetCandy\Importers\Aqua\Models\Users\User;
+use GetCandy\Importers\Aqua\Models\Orders\Order;
 use GetCandy\Api\Countries\Models\Country;
 
 class Factory extends BaseImporter
@@ -33,6 +34,11 @@ class Factory extends BaseImporter
         return $products->toArray();
 
         // return $products;
+    }
+
+    public function getOrders()
+    {
+        return Order::all();
     }
 
     public function getCategories()

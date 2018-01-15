@@ -15,7 +15,7 @@ class AddOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('basket_id')->unsigned();
+            $table->integer('basket_id')->unsigned()->nullable();
             $table->foreign('basket_id')->references('id')->on('baskets');
             $table->integer('user_id')->unsigned()->nullable();
             $table->decimal('total', 10, 2);
@@ -24,6 +24,8 @@ class AddOrdersTable extends Migration
             $table->string('shipping_method')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('status')->default('open')->index();
+
+            $table->text('notes')->nullable();
 
             $table->string('currency');
 

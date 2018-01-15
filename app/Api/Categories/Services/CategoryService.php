@@ -72,8 +72,8 @@ class CategoryService extends BaseService
 
         // If a parent id exists then add the category to the parent
         if (!empty($data['parent']['id'])) {
-            $parentNode = $this->getByHashedId($data['parent']['id']);
-            $parentNode->prependNode($category);
+            // $parentNode = $this->getByHashedId($data['parent']['id']);
+            // $data['parent']['id']->prependNode($category);
         }
         return $category;
     }

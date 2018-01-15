@@ -56,13 +56,31 @@ class ImportAquaSpa extends Command
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
-        $this->importUsers();
         $this->importCategories();
+        $this->importUsers();
+        $this->importOrders();
         $this->importProducts();
 
         $this->info('Done!');
     }
 
+    protected function importOrders()
+    {
+        $orders = $this->importer->getOrders();
+
+        foreach ($orders as $order) {
+            \DB::table('orders')->insert([
+                $order->toArray()
+            ]);
+
+            foreach ($order->lines as $line) {
+                \DB::table('order_lines')->insert([
+                    $line->toArray()
+                ]);
+            }
+        }
+
+    }
     protected function importUsers()
     {
         $this->info('Importing Users');
@@ -100,7 +118,7 @@ class ImportAquaSpa extends Command
 
             foreach ($category['children'] as $index => $child) {
                 $child['parent'] = [
-                    'id' => $newCat->encodedId()
+                    'id' => $newCat
                 ];
                 app('api')->categories()->create($child);
             }
