@@ -30,7 +30,8 @@ class User extends BaseModel
     public function attributesToArray()
     {
         $data = [
-            'name' => $this->firstname . ' ' . $this->lastname,
+            'first_name' => $this->firstname,
+            'last_name' => $this->lastname,
             'company_name' => $this->company,
             'email' => $this->email,
             'lang' => $this->lang_code,
