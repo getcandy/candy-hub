@@ -11,6 +11,8 @@ class TaxCalculator
 
     protected $taxable = false;
 
+    protected $percent = 0;
+
     public function setTax($type)
     {
         $this->set($type);
@@ -32,11 +34,13 @@ class TaxCalculator
     {
         try {
             if (!is_object($rate) && $rate == 0) {
-                $this->rate = 0;
+                $this->percent = 0;
+            } elseif (is_numeric($rate)) {
+                $this->percent = $rate;
             } elseif ($rate instanceof Tax) {
-                $this->rate = $rate;
+                $this->percent = $rate->percentage;
             } else {
-                $this->rate = app('api')->taxes()->getByName($rate);
+                $this->percent = app('api')->taxes()->getByName($rate)->percentage;
             }
         } catch (ModelNotFoundException $e) {
             $this->setDefault();
@@ -57,7 +61,7 @@ class TaxCalculator
         if (!$this->taxable) {
             return 0;
         }
-        $exVat = $price * (($this->rate->percentage + 100) / 100);
+        $exVat = $price * (($this->percent + 100) / 100);
         $amount =  $exVat - $price;
         return $amount;
     }

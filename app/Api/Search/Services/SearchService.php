@@ -34,7 +34,7 @@ class SearchService
         if ($includes) {
             app()->fractal->parseIncludes($includes);
         }
-        
+
         if ($results->count()) {
             foreach ($results as $r) {
                 $ids[] = $r->getSource()['id'];
@@ -43,8 +43,11 @@ class SearchService
         } else {
             $collection = collect();
         }
+
         $transformer = new $this->types[$type];
+
         $resource = new Collection($collection, $transformer);
+        $data = app()->fractal->createData($resource)->toArray();
 
         $resource->setMeta([
             'pagination' => $this->getPagination($results, $page),

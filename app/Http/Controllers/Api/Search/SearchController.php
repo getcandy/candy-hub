@@ -36,6 +36,7 @@ class SearchController extends BaseController
             $page = $request->page;
         }
 
+        
         try {
             $results = $client
                 ->client()
@@ -54,12 +55,15 @@ class SearchController extends BaseController
             return $this->errorInternalError($e->getMessage());
         }
 
+        // clock()->startEvent('results', 'Getting Search Results');
+
         $results = app('api')->search()->getResults(
             $results,
             $request->type,
             $request->includes,
             $request->page ? : 1
         );
+
         return response($results, 200);
     }
 }

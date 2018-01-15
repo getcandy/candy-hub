@@ -229,6 +229,58 @@ class ProductService extends BaseService
         return $attributes;
     }
 
+
+    public function getSearchedIds($ids = [])
+    {
+        $parsedIds = [];
+        foreach ($ids as $hash) {
+            $parsedIds[] = $this->model->decodeId($hash);
+        }
+
+        $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
+
+        $query = $this->model->whereIn('id', $parsedIds);
+        
+
+        /*
+        *   TAKEN FROM PRODUCT VARIANT SERVICE
+        */
+
+        $groups = \GetCandy::getGroups();
+        $user = \Auth::user();
+
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $pricing = null;
+
+        // If the user is an admin, fall through
+        if (!$user || ($user && !$user->hasRole('admin'))) {
+            $query->with(['variants' => function ($q1) use ($ids) {
+                $q1->with(['customerPricing' => function ($q2) use ($ids) {
+                    $q2->whereIn('customer_group_id', $ids)
+                        ->orderBy('price', 'asc')
+                        ->first();
+                }]);
+            }, 'variants.product', 'variants.tax']);
+        }
+
+        /**
+         * END PRODUCT VARIANT SERVICE STUFF
+         */
+        // dd($query->get()->toArray());
+
+
+        if (count($parsedIds)) {
+            $query = $query->orderByRaw("field(id,{$placeholders})", $parsedIds);
+        }
+
+        return $query->get();
+    }
+
     /**
      * Gets the attributes from a given products id
      * @param  string $id

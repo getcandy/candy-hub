@@ -119,24 +119,10 @@ class ProductVariantService extends BaseService
      */
     public function getVariantPrice($variant, $user = null)
     {
-        $groups = \GetCandy::getGroups();
+        // clock()->startEvent($variant->encodedId(), "Getting variant [{$variant->encodedId()}] price");
 
-        $ids = [];
+        $pricing = $variant->customerPricing->first();
 
-        foreach ($groups as $group) {
-            $ids[] = $group->id;
-        }
-
-        $pricing = null;
-
-        // If the user is an admin, fall through
-        if (!$user || ($user && !$user->hasRole('admin'))) {
-            $pricing = $variant->customerPricing()
-                ->whereIn('customer_group_id', $ids)
-                ->orderBy('price', 'asc')
-                ->first();
-        }
-        
         if ($pricing) {
             $tax = $pricing->tax ? $pricing->tax->percentage : 0;
             $price = $pricing->price;
@@ -147,7 +133,11 @@ class ProductVariantService extends BaseService
                 $tax = $variant->tax->percentage;
             }
         }
-        return PriceCalculator::get($price, $tax);
+
+        $price = PriceCalculator::get($price, $tax);
+
+        // clock()->endEvent($variant->encodedId());
+        return $price;
     }
 
     /**
