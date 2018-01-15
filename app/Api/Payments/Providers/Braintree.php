@@ -11,6 +11,8 @@ use Braintree_Test_Transaction;
 
 class Braintree extends AbstractProvider
 {
+    protected $name = 'Braintree';
+
     public function __construct()
     {
         Braintree_Configuration::environment(config('getcandy.payments.environment'));
@@ -21,7 +23,13 @@ class Braintree extends AbstractProvider
 
     public function getName()
     {
-        return 'Braintree';
+        return $this->name;
+    }
+
+    protected function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getClientToken()
@@ -47,7 +55,17 @@ class Braintree extends AbstractProvider
     {
         try {
             $token = Braintree_PaymentMethodNonce::find($token);
-            $info = $token->threeDSecureInfo;
+
+            if ($token->description == 'PayPal') {
+                $this->setName($token->description);
+            }
+
+            if (!property_exists($token, 'threeDSecureInfo')) {
+                $info = [];
+            } else {
+                $info = $token->threeDSecureInfo;
+            }
+            
             if ($token->consumed || (empty($info) && $this->threeDSecured())) {
                 return false;
             }

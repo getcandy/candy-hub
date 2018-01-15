@@ -90,7 +90,7 @@ $this->resource('customers/groups', 'Customers\CustomerGroupController', [
 ]);
 
 $this->resource('customers', 'Customers\CustomerController', [
-    'except' => ['index', 'edit', 'create', 'show', 'store']
+    'except' => ['edit', 'create', 'store']
 ]);
 
 /**
@@ -118,7 +118,7 @@ $this->resource('layouts', 'Layouts\LayoutController', [
  * Orders
  */
 $this->resource('orders', 'Orders\OrderController', [
-    'only' => ['index']
+    'only' => ['index', 'update']
 ]);
 
 /**

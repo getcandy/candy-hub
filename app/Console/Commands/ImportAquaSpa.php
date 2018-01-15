@@ -56,7 +56,7 @@ class ImportAquaSpa extends Command
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
-        // $this->importUsers();
+        $this->importUsers();
         $this->importCategories();
         $this->importProducts();
 

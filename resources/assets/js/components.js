@@ -214,6 +214,13 @@ var includes = [
     }
   },
   {
+    path: 'order-processing.customers',
+    components: {
+      'customers-table': 'CustomersTable',
+      'customer-edit': 'CustomerEdit'
+    }
+  },
+  {
     path: 'order-processing.shipping.methods',
     components: {
       'shipping-methods-table': 'ShippingTable',

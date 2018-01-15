@@ -10,7 +10,8 @@
                 loaded: false,
                 order: {},
                 currency: {},
-                transactions: {}
+                transactions: {},
+                isMailable: false
             }
         },
         props: {
@@ -27,11 +28,38 @@
                 this.loaded = false;
                 this.loadOrder(this.id);
             });
+            Dispatcher.add('save-order', this);
         },
         methods: {
             currencySymbol(total) {
                 return this.currency.format.replace('{price}', total.money());
                 // return 'ho';
+            },
+            setMailable() {
+                if (this.order.status == 'dispatched') {
+                    this.isMailable = true;
+                } else {
+                    this.isMailable = false;
+                }
+            },
+            save() {
+                apiRequest.send('PUT', '/orders/' + this.order.id, {
+                    tracking_no: this.order.tracking_no,
+                    status: this.order.status
+                }).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Order saved'
+                    });
+                })
+            },
+            sendTracking() {
+                apiRequest.send('POST', '/orders/' + this.order.id + '/sendtracking').then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Tracking email sent'
+                    });
+                })
             },
             /**
              * Loads the product by its encoded ID
@@ -76,6 +104,9 @@
                     });
                 });
 
+            },
+            customerLink(user) {
+                return '/order-processing/customers/' + user.id;
             },
             voidit(index) {
                 if (!confirm('Are you sure?')) {
@@ -132,8 +163,8 @@
         <template v-if="loaded">
 
             <transition name="fade">
-                <candy-tabs>
-                    <candy-tab name="Order Details" handle="collection-details" :selected="true">
+                <candy-tabs initial="orderdetails">
+                    <candy-tab name="Order Details" handle="collection-details" dispatch="save-order" :selected="true">
                         <div class="panel">
                             <div class="panel-body">
                                 <div class="row">
@@ -217,6 +248,9 @@
                                                         <th>Merchant</th>
                                                         <th>Successful</th>
                                                         <th>Amount</th>
+                                                        <th>Payment Type</th>
+                                                        <th>Card type</th>
+                                                        <th>Card number</th>
                                                         <th>Status</th>
                                                         <th>Notes</th>
                                                         <th width="8%">Actions</th>
@@ -233,7 +267,19 @@
                                                         </td>
                                                         <td v-html="currencySymbol(item.amount)"></td>
                                                         <td>
-                                                        {{ item.status }}
+                                                            <span v-if="item.provider == 'paypal_account'">
+                                                                PayPal
+                                                            </span>
+                                                            <span v-else>Credit card</span>
+                                                        </td>
+                                                        <td>{{ item.card_type }}</td>
+                                                        <td>
+                                                            <template v-if="item.last_four">
+                                                                **** **** **** {{ item.last_four }}
+                                                            </template>
+                                                        </td>
+                                                        <td>
+                                                            {{ item.status }}
                                                         </td>
                                                         <td>{{ item.notes }}</td>
                                                         <td>
@@ -257,14 +303,16 @@
 
                                         <h4>Account</h4>
                                         <span v-if="!order.user">Guest</span>
-                                        <span v-else>{{ order.user.data.name }}</span>
+                                        <template v-else>
+                                            {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
+                                        </template>
 
                                         <hr> 
                                         <div class="form-group">
                                             <label>Order status</label>
-                                            <select class="form-control" v-model="order.status">
-                                                <option value="open">Open</option>
-                                                <option value="complete">Complete</option>
+                                            <select class="form-control" v-model="order.status" @change="setMailable">
+                                                <option value="awaiting-payment">Awaiting Payment</option>
+                                                <option value="complete">Payment Received</option>
                                                 <option value="processing">Processing</option>
                                                 <option value="dispatched">Dispatched</option>
                                                 <option value="voided">Voided</option>
@@ -274,10 +322,16 @@
                                         
                                         <div class="form-group">
                                             <label>Tracking Number</label>
-                                            <input class="form-control" v-model="order.tracking">
+                                            <input class="form-control" v-model="order.tracking_no">
                                         </div>
-                                        
-                                        <button class="btn btn-primary">Update order</button>
+
+                                        <div class="alert alert-info" v-if="isMailable">
+                                            <p>Saving will send a delivery email notification to <strong>{{ order.contact_email }}</strong></p>
+                                        </div>
+
+                                        <template v-if="order.dispatched_at">
+                                            <button class="btn btn-primary" @click="sendTracking">Send dispatched email</button>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
