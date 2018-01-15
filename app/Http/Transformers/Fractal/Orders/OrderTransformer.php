@@ -21,6 +21,8 @@ class OrderTransformer extends BaseTransformer
             'id' => $order->encodedId(),
             'total' => $order->total,
             'vat' => $order->vat,
+            'tracking_no' => $order->tracking_no,
+            'dispatched_at' => $order->dispatched_at,
             'currency' => $order->currency,
             'shipping_total' => $order->shipping_total,
             'shipping_method' => $order->shipping_method,

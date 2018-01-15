@@ -12,8 +12,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        // return $this->user()->can('create', Category::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     /**
@@ -24,7 +23,6 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'basket_id' => 'required|hashid_is_valid:baskets'
         ];
     }
 }

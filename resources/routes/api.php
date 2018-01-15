@@ -78,10 +78,11 @@ $this->resource('customers/groups', 'Customers\CustomerGroupController', [
 ]);
 
 
-
 $this->resource('customers', 'Customers\CustomerController', [
     'except' => ['index', 'edit', 'create', 'show', 'store']
 ]);
+
+$this->put('orders/{id}', 'Orders\OrderController@update');
 
 /**
  * Currencies

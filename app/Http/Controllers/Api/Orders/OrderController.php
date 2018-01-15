@@ -95,6 +95,14 @@ class OrderController extends BaseController
         return $this->respondWithNoContent();
     }
 
+    /**
+     * Set the shipping address of an order
+     *
+     * @param string $id
+     * @param StoreAddressRequest $request
+     * 
+     * @return array
+     */
     public function shippingAddress($id, StoreAddressRequest $request)
     {
         try {
@@ -105,6 +113,32 @@ class OrderController extends BaseController
         return $this->respondWithItem($order, new OrderTransformer);
     }
 
+    /**
+     * Update an order
+     *
+     * @param string $id
+     * @param Request $request
+     * 
+     * @return array
+     */
+    public function update($id, UpdateRequest $request)
+    {
+        try {
+            $order = app('api')->orders()->update($id, $request->all());
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($order, new OrderTransformer);
+    }
+
+    /**
+     * Get shipping methods for an order
+     *
+     * @param string $orderId
+     * @param Request $request
+     * 
+     * @return array
+     */
     public function shippingMethods($orderId, Request $request)
     {
         try {
@@ -116,6 +150,14 @@ class OrderController extends BaseController
         return $this->respondWithCollection($options, new ShippingPriceTransformer);
     }
 
+    /**
+     * Add a contact to an order
+     *
+     * @param string $orderId
+     * @param Request $request
+     * 
+     * @return array
+     */
     public function addContact($orderId, Request $request)
     {
         try {
@@ -125,6 +167,15 @@ class OrderController extends BaseController
         }
         return $this->respondWithItem($order, new OrderTransformer);
     }
+
+    /**
+     * Set an orders billing address
+     *
+     * @param string $id
+     * @param StoreAddressRequest $request
+     * 
+     * @return array
+     */
     public function billingAddress($id, StoreAddressRequest $request)
     {
         try {
@@ -135,6 +186,14 @@ class OrderController extends BaseController
         return $this->respondWithItem($order, new OrderTransformer);
     }
 
+    /**
+     * Set shipping cost of an order
+     *
+     * @param string $id
+     * @param Request $request
+     * 
+     * @return array
+     */
     public function shippingCost($id, Request $request)
     {
         try {

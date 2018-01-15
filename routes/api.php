@@ -118,7 +118,7 @@ $this->resource('layouts', 'Layouts\LayoutController', [
  * Orders
  */
 $this->resource('orders', 'Orders\OrderController', [
-    'only' => ['index']
+    'only' => ['index', 'update']
 ]);
 
 /**

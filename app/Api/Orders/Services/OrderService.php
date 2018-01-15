@@ -2,13 +2,15 @@
 
 namespace GetCandy\Api\Orders\Services;
 
+use TaxCalculator;
 use GetCandy\Api\Factory;
 use GetCandy\Api\Auth\Models\User;
 use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Baskets\Models\Basket;
+use GetCandy\Api\Orders\Events\OrderBeforeSavedEvent;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
-use TaxCalculator;
+use Carbon\Carbon;
 
 class OrderService extends BaseService
 {
@@ -22,6 +24,13 @@ class OrderService extends BaseService
         $this->model = new Order();
     }
 
+    /**
+     * Stores an order
+     *
+     * @param string $basketId
+     * 
+     * @return Order
+     */
     public function store($basketId)
     {
         // // Get the basket
@@ -54,6 +63,36 @@ class OrderService extends BaseService
         $order->lines()->createMany(
             $this->mapOrderLines($basket)
         );
+
+        return $order;
+    }
+
+    /**
+     * Update an order
+     *
+     * @param string $orderId
+     * @param array $data
+     * 
+     * @return Order
+     */
+    public function update($orderId, array $data)
+    {
+        $order = $this->getByHashedId($orderId);
+
+        if (!empty($data['tracking_no'])) {
+            $order->tracking_no = $data['tracking_no'];
+        }
+
+        if (!empty($data['status'])) {
+            $order->status = $data['status'];
+        }
+
+        if (strtolower($order->status) == 'dispatched') {
+            $order->dispatched_at = Carbon::now();
+        }
+
+        event(new OrderBeforeSavedEvent($order));
+        $order->save();
 
         return $order;
     }
@@ -189,7 +228,6 @@ class OrderService extends BaseService
     public function getByHashedId($id)
     {
         $id = $this->model->decodeId($id);
-
         $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         return $query->findOrFail($id);
     }
@@ -248,13 +286,19 @@ class OrderService extends BaseService
         return $lines;
     }
 
+    /**
+     * Maps an orders discounts from a basket
+     *
+     * @param Basket $basket
+     * 
+     * @return array
+     */
     protected function mapOrderDiscounts($basket)
     {
         $discounts = [];
 
         foreach ($basket->discounts as $discount) {
             $amount = 0;
-
             foreach ($discount->rewards as $reward) {
                 array_push($discounts, [
                     'coupon' => $discount->pivot->coupon,

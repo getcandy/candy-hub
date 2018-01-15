@@ -10,7 +10,8 @@
                 loaded: false,
                 order: {},
                 currency: {},
-                transactions: {}
+                transactions: {},
+                isMailable: false
             }
         },
         props: {
@@ -27,11 +28,38 @@
                 this.loaded = false;
                 this.loadOrder(this.id);
             });
+            Dispatcher.add('save-order', this);
         },
         methods: {
             currencySymbol(total) {
                 return this.currency.format.replace('{price}', total.money());
                 // return 'ho';
+            },
+            setMailable() {
+                if (this.order.status == 'dispatched') {
+                    this.isMailable = true;
+                } else {
+                    this.isMailable = false;
+                }
+            },
+            save() {
+                apiRequest.send('PUT', '/orders/' + this.order.id, {
+                    tracking_no: this.order.tracking_no,
+                    status: this.order.status
+                }).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Order saved'
+                    });
+                })
+            },
+            sendTracking() {
+                apiRequest.send('POST', '/orders/' + this.order.id + '/sendtracking').then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Tracking email sent'
+                    });
+                })
             },
             /**
              * Loads the product by its encoded ID
@@ -132,8 +160,8 @@
         <template v-if="loaded">
 
             <transition name="fade">
-                <candy-tabs>
-                    <candy-tab name="Order Details" handle="collection-details" :selected="true">
+                <candy-tabs initial="orderdetails">
+                    <candy-tab name="Order Details" handle="collection-details" dispatch="save-order" :selected="true">
                         <div class="panel">
                             <div class="panel-body">
                                 <div class="row">
@@ -262,7 +290,7 @@
                                         <hr> 
                                         <div class="form-group">
                                             <label>Order status</label>
-                                            <select class="form-control" v-model="order.status">
+                                            <select class="form-control" v-model="order.status" @change="setMailable">
                                                 <option value="open">Open</option>
                                                 <option value="complete">Complete</option>
                                                 <option value="processing">Processing</option>
@@ -274,10 +302,16 @@
                                         
                                         <div class="form-group">
                                             <label>Tracking Number</label>
-                                            <input class="form-control" v-model="order.tracking">
+                                            <input class="form-control" v-model="order.tracking_no">
                                         </div>
-                                        
-                                        <button class="btn btn-primary">Update order</button>
+
+                                        <div class="alert alert-info" v-if="isMailable">
+                                            <p>Saving will send a delivery email notification to <strong>{{ order.contact_email }}</strong></p>
+                                        </div>
+
+                                        <template v-if="order.dispatched_at">
+                                            <button class="btn btn-primary" @click="sendTracking">Send dispatched email</button>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
