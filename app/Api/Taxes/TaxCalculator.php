@@ -50,7 +50,7 @@ class TaxCalculator
 
     public function amount($price)
     {
-        if (!$this->rate) {
+        if (!$this->percent) {
             return 0;
         }
         return $this->amountToAdd($price);

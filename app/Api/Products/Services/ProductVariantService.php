@@ -121,8 +121,24 @@ class ProductVariantService extends BaseService
     {
         // clock()->startEvent($variant->encodedId(), "Getting variant [{$variant->encodedId()}] price");
 
-        $pricing = $variant->customerPricing->first();
+        $groups = \GetCandy::getGroups();
 
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $pricing = null;
+
+        // If the user is an admin, fall through
+        if (!$user || ($user && !$user->hasRole('admin'))) {
+            $pricing = $variant->customerPricing()
+                ->whereIn('customer_group_id', $ids)
+                ->orderBy('price', 'asc')
+                ->first();
+        }
+    
         if ($pricing) {
             $tax = $pricing->tax ? $pricing->tax->percentage : 0;
             $price = $pricing->price;
