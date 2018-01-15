@@ -7,6 +7,7 @@ use League\Fractal\TransformerAbstract;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
 use GetCandy\Http\Transformers\Fractal\Languages\LanguageTransformer;
 use GetCandy\Http\Transformers\Fractal\Addresses\AddressTransformer;
+use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
 
 class UserTransformer extends BaseTransformer
 {
@@ -15,7 +16,7 @@ class UserTransformer extends BaseTransformer
     ];
 
     protected $availableIncludes = [
-        'store','addresses'
+        'addresses','orders','basket'
     ];
 
     public function transform(User $user)
@@ -23,8 +24,10 @@ class UserTransformer extends BaseTransformer
         return [
             'id' => $user->encodedId(),
             'name' => $user->name,
+            'company_name' => $user->company_name,
             'email' => $user->email,
-            'role' => $user->role
+            'role' => $user->role,
+            'fields' => $user->fields
         ];
     }
 
@@ -36,5 +39,13 @@ class UserTransformer extends BaseTransformer
     public function includeAddresses(User $user)
     {
         return $this->collection($user->addresses, new AddressTransformer);
+    }
+    
+    public function includeOrders(User $user)
+    {
+        if (!$user->orders) {
+            return $this->null();
+        }
+        return $this->collection($user->orders, new OrderTransformer);
     }
 }

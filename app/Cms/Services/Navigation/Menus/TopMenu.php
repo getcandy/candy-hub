@@ -20,7 +20,7 @@ class TopMenu extends Menu
         $orderProcessingItems = [
             new NavItem('Orders', route('hub.orders.index')),
             // new NavItem('Returns', route('hub.orders.index')),
-            // new NavItem('Customers', route('hub.orders.index')),
+            new NavItem('Customers', route('hub.customers.index')),
             new NavItem('Shipping', route('hub.shipping.index')),
         ];
 
@@ -44,8 +44,8 @@ class TopMenu extends Menu
 
         $this->navItems = [
             new NavItem('menus/top_menu.catalogue_manager', route('hub.products.index'), $catalogueManagerItems),
-            new NavItem('menus/top_menu.order_processing', route('hub.products.index'), $orderProcessingItems),
-            new NavItem('menus/top_menu.marketing_suite', route('hub.products.index'), $marketingItems),
+            new NavItem('menus/top_menu.order_processing', route('hub.orders.index'), $orderProcessingItems),
+            new NavItem('menus/top_menu.marketing_suite', route('hub.discounts.index'), $marketingItems),
             new NavItem('menus/top_menu.reports', route('hub.products.index'), $reportItems),
             new NavItem('menus/top_menu.settings', route('hub.products.index'), $settingItems)
         ];

@@ -102,6 +102,16 @@ $this->group(['middleware' => ['hub', 'auth']], function () {
             'uses' => 'ShippingController@getZone'
         ]);
         
+        // Customer routes
+        $this->get('customers', [
+            'as' => 'hub.customers.index',
+            'uses' => 'CustomerController@getIndex'
+        ]);
+        $this->get('customers/{id}', [
+            'as' => 'hub.customers.view',
+            'uses' => 'CustomerController@getShow'
+        ]);
+
     });
 
     $this->group(['prefix' => 'marketing-suite', 'namespace' => 'Cms\\MarketingSuite'], function () {

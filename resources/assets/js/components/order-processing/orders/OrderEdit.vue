@@ -105,6 +105,9 @@
                 });
 
             },
+            customerLink(user) {
+                return '/order-processing/customers/' + user.id;
+            },
             voidit(index) {
                 if (!confirm('Are you sure?')) {
                     return false;
@@ -245,6 +248,7 @@
                                                         <th>Merchant</th>
                                                         <th>Successful</th>
                                                         <th>Amount</th>
+                                                        <th>Payment Type</th>
                                                         <th>Card type</th>
                                                         <th>Card number</th>
                                                         <th>Status</th>
@@ -262,10 +266,20 @@
                                                             <span class="text-danger" v-else>Failed</span>
                                                         </td>
                                                         <td v-html="currencySymbol(item.amount)"></td>
-                                                        <td>{{ item.card_type }}</td>
-                                                        <td>**** **** **** {{ item.last_four }}</td>
                                                         <td>
-                                                        {{ item.status }}
+                                                            <span v-if="item.provider == 'paypal_account'">
+                                                                PayPal
+                                                            </span>
+                                                            <span v-else>Credit card</span>
+                                                        </td>
+                                                        <td>{{ item.card_type }}</td>
+                                                        <td>
+                                                            <template v-if="item.last_four">
+                                                                **** **** **** {{ item.last_four }}
+                                                            </template>
+                                                        </td>
+                                                        <td>
+                                                            {{ item.status }}
                                                         </td>
                                                         <td>{{ item.notes }}</td>
                                                         <td>
@@ -289,7 +303,9 @@
 
                                         <h4>Account</h4>
                                         <span v-if="!order.user">Guest</span>
-                                        <span v-else>{{ order.user.data.name }}</span>
+                                        <template v-else>
+                                            {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
+                                        </template>
 
                                         <hr> 
                                         <div class="form-group">

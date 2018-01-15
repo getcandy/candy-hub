@@ -90,7 +90,7 @@ $this->resource('customers/groups', 'Customers\CustomerGroupController', [
 ]);
 
 $this->resource('customers', 'Customers\CustomerController', [
-    'except' => ['index', 'edit', 'create', 'show', 'store']
+    'except' => ['edit', 'create', 'store']
 ]);
 
 /**

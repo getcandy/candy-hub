@@ -21,6 +21,7 @@ class AddressTransformer extends BaseTransformer
             'address_three' => $address->address_three,
             'city' => $address->city,
             'state' => $address->state,
+            'county' => $address->county,
             'country' => $address->country,
             'zip' => $address->zip,
             'billing' => (bool) $address->billing,
