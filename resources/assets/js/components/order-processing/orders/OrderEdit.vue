@@ -311,8 +311,8 @@
                                         <div class="form-group">
                                             <label>Order status</label>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
-                                                <option value="open">Open</option>
-                                                <option value="complete">Complete</option>
+                                                <option value="awaiting-payment">Awaiting Payment</option>
+                                                <option value="complete">Payment Received</option>
                                                 <option value="processing">Processing</option>
                                                 <option value="dispatched">Dispatched</option>
                                                 <option value="voided">Voided</option>
