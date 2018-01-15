@@ -19,7 +19,8 @@ class CustomerController extends BaseController
     {
         $customers = app('api')->customers()->getPaginatedData(
             $request->length,
-            $request->page
+            $request->page,
+            $request->keywords
         );
         return $this->respondWithCollection($customers, new UserTransformer);
     }

@@ -23,4 +23,16 @@ class CustomerService extends BaseService
         $user->assignRole('customer');
         return $user;
     }
+
+    public function getPaginatedData($length = 50, $page = null, $keywords = null)
+    {
+        $query = $this->model;
+
+        if ($keywords) {
+            $query = $query->orWhere('email', 'LIKE', '%'.$keywords.'%')
+                        ->orWhere('name', 'LIKE', '%'.$keywords.'%');
+        }
+
+        return $query->paginate($length, ['*'], 'page', $page);
+    }
 }

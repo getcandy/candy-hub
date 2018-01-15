@@ -4,6 +4,7 @@
             return {
                 loaded: false,
                 customers: [],
+                keywords: null,
                 params: {
                     per_page: 50,
                     current_page: 1,
@@ -32,7 +33,13 @@
             },
             loadCustomer: function (id) {
                 location.href = '/order-processing/customers/' + id;
-            }
+            },
+            search: _.debounce(function (){
+                    this.loaded = false;
+                    this.params['keywords'] = this.keywords;
+                    this.loadCustomers();
+                }, 500
+            ),
         }
     }
 </script>
@@ -61,7 +68,7 @@
                                   <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" placeholder="Search">
+                                <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
                         </div>
                     </div>
