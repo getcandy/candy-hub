@@ -18,8 +18,9 @@ class UserTableSeeder extends Seeder
         $language = app('api')->languages()->getDefaultRecord();
 
         $admin = User::create([
-            'id' => 999999,
-            'name' => 'Alec',
+            'title' => 'Mr',
+            'first_name' => 'Alec',
+            'last_name' => 'Ritson',
             'email' => 'hello@itsalec.co.uk',
             'password' => \Hash::make('password')
         ]);
@@ -30,8 +31,9 @@ class UserTableSeeder extends Seeder
         $admin->save();
 
         $customer = User::create([
-            'id' => 999998,
-            'name' => 'Shaun',
+            'title' => 'Mr',
+            'first_name' => 'Shaun',
+            'last_name' => 'Rainer',
             'email' => 'shaun@neondigital.co.uk',
             'password' => \Hash::make('password')
         ]);

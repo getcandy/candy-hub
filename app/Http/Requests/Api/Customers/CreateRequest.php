@@ -25,7 +25,8 @@ class CreateRequest extends FormRequest
     {
         return [
             'email' => 'required|unique:users,email',
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'password' => 'required|confirmed',
             'language' => 'required|exists:languages,lang|enabled:languages,lang',
             'group' => 'exists:customer_groups,handle',
