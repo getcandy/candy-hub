@@ -21,6 +21,7 @@ class TransactionTransformer extends BaseTransformer
             'amount' => $transaction->amount,
             'card_type' => $transaction->card_type,
             'last_four' => $transaction->last_four,
+            'provider' => $transaction->provider,
             'success' => (bool) $transaction->success,
             'status' => $transaction->status,
             'notes' => $transaction->notes

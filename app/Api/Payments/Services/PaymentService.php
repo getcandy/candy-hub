@@ -9,6 +9,8 @@ use GetCandy\Api\Payments\Exceptions\AlreadyRefundedException;
 class PaymentService extends BaseService
 {
     protected $configPath = 'getcandy.payments';
+    
+    protected $provider;
 
     public function __construct()
     {
@@ -22,12 +24,29 @@ class PaymentService extends BaseService
      */
     public function getProvider()
     {
+        if (!$this->provider) {
+            $this->provider = config($this->configPath . '.gateway', 'braintree');
+        }
+
         $provider = config(
-            $this->configPath . '.providers.' . config($this->configPath . '.gateway', 'braintree')
+            $this->configPath . '.providers.' . $this->provider
         );
+
         return app()->make($provider);
     }
-    
+
+    /**
+     * Set the provider
+     *
+     * @param string $provider
+     * @return mixed
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+        return $this;
+    }
+
     /**
      * Validates a payment token
      *
@@ -45,6 +64,7 @@ class PaymentService extends BaseService
         $result = $this->getProvider()->charge($token, $order);
         $transaction = new Transaction;
         $transaction->success = $result->success;
+        $transaction->provider = $result->transaction->paymentInstrumentType;
         $transaction->status = $result->transaction->status;
         $transaction->transaction_id = $result->transaction->id;
         $transaction->amount = $result->transaction->amount;
