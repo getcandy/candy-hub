@@ -49,6 +49,8 @@ class PaymentService extends BaseService
         $transaction->transaction_id = $result->transaction->id;
         $transaction->amount = $result->transaction->amount;
         $transaction->merchant = $result->transaction->merchantAccountId;
+        $transaction->card_type = $result->transaction->creditCardDetails->cardType;
+        $transaction->last_four = $result->transaction->creditCardDetails->last4;
         return $transaction;
     }
 

@@ -245,6 +245,8 @@
                                                         <th>Merchant</th>
                                                         <th>Successful</th>
                                                         <th>Amount</th>
+                                                        <th>Card type</th>
+                                                        <th>Card number</th>
                                                         <th>Status</th>
                                                         <th>Notes</th>
                                                         <th width="8%">Actions</th>
@@ -260,6 +262,8 @@
                                                             <span class="text-danger" v-else>Failed</span>
                                                         </td>
                                                         <td v-html="currencySymbol(item.amount)"></td>
+                                                        <td>{{ item.card_type }}</td>
+                                                        <td>**** **** **** {{ item.last_four }}</td>
                                                         <td>
                                                         {{ item.status }}
                                                         </td>
