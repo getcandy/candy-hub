@@ -15,7 +15,6 @@ class OrderLine extends BaseModel
         $extra = unserialize($this->extra);
         
         return [
-            'id' => $this->id,
             'order_id' => $this->order_id,
             'quantity' => $this->amount,
             'total' => $this->amount * $this->price,

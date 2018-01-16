@@ -17,13 +17,24 @@ class Order extends BaseModel
 
     public function attributesToArray()
     {
+
+        $statuses = [
+            'N' => 'awaiting-payment',
+            'P' => 'payment-received',
+            'O' => 'payment-received',
+            'D' => 'failed',
+            'F' => 'failed',
+            'C' => 'dispatched',
+            'I' => 'voided'
+        ];
+
         return [
-            'id' => $this->id,
+            'id' => $this->order_id,
             'user_id' => null,
             'total' => $this->total,
             'vat' => $this->total - $this->subtotal - $this->shipping_cost,
             'shipping_total' => $this->shipping_cost,
-            'status' => str_slug($this->status),
+            'status' => $statuses[$this->status], 
             'notes' => $this->notes,
             'currency' => 'GBP',
             'billing_phone' => $this->phone,

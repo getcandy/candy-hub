@@ -30,11 +30,14 @@ class User extends BaseModel
     public function attributesToArray()
     {
         $data = [
+<<<<<<< HEAD
             'id' => $this->user_id,
+            'name' => $this->firstname . ' ' . $this->lastname,
+=======
             'first_name' => $this->firstname,
             'last_name' => $this->lastname,
+>>>>>>> f9d910fe74c17f4fe8e30e6c25740eba6f8981e9
             'company_name' => $this->company,
-            'contact_number' => $this->phone,
             'email' => $this->email,
             'language_id' => app('api')->languages()->getEnabledByLang($this->lang_code)->id,
             'password' => 'getcandyreset'

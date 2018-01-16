@@ -18,6 +18,7 @@ class UserTableSeeder extends Seeder
         $language = app('api')->languages()->getDefaultRecord();
 
         $admin = User::create([
+            'id' => 9999999,
             'title' => 'Mr',
             'first_name' => 'Alec',
             'last_name' => 'Ritson',
@@ -31,6 +32,7 @@ class UserTableSeeder extends Seeder
         $admin->save();
 
         $customer = User::create([
+            'id' => 9999998,
             'title' => 'Mr',
             'first_name' => 'Shaun',
             'last_name' => 'Rainer',
@@ -41,6 +43,6 @@ class UserTableSeeder extends Seeder
         $customer->language()->associate($language);
         $customer->save();
         $customer->assignRole('customer');
-        $customer->save();       
+        $customer->save();
     }
 }

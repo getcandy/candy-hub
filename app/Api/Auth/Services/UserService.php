@@ -54,7 +54,8 @@ class UserService extends BaseService
         $user = new User();
         $user->id = $data['id'];
         $user->password = bcrypt($data['password']);
-        $user->title = $data['title'];
+
+        // $user->title = $data['title'];
         $user->first_name = $data['first_name'];
         $user->last_name = $data['last_name'];
         $user->contact_number = $data['contact_number'];

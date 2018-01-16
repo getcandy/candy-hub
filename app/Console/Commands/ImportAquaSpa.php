@@ -50,20 +50,25 @@ class ImportAquaSpa extends Command
         $driver = $this->argument('driver');
         $this->importer = app($driver . '.importer');
 
-        \Auth::loginUsingId(1);
+        \Auth::loginUsingId(9999999);
 
         $this->importShippingZones();
         $this->importChannels();
         $this->importProductFamilies();
         $this->importCustomerGroups();
         $this->importCategories();
-        $this->importUsers();
+        // $this->importUsers();
         $this->importOrders();
         $this->importProducts();
 
         $this->info('Done!');
     }
 
+    /**
+     * Import orders
+     *
+     * @return void
+     */
     protected function importOrders()
     {
         $orders = $this->importer->getOrders();
@@ -79,8 +84,13 @@ class ImportAquaSpa extends Command
                 ]);
             }
         }
-
     }
+
+    /**
+     * Import users
+     *
+     * @return void
+     */
     protected function importUsers()
     {
         $this->info('Importing Users');
@@ -89,8 +99,6 @@ class ImportAquaSpa extends Command
         $bar = $this->output->createProgressBar(count($users));
 
         foreach ($users as $user) {
-            $user = $user;
-
             $model = app('api')->users()->create($user->toArray());
 
             foreach ($user->profiles as $addresses) {
@@ -106,6 +114,12 @@ class ImportAquaSpa extends Command
         $bar->finish();
         $this->info('');
     }
+
+    /**
+     * Import categories
+     *
+     * @return void
+     */
     protected function importCategories()
     {
         $this->info('Importing Categories');
@@ -118,7 +132,7 @@ class ImportAquaSpa extends Command
 
             foreach ($category['children'] as $index => $child) {
                 $child['parent'] = [
-                    'id' => $newCat
+                    'id' => $newCat->encodedId()
                 ];
                 app('api')->categories()->create($child);
             }
@@ -130,6 +144,11 @@ class ImportAquaSpa extends Command
         $this->info('');
     }
 
+    /**
+     * Import channels
+     *
+     * @return void
+     */
     protected function importChannels()
     {
         $this->info('Importing Channels');
@@ -145,6 +164,11 @@ class ImportAquaSpa extends Command
         $this->info('');
     }
 
+    /**
+     * Import product families
+     *
+     * @return void
+     */
     public function importProductFamilies()
     {
         $this->info('Importing Product Families');
@@ -160,6 +184,11 @@ class ImportAquaSpa extends Command
         $this->info('');
     }
 
+    /**
+     * Import shipping zones
+     *
+     * @return void
+     */
     public function importShippingZones()
     {
         $this->info('Importing Shipping Zones');
@@ -172,6 +201,11 @@ class ImportAquaSpa extends Command
         $bar->finish();
     }
 
+    /**
+     * Import products
+     *
+     * @return void
+     */
     public function importProducts()
     {
         $this->info('Importing Products');
@@ -269,10 +303,12 @@ class ImportAquaSpa extends Command
         $this->info('');
     }
 
-    protected function getVariant()
-    {
-
-    }
+    /**
+     * Maps option data
+     *
+     * @param array $options
+     * @return void
+     */
     protected function mapOptionData(array $options)
     {
         $optionData = [];
@@ -298,6 +334,11 @@ class ImportAquaSpa extends Command
         return $optionData;
     }
 
+    /**
+     * Import customer groups
+     *
+     * @return void
+     */
     protected function importCustomerGroups()
     {
         $this->info('Importing Customer Groups');
