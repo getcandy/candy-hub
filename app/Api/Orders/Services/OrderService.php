@@ -48,7 +48,6 @@ class OrderService extends BaseService
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
 
-
         $order->vat = $basket->tax_total;
 
         $order->save();
@@ -355,6 +354,10 @@ class OrderService extends BaseService
             throw new IncompleteOrderException;
         }
 
+        if (!empty($data['notes'])) {
+            $order->notes = $data['notes'];
+        }
+
         $total = $order->total + $order->shipping_total;
 
         $transaction = app('api')->payments()->charge(
@@ -364,8 +367,9 @@ class OrderService extends BaseService
 
         if ($transaction->success) {
             $order->status = 'complete';
-            $order->save();
         }
+
+        $order->save();
 
         $transaction->order_id = $order->id;
         $transaction->save();
