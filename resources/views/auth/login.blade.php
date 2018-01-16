@@ -53,14 +53,14 @@
               <label class="sr-only">Email</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                <input type="email" class="form-control" placeholder="Email" name="email" value="alec@neondigital.co.uk">
+                <input type="email" class="form-control" placeholder="Email" name="email" value="{{ input_old('email') }}">
               </div>
             </div>
             <div class="form-group">
               <label class="sr-only">Password</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <input type="password" class="form-control" placeholder="Password" name="password" value="password">
+                <input type="password" class="form-control" placeholder="Password" name="password">
               </div>
             </div>
             <div class="row">
