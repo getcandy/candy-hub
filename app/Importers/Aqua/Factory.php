@@ -7,6 +7,7 @@ use GetCandy\Importers\BaseImporter;
 use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
 use GetCandy\Importers\Aqua\Models\Products\Product;
 use GetCandy\Importers\Aqua\Models\Categories\Category;
+use GetCandy\Importers\Aqua\Models\Discounts\Discount;
 use GetCandy\Importers\Aqua\Models\Channel;
 use GetCandy\Importers\Aqua\Models\Users\User;
 use GetCandy\Importers\Aqua\Models\Orders\Order;
@@ -75,6 +76,11 @@ class Factory extends BaseImporter
     public function getChannels()
     {
         return Channel::all()->toArray();
+    }
+
+    public function getDiscounts()
+    {
+        return Discount::with('descriptions')->get()->toArray();
     }
 
     /**

@@ -32,6 +32,12 @@ class DiscountService extends BaseService
         $discount->status = 'draft';
         $discount->save();
 
+        if (!empty($data['channels']['data'])) {
+            $discount->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
+        }
+
         event(new AttributableSavedEvent($discount));
 
         return $discount;

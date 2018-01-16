@@ -58,6 +58,7 @@ class ImportAquaSpa extends Command
         $this->importShippingMethods();
         $this->importProductFamilies();
         $this->importCategories();
+        $this->importDiscounts();
         $this->importUsers();
         $this->importOrders();
         $this->importProducts();
@@ -65,8 +66,24 @@ class ImportAquaSpa extends Command
         $this->info('Done!');
     }
 
+    protected function importDiscounts()
+    {
+        $discounts = $this->importer->getDiscounts();
+        
+        foreach ($discounts as $discount) {
+            $model = app('api')->discounts()->create($discount);
+            // dd($discount);
+        }
+        $this->info('');
+    }
+    /**
+     * Import shipping methods
+     *
+     * @return void
+     */
     protected function importShippingMethods()
     {
+        $this->info('Importing Shipping Methods');
         $rates = $this->importer->getShippingRates();
 
         foreach ($rates as $rate) {
@@ -98,6 +115,7 @@ class ImportAquaSpa extends Command
                 }
             }
         }
+        $this->info('');
     }
 
     /**
@@ -107,7 +125,10 @@ class ImportAquaSpa extends Command
      */
     protected function importOrders()
     {
+        $this->info('Importing Orders');
         $orders = $this->importer->getOrders();
+
+        $bar = $this->output->createProgressBar(count($orders));
 
         foreach ($orders as $order) {
             \DB::table('orders')->insert([
@@ -119,7 +140,10 @@ class ImportAquaSpa extends Command
                     $line->toArray()
                 ]);
             }
+            $bar->advance();
         }
+        $bar->finish();
+        $this->info('');
     }
 
     /**
