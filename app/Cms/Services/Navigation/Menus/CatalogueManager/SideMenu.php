@@ -16,7 +16,7 @@ class SideMenu extends Menu
             // new NavItem('Media', route('hub.index')),
             // new NavItem('Attributes', route('hub.index')),
             // new NavItem('Aliases', route('hub.index')),
-            new NavItem('Discounts', route('hub.discounts.index'))
+            // new NavItem('Discounts', route('hub.discounts.index'))
         ];
 
         $this->view = 'menus.side-menu';
