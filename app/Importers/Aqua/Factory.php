@@ -10,6 +10,8 @@ use GetCandy\Importers\Aqua\Models\Categories\Category;
 use GetCandy\Importers\Aqua\Models\Channel;
 use GetCandy\Importers\Aqua\Models\Users\User;
 use GetCandy\Importers\Aqua\Models\Orders\Order;
+use GetCandy\Importers\Aqua\Models\Shipping\ShippingMethod;
+use GetCandy\Importers\Aqua\Models\Shipping\ShippingRate;
 use GetCandy\Api\Countries\Models\Country;
 
 class Factory extends BaseImporter
@@ -91,6 +93,16 @@ class Factory extends BaseImporter
                 'default' => $name == 'Retail' ? true : false
             ];
         });
+    }
+
+    public function getShippingMethods()
+    {
+        return ShippingMethod::with('descriptions')->get();
+    }
+
+    public function getShippingRates()
+    {
+        return ShippingRate::with('method')->get();
     }
 
     public function getShippingZones()

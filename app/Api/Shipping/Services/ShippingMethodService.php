@@ -26,7 +26,15 @@ class ShippingMethodService extends BaseService
         $shipping = new ShippingMethod;
         $shipping->attribute_data = $data;
         $shipping->type = $data['type'];
+
         $shipping->save();
+        
+        if (!empty($data['channels']['data'])) {
+            $shipping->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
+        }
+
         event(new AttributableSavedEvent($shipping));
         return $shipping;
     }

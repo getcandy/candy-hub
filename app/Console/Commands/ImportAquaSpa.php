@@ -52,16 +52,52 @@ class ImportAquaSpa extends Command
 
         \Auth::loginUsingId(9999999);
 
-        $this->importShippingZones();
         $this->importChannels();
-        $this->importProductFamilies();
         $this->importCustomerGroups();
+        $this->importShippingZones();
+        $this->importShippingMethods();
+        $this->importProductFamilies();
         $this->importCategories();
-        // $this->importUsers();
+        $this->importUsers();
         $this->importOrders();
         $this->importProducts();
 
         $this->info('Done!');
+    }
+
+    protected function importShippingMethods()
+    {
+        $rates = $this->importer->getShippingRates();
+
+        foreach ($rates as $rate) {
+            // $price = [];
+            $method = $rate->method->toArray();
+
+            // $price['customer_groups'] = ;
+            if ($rate->destination && $rate->destination->destination_id == 9) {
+                $zones = [app('api')->shippingZones()->getByName('United Kingdom')->encodedId()];
+            } else {
+                $zones = [app('api')->shippingZones()->getByName('Europe')->encodedId()];
+            }
+            $shippingMethod = app('api')->shippingMethods()->create($method);
+            app('api')->shippingMethods()->updateZones($shippingMethod->encodedId(), ['zones' => $zones]);
+
+            $tiers = unserialize($rate->rate_value);
+
+            foreach ($tiers as $row) {
+                foreach ($row as $item) {
+                    $price = [
+                        'currency_id' => app('api')->currencies()->getDefaultRecord()->encodedId(),
+                        'rate' => $item['value'],
+                        'min_basket' => isset($item['amount']) ? $item['amount'] : 0,
+                        'min_weight' => $rate->method->min_weight,
+                        'max_weight' => $rate->method->max_weight,
+                        'customer_groups' => $method['customer_groups']
+                    ];
+                    app('api')->shippingPrices()->create($shippingMethod->encodedId(), $price);
+                }
+            }
+        }
     }
 
     /**

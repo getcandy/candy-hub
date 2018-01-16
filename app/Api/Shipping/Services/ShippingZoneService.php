@@ -65,4 +65,9 @@ class ShippingZoneService extends BaseService
         })->get();
         return $result;
     }
+
+    public function getByName($name)
+    {
+        return ShippingZone::where('name', '=', $name)->first();
+    }
 }

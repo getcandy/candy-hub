@@ -46,35 +46,9 @@ class Category extends BaseModel
     {
         $decorator = new Decorator;
 
-        $customerGroups = [];
-
-        $customerGroups = [];
-
-        if ($this->usergroups()->count()) {
-            foreach ($this->userGroups()->get() as $group) {
-                $handle = str_slug($group->descriptions->first()->usergroup);
-                $group = app('api')->customerGroups()->getByHandle($handle);
-                $customerGroups['data'][] = [
-                    'id' => $group->encodedId(),
-                    'visible' => $this->status == 'A',
-                    'purchasable' => $this->status == 'A'
-                ];
-            }
-        }
-
-        // // Gotta try and get our guest ones out...
-        foreach (explode(',', $this->usergroup_ids) as $groupId) {
-            if ($groupId == 0) {
-                $groups = \GetCandy\Api\Customers\Models\CustomerGroup::all();
-                foreach ($groups as $group) {
-                    $customerGroups['data'][] = [
-                        'id' => $group->encodedId(),
-                        'visible' => $this->status == 'A',
-                        'purchasable' => $this->status == 'A'
-                    ];
-                }
-            }
-        }
+        $customerGroups = [
+            'data' => $this->getCustomerGroups()
+        ];
 
         // French Categories
         $frenchCats = $this->where('company_id', '=', 2)->get();

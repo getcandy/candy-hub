@@ -117,6 +117,7 @@ trait HasAttributes
     protected function mapAttributes($data)
     {
         $mapping = $this->getDataMapping();
+
         $attributes = app('api')->attributes()->getHandles();
         $attributeData = [];
         $assigned = [];

@@ -4,9 +4,13 @@ namespace GetCandy\Importers\Aqua;
 
 class Decorator
 {
-    public function getData($model, $descriptionField = 'full_description')
+    public function getData($model, $descriptionField = 'full_description', $nameField = null)
     {
         $basename = str_singular(strtolower(class_basename($model)));
+
+        if ($nameField) {
+            $basename = $nameField;
+        }
 
         $name = [];
         $newName = null;
@@ -17,8 +21,8 @@ class Decorator
         $pageTitle = [];
         $metaKeywords = [];
 
+        // dd($model->descriptions);
         foreach ($model->descriptions as $description) {
-
             $name[$description->lang_code] = $description->{$basename};
 
             $urls[$description->lang_code] = str_slug($description->{$basename});
