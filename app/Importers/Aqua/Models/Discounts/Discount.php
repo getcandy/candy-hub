@@ -45,7 +45,9 @@ class Discount extends BaseModel
             'uses' => $this->number_of_usages,
             'start_at' => Carbon::createFromTimestamp($this->from_date),
             'end_at' => Carbon::createFromTimestamp($this->to_date),
-            'channels' => ['data' => $channelData]
+            'channels' => ['data' => $channelData],
+            'conditions' => $this->conditions,
+            'bonuses' => $this->bonuses
         ]);
     }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Discounts\Discount as DiscountFactory;
 use GetCandy\Api\Discounts\Models\Discount;
+use GetCandy\Api\Discounts\Models\DiscountReward;
 use GetCandy\Api\Discounts\RewardSet;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Discounts\Models\DiscountCriteriaItem;
@@ -28,7 +29,16 @@ class DiscountService extends BaseService
     {
         $discount = new Discount;
         $discount->attribute_data = $data;
-        $discount->start_at = Carbon::now();
+
+        if (!empty($data['start_at'])) {
+            $discount->start_at = Carbon::parse($data['start_at']);
+        }
+
+        if (!empty($data['end_at'])) {
+            $discount->end_at = Carbon::parse($data['end_at']);
+        }
+        
+        $discount->end_at = Carbon::now();
         $discount->status = 'draft';
         $discount->save();
 
@@ -63,13 +73,9 @@ class DiscountService extends BaseService
         $discount->save();
 
         // event(new AttributableSavedEvent($discount));
-
-        $discount->rewards()->delete();
-
-        if (!empty($data['rewards']['data'])) {
-            foreach ($data['rewards']['data'] as $reward) {
-                $discount->rewards()->create($reward);
-            }
+        if (isset($data['rewards']['data'])) {
+            $discount->rewards()->delete();
+            $this->syncRewards($discount, $data['rewards']['data']);
         }
 
         if (!empty($data['channels']['data'])) {
@@ -79,22 +85,58 @@ class DiscountService extends BaseService
         }
 
         if (!empty($data['sets']['data'])) {
-            $discount->sets()->delete();
-            foreach ($data['sets']['data'] as $set) {
-                $groupModel = $discount->sets()->create([
-                    'scope' => $set['scope'],
-                    'outcome' => $set['outcome']
-                ]);
+            $this->syncSets($data['sets']['data']);
+        }
+        
+        return $discount;
+    }
 
-                if (!empty($set['items']['data'])) {
-                    $set['items'] = $set['items']['data'];
-                }
-                foreach ($set['items'] as $item) {
-                    $groupModel->items()->create($item);
-                }
+    /**
+     * Set up sets and rewards with a discount
+     *
+     * @param Discount $discount
+     * @param array $sets
+     * 
+     * @return Discount
+     */
+    public function syncSets($discount, array $sets)
+    {
+        $discount->sets()->delete();
+        foreach ($sets as $set) {
+            $groupModel = $discount->sets()->create([
+                'scope' => $set['scope'],
+                'outcome' => (bool) $set['outcome']
+            ]);
+
+            if (!empty($set['items']['data'])) {
+                $set['items'] = $set['items']['data'];
+            }
+            foreach ($set['items'] as $item) {
+                $groupModel->items()->create($item);
             }
         }
         
+        return $discount;
+    }
+
+    /**
+     * Sync up rewards for a discount
+     *
+     * @param Discount $discount
+     * @param array $rewards
+     * 
+     * @return void
+     */
+    public function syncRewards($discount, array $rewards)
+    {
+        foreach ($rewards as $reward) {
+            $model = $discount->rewards()->create($reward);
+            if (!empty($reward['products'])) {
+                foreach ($reward['products'] as $productReward) {
+                    $model->products()->create($productReward);
+                }
+            }
+        }
         return $discount;
     }
 
@@ -122,7 +164,7 @@ class DiscountService extends BaseService
             $factory->stop = $discount->stop_rules;
 
             $rewardSet = new RewardSet;
-            
+
             foreach ($discount->rewards as $reward) {
                 $rewardSet->add([
                     'type' => $reward->type,

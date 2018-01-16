@@ -58,10 +58,10 @@ class ImportAquaSpa extends Command
         $this->importShippingMethods();
         $this->importProductFamilies();
         $this->importCategories();
-        $this->importDiscounts();
         $this->importUsers();
         $this->importOrders();
         $this->importProducts();
+        $this->importDiscounts();
 
         $this->info('Done!');
     }
@@ -70,9 +70,91 @@ class ImportAquaSpa extends Command
     {
         $discounts = $this->importer->getDiscounts();
         
-        foreach ($discounts as $discount) {
+        foreach ($discounts as $index => $discount) {
             $model = app('api')->discounts()->create($discount);
-            // dd($discount);
+            
+            $sets = [];
+
+            $sets[$index] = [
+                'scope' => $discount['conditions']['set'],
+                'outcome' => $discount['conditions']['set_value'],
+                'items' => ['data' => []]
+            ];
+            
+            $conditions = [];
+
+            foreach ($discount['conditions']['conditions'] as $zdex => $condition) {
+                if (isset($condition['value'])) {
+                    $conditions[] = [
+                        'type' => $condition['condition'] == 'coupon_code' ? 'coupon' : $condition['condition'],
+                        'criteria' => ['value' => $condition['value']]
+                    ];
+                } else {
+                    foreach ($condition['conditions'] as $subcon) {
+                        if (isset($subcon['value'])) {
+                            $conditions[] = [
+                                'type' => $subcon['condition'] == 'coupon_code' ? 'coupon' : $subcon['condition'],
+                                'criteria' => ['value' => $subcon['value']]
+                            ];
+                        } else {
+                            foreach ($subcon['conditions'] as $child) {
+                                $conditions[] = [
+                                    'type' => $child['condition'] == 'coupon_code' ? 'coupon' : $child['condition'],
+                                    'criteria' => ['value' => $child['value']]
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+
+            $sets[$index]['items']['data'] = $conditions;
+
+            $rewards = [];
+
+            foreach ($discount['bonuses'] as $zdex => $bonus) {
+                if (!empty($bonus['discount_bonus'])) {
+                    $bonus['value'] = $bonus['discount_value'];
+                    switch ($bonus['discount_bonus']) {
+                        case 'to_fixed':
+                            $type = 'fixed_amount';
+                            break;
+                        default:
+                            $type = 'percentage';
+                            break;
+                    }
+                } else {
+                    $type = $bonus['bonus'];
+                }
+
+                $products = [];
+
+                if ($type == 'free_products') {
+                    foreach ($bonus['value'] as $item) {
+                        $products[] = [
+                            'quantity' => $item['amount'],
+                            'product_id' => $item['product_id']
+                        ];
+                    }
+                    $bonus['value'] = null;
+                }
+
+                $rewards[$zdex] = [
+                    'type' => $type,
+                    'value' => $bonus['value'],
+                    'products' => $products
+                ];
+            }
+
+            app('api')->discounts()->syncRewards(
+                $model,
+                $rewards
+            );
+
+            app('api')->discounts()->syncSets(
+                $model,
+                $sets
+            );
         }
         $this->info('');
     }
