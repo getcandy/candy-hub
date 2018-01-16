@@ -53,7 +53,7 @@
               <label class="sr-only">Email</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                <input type="email" class="form-control" placeholder="Email" name="email" value="{{ input_old('email') }}">
+                <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}">
               </div>
             </div>
             <div class="form-group">
