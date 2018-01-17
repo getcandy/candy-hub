@@ -210,5 +210,5 @@ $this->resource('taxes', 'Taxes\TaxController', [
  */
 $this->get('users/current', 'Users\UserController@getCurrentUser');
 $this->resource('users', 'Users\UserController', [
-    'except' => ['edit', 'create']
+    'except' => ['edit', 'create', 'store']
 ]);

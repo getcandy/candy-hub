@@ -89,3 +89,6 @@ $this->get('search/products', 'Search\SearchController@products');
  * Shipping
  */
 $this->get('shipping', 'Shipping\ShippingMethodController@index');
+
+
+$this->post('users', 'Auth\UserController@store');
