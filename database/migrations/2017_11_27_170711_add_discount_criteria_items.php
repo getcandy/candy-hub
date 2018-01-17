@@ -17,7 +17,7 @@ class AddDiscountCriteriaItems extends Migration
             $table->increments('id');
             $table->integer('discount_criteria_set_id')->unsigned();
             $table->foreign('discount_criteria_set_id')->references('id')->on('discount_criteria_sets')->onDelete('cascade');
-            $table->string('type');
+            $table->string('type')->index();
             $table->string('value')->index();
             $table->timestamps();
         });
