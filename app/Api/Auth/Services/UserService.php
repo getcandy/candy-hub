@@ -28,8 +28,8 @@ class UserService extends BaseService
         $query = $this->model;
         if ($keywords) {
             $query = $query
-                ->where('first_name', 'LIKE', '%'.$keywords.'%')
-                ->orWhere('last_name', 'LIKE', '%'.$keywords.'%')
+                ->where('firstname', 'LIKE', '%'.$keywords.'%')
+                ->orWhere('lastname', 'LIKE', '%'.$keywords.'%')
                 ->orWhere('company_name', 'LIKE', '%' . $keywords . '%')
                 ->orWhere('email', 'LIKE', '%' . $keywords . '%');
         }
@@ -56,8 +56,8 @@ class UserService extends BaseService
         $user->password = bcrypt($data['password']);
 
         // $user->title = $data['title'];
-        $user->first_name = $data['first_name'];
-        $user->last_name = $data['last_name'];
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
         $user->contact_number = $data['contact_number'];
         
         $user->email = $data['email'];
