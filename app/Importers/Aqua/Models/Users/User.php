@@ -31,8 +31,8 @@ class User extends BaseModel
     {
         $data = [
             'id' => $this->user_id,
-            'first_name' => $this->firstname,
-            'last_name' => $this->lastname,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
             'company_name' => $this->company,
             'contact_number' => $this->phone,
             'email' => $this->email,
