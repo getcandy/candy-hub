@@ -17,7 +17,7 @@ class CreateDiscountRewardsTable extends Migration
             $table->increments('id');
             $table->integer('discount_id')->unsigned();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
-            $table->string('type');
+            $table->string('type')->index();
             $table->decimal('value', 10, 2)->nullable();
             $table->timestamps();
         });

@@ -15,7 +15,7 @@ class CreateShippingZoneTable extends Migration
     {
         Schema::create('shipping_zones', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->timestamps();
         });
     }
