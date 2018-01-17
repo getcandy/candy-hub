@@ -30,6 +30,10 @@ class CreateShippingMethodUsersTable extends Migration
      */
     public function down()
     {
+        Schema::table('shipping_method_user', function (Blueprint $table) {
+            $table->dropForeign(['shipping_method_id']);
+            $table->dropForeign(['user_id']);
+        });
         Schema::dropIfExists('shipping_method_users');
     }
 }
