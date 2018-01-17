@@ -74,7 +74,7 @@ class ImportAquaSpa extends Command
             $model = app('api')->discounts()->create($discount);
 
             $this->mapSets($index, $model, $discount);
-            // $this->mapBonuses($index, $model, $discount['bonuses']);
+            $this->mapBonuses($index, $model, $discount['bonuses']);
         }
         $this->info('');
     }
@@ -159,7 +159,7 @@ class ImportAquaSpa extends Command
                     $eligibles[] = $productId;
                 }
             }
-        } elseif ($type == 'customer-group') {
+        } elseif ($type == 'users') {
             if (is_array($condition['value'])) {
                 foreach ($condition['value'] as $product) {
                     $eligibles[] = $product['user_id'];
@@ -169,7 +169,7 @@ class ImportAquaSpa extends Command
                     $eligibles[] = $productId;
                 }
             }
-        } elseif ($type == 'usergroup') {
+        } elseif ($type == 'customer-group') {
             if (is_array($condition['value'])) {
                 foreach ($condition['value'] as $product) {
                     $eligibles[] = $product['usergroup_id'];
