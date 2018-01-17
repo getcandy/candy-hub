@@ -29,6 +29,22 @@ class Address extends BaseModel
         'zip'
     ];
 
+    public function getFieldsAttribute()
+    {
+        return $this->only([
+            'firstname',
+            'lastname',
+            'address',
+            'address_two',
+            'address_three',
+            'city',
+            'county',
+            'state',
+            'country',
+            'zip'
+        ]);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

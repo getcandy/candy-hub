@@ -106,7 +106,7 @@ class OrderController extends BaseController
     public function shippingAddress($id, StoreAddressRequest $request)
     {
         try {
-            $order = app('api')->orders()->setShipping($id, $request->all());
+            $order = app('api')->orders()->setShipping($id, $request->all(), $request->user());
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }

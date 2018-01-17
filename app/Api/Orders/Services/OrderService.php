@@ -45,8 +45,12 @@ class OrderService extends BaseService
 
         if ($user) {
             $order->user()->associate($user);
+            
+            foreach ($user->addresses as $address) {
+                $this->setFields($order, $address->fields, $address->billing ? 'billing' : 'shipping');
+            }
         }
-        
+
         $order->total = $basket->total;
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
@@ -142,11 +146,9 @@ class OrderService extends BaseService
      * 
      * @return Order
      */
-    protected function addAddress($id, $data, $type)
+    protected function addAddress($id, $data, $type, $user = null)
     {
         $order = $this->getByHashedId($id);
-        
-        $user = app('auth')->user();
 
         if (!empty($data['vat_no'])) {
             $order->vat_no = $data['vat_no'];
@@ -204,9 +206,7 @@ class OrderService extends BaseService
     {
         foreach ($fields as $handle => $value) {
             $field = $prefix . '_' . $handle;
-            if (array_key_exists($field, $order->getAttributes())) {
-                $order->setAttribute($field, $value);
-            }
+            $order->setAttribute($field, $value);
         }
     }
 

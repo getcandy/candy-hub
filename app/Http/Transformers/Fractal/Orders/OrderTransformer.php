@@ -20,7 +20,7 @@ class OrderTransformer extends BaseTransformer
         $data = [
             'id' => $order->encodedId(),
             'total' => $order->total,
-            'vat' => $order->vat,
+            'vat' => round($order->vat),
             'tracking_no' => $order->tracking_no,
             'dispatched_at' => $order->dispatched_at,
             'currency' => $order->currency,
