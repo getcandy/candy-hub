@@ -10,7 +10,7 @@ class SideMenu extends Menu
     {
         $this->navItems = [
             new NavItem('Orders', route('hub.orders.index')),
-            new NavItem('Returns', route('hub.orders.index')),
+            // new NavItem('Returns', route('hub.orders.index')),
             new NavItem('Customers', route('hub.customers.index')),
             new NavItem('Shipping Methods', route('hub.shipping.index')),
             new NavItem('Shipping Zones', route('hub.shipping.zones')),
