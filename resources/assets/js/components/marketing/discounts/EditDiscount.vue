@@ -1,8 +1,18 @@
 <script>
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
+    /**
+     * Component importing
+     */
+    import Users from './types/Users.vue';
+    import Products from './types/Products.vue';
+    import CustomerGroups from './types/CustomerGroups.vue';
+    import OncePerCustomer from './types/OncePerCustomer.vue';
 
     export default {
+        components: {
+            'users' : Users,
+            'products' : Products,
+            'once-per-customer' : OncePerCustomer
+        },
         data() {
             return {
                 discount: {},

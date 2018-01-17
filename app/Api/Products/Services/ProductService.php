@@ -82,6 +82,10 @@ class ProductService extends BaseService
 
         $data['description'] = !empty($data['description']) ? $data['description'] : '';
         $product->attribute_data = $data;
+    
+        if (!empty($data['historical_id'])) {
+            $product->id = $data['historical_id'];
+        }
 
         $product->option_data = [];
 

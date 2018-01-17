@@ -72,91 +72,170 @@ class ImportAquaSpa extends Command
         
         foreach ($discounts as $index => $discount) {
             $model = app('api')->discounts()->create($discount);
-            
-            $sets = [];
 
-            $sets[$index] = [
-                'scope' => $discount['conditions']['set'],
-                'outcome' => $discount['conditions']['set_value'],
-                'items' => ['data' => []]
-            ];
-            
-            $conditions = [];
+            $this->mapSets($index, $model, $discount);
+            // $this->mapBonuses($index, $model, $discount['bonuses']);
+        }
+        $this->info('');
+    }
 
-            foreach ($discount['conditions']['conditions'] as $zdex => $condition) {
-                if (isset($condition['value'])) {
-                    $conditions[] = [
-                        'type' => $condition['condition'] == 'coupon_code' ? 'coupon' : $condition['condition'],
-                        'criteria' => ['value' => $condition['value']]
-                    ];
-                } else {
-                    foreach ($condition['conditions'] as $subcon) {
-                        if (isset($subcon['value'])) {
-                            $conditions[] = [
-                                'type' => $subcon['condition'] == 'coupon_code' ? 'coupon' : $subcon['condition'],
-                                'criteria' => ['value' => $subcon['value']]
-                            ];
-                        } else {
-                            foreach ($subcon['conditions'] as $child) {
-                                $conditions[] = [
-                                    'type' => $child['condition'] == 'coupon_code' ? 'coupon' : $child['condition'],
-                                    'criteria' => ['value' => $child['value']]
-                                ];
-                            }
+    /**
+     * Maps sets to a discount
+     *
+     * @param Discount $model
+     * @param array $conditions
+     * 
+     * @return void
+     */
+    protected function mapSets($index, $model, array $discount)
+    {
+        $sets = [];
+
+        $sets[$index] = [
+            'scope' => $discount['conditions']['set'],
+            'outcome' => $discount['conditions']['set_value']
+        ];
+
+        $conditions = [];
+
+        foreach ($discount['conditions']['conditions'] as $zdex => $condition) {
+            if (isset($condition['value'])) {
+                $conditions[] = $this->mapCondition($condition);
+            } else {
+                foreach ($condition['conditions'] as $subcon) {
+                    if (isset($subcon['value'])) {
+                        $conditions[] = $this->mapCondition($subcon);
+                    } else {
+                        foreach ($subcon['conditions'] as $child) {
+                            $conditions[] = $this->mapCondition($child);
                         }
                     }
                 }
             }
+        }
 
-            $sets[$index]['items']['data'] = $conditions;
+        $sets[$index]['items']['data'] = $conditions;
 
-            $rewards = [];
+        // dump($conditions);
 
-            foreach ($discount['bonuses'] as $zdex => $bonus) {
-                if (!empty($bonus['discount_bonus'])) {
-                    $bonus['value'] = $bonus['discount_value'];
-                    switch ($bonus['discount_bonus']) {
-                        case 'to_fixed':
-                            $type = 'fixed_amount';
-                            break;
-                        default:
-                            $type = 'percentage';
-                            break;
-                    }
-                } else {
-                    $type = $bonus['bonus'];
+        app('api')->discounts()->syncSets(
+            $model,
+            $sets
+        );
+    }
+
+    protected function mapCondition($condition)
+    {
+        $type = $condition['condition'];
+
+        switch ($type) {
+            case 'usergroup':
+                $type = 'customer-group';
+                break;
+            case 'coupon_code':
+                $type = 'coupon';
+                break;
+            case 'once_per_customer':
+                $type = 'once-per-customer';
+            default:
+                //
+                break;
+        }
+
+        $data = [
+            'type' => $type,
+            'value' => null
+        ];
+
+        $eligibles = [];
+
+        if ($type == 'products') {
+            if (is_array($condition['value'])) {
+                foreach ($condition['value'] as $product) {
+                    $eligibles[] = $product['product_id'];
                 }
-
-                $products = [];
-
-                if ($type == 'free_products') {
-                    foreach ($bonus['value'] as $item) {
-                        $products[] = [
-                            'quantity' => $item['amount'],
-                            'product_id' => $item['product_id']
-                        ];
-                    }
-                    $bonus['value'] = null;
+            } else {
+                foreach (explode(',', $condition['value']) as $productId) {
+                    $eligibles[] = $productId;
                 }
+            }
+        } elseif ($type == 'customer-group') {
+            if (is_array($condition['value'])) {
+                foreach ($condition['value'] as $product) {
+                    $eligibles[] = $product['user_id'];
+                }
+            } else {
+                foreach (explode(',', $condition['value']) as $productId) {
+                    $eligibles[] = $productId;
+                }
+            }
+        } elseif ($type == 'usergroup') {
+            if (is_array($condition['value'])) {
+                foreach ($condition['value'] as $product) {
+                    $eligibles[] = $product['usergroup_id'];
+                }
+            } else {
+                foreach (explode(',', $condition['value']) as $productId) {
+                    $eligibles[] = $productId;
+                }
+            }
+        } else {
+            $data['value'] = $condition['value'];
+        }
 
-                $rewards[$zdex] = [
-                    'type' => $type,
-                    'value' => $bonus['value'],
-                    'products' => $products
-                ];
+        $data['eligibles'] = $eligibles;
+
+        return $data;
+    }
+    /**
+     * Map the bonuses for a discount
+     *
+     * @param mixed $model
+     * @param array $bonuses
+     * @return void
+     */
+    protected function mapBonuses($index, $model, array $bonuses)
+    {
+        $rewards = [];
+
+        foreach ($bonuses as $zdex => $bonus) {
+            if (!empty($bonus['discount_bonus'])) {
+                $bonus['value'] = $bonus['discount_value'];
+                switch ($bonus['discount_bonus']) {
+                    case 'to_fixed':
+                        $type = 'fixed_amount';
+                        break;
+                    default:
+                        $type = 'percentage';
+                        break;
+                }
+            } else {
+                $type = $bonus['bonus'];
             }
 
-            app('api')->discounts()->syncRewards(
-                $model,
-                $rewards
-            );
+            $products = [];
 
-            app('api')->discounts()->syncSets(
-                $model,
-                $sets
-            );
+            if ($type == 'free_products') {
+                foreach ($bonus['value'] as $item) {
+                    $products[] = [
+                        'quantity' => $item['amount'],
+                        'product_id' => $item['product_id']
+                    ];
+                }
+                $bonus['value'] = null;
+            }
+
+            $rewards[$zdex] = [
+                'type' => $type,
+                'value' => $bonus['value'],
+                'products' => $products
+            ];
         }
-        $this->info('');
+
+        app('api')->discounts()->syncRewards(
+            $model,
+            $rewards
+        );
     }
     /**
      * Import shipping methods

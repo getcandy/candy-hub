@@ -107,12 +107,16 @@ class DiscountService extends BaseService
                 'scope' => $set['scope'],
                 'outcome' => (bool) $set['outcome']
             ]);
-
             if (!empty($set['items']['data'])) {
                 $set['items'] = $set['items']['data'];
             }
             foreach ($set['items'] as $item) {
-                $groupModel->items()->create($item);
+                $model = $groupModel->items()->create($item);
+                if (!empty($item['eligibles'])) {
+                    foreach ($item['eligibles'] as $eligible) {
+                        $model->saveEligible($item['type'], $eligible);
+                    }
+                }
             }
         }
         
