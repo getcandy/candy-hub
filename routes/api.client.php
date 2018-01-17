@@ -91,4 +91,4 @@ $this->get('search/products', 'Search\SearchController@products');
 $this->get('shipping', 'Shipping\ShippingMethodController@index');
 
 
-$this->post('users', 'Auth\UserController@store');
+$this->post('users', 'Users\UserController@store');
