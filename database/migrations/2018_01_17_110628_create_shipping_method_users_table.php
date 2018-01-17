@@ -34,6 +34,6 @@ class CreateShippingMethodUsersTable extends Migration
             $table->dropForeign(['shipping_method_id']);
             $table->dropForeign(['user_id']);
         });
-        Schema::dropIfExists('shipping_method_users');
+        Schema::dropIfExists('shipping_method_user');
     }
 }
