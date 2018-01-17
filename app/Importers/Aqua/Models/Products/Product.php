@@ -83,6 +83,7 @@ class Product extends BaseModel
         // dd($tiers);
 
         return array_merge($decorator->getdata($this), [
+            'historical_id' => $this->product_id,
             'family_id' => \GetCandy\Api\Products\Models\ProductFamily::first()->encodedId(),
             'stock' => $this->amount,
             'sku' => $this->product_code,
