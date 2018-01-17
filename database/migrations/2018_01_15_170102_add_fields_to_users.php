@@ -14,11 +14,11 @@ class AddFieldsToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->after('name')->string('title')->nullable();
-            $table->after('title')->string('first_name')->nullable();
-            $table->after('firstname')->string('last_name')->nullable();
-            $table->after('lastname')->string('contact_number')->nullable();
-            $table->after('contact_number')->string('vat_no')->nullable();
+            $table->string('title')->after('name')->nullable();
+            $table->string('firstname')->after('title')->nullable();
+            $table->string('lastname')->after('firstname')->nullable();
+            $table->string('contact_number')->after('lastname')->nullable();
+            $table->string('vat_no')->after('contact_number')->nullable();
             $table->dropColumn('name');
         });
     }
