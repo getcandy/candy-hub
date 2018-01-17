@@ -158,16 +158,18 @@ class OrderService extends BaseService
 
         $order->save();
 
-
         // If this address doesn't exist, create it.
-        if (!empty($data['address_id'])) {            
+        if (!empty($data['address_id'])) { 
             $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
             $data = $shipping->toArray();
         } elseif ($user) {
             $address = app('api')->addresses()->addAddress($user, $data, $type);
             $data = $address->fields;
-        } else {
-            // 
+        }
+        
+        if ($user) {
+            $order->shipping_phone = $user->contact_number;
+            $order->billing_phone = $user->contact_number;
         }
 
         $this->setFields($order, $data, $type);
