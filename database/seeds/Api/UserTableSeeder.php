@@ -20,8 +20,8 @@ class UserTableSeeder extends Seeder
         $admin = User::create([
             'id' => 9999999,
             'title' => 'Mr',
-            'first_name' => 'Alec',
-            'last_name' => 'Ritson',
+            'firstname' => 'Alec',
+            'lastname' => 'Ritson',
             'email' => 'hello@itsalec.co.uk',
             'password' => \Hash::make('password')
         ]);
@@ -34,8 +34,8 @@ class UserTableSeeder extends Seeder
         $customer = User::create([
             'id' => 9999998,
             'title' => 'Mr',
-            'first_name' => 'Shaun',
-            'last_name' => 'Rainer',
+            'firstname' => 'Shaun',
+            'lastname' => 'Rainer',
             'email' => 'shaun@neondigital.co.uk',
             'password' => \Hash::make('password')
         ]);
