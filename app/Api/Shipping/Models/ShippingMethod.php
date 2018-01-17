@@ -5,6 +5,7 @@ use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Traits\HasChannels;
 use GetCandy\Api\Traits\HasAttributes;
 use GetCandy\Api\Channels\Models\Channel;
+use GetCandy\Api\Auth\Models\User;
 
 class ShippingMethod extends BaseModel
 {
@@ -24,6 +25,11 @@ class ShippingMethod extends BaseModel
     public function zones()
     {
         return $this->belongsToMany(ShippingZone::class, 'shipping_method_zones');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 
     public function prices()

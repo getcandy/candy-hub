@@ -146,7 +146,7 @@ $this->post('products/{product}/attributes', 'Products\ProductAttributeControlle
 $this->post('products/{product}/collections', 'Products\ProductCollectionController@update');
 $this->post('products/{product}/routes', 'Products\ProductRouteController@store');
 $this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
-$this->delete('products/{product}/categories/{category}', 'Products\ProductCategoryController@destroy');
+$this->delete('products/{product}/categories/{category}', 'Products\Produ\ctCategoryController@destroy');
 $this->delete('products/{product}/collections/{collection}', 'Products\ProductCollectionController@destroy');
 $this->post('products/{product}/associations', 'Products\ProductAssociationController@store');
 $this->delete('products/{product}/associations', 'Products\ProductAssociationController@destroy');
@@ -185,6 +185,8 @@ $this->post('shipping/{id}/prices', 'Shipping\ShippingPriceController@store');
 $this->delete('shipping/prices/{id}', 'Shipping\ShippingPriceController@destroy');
 $this->put('shipping/prices/{id}', 'Shipping\ShippingPriceController@update');
 $this->put('shipping/{id}/zones', 'Shipping\ShippingMethodController@updateZones');
+$this->put('shipping/{id}/users', 'Shipping\ShippingMethodController@updateUsers');
+$this->delete('shipping/{id}/users/{user}', 'Shipping\ShippingMethodController@deleteUser');
 $this->resource('shipping', 'Shipping\ShippingMethodController', [
     'except' => ['index', 'edit', 'create']
 ]);

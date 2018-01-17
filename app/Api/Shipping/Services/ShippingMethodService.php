@@ -114,4 +114,41 @@ class ShippingMethodService extends BaseService
 
         return $method;
     }
+
+    /**
+     * Update users for a shipping method
+     *
+     * @param string $methodId
+     * @param array $users
+     * 
+     * @return ShippingMethod
+     */
+    public function updateUsers($methodId, $users = [])
+    {
+        $method = $this->getByHashedId($methodId);
+
+        $method->users()->detach();
+
+        $method->users()->attach(
+            app('api')->users()->getDecodedIds($users)
+        );
+
+        return $method;
+    }
+
+    /**
+     * Remove a user from a shipping method
+     *
+     * @param string $methodId
+     * @param string $userId
+     * 
+     * @return ShippingMethod
+     */
+    public function deleteUser($methodId, $userId)
+    {
+        $user = app('api')->users()->getDecodedId($userId);
+        $method = $this->getByHashedId($methodId);
+        $method->users()->detach($user);
+        return $method;
+    }
 }

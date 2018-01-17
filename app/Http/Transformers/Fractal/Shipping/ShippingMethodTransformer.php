@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use GetCandy\Api\Traits\IncludesAttributes;
 use GetCandy\Api\Shipping\Models\ShippingMethod;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
 use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
 
 class ShippingMethodTransformer extends BaseTransformer
@@ -12,7 +13,7 @@ class ShippingMethodTransformer extends BaseTransformer
     use IncludesAttributes;
     
     protected $availableIncludes = [
-        'zones', 'prices', 'attribute_groups', 'channels'
+        'zones', 'prices', 'attribute_groups', 'channels', 'users'
     ];
 
     public function transform(ShippingMethod $method)
@@ -32,6 +33,11 @@ class ShippingMethodTransformer extends BaseTransformer
     protected function includeZones(ShippingMethod $method)
     {
         return $this->collection($method->zones, new ShippingZoneTransformer);
+    }
+
+    protected function includeUsers(ShippingMethod $method)
+    {
+        return $this->collection($method->users, new UserTransformer);
     }
 
     /**

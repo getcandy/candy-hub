@@ -3,6 +3,8 @@
   This component is responsible for displaying the product edit page.
  -->
 <script>
+    import ShippingUsers from './edit/ShippingUsers.vue';
+
     export default {
         data() {
             return {
@@ -10,6 +12,9 @@
                 loaded: false,
                 method: {}
             }
+        },
+        components: {
+            'candy-shipping-users': ShippingUsers
         },
         props: {
             id: {
@@ -45,7 +50,7 @@
              */
             loadMethod(id) {
                 apiRequest.send('get', '/shipping/' + id, {}, {
-                    includes: 'prices.customer_groups,prices.currency,zones,channels,attribute_groups.attributes'
+                    includes: 'prices.customer_groups,prices.currency,zones,channels,attribute_groups.attributes,users'
                 })
                 .then(response => {
                     this.method = response.data;
@@ -53,11 +58,6 @@
                     CandyEvent.$emit('title-changed', {
                         title: this.method
                     });
-
-                    // apiRequest.send('GET', 'currencies/' + this.order.currency).then(response => {
-                    //     this.currency = response.data;
-                    //     this.loaded = true;
-                    // });
                 }).catch(error => {
                 });
             }
@@ -83,6 +83,9 @@
                             </candy-tab>
                             <candy-tab name="Channels" dispatch="save-shipping-method">
                                 <candy-channel-association :channels="method.channels.data"></candy-channel-association>
+                            </candy-tab>
+                            <candy-tab name="Users" dispatch="save-shipping-method">
+                                <candy-shipping-users :method="method"></candy-shipping-users>
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>

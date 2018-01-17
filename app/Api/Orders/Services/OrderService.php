@@ -111,12 +111,13 @@ class OrderService extends BaseService
      * 
      * @return Order
      */
-    public function setShipping($id, array $data)
+    public function setShipping($id, array $data, $user = null)
     {
         return $this->addAddress(
             $id,
             $data,
-            'shipping'
+            'shipping',
+            $user
         );
     }
 
@@ -128,17 +129,18 @@ class OrderService extends BaseService
      *
      * @return Order
      */
-    public function setBilling($id, array $data)
+    public function setBilling($id, array $data, $user = null)
     {
         return $this->addAddress(
             $id,
             $data,
-            'billing'
+            'billing',
+            $user
         );
     }
 
     /**
-     * Adds an address for a
+     * Adds an address for an order
      *
      * @param string $id
      * @param array $data
@@ -155,13 +157,17 @@ class OrderService extends BaseService
         }
 
         $order->save();
-        
+
+
         // If this address doesn't exist, create it.
-        if (!empty($data['address_id'])) {
+        if (!empty($data['address_id'])) {            
             $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
             $data = $shipping->toArray();
         } elseif ($user) {
-            app('api')->addresses()->addAddress($user, $data, $type);
+            $address = app('api')->addresses()->addAddress($user, $data, $type);
+            $data = $address->fields;
+        } else {
+            // 
         }
 
         $this->setFields($order, $data, $type);

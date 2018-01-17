@@ -24,18 +24,18 @@ class ShippingMethodController extends BaseController
     }
 
     /**
-     * Handles the request to show a channel based on it's hashed ID
+     * Handles the request to show a shipping method based on it's hashed ID
      * @param  String $id
      * @return Json
      */
     public function show($id)
     {
         try {
-            $channel = app('api')->shippingMethods()->getByHashedId($id);
+            $shipping = app('api')->shippingMethods()->getByHashedId($id);
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
-        return $this->respondWithItem($channel, new ShippingMethodTransformer);
+        return $this->respondWithItem($shipping, new ShippingMethodTransformer);
     }
 
     /**
@@ -62,6 +62,18 @@ class ShippingMethodController extends BaseController
     public function updateZones($id, Request $request)
     {
         $method = app('api')->shippingMethods()->updateZones($id, $request->all());
+        return $this->respondWithItem($method, new ShippingMethodTransformer);
+    }
+
+    public function updateUsers($id, Request $request)
+    {
+        $method = app('api')->shippingMethods()->updateUsers($id, $request->users);
+        return $this->respondWithItem($method, new ShippingMethodTransformer);
+    }
+
+    public function deleteUser($methodId, $userId)
+    {
+        $method = app('api')->shippingMethods()->deleteUser($methodId, $userId);
         return $this->respondWithItem($method, new ShippingMethodTransformer);
     }
 }
