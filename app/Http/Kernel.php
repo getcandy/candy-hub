@@ -17,7 +17,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \GetCandy\Http\Middleware\TrimStrings::class,
-        \GetCandy\Http\Middleware\SetCustomerGroups::class,
         \GetCandy\Http\Middleware\SetCurrencyMiddleware::class,
         \GetCandy\Http\Middleware\SetTaxMiddleware::class
         //\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
@@ -44,7 +43,7 @@ class Kernel extends HttpKernel
         ],
         'api' => [
             'throttle:600,1',
-            'bindings',
+            'bindings'
         ],
         'api:client' => [
             'throttle:600,1',
@@ -69,6 +68,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'api.language' => \GetCandy\Http\Middleware\SetLocaleMiddleware::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
-        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'customer_groups' => \GetCandy\Http\Middleware\SetCustomerGroups::class
     ];
 }

@@ -16,8 +16,8 @@ class SetCustomerGroups
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user) {
-            $groups = $request->groups;
+        if ($request->user()) {
+            $groups = $request->user()->groups;
         } else {
             $groups = [app('api')->customerGroups()->getGuest()];
         }

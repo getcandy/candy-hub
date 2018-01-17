@@ -69,12 +69,12 @@ class RouteServiceProvider extends ServiceProvider
         $apiPrefix = 'api/' . config('app.api_version', 'v1');
         $namespace = 'GetCandy\Http\Controllers\Api';
 
-        Route::middleware(['auth:api', 'api.language'])
+        Route::middleware(['auth:api', 'api.language', 'customer_groups'])
             ->namespace('GetCandy\Http\Controllers\Api')
             ->prefix($apiPrefix)
             ->group(base_path('routes/api.php'));
 
-        Route::middleware(['api:client', 'api.language'])
+        Route::middleware(['api:client', 'api.language', 'customer_groups'])
             ->namespace('GetCandy\Http\Controllers\Api')
             ->prefix($apiPrefix)
             ->group(base_path('routes/api.client.php'));
