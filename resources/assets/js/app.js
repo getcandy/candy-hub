@@ -152,8 +152,8 @@ const app = new Vue({
 
 Vue.use(CandyHelpers);
 
-String.prototype.money = function (c,t,d) {
-  var n = this,
+function formatMoney (n, c,t,d) {
+  var
     c = isNaN(c = Math.abs(c)) ? 2 : c,
     d = d == undefined ? "." : d,
     t = t == undefined ? "," : t,
@@ -163,6 +163,12 @@ String.prototype.money = function (c,t,d) {
   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
 
+String.prototype.money = function (c,t,d) {
+  return formatMoney(this, c,t,d);
+}
+Number.prototype.money = function (c, t, d) {
+  return formatMoney(this, c, t, d);
+}
 
 window.axios.interceptors.response.use((response) => { // intercept the global error
   return response
