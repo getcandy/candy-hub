@@ -4,6 +4,7 @@ namespace GetCandy\Http\Controllers\Api\Users;
 
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Users\CreateRequest;
+use GetCandy\Http\Requests\Api\Users\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;

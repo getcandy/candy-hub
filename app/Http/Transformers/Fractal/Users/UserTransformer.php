@@ -23,8 +23,8 @@ class UserTransformer extends BaseTransformer
         return [
             'id' => $user->encodedId(),
             'title' => $user->title,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
+            'firstname' => $user->firstname,
+            'lastname' => $user->lastname,
             'company_name' => $user->company_name,
             'contact_number' => $user->contact_number,
             'vat_no' => $user->vat_no,
