@@ -31,7 +31,7 @@ class OrderService extends BaseService
      * 
      * @return Order
      */
-    public function store($basketId)
+    public function store($basketId, $user = null)
     {
         // // Get the basket
         $basket = app('api')->baskets()->getByHashedId($basketId);
@@ -43,7 +43,10 @@ class OrderService extends BaseService
             $order->basket()->associate($basket);
         }
 
-        $order->user()->associate(app('auth')->user());
+        if ($user) {
+            $order->user()->associate($user);
+        }
+        
         $order->total = $basket->total;
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
