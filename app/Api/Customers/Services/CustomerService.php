@@ -32,7 +32,8 @@ class CustomerService extends BaseService
 
         if ($keywords) {
             $query = $query->orWhere('email', 'LIKE', '%'.$keywords.'%')
-                        ->orWhere('name', 'LIKE', '%'.$keywords.'%');
+                        ->orWhere('first_name', 'LIKE', '%'.$keywords.'%')
+                        ->orWhere('last_name', 'LIKE', '%' . $keywords . '%');
         }
 
         return $query->paginate($length, ['*'], 'page', $page);
