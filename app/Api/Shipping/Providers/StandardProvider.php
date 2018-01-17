@@ -22,8 +22,6 @@ class StandardProvider extends AbstractProvider
                 return $item;
             };
         })->sortBy('rate')->first();
-        
-        // dump($price);
         return $price;
     }
 }
