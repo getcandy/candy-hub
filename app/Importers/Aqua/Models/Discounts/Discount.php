@@ -43,8 +43,8 @@ class Discount extends BaseModel
         return array_merge($data, [
             'stop_rules' => $this->stop == 'Y',
             'uses' => $this->number_of_usages,
-            'start_at' => Carbon::createFromTimestamp($this->from_date),
-            'end_at' => Carbon::createFromTimestamp($this->to_date),
+            'start_at' => $this->from_date ? Carbon::createFromTimestamp($this->from_date) : Carbon::now(),
+            'end_at' => $this->to_date ? Carbon::createFromTimestamp($this->to_date) : null,
             'channels' => ['data' => $channelData],
             'conditions' => $this->conditions,
             'bonuses' => $this->bonuses
