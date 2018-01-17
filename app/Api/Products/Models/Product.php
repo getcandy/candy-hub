@@ -2,21 +2,22 @@
 
 namespace GetCandy\Api\Products\Models;
 
-use GetCandy\Api\Attributes\Models\Attribute;
-use GetCandy\Api\Categories\Models\Category;
-use GetCandy\Api\Collections\Models\Collection;
-use GetCandy\Api\Layouts\Models\Layout;
-use GetCandy\Api\Pages\Models\Page;
-use GetCandy\Api\Scaffold\BaseModel;
-use GetCandy\Api\Traits\Assetable;
-use GetCandy\Api\Traits\HasAttributes;
-use GetCandy\Api\Traits\HasChannels;
-use GetCandy\Api\Traits\HasCustomerGroups;
-use GetCandy\Api\Traits\HasRoutes;
-use GetCandy\Api\Traits\HasTranslations;
 use GetCandy\Api\Traits\Indexable;
-use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
+use GetCandy\Api\Traits\Assetable;
+use GetCandy\Api\Traits\HasRoutes;
+use GetCandy\Api\Pages\Models\Page;
+use GetCandy\Api\Traits\HasChannels;
+use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Layouts\Models\Layout;
+use GetCandy\Api\Traits\HasTranslations;
+use GetCandy\Api\Traits\HasCustomerGroups;
+use GetCandy\Api\Discounts\Models\Discount;
+use GetCandy\Api\Categories\Models\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use GetCandy\Api\Attributes\Models\Attribute;
+use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 
 class Product extends BaseModel
 {
