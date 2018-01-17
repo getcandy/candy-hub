@@ -55,8 +55,6 @@ class ProductTransformer extends BaseTransformer
             'variant_count' => $product->variants->count()
         ];
 
-        $response['discounts'] = $product->discounts;
-    
         if ($product->pivot && $product->pivot->type) {
             $response['type'] = $product->pivot->type;
         }
