@@ -103,8 +103,6 @@ var includes = [
   {
     path: 'marketing.discounts.types',
     components: {
-      'discounts-product-in-list': 'ProductInList',
-      'discounts-user-in-list' : 'UserInList',
       'discounts-coupon': 'Coupon',
       'discounts-customer-groups' : 'CustomerGroups'
     }
