@@ -56,7 +56,7 @@ class UserService extends BaseService
         if (isset($data['id'])) {
             $user->id = $data['id'];
         }
-        if (isset($data['id'])) {
+        if (isset($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
         }
 
