@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
         $language = app('api')->languages()->getDefaultRecord();
 
         $admin = User::create([
-            'id' => 9999999,
+            'id' => 2,
             'title' => 'Mr',
             'firstname' => 'Alec',
             'lastname' => 'Ritson',
@@ -32,7 +32,7 @@ class UserTableSeeder extends Seeder
         $admin->save();
 
         $customer = User::create([
-            'id' => 9999998,
+            'id' => 7,
             'title' => 'Mr',
             'firstname' => 'Shaun',
             'lastname' => 'Rainer',
