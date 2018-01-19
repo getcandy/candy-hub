@@ -2,13 +2,14 @@
 
 namespace GetCandy\Importers\Aqua\Models\Products;
 
-use GetCandy\Importers\Aqua\Models\BaseModel;
-use GetCandy\Importers\Aqua\Models\Channel;
-use GetCandy\Importers\Aqua\Models\Products\ProductCategory;
-use GetCandy\Importers\Aqua\Models\Assets\ImageLink;
-use GetCandy\Importers\Aqua\Decorator;
 use Carbon\Carbon;
+use GetCandy\Importers\Aqua\Decorator;
+use GetCandy\Importers\Aqua\Models\Channel;
+use GetCandy\Importers\Aqua\Models\BaseModel;
+use GetCandy\Importers\Aqua\Models\Assets\ImageLink;
 use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
+use GetCandy\Importers\Aqua\Models\Seo\SeoRedirect;
+use GetCandy\Importers\Aqua\Models\Products\ProductCategory;
 
 class Product extends BaseModel
 {
@@ -74,7 +75,6 @@ class Product extends BaseModel
             }
         }
 
-
         $tiers = $this->prices()->where('lower_limit', '>', 1)->where('usergroup_id', '>', 0)->get();
         $prices = $this->prices()->where('lower_limit', '=', 1)->where('usergroup_id', '>', 0)->get();
 
@@ -101,6 +101,10 @@ class Product extends BaseModel
         ]);
     }
 
+    public function redirects()
+    {
+        return $this->hasMany(SeoRedirect::class, 'object_id', 'product_id');
+    }
 
     public function descriptions()
     {

@@ -32,7 +32,7 @@ class Factory extends BaseImporter
      */
     public function getProducts()
     {
-        $products = Product::with(['images', 'channel', 'inventory', 'inventory.image', 'categories', 'options', 'options.description', 'options.variants', 'options.variants.description'])->get();
+        $products = Product::with(['images', 'channel', 'inventory', 'inventory.image', 'categories', 'redirects', 'options', 'options.description', 'options.variants', 'options.variants.description'])->take(10)->get();
 
         return $products->toArray();
 
@@ -46,7 +46,7 @@ class Factory extends BaseImporter
 
     public function getCategories()
     {
-        $categories = Category::parents()->with(['children', 'children.children'])->where('company_id', '=', 1)->get()->toArray();
+        $categories = Category::parents()->with(['redirects', 'children', 'children.children', 'children.redirects'])->where('company_id', '=', 1)->get()->toArray();
         return $categories;
     }
 

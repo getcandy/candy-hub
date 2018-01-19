@@ -50,7 +50,7 @@ class ImportAquaSpa extends Command
         $driver = $this->argument('driver');
         $this->importer = app($driver . '.importer');
 
-        \Auth::loginUsingId(9999999);
+        \Auth::loginUsingId(2);
 
         $this->importChannels();
         $this->importCustomerGroups();
@@ -58,8 +58,8 @@ class ImportAquaSpa extends Command
         $this->importShippingMethods();
         $this->importProductFamilies();
         $this->importCategories();
-        $this->importUsers();
-        $this->importOrders();
+        // $this->importUsers();
+        // $this->importOrders();
         $this->importProducts();
         $this->importDiscounts();
 
@@ -351,11 +351,31 @@ class ImportAquaSpa extends Command
             // dd($category);
             $newCat = app('api')->categories()->create($category);
 
+            if (count($category['redirects'])) {
+                foreach ($category['redirects'] as $redirect) {
+                    app('api')->categories()->createUrl($newCat->encodedId(), [
+                        'locale' => $redirect['lang_code'],
+                        'slug' => $redirect['src'],
+                        'redirect' => true
+                    ]);
+                }
+            }
+
             foreach ($category['children'] as $index => $child) {
                 $child['parent'] = [
                     'id' => $newCat->encodedId()
                 ];
-                app('api')->categories()->create($child);
+                $childModel = app('api')->categories()->create($child);
+
+                if (count($child['redirects'])) {
+                    foreach ($child['redirects'] as $childRe) {
+                        app('api')->categories()->createUrl($childModel->encodedId(), [
+                            'locale' => $childRe['lang_code'],
+                            'slug' => $childRe['src'],
+                            'redirect' => true
+                        ]);
+                    }
+                }
             }
             
             $bar->advance();
@@ -440,6 +460,16 @@ class ImportAquaSpa extends Command
 
             // No matter what, just create a basic product...
             $model = app('api')->products()->create($product);
+
+            if (count($product['redirects'])) {
+                foreach ($product['redirects'] as $redirect) {
+                    app('api')->products()->createUrl($model->encodedId(), [
+                        'locale' => $redirect['lang_code'],
+                        'slug' => $redirect['src'],
+                        'redirect' => true
+                    ]);
+                }
+            }
 
             // Upload assets pretty much instantly.
             foreach ($product['images'] as $image) {

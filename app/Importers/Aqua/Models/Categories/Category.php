@@ -2,16 +2,22 @@
 
 namespace GetCandy\Importers\Aqua\Models\Categories;
 
-use GetCandy\Importers\Aqua\Models\BaseModel;
-use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
 use GetCandy\Importers\Aqua\Decorator;
 use GetCandy\Importers\Aqua\Models\Channel;
+use GetCandy\Importers\Aqua\Models\BaseModel;
+use GetCandy\Importers\Aqua\Models\Seo\SeoRedirect;
+use GetCandy\Importers\Aqua\Models\UserGroups\UserGroup;
 
 class Category extends BaseModel
 {
     protected $table = 'cscart_categories';
 
     public $idref = 'category_id';
+
+    public function redirects()
+    {
+        return $this->hasMany(SeoRedirect::class, 'object_id', 'category_id');
+    }
 
     public function descriptions()
     {
