@@ -23,6 +23,12 @@
             loadDiscount: function (id) {
                 location.href = '/marketing-suite/discounts/' + id;
             },
+            status(discount) {
+                if (!discount.status) {
+                    return 'status-disabled'
+                }
+                return 'status-live';
+            },
             loadDiscounts() {
                 this.loaded = false;
                 apiRequest.send('GET', 'discounts', [], this.params)
@@ -78,7 +84,12 @@
                     </thead>
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="discount in discounts" @click="loadDiscount(discount.id)">
-                            <td>{{ discount|attribute('name') }}</td>
+                            <td>
+                                <figure class="status-icon">
+                                    <span class="status" :class="status(discount)"></span>
+                                </figure>
+                                {{ discount|attribute('name') }}
+                            </td>
                             <td>{{ discount.start_at|formatDate }}</td>
                             <td>{{ discount.end_at|formatDate }}</td>
                             <td>{{ discount.priority }}</td>
