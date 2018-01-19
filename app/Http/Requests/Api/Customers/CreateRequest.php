@@ -24,9 +24,9 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|unique:users,email',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'email' => 'required|unique:users,email'.$user->email,
+            'firstname' => 'required',
+            'lastname' => 'required',
             'password' => 'required|confirmed',
             'language' => 'required|exists:languages,lang|enabled:languages,lang',
             'group' => 'exists:customer_groups,handle',
