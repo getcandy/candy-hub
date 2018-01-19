@@ -88,4 +88,19 @@ class UserService extends BaseService
 
         return $user;
     }
+
+    public function update($userId, array $data)
+    {
+        $user = $this->getByHashedId($userId);
+
+        $user->title = $data['title'];
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
+        $user->contact_number = $data['contact_number'];
+        $user->company_name = $data['company_name'];
+        $user->vat_no = $data['vat_no'];
+
+        return $user->save();
+    }
+
 }

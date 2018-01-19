@@ -101,6 +101,13 @@ var includes = [
     }
   },
   {
+    path: 'marketing.discounts.types',
+    components: {
+      'discounts-coupon': 'Coupon',
+      'discounts-customer-groups' : 'CustomerGroups'
+    }
+  },
+  {
     path: 'catalogue-manager.products.edit',
     components: {
       'product-details' : 'ProductDetails',
