@@ -369,9 +369,9 @@
                                                                 <label class="thumbnail-select"
                                                                        :class="{'selected': asset.id == current.thumbnail && current.thumbnail.data.id}">
                                                                     <img :src="asset.thumbnail" :alt="asset.title"
-                                                                         v-if="asset.thumbnail">
+                                                                         v-if="asset.thumbnail" width="100px">
                                                                     <img :src="getIcon(asset.extension)"
-                                                                         :alt="asset.title" v-else>
+                                                                         :alt="asset.title" v-else width="100px">
                                                                     <input type="radio" :id="asset.id" :value="asset.id"
                                                                            @click="setImage(asset)">
                                                                 </label>
