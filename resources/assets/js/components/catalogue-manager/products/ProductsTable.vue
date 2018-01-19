@@ -340,9 +340,16 @@
                             </td>
                         </tr>
                     </tfoot>
+                    <tfoot v-if="loaded && !products.length">
+                        <tr>
+                            <td colspan="25" class="text-muted">
+                                No Products Found
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
 
-                <div class="text-center" v-if="loaded">
+                <div class="text-center" v-if="loaded && products.length">
                     <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
