@@ -447,7 +447,9 @@ class ImportAquaSpa extends Command
             }
 
             foreach ($product['inventory'] as $invItem) {
-                app('api')->assets()->upload($invItem['image'], $model);
+                if ($invItem['image']) {
+                    app('api')->assets()->upload($invItem['image'], $model);
+                }
             }
 
             foreach ($product['prices'] as $index => $price) {
