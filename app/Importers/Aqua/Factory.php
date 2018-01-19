@@ -32,7 +32,7 @@ class Factory extends BaseImporter
      */
     public function getProducts()
     {
-        $products = Product::with(['images', 'channel', 'inventory', 'inventory.image', 'categories', 'redirects', 'options', 'options.description', 'options.variants', 'options.variants.description'])->take(10)->get();
+        $products = Product::with(['images', 'channel', 'inventory', 'inventory.image', 'categories', 'redirects', 'options', 'options.description', 'options.variants', 'options.variants.description'])->get();
 
         return $products->toArray();
 
