@@ -20,8 +20,6 @@ class CustomerService extends BaseService
     public function register(array $data)
     {
         $user = app('api')->users()->create($data);
-
-        dd($data);
         $user->assignRole('customer');
         return $user;
     }
