@@ -342,6 +342,13 @@ class Search extends AbstractProvider implements ClientContract
         return $disMaxQuery;
     }
 
+    /**
+     * Gets an array of mapped sortable fields
+     *
+     * @param array $sorts
+     * 
+     * @return arrau
+     */
     protected function getSorts($sorts = [])
     {
         $mapping = $this->indexer->mapping();
@@ -361,7 +368,7 @@ class Search extends AbstractProvider implements ClientContract
                     continue;
                 }
                 foreach ($map['fields'] as $handle => $subField) {
-                    if ($subField['type'] == 'keyword') {
+                    if ($subField['type'] != 'text') {
                         $sortables[] = [$field . '.' . $handle => $dir];
                     }
                 }
