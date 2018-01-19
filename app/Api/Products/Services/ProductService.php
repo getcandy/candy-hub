@@ -87,6 +87,10 @@ class ProductService extends BaseService
             $product->id = $data['historical_id'];
         }
 
+        if (!empty($data['created_at'])) {
+            $product->created_at = $data['created_at'];
+        }
+
         $product->option_data = [];
 
         if (!empty($data['option_data'])) {

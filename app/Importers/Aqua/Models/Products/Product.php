@@ -92,6 +92,7 @@ class Product extends BaseModel
             'options' => $options,
             'tiers' => $tiers ? $tiers->toArray() : [],
             'prices' => $prices ? $prices->toArray() : [],
+            'created_at' => \Carbon\Carbon::createFromTimestamp($this->timestamp),
             'weight' => $this->weight,
             'channels' => [
                 'data' => $channelData
