@@ -446,6 +446,10 @@ class ImportAquaSpa extends Command
                 app('api')->assets()->upload($image, $model);
             }
 
+            foreach ($product['inventory'] as $invItem) {
+                app('api')->assets()->upload($invItem['image'], $model);
+            }
+
             foreach ($product['prices'] as $index => $price) {
                 $product['prices'][$index]['tax_id'] = $product['tax_id'];
             }
@@ -457,10 +461,12 @@ class ImportAquaSpa extends Command
                     if (!count($option['description'])) {
                         continue;
                     }
+                    
                     $name = str_slug($option['description'][0]['option_name']);
                     foreach ($option['variants'] as $vIndex => $variant) {
                         foreach ($variant['description'] as $vDesc) {
                             $sku = str_slug($product['sku']) . '-' . str_slug($vDesc['variant_name']);
+
                             $data = [
                                 'sku' => $sku,
                                 'price' => $product['price'],
