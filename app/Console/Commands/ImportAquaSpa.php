@@ -58,8 +58,8 @@ class ImportAquaSpa extends Command
         $this->importShippingMethods();
         $this->importProductFamilies();
         $this->importCategories();
-        // $this->importUsers();
-        // $this->importOrders();
+        $this->importUsers();
+        $this->importOrders();
         $this->importProducts();
         $this->importDiscounts();
 
