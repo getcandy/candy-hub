@@ -2,15 +2,16 @@
 
 namespace GetCandy\Http\Transformers\Fractal\Collections;
 
-use GetCandy\Api\Attributes\Models\AttributeGroup;
-use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Products\Models\Product;
-use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
-use GetCandy\Http\Transformers\Fractal\BaseTransformer;
-use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
-use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
-use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use GetCandy\Api\Traits\IncludesAttributes;
+use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Attributes\Models\AttributeGroup;
+use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
+use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
+use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
+use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
+use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 
 class CollectionTransformer extends BaseTransformer
 {
