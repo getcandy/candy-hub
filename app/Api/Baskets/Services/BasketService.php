@@ -77,7 +77,7 @@ class BasketService extends BaseService
 
         return $basket;
     }
-
+    
     protected function remapLines($basket, $variants = [])
     {
         $service = app('api')->productVariants();

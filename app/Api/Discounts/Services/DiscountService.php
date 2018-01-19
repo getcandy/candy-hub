@@ -33,13 +33,15 @@ class DiscountService extends BaseService
         if (!empty($data['start_at'])) {
             $discount->start_at = Carbon::parse($data['start_at']);
         }
-
-        if (!empty($data['end_at'])) {
+        if ($data['end_at']) {
             $discount->end_at = Carbon::parse($data['end_at']);
         }
-        
-        $discount->end_at = Carbon::now();
-        $discount->status = 'draft';
+
+        if (!empty($data['uses'])) {
+            $discount->uses = $data['uses'];
+        }
+
+        $discount->status = !empty($data['status']);
         $discount->save();
 
         if (!empty($data['channels']['data'])) {
@@ -65,6 +67,7 @@ class DiscountService extends BaseService
     {
         $discount = $this->getByHashedId($id);
         $discount->start_at = Carbon::parse($data['start_at']);
+
         $discount->end_at = Carbon::parse($data['end_at']);
         $discount->priority = $data['priority'];
         $discount->stop_rules = $data['stop_rules'];
@@ -156,7 +159,7 @@ class DiscountService extends BaseService
 
     public function getByCoupon($coupon)
     {
-        return DiscountCriteriaItem::where('criteria->value', '=', $coupon)->first();
+        return DiscountCriteriaItem::where('value', '=', $coupon)->first();
     }
 
     public function parse($discounts)
