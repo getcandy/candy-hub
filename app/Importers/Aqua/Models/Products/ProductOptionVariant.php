@@ -3,6 +3,7 @@
 namespace GetCandy\Importers\Aqua\Models\Products;
 
 use GetCandy\Importers\Aqua\Models\BaseModel;
+use GetCandy\Importers\Aqua\Models\Assets\ImageLink;
 
 class ProductOptionVariant extends BaseModel
 {

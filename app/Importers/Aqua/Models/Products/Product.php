@@ -135,4 +135,10 @@ class Product extends BaseModel
         // Convert column to an array...
         return UserGroup::whereIn('usergroup_id', explode(',', $this->usergroup_ids));
     }
+
+    public function inventory()
+    {
+        return $this->hasMany(ProductOptionInventory::class, 'product_id', 'product_id');
+    }
+
 }
