@@ -59,7 +59,7 @@ class Search extends AbstractProvider implements ClientContract
      * 
      * @return array
      */
-    public function search($keywords, $filters = [], $page = 1, $perPage = 25)
+    public function search($keywords, $filters = [], $sorts = [], $page = 1, $perPage = 25)
     {
         if (!$this->indexer) {
             abort(400, 'You need to set an indexer first');
@@ -80,6 +80,10 @@ class Search extends AbstractProvider implements ClientContract
         $query = new Query();
         $query->setParam('size', $perPage);
         $query->setParam('from', ($page - 1) * $perPage);
+
+        foreach ($this->getSorts($sorts) as $sortable) {
+            $query->addSort($sortable);
+        }
 
         $boolQuery = new BoolQuery;
 
@@ -336,5 +340,36 @@ class Search extends AbstractProvider implements ClientContract
         $disMaxQuery->addQuery($multiMatchQuery);
 
         return $disMaxQuery;
+    }
+
+    protected function getSorts($sorts = [])
+    {
+        $mapping = $this->indexer->mapping();
+
+        $sortables = [];
+
+        foreach ($sorts as $field => $dir) {
+            if (empty($mapping[$field])) {
+                continue;
+            }
+            $map = $mapping[$field];
+
+            // If it's a text property, elastic won't sort on it.
+            // So lets find any sortable fields we can use...
+            if ($map['type'] == 'text') {
+                if (empty($map['fields'])) {
+                    continue;
+                }
+                foreach ($map['fields'] as $handle => $subField) {
+                    if ($subField['type'] == 'keyword') {
+                        $sortables[] = [$field . '.' . $handle => $dir];
+                    }
+                }
+            } else {
+                $sortables[] = [$field => $dir];
+            }
+        }
+
+        return $sortables;
     }
 }

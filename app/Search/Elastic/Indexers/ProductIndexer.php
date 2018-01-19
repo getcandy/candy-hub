@@ -48,6 +48,9 @@ class ProductIndexer extends BaseIndexer
                 'type' => 'text',
                 'analyzer' => 'standard',
             ],
+            'created_at'  => [
+                'type' => 'date'
+            ],
             'departments' => [
                 'type' => 'nested',
                 'properties' => [
@@ -107,6 +110,9 @@ class ProductIndexer extends BaseIndexer
                 'type' => 'text',
                 'analyzer' => 'standard',
                 'fields' => [
+                    'sortable' => [
+                        'type' => 'keyword'
+                    ],
                     'en' => [
                         'type' => 'text',
                         'analyzer' => 'english'

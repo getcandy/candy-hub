@@ -141,7 +141,7 @@
                     }).catch(response => {
                     CandyEvent.$emit('notification', {
                         level: 'error',
-                        message: 'Missing / Invalid fields'
+                        message: response.message
                     });
                 });
             },
