@@ -52,16 +52,19 @@ class UserService extends BaseService
     public function create($data)
     {
         $user = new User();
+
         if (isset($data['id'])) {
             $user->id = $data['id'];
         }
+        if (isset($data['id'])) {
+            $user->contact_number = $data['contact_number'];
+        }
+
         $user->password = bcrypt($data['password']);
 
         // $user->title = $data['title'];
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
-        $user->contact_number = $data['contact_number'];
-        
         $user->email = $data['email'];
 
         if (empty($data['language'])) {
