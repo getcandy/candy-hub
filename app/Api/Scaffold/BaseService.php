@@ -380,6 +380,12 @@ abstract class BaseService
     {
         $model = $this->getByHashedId($hashedId);
 
+        try {
+            $existing = app('api')->routes()->getBySlug($data['slug']);
+            return $model;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        }
+
         $model->routes()->create([
             'locale' => $data['locale'],
             'slug' => $data['slug'],
