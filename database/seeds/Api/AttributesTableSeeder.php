@@ -32,6 +32,18 @@ class AttributesTableSeeder extends Seeder
         $attribute->save();
 
         $attribute = new Attribute();
+        $attribute->name = ['en' => 'Short Description', 'sv' => 'Beskrivning'];
+        $attribute->handle = 'short_description';
+        $attribute->position = 2;
+        $attribute->group_id = $group->id;
+        $attribute->channeled = 1;
+        $attribute->required = true;
+        $attribute->type = 'richtext';
+        $attribute->scopeable = 1;
+        $attribute->searchable = 1;
+        $attribute->save();
+
+        $attribute = new Attribute();
         $attribute->name = ['en' => 'Description', 'sv' => 'Beskrivning'];
         $attribute->handle = 'description';
         $attribute->position = 2;

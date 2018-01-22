@@ -12,7 +12,7 @@ trait HasAttributes
      */
     public function attributes()
     {
-        return $this->morphToMany(Attribute::class, 'attributable');
+        return $this->morphToMany(Attribute::class, 'attributable')->orderBy('position', 'asc');
     }
 
     public function attributeGroup()
@@ -61,6 +61,7 @@ trait HasAttributes
         if (!$this->id) {
             $this->attributes['attribute_data'] = json_encode($this->mapAttributes($val));
         } else {
+            // dd(json_encode($val));
             $this->attributes['attribute_data'] = json_encode($val);
         }
     }
