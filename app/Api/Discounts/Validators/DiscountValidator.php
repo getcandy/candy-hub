@@ -32,8 +32,6 @@ class DiscountValidator
 
         $discount = $coupon->set->discount;
 
-        dd($discount);
-
         if (Carbon::parse($discount->start_at)->isFuture() ||
             $discount->end_at && Carbon::parse($discount->end_at)->isPast()) {
             return false;
@@ -42,6 +40,7 @@ class DiscountValidator
         if (!$discount->status) {
             return false;
         }
+        
 
         return !$basket->discounts->filter(function ($discount) use ($value) {
             if ($discount->stop_rules || ($discount->pivot->coupon === $value)) {
