@@ -3,7 +3,7 @@ namespace GetCandy\Api\Discounts\Criteria;
 
 use GetCandy\Api\Discounts\Contracts\DiscountCriteriaContract;
 
-class ProductIn implements DiscountCriteriaContract
+class Products implements DiscountCriteriaContract
 {
     protected $criteria;
 
@@ -12,34 +12,25 @@ class ProductIn implements DiscountCriteriaContract
         return 'catalog';
     }
 
-    public function setCriteria($criteria)
+    public function setValue($value)
     {
-        $this->criteria = json_decode($criteria, true);
+        $this->value = $value;
     }
 
-    public function getCriteria()
+    public function getValue()
     {
-        return $this->criteria;
-    }
-
-    public function getRealIds()
-    {
-        $ids = [];
-        if (!empty($this->criteria['value'])) {
-            $ids = app('api')->products()->getDecodedIds($this->criteria['value']);
-        }
-        return collect($ids);
+        return $this->value;
     }
 
     public function check($user, $product = null, $basket = null)
     {
         // If we are not checking a product, its a basket...
         if ($product) {
-            return $this->getRealIds()->contains($product->id);
+            return $this->value->contains($product->id);
         }
         $check = false;
         foreach ($basket->lines as $line) {
-            $check = $this->getRealIds()->contains($line->variant->product->id);
+            $check = $this->value->contains($line->variant->product->id);
         }
         return $check;
     }
