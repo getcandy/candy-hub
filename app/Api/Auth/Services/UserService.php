@@ -111,8 +111,10 @@ class UserService extends BaseService
         if (!empty($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
         }
+        
+        $user->save();
 
-        return $user->save();
+        return $user;
     }
 
 }
