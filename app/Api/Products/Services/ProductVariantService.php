@@ -218,7 +218,7 @@ class ProductVariantService extends BaseService
             $variant->customerPricing()->delete();
         }
         
-        if (!empty($data['inventory'])) {
+        if (!isset($data['inventory'])) {
             $variant->stock = $data['inventory'];
         }
 
