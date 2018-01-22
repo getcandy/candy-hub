@@ -129,7 +129,7 @@ class CategoryService extends BaseService
 
     public function getCategoryTree()
     {
-        return Category::get()->toTree();
+        return Category::defaultOrder()->get()->toTree();
     }
 
     /**
