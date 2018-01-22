@@ -41,6 +41,14 @@ class Category extends BaseModel
             ]
         ]);
     }
+
+    public function getParentIdAttribute($val)
+    {
+        if ($val) {
+            return $this->encode($val);
+        }
+        return $val;
+    }
     public function hasChildren()
     {
         return (bool) $this->children()->count();
