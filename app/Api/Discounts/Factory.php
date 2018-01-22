@@ -18,7 +18,6 @@ class Factory
                 break;
             }
         }
-
         return collect($discounts)->filter(function ($discount) {
             return $discount->applied;
         });
