@@ -24,7 +24,7 @@ class ProcessRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_id' => 'required|hashid_is_valid:orders|valid_order',
+            'order_id' => 'required',
             'payment_token' => 'required|valid_payment_token'
         ];
     }

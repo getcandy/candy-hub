@@ -17,6 +17,7 @@ class HashidValidator
         if (empty($parameters)) {
             abort(500, 'hashid_is_valid expects model reference');
         }
+
         $method = camel_case($parameters[0]);
 
         $result = app('api')->{$method}()->existsByHashedId($value);
