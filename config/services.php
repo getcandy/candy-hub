@@ -34,7 +34,10 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    'reviews' => [
+        'merchant' => 'aqua-spa-supplies-',
+        'key' => env('REVIEWS_KEY')
+    ],
     'braintree' => [
         'key' => env('BRAINTREE_PUBLIC_KEY'),
         'secret' => env('BRAINTREE_PRIVATE_KEY'),

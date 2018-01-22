@@ -9,6 +9,7 @@ use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Baskets\Models\Basket;
 use GetCandy\Api\Orders\Events\OrderBeforeSavedEvent;
+use GetCandy\Api\Orders\Events\OrderProcessedEvent;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 use Carbon\Carbon;
 
@@ -335,7 +336,7 @@ class OrderService extends BaseService
     public function isActive($orderId)
     {
         $realId = $this->getDecodedId($orderId);
-        return (bool) $this->model->where('id', '=', $realId)->where('status', '=', 'open')->exists();
+        return (bool) $this->model->where('id', '=', $realId)->where('status', '=', 'awaiting-payment')->exists();
     }
 
     /**
@@ -383,6 +384,8 @@ class OrderService extends BaseService
         }
 
         $order->save();
+
+        event(new OrderProcessedEvent($order));
 
         $transaction->order_id = $order->id;
         $transaction->save();
