@@ -11,24 +11,16 @@ class Coupon implements DiscountCriteriaContract
         return 'basket';
     }
 
-    public function setCriteria($criteria)
+    protected $value;
+
+    public function setValue($value)
     {
-        $this->criteria = json_decode($criteria, true)['value'];
+        $this->value = $value;
     }
 
-    public function check($user = null, $product = null, $basket = null)
+    public function getValue()
     {
-        if (!$basket) {
-            return false;
-        }
-        
-        $coupons = $basket->discounts->map(function ($item) {
-            return $item->pivot->coupon;
-        });
-
-        $check = $coupons->contains($this->criteria);
-
-        return false;
+        return $this->value;
     }
 
     public function getLabel()
@@ -41,12 +33,17 @@ class Coupon implements DiscountCriteriaContract
         return 'coupon';
     }
 
-    public function getCriteria()
+    public function check($user = null, $product = null, $basket = null)
     {
-        return [
-            [
-                '{value}', '===', '{input}'
-            ]
-        ];
+        if (!$basket) {
+            return false;
+        }
+        $coupons = $basket->discounts->map(function ($item) {
+            return $item->pivot->coupon;
+        });
+
+        $check = $coupons->contains($this->value);
+
+        return $check;
     }
 }

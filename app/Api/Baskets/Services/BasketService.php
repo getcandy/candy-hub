@@ -1,11 +1,13 @@
 <?php
 namespace GetCandy\Api\Baskets\Services;
 
+use Carbon\Carbon;
+use GetCandy\Api\Auth\Models\User;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Api\Baskets\Models\Basket;
-use GetCandy\Api\Auth\Models\User;
-use Carbon\Carbon;
+use GetCandy\Api\Baskets\Models\BasketTotal;
 use GetCandy\Api\Baskets\Events\BasketStoredEvent;
+use GetCandy\Api\Discounts\Factory;
 
 class BasketService extends BaseService
 {
@@ -92,7 +94,6 @@ class BasketService extends BaseService
             } else {
                 $price = $variant->total_price;
             }
-
             return [
                 'product_variant_id' => $variant->id,
                 'quantity' => $item['quantity'],
@@ -101,27 +102,6 @@ class BasketService extends BaseService
         });
 
         $basket->lines()->createMany($variants->toArray());
-        
-        // if ($variants) {
-        //     $variants = collect($variants)->map(function ($item) use ($service) {
-
-        //         $variant = $service->getByHashedId($item['id']);
-        //         $tieredPrice = $service->getTieredPrice($variant, $item['quantity'], \Auth::user());
-
-        //         if ($tieredPrice) {
-        //             $price = $tieredPrice->amount;
-        //         } else {
-        //             $price = $variant->total_price;
-        //         }
-
-        //         return [
-        //             'product_variant_id' => $variant->id,
-        //             'quantity' => $item['quantity'],
-        //             'total' => $item['quantity'] * $price
-        //         ];
-        //     });
-        //     $basket->lines()->createMany($variants->toArray());
-        // }
     }
 
     /**
@@ -224,5 +204,20 @@ class BasketService extends BaseService
             $newLines->merge($oldLines)->toArray()
         );
         return $userBasket;
+    }
+
+    /**
+     * Get the totals for a basket.
+     *
+     * @param Basket $basket
+     *
+     * @return BasketTotal
+     */
+    public function setTotals(Basket $basket)
+    {
+        $factory = new Factory;
+        $sets = app('api')->discounts()->parse($basket->discounts);
+        $applied = $factory->getApplied($sets, \Auth::user(), null, $basket);
+        $factory->applyToBasket($applied, $basket);
     }
 }

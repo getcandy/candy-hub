@@ -2,13 +2,12 @@
 namespace GetCandy\Api\Baskets\Models;
 
 use GetCandy\Api\Auth\Models\User;
-use GetCandy\Api\Discounts\Factory;
 use GetCandy\Api\Scaffold\BaseModel;
 use GetCandy\Api\Orders\Models\Order;
 use GetCandy\Api\Traits\HasCompletion;
 use Illuminate\Database\Eloquent\Scope;
 use GetCandy\Api\Discounts\Models\Discount;
-use TaxCalculator;
+use PriceCalculator;
 
 class Basket extends BaseModel
 {
@@ -49,31 +48,28 @@ class Basket extends BaseModel
     {
         return $this->hasOne(Order::class);
     }
+    // protected function getTotalWithoutDiscountAttribute()
+    // {
+    //     // $subTotal = 0;
+    //     // foreach ($this->lines as $line) {
+    //     //     if ($line->variant->tax) {
+    //     //         $tieredPrice = app('api')->productVariants()->getTieredPrice($line->variant, $line->quantity, \Auth::user());
+    //     //         if ($tieredPrice) {
+    //     //             $taxTotal += $tieredPrice->tax;
+    //     //         } else {
+    //     //             $taxTotal += PriceCalculator::get($line->current_total, $line->variant->tax)->amount;
+    //     //         }
+    //     //     }
+    //     // }
+    //     // return $total;
+    // }
 
-    public function getTotalAttribute()
-    {
-        $factory = new Factory;
-        $sets = app('api')->discounts()->parse($this->discounts);
-        $applied = $factory->getApplied($sets, \Auth::user(), null, $this);
-        $total = $factory->applyToBasket($applied, $this);
-        return $total;
-    }
+    // public function getTaxTotalAttribute()
+    // {
 
-    public function getTaxTotalAttribute()
-    {
-        $taxTotal = 0;
-        foreach ($this->lines as $line) {
-            if ($line->variant->tax) {
-                $tieredPrice = app('api')->productVariants()->getTieredPrice($line->variant, $line->quantity, \Auth::user());
-                if ($tieredPrice) {
-                    $taxTotal += $tieredPrice->tax;
-                } else {
-                    $taxTotal += TaxCalculator::set($line->variant->tax)->amount($line->total);
-                }
-            }
-        }
-        return $taxTotal;
-    }
+    //     dd($taxTotal);
+    //     return $taxTotal;
+    // }
 
     public function getWeightAttribute()
     {

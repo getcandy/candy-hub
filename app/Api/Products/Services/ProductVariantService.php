@@ -120,7 +120,6 @@ class ProductVariantService extends BaseService
     public function getVariantPrice($variant, $user = null)
     {
         // clock()->startEvent($variant->encodedId(), "Getting variant [{$variant->encodedId()}] price");
-
         $groups = \GetCandy::getGroups();
 
         $ids = [];

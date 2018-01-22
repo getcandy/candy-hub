@@ -19,7 +19,7 @@ class CriteriaSet
         }
 
         $criteria = new $classname;
-        $criteria->setCriteria($set->criteria);
+        $criteria->setValue($set->value);
         $this->sets[] = $criteria;
     }
 

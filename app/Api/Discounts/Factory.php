@@ -4,6 +4,7 @@ namespace GetCandy\Api\Discounts;
 
 use GetCandy\Api\Discounts\Criteria\ProductIn;
 use GetCandy\Api\Discounts\Criteria\Coupon;
+use TaxCalculator;
 
 class Factory
 {
@@ -41,17 +42,30 @@ class Factory
         });
     }
 
+    protected function setTotalAndTax($basket)
+    {
+        foreach ($basket->lines as $line) {
+            $basket->total += $line->current_total;
+            if ($line->variant->tax) {
+                $tieredPrice = app('api')->productVariants()->getTieredPrice(
+                    $line->variant,
+                    $line->quantity,
+                    $basket->user
+                );
+                if ($tieredPrice) {
+                    $basket->tax += $tieredPrice->tax;
+                } else {
+                    $basket->tax += TaxCalculator::set($line->variant->tax)->amount($line->current_total);
+                }
+            }
+        }
+    }
 
     public function applyToBasket($discounts, $basket)
     {
-
         $lines = collect();
 
-        $subtotal = 0;
-
-        foreach ($basket->lines as $line) {
-            $subtotal += $line->current_total;
-        }
+        $this->setTotalAndTax($basket);
 
         // Go through each discount
         foreach ($discounts as $discount) {
@@ -82,14 +96,14 @@ class Factory
                         break;
                     } elseif ($set instanceof Coupon) {
                         foreach ($discount->getRewards() as $reward) {
-                            $subtotal = $this->applyPercentage($subtotal, $reward['value']);
+                            $basket->total = $this->applyPercentage($basket->total, $reward['value']);
+                            $basket->tax = $this->applyPercentage($basket->tax, $reward['value']);
                         }
                     }
                 }
             }
         }
-
-        return $subtotal;
+        return $basket;
     }
 
     public function apply($discounts, $product)
