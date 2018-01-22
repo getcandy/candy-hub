@@ -36,6 +36,8 @@ class OrderService extends BaseService
         // // Get the basket
         $basket = app('api')->baskets()->getByHashedId($basketId);
 
+        app('api')->baskets()->setTotals($basket);
+
         if ($basket->order) {
             $order = $basket->order;
         } else {
@@ -55,7 +57,7 @@ class OrderService extends BaseService
         $order->currency = $basket->currency;
         $order->shipping_total = 0;
 
-        $order->vat = $basket->tax_total;
+        $order->vat = $basket->tax;
 
         $order->save();
 
