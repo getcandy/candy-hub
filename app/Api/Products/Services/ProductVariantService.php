@@ -218,6 +218,10 @@ class ProductVariantService extends BaseService
             $variant->customerPricing()->delete();
         }
         
+        if (!empty($data['inventory'])) {
+            $variant->stock = $data['inventory'];
+        }
+
         if (!empty($data['pricing'])) {
             $this->setGroupPricing($variant, $data['pricing']);
         }
