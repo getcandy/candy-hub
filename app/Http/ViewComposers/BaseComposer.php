@@ -12,6 +12,9 @@ abstract class BaseComposer
 
         list($items) = Event::fire($event, [$items]);
 
+        if (!$items) {
+            return '';
+        }
         return implode(PHP_EOL, $items);
     }
 }
