@@ -92,3 +92,4 @@ $this->get('shipping', 'Shipping\ShippingMethodController@index');
 
 
 $this->post('users', 'Users\UserController@store');
+$this->post('users/{userid}', 'Users\UserController@update');
