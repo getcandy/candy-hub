@@ -29,8 +29,12 @@ $this->get('categories', 'Categories\CategoryController@index');
 $this->resource('customers', 'Customers\CustomerController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
-
 $this->get('customers/groups', 'Customers\CustomerGroupController@index');
+
+/**
+ * Users
+ */
+$this->post('users/{id}', 'Users\UserController@update');
 
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [

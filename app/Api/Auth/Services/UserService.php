@@ -56,7 +56,7 @@ class UserService extends BaseService
         if (isset($data['id'])) {
             $user->id = $data['id'];
         }
-        if (isset($data['id'])) {
+        if (isset($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
         }
 
@@ -98,6 +98,7 @@ class UserService extends BaseService
     {
         $user = $this->getByHashedId($userId);
 
+        $user->title = $data['email'];
         $user->title = $data['title'];
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
