@@ -13,7 +13,7 @@ class Factory
     public function getApplied($discounts, $user, $product = null, $basket = null, $area = 'catalog')
     {
         foreach ($discounts as $index => $discount) {
-            $discount->applied = $this->checkCriteria($discount);
+            $discount->applied = $this->checkCriteria($discount, $user, $basket, $product);
             if ($discount->stop) {
                 break;
             }
@@ -31,7 +31,7 @@ class Factory
      * @param Basket $basket
      * @return void
      */
-    public function checkCriteria($discount, $user, $basket)
+    public function checkCriteria($discount, $user = null, $basket = null, $product = null)
     {
         foreach ($discount->getCriteria() as $criteria) {
 
