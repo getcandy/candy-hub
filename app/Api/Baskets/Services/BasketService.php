@@ -219,5 +219,6 @@ class BasketService extends BaseService
         $sets = app('api')->discounts()->parse($basket->discounts);
         $applied = $factory->getApplied($sets, \Auth::user(), null, $basket);
         $factory->applyToBasket($applied, $basket);
+        return $basket;
     }
 }

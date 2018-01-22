@@ -74,19 +74,20 @@ class ShippingMethodService extends BaseService
     {
         // // Get the zones for this order...
         $order = app('api')->orders()->getByHashedId($orderId);
+        $basket = app('api')->baskets()->setTotals($order->basket);
         $zones = app('api')->shippingZones()->getByCountryName($order->shipping_details['country']);
-
+        $basket = $order->basket;
         $calculator = new ShippingCalculator(app());
 
         $options = [];
         
         foreach ($zones as $zone) {
             foreach ($zone->methods as $index => $method) {
-                $option = $calculator->with($method)->calculate($order);
+                $option = $calculator->with($method)->calculate($basket);
                 if (!$option) {
                     continue;
                 }
-                $options[$index] = $calculator->with($method)->calculate($order);
+                $options[$index] = $calculator->with($method)->calculate($basket);
             }
         }
         return collect($options);

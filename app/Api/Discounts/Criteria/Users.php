@@ -19,6 +19,9 @@ class Users implements DiscountCriteriaContract
 
     public function check($user)
     {
+        if (!$user) {
+            return false;
+        }
         return $this->value->contains($user->id);
     }
 }
