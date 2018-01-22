@@ -98,7 +98,7 @@ class UserService extends BaseService
     {
         $user = $this->getByHashedId($userId);
 
-        $user->title = $data['email'];
+        $user->email = $data['email'];
         $user->title = $data['title'];
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
