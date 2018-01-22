@@ -14,6 +14,15 @@ use Illuminate\Http\Request;
 */
 
 /**
+ * Account
+ */
+
+ $this->post('account/password', [
+     'as' => 'account.password.reset',
+     'uses' => 'Auth\AccountController@resetPassword'
+ ]);
+ 
+ /**
  * Assets
  */
 

@@ -117,4 +117,15 @@ class UserService extends BaseService
         return $user;
     }
 
+    public function resetPassword($old, $new, $user)
+    {
+        if (!\Hash::check($old, $user->password)) {
+            return false;
+        }
+
+        $user->password = bcrypt($new);
+        $user->save();
+
+        return $user;
+    }
 }
