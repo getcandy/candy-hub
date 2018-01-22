@@ -13,25 +13,7 @@ class Factory
     public function getApplied($discounts, $user, $product = null, $basket = null, $area = 'catalog')
     {
         foreach ($discounts as $index => $discount) {
-            foreach ($discount->getCriteria() as $criteria) {
-
-                $fail = 0;
-                $pass = 0;
-
-                if (!$criteria->process($user, $product, $basket)) {
-                    $fail++;
-                } else {
-                    $pass++;
-                }
-
-                if ($criteria->scope == 'any' && $pass) {
-                    $discount->applied = true;
-                } elseif ($criteria->scope == 'all' && ($discount->getCriteria()->count() == $pass)) {
-                    $discount->applied = true;
-                } else {
-                    $discount->applied = false;
-                }
-            }
+            $discount->applied = $this->checkCriteria($discount);
             if ($discount->stop) {
                 break;
             }
@@ -40,6 +22,37 @@ class Factory
         return collect($discounts)->filter(function ($discount) {
             return $discount->applied;
         });
+    }
+
+    /**
+     * Checks the criteria
+     *
+     * @param Discount $discount
+     * @param mixed $uesr
+     * @param Basket $basket
+     * @return void
+     */
+    public function checkCriteria($discount, $user, $basket)
+    {
+        foreach ($discount->getCriteria() as $criteria) {
+
+            $fail = 0;
+            $pass = 0;
+
+            if (!$criteria->process($user, $product, $basket)) {
+                $fail++;
+            } else {
+                $pass++;
+            }
+
+            if ($criteria->scope == 'any' && $pass) {
+                return true;
+            } elseif ($criteria->scope == 'all' && ($discount->getCriteria()->count() == $pass)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     protected function setTotalAndTax($basket)

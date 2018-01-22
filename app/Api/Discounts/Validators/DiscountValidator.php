@@ -32,6 +32,8 @@ class DiscountValidator
 
         $discount = $coupon->set->discount;
 
+        dd($discount);
+
         if (Carbon::parse($discount->start_at)->isFuture() ||
             $discount->end_at && Carbon::parse($discount->end_at)->isPast()) {
             return false;

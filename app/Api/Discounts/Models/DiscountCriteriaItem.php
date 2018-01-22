@@ -29,7 +29,7 @@ class DiscountCriteriaItem extends BaseModel
     /**
      * Get all of the owning commentable models.
      */
-    public function eligible()
+    public function eligibles()
     {
         return $this->morphTo();
     }

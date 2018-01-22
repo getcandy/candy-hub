@@ -19,7 +19,19 @@ class CriteriaSet
         }
 
         $criteria = new $classname;
-        $criteria->setValue($set->value);
+
+        if ($set->users) {
+            $value = $set->users;
+        } elseif ($set->products) {
+            $value = $set->products;
+        } elseif ($set->customerGroups) {
+            $value = $set->customerGroups;
+        } else {
+            $valu = $set->value;
+        }
+
+        $criteria->setValue($value);
+        
         $this->sets[] = $criteria;
     }
 
