@@ -98,13 +98,19 @@ class UserService extends BaseService
     {
         $user = $this->getByHashedId($userId);
 
-        $user->title = $data['email'];
+        $user->email = $data['email'];
         $user->title = $data['title'];
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
-        $user->contact_number = $data['contact_number'];
-        $user->company_name = $data['company_name'];
-        $user->vat_no = $data['vat_no'];
+        if (!empty($data['contact_number'])) {
+            $user->contact_number = $data['contact_number'];
+        }
+        if (!empty($data['company_name'])) {
+            $user->company_name = $data['company_name'];
+        }
+        if (!empty($data['contact_number'])) {
+            $user->contact_number = $data['contact_number'];
+        }
 
         return $user->save();
     }
