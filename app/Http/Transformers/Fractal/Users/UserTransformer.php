@@ -2,12 +2,13 @@
 
 namespace GetCandy\Http\Transformers\Fractal\Users;
 
-use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 use GetCandy\Api\Auth\Models\User;
 use League\Fractal\TransformerAbstract;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
 use GetCandy\Http\Transformers\Fractal\Addresses\AddressTransformer;
 use GetCandy\Http\Transformers\Fractal\Languages\LanguageTransformer;
+use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 
 class UserTransformer extends BaseTransformer
 {
@@ -16,7 +17,7 @@ class UserTransformer extends BaseTransformer
     ];
 
     protected $availableIncludes = [
-        'store', 'addresses', 'groups', 'roles'
+        'store', 'addresses', 'groups', 'roles', 'orders'
     ];
 
     public function transform(User $user)
@@ -51,5 +52,10 @@ class UserTransformer extends BaseTransformer
     public function includeRoles(User $user)
     {
         return $this->collection($user->roles, new UserRoleTransformer);
+    }
+
+    public function includeOrders(User $user)
+    {
+        return $this->collection($user->orders, new OrderTransformer);
     }
 }

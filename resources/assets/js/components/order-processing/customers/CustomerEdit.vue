@@ -33,7 +33,7 @@
                     this.customer = response.data;
                     this.loaded = true;
                     CandyEvent.$emit('title-changed', {
-                        title: this.customer.name
+                        title: this.customer.firstname + ' ' + this.customer.lastname
                     });
                 }).catch(error => {
                 });
@@ -62,7 +62,7 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <strong>Customer Name</strong> <br>
-                                    {{ customer.name }}
+                                    {{ customer.firstname }} {{ customer.lastname }}
                                 </div>
                                 <div class="col-md-2">
                                     <strong>Company name</strong> <br>

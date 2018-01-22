@@ -85,7 +85,7 @@
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="customer in customers">
                             <td @click="loadCustomer(customer.id)">{{ customer.id }}</td>
-                            <td @click="loadCustomer(customer.id)">{{ customer.name }}</td>
+                            <td @click="loadCustomer(customer.id)">{{ customer.firstname }} {{ customer.lastname }}</td>
                             <td @click="loadCustomer(customer.id)">{{ customer.company_name }}</td>
                             <td @click="loadCustomer(customer.id)">{{ customer.email }}</td>
                         </tr>
