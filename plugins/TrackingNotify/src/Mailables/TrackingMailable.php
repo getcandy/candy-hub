@@ -12,12 +12,13 @@ class TrackingMailable extends Mailable
     use Queueable, SerializesModels;
 
     public $order;
-    
+
     protected $template;
 
     public function __construct(Order $order)
     {
-        $this->order = $order;
+        $this->order = $order->load('lines')->toArray();
+
         $this->template = 'trackingnotify::email';
         if (view()->exists('emails.trackingnotify')) {
             $this->template = 'emails.trackingnotify';

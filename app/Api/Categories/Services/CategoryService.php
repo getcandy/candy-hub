@@ -50,7 +50,7 @@ class CategoryService extends BaseService
         if (!empty($data['historical_id'])) {
             $category->id = $data['historical_id'];
         }
-        
+
         $category->save();
 
         event(new AttributableSavedEvent($category));
@@ -153,7 +153,7 @@ class CategoryService extends BaseService
             $child->channels()->sync([]);
             $child->delete();
         }
-    
+
         $category->customerGroups()->detach();
         $category->products()->sync([]);
         $category->customerGroups()->sync([]);
