@@ -1,6 +1,8 @@
 <template>
     <div>
-        <img :src="imageSrc"></img>
+        <lazy-component>
+            <img :src="imageSrc">
+        </lazy-component>
     </div>
 </template>
 
@@ -18,15 +20,7 @@
         },
         methods: {
             load() { //_.debounce(function () {
-                    let src = this.item.thumbnail.data.thumbnail,
-                        img = new Image(),
-                        that = this;
-
-                    img.onload = function() {
-                        that.imageSrc = this.src
-                    }
-                    img.src = src;
-               // }, 2000
+                    this.imageSrc = this.item.thumbnail.data.thumbnail
                 }
         },
         mounted() {

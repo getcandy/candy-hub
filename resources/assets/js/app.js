@@ -55,7 +55,9 @@ import { VTooltip } from 'v-tooltip'
 import VueLazyload from 'vue-lazyload'
 
 Vue.use(Vuex);
-Vue.use(VueLazyload);
+Vue.use(VueLazyload, {
+  lazyComponent: true
+});
 
 require('./filters/attributes');
 require('./filters/format-date');
