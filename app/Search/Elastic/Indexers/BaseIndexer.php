@@ -33,8 +33,6 @@ abstract class BaseIndexer
                     $this->getIndexName($lang)
                 );
 
-                dump($indexable);
-
                 $indexable->set('image', $this->getThumbnail($model));
 
                 $indexable->set('departments', $this->getCategories($model));
@@ -47,8 +45,6 @@ abstract class BaseIndexer
                     }
                 }
 
-                dump(1);
-
                 if ($model->variants) {
                     foreach ($model->variants as $variant) {
                         if (!$indexable->min_price || $indexable->min_price > $variant->price) {
@@ -59,8 +55,6 @@ abstract class BaseIndexer
                         }
                     }
                 }
-
-                dump(2);
 
                 $indexables->push($indexable);
             }
@@ -82,14 +76,18 @@ abstract class BaseIndexer
 
         dump($model->attribute_data);
         foreach ($model->attribute_data as $field => $channel) {
+
+            dump(1);
             if (!$searchable->contains($field)) {
                 continue;
             }
             foreach ($channel as $channelName => $locales) {
+                dump(2);
                 foreach ($locales as $locale => $value) {
                     $mapping[$model->id][$locale]['data'][$field] = strip_tags($model->attribute($field, $channelName, $locale));
                 }
             }
+            dump(3);
         }
         return $mapping;
     }
