@@ -62,6 +62,8 @@ class OrderService extends BaseService
 
         $order->save();
 
+        $order->reference = $order->id;
+
         $order->discounts()->delete();
         $order->lines()->delete();
 
@@ -303,7 +305,7 @@ class OrderService extends BaseService
      * Maps an orders discounts from a basket
      *
      * @param Basket $basket
-     * 
+     *
      * @return array
      */
     protected function mapOrderDiscounts($basket)
@@ -416,7 +418,7 @@ class OrderService extends BaseService
      *
      * @param string $orderId
      * @param string $priceId
-     * 
+     *
      * @return Order
      */
     public function setShippingCost($orderId, $priceId)
