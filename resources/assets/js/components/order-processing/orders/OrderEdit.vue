@@ -113,7 +113,7 @@
                     return false;
                 }
                 this.$set(this.transactions[index], 'voiding', true);
-    
+
                 var transaction = this.transactions[index];
 
                 apiRequest.send('post', '/payments/' + transaction.id + '/void').then(response => {
@@ -240,7 +240,7 @@
                                             </div>
                                         </div>
                                         <template v-if="transactions.length">
-                                            <h3>Transactions</h3>                                        
+                                            <h3>Transactions</h3>
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
@@ -299,7 +299,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <h4>Order ID</h4>
-                                        <code style="padding:5px">#{{ order.id }}</code>
+                                        <code style="padding:5px">{{ order.reference }}</code>
 
                                         <h4>Account</h4>
                                         <span v-if="!order.user">Guest</span>
@@ -307,7 +307,7 @@
                                             {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
                                         </template>
 
-                                        <hr> 
+                                        <hr>
                                         <div class="form-group">
                                             <label>Order status</label>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
@@ -319,7 +319,7 @@
                                                 <option value="returned">Returned</option>
                                             </select>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <label>Tracking Number</label>
                                             <input class="form-control" v-model="order.tracking_no">

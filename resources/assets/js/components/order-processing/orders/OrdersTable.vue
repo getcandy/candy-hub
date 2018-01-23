@@ -132,6 +132,7 @@
                     <thead>
                         <tr>
                             <th width="10%">Status</th>
+                            <th>Reference</th>
                             <th>Customer</th>
                             <th width="19%">Total</th>
                             <th width="19%">Tax</th>
@@ -142,6 +143,9 @@
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="order in orders">
                             <td @click="loadOrder(order.id)"><span class="label" :class="status(order).class">{{ status(order).text }}</span></td>
+                            <td @click="loadOrder(order.id)">
+                                {{ order.reference }}
+                            </td>
                             <td @click="loadOrder(order.id)">
                                 {{ order.customer_name }}
                             </td>
