@@ -213,11 +213,10 @@ class ProductVariantService extends BaseService
         }
 
         $this->setMeasurements($variant, $data);
-        
+
         if (isset($data['group_pricing']) && !$data['group_pricing']) {
             $variant->customerPricing()->delete();
         }
-        
         if (!isset($data['inventory'])) {
             $variant->stock = $data['inventory'];
         }

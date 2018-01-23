@@ -29,7 +29,7 @@ class OrderService extends BaseService
      * Stores an order
      *
      * @param string $basketId
-     * 
+     *
      * @return Order
      */
     public function store($basketId, $user = null)
@@ -48,7 +48,7 @@ class OrderService extends BaseService
 
         if ($user) {
             $order->user()->associate($user);
-            
+
             foreach ($user->addresses as $address) {
                 $this->setFields($order, $address->fields, $address->billing ? 'billing' : 'shipping');
             }
@@ -68,7 +68,7 @@ class OrderService extends BaseService
         $order->discounts()->createMany(
             $this->mapOrderDiscounts($basket)
         );
-        
+
         $order->lines()->createMany(
             $this->mapOrderLines($basket)
         );
@@ -81,7 +81,7 @@ class OrderService extends BaseService
      *
      * @param string $orderId
      * @param array $data
-     * 
+     *
      * @return Order
      */
     public function update($orderId, array $data)
@@ -111,7 +111,7 @@ class OrderService extends BaseService
      *
      * @param string $id
      * @param array $data
-     * 
+     *
      * @return Order
      */
     public function setShipping($id, array $data, $user = null)
@@ -148,7 +148,7 @@ class OrderService extends BaseService
      * @param string $id
      * @param array $data
      * @param string $type
-     * 
+     *
      * @return Order
      */
     protected function addAddress($id, $data, $type, $user = null)
@@ -162,14 +162,14 @@ class OrderService extends BaseService
         $order->save();
 
         // If this address doesn't exist, create it.
-        if (!empty($data['address_id'])) { 
+        if (!empty($data['address_id'])) {
             $shipping = app('api')->addresses()->getByHashedId($data['address_id']);
             $data = $shipping->toArray();
         } elseif ($user) {
             $address = app('api')->addresses()->addAddress($user, $data, $type);
             $data = $address->fields;
         }
-        
+
         if ($user) {
             $order->shipping_phone = $user->contact_number;
             $order->billing_phone = $user->contact_number;
@@ -181,13 +181,13 @@ class OrderService extends BaseService
 
         return $order;
     }
-    
+
     /**
      * Sets the delivery price on an
      *
      * @param string $orderId
      * @param string $priceId
-     * 
+     *
      * @return Order
      */
     public function setDeliveryPrice($orderId, $priceId)
@@ -210,7 +210,7 @@ class OrderService extends BaseService
      * @param string $order
      * @param array $fields
      * @param string $prefix
-     * 
+     *
      * @return void
      */
     protected function setFields($order, array $fields, $prefix)
@@ -250,7 +250,7 @@ class OrderService extends BaseService
      *
      * @param Order $order
      * @param Basket $basket
-     * 
+     *
      * @return Order
      */
     public function syncWithBasket(Order $order, Basket $basket)
@@ -279,7 +279,7 @@ class OrderService extends BaseService
      * Maps the order lines from a basket
      *
      * @param Basket $basket
-     * 
+     *
      * @return void
      */
     protected function mapOrderLines($basket)
@@ -343,7 +343,7 @@ class OrderService extends BaseService
      * Checks whether an order is processable
      *
      * @param Order $order
-     * 
+     *
      * @return boolean
      */
     protected function isProcessable(Order $order)
@@ -380,7 +380,7 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
-            $order->status = 'complete';
+            $order->status = 'payment-received';
         }
 
         $order->save();
@@ -443,13 +443,13 @@ class OrderService extends BaseService
      *
      * @param string $orderId
      * @param array $data
-     * 
+     *
      * @return Order
      */
     public function setContact($orderId, array $data)
     {
         $order = $this->getByHashedId($orderId);
-        
+
         if (!empty($data['email'])) {
             $order->contact_email = $data['email'];
         }

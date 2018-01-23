@@ -20,13 +20,13 @@ class BasketService extends BaseService
     {
         $this->model = new Basket();
     }
-    
+
     /**
      * Gets either a new or existing basket for a user
      *
      * @param mixed $id
      * @param mixed $user
-     * 
+     *
      * @return Basket
      */
     protected function getBasket($id = null, $user = null)
@@ -51,7 +51,7 @@ class BasketService extends BaseService
      * Store a basket
      *
      * @param array $data
-     * 
+     *
      * @return Basket
      */
     public function store(array $data, $user = null)
@@ -72,14 +72,14 @@ class BasketService extends BaseService
         if (!empty($data['variants'])) {
             $this->remapLines($basket, $data['variants']);
         }
-        
+
         $basket->save();
 
         event(new BasketStoredEvent($basket));
 
         return $basket;
     }
-    
+
     protected function remapLines($basket, $variants = [])
     {
         $service = app('api')->productVariants();
@@ -109,7 +109,7 @@ class BasketService extends BaseService
      *
      * @param string $basketId
      * @param string $coupon
-     * 
+     *
      * @return Basket
      */
     public function addDiscount($basketId, $coupon)
@@ -137,7 +137,7 @@ class BasketService extends BaseService
         $basket->discounts()->detach($discount);
 
         event(new BasketStoredEvent($basket));
-        
+
         return $basket;
     }
 
@@ -145,7 +145,7 @@ class BasketService extends BaseService
      * Get a basket for a user
      *
      * @param User $user
-     * 
+     *
      * @return Mixed
      */
     public function getForUser(User $user)
@@ -159,7 +159,7 @@ class BasketService extends BaseService
      * @param User $user
      * @param string $basketId
      * @param boolean $merge
-     * 
+     *
      * @return Basket
      */
     public function resolve($user, $basketId, $merge = false)
@@ -168,7 +168,7 @@ class BasketService extends BaseService
         $basket = $this->getByHashedId($basketId);
         // User basket
         $userBasket = $user->basket;
-    
+
         if ($merge) {
             $userBasket->merged = true;
             return $this->merge($basket, $userBasket);
