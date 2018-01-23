@@ -75,19 +75,23 @@ abstract class BaseIndexer
         $searchable = $this->getIndexableAttributes($model);
 
         dump($model->attribute_data);
+
+        if (!$model->attribute_data) {
+            dd($model);
+        }
         foreach ($model->attribute_data as $field => $channel) {
 
-            dump(1);
+            // dump(1);
             if (!$searchable->contains($field)) {
                 continue;
             }
             foreach ($channel as $channelName => $locales) {
-                dump(2);
+                // dump(2);
                 foreach ($locales as $locale => $value) {
                     $mapping[$model->id][$locale]['data'][$field] = strip_tags($model->attribute($field, $channelName, $locale));
                 }
             }
-            dump(3);
+            // dump(3);
         }
         return $mapping;
     }
