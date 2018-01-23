@@ -52,7 +52,10 @@ require('./directives/sortable');
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { VTooltip } from 'v-tooltip'
+import VueLazyload from 'vue-lazyload'
+
 Vue.use(Vuex);
+Vue.use(VueLazyload);
 
 require('./filters/attributes');
 require('./filters/format-date');

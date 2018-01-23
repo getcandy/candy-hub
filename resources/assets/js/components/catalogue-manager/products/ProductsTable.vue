@@ -99,7 +99,7 @@
                 let search = this.savedSearches[index];
                 this.savedSearches.splice(index, 1);
                 apiRequest.send('DELETE', 'saved-searches/' + search.id);
-                
+
                 if (this.keywords == search.payload.keywords) {
                     this.keywords = '';
                 }
@@ -131,8 +131,10 @@
                     this.params['keywords'] = this.keywords;
 
                     if (this.keywords) {
+                        console.log('searching');
                         this.searchProducts();
                     } else {
+                        console.log('loading');
                         this.loadProducts();
                     }
                 }, 500
@@ -183,7 +185,7 @@
             changePage(page) {
                 this.loaded = false;
                 this.params.current_page = page;
-                this.loadProducts();
+                this.search();
             }
         }
     }
@@ -268,7 +270,7 @@
                     </template>
                     <hr>
                 </template>
-                
+
                 <!-- Filter List -->
                 <!-- <div class="filters">
                     <div class="filter active">Visible on Storefront
