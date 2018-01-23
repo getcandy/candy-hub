@@ -60,6 +60,10 @@ class OrderService extends BaseService
 
         $order->vat = $basket->tax;
 
+        if (!empty($data['created_at'])) {
+            $order->created_at = $data['created_at'];
+        }
+
         $order->save();
 
         $order->reference = $order->id;
@@ -402,7 +406,7 @@ class OrderService extends BaseService
      * @param User $user
      * @return void
      */
-    public function getPaginatedData($length = 50, $page = 1, $user = null)
+    public function getPaginatedData($length = 50, $page = 1, $user = null, $sort = null, $keywords = null)
     {
         $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         if (!app('auth')->user()->hasRole('admin')) {
@@ -410,9 +414,42 @@ class OrderService extends BaseService
                 $q->whereId($user->id);
             });
         }
+
+        $sorts = $this->getSorts($sort);
+
+
+        $query = $query->orderBy($sorts['col'], $sorts['dir']);
+
+
         return $query->paginate($length, ['*'], 'page', $page);
     }
 
+    /**
+     * Gets the sort data for orders
+     *
+     * @param string $sort
+     *
+     * @return array
+     */
+    protected function getSorts($sort)
+    {
+        if (!$sort) {
+            $sort = 'created_at-desc';
+        }
+
+        $sort = explode('-', $sort);
+
+        if (empty($sort[1])) {
+            $dir = 'asc';
+        } else {
+            $dir = $sort[1];
+        }
+
+        return [
+            'col' => $sort[0],
+            'dir' => $dir
+        ];
+    }
     /**
      * Set the shipping cost and method on an order
      *

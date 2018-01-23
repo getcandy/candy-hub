@@ -23,7 +23,13 @@ class OrderController extends BaseController
      */
     public function index(Request $request)
     {
-        $orders = app('api')->orders()->getPaginatedData($request->per_page, $request->current_page, $request->user());
+        $orders = app('api')->orders()->getPaginatedData(
+            $request->per_page,
+            $request->current_page,
+            $request->user(),
+            $request->sort,
+            $request->keywords
+        );
         return $this->respondWithCollection($orders, new OrderTransformer);
     }
 
@@ -47,7 +53,7 @@ class OrderController extends BaseController
      * Store either a new or existing basket
      *
      * @param CreateRequest $request
-     * 
+     *
      * @return void
      */
     public function store(CreateRequest $request)
@@ -82,7 +88,7 @@ class OrderController extends BaseController
      * Expire an order
      *
      * @param ExpireRequest $request
-     * 
+     *
      * @return json
      */
     public function expire($id)
@@ -100,7 +106,7 @@ class OrderController extends BaseController
      *
      * @param string $id
      * @param StoreAddressRequest $request
-     * 
+     *
      * @return array
      */
     public function shippingAddress($id, StoreAddressRequest $request)
@@ -118,7 +124,7 @@ class OrderController extends BaseController
      *
      * @param string $id
      * @param Request $request
-     * 
+     *
      * @return array
      */
     public function update($id, UpdateRequest $request)
@@ -136,7 +142,7 @@ class OrderController extends BaseController
      *
      * @param string $orderId
      * @param Request $request
-     * 
+     *
      * @return array
      */
     public function shippingMethods($orderId, Request $request)
@@ -146,7 +152,7 @@ class OrderController extends BaseController
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }
-        
+
         return $this->respondWithCollection($options, new ShippingPriceTransformer);
     }
 
@@ -155,7 +161,7 @@ class OrderController extends BaseController
      *
      * @param string $orderId
      * @param Request $request
-     * 
+     *
      * @return array
      */
     public function addContact($orderId, Request $request)
@@ -173,7 +179,7 @@ class OrderController extends BaseController
      *
      * @param string $id
      * @param StoreAddressRequest $request
-     * 
+     *
      * @return array
      */
     public function billingAddress($id, StoreAddressRequest $request)
@@ -191,7 +197,7 @@ class OrderController extends BaseController
      *
      * @param string $id
      * @param Request $request
-     * 
+     *
      * @return array
      */
     public function shippingCost($id, Request $request)
