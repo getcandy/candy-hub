@@ -11,7 +11,7 @@ class AccountController extends BaseController
 {
    public function resetPassword(ResetAccountPasswordRequest $request)
    {
-        $result = app('api')->users()->resetPassword($request->old_password, $request->password, $request->user());
+        $result = app('api')->users()->resetPassword($request->current_password, $request->password, $request->user());
 
         if (!$result) {
             return $this->errorForbidden();
