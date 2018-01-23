@@ -33,6 +33,8 @@ abstract class BaseIndexer
                     $this->getIndexName($lang)
                 );
 
+                dump($indexable);
+
                 $indexable->set('image', $this->getThumbnail($model));
 
                 $indexable->set('departments', $this->getCategories($model));
@@ -45,6 +47,8 @@ abstract class BaseIndexer
                     }
                 }
 
+                dump(1);
+
                 if ($model->variants) {
                     foreach ($model->variants as $variant) {
                         if (!$indexable->min_price || $indexable->min_price > $variant->price) {
@@ -55,6 +59,8 @@ abstract class BaseIndexer
                         }
                     }
                 }
+
+                dump(2);
 
                 $indexables->push($indexable);
             }
