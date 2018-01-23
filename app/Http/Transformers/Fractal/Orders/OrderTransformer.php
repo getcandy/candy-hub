@@ -20,7 +20,7 @@ class OrderTransformer extends BaseTransformer
         $data = [
             'id' => $order->encodedId(),
             'total' => $order->total,
-            'reference' => '#ORD-' . ($order->reference ?: $order->id),
+            'reference' => '#ORD-' . str_pad(($order->reference ? : $order->id), 4, 0, STR_PAD_LEFT),
             'vat' => round($order->vat),
             'tracking_no' => $order->tracking_no,
             'dispatched_at' => $order->dispatched_at,
