@@ -80,16 +80,17 @@ abstract class BaseIndexer
         $mapping = [];
         $searchable = $this->getIndexableAttributes($model);
 
-        // foreach ($model->attribute_data as $field => $channel) {
-        //     if (!$searchable->contains($field)) {
-        //         continue;
-        //     }
-        //     foreach ($channel as $channelName => $locales) {
-        //         foreach ($locales as $locale => $value) {
-        //             $mapping[$model->id][$locale]['data'][$field] = strip_tags($model->attribute($field, $channelName, $locale));
-        //         }
-        //     }
-        // }
+        dump($model->attribute_data);
+        foreach ($model->attribute_data as $field => $channel) {
+            if (!$searchable->contains($field)) {
+                continue;
+            }
+            foreach ($channel as $channelName => $locales) {
+                foreach ($locales as $locale => $value) {
+                    $mapping[$model->id][$locale]['data'][$field] = strip_tags($model->attribute($field, $channelName, $locale));
+                }
+            }
+        }
         return $mapping;
     }
 
