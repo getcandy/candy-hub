@@ -29,7 +29,7 @@ class OrderService extends BaseService
      * Stores an order
      *
      * @param string $basketId
-     *
+     * 
      * @return Order
      */
     public function store($basketId, $user = null)
@@ -48,7 +48,7 @@ class OrderService extends BaseService
 
         if ($user) {
             $order->user()->associate($user);
-
+            
             foreach ($user->addresses as $address) {
                 $this->setFields($order, $address->fields, $address->billing ? 'billing' : 'shipping');
             }
@@ -60,13 +60,7 @@ class OrderService extends BaseService
 
         $order->vat = $basket->tax;
 
-        if (!empty($data['created_at'])) {
-            $order->created_at = $data['created_at'];
-        }
-
         $order->save();
-
-        $order->reference = $order->id;
 
         $order->discounts()->delete();
         $order->lines()->delete();
@@ -74,7 +68,7 @@ class OrderService extends BaseService
         $order->discounts()->createMany(
             $this->mapOrderDiscounts($basket)
         );
-
+        
         $order->lines()->createMany(
             $this->mapOrderLines($basket)
         );
@@ -87,7 +81,7 @@ class OrderService extends BaseService
      *
      * @param string $orderId
      * @param array $data
-     *
+     * 
      * @return Order
      */
     public function update($orderId, array $data)
@@ -117,7 +111,7 @@ class OrderService extends BaseService
      *
      * @param string $id
      * @param array $data
-     *
+     * 
      * @return Order
      */
     public function setShipping($id, array $data, $user = null)
@@ -154,7 +148,7 @@ class OrderService extends BaseService
      * @param string $id
      * @param array $data
      * @param string $type
-     *
+     * 
      * @return Order
      */
     protected function addAddress($id, $data, $type, $user = null)
@@ -163,6 +157,7 @@ class OrderService extends BaseService
 
         if (!empty($data['vat_no'])) {
             $order->vat_no = $data['vat_no'];
+            unset($data['vat_no']);
         }
 
         $order->save();
@@ -175,7 +170,7 @@ class OrderService extends BaseService
             $address = app('api')->addresses()->addAddress($user, $data, $type);
             $data = $address->fields;
         }
-
+        
         if ($user) {
             $order->shipping_phone = $user->contact_number;
             $order->billing_phone = $user->contact_number;
@@ -187,13 +182,13 @@ class OrderService extends BaseService
 
         return $order;
     }
-
+    
     /**
      * Sets the delivery price on an
      *
      * @param string $orderId
      * @param string $priceId
-     *
+     * 
      * @return Order
      */
     public function setDeliveryPrice($orderId, $priceId)
@@ -216,7 +211,7 @@ class OrderService extends BaseService
      * @param string $order
      * @param array $fields
      * @param string $prefix
-     *
+     * 
      * @return void
      */
     protected function setFields($order, array $fields, $prefix)
@@ -256,7 +251,7 @@ class OrderService extends BaseService
      *
      * @param Order $order
      * @param Basket $basket
-     *
+     * 
      * @return Order
      */
     public function syncWithBasket(Order $order, Basket $basket)
@@ -285,7 +280,7 @@ class OrderService extends BaseService
      * Maps the order lines from a basket
      *
      * @param Basket $basket
-     *
+     * 
      * @return void
      */
     protected function mapOrderLines($basket)
@@ -309,7 +304,7 @@ class OrderService extends BaseService
      * Maps an orders discounts from a basket
      *
      * @param Basket $basket
-     *
+     * 
      * @return array
      */
     protected function mapOrderDiscounts($basket)
@@ -349,7 +344,7 @@ class OrderService extends BaseService
      * Checks whether an order is processable
      *
      * @param Order $order
-     *
+     * 
      * @return boolean
      */
     protected function isProcessable(Order $order)
@@ -386,7 +381,7 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
-            $order->status = 'payment-received';
+            $order->status = 'complete';
         }
 
         $order->save();
@@ -406,7 +401,7 @@ class OrderService extends BaseService
      * @param User $user
      * @return void
      */
-    public function getPaginatedData($length = 50, $page = 1, $user = null, $sort = null, $keywords = null)
+    public function getPaginatedData($length = 50, $page = 1, $user = null)
     {
         $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         if (!app('auth')->user()->hasRole('admin')) {
@@ -414,48 +409,15 @@ class OrderService extends BaseService
                 $q->whereId($user->id);
             });
         }
-
-        $sorts = $this->getSorts($sort);
-
-
-        $query = $query->orderBy($sorts['col'], $sorts['dir']);
-
-
         return $query->paginate($length, ['*'], 'page', $page);
     }
 
-    /**
-     * Gets the sort data for orders
-     *
-     * @param string $sort
-     *
-     * @return array
-     */
-    protected function getSorts($sort)
-    {
-        if (!$sort) {
-            $sort = 'created_at-desc';
-        }
-
-        $sort = explode('-', $sort);
-
-        if (empty($sort[1])) {
-            $dir = 'asc';
-        } else {
-            $dir = $sort[1];
-        }
-
-        return [
-            'col' => $sort[0],
-            'dir' => $dir
-        ];
-    }
     /**
      * Set the shipping cost and method on an order
      *
      * @param string $orderId
      * @param string $priceId
-     *
+     * 
      * @return Order
      */
     public function setShippingCost($orderId, $priceId)
@@ -482,13 +444,13 @@ class OrderService extends BaseService
      *
      * @param string $orderId
      * @param array $data
-     *
+     * 
      * @return Order
      */
     public function setContact($orderId, array $data)
     {
         $order = $this->getByHashedId($orderId);
-
+        
         if (!empty($data['email'])) {
             $order->contact_email = $data['email'];
         }

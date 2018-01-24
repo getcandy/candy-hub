@@ -22,6 +22,7 @@ class OrderTransformer extends BaseTransformer
             'total' => round($order->total, 2),
             'reference' => '#ORD-' . str_pad(($order->reference ? : $order->id), 4, 0, STR_PAD_LEFT),
             'vat' => round($order->vat),
+            'vat_no' => $order->vat_no,
             'tracking_no' => $order->tracking_no,
             'dispatched_at' => $order->dispatched_at,
             'currency' => $order->currency,
