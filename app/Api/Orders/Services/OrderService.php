@@ -164,7 +164,6 @@ class OrderService extends BaseService
         if (isset($data['vat_no'])) {
             $order->vat_no = $data['vat_no'];
             //TODO: Make less hacky
-            unset($data['vat_no']);
         }
 
         $order->save();
