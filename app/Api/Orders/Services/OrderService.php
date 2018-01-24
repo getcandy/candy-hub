@@ -157,6 +157,7 @@ class OrderService extends BaseService
 
         if (!empty($data['vat_no'])) {
             $order->vat_no = $data['vat_no'];
+            unset($data['vat_no']);
         }
 
         $order->save();
