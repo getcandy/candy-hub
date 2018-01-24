@@ -201,6 +201,11 @@ class OrderService extends BaseService
         $price = app('api')->shippingPrices()->getByHashedId($priceId);
         $order = app('api')->orders()->getByHashedId($orderId);
 
+        // Remove old shipping beforehand
+        if ($order->shipping_total) {
+            $order->total -= $order->shipping_total;
+        }
+
         $order->shipping_total = $price->rate;
         $order->shipping_method = $price->method->attribute('name');
         $order->total = $order->total + $price->rate;
