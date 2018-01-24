@@ -17,6 +17,10 @@ class UserService extends BaseService
         return \GetCandy::getGroups();
     }
 
+    public function getByEmail($email)
+    {
+        return $this->model->where('email', '=', $email)->first();
+    }
     /**
      * Gets paginated data for the record
      * @param  integer $length How many results per page
@@ -111,7 +115,7 @@ class UserService extends BaseService
         if (!empty($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
         }
-        
+
         $user->save();
 
         return $user;
