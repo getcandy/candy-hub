@@ -162,7 +162,7 @@ class OrderService extends BaseService
         $order = $this->getByHashedId($id);
 
         if ($type == 'billing') {
-            $order->vat_no = $data['vat_no'];
+            $order->vat_no = (empty($data['vat_no'] ? '' : $data['vat_no']));
             //TODO: Make less hacky
             unset($data['vat_no']);
         }
