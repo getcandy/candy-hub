@@ -31,9 +31,6 @@
                 flow: 'checkout',
                 amount: 10.00, // Required
                 currency: 'GBP', // Required
-            },
-            onPaymentMethodReceived: function (obj) {
-                alert('Hi!');
             }
         }, function (createErr, instance) {
             button.addEventListener('click', function () {
