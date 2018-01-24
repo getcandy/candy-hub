@@ -34,11 +34,13 @@ class User extends BaseModel
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'company_name' => $this->company,
+            'password' => $this->password,
+            'salt' => $this->salt,
             'contact_number' => $this->phone,
             'email' => $this->email,
             'language_id' => app('api')->languages()->getEnabledByLang($this->lang_code)->id,
             'password' => 'getcandyreset'
-        ];  
+        ];
 
         $groups = [];
 

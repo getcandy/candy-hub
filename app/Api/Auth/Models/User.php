@@ -13,6 +13,7 @@ use GetCandy\Api\Traits\HasCustomerGroups;
 use GetCandy\Api\Languages\Models\Language;
 use GetCandy\Api\Customers\Models\CustomerGroup;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use GetCandy\Plugins\LegacyPassword\Models\LegacyPassword;
 
 class User extends Authenticatable
 {
@@ -23,6 +24,22 @@ class User extends Authenticatable
 
     protected $hashids = 'user';
 
+    public function getAuthPassword()
+    {
+        if (!$this->password) {
+            $password = $this->legacypassword;
+            return [
+                'password' => $password->password,
+                'salt' => $password->salt
+            ];
+        }
+        return $this->password;
+    }
+
+    public function legacypassword()
+    {
+        return $this->hasOne(LegacyPassword::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
