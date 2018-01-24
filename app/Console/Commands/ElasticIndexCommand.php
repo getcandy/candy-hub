@@ -46,7 +46,7 @@ class ElasticIndexCommand extends Command
     public function handle()
     {
         $search = app(SearchContract::class);
-        
+
         //TODO: DO this dynamically.
         foreach ($this->indexables as $indexable) {
 
@@ -63,7 +63,7 @@ class ElasticIndexCommand extends Command
             if ($this->confirm('Do you want to reset the index?')) {
                 $search->indexer()->reset($indexer->getIndexName());
             }
-            
+
             $items = $model->withoutGlobalScopes()->get();
 
 
@@ -77,7 +77,7 @@ class ElasticIndexCommand extends Command
             $bar->finish();
             $this->info('');
         }
-        
+
         $this->info('Done!');
     }
 }

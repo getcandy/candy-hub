@@ -36,6 +36,7 @@ class Category extends BaseModel
         return array_merge(parent::toArray(), [
             'id' => $this->encodedId(),
             'thumbnail' => $this->primaryAsset(),
+            'parent_id' => $this->encode($this->parent_id),
             'routes' => [
                 'data' => $this->routes
             ]
@@ -44,9 +45,6 @@ class Category extends BaseModel
 
     public function getParentIdAttribute($val)
     {
-        if ($val) {
-            return $this->encode($val);
-        }
         return $val;
     }
     public function hasChildren()

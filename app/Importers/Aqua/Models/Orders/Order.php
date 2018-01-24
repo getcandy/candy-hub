@@ -30,11 +30,12 @@ class Order extends BaseModel
 
         return [
             'id' => $this->order_id,
-            'user_id' => null,
+            'user_id' => $this->user_id == 0 ? null : $this->user_id,
+            'created_at' => \Carbon\Carbon::createFromTimestamp($this->timestamp),
             'total' => $this->total,
             'vat' => $this->total - $this->subtotal - $this->shipping_cost,
             'shipping_total' => $this->shipping_cost,
-            'status' => $statuses[$this->status], 
+            'status' => $statuses[$this->status],
             'notes' => $this->notes,
             'currency' => 'GBP',
             'billing_phone' => $this->phone,

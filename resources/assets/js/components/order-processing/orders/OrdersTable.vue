@@ -131,30 +131,43 @@
                 <table class="table table-striped collection-table">
                     <thead>
                         <tr>
-                            <th width="10%">Status</th>
+                            <th>Status</th>
+                            <th>Reference</th>
                             <th>Customer</th>
-                            <th width="19%">Total</th>
-                            <th width="19%">Tax</th>
-                            <th width="19%">Shipping</th>
-                            <th width="19%">Currency</th>
+                            <th>Total</th>
+                            <th>Tax</th>
+                            <th>Shipping</th>
+                            <th>Currency</th>
+                            <th>Date Created</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
-                        <tr class="clickable" v-for="order in orders">
-                            <td @click="loadOrder(order.id)"><span class="label" :class="status(order).class">{{ status(order).text }}</span></td>
-                            <td @click="loadOrder(order.id)">
-                                {{ order.customer_name }}
+                        <tr class="clickable" v-for="order in orders" @click="loadOrder(order.id)">
+                            <td><span class="label" :class="status(order).class">{{ status(order).text }}</span></td>
+                            <td>
+                                {{ order.reference }}
                             </td>
-                            <td @click="loadOrder(order.id)">
+                            <td>
+                                <template v-if="order.customer_name == 'Guest'">
+                                    <span class="text-muted">Guest</span>
+                                </template>
+                                <template v-else>
+                                    {{ order.customer_name }}
+                                </template>
+                            </td>
+                            <td>
                                 <span v-html="localisedPrice(order.total, order.currency)"></span>
                             </td>
-                            <td @click="loadOrder(order.id)">
+                            <td>
                                 <span v-html="localisedPrice(order.vat, order.currency)"></span>
                             </td>
-                            <td @click="loadOrder(order.id)">
+                            <td>
                                 <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
                             </td>
-                            <td @click="loadOrder(order.id)">{{ order.currency }}</td>
+                            <td>{{ order.currency }}</td>
+                            <td>
+                                {{ order.created_at.date|formatDate }}
+                            </td>
                         </tr>
 
 

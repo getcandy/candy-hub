@@ -32,7 +32,7 @@ class Search extends AbstractProvider implements ClientContract
 
     /**
      * Set the channel to filter on
-     * 
+     *
      * @return void
      */
     public function on($channel = null)
@@ -54,9 +54,9 @@ class Search extends AbstractProvider implements ClientContract
 
     /**
      * Searches the index
-     * 
+     *
      * @param  string $keywords
-     * 
+     *
      * @return array
      */
     public function search($keywords, $filters = [], $sorts = [], $page = 1, $perPage = 25)
@@ -67,7 +67,7 @@ class Search extends AbstractProvider implements ClientContract
 
         $roles = app('api')->roles()->getHubAccessRoles();
         $user = app('auth')->user();
-        
+
         if (!$this->channel) {
             $this->setChannelDefault();
         }
@@ -113,7 +113,7 @@ class Search extends AbstractProvider implements ClientContract
                 $filter
             );
         }
-        
+
         $query->setQuery($boolQuery);
 
         $query->setHighlight(
@@ -252,7 +252,7 @@ class Search extends AbstractProvider implements ClientContract
      * Gets the category post filter
      *
      * @param array $categories
-     * 
+     *
      * @return void
      */
     protected function getCategoryFilter($categories = [])
@@ -307,7 +307,7 @@ class Search extends AbstractProvider implements ClientContract
         $cat->setQuery($term);
 
         $filter->addMust($cat);
-      
+
         return $filter;
     }
 
@@ -315,7 +315,7 @@ class Search extends AbstractProvider implements ClientContract
      * Generates the DisMax query
      *
      * @param string $keywords
-     * 
+     *
      * @return void
      */
     protected function generateDisMax($keywords)
@@ -346,7 +346,7 @@ class Search extends AbstractProvider implements ClientContract
      * Gets an array of mapped sortable fields
      *
      * @param array $sorts
-     * 
+     *
      * @return arrau
      */
     protected function getSorts($sorts = [])

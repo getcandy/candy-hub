@@ -11,7 +11,8 @@ class HubAccess
     {
         $roles = app('api')->roles()->getHubAccessRoles();
         if (!$request->user()->hasAnyRole($roles)) {
-            abort(400, 'Unauthorised');
+            \Auth::logout();
+            return redirect('login')->with('unauth', 'You are unauthorized to view this page');
         }
         return $next($request);
     }

@@ -22,9 +22,9 @@ abstract class BaseIndexer
     protected function getIndexables(Model $model)
     {
         $attributes = $this->attributeMapping($model);
-        
+
         $indexables = collect();
-        
+
         foreach ($attributes as $attribute) {
             foreach ($attribute as $lang => $item) {
                 // Base Stuff
@@ -32,7 +32,7 @@ abstract class BaseIndexer
                 $indexable->setIndex(
                     $this->getIndexName($lang)
                 );
-                
+
                 $indexable->set('image', $this->getThumbnail($model));
 
                 $indexable->set('departments', $this->getCategories($model));
@@ -44,7 +44,7 @@ abstract class BaseIndexer
                         $indexable->set($field, $value);
                     }
                 }
-                
+
                 if ($model->variants) {
                     foreach ($model->variants as $variant) {
                         if (!$indexable->min_price || $indexable->min_price > $variant->price) {
@@ -55,7 +55,7 @@ abstract class BaseIndexer
                         }
                     }
                 }
-                
+
                 $indexables->push($indexable);
             }
         }
@@ -73,7 +73,6 @@ abstract class BaseIndexer
     {
         $mapping = [];
         $searchable = $this->getIndexableAttributes($model);
-        
         foreach ($model->attribute_data as $field => $channel) {
             if (!$searchable->contains($field)) {
                 continue;

@@ -79,7 +79,7 @@ class ProductVariantService extends BaseService
      * @param ProductVariant $variant
      * @param int $quantity
      * @param mixed $user
-     * 
+     *
      * @return void
      */
     public function getTieredPrice($variant, $quantity, $user = null)
@@ -96,7 +96,7 @@ class ProductVariantService extends BaseService
             ->where('lower_limit', '<=', $quantity)
             ->orderBy('price', 'asc')
             ->first();
-        
+
         if (!$price) {
             return null;
         }
@@ -114,7 +114,7 @@ class ProductVariantService extends BaseService
      *
      * @param ProductVariant $variant
      * @param mixed $user
-     * 
+     *
      * @return void
      */
     public function getVariantPrice($variant, $user = null)
@@ -137,7 +137,7 @@ class ProductVariantService extends BaseService
                 ->orderBy('price', 'asc')
                 ->first();
         }
-    
+
         if ($pricing) {
             $tax = $pricing->tax ? $pricing->tax->percentage : 0;
             $price = $pricing->price;
@@ -159,7 +159,7 @@ class ProductVariantService extends BaseService
      * Checks whether a variant exists by its SKU
      *
      * @param string $sku
-     * 
+     *
      * @return void
      */
     public function existsBySku($sku)
@@ -188,7 +188,7 @@ class ProductVariantService extends BaseService
                 'option_data' => $this->mapOptions($options, $data['options'])
             ]);
         }
-        
+
         $variant->fill($data);
 
         $thumbnailId = null;
@@ -213,11 +213,14 @@ class ProductVariantService extends BaseService
         }
 
         $this->setMeasurements($variant, $data);
-        
+
         if (isset($data['group_pricing']) && !$data['group_pricing']) {
             $variant->customerPricing()->delete();
         }
-        
+        if (!isset($data['inventory'])) {
+            $variant->stock = $data['inventory'];
+        }
+
         if (!empty($data['pricing'])) {
             $this->setGroupPricing($variant, $data['pricing']);
         }
@@ -236,7 +239,7 @@ class ProductVariantService extends BaseService
      *
      * @param array $variant
      * @param array $prices
-     * 
+     *
      * @return void
      */
     protected function setGroupPricing($variant, $prices = [])
@@ -301,11 +304,16 @@ class ProductVariantService extends BaseService
      */
     public function delete($hashedId)
     {
-        $productFamily = $this->getByHashedId($hashedId);
-        if (!$productFamily) {
+        $variant = $this->getByHashedId($hashedId);
+
+        if (!$variant) {
             abort(404);
         }
-        return $productFamily->delete();
+
+        $variant->customerPricing()->delete();
+        $variant->tiers()->delete();
+
+        return $variant->delete();
     }
 
     /**

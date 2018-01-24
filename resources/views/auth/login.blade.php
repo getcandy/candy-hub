@@ -36,6 +36,11 @@
         <div class="login-form">
           <img src="/images/logo/getcandy.png" class="logo" alt="GetCandy">
 
+          @if(\Session::has('unauth'))
+            <div class="alert alert-danger">
+              {{ \Session::get('unauth') }}
+            </div>
+          @endif
           @if($errors->any())
             <div class="alert alert-danger">
             <ul>

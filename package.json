@@ -42,6 +42,7 @@
     "v-tooltip": "^2.0.0-rc.2",
     "vue-drag-and-drop-list": "^1.0.0",
     "vue-flatpickr-component": "^2.4.1",
+    "vue-lazyload": "^1.1.4",
     "vue-multiselect": "^2.0.2",
     "vue-trumbowyg": "^3.1.1",
     "vue2-dropzone": "^2.3.5",

@@ -1,5 +1,5 @@
 Vue.filter('formatDate', function(value) {
   if (value) {
-    return moment(String(value)).format('MM/DD/YYYY hh:mma')
+    return moment(String(value)).format('YYYY/MM/DD hh:mma')
   }
 });
