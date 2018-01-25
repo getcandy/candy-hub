@@ -13,25 +13,25 @@ class CriteriaSet
     public function add($set)
     {
         $classname = config('getcandy.discounters.' . $set->type);
-        
+
         if (!class_exists($classname)) {
             return $this;
         }
 
         $criteria = new $classname;
 
-        if ($set->users) {
+        if ($set->users->count()) {
             $value = $set->users;
-        } elseif ($set->products) {
+        } elseif ($set->products->count()) {
             $value = $set->products;
-        } elseif ($set->customerGroups) {
+        } elseif ($set->customerGroups->count()) {
             $value = $set->customerGroups;
         } else {
-            $valu = $set->value;
+            $value = $set->value;
         }
 
         $criteria->setValue($value);
-        
+
         $this->sets[] = $criteria;
     }
 

@@ -18,7 +18,7 @@ class BasketTransformer extends BaseTransformer
 
     public function transform(Basket $basket)
     {
-        app('api')->baskets()->setTotals($basket);
+        $basket = app('api')->baskets()->setTotals($basket);
         $data = [
             'id' => $basket->encodedId(),
             'total' => $basket->total,
