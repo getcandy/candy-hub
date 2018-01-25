@@ -19,7 +19,7 @@ class Products implements DiscountCriteriaContract
 
     public function getValue()
     {
-        return $this->value ?: [];
+        return $this->value ?: collect();
     }
 
     public function check($user, $product = null, $basket = null)
