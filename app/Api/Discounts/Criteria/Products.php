@@ -19,18 +19,18 @@ class Products implements DiscountCriteriaContract
 
     public function getValue()
     {
-        return $this->value;
+        return $this->value ?: [];
     }
 
     public function check($user, $product = null, $basket = null)
     {
         // If we are not checking a product, its a basket...
         if ($product) {
-            return $this->value->contains($product->id);
+            return $this->getValue()->contains($product->id);
         }
         $check = false;
         foreach ($basket->lines as $line) {
-            $check = $this->value->contains($line->variant->product->id);
+            $check = $this->getValue()->contains($line->variant->product->id);
         }
         return $check;
     }
