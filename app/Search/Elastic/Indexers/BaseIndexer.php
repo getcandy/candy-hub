@@ -39,6 +39,7 @@ abstract class BaseIndexer
                 $indexable->set('customer_groups', $this->getCustomerGroups($model));
                 $indexable->set('channels', $this->getChannels($model));
 
+
                 if (!empty($item['data'])) {
                     foreach ($item['data'] as $field => $value) {
                         $indexable->set($field, $value);
@@ -76,6 +77,7 @@ abstract class BaseIndexer
     {
         $mapping = [];
         $searchable = $this->getIndexableAttributes($model);
+
         foreach ($model->attribute_data as $field => $channel) {
             if (!$searchable->contains($field)) {
                 continue;

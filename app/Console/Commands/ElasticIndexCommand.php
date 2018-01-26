@@ -61,7 +61,8 @@ class ElasticIndexCommand extends Command
             $indexer = $search->indexer()->getIndexer($model);
 
             if ($this->confirm('Do you want to reset the index?')) {
-                $search->indexer()->reset($indexer->getIndexName());
+                $search->indexer()->reset($indexer->getIndexName('en'));
+                $search->indexer()->reset($indexer->getIndexName('fr'));
             }
 
             $items = $model->withoutGlobalScopes()->get();
