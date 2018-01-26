@@ -26,7 +26,7 @@ trait HasAttributes
         $userLocale = app()->getLocale();
 
         if (!$locale) {
-            $locale = app('api')->languages()->getDefaultRecord();
+            $locale = app('api')->languages()->getDefaultRecord()->lang;
         }
 
         if (!$channel) {
