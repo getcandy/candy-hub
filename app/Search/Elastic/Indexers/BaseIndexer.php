@@ -46,7 +46,9 @@ abstract class BaseIndexer
                 }
 
                 if ($model->variants) {
+                    $skus = [];
                     foreach ($model->variants as $variant) {
+                        $skus[] = $variant->sku;
                         if (!$indexable->min_price || $indexable->min_price > $variant->price) {
                             $indexable->set('min_price', $variant->price);
                         }
@@ -54,6 +56,7 @@ abstract class BaseIndexer
                             $indexable->set('max_price', $variant->price);
                         }
                     }
+                    $indexable->set('sku', $skus);
                 }
 
                 $indexables->push($indexable);

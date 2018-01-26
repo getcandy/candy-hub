@@ -48,6 +48,10 @@ class ProductIndexer extends BaseIndexer
                 'type' => 'text',
                 'analyzer' => 'standard',
             ],
+            'sku' => [
+                'type' => 'text',
+                'analyzer' => 'standard'
+            ],
             'created_at'  => [
                 'type' => 'date'
             ],
