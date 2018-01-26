@@ -132,7 +132,7 @@ class BasketService extends BaseService
     public function deleteDiscount($basketId, $discountId)
     {
         $basket = $this->getByHashedId($basketId);
-        $discount = $basket->discounts()->getByHashedId($discountId);
+        $discount = app('api')->discounts()->getByHashedId($discountId);
 
         $basket->discounts()->detach($discount);
 
