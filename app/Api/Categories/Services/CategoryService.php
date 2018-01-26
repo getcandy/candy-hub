@@ -9,6 +9,7 @@ use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
+use GetCandy;
 
 class CategoryService extends BaseService
 {
@@ -127,9 +128,9 @@ class CategoryService extends BaseService
         return $results;
     }
 
-    public function getCategoryTree()
+    public function getCategoryTree($channel = null)
     {
-        return Category::defaultOrder()->get()->toTree();
+        return Category::channel($channel)->defaultOrder()->get()->toTree();
     }
 
     /**
