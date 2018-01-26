@@ -129,10 +129,10 @@ class BasketService extends BaseService
      * @param string $discountId
      * @return void
      */
-    public function deleteDiscount($basketId, $coupon)
+    public function deleteDiscount($basketId, $discountId)
     {
         $basket = $this->getByHashedId($basketId);
-        $discount = $basket->discounts()->where('coupon', '=', $coupon)->first();
+        $discount = $basket->discounts()->getByHashedId($discountId);
 
         $basket->discounts()->detach($discount);
 

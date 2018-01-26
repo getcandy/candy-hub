@@ -45,9 +45,9 @@ class BasketController extends BaseController
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 
-    public function deleteDiscounts($basketId, DeleteDiscountRequest $request)
+    public function deleteDiscount($basketId, DeleteDiscountRequest $request)
     {
-        $basket = app('api')->baskets()->deleteDiscount($basketId, $request->coupon);
+        $basket = app('api')->baskets()->deleteDiscount($basketId, $request->discount_id);
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 
@@ -55,7 +55,7 @@ class BasketController extends BaseController
      * Store either a new or existing basket
      *
      * @param CreateRequest $request
-     * 
+     *
      * @return void
      */
     public function store(CreateRequest $request)

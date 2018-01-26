@@ -24,7 +24,7 @@ class DeleteDiscountRequest extends FormRequest
     public function rules()
     {
         return [
-            'coupon' => 'required'
+            'discount_id' => 'required|hashid_is_valid:discounts'
         ];
     }
 }
