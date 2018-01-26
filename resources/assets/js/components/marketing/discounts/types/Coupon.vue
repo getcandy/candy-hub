@@ -3,19 +3,16 @@
         data() {
             return {
                 code: '',
-                payload: {}
+                value: null
             }
         },
         props: {
             criteria: {
-                type: Object
+                type: String
             }
         },
         mounted() {
-            this.payload = this.criteria;
-            if (!this.payload.value) {
-                this.$set(this.payload, 'value', '');
-            }
+            this.value = this.criteria;
         }
     }
 </script>
@@ -25,8 +22,8 @@
     <div>
         <div class="form-group">
             <label for="">When the coupon equals</label>
-            <input type="text" class="form-control" v-model="payload.value">
+            <input type="text" class="form-control" v-model="value">
         </div>
-        
+
     </div>
 </template>

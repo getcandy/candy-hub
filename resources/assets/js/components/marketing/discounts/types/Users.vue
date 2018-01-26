@@ -15,7 +15,10 @@
         },
         props: {
             criteria: {
-                type: Object
+                type: String
+            },
+            thing: {
+                type: {}
             }
         },
         mounted() {

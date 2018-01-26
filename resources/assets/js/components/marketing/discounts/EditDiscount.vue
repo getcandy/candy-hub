@@ -1,18 +1,5 @@
 <script>
-    /**
-     * Component importing
-     */
-    import Users from './types/Users.vue';
-    import Products from './types/Products.vue';
-    import CustomerGroups from './types/CustomerGroups.vue';
-    import OncePerCustomer from './types/OncePerCustomer.vue';
-
     export default {
-        components: {
-            'users' : Users,
-            'products' : Products,
-            'once-per-customer' : OncePerCustomer
-        },
         data() {
             return {
                 discount: {},
@@ -28,7 +15,7 @@
         methods: {
             save() {
                 let data = this.discount;
-                data.includes = 'channels,sets,rewards,sets.items,attribute_groups.attributes';
+                data.includes = 'channels,sets,rewards,sets.items.eligibles,attribute_groups.attributes';
                 apiRequest.send('PUT', 'discounts/' + this.id, data).then(response => {
                     CandyEvent.$emit('notification', {
                         level: 'success'
@@ -39,7 +26,7 @@
         mounted() {
             Dispatcher.add('save-discount', this);
             apiRequest.send('GET', 'discounts/' + this.id, {}, {
-                includes: 'channels,sets,rewards,sets.items,attribute_groups.attributes'
+                includes: 'channels,sets,rewards,sets.items.eligibles,attribute_groups.attributes'
             }).then(response => {
                 this.discount = response.data;
                 this.loaded = true;
@@ -156,7 +143,7 @@
                                     AND
                                 </div>
                             </template>
-                            
+
                             <template v-if="!set.items.length">
                                 <span class="text-info">You do not have any criteria set</span>
                             </template>

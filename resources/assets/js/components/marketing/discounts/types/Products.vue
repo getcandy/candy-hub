@@ -17,7 +17,7 @@
         },
         props: {
             criteria: {
-                type: Object
+                type: String
             }
         },
         mounted() {

@@ -5,7 +5,7 @@
                 groups: [],
                 keywords: null,
                 loading: false,
-                payload: {},
+                value: null,
                 selected: [],
                 params: {
                     per_page: 25,
@@ -15,21 +15,24 @@
         },
         props: {
             criteria: {
+                type: String
+            },
+            eligibles: {
                 type: Object
             }
         },
         mounted() {
-            this.payload = this.criteria;
-            if (!this.payload.value) {
-                this.$set(this.payload, 'value', []);
-            }
+            this.value = _.map(this.eligibles.data, item => {
+                return item.id;
+            });
+            this.selected = this.value;
             apiRequest.send('GET', 'customers/groups', []).then(response => {
                 this.groups = response.data;
             });
         },
         methods: {
             sync() {
-                this.payload.value = this.selected;
+                this.value = this.selected;
             },
             remove(id) {
                 this.criteria.groups.splice(this.criteria.groups.indexOf(id), 1);

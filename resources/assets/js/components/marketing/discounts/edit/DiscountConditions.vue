@@ -1,10 +1,25 @@
 <script>
+    /**
+     * Component importing
+     */
+    import Users            from    '../types/Users.vue';
+    import Coupon           from    '../types/Coupon.vue';
+    import Products         from    '../types/Products.vue';
+    import CustomerGroups   from    '../types/CustomerGroups.vue';
+    import OncePerCustomer  from    '../types/OncePerCustomer.vue';
 
     export default {
         data() {
             return {
                 sets: []
             }
+        },
+        components: {
+            'users'             : Users,
+            'products'          : Products,
+            'customer-group'    : CustomerGroups,
+            'once-per-customer' : OncePerCustomer,
+            'coupon'            : Coupon
         },
         props: {
             discount: {
@@ -21,7 +36,7 @@
         },
         methods: {
             getType(item) {
-                return 'candy-discounts-' + item.type;
+                return item.type;
             },
             addCondition(index, type) {
                 var set = this.sets[index];
@@ -55,7 +70,6 @@
             <div class="condition-sets">
                 <div v-for="(set,index) in sets" :key="index">
                     <div class="set">
-                        
                         <header class="clearfix">
                             <section class="pull-left">
                                 <span>If</span>
@@ -92,7 +106,7 @@
                             <section>
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <component :is="getType(item)" :criteria="item.criteria"></component>
+                                        <component :is="getType(item)" :criteria="item.value" :eligibles="item.eligibles"></component>
                                     </div>
                                     <div class="col-md-2">
                                         <button class="btn btn-danger btn-sm btn-action" @click="deleteCondition(index, itemIndex)"><i class="fa fa-trash"></i></button>
