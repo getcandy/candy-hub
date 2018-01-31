@@ -39,7 +39,7 @@ class Discount extends BaseModel
                 'published_at' => $this->status == 'A' ? \Carbon\Carbon::now() : null
             ]
         ];
-        
+
         return array_merge($data, [
             'stop_rules' => $this->stop == 'Y',
             'status' => $this->status == 'A',
