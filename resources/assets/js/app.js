@@ -36,15 +36,16 @@ Vue.component('fa', FontAwesomeIcon);
  * Bind some bits to the window for usage.
  */
 
-window.apiRequest = new ApiRequest();
-window.CandyEvent = new Vue();
-window.channels   = [];
-window.config     = new Config();
-window.Dispatcher = new Dispatcher();
-window.languages  = [];
-window.List       = require('list.js');
-window.locale     = new Locale();
-window.moment     = require('moment');
+window.apiRequest     = new ApiRequest();
+window.CandyEvent     = new Vue();
+window.channels       = [];
+window.config         = new Config();
+window.Dispatcher     = new Dispatcher();
+window.languages      = [];
+window.List           = require('list.js');
+window.locale         = new Locale();
+window.moment         = require('moment');
+window.defaultChannel = document.head.querySelector('meta[name="channel"]').content;
 
 // Include our custom v stuff here, so we know everything is loaded
 
@@ -77,7 +78,7 @@ const store = new Vuex.Store({
     topTabs: {},
     taxes: [],
     defaultChannel: {
-      handle: 'aqua-spa-supplies'
+      handle: defaultChannel
     }
   },
   mutations: {
