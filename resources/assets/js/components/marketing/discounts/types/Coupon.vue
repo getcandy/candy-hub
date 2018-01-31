@@ -13,6 +13,7 @@
         },
         mounted() {
             this.payload = this.criteria;
+
             if (!this.payload.value) {
                 this.$set(this.payload, 'value', '');
             }
@@ -27,6 +28,5 @@
             <label for="">When the coupon equals</label>
             <input type="text" class="form-control" v-model="payload.value">
         </div>
-        
     </div>
 </template>

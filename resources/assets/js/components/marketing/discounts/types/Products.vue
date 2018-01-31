@@ -86,7 +86,7 @@
             </div>
         </div>
         <hr>
-        <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
+        <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords" autocomplete="off">
         <table class="table">
             <thead>
                 <tr>
