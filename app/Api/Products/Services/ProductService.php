@@ -82,7 +82,7 @@ class ProductService extends BaseService
 
         $data['description'] = !empty($data['description']) ? $data['description'] : '';
         $product->attribute_data = $data;
-    
+
         if (!empty($data['historical_id'])) {
             $product->id = $data['historical_id'];
         }
@@ -140,7 +140,7 @@ class ProductService extends BaseService
             'price' => $data['price'],
             'pricing' => $this->getPriceMapping($data['price'])
         ]);
-        
+
         if (!empty($data['tax_id'])) {
             $variant->tax()->associate(
                 app('api')->taxes()->getByHashedId($data['tax_id'])
@@ -248,11 +248,6 @@ class ProductService extends BaseService
         $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
 
         $query = $this->model->whereIn('id', $parsedIds);
-        
-
-        /*
-        *   TAKEN FROM PRODUCT VARIANT SERVICE
-        */
 
         $groups = \GetCandy::getGroups();
         $user = \Auth::user();
@@ -275,12 +270,6 @@ class ProductService extends BaseService
                 }]);
             }, 'variants.product', 'variants.tax']);
         }
-
-        /**
-         * END PRODUCT VARIANT SERVICE STUFF
-         */
-        // dd($query->get()->toArray());
-
 
         if (count($parsedIds)) {
             $query = $query->orderByRaw("field(id,{$placeholders})", $parsedIds);

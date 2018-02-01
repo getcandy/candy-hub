@@ -8,6 +8,7 @@
                 deleteUrlModalOpen: false,
                 deletedIndex : null,
                 urlToDelete:{},
+                errors: {},
                 urls: [],
                 newUrl: {
                     locale: locale.current(),
@@ -16,11 +17,14 @@
             }
         },
         mounted() {
-            this.routes.forEach(route => {
-                if (!route.redirect) {
-                    this.urls.push(route);
-                }
+            this.urls = _.map(this.routes, item => {
+                return {
+                    id: item.id,
+                    slug: item.slug,
+                    default: item.default
+                };
             });
+            Dispatcher.add('save-urls', this);
         },
         computed: {
             slugify: {
@@ -51,10 +55,20 @@
                 return 'flag-icon-' + locale;
             },
             save() {
-
+                _.each(this.urls, (item, index) => {
+                    this.request.send('put', '/routes/' + item.id, item)
+                        .then(response => {
+                            CandyEvent.$emit('notification', {
+                                level: 'success'
+                            });
+                        }).catch(response => {
+                            this.$set(this.errors, index, response.data);
+                        });
+                });
             },
             saveUrl() {
                 let data = this.newUrl;
+                this.errors = {};
                 data.slug = data.slug.slugify();
                 this.request.send('post', '/' + this.endpoint + '/' + this.model.id + '/routes', data)
                     .then(response => {
@@ -100,6 +114,7 @@
 
 <template>
     <div>
+        <pre>{{ errors }}</pre>
         <div class="row">
             <div class="col-xs-12 col-md-11">
                 <div class="row">
@@ -120,7 +135,13 @@
                     </thead>
                     <tbody>
                     <tr v-for="(url, index) in urls">
-                        <td><input type="text" class="form-control" :value="url.slug"></td>
+                        <td>
+                            <input type="text" class="form-control" v-model="url.slug">
+                            <pre>{{ errors[index] }}</pre>
+                            <template v-if="errors[index] && errors[index].length">
+                                <p v-for="error in errors[index]">{{ error }}</p>
+                            </template>
+                        </td>
                         <td><span class="flag-icon" :class="getFlag(url.locale)"></span></td>
                         <td><em v-if="url.default">Default</em></td>
                         <td align="right">

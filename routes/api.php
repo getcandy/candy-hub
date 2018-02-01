@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
      'as' => 'account.password.reset',
      'uses' => 'Auth\AccountController@resetPassword'
  ]);
- 
+
  /**
  * Assets
  */

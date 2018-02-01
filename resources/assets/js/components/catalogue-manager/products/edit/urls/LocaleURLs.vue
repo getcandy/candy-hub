@@ -48,7 +48,7 @@
                 return 'flag-icon-' + locale;
             },
             save() {
-
+                alert('Hey!');
             },
             saveUrl() {
                 let data = this.newUrl;
@@ -175,6 +175,6 @@
                 <button class="btn btn-primary" @click="saveUrl()">Save URL</button>
             </template>
         </candy-modal>
-        
+
   </div>
 </template>
