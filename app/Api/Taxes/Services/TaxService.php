@@ -40,6 +40,11 @@ class TaxService extends BaseService
         return $tax;
     }
 
+    public function getByName($name)
+    {
+        return $this->model->where('name', '=', $name)->firstOrFail();
+    }
+
     /**
      * Updates a resource from the given data
      *
@@ -50,7 +55,7 @@ class TaxService extends BaseService
      *
      * @return GetCandy\Api\Models\Tax
      */
-    public function update($id, $data)
+    public function update($id, array $data)
     {
         $tax = $this->getByHashedId($id);
 

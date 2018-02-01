@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use GetCandy\Api\Collections\Models\Collection;
+use GetCandy\Api\Attributes\Models\Attribute;
 
 class CollectionTableSeeder extends Seeder
 {
@@ -13,39 +14,39 @@ class CollectionTableSeeder extends Seeder
      */
     public function run()
     {
-        Collection::create([
-            'attribute_data' => [
-                'name' => [
-                    'ecommerce' => [
-                        ['gb' => 'Early Sale', 'se' => 'Tidig försäljning']
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
+        $collections = [
+            [
+                'attribute_data' => [
+                    'name' => [
+                        'en' => 'Early Sale', 'sv' => 'Tidig försäljning'
+                    ]
+                ]
+            ],
+            [
+                'attribute_data' => [
+                    'name' => [
+                        'en' => 'House'
                     ]
                 ]
             ]
-        ]);
-        Collection::create([
-            'attribute_data' => [
-                'name' => [
-                    'ecommerce' => [
-                        ['gb' => 'House', 'se' => '']
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
-                ]
-            ]
-        ]);
+        ];
+
+        $attributes = Attribute::get();
+
+        foreach ($collections as $c) {
+            $collection = Collection::create($c);
+            foreach ($collection->attribute_data['name'] as $channel => $attr_data) {
+                if ($channel == 'ecommerce') {
+                    $collection->route()->create([
+                        'default' => true,
+                        'slug' => str_slug($attr_data['en']) . '-collection',
+                        'locale' => 'en'
+                    ]);
+                }
+            }
+            foreach ($attributes as $att) {
+                $collection->attributes()->attach($att);
+            }
+        }
     }
 }

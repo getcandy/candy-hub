@@ -24,18 +24,13 @@ class ProductIndexer extends BaseIndexer
      */
     public function getIndexDocument(Product $product)
     {
-        $data = $product->toArray();
-        $data['name'] = json_decode($product->name, true)['en'];
-        return new Document(
-            $product->id,
-            $data
-        );
+        return $this->getIndexables($product);
     }
 
     public function rankings()
     {
         return [
-            "name^5", "name.english^4"
+            "name^5",  "name.english^3", "description^1"
         ];
     }
 
@@ -46,13 +41,89 @@ class ProductIndexer extends BaseIndexer
     public function mapping()
     {
         return [
+            'id' => [
+                'type' => 'text'
+            ],
+            'description' => [
+                'type' => 'text',
+                'analyzer' => 'standard',
+            ],
+            'sku' => [
+                'type' => 'text',
+                'analyzer' => 'standard'
+            ],
+            'created_at'  => [
+                'type' => 'date'
+            ],
+            'departments' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ]
+                ]
+            ],
+            'customer_groups' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ],
+                    'handle' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ]
+                ]
+            ],
+            'channels' => [
+                'type' => 'nested',
+                'properties' => [
+                    'id' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ],
+                    'name' => [
+                        'type' => 'text'
+                    ],
+                    'handle' => [
+                        'type' => 'keyword',
+                        'index' => true
+                    ]
+                ]
+            ],
+            'thumbnail' => [
+                'type' => 'text'
+            ],
+            'min_price' => [
+                "type" => "scaled_float",
+                "scaling_factor" => 100
+            ],
+            'max_price' => [
+                "type" => "scaled_float",
+                "scaling_factor" => 100
+            ],
             'name' => [
-                'type' => 'string',
+                'type' => 'text',
                 'analyzer' => 'standard',
                 'fields' => [
-                    'english' => [
-                        'type' => 'string',
+                    'sortable' => [
+                        'type' => 'keyword'
+                    ],
+                    'en' => [
+                        'type' => 'text',
                         'analyzer' => 'english'
+                    ],
+                    'trigram' => [
+                        'type' => 'text',
+                        'analyzer' => 'trigram'
                     ]
                 ]
             ]

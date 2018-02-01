@@ -10,14 +10,14 @@ class CreateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Language::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
     public function rules()
     {
         return [
             'name' => 'required',
             'lang' => 'required',
-            'iso' => 'required|unique:languages,iso_2_code'
+            'iso' => 'required|unique:languages,iso'
         ];
     }
 }

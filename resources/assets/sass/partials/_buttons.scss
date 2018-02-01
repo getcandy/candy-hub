@@ -1,4 +1,7 @@
 /* Buttons */
+.btn, button{
+  outline:none!important;
+}
 .btn {
   height: 40px;
   padding-left: 20px;

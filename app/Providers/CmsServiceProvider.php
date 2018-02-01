@@ -35,5 +35,7 @@ class CmsServiceProvider extends ServiceProvider
         View::composer('partials.top-menu', 'GetCandy\Http\ViewComposers\Partials\TopMenuComposer');
 
         View::composer('catalogue-manager.partials.side-menu', 'GetCandy\Http\ViewComposers\CatalogueManager\Partials\SideMenuComposer');
+        View::composer('order-processing.partials.side-menu', 'GetCandy\Http\ViewComposers\OrderProcessing\Partials\SideMenuComposer');
+        View::composer('marketing-suite.partials.side-menu', 'GetCandy\Http\ViewComposers\MarketingSuite\Partials\SideMenuComposer');
     }
 }

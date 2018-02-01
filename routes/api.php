@@ -14,6 +14,15 @@ use Illuminate\Http\Request;
 */
 
 /**
+ * Account
+ */
+
+ $this->post('account/password', [
+     'as' => 'account.password.reset',
+     'uses' => 'Auth\AccountController@resetPassword'
+ ]);
+ 
+ /**
  * Assets
  */
 
@@ -22,6 +31,11 @@ $this->resource('assets', 'Assets\AssetController', [
     'except' => ['edit', 'create']
 ]);
 
+/**
+ * Associations
+ */
+
+$this->get('associations/groups', 'Associations\AssociationGroupController@index');
 /**
  * Attributes
  */
@@ -39,6 +53,29 @@ $this->resource('attribute-groups', 'Attributes\AttributeGroupController', [
 ]);
 
 /**
+ * Baskets
+ */
+$this->post('baskets/resolve', 'Baskets\BasketController@resolve');
+$this->get('baskets/current', 'Baskets\BasketController@current');
+
+/**
+ * Payments
+ */
+$this->post('payments/{id}/refund', 'Payments\PaymentController@refund');
+$this->post('payments/{id}/void', 'Payments\PaymentController@void');
+
+/**
+ * Categories
+ */
+$this->get('categories/parent/{parentID?}', 'Categories\CategoryController@getByParent');
+$this->post('categories/reorder', 'Categories\CategoryController@reorder');
+
+$this->post('categories/{category}/routes', 'Categories\CategoryRouteController@store');
+$this->resource('categories', 'Categories\CategoryController', [
+    'except' => ['index', 'edit', 'create', 'show']
+]);
+
+/**
  * Channels
  */
 $this->resource('channels', 'Channels\ChannelController', [
@@ -48,6 +85,7 @@ $this->resource('channels', 'Channels\ChannelController', [
 /**
  * Channels
  */
+$this->post('collections/{collection}/routes', 'Collections\CollectionRouteController@store');
 $this->resource('collections', 'Collections\CollectionController', [
     'except' => ['index', 'edit', 'create', 'show']
 ]);
@@ -61,13 +99,13 @@ $this->resource('customers/groups', 'Customers\CustomerGroupController', [
 ]);
 
 $this->resource('customers', 'Customers\CustomerController', [
-    'except' => ['index', 'edit', 'create', 'show']
+    'except' => ['edit', 'create', 'store']
 ]);
 
 /**
- * Currencies
+ * Discounts
  */
-$this->resource('currencies', 'Currencies\CurrencyController', [
+$this->resource('discounts', 'Discounts\DiscountController', [
     'except' => ['edit', 'create']
 ]);
 
@@ -83,6 +121,13 @@ $this->resource('languages', 'Languages\LanguageController', [
  */
 $this->resource('layouts', 'Layouts\LayoutController', [
     'except' => ['edit', 'create']
+]);
+
+/**
+ * Orders
+ */
+$this->resource('orders', 'Orders\OrderController', [
+    'only' => ['index', 'update']
 ]);
 
 /**
@@ -105,13 +150,15 @@ $this->post('products/{product}/variants', 'Products\ProductVariantController@st
  * Products
  */
 $this->post('products/{product}/urls', 'Products\ProductController@createUrl');
-$this->post('products/{product}/redirects', 'Products\ProductController@createRedirect');
-$this->post('products/{product}/attributes', 'Products\ProductController@updateAttributes');
-$this->post('products/{product}/collections', 'Products\ProductController@updateCollections');
-$this->post('products/{product}/routes', 'Products\ProductController@updateRoutes');
-$this->post('products/{product}/assets', 'Products\ProductController@uploadAsset');
-$this->get('products/{product}/assets', 'Products\ProductController@getAssets');
-$this->put('products/{product}/assets', 'Products\ProductController@saveAsset');
+$this->post('products/{product}/redirects', 'Products\ProductRedirectController@store');
+$this->post('products/{product}/attributes', 'Products\ProductAttributeController@update');
+$this->post('products/{product}/collections', 'Products\ProductCollectionController@update');
+$this->post('products/{product}/routes', 'Products\ProductRouteController@store');
+$this->post('products/{product}/categories', 'Products\ProductCategoryController@update');
+$this->delete('products/{product}/categories/{category}', 'Products\Produ\ctCategoryController@destroy');
+$this->delete('products/{product}/collections/{collection}', 'Products\ProductCollectionController@destroy');
+$this->post('products/{product}/associations', 'Products\ProductAssociationController@store');
+$this->delete('products/{product}/associations', 'Products\ProductAssociationController@destroy');
 $this->resource('products', 'Products\ProductController', [
     'except' => ['edit', 'create']
 ]);
@@ -120,7 +167,7 @@ $this->resource('products', 'Products\ProductController', [
  * Product families
  */
 $this->resource('product-families', 'Products\ProductFamilyController', [
-    'except' => ['index', 'edit', 'create']
+    'except' => ['edit', 'create']
 ]);
 
 /**
@@ -128,6 +175,29 @@ $this->resource('product-families', 'Products\ProductFamilyController', [
  */
 $this->resource('routes', 'Routes\RouteController', [
     'except' => ['index', 'show', 'edit', 'create']
+]);
+
+/**
+ * Saved search
+ */
+$this->post('saved-searches', 'Search\SavedSearchController@store');
+$this->delete('saved-searches/{id}', 'Search\SavedSearchController@destroy');
+$this->get('saved-searches/{type}', 'Search\SavedSearchController@getByType');
+
+/**
+ * Shipping
+ */
+$this->resource('shipping/zones', 'Shipping\ShippingZoneController', [
+    'except' => ['edit', 'create']
+]);
+$this->post('shipping/{id}/prices', 'Shipping\ShippingPriceController@store');
+$this->delete('shipping/prices/{id}', 'Shipping\ShippingPriceController@destroy');
+$this->put('shipping/prices/{id}', 'Shipping\ShippingPriceController@update');
+$this->put('shipping/{id}/zones', 'Shipping\ShippingMethodController@updateZones');
+$this->put('shipping/{id}/users', 'Shipping\ShippingMethodController@updateUsers');
+$this->delete('shipping/{id}/users/{user}', 'Shipping\ShippingMethodController@deleteUser');
+$this->resource('shipping', 'Shipping\ShippingMethodController', [
+    'except' => ['index', 'edit', 'create']
 ]);
 
 /**
@@ -149,5 +219,5 @@ $this->resource('taxes', 'Taxes\TaxController', [
  */
 $this->get('users/current', 'Users\UserController@getCurrentUser');
 $this->resource('users', 'Users\UserController', [
-    'except' => ['edit', 'create']
+    'except' => ['create', 'store']
 ]);

@@ -12,6 +12,10 @@
       cursor: grab;
     }
     tr {
+      .empty {
+        text-align: center;
+        padding:20px;
+      }
       background-color:#fff;
       &.sortable-ghost {
         opacity: .25;
@@ -30,6 +34,10 @@
         td {
           background-color: lighten($purple, 60%);
         }
+      }
+
+      &:hover .hover-btn {
+        display: inline-block;
       }
 
       td {
@@ -70,6 +78,15 @@
           margin-top: 0;
           margin-bottom: 0;
         }
+
+        .hover-btn {
+          display: none;
+          background-color: #fff;
+          float: right;
+        }
+        .hover-btn:hover {
+          background-color: #f3f3f3;
+        }
       }
     }
   }
@@ -108,5 +125,26 @@
   &.row {
     margin-bottom: 10px;
     padding-bottom: 10px;
+  }
+}
+
+.scrollable {
+  thead, tbody { display: block; }
+
+  tbody {
+    height: 300px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+  }
+}
+
+
+
+.status-icon {
+  display:inline-block;
+  margin-right:5px;
+  i {
+    color:lighten($grey, 25%);
+    font-size:1em;
   }
 }

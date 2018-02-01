@@ -12,9 +12,9 @@ class CustomerGroupTransformer extends TransformerAbstract
         return  [
             'id' => $customerGroup->encodedId(),
             'name' => $customerGroup->name,
+            'handle' => $customerGroup->handle,
             'visible' => $customerGroup->visible ? true : false,
             'purchasable' => $customerGroup->purchasable ? true : false
         ];
-
     }
 }

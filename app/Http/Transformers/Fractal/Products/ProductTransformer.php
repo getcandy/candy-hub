@@ -4,35 +4,37 @@ namespace GetCandy\Http\Transformers\Fractal\Products;
 
 use GetCandy\Api\Attributes\Models\AttributeGroup;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Traits\IncludesAttributes;
 use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
 use GetCandy\Http\Transformers\Fractal\Attributes\AttributeGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\BaseTransformer;
+use GetCandy\Http\Transformers\Fractal\Categories\CategoryTransformer;
 use GetCandy\Http\Transformers\Fractal\Channels\ChannelTransformer;
 use GetCandy\Http\Transformers\Fractal\Collections\CollectionTransformer;
 use GetCandy\Http\Transformers\Fractal\Customers\CustomerGroupTransformer;
 use GetCandy\Http\Transformers\Fractal\Layouts\LayoutTransformer;
 use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
+use PriceCalculator;
 
 class ProductTransformer extends BaseTransformer
 {
-    /**
-     * @var
-     */
-    protected $attributeGroups;
+    use IncludesAttributes;
 
     /**
      * @var array
      */
     protected $availableIncludes = [
+        'assets',
+        'associations',
         'attribute_groups',
+        'categories',
+        'channels',
+        'collections',
+        'customer_groups',
         'family',
         'layout',
-        'variants',
-        'collections',
         'routes',
-        'channels',
-        'customer_groups',
-        'assets'
+        'variants',
     ];
 
     /**
@@ -42,27 +44,72 @@ class ProductTransformer extends BaseTransformer
      */
     public function transform(Product $product)
     {
+        $this->applyDiscounts($product);
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
-            'thumbnail' => $this->getThumbnail($product)
+            'option_data' => $this->parseOptionData($product->option_data),
+            'thumbnail' => $this->getThumbnail($product),
+            'max_price' => $product->max_price,
+            'min_price' => $product->min_price,
+            'variant_count' => $product->variants->count()
         ];
+
+        if ($product->pivot && $product->pivot->type) {
+            $response['type'] = $product->pivot->type;
+        }
 
         return $response;
     }
 
-    protected function getThumbnail($product)
+    protected function applyDiscounts(Product $product)
     {
-        $asset = $product->primaryAsset();
+        // $discounts = app('api')->discounts()->get();
+        // $sets = app('api')->discounts()->parse($discounts);
 
-        if (!$asset) {
-            return null;
+        $product->max_price = 0;
+        $product->min_price = 0;
+        $product->original_max_price = 0;
+        $product->original_min_price = 0;
+        
+        foreach ($product->variants as $variant) {
+
+            $variantPrice = $variant->total_price;
+
+            $product->max_price = $variantPrice > $product->max_price ? $variantPrice : $product->max_price;
+            $product->original_max_price = $variant->original_price > $product->original_max_price ? $variant->original_price : $product->original_max_price;
+            if ($product->min_price) {
+                $product->min_price = $variantPrice < $product->min_price ? $variantPrice : $product->min_price;
+                $product->original_min_price = $variant->original_price < $product->original_min_price ? $variant->original_price : $product->original_min_price;
+            } else {
+                $product->min_price = $product->max_price;
+                $product->original_min_price = $variant->original_price;
+            }
         }
 
-        $data = $this->item($product->primaryAsset(), new AssetTransformer);
-        return app()->fractal->createData($data)->toArray();
+        // $applied = \Facades\GetCandy\Api\Discounts\Factory::getApplied($sets, \Auth::user(), $product);
+
+        // \Facades\GetCandy\Api\Discounts\Factory::apply($applied, $product);
+        return $product;
     }
 
+    protected function parseOptionData($data)
+    {
+        $data = $this->sortOptions($data);
+        foreach ($data as $optionKey => $option) {
+            $sorted =  $this->sortOptions($option['options']);
+            $data[$optionKey]['options'] = $sorted;
+        }
+        return $data;
+    }
+
+    protected function sortOptions($options)
+    {
+        uasort($options, function ($a, $b) {
+            return $a['position'] < $b['position'] ? -1 : 1;
+        });
+        return $options;
+    }
 
     /**
      * @param \GetCandy\Api\Products\Models\Product $product
@@ -71,6 +118,9 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeLayout(Product $product)
     {
+        if (!$product->layout) {
+            return null;
+        }
         return $this->item($product->layout, new LayoutTransformer);
     }
 
@@ -81,6 +131,9 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeFamily(Product $product)
     {
+        if (!$product->family) {
+            return null;
+        }
         return $this->item($product->family, new ProductFamilyTransformer);
     }
 
@@ -94,19 +147,15 @@ class ProductTransformer extends BaseTransformer
         return $this->collection($product->collections, new CollectionTransformer);
     }
 
-
     /**
-     * @return mixed
+     * @param \GetCandy\Api\Products\Models\Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
      */
-    public function getAttributeGroups()
+    public function includeAssociations(Product $product)
     {
-        if (!$this->attributeGroups) {
-            $this->attributeGroups = AttributeGroup::select('id', 'name', 'handle', 'position')
-                ->orderBy('position', 'asc')->with(['attributes'])->get();
-        }
-        return $this->attributeGroups;
+        return $this->collection($product->associations, new ProductAssociationTransformer);
     }
-
 
     /**
      * @param \GetCandy\Api\Products\Models\Product $product
@@ -116,25 +165,6 @@ class ProductTransformer extends BaseTransformer
     public function includeAssets(Product $product)
     {
         return $this->collection($product->assets()->orderBy('position', 'asc')->get(), new AssetTransformer);
-    }
-
-    /**
-     * @param \GetCandy\Api\Products\Models\Product $product
-     *
-     * @return \League\Fractal\Resource\Collection
-     */
-    public function includeAttributeGroups(Product $product)
-    {
-        $attributeIds = array_merge(
-            $product->attributes->pluck('id')->toArray(),
-            $product->family->attributes->pluck('id')->toArray()
-        );
-        $attributeGroups = $this->getAttributeGroups()->filter(function ($group) use ($attributeIds) {
-            if ($group->attributes->whereIn('id', $attributeIds)->count()) {
-                return $group;
-            }
-        });
-        return $this->collection($attributeGroups, new AttributeGroupTransformer);
     }
 
     /**
@@ -166,7 +196,7 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeChannels(Product $product)
     {
-        $channels = app('api')->channels()->getChannelsWithAvailability($product);
+        $channels = app('api')->channels()->getChannelsWithAvailability($product, 'products');
         return $this->collection($channels, new ChannelTransformer);
     }
 
@@ -177,7 +207,17 @@ class ProductTransformer extends BaseTransformer
      */
     public function includeCustomerGroups(Product $product)
     {
-        $groups = app('api')->customerGroups()->getGroupsWithAvailability($product);
+        $groups = app('api')->customerGroups()->getGroupsWithAvailability($product, 'products');
         return $this->collection($groups, new CustomerGroupTransformer);
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @return \League\Fractal\Resource\Categories
+     */
+    public function includeCategories(Product $product)
+    {
+        return $this->collection($product->categories, new CategoryTransformer);
     }
 }

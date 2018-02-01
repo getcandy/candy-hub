@@ -12,8 +12,11 @@
             languages: {
                 type: Array
             },
-            groups: {
-                type: Array,
+            channels: {
+                type: Array
+            },
+            group: {
+                type: Object,
                 default() {
                     return [];
                 }
@@ -32,23 +35,28 @@
                         message: 'Missing / Invalid fields'
                     });
                 });
+            },
+            getChannels(channels) {
+                let arr = [];
+                channels.forEach(channel => {
+                    arr.push({
+                        label: channel.name,
+                        value: channel.handle
+                    });
+                });
+                return arr;
             }
         },
         mounted() {
-            CandyEvent.$emit('current-tab', this);
+            Dispatcher.add('product-details', this);
         }
     }
 </script>
 <template>
     <div>
-        <candy-tabs nested="true">
-
-            <template v-for="(group, index) in groups">
-                <candy-tab :name="group.name" :selected="index == 0 ? true : false">
-                    <candy-product-attributes :languages="languages" :group="group" :product="product" :request="request"></candy-product-attributes>
-                </candy-tab>
-            </template>
-
-        </candy-tabs>
+        <candy-attribute-translatable :languages="languages" :channels="getChannels(product.channels.data)"
+                              :attributes="group.attributes.data" :attributeData="product.attributes"
+                              :request="request">
+        </candy-attribute-translatable>
     </div>
 </template>

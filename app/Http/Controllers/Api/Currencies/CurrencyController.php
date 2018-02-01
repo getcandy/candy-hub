@@ -29,10 +29,10 @@ class CurrencyController extends BaseController
      * @param  String $id
      * @return Json
      */
-    public function show($id)
+    public function show($code)
     {
         try {
-            $currency = app('api')->currencies()->getByHashedId($id);
+            $currency = app('api')->currencies()->getByCode($code);
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }

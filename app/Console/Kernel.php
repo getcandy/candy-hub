@@ -13,7 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \GetCandy\Console\Commands\ElasticIndexCommand::class
+        \GetCandy\Console\Commands\ElasticIndexCommand::class,
+        \GetCandy\Console\Commands\ImportAquaSpa::class,
+        \GetCandy\Console\Commands\IndexRefreshCommand::class,
+        \GetCandy\Console\Commands\SyncDescriptionsCommand::class
     ];
 
     /**

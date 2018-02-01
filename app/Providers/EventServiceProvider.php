@@ -2,10 +2,17 @@
 
 namespace GetCandy\Providers;
 
-use Illuminate\Support\Facades\Event;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
+use GetCandy\Api\Attributes\Listeners\SyncAttributablesListener;
+use GetCandy\Api\Baskets\Events\BasketStoredEvent;
+use GetCandy\Api\Discounts\Listeners\AddDiscountToProductListener;
+use GetCandy\Api\Orders\Listeners\SyncWithBasketListener;
+use GetCandy\Api\Products\Events\ProductCreatedEvent;
+use GetCandy\Api\Products\Events\ProductUpdatedEvent;
+use GetCandy\Api\Products\Events\ProductViewedEvent;
+use GetCandy\Api\Products\Listeners\AddToIndexListener as ProductIndexListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use GetCandy\Events\General\AttributesUpdatedEvent;
-use GetCandy\Listeners\General\UpdateAttributableDataListener;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,8 +22,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        AttributesUpdatedEvent::class => [
-            UpdateAttributableDataListener::class
+        AttributableSavedEvent::class => [
+            SyncAttributablesListener::class
+        ],
+        ProductCreatedEvent::class => [
+            ProductIndexListener::class
+        ],
+        ProductUpdatedEvent::class => [
+            ProductIndexListener::class
+        ],
+        ProductViewedEvent::class => [
+            AddDiscountToProductListener::class
+        ],
+        BasketStoredEvent::class => [
+            SyncWithBasketListener::class
         ]
     ];
 

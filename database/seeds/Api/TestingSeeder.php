@@ -13,17 +13,22 @@ class TestingSeeder extends Seeder
     {
         Artisan::call('migrate:refresh');
 
-        $this->call('UserTableSeeder');
-
-        $this->call('AttributesTableSeeder');
-        $this->call('CategoryTableSeeder');
-        $this->call('ProductFamilyTableSeeder');
-        $this->call('CollectionTableSeeder');
-        $this->call('ChannelTableSeeder');
-        $this->call('LanguageTableSeeder');
-        $this->call('ProductTableSeeder');
-        $this->call('CurrencyTableSeeder');
-        $this->call('TaxTableSeeder');
+        $this->call(SettingsTableSeeder::class);
+        $this->call(AssociationGroupTableSeeder::class);
+        $this->call(CustomerGroupTableSeeder::class);
+        $this->call(ChannelTableSeeder::class);
+        $this->call(LanguageTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
+        $this->call(UserTableSeeder::class);
+        $this->call(AttributesTableSeeder::class);
+        $this->call(CategoryTableSeeder::class);
+        $this->call(ProductFamilyTableSeeder::class);
+        $this->call(CollectionTableSeeder::class);
+        $this->call(ProductTableSeeder::class);
+        $this->call(CurrencyTableSeeder::class);
+        $this->call(TaxTableSeeder::class);
+        $this->call(AssetSourceTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
 
         $client = (new \Laravel\Passport\Client)->forceFill([
             'name' => 'TestClient',

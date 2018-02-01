@@ -37,23 +37,23 @@
         },
         mounted() {
             this.product.assets.data.forEach(asset => {
-
-                // We want the api to be consistent, but we don't
-                // really want the format it gives us for our tagging
-                // so we format them for selectize
-                let tags = [];
-                asset.tags.data.forEach(tag => {
-                    tags.push(tag.name);
-                });
-                asset.tags = tags;
-
+                if (asset.tags.data) {
+                    asset.tags = asset.tags.data;
+                    delete asset.tags.data;
+                } else {
+                    asset.tags = [];
+                }
                 this.assets.push(asset);
             });
             this.urlUpload.type = this.mimeTypes[0].value;
 
+            CandyEvent.$on('variant_asset_uploaded', event => {
+                this.assets.push(event.asset);
+            });
+
             apiRequest.send('GET', '/tags').then(response => {
                 response.data.forEach(tag => {
-                    this.defaultTags.push(tag.name);
+                    this.defaultTags.push(tag);
                 });
             });
         },
@@ -88,10 +88,12 @@
                 }).then(response => {
                     this.processingAssetUrl = false;
                     this.assets.push(response.data);
+                    CandyEvent.$emit('media_asset_uploaded', {
+                        asset: response.data
+                    });
                     this.urlUpload = {};
                     this.urlUploadModalOpen = false;
                 }).catch(response => {
-                    console.log(response);
                     this.processingAssetUrl = false;
                 });
             },
@@ -100,6 +102,10 @@
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
+                        });
+                        CandyEvent.$emit('asset_deleted', {
+                            asset: this.assetToDelete,
+                            index: this.deletedIndex
                         });
                         this.assets.splice(this.deletedIndex, 1);
                         this.assetToDelete = {};
@@ -190,6 +196,12 @@
              */
             uploadSuccess(file, response) {
                 this.$refs.mediaDropzone.removeFile(file);
+                response.data.tags = response.data.tags.data;
+
+                CandyEvent.$emit('media_asset_uploaded', {
+                    asset: response.data
+                });
+
                 this.assets.push(response.data);
             },
             uploadError(file, response) {
@@ -259,7 +271,7 @@
                         <tbody  v-sortable="sortableOptions">
                             <tr v-for="(asset, index) in getFilteredResults(filter)" :key="asset.id">
                                 <td class="handle">
-                                    <svg width="13px" height="19px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <g id="Artboard" fill="#D8D8D8">
                                                 <rect id="Rectangle" x="2" y="2" width="3" height="3"></rect>
@@ -290,7 +302,7 @@
                                 <td><input v-model="asset.title" type="text" class="form-control"></td>
                                 <td><input v-model="asset.caption" type="text" class="form-control"></td>
                                 <td>
-                                    <candy-taggable :options="defaultTags" v-model="asset.tags.data"></candy-taggable>
+                                    <candy-taggable :options="defaultTags" v-model="asset.tags"></candy-taggable>
                                 </td>
                                 <td><span v-if="asset.extension">.{{ asset.extension }}</span><span v-else>-</span></td>
                                 <td align="right">
@@ -301,6 +313,13 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot v-if="!getFilteredResults(filter).length">
+                            <tr>
+                              <td colspan="2">
+                                <span class="text-muted">No assets found</span>
+                              </td>
+                            </tr>
+                        </tfoot>
                     </table>
                     <!-- File icons sourced from Flaticon, we'd need to purchase these or mention the author if we want to use them for free.-->
                 </div>
@@ -308,7 +327,6 @@
         </div>
         <div class="sub-nav media-upload">
             <button type="button" class="btn btn-primary btn-full" @click="openUrlModal">Add by URL</button>
-            
             <candy-alert :shown="true" level="danger" v-for="(file, index) in failedUploads" :key="index">
                 <strong>{{ file.filename }}</strong> <br>
                 <ul class="list-unstyled">
@@ -318,7 +336,7 @@
                 </ul>
             </candy-alert>
 
-            <dropzone id="media-upload"
+            <dropzone id="variant-media-upload"
                 ref="mediaDropzone"
                 :url="dropzoneUrl"
                 v-on:vdropzone-success="uploadSuccess"
@@ -333,9 +351,6 @@
                 </div>
                 <input type="hidden" name="_token" :value="token">
             </dropzone>
-
-            
-
         </div>
         <candy-modal title="Add media by URL" v-show="urlUploadModalOpen" @closed="closeUrlModal">
             <div slot="body">

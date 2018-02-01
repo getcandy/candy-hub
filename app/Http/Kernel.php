@@ -17,6 +17,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \GetCandy\Http\Middleware\TrimStrings::class,
+        \GetCandy\Http\Middleware\SetCurrencyMiddleware::class,
+        \GetCandy\Http\Middleware\SetTaxMiddleware::class
         //\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -34,17 +36,19 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \GetCandy\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class
         ],
-
+        'hub' => [
+            \GetCandy\Http\Middleware\Hub\HubAccess::class
+        ],
         'api' => [
-            'throttle:60,1',
-            'bindings',
+            'throttle:600,1',
+            'bindings'
         ],
         'api:client' => [
-            'throttle:60,1',
+            'throttle:600,1',
             'bindings',
-            \Laravel\Passport\Http\Middleware\CheckClientCredentials::class
+            \GetCandy\Http\Middleware\CheckClientCredentials::class
         ]
     ];
 
@@ -64,6 +68,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'api.language' => \GetCandy\Http\Middleware\SetLocaleMiddleware::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
-        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'customer_groups' => \GetCandy\Http\Middleware\SetCustomerGroups::class
     ];
 }

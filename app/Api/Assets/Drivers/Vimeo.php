@@ -26,6 +26,13 @@ class Vimeo extends BaseUrlDriver
         $this->manager = $vimeo;
     }
 
+    /**
+     * Get the vimeo video info
+     *
+     * @param string $url
+     * 
+     * @return array
+     */
     public function getInfo($url)
     {
         if (!$this->info) {

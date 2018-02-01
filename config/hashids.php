@@ -60,6 +60,15 @@ return [
             'salt' => env('HASHIDS_CHANNEL_SALT', 'channel'),
             'length' => 8,
         ],
+        'checkout' => [
+            'alphabet' => $alphabet,
+            'salt' => env('HASHIDS_CHECKOUT_SALT', 'checkout')
+        ],
+        'basket' => [
+            'alphabet' => $alphabet,
+            'length' => 15,
+            'salt' => env('HASHIDS_BASKET_SALT', 'basket')
+        ],
         'currency' => [
             'alphabet' => $alphabet,
             'salt' => env('HASHIDS_CURRENCY_SALT', 'currency'),
@@ -69,6 +78,11 @@ return [
             'alphabet' => $alphabet,
             'salt' => env('HASHIDS_LANGUAGE_SALT', 'language'),
             'length' => 8,
+        ],
+        'order' => [
+            'alphabet' => $alphabet,
+            'length' => 15,
+            'salt' => env('HASHIDS_ORDER_SALT', 'order')
         ],
         'product' => [
             'alphabet' => $alphabet,
@@ -83,6 +97,11 @@ return [
         'product_family' => [
             'alphabet' => $alphabet,
             'salt' => env('HASHIDS_PRODUCT_FAMILY_SALT', 'product_family'),
+            'length' => 8,
+        ],
+        'product_category' => [
+            'alphabet' => $alphabet,
+            'salt' => env('HASHIDS_PRODUCT_CATEGORY_SALT', 'product_category'),
             'length' => 8,
         ],
         'tag' => [

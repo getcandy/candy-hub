@@ -1,3 +1,12 @@
+<script>
+    export default {
+        data() {
+            return {
+            }
+        }
+    }
+</script>
+
 <template>
   <div>
     <!-- Add Category Modal -->
@@ -14,6 +23,7 @@
               <input type="text" class="form-control search" placeholder="Search Categories">
             </div>
             <hr>
+
             <table class="table association-table">
               <thead>
                 <tr>
@@ -136,6 +146,7 @@
                 </tr>
               </tbody>
             </table>
+
             <hr>
             <p><small>Need to work on scrollable tbody.<br>Should selected category names show below search area as well? With a potential to remove?</small></p>
           </div>
@@ -317,6 +328,7 @@
         </div>
       </div>
     </div>
+
     <!-- Remove Collection Modal -->
     <div class="modal fade" id="removeCollection" tabindex="-1" role="dialog" aria-labelledby="removeCollection">
       <div class="modal-dialog" role="document">
@@ -487,12 +499,3 @@
     </div>
   </div>
 </template>
-
-<script>
-    export default {
-        data() {
-            return {
-            }
-        }
-    }
-</script>

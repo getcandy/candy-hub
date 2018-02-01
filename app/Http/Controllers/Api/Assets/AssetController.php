@@ -2,11 +2,31 @@
 
 namespace GetCandy\Http\Controllers\Api\Assets;
 
+use GetCandy\Exceptions\InvalidServiceException;
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Assets\UpdateAllRequest;
+use GetCandy\Http\Requests\Api\Assets\UploadRequest;
+use GetCandy\Http\Transformers\Fractal\Assets\AssetTransformer;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AssetController extends BaseController
 {
+    public function store(UploadRequest $request)
+    {
+        try {
+            $parent = app('api')->{$request->parent}()->getByHashedId($request->parent_id);
+        } catch (InvalidServiceException $e) {
+            return $this->errorWrongArgs($e->getMessage());
+        }
+        $asset = app('api')->assets()->upload(
+            $request->all(),
+            $parent,
+            $parent->assets()->count() + 1
+        );
+        return $this->respondWithItem($asset, new AssetTransformer);
+    }
+
     public function destroy($id)
     {
         try {

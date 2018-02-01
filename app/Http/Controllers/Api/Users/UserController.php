@@ -4,6 +4,7 @@ namespace GetCandy\Http\Controllers\Api\Users;
 
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Users\CreateRequest;
+use GetCandy\Http\Requests\Api\Users\UpdateRequest;
 use GetCandy\Http\Transformers\Fractal\Users\UserTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -16,7 +17,12 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $paginator = app('api')->users()->getPaginatedData($request['per_page']);
+        $paginator = app('api')->users()->getPaginatedData(
+            $request->per_page,
+            $request->page,
+            $request->keywords,
+            $request->ids
+        );
         return $this->respondWithCollection($paginator, new UserTransformer);
     }
 
@@ -52,7 +58,9 @@ class UserController extends BaseController
         return $this->respondWithItem(\Auth::user(), new UserTransformer);
     }
 
-    public function update(UpdateRequest $request)
+    public function update(UpdateRequest $request, $userId)
     {
+        $user = app('api')->users()->update($userId, $request->all());
+        return $this->respondWithItem($user, new UserTransformer);
     }
 }

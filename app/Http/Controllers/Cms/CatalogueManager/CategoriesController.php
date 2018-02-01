@@ -10,4 +10,11 @@ class CategoriesController extends Controller
     {
         return view('catalogue-manager.categories.index');
     }
+
+    public function getEdit($id)
+    {
+        return view('catalogue-manager.categories.edit', [
+            'id' => $id
+        ]);
+    }
 }

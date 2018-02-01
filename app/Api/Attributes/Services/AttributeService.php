@@ -66,6 +66,11 @@ class AttributeService extends BaseService
         return $query->find($ids);
     }
 
+    public function getHandles()
+    {
+        return $this->model->select(['handle', 'id'])->get()->toArray();
+    }
+
     /**
      * Updates the positions of attributes
      * @param  array  $data
@@ -185,5 +190,11 @@ class AttributeService extends BaseService
         }
 
         return !$result->exists();
+    }
+
+
+    public function getByHandles(array $handles)
+    {
+        return $this->model->whereIn('handle', $handles)->get();
     }
 }

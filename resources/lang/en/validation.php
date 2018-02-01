@@ -22,6 +22,7 @@ return [
     'alpha_num'            => 'The :attribute may only contain letters and numbers.',
     'array'                => 'The :attribute must be an array.',
     'before'               => 'The :attribute must be a date before :date.',
+    'enabled'              => 'The :attribute is invalid or not enabled',
     'before_or_equal'      => 'The :attribute must be a date before or equal to :date.',
     'between'              => [
         'numeric' => 'The :attribute must be between :min and :max.',
@@ -45,6 +46,11 @@ return [
     'image'                => 'The :attribute must be an image.',
     'in'                   => 'The selected :attribute is invalid.',
     'in_array'             => 'The :attribute field does not exist in :other.',
+    //TODO: MOVE THIS WHEN IT GOES INTO A PACKAGE!
+    'unique_lines'         => 'You have duplicate items in your basket',
+    'valid_payment_token'  => 'The payment token is invalid or expired',
+    'valid_order'          => 'Invalid order',
+    // STOP
     'integer'              => 'The :attribute must be an integer.',
     'ip'                   => 'The :attribute must be a valid IP address.',
     'ipv4'                 => 'The :attribute must be a valid IPv4 address.',
@@ -75,6 +81,7 @@ return [
     'required_with_all'    => 'The :attribute field is required when :values is present.',
     'required_without'     => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
+    'required_in_array'    => 'Missing value in :attribute array',
     'same'                 => 'The :attribute and :other must match.',
     'size'                 => [
         'numeric' => 'The :attribute must be :size.',
@@ -91,6 +98,7 @@ return [
     'hashid_is_valid' => 'The selected :attribute is invalid',
     'valid_locales' => 'Invalid locale',
     'valid_structure' => 'The :attribute structure is invalid',
+    'unique_route' => 'This route has already been taken',
 
     /*
     |--------------------------------------------------------------------------

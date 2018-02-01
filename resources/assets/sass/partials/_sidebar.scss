@@ -201,15 +201,30 @@
       li {
         display: block;
         width: 100%;
-
+        &.active {
+          a {
+            color: white;
+            background-color: $purple;
+            svg {
+              color:white;
+            }
+          }
+        }
         a {
           display: block;
           width: 100%;
-          padding: 15px 60px;
-
+          padding: 15px 60px 15px 40px;
+          svg {
+            color:rgba(#2d3c8e,0.4);
+            width:15px;
+            margin-right:10px;
+          }
           &:hover, &:active {
             color: white;
             background-color: $purple;
+            svg {
+              color:white;
+            }
           }
         }
       }

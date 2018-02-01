@@ -10,7 +10,7 @@ class CreateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Channel::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
     public function rules()
     {

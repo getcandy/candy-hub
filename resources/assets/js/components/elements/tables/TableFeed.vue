@@ -11,7 +11,6 @@
         },
         mounted () {
             this.rows = this.items;
-            console.log(this.items);
         }
     }
 </script>

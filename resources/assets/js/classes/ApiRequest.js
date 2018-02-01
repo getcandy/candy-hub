@@ -58,7 +58,9 @@ class ApiRequest {
                 url: this.getUrl(path),
                 data: data,
                 params: params,
-                headers: {'Accept': 'application/json'}
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
             .then(response => {
                 this.onSuccess(response.data);
@@ -68,7 +70,6 @@ class ApiRequest {
                 this.onFail(error.response.data);
                 reject(error);
             });
-
         });
 
     }
@@ -80,7 +81,7 @@ class ApiRequest {
         return new Promise((resolve, reject) => {
             axios.get('/api/v1/products', paramsArr)
                 .then(response => {
-                    resolve((flatten) ? this.flatify(response.data) : response.data);
+                    resolve((flatten) ? this.productFlatify(response.data) : response.data);
                 })
                 .catch(error => {
                     reject(error);
@@ -89,7 +90,23 @@ class ApiRequest {
 
     }
 
-    flatify(response) {
+    loadCollections(params, flatten = false) {
+
+        let paramsArr = {'params': params};
+
+        return new Promise((resolve, reject) => {
+            axios.get('/api/v1/collections', paramsArr)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+
+    }
+
+    productFlatify(response) {
 
         let flatify = [];
         flatify['pagination'] = response['meta'].pagination;
@@ -117,13 +134,13 @@ class ApiRequest {
 
             flatify.push({
                 'id': product.id,
-                'name': product.attribute_data.name.ecommerce.gb,
+                'name': product.attribute_data.name.ecommerce,
                 'customer_groups': product.customer_groups.data,
                 'purchasable': purchasableStr,
                 'channels': product.channels.data,
                 'display': displayStr,
                 'family_group': product.family.data.attribute_data,
-                'group': product.family.data.attribute_data.name.ecommerce.gb,
+                'group': product.family.data.attribute_data.name.ecommerce,
                 'thumbnail' : product.thumbnail
             });
         });

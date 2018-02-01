@@ -68,9 +68,12 @@ class AssetTransformService extends BaseService
         // Lets sort out the width and height
         switch ($transformer->mode) {
             case 'fit':
-                $image->resize($width, $height, function ($constraint) {
-                    $constraint->aspectRatio();
+                $background = Image::canvas($width, $height);
+                $image->resize($width, $height, function ($c) {
+                    $c->aspectRatio();
+                    $c->upsize();
                 });
+                $image = $background->insert($image, 'center');
                 break;
             case 'fit-crop':
                 $image->resize($width, $height, function ($constraint) {
@@ -125,6 +128,12 @@ class AssetTransformService extends BaseService
         }
     }
 
+    /**
+     * Get the image
+     *
+     * @param [type] $asset
+     * @return void
+     */
     protected function getImage($asset)
     {
         if ($asset->external) {

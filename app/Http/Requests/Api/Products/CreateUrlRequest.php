@@ -14,7 +14,7 @@ class CreateUrlRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Product::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     /**
@@ -26,7 +26,7 @@ class CreateUrlRequest extends FormRequest
     {
         return [
             'slug' => 'required|unique:routes,slug',
-            'locale' => 'required|exists:languages,iso'
+            // 'locale' => 'required|exists:languages,lang'
         ];
     }
 }

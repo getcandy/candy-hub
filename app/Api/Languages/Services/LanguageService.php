@@ -41,7 +41,7 @@ class LanguageService extends BaseService
         if (is_array($lang)) {
             return $query->whereIn('lang', $lang)->first();
         }
-        return $query->model->where('lang', '=', $lang)->first();
+        return $query->where('lang', '=', $lang)->first();
     }
 
     /**
@@ -55,7 +55,7 @@ class LanguageService extends BaseService
      *
      * @return GetCandy\Api\Models\Language
      */
-    public function update($hashedId, $data)
+    public function update($hashedId, array $data)
     {
         $language = $this->getByHashedId($hashedId);
 
@@ -119,6 +119,7 @@ class LanguageService extends BaseService
             );
         }
 
+
         if ($language->default && $newDefault = $this->getNewSuggestedDefault()) {
             $newDefault->default = true;
             $newDefault->save();
@@ -134,6 +135,6 @@ class LanguageService extends BaseService
      */
     public function allLocalesExist(array $locales)
     {
-        return $this->model->whereIn('code', $locales)->count() == count($locales);
+        return $this->model->whereIn('lang', $locales)->count() == count($locales);
     }
 }

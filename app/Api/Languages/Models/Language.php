@@ -14,6 +14,6 @@ class Language extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'code', 'name', 'default'
+        'lang', 'iso', 'name', 'default'
     ];
 }

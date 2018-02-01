@@ -9,12 +9,12 @@ class CreateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Language::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
     public function rules()
     {
         return [
-            'attributes' => 'array|required|valid_structure:product_families',
+            'name' => 'array|required|valid_structure:product_families',
         ];
     }
 }

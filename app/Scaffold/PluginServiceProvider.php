@@ -16,6 +16,8 @@ abstract class PluginServiceProvider extends ServiceProvider
 
     protected $subscribe = [];
 
+    protected $commands = [];
+
     public function boot()
     {
         foreach ($this->migrations as $path) {
@@ -31,6 +33,8 @@ abstract class PluginServiceProvider extends ServiceProvider
         }
 
         $events = app('events');
+
+        $this->commands($this->commands);
 
         foreach ($this->listen as $event => $listeners) {
             foreach ($listeners as $listener) {

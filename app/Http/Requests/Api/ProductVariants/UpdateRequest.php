@@ -14,7 +14,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     /**
@@ -25,7 +25,9 @@ class UpdateRequest extends FormRequest
     public function rules(ProductVariant $variant)
     {
         return [
-            'sku' => 'required|unique:product_variants,sku,'. $variant->decodeId($this->variant)
+            'sku' => 'required|unique:product_variants,sku,'. $variant->decodeId($this->variant),
+            'pricing' => 'array',
+            'pricing.*.customer_group_id' => 'required|hashid_is_valid:customer_groups'
         ];
     }
 }

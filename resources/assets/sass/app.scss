@@ -22,9 +22,16 @@
 @import "partials/tables";
 @import "partials/lightbox";
 @import "partials/filters";
+@import "partials/dashboard";
 @import "partials/popovers";
 @import "partials/tooltips";
 @import "partials/notification-bar";
 @import "partials/modals";
 @import "partials/sidebar";
 @import "partials/content-panel";
+@import "partials/sortables";
+
+/**
+ * Elements
+ */
+@import "elements/statuses";

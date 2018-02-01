@@ -5,6 +5,7 @@ namespace GetCandy\Api\Assets\Drivers;
 use GetCandy\Api\Assets\Jobs\GenerateTransforms;
 use GetCandy\Api\Assets\Models\Asset;
 use Storage;
+use Illuminate\Database\Eloquent\Model;
 
 class ExternalImage extends BaseUrlDriver
 {
@@ -23,14 +24,26 @@ class ExternalImage extends BaseUrlDriver
         $this->manager = app('image');
     }
 
-    public function process(array $data, $model)
+    /**
+     * Process the external image
+     *
+     * @param array $data
+     * @param Model $model
+     * 
+     * @return Asset
+     */
+    public function process(array $data, Model $model)
     {
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
+
+        // if (!$this->info) {
+            $this->getInfo($data['url']);
+        // }
+
+
         $this->model = $model;
         $this->data = $data;
         $asset = $this->prepare();
-
-        // dd($asset->location);
 
         if ($model->assets()->count()) {
             // Get anything that isn't an "application";
@@ -93,6 +106,13 @@ class ExternalImage extends BaseUrlDriver
         return $asset;
     }
 
+    /**
+     * Get the asset info
+     *
+     * @param string $url
+     * 
+     * @return array
+     */
     public function getInfo($url)
     {
         $image = $this->getImageFromUrl($url);
@@ -100,7 +120,7 @@ class ExternalImage extends BaseUrlDriver
         if (!$image) {
             return null;
         }
-        if (!$this->info) {
+        // if (!$this->info) {
             return $this->info = [
                 'thumbnail_url' => $url,
                 'width' => $image->width(),
@@ -108,7 +128,7 @@ class ExternalImage extends BaseUrlDriver
                 'kind' => $image->mime(),
                 'title' => basename($url)
             ];
-        }
-        return $this->info;
+        // }/
+        // return $this->info;
     }
 }

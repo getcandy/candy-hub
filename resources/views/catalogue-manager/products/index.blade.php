@@ -10,15 +10,17 @@
 @endsection
 
 @section('header_actions')
-    <button class="btn btn-default white">Export</button>
-    <button class="btn btn-default white">Import</button>
-    <button class="btn btn-success"><i class="fa fa-plus fa-first" aria-hidden="true"></i> Add Product</button>
+    <candy-disabled pos="bottom" :inline="true">
+      <button class="btn btn-default white">Export</button>
+      <button class="btn btn-default white">Import</button>
+    </candy-disabled>
+    <candy-product-create style="display: inline-block;"></candy-product-create>
 @endsection
 
 @section('content')
 
 
-        <products-table></products-table>
+        <candy-products-table></candy-products-table>
 
 {{--
         <!-- Search tabs -->

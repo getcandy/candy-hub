@@ -10,7 +10,7 @@
                 urlToDelete:{},
                 urls: [],
                 newUrl: {
-                    locale: 'gb',
+                    locale: locale.current(),
                     slug: ''
                 }
             }
@@ -42,6 +42,9 @@
         },
         methods: {
             getFlag: function(locale) {
+                if (locale == 'en') {
+                    locale = 'gb';
+                }
                 return 'flag-icon-' + locale;
             },
             save() {
@@ -123,11 +126,19 @@
                             </button>
                         </td>
                     </tr>
+                    <tfoot v-if="!urls.length">
+                        <tr>
+                          <td colspan="2">
+                            <span class="text-muted">You currently have no URLs</span>
+                          </td>
+                        </tr>
+                      </tfoot>
                     </tbody>
                 </table>
             </div>
         </div>
-        <candy-modal title="Are you wish to delete this URL?" v-show="deleteUrlModalOpen" @closed="closeUrlDeleteModal">
+
+        <candy-modal title="Are you wish to delete this URL?" v-show="deleteUrlModalOpen" size="modal-sm" @closed="closeUrlDeleteModal">
             <div slot="body">
                 <p>Once deleted this action can not be undone</p>
                 <div class="form-group">
@@ -140,7 +151,8 @@
                 <button type="button" class="btn btn-primary" @click="deleteUrl">Confirm Deletion</button>
             </template>
         </candy-modal>
-        <candy-modal title="Add Locale URL" v-show="addLocaleModalOpen" @closed="addLocaleModalOpen = false">
+
+        <candy-modal title="Add Locale URL" v-show="addLocaleModalOpen" size="modal-md" @closed="addLocaleModalOpen = false">
             <div slot="body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3">
@@ -163,5 +175,6 @@
                 <button class="btn btn-primary" @click="saveUrl()">Save URL</button>
             </template>
         </candy-modal>
+        
   </div>
 </template>

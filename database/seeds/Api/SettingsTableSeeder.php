@@ -20,7 +20,7 @@ class SettingsTableSeeder extends Seeder
             'handle' => 'products',
             'content' => [
                 'asset_source' => 'products',
-                'transforms' => ['hero']
+                'transforms' => ['large_thumbnail']
             ]
         ]);
     }

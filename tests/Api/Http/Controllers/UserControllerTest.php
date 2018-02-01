@@ -6,6 +6,7 @@ use GetCandy\Api\Auth\Models\User;
 /**
  * @group controllers
  * @group api
+ * @group users
  */
 class UserControllerTest extends TestCase
 {
@@ -104,14 +105,14 @@ class UserControllerTest extends TestCase
 
     public function testCurrentUser()
     {
-        // $response = $this->get($this->url('users/current'), [
-        //     'Authorization' => 'Bearer ' . $this->accessToken()
-        // ]);
+        $response = $this->get($this->url('users/current'), [
+            'Authorization' => 'Bearer ' . $this->accessToken()
+        ]);
 
-        // $response->assertJsonStructure([
-        //     'data' => $this->baseStructure
-        // ]);
+        $response->assertJsonStructure([
+            'data' => $this->baseStructure
+        ]);
 
-        // $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status());
     }
 }

@@ -1,7 +1,9 @@
 
         @foreach ($navItems as $navItem)
-            <li>
-              <a href="{{ $navItem->getUrl() }}" title="Go to {{ $navItem->getTitle() }}">{{ $navItem->getTitle() }}</a>
+            <li @if(request()-> segment(2) == str_slug($navItem->getTitle())) class="active" @endif>
+              <a href="{{ $navItem->getUrl() }}" title="Go to {{ $navItem->getTitle() }}">
+                {{ $navItem->getTitle() }}
+              </a>
 
               @if (count($navItem->getSubItems()) > 0)
               <div class="drop-menu">

@@ -23,7 +23,7 @@ class ProductFamilyService extends BaseService
     public function create(array $data)
     {
         $family = $this->model;
-        $family->attribute_data = $data['attributes'];
+        $family->attribute_data = $data;
         $family->save();
         return $family;
     }

@@ -10,13 +10,15 @@
 @endsection
 
 @section('header_actions')
-    <button class="btn btn-default white">Export</button>
-    <button class="btn btn-default white">Import</button>
-    <button class="btn btn-success"><i class="fa fa-plus fa-first" aria-hidden="true"></i> Add Collection</button>
+    <candy-disabled pos="bottom" :inline="true">
+      <button class="btn btn-default white">Export</button>
+      <button class="btn btn-default white">Import</button>
+    </candy-disabled>
+    <candy-collection-create style="display: inline-block;"></candy-collection-create>
 @endsection
 
 @section('content')
 
-        <collections-table></collections-table>
+        <candy-collections-table></candy-collections-table>
 
 @endsection

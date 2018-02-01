@@ -49,6 +49,17 @@ trait Fractal
     }
 
     /**
+     * Generates a response with a 410 HTTP header and a given message
+     *
+     * @param mixed $message
+     * @return void
+     */
+    public function errorExpired($message = null)
+    {
+        return $this->setStatusCode(410)->respondWithError( ($message ? : trans('response.error.expired')));
+    }
+
+    /**
     * Generates a Response with a 500 HTTP header and a given message.
     * @return  Response
     */
@@ -95,6 +106,17 @@ trait Fractal
     {
         return response(null, 204);
     }
+
+    public function respondWithSuccess($message = null)
+    {
+        return $this->respondWithArray([
+            'success' => [
+                'http_code' => $this->statusCode,
+                'message' => $message
+            ]
+        ]);
+    }
+
     public function respondWithComplete($status = 201)
     {
         return $this->setStatusCode($status)->respondWithArray(['processed' => true]);
@@ -125,7 +147,7 @@ trait Fractal
      * @param  object $callback The transformer to use
      * @return array
      */
-    protected function respondWithItem($item, $callback)
+    protected function respondWithItem($item, $callback, $meta = [])
     {
         if (app('request')->includes) {
             $this->parseIncludes(app('request')->includes);
@@ -133,13 +155,9 @@ trait Fractal
 
         $resource = new Item($item, $callback);
 
-        $meta = [
+        $meta = array_merge([
             'lang' => app()->getLocale()
-        ];
-
-        if (app('env') != 'production') {
-            $meta['profile'] = app('debugbar')->getData();
-        }
+        ], $meta);
 
         $resource->setMeta($meta);
 
@@ -154,7 +172,7 @@ trait Fractal
      * @param  object $callback The transformer to use
      * @return array
      */
-    protected function respondWithCollection($paginator, $callback)
+    protected function respondWithCollection($paginator, $callback, $meta = [])
     {
         if (app('request')->includes) {
             $this->parseIncludes(app('request')->includes);
@@ -168,13 +186,9 @@ trait Fractal
 
         $resource = new Collection($collection, $callback);
 
-        $meta = [
+        $meta = array_merge([
             'lang' => app()->getLocale()
-        ];
-
-        if (app('env') != 'production') {
-            $meta['profile'] = app('debugbar')->getData();
-        }
+        ], $meta);
 
         $resource->setMeta($meta);
 

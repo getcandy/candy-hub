@@ -26,6 +26,9 @@ class RouteTransformer extends BaseTransformer
 
     public function includeElement(Route $route)
     {
+        if (!$route->element) {
+            return $this->null();
+        }
         return $this->item($route->element, new ElementTransformer);
     }
 }

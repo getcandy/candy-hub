@@ -10,7 +10,7 @@ class AttributeControllerTest extends TestCase
     public function testIndex()
     {
         $response = $this->get($this->url('attributes'), [
-            'Authorization' => 'Bearer ' . $this->accessToken()
+            'Authorization' => 'Bearer ' . $this->accessToken(),
         ]);
 
         $response->assertJsonStructure([

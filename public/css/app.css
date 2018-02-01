@@ -15371,44 +15371,45 @@ a {
 .variant-option-img {
   position: relative;
   display: block;
-  width: 100%;
-  min-height: 160px;
+  padding: 10px 10px 30px 10px;
+  border: 2px solid #a74c9d;
   text-align: center;
-  background-color: #f6f6f6;
-  border: 1px solid #eee;
-}
-
-.variant-option-img .change-img {
-  display: block;
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  width: 80%;
-  height: 80px;
-  -webkit-transform: translateX(-50%) translatey(-50%);
-  transform: translateX(-50%) translatey(-50%);
-  vertical-align: middle;
-}
-
-.variant-option-img .change-img .icon {
-  display: block;
-  font-size: 3.5em;
-  margin-bottom: 10px;
-}
-
-.variant-option-img .change-img .placeholder {
-  display: block;
-  width: 70%;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
+  background-color: transparent;
+  width: 100%;
 }
 
 .variant-option-img:hover {
-  color: #662d91;
-  border-color: gainsboro;
+  border-color: #662d91;
+}
+
+.variant-option-img:hover .change-img {
+  background-color: #662d91;
+}
+
+.variant-option-img figure {
+  height: 100px;
+}
+
+.variant-option-img figure .placeholder-empty {
+  margin-top: 10px;
+}
+
+.variant-option-img img {
+  width: 100px;
+  vertical-align: middle;
+}
+
+.change-img {
+  position: absolute;
+  bottom: 0;
+  border: 0px;
+  background-color: #a74c9d;
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  left: 0;
+  width: 100%;
+  text-align: center;
 }
 
 /* Variant List Navigation */
@@ -15430,6 +15431,7 @@ a {
   display: block;
   padding: 10px;
   background-color: #f6f6f6;
+  position: relative;
 }
 
 .variant-list a:hover {
@@ -15438,7 +15440,26 @@ a {
 }
 
 .variant-list a.active {
-  background-color: white;
+  background-color: #2d3c8e;
+  color: #fff;
+}
+
+.variant-list a.active figure {
+  border-color: #212c67;
+}
+
+.variant-list a.active:after {
+  position: absolute;
+  right: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  top: 35%;
+  right: -10px;
+  content: '';
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent #2d3c8e;
 }
 
 .variant-list .variant-img,
@@ -15447,22 +15468,69 @@ a {
   vertical-align: middle;
 }
 
-.variant-list .variant-img img,
-.variant-list .variant-options img {
+.variant-list .variant-img figure,
+.variant-list .variant-options figure {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
   width: 50px;
+  height: 50px;
+}
+
+.variant-list .variant-img figure img,
+.variant-list .variant-options figure img {
+  width: 100%;
+  vertical-align: middle;
+}
+
+.variant-list .variant-img figure img.placeholder,
+.variant-list .variant-options figure img.placeholder {
+  margin-top: 6px;
 }
 
 .variant-list .variant-options {
   margin-left: 15px;
 }
 
-.variant-list .variant-options .option-label {
-  opacity: 0.8;
-  font-size: 90%;
-  font-style: italic;
+.variant-list .variant-options ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.variant-list .variant-options ul li {
+  border: none;
+  display: inline-block;
+  font-size: .875em;
+}
+
+.variant-list .variant-options ul li:last-child:after {
+  display: none;
+}
+
+.variant-list .variant-options ul li:after {
+  content: '·';
+  width: 10px;
+  text-align: center;
+  display: inline-block;
 }
 
 /* Media */
+
+.thumbnail-select {
+  background-color: transparent;
+  border: 1px solid #a2a1a1;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.thumbnail-select.selected {
+  border-color: #2ab27b;
+}
+
+.thumbnail-select input {
+  display: none;
+}
 
 /* Dropzone.js */
 
@@ -15471,6 +15539,7 @@ a {
   margin-top: 15px;
   border: 2px dashed #662d91 !important;
   background-color: #f6f6f6 !important;
+  position: relative;
 }
 
 .vue-dropzone .media-box {
@@ -15493,6 +15562,30 @@ a {
   display: block;
   font-size: 3.5em;
   margin-bottom: 10px;
+}
+
+.page-loading {
+  margin-top: 25%;
+}
+
+.loading {
+  text-align: center;
+  color: #bdbdbd;
+}
+
+.loading span {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.loading strong {
+  font-size: .875em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.loading i {
+  font-size: 3em;
 }
 
 .login-form {
@@ -15527,6 +15620,11 @@ a {
 }
 
 /* Buttons */
+
+.btn,
+button {
+  outline: none !important;
+}
 
 .btn {
   height: 40px;
@@ -15750,19 +15848,23 @@ label {
 }
 
 .form-control,
-.bootstrap-tagsinput {
+.bootstrap-tagsinput,
+.datetimepicker[readonly] {
+  background-color: white;
   height: 40px;
   border-radius: 0;
   border-color: #a2a1a1;
 }
 
 .form-control:disabled,
-.bootstrap-tagsinput:disabled {
+.bootstrap-tagsinput:disabled,
+.datetimepicker[readonly]:disabled {
   cursor: text;
 }
 
 .form-control textarea,
-.bootstrap-tagsinput textarea {
+.bootstrap-tagsinput textarea,
+.datetimepicker[readonly] textarea {
   max-width: 100%;
 }
 
@@ -16200,7 +16302,15 @@ textarea.bootstrap-tagsinput {
   font-weight: 300;
 }
 
-/* Translating Forms */
+/**
+ * For when you want to display text but keep the same
+ * size as what an input would be if it was there.
+ */
+
+.input-alt {
+  line-height: 40px;
+  display: inline-block;
+}
 
 /* Tabs */
 
@@ -16274,6 +16384,7 @@ textarea.bootstrap-tagsinput {
 
 .sub-nav li a {
   margin-left: 0;
+  margin-right: 0;
   border-left: 0;
   border-bottom: 1px solid rgba(190, 190, 190, 0.5);
 }
@@ -16281,6 +16392,7 @@ textarea.bootstrap-tagsinput {
 .sub-nav li.active a {
   border-top: 0 !important;
   border-left: 0 !important;
+  margin-right: 0;
 }
 
 .sub-nav li:last-of-type a {
@@ -16312,6 +16424,11 @@ textarea.bootstrap-tagsinput {
   background-color: #fff;
 }
 
+.table tbody tr .empty {
+  text-align: center;
+  padding: 20px;
+}
+
 .table tbody tr.sortable-ghost {
   opacity: .25;
   background-color: #eeeeee;
@@ -16327,6 +16444,10 @@ textarea.bootstrap-tagsinput {
 
 .table tbody tr.selected td {
   background-color: #f9f4fc;
+}
+
+.table tbody tr:hover .hover-btn {
+  display: inline-block;
 }
 
 .table tbody tr td {
@@ -16369,6 +16490,16 @@ textarea.bootstrap-tagsinput {
   margin-bottom: 0;
 }
 
+.table tbody tr td .hover-btn {
+  display: none;
+  background-color: #fff;
+  float: right;
+}
+
+.table tbody tr td .hover-btn:hover {
+  background-color: #f3f3f3;
+}
+
 .table.association-table thead,
 .table.association-table tbody,
 .table.association-table tbody {
@@ -16400,6 +16531,32 @@ textarea.bootstrap-tagsinput {
 .faux-table.row {
   margin-bottom: 10px;
   padding-bottom: 10px;
+}
+
+.scrollable thead,
+.scrollable .table.association-table tbody,
+.table.association-table .scrollable tbody,
+.scrollable tbody {
+  display: block;
+}
+
+.scrollable tbody {
+  height: 300px;
+  /* Just for the demo          */
+  overflow-y: auto;
+  /* Trigger vertical scroll    */
+  overflow-x: hidden;
+  /* Hide the horizontal scroll */
+}
+
+.status-icon {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.status-icon i {
+  color: #959595;
+  font-size: 1em;
 }
 
 /*! Lity - v2.2.2 - 2017-07-17
@@ -16635,6 +16792,20 @@ textarea.bootstrap-tagsinput {
 
 .filters .filter .delete:hover {
   background-color: #d8e4f9;
+}
+
+.dashboard-figure {
+  font-size: 3em;
+  font-weight: light;
+  line-height: 1;
+}
+
+.dashboard-figure svg {
+  width: 5px;
+}
+
+.no-mar {
+  margin: 0;
 }
 
 .pop-over {
@@ -17011,16 +17182,36 @@ textarea.bootstrap-tagsinput {
   width: 100%;
 }
 
+.sidebar .side-nav ul li.active a {
+  color: white;
+  background-color: #662d91;
+}
+
+.sidebar .side-nav ul li.active a svg {
+  color: white;
+}
+
 .sidebar .side-nav ul li a {
   display: block;
   width: 100%;
-  padding: 15px 60px;
+  padding: 15px 60px 15px 40px;
+}
+
+.sidebar .side-nav ul li a svg {
+  color: rgba(45, 60, 142, 0.4);
+  width: 15px;
+  margin-right: 10px;
 }
 
 .sidebar .side-nav ul li a:hover,
 .sidebar .side-nav ul li a:active {
   color: white;
   background-color: #662d91;
+}
+
+.sidebar .side-nav ul li a:hover svg,
+.sidebar .side-nav ul li a:active svg {
+  color: white;
 }
 
 .content-panel {
@@ -17095,5 +17286,104 @@ textarea.bootstrap-tagsinput {
   border-left: 1px solid rgba(190, 190, 190, 0.4);
   border-right: 1px solid rgba(190, 190, 190, 0.4);
   border-bottom: 3px solid rgba(190, 190, 190, 0.4);
+}
+
+.sortable-tags-list {
+  float: left;
+  margin: 0 10px 0 0;
+  padding-left: 0;
+  max-width: 75%;
+}
+
+.sortable-tags-list .handle {
+  display: inline-block;
+  padding: 4px 3px 2px 3px;
+}
+
+.sortable-tags-list .handle:hover {
+  background-color: #acc6f1;
+}
+
+.sortable-tags-list .handle svg {
+  height: 12px;
+}
+
+.sortable-tags-list .tag-delete {
+  border: none;
+  background-color: transparent;
+  border-left: 1px solid #96b7ee;
+}
+
+.sortable-tags-list .tag-text {
+  padding: 3px 5px;
+}
+
+.sortable-tags-list li {
+  display: inline-block;
+  border: 1px solid #96b7ee;
+  box-shadow: 2px 2px 0px rgba(222, 222, 222, 0.5);
+  color: #2160ca;
+  background-color: #c2d5f5;
+  font-size: .875em;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.sortable-tags-list li.sortable-ghost {
+  opacity: .25;
+  background-color: #eeeeee;
+}
+
+.sortable-tags-list li svg g {
+  fill: #2160ca;
+}
+
+.sortable-tags-list-input {
+  float: left;
+  width: 20%;
+  vertical-align: middle;
+}
+
+.sortable-tags-list-input .text-danger {
+  float: right;
+}
+
+.sortable-tags-list-input input {
+  width: 70%;
+  padding-left: 5px;
+}
+
+.sortable-tags-list-input button {
+  background: transparent;
+  border: none;
+  color: #D2D2D2;
+}
+
+/**
+ * Elements
+ */
+
+.status {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid #a2a1a1;
+  display: inline-block;
+}
+
+.status-disabled {
+  background-color: #ed1d24;
+  border-color: #c71016;
+}
+
+.status-live {
+  background-color: #94bf2c;
+  border-color: #749622;
+}
+
+.status-pending {
+  background-color: #2d3c8e;
+  border-color: #2d3c8e;
 }
 

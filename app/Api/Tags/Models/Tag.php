@@ -17,6 +17,11 @@ class Tag extends BaseModel
         'name'
     ];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = app('api')->tags()->getFormattedTagName($value);
+    }
+
     /**
      * Get all of the tags for the post.
      */

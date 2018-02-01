@@ -35,48 +35,105 @@ class ProductTableSeeder extends Seeder
             'Shoes' => [
                 [
                     'layout' => $basic,
+                    'option_data' => [
+                        'size' => [
+                            'position' => 2,
+                            'label' => [
+                                'en' => 'Size',
+                                'sv' => 'Storlek'
+                            ],
+                            'options' => [
+                                '12' => [
+                                    'position' => 2,
+                                    'values' => [
+                                        'en' => '12',
+                                        'sv' => '13',
+                                    ]
+                                ],
+                                '10' => [
+                                    'position' => 1,
+                                    'values' => [
+                                        'en' => '10',
+                                        'sv' => '11'
+                                    ]
+                                ]
+                            ]
+                        ],
+                        'colour' => [
+                            'position' => 1,
+                            'label' => [
+                                'en' => 'Colour',
+                                'sv' => 'Färg'
+                            ],
+                            'options' => [
+                                'black' => [
+                                    'position' => 1,
+                                    'values' => [
+                                        'en' => 'Black',
+                                        'sv' => 'Svart'
+                                    ]
+                                ],
+                                'brown' => [
+                                    'position' => 2,
+                                    'values' => [
+                                        'en' => 'Brown',
+                                        'sv' => 'Brun'
+                                    ]
+                                ],
+
+                            ]
+                        ]
+                    ],
+                    'variants' => [
+                        [
+                            'sku' => '123-12',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size' => '12',
+                                'colour' => 'brown'
+                            ]
+                        ],
+                        [
+                            'sku' => '123-10',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size' => '10',
+                                'colour' => 'brown'
+                            ]
+                        ],
+                        [
+                            'sku' => '456-12',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size' => '12',
+                                'colour' => 'black'
+                            ]
+                        ],
+                        [
+                            'sku' => '456-10',
+                            'price' => 50,
+                            'stock' => 1,
+                            'options' => [
+                                'size' => '10',
+                                'colour' => 'black'
+                            ]
+                        ]
+                    ],
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'gb' => 'Black Bamboosh',
-                                'se' => 'Svart Bamboosh'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Red Dog',
+                            'sv' => 'Röd hund'
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'gb' => 'Leather',
-                                'se' => 'Läder'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Leather',
+                            'sv' => 'Läder'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'gb' => 'Moroccan babouche made from butter-soft black leather with slim rubber soles. Indoor wear recommended.',
-                                'se' => 'Marockansk babouche tillverkad av smörmjuk svart läder med smala gummisulor. Inomslitage rekommenderas'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Legendary lightweight boots made by Blundstone in Tasmania since 1932. Their iconic soles have been engineered for optimum comfort, shock absorption and all-weathers.',
+                            'sv' => 'Legendariska lätta stövlar gjorda av Blundstone i Tasmanien sedan 1932. Deras ikoniska sålar har konstruerats för optimal komfort, stötdämpning och alla väder.'
                         ]
                     ]
                 ],
@@ -84,46 +141,33 @@ class ProductTableSeeder extends Seeder
                     'layout' => $featured,
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'gb' => 'Camber Shoes',
-                                'se' => 'Camber Skor',
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'The Red Dog',
+                            'sv' => 'Den röda hunden',
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'gb' => 'Suede',
-                                'se' => 'Mockaskinn'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Wool',
+                            'sv' => 'Ull'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'gb' => 'Slip-on soft pink suede brogues toughened up with comfortable crepe soles and leather lining. Penelope Chilvers.',
-                                'se' => 'Slip-on mjuka rosa suede brogues härdade med bekväma crepe sulor och läderfodral. Penelope Chilvers.'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
+                            'sv' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
+                        ]
+                    ]
+                ],
+                [
+                    'layout' => $featured,
+                    'attribute_data' => [
+                        'name' => [
+                            'en' => 'The Red Boat',
+                            'sv' => 'Den röda hunden',
+                        ],
+                        'material' => [
+                            'en' => 'Wool',
+                            'sv' => 'Ull'
+                        ],
+                        'description' => [
+                            'en' => 'Dog Rainbow-striped woollen house socks. Handknitted in Nepal.  Fairtrade. Wool.',
+                            'sv' => 'Rainbow-randiga ull hus strumpor. Handknitted i Nepal. Rättvis handel. Ull.'
                         ]
                     ]
                 ],
@@ -131,46 +175,16 @@ class ProductTableSeeder extends Seeder
                     'layout' => $basic,
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'gb' => 'Cross over sandals',
-                                'se' => 'Korsa över sandaler'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Red Dogs',
+                            'sv' => 'Röda hundar'
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'gb' => 'Suede',
-                                'se' => 'Mockaskinn'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Wool',
+                            'sv' => 'Ull'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'gb' => 'Sleek slides with wide cross-over straps made from chunky-ribbed leather and suede. With padded leather footbed and grooved rubber soles.',
-                                'se' => 'Snygga glidbanor med breda överkantsremmar av chunky-ribbet läder och mocka. Med vadderade läderfotbäddar och räfflade gummisulor.'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Warm cable-knit house socks handknitted in Nepal from pure wool.Fairtrade',
+                            'sv' => 'Varm kabelstickade husstrumpor handknitted i Nepal från ren ull.Fairtrade'
                         ]
                     ]
                 ]
@@ -181,174 +195,50 @@ class ProductTableSeeder extends Seeder
                     'layout' => $basic,
                     'attribute_data' => [
                         'name' => [
-                            'ecommerce' => [
-                                'gb' => 'Knot leather bag',
-                                'se' => 'Knot läderväska'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Red panda & barking dog',
+                            'sv' => 'Röd panda & skällhund'
                         ],
                         'material' => [
-                            'ecommerce' => [
-                                'gb' => 'Leather',
-                                'se' => 'Läder'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'Cotton',
+                            'sv' => 'Bomull'
                         ],
                         'description' => [
-                            'ecommerce' => [
-                                'gb' => 'Sleek suede bag with chunky rolled leather strap and exaggerated knots at either end. Closes with zip across the top and has interior pockets.',
-                                'se' => ''
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    'layout' => $featured,
-                    'attribute_data' => [
-                        'name' => [
-                            'ecommerce' => [
-                                'gb' => 'Arizona bag',
-                                'se' => 'Arizona väska'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
-                        ],
-                        'material' => [
-                            'ecommerce' => [
-                                'gb' => 'Leather',
-                                'se' => 'Läder'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
-                        ],
-                        'description' => [
-                            'ecommerce' => [
-                                'gb' => 'Artisan crafted cross body bag made from waxy umber leather with a wide buckled strap and deep front flap. Lined in twill with interior pockets. ',
-                                'se' => ''
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    'layout' => $basic,
-                    'attribute_data' => [
-                        'name' => [
-                            'ecommerce' => [
-                                'gb' => 'Beet bag',
-                                'se' => 'Köttväska'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
-                        ],
-                        'material' => [
-                            'ecommerce' => [
-                                'gb' => 'Cotton',
-                                'se' => 'Bomull'
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
-                        ],
-                        'description' => [
-                            'ecommerce' => [
-                                'gb' => 'Capacious beach bag with room for just about anything. Cut from geometric-print cotton with fully lined interior and single zip pocket. Tie closure.',
-                                'se' => ''
-                            ],
-                            'mobile' => [
-                                'gb' => '',
-                                'se' => ''
-                            ],
-                            'print' => [
-                                'gb' => '',
-                                'se' => ''
-                            ]
+                            'en' => 'A classic American tote crafted from durable 24oz cotton-canvas with steel hardware and sturdy leather handles. An adjustable long belt-like strap makes it extremely versatile. Joshu&Vela. Made in San Francisco. W55cm H30cm D21cm.',
+                            'sv' => null
                         ]
                     ]
                 ]
             ],
             // 'Jewellery' => [
             //     [
-            //         'name' => ['gb' => 'Mesh watch', 'se' => 'Mesh klocka'],
+            //         'name' => ['gb' => 'Mesh watch', 'sv' => 'Mesh klocka'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Stainless Steel']]
             //     ],
             //     [
-            //         'name' => ['gb' => '3 Square earrings', 'se' => '3 kvadratiska örhängen'],
+            //         'name' => ['gb' => '3 Square earrings', 'sv' => '3 kvadratiska örhängen'],
             //         'layout' => $featured,
             //         'attribute_data' => ['material' => ['gb' => 'Silver']]
             //     ],
             //     [
-            //         'name' => ['gb' => 'Bird Brooch', 'se' => 'Fågelbrosch'],
+            //         'name' => ['gb' => 'Bird Brooch', 'sv' => 'Fågelbrosch'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Silver']]
             //     ]
             // ],
             // 'House items' => [
             //     [
-            //         'name' => ['gb' => 'Feather dreamcatcher', 'se' => 'Fjäderdrömskådare'],
+            //         'name' => ['gb' => 'Feather dreamcatcher', 'sv' => 'Fjäderdrömskådare'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Leather, Feathers, Wool']]
             //     ],
             //     [
-            //         'name' => ['gb' => 'Driftwood fish', 'se' => 'Driftwood fisk'],
+            //         'name' => ['gb' => 'Driftwood fish', 'sv' => 'Driftwood fisk'],
             //         'layout' => $featured,
             //         'attribute_data' => ['material' => ['gb' => 'Wood']]
             //     ],
             //     [
-            //         'name' => ['gb' => 'Mirror Candleholder', 'se' => 'Spegel ljushållare'],
+            //         'name' => ['gb' => 'Mirror Candleholder', 'sv' => 'Spegel ljushållare'],
             //         'layout' => $basic,
             //         'attribute_data' => ['material' => ['gb' => 'Glass, Metal']]
             //     ]
@@ -356,42 +246,51 @@ class ProductTableSeeder extends Seeder
         ];
         $i = 1;
         $attributes = Attribute::get();
+
+        $fake = Faker\Factory::create();
         foreach ($products as $family => $products) {
             $family = ProductFamily::find($i);
             foreach ($products as $data) {
                 $product = Product::create([
-                    'attribute_data' => $data['attribute_data']
+                    'attribute_data' => $data['attribute_data'],
+                    'option_data' => (!empty($data['option_data']) ? $data['option_data'] : [])
                 ]);
-
-                $productVariant = new ProductVariant;
-
-                $productVariant->options = [];
-                $productVariant->sku = str_random(8);
-                $productVariant->stock = 1;
-                $productVariant->price = 40;
-
-                $product->customerGroups()->sync([
-                    1 => ['visible' => true, 'purchasable' => true]
+                    
+                $group = \GetCandy\Api\Customers\Models\CustomerGroup::find(1);
+                $product->customerGroups()->attach($group->id, [
+                    'visible' => $fake->boolean,
+                    'purchasable' => $fake->boolean
                 ]);
-
+                    
                 foreach ($attributes as $att) {
                     $product->attributes()->attach($att);
                 }
 
                 $product->layout()->associate($data['layout']);
                 $product->family()->associate($family);
-                foreach ($product->attribute_data['name'] as $channel => $data) {
+                foreach ($product->attribute_data['name'] as $channel => $attr_data) {
                     if ($channel == 'ecommerce') {
                         $product->route()->create([
                             'default' => true,
-                            'slug' => str_slug($data['gb']),
-                            'locale' => 'gb'
+                            'slug' => str_slug($attr_data['en']),
+                            'locale' => 'en'
                         ]);
                     }
                 }
                 $product->save();
-
-                $product->variants()->save($productVariant);
+                
+                if (!empty($data['variants'])) {
+                    foreach ($data['variants'] as $variant) {
+                        $product->variants()->create($variant);
+                    }
+                } else {
+                    $product->variants()->create([
+                        'options' => [],
+                        'sku' => str_random(8),
+                        'stock' => 1,
+                        'price' => 40
+                    ]);
+                }
             }
             $i++;
         }

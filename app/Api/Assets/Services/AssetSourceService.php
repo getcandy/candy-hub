@@ -11,8 +11,4 @@ class AssetSourceService extends BaseService
     {
         $this->model = new AssetSource;
     }
-    public function getByHandle($handle)
-    {
-        return $this->model->where('handle', '=', $handle)->first();
-    }
 }

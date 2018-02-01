@@ -2,25 +2,36 @@
 
 namespace GetCandy\Api\Products\Models;
 
+use GetCandy\Api\Traits\Indexable;
+use GetCandy\Api\Traits\Assetable;
+use GetCandy\Api\Traits\HasRoutes;
+use GetCandy\Api\Pages\Models\Page;
+use GetCandy\Api\Traits\HasChannels;
+use GetCandy\Api\Scaffold\BaseModel;
+use GetCandy\Api\Traits\HasAttributes;
+use GetCandy\Api\Layouts\Models\Layout;
+use GetCandy\Api\Traits\HasTranslations;
+use GetCandy\Api\Traits\HasCustomerGroups;
+use GetCandy\Api\Discounts\Models\Discount;
+use GetCandy\Api\Categories\Models\Category;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use GetCandy\Api\Attributes\Models\Attribute;
 use GetCandy\Api\Collections\Models\Collection;
-use GetCandy\Api\Channels\Models\Channel;
-use GetCandy\Api\Customers\Models\CustomerGroup;
-use GetCandy\Api\Layouts\Models\Layout;
-use GetCandy\Api\Pages\Models\Page;
-use GetCandy\Api\Routes\Models\Route;
-use GetCandy\Api\Scaffold\BaseModel;
-use GetCandy\Api\Traits\Assetable;
-use GetCandy\Api\Traits\HasAttributes;
-use GetCandy\Api\Traits\HasTranslations;
-use GetCandy\Api\Traits\Indexable;
 use GetCandy\Http\Transformers\Fractal\Products\ProductTransformer;
 
 class Product extends BaseModel
 {
-    use Indexable, HasAttributes, Assetable;
-
+    use Assetable,
+        HasCustomerGroups,
+        HasAttributes,
+        HasChannels,
+        HasRoutes,
+        SoftDeletes,
+        Indexable;
+    
     protected $settings = 'products';
+
+    protected $dates = ['deleted_at'];
 
     public $transformer = ProductTransformer::class;
 
@@ -36,8 +47,57 @@ class Product extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name', 'price', 'attribute_data'
+        'id', 'name', 'price', 'attribute_data', 'option_data'
     ];
+
+    /**
+     * Sets the option data attribute
+     * [
+     *     [
+     *         'label' => [
+     *             'en' => 'Colour'
+     *         ],
+     *         'options' => [
+     *             [
+     *                 position: 1,
+     *                 values: [
+     *                     'en' => 'Espresso',
+     *                     'fr' => 'Espresso'
+     *                 ]
+     *             ]
+     *         ]
+     *     ]
+     * ]
+     * @param array $value [description]
+     */
+    public function setOptionDataAttribute($value)
+    {
+        $options = [];
+        $parentPosition = 1;
+
+        foreach ($value as $option) {
+            $label = reset($option['label']);
+            $options[str_slug($label)] = $option;
+            $childOptions = [];
+            $position = 1;
+
+            foreach ($option['options'] as $child) {
+                $childLabel = reset($child['values']);
+                $childOptions[str_slug($childLabel)] = $child;
+                $childOptions[str_slug($childLabel)]['position'] = $position;
+                $position++;
+            }
+            $options[str_slug($label)]['position'] = $parentPosition;
+            $options[str_slug($label)]['options'] = $childOptions;
+            $parentPosition++;
+        }
+        $this->attributes['option_data'] = json_encode($options);
+    }
+
+    public function getOptionDataAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 
     /**
      * Get the attributes associated to the product
@@ -71,32 +131,23 @@ class Product extends BaseModel
         return $this->belongsTo(Layout::class);
     }
 
-    public function route()
-    {
-        return $this->morphOne(Route::class, 'element');
-    }
-
-    public function routes()
-    {
-        return $this->morphMany(Route::class, 'element');
-    }
-
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
     }
 
-    /**
-     * Get the attributes associated to the product
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function channels()
+    public function categories()
     {
-        return $this->belongsToMany(Channel::class)->withPivot('visible', 'published_at');
+        return $this->belongsToMany(Category::class, 'product_categories');
     }
 
-    public function customerGroups()
+    public function associations()
     {
-        return $this->belongsToMany(CustomerGroup::class)->withPivot(['visible', 'purchasable']);
+        return $this->hasMany(ProductAssociation::class);
+    }
+
+    public function discounts()
+    {
+        return $this->morphMany(Discount::class, 'eligible');
     }
 }

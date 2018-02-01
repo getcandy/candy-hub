@@ -7,6 +7,7 @@ class NavItem
     protected $title;
     protected $route;
     protected $subItems;
+    protected $icon;
 
     public function __construct($title, $route, $subItems = [])
     {

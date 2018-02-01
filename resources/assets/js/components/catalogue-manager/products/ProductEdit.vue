@@ -22,14 +22,14 @@
                 required: true
             }
         },
-
         created() {
             this.loadLanguages();
             this.loadProduct(this.productId);
         },
         mounted() {
             CandyEvent.$on('product-updated', event => {
-                this.loadProduct();
+                this.loaded = false;
+                this.loadProduct(this.productId);
             });
             CandyEvent.$on('product_visibility', visible => {
                 this.viewable = visible;
@@ -51,12 +51,16 @@
                 this.variants = this.product.variants.data;
                 this.routes = this.product.routes.data;
             },
+            /**
+             * Loads languages
+             * @return
+             */
             loadLanguages() {
                 apiRequest.send('get', 'languages', [], []).then(response => {
                     response.data.forEach(lang => {
                         this.languages.push({
                             label: lang.name,
-                            value: lang.iso,
+                            value: lang.lang,
                             content: '<span class=\'flag-icon flag-icon-' + lang.iso + '\'></span> ' + lang.name
                         });
                     });
@@ -68,12 +72,28 @@
              */
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
-                    includes: 'family,assets,assets.tags,attribute_groups,attribute_groups.attributes,layout,variants,routes,channels,customer_groups'
+                    excl_tax: true,
+                    includes: 'family,variants.pricing.tax,variants.pricing.group,variants.tiers.group,variants.tax,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
+                    'layout,associations,routes,channels,customer_groups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
+                    CandyEvent.$emit('title-changed', {
+                        title: this.product
+                    });
                 }).catch(error => {
+                    CandyEvent.$emit('notification', {
+                        level: 'error',
+                        message: error.message
+                    });
+                    // window.location = '/catalogue-manager/products';
                 });
+            },
+            getCategoryCount() {
+                return this.product.categories.data.length;
+            },
+            getAssociationCount() {
+                return this.product.associations.data.length;
             }
         }
     }
@@ -91,34 +111,44 @@
             </div>
 
             <transition name="fade">
-                <candy-tabs>
+                <candy-tabs initial="productdetails">
 
-                    <candy-tab name="Product Details" handle="product-details" :selected="true">
-                        <candy-product-details :product="product" :languages="languages"
-                                               :groups="attribute_groups"></candy-product-details>
+                    <candy-tab name="Product Details" :selected="true" dispatch="product-details">
+                        <candy-tabs nested="true">
+                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
+                                <candy-product-details :product="product" :languages="languages"
+                                                       :group="group">
+                                </candy-product-details>
+                            </candy-tab>
+                        </candy-tabs>
                     </candy-tab>
 
-                    <candy-tab name="Media">
-                        <candy-media :product="product"></candy-media>
+                    <candy-tab name="Media" dispatch="save-media">
+                        <candy-media
+                            assetable="products"
+                            :parent="product">
+                        </candy-media>
                     </candy-tab>
 
-                    <candy-tab name="Availability &amp; Pricing" handle="product-availability">
-                        <candy-product-availability :variants="variants" :product="product"
+                    <candy-tab
+                        name="Availability &amp; Pricing"
+                        handle="product-availability"
+                        dispatch="product-variants"
+                    >
+                        <candy-product-availability :variants="variants" :product="product" :languages="languages"
                                                     v-if="product"></candy-product-availability>
                     </candy-tab>
 
                     <candy-tab name="Associations">
                         <candy-tabs nested="true">
-                            <candy-tab name="Categories" handle="categories" :selected="true">
-                                - Tab will require counter to show how many category associations this product has
-                                <candy-categories></candy-categories>
+                            <candy-tab name="Categories" handle="categories" :selected="true" :badge="getCategoryCount()">
+                                <candy-categories :product="product"></candy-categories>
                             </candy-tab>
                             <candy-tab name="Collections" handle="collections">
-                                Tab will require counter to show how many collection associations this product has
-                                <candy-collections></candy-collections>
+                                <candy-collections :product="product"></candy-collections>
                             </candy-tab>
-                            <candy-tab name="Products" handle="products">
-                                <candy-products></candy-products>
+                            <candy-tab name="Products" handle="products" :badge="getAssociationCount()" dispatch="product-associations">
+                                <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>
                         <candy-association-modals></candy-association-modals>
@@ -131,11 +161,10 @@
                     <candy-tab name="URLS">
                         <candy-tabs nested="true">
                             <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
-                                <candy-locale-urls :languages="languages" :routes="routes"
-                                                   :product="product"></candy-locale-urls>
+                                <candy-urls :languages="languages" :routes="routes" :model="product" endpoint="products"></candy-urls>
                             </candy-tab>
                             <candy-tab name="Redirects" handle="redirects">
-                                <candy-redirects :product="product" :routes="routes"></candy-redirects>
+                                <candy-redirects :model="product" endpoint="products" :routes="routes"></candy-redirects>
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>
@@ -145,8 +174,8 @@
         </template>
 
         <div v-else>
-            <div class="page-loading">
-                <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span> <strong>Loading</strong>
+            <div class="page-loading loading">
+                <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
             </div>
         </div>
     </div>
@@ -161,23 +190,5 @@
     .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
     {
         opacity: 0;
-    }
-
-    .page-loading {
-        text-align: center;
-        margin-top: 25%;
-        color: #bdbdbd;
-        span {
-            display: block;
-            margin-bottom: 1em;
-        }
-        strong {
-            font-size: .875em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        i {
-            font-size: 3em;
-        }
     }
 </style>

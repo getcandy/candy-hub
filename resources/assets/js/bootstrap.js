@@ -92,4 +92,4 @@ String.prototype.slugify = function(allowSubPaths = false) {
 
 
     return slug;
-}
+};

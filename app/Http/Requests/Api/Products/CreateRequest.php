@@ -14,7 +14,7 @@ class CreateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Product::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     /**
@@ -25,9 +25,11 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'attributes' => 'required|array|valid_structure:products',
-            'family_id' => 'required|hashid_is_valid:product_families',
-            'layout_id' => 'required|hashid_is_valid:layouts',
+            'name' => 'required|valid_structure:products',
+            'url' => 'required|unique:routes,slug',
+            'stock' => 'required|numeric',
+            'family_id' => 'required',
+            'price' => 'required',
             'sku' => 'required|unique:product_variants,sku'
         ];
     }

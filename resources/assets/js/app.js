@@ -5,128 +5,128 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-require('babel-core/register');
-require('lity');
-require('babel-polyfill');
+var ApiRequest  = require('./classes/ApiRequest');
+var Dispatcher  = require('./classes/Dispatcher');
+var Locale      = require('./classes/Locale');
+var Config      = require('./classes/Config');
 
+require('./bootstrap');
 require('./classes/Errors');
 require('./classes/Form');
 
-//window.Datepicker = require('bootstrap-datepicker');
+require('./components');
+require('babel-core/register');
+require('babel-polyfill');
 require('bootstrap-datepicker');
 require('bootstrap-select');
 require('bootstrap-switch');
 require('bootstrap-tagsinput');
 require('dropzone');
+require('lity');
 require('selectize');
-window.List = require('list.js');
+
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import icons from '@fortawesome/fontawesome-free-solid'
+import fontawesome from '@fortawesome/fontawesome'
+fontawesome.library.add(icons)
+
+Vue.component('fa', FontAwesomeIcon);
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
+ * Bind some bits to the window for usage.
  */
 
-/**
- * Generic components
- */
+window.apiRequest     = new ApiRequest();
+window.CandyEvent     = new Vue();
+window.channels       = [];
+window.config         = new Config();
+window.Dispatcher     = new Dispatcher();
+window.languages      = [];
+window.List           = require('list.js');
+window.locale         = new Locale();
+window.moment         = require('moment');
+window.defaultChannel = document.head.querySelector('meta[name="channel"]').content;
 
-Vue.component('candy-tabs', require('./components/elements/tabs/CandyTabs.vue'));
-Vue.component('candy-tab', require('./components/elements/tabs/CandyTab.vue'));
-Vue.component('candy-button', require('./components/elements/Button.vue'));
-Vue.component('candy-notification', require('./components/elements/NotificationBar.vue'));
-Vue.component('candy-alert', require('./components/elements/AlertPanel.vue'));
-Vue.component('candy-modal', require('./components/elements/Modal.vue'));
+// Include our custom v stuff here, so we know everything is loaded
 
-/**
- * Form Components
- */
-Vue.component('candy-field', require('./components/elements/forms/Field.vue'));
-Vue.component('candy-input', require('./components/elements/forms/Input.vue'));
-Vue.component('candy-checkbox', require('./components/elements/forms/Checkbox.vue'));
-Vue.component('candy-taggable', require('./components/elements/forms/Taggable.vue'));
-Vue.component('candy-select', require('./components/elements/forms/Select.vue'));
-Vue.component('candy-textarea', require('./components/elements/forms/Textarea.vue'));
-Vue.component('candy-time', require('./components/elements/forms/Time.vue'));
-Vue.component('candy-date', require('./components/elements/forms/Date.vue'));
-Vue.component('candy-radio', require('./components/elements/forms/Radio.vue'));
-Vue.component('candy-toggle', require('./components/elements/forms/Toggle.vue'));
+require('./directives/sortable');
+import Vue from 'vue'
+import Vuex from 'vuex'
+import { VTooltip } from 'v-tooltip'
+import VueLazyload from 'vue-lazyload'
 
-/**
- * Page Specific
- */
-/* Products */
-Vue.component('products-table', require('./components/catalogue-manager/products/ProductsTable.vue'));
-Vue.component('candy-product-edit', require('./components/catalogue-manager/products/ProductEdit.vue'));
-Vue.component('candy-product-details', require('./components/catalogue-manager/products/edit/ProductDetails.vue'));
-Vue.component('candy-product-attributes', require('./components/catalogue-manager/products/edit/details/ProductAttributes.vue'));
-Vue.component('candy-product-variants', require('./components/catalogue-manager/products/edit/ProductVariants.vue'));
-/* Collections */
-Vue.component('collections-table', require('./components/catalogue-manager/collections/CollectionsTable.vue'));
+Vue.use(Vuex);
+Vue.use(VueLazyload, {
+  lazyComponent: true
+});
 
-/**
- * Table
- */
-Vue.component('candy-table-paginate', require('./components/elements/tables/TablePaginate.vue'));
+require('./filters/attributes');
+require('./filters/format-date');
+require('./filters/translate');
 
-/**
- * Media
- */
-Vue.component('candy-media', require('./components/catalogue-manager/products/edit/media/Media.vue'));
+require('chart.js');
+require('chartjs-color');
 
-/**
- * Avalability & Pricing
- */
-Vue.component('candy-inventory', require('./components/catalogue-manager/products/edit/availability-pricing/Inventory.vue'));
-Vue.component('candy-shipping', require('./components/catalogue-manager/products/edit/availability-pricing/Shipping.vue'));
-Vue.component('candy-customer-groups', require('./components/catalogue-manager/products/edit/availability-pricing/CustomerGroups.vue'));
-Vue.component('candy-discounts', require('./components/catalogue-manager/products/edit/availability-pricing/Discounts.vue'));
-Vue.component('candy-avalability-pricing-modals', require('./components/catalogue-manager/products/edit/availability-pricing/Modals.vue'));
-Vue.component('candy-product-availability', require('./components/catalogue-manager/products/edit/ProductAvailability.vue'));
+Vue.filter('capitalize', function (value) {
+  if (!value) return value;
+  value = value.toString()
+  return value.charAt(0).toUpperCase() + value.slice(1)
+})
 
-/**
- * if Variants
- */
-Vue.component('candy-variants', require('./components/catalogue-manager/products/edit/availability-pricing/Variants.vue'));
-Vue.component('candy-create-variant', require('./components/catalogue-manager/products/edit/availability-pricing/CreateVariant.vue'));
-/**
- * Associations
- */
-Vue.component('candy-categories', require('./components/catalogue-manager/products/edit/associations/Categories.vue'));
-Vue.component('candy-collections', require('./components/catalogue-manager/products/edit/associations/Collections.vue'));
-Vue.component('candy-products', require('./components/catalogue-manager/products/edit/associations/Products.vue'));
-Vue.component('candy-association-modals', require('./components/catalogue-manager/products/edit/associations/Modals.vue'));
-
-/**
- * Display
- */
-Vue.component('candy-display', require('./components/catalogue-manager/products/edit/display/Display.vue'));
-
-/**
- * URLS
- */
-Vue.component('candy-locale-urls', require('./components/catalogue-manager/products/edit/urls/LocaleURLs.vue'));
-Vue.component('candy-redirects', require('./components/catalogue-manager/products/edit/urls/Redirects.vue'));
-Vue.component('candy-url-modals', require('./components/catalogue-manager/products/edit/urls/Modals.vue'));
-
-/**
- * Directives
- */
-
-import Sortable from 'sortablejs'
-
-Vue.directive('sortable', {
-  inserted: function (el, binding) {
-    var sortable = new Sortable(el, binding.value || {});
+const store = new Vuex.Store({
+  state: {
+    topTabs: {},
+    taxes: [],
+    defaultChannel: {
+      handle: defaultChannel
+    }
+  },
+  mutations: {
+    addTab (state, tab) {
+      state.topTabs.push(tab);
+    },
+    addTabs(state, tabs) {
+      tabs.forEach(tab => {
+        state.topTabs[tab.href] = tab;
+      });
+    },
+    setDefaultChannel(state, channel) {
+      state.defaultChannel = channel;
+    },
+    setTaxes(state, taxes) {
+      state.taxes = taxes;
+    }
+  },
+  getters: {
+    getTopTabs(state) {
+      return state.topTabs;
+    },
+    getDefaultChannel(state) {
+      return state.defaultChannel;
+    },
+    getTaxes(state) {
+      return state.taxes;
+    }
   }
 });
 
+config.get('channels').then(response => {
+  channels = response.data;
+  var defaultChannel = _.filter(channels, function(channel) {
+    return channel.default;
+  });
+  store.commit('setDefaultChannel', defaultChannel[0]);
+});
 
-window.CandyEvent = new Vue();
+config.get('taxes').then(response => {
+  store.commit('setTaxes', response.data);
+})
 
-var ApiRequest = require('./classes/ApiRequest');
-window.apiRequest = new ApiRequest();
+config.get('languages').then(response => {
+  languages = response.data;
+});
+
+Vue.directive('tooltip', VTooltip);
 
 var CandyHelpers = {};
 
@@ -134,124 +134,59 @@ CandyHelpers.install = function (Vue, options) {
   Vue.capitalize = function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-}
-
-window.moment = require('moment');
-
-Vue.filter('formatDate', function(value) {
-  if (value) {
-    return moment(String(value)).format('MM/DD/YYYY hh:mm')
-  }
-});
+};
 
 const app = new Vue({
     el: '#app',
+    store,
     data: {
+      title: ''
     },
+    mounted() {
+      CandyEvent.$on('title-changed', event => {
+        if (event.prefix) {
+          this.title = event.prefix + ' ';
+        }
+        if (_.isString(event.title)) {
+          this.title += event.title;
+        } else {
+          this.title += this.$options.filters.attribute(event.title, 'name');
+        }
+      });
+    }
 });
 
 Vue.use(CandyHelpers);
 
+function formatMoney (n, c,t,d) {
+  var
+    c = isNaN(c = Math.abs(c)) ? 2 : c,
+    d = d == undefined ? "." : d,
+    t = t == undefined ? "," : t,
+    s = n < 0 ? "-" : "",
+    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+    j = (j = i.length) > 3 ? j % 3 : 0;
+  return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
+
+String.prototype.money = function (c,t,d) {
+  return formatMoney(this, c,t,d);
+}
+Number.prototype.money = function (c, t, d) {
+  return formatMoney(this, c, t, d);
+}
 
 window.axios.interceptors.response.use((response) => { // intercept the global error
-    return response
-  }, function (error) {
-    if (error.response.status === 401) {
-        window.location.href = '/login';
-        return;
-    }
-    // Do something with response error
-    return Promise.reject(error)
-  });
-
-
-
-
+  return response
+}, function (error) {
+  if (error.response.status === 401) {
+      window.location.href = '/login';
+      return;
+  }
+  // Do something with response error
+  return Promise.reject(error)
+});
 
 /* Misc crap - need to remove!!! */
 
-// Clickable Table Row
-$(".clickable .link").click(function() {
-    window.location = $(this).data("href");
-});
-
-// Adding /Removing table row for product options
-
-// Navigation Purple Overlay
-$('.top-level').hover (
-   function(){ $('.main-purple-overlay').addClass('active'); $('.side-purple-overlay').addClass('active'); },
-   function(){ $('.main-purple-overlay').removeClass('active'); $('.side-purple-overlay').removeClass('active'); }
-);
-
-// Filter Pop Over
-$('.btn-pop-over').click(function() {
-    $('.pop-over').toggleClass('active');
-});
-
-// Product Menu
-$('.product-menu').click(function() {
-    $(this).toggleClass('active');
-});
-$('.bulk-actions').css({
-    'width': ($('.product-table').width() + 'px')
-});
-
-// Tabs
-var hash = document.location.hash;
-var prefix = "tab_";
-if (hash) {
-    $('.nav-tabs a[href="'+hash.replace(prefix,"")+'"]').tab('show');
-}
-
-$('.nav-tabs a').on('shown', function (e) {
-    window.location.hash = e.target.hash.replace("#", "#" + prefix);
-});
-
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  var target = $(e.target).attr("href");
-  $('.bulk-actions').css({
-    'width': ($('.product-table').width() + 'px')
-  });
-  // Variant image height same as width
-  var variantImage = $('.variant-option-img').width();
-  $('.variant-option-img').css({'height':variantImage+'px'});
-
-  // Media dropzone height same as width
-  var dropzone = $('.dropzone').width();
-  $('.dropzone').css({'height':dropzone+'px'});
-});
-
-// Tooltips
-$("[data-toggle='tooltip']").tooltip();
-
-// Tooltips
-$('[data-toggle="popover"]').popover();
-
-// Date Picker
-
-// Switch
-$(".toggle input").bootstrapSwitch();
-
-// Category, Collection, Product List Search.
-
-var options = {
-  valueNames: [ 'name' ]
-};
-
-var optionsTwo = {
-  valueNames: [ 'name', 'sku', 'category', 'collection' ]
-};
-
-var categoryList = new List('categoryList', options);
-var collectionList = new List('collectionList', options);
-var productList = new List('productList', optionsTwo);
-
-// Category, Collection Associations, hightlight
-
-$('.association-table input:checkbox').change(function(){
-    if($(this).is(":checked")) {
-        $(this).parents('tr').addClass("selected");
-    } else {
-        $(this).parents('tr').removeClass("selected");
-    }
-});
+require('./misc.js');

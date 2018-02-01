@@ -19,32 +19,12 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'gb' => 'Shoes',
-                        'se' => 'Skodon'
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'Shoes',
+                    'sv' => 'Skodon'
                 ],
                 'description' => [
-                    'ecommerce' => [
-                        'gb' => 'Look at our shoes',
-                        'se' => 'Titta på våra skor'
-                    ],
-                    'mobile' => [
-                        'gb' => 'Just a tap away from some shoes',
-                        'se' => 'Bara en kran från några skor'
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'Look at our shoes',
+                    'sv' => 'Titta på våra skor'
                 ]
             ]
         ]);
@@ -57,32 +37,12 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'gb' => 'Bags',
-                        'se' => 'Påsar'
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'Bags',
+                    'sv' => 'Påsar'
                 ],
                 'description' => [
-                    'ecommerce' => [
-                        'gb' => 'Buy a bag online',
-                        'se' => 'Köp en väska online'
-                    ],
-                    'mobile' => [
-                        'gb' => 'A bag for your phone',
-                        'se' => 'En väska till din telefon'
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'Buy a bag online',
+                    'sv' => 'Köp en väska online'
                 ]
             ]
         ]);
@@ -94,32 +54,12 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'gb' => 'Jewellery',
-                        'se' => 'Smycke'
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'Jewellery',
+                    'sv' => 'Smycke'
                 ],
                 'description' => [
-                    'ecommerce' => [
-                        'gb' => 'The finest jewellery online',
-                        'se' => 'De finaste smycken'
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'The finest jewellery online',
+                    'sv' => 'De finaste smycken'
                 ]
             ]
         ]);
@@ -131,32 +71,12 @@ class ProductFamilyTableSeeder extends Seeder
         $fam = ProductFamily::create([
             'attribute_data' => [
                 'name' => [
-                    'ecommerce' => [
-                        'gb' => 'House items',
-                        'se' => 'Husartiklar'
-                    ],
-                    'mobile' => [
-                        'gb' => '',
-                        'se' => ''
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'House items',
+                    'sv' => 'Husartiklar'
                 ],
                 'description' => [
-                    'ecommerce' => [
-                        'gb' => 'Decorate your home from stuff on our website',
-                        'se' => 'Dekorera ditt hem från saker på vår hemsida'
-                    ],
-                    'mobile' => [
-                        'gb' => 'Just a tap away from awesome stuff for your house',
-                        'se' => 'Bara en kran från fantastiska saker till ditt hus'
-                    ],
-                    'print' => [
-                        'gb' => '',
-                        'se' => ''
-                    ]
+                    'en' => 'Decorate your home from stuff on our website',
+                    'sv' => 'Dekorera ditt hem från saker på vår hemsida'
                 ]
             ]
         ]);

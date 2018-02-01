@@ -21,7 +21,7 @@ abstract class FormRequest extends IlluminateFormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new ValidationException($validator, $this->response(
-            $this->formatErrors($validator)
+            $validator->getMessageBag()->toArray()
         ));
     }
 

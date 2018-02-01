@@ -102,18 +102,24 @@ class ChannelService extends BaseService
             $newDefault->save();
         }
 
+        $channel->products()->sync([]);
+        $channel->categories()->sync([]);
+        $channel->collections()->sync([]);
+        foreach ($channel->discount as $discount) {
+            $discount->delete();
+        }
+
         return $channel->delete();
     }
 
-    public function getChannelsWithAvailability($product)
+    public function getChannelsWithAvailability($model, $relation)
     {
-        $channels = $this->model->with(['products' => function ($q) use ($product) {
-            $q->where('products.id', $product->id);
+        $channels = $this->model->with([camel_case($relation) => function ($q) use ($model, $relation) {
+            $q->where($relation . '.id', $model->id);
         }])->get();
         foreach ($channels as $channel) {
-            $product = $channel->products->first();
-            $channel->published_at = $product ? $product->pivot->published_at : null;
-            $channel->visible = $product ? (bool) $product->pivot->visible : false;
+            $model = $channel->{camel_case($relation)}->first();
+            $channel->published_at = $model ? $model->pivot->published_at : null;
         }
         return $channels;
     }

@@ -15,6 +15,9 @@
                 default() {
                     return [];
                 }
+            },
+            languages: {
+                type: Array
             }
         },
         methods: {
@@ -23,7 +26,7 @@
                     this.request.send('put', '/products/variants/' + variant.id, variant)
                         .then(response => {
                             CandyEvent.$emit('notification', {
-                                level: 'success'
+                                level: 'error'
                             });
                         }).catch(response => {
                         CandyEvent.$emit('notification', {
@@ -39,8 +42,8 @@
 <template>
     <div>
         <candy-tabs nested="true">
-            <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true">
-                <candy-edit-variants :variants="variants"></candy-edit-variants>
+            <candy-tab name="Pricing & Variants" handle="pricing-variants_variants-added" :selected="true" dispatch="product-variants">
+                <candy-edit-variants :variants="variants" :languages="languages"></candy-edit-variants>
             </candy-tab>
             <candy-tab name="Channels" handle="channels_variants-added">
                 <candy-channels></candy-channels>

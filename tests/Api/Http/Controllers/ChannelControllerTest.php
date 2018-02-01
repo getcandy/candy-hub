@@ -152,6 +152,7 @@ class ChannelControllerTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
+
     public function testCannotDestroyLastChannel()
     {
         $id = Channel::first()->encodedId();

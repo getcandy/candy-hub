@@ -49,11 +49,12 @@ abstract class BaseUrlDriver
      *
      * @return \GetCandy\Api\Assets\Models\Asset
      */
-    public function process(array $data, $model)
+    public function process(array $data, Model $model)
     {
         $this->source = app('api')->assetSources()->getByHandle($model->settings['asset_source']);
         $this->model = $model;
         $this->data = $data;
+
         $asset = $this->prepare();
 
         if ($model->assets()->count()) {
@@ -93,7 +94,7 @@ abstract class BaseUrlDriver
      */
     public function hashName()
     {
-        return $this->hashedName ?: $this->hashedName = Str::random(40);
+        return Str::random(40);
     }
 
     /**
@@ -122,6 +123,13 @@ abstract class BaseUrlDriver
         return $image;
     }
 
+    /**
+     * Get the OEM data
+     *
+     * @param array $params
+     * 
+     * @return mixed
+     */
     protected function getOemData($params = [])
     {
         $client = new Client();

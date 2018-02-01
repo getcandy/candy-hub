@@ -9,7 +9,7 @@ class UpdateRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     public function rules()
@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
 
         foreach ($attributes as $attribute) {
             if ($attribute->required) {
-                $rulestring = 'attributes.' . $attribute->handle . '.' . $defaultChannel->handle . '.' . $defaultLanguage->iso;
+                $rulestring = 'attributes.' . $attribute->handle . '.' . $defaultChannel->handle . '.' . $defaultLanguage->lang;
                 $ruleset[$rulestring] = 'required';
             }
         }

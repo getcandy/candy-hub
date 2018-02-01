@@ -2,17 +2,23 @@
 
 namespace GetCandy\Api\Products\Services;
 
+use Carbon\Carbon;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
+use GetCandy\Api\Categories\Models\Category;
+use GetCandy\Api\Products\Events\ProductCreatedEvent;
+use GetCandy\Api\Products\Events\ProductSavedEvent;
 use GetCandy\Api\Products\Models\Product;
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
-use GetCandy\Events\Products\ProductCreatedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductService extends BaseService
 {
+    protected $model;
+
     public function __construct()
     {
         $this->model = new Product();
@@ -46,42 +52,20 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        if (!empty($data['channels'])) {
-            $channelData = [];
-            foreach ($data['channels']['data'] as $channel) {
-                $channelModel = app('api')->channels()->getByHashedId($channel['id']);
-                $channelData[$channelModel->id] = [
-                    'visible' => $channel['visible'],
-                    'published_at' => \Carbon\Carbon::parse($channel['published_at']['date'])
-                ];
-            }
-            $product->channels()->sync($channelData);
+        event(new AttributableSavedEvent($product));
+
+        if (!empty($data['channels']['data'])) {
+            $product->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
         }
         if (!empty($data['customer_groups'])) {
-            $groupData = [];
-            foreach ($data['customer_groups']['data'] as $group) {
-                $groupModel = app('api')->customerGroups()->getByHashedId($group['id']);
-                $groupData[$groupModel->id] = [
-                    'visible' => $group['visible'],
-                    'purchasable' => $group['purchasable']
-                ];
-            }
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
             $product->customerGroups()->sync($groupData);
         }
-        return $product;
-    }
 
-    public function createUrl($hashedId, array $data)
-    {
-        $product = $this->getByHashedId($hashedId);
+        event(new ProductCreatedEvent($product));
 
-        $product->routes()->create([
-            'locale' => $data['locale'],
-            'slug' => $data['slug'],
-            'description' => !empty($data['description']) ? $data['description'] : null,
-            'redirect' => !empty($data['redirect']) ? true : false,
-            'default' => false
-        ]);
         return $product;
     }
 
@@ -96,14 +80,29 @@ class ProductService extends BaseService
     {
         $product = $this->model;
 
-        $product->attribute_data = $data['attributes'];
+        $data['description'] = !empty($data['description']) ? $data['description'] : '';
+        $product->attribute_data = $data;
+    
+        if (!empty($data['historical_id'])) {
+            $product->id = $data['historical_id'];
+        }
 
-        $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
-        $product->layout()->associate($layout);
+        if (!empty($data['created_at'])) {
+            $product->created_at = $data['created_at'];
+        }
+
+        $product->option_data = [];
+
+        if (!empty($data['option_data'])) {
+            $product->option_data = $data['option_data'];
+        }
+
+        // $layout = app('api')->layouts()->getByHashedId($data['layout_id']);
+        // $product->layout()->associate($layout);
 
         if (! empty($data['family_id'])) {
             $family = app('api')->productFamilies()->getByHashedId($data['family_id']);
-            if (! $family) {
+            if (!$family) {
                 abort(422);
             }
             $family->products()->save($product);
@@ -111,10 +110,60 @@ class ProductService extends BaseService
             $product->save();
         }
 
-        $this->createVariant($product, ['sku' => $data['sku']]);
+        event(new AttributableSavedEvent($product));
 
-        // event(new ProductCreatedEvent($product));
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $product->customerGroups()->sync($groupData);
+        }
+
+        if (!empty($data['channels']['data'])) {
+            $product->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
+        }
+
+        $urls = $this->getUniqueUrl($data['url']);
+        $product->routes()->createMany($urls);
+
+        $sku = $data['sku'];
+        $i = 1;
+        while (app('api')->productVariants()->existsBySku($sku)) {
+            $sku = $sku . $i;
+            $i++;
+        }
+
+        $variant = $this->createVariant($product, [
+            'options' => [],
+            'stock' => $data['stock'],
+            'sku' => $sku,
+            'price' => $data['price'],
+            'pricing' => $this->getPriceMapping($data['price'])
+        ]);
+        
+        if (!empty($data['tax_id'])) {
+            $variant->tax()->associate(
+                app('api')->taxes()->getByHashedId($data['tax_id'])
+            );
+            $variant->save();
+        }
+
+        event(new ProductCreatedEvent($product));
         return $product;
+    }
+
+    protected function getPriceMapping($price)
+    {
+        $customerGroups = app('api')->customerGroups()->all();
+        return $customerGroups->map(function ($group) use ($price) {
+            return [
+                $group->handle => [
+                    'price' => $price,
+                    'compare_at' => 0,
+                    'tax' => 0
+                ]
+            ];
+        })->toArray();
     }
 
     /**
@@ -135,11 +184,7 @@ class ProductService extends BaseService
      */
     public function delete($hashedId)
     {
-        $product = $this->getByHashedId($hashedId);
-        if (!$product) {
-            abort(404);
-        }
-        return $product->delete();
+        return $this->getByHashedId($hashedId)->delete();
     }
 
     /**
@@ -148,14 +193,15 @@ class ProductService extends BaseService
      * @param  int  $page   The page to start
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedData($searchTerm = null, $length = 50, $page = null)
+    public function getPaginatedData($channel = null, $length = 50, $page = null, $ids = [])
     {
-        if ($searchTerm) {
-            $ids = app(SearchContract::class)->against(get_class($this->model))->with($searchTerm);
-            $results = $this->model->whereIn('id', $ids);
-        } else {
-            $results = $this->model;
+        $results = $this->model->channel($channel);
+
+        if (count($ids)) {
+            $realIds = $this->getDecodedIds($ids);
+            $results->whereIn('id', $realIds);
         }
+
         return $results->paginate($length, ['*'], 'page', $page);
     }
 
@@ -173,9 +219,11 @@ class ProductService extends BaseService
             return [];
         }
 
-        $product = $this->model
-            ->with(['attributes', 'family', 'family.attributes'])
-            ->find($id);
+        $product = $this->model->with([
+            'attributes',
+            'family',
+            'family.attributes'
+        ])->find($id);
 
         foreach ($product->family->attributes as $attribute) {
             $attributes[$attribute->handle] = $attribute;
@@ -187,6 +235,71 @@ class ProductService extends BaseService
         }
 
         return $attributes;
+    }
+
+
+    public function getSearchedIds($ids = [])
+    {
+        $parsedIds = [];
+        foreach ($ids as $hash) {
+            $parsedIds[] = $this->model->decodeId($hash);
+        }
+
+        $placeholders = implode(',', array_fill(0, count($parsedIds), '?')); // string for the query
+
+        $query = $this->model->whereIn('id', $parsedIds);
+        
+
+        /*
+        *   TAKEN FROM PRODUCT VARIANT SERVICE
+        */
+
+        $groups = \GetCandy::getGroups();
+        $user = \Auth::user();
+
+        $ids = [];
+
+        foreach ($groups as $group) {
+            $ids[] = $group->id;
+        }
+
+        $pricing = null;
+
+        // If the user is an admin, fall through
+        if (!$user || ($user && !$user->hasRole('admin'))) {
+            $query->with(['variants' => function ($q1) use ($ids) {
+                $q1->with(['customerPricing' => function ($q2) use ($ids) {
+                    $q2->whereIn('customer_group_id', $ids)
+                        ->orderBy('price', 'asc')
+                        ->first();
+                }]);
+            }, 'variants.product', 'variants.tax']);
+        }
+
+        /**
+         * END PRODUCT VARIANT SERVICE STUFF
+         */
+        // dd($query->get()->toArray());
+
+
+        if (count($parsedIds)) {
+            $query = $query->orderByRaw("field(id,{$placeholders})", $parsedIds);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * Gets the attributes from a given products id
+     * @param  string $id
+     * @return array
+     */
+    public function getCategories(Product $product)
+    {
+        $product = $this->model
+            ->with(['categories', 'routes'])
+            ->find($product->id);
+        return $product->categories;
     }
 
     /**

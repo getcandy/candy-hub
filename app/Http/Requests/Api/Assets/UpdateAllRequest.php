@@ -15,7 +15,10 @@ class UpdateAllRequest extends FormRequest
     public function rules()
     {
         return [
-            'assets' => 'required|array'
+            'assets' => 'required|array',
+            'assets.*.tags' => 'array',
+            'assets.*.tags.*.name' => 'required_without:assets.*.tags.*.id',
+            'assets.*.tags.*.id' => 'required_without:assets.*.tags.*.name'
         ];
     }
 }

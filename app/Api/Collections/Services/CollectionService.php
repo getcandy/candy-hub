@@ -2,9 +2,11 @@
 
 namespace GetCandy\Api\Collections\Services;
 
+use Carbon\Carbon;
 use GetCandy\Api\Collections\Models\Collection;
 use GetCandy\Api\Scaffold\BaseService;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
+use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 
 class CollectionService extends BaseService
 {
@@ -28,26 +30,15 @@ class CollectionService extends BaseService
     public function create(array $data)
     {
         $collection = $this->model;
-        $collection->attribute_data = $data['attributes'];
+        $collection->attribute_data = $data;
         $collection->save();
-        return $collection;
-    }
 
-    /**
-     * Updates a resource from the given data
-     *
-     * @param  string $id
-     * @param  array  $data
-     *
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
-     * @return Collection
-     */
-    public function update($hashedId, array $data)
-    {
-        $collection = $this->getByHashedId($hashedId);
-        $collection->attribute_data = $data['attributes'];
-        $collection->save();
+        $urls = $this->getUniqueUrl($data['url']);
+
+        $collection->routes()->createMany($urls);
+
+        event(new AttributableSavedEvent($collection));
+
         return $collection;
     }
 
@@ -65,6 +56,7 @@ class CollectionService extends BaseService
         $collection = $this->getByHashedId($id);
         return $collection->delete();
     }
+
 
     /**
      * Gets paginated data for the record

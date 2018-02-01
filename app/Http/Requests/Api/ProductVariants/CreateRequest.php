@@ -14,7 +14,7 @@ class CreateRequest extends FormRequest
     public function authorize()
     {
         // return $this->user()->can('create', Product::class);
-        return true;
+        return $this->user()->hasRole('admin');
     }
 
     /**
@@ -24,15 +24,22 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'variants.*.sku' => 'required|unique:product_variants'
-        ];
+        $rules = [];
+
+        foreach ($this->variants as $index => $variant) {
+            if (empty($variant['id'])) {
+                $rules['sku'] = 'unique:product_variants';
+            }
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
-            'variants.*.sku.unique' => 'This SKU has already been taken'
+            'variants.*.sku.unique' => 'This SKU has already been taken',
+            'variants.*.sku.required' => 'The SKU field is required',
         ];
     }
 }

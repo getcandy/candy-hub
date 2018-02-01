@@ -24,8 +24,10 @@ class TagService extends BaseService
      */
     public function create(array $data)
     {
-        // TODO
-        return true;
+        $tag = new Tag();
+        $tag->name = $data['name'];
+        $tag->save();
+        return $tag;
     }
 
     /**
@@ -86,5 +88,58 @@ class TagService extends BaseService
             }, 'taggables.records']);
         }
         return $query->find($ids);
+    }
+
+    /**
+     * Either returns an existing tag or makes a new one
+     * @param  string $value
+     * @return Tag
+     */
+    public function getOrCreateTag($value)
+    {
+        $formatted = $this->getFormattedTagName($value);
+        $result = $this->model->where('name', '=', $formatted)->first();
+        if ($result) {
+            return $result->toArray();
+        }
+        $tag = $this->create([
+            'name' => $value
+        ]);
+        return $tag->toArray();
+    }
+
+    /**
+     * Returns an array of tag ids, ready for syncing
+     * @param  array  $tags
+     * @return array
+     */
+    public function getSyncableIds(array $tags)
+    {
+        $ids = [];
+        foreach ($tags as $tag) {
+            if (!$tag['id']) {
+                $tag = $this->getOrCreateTag($tag['name']);
+            }
+            $ids[] = $this->model->decodeId($tag['id']) ?: $tag['id'];
+        }
+        return $ids;
+    }
+
+    /**
+     * Gets the tag name, formatted, ready to go
+     * @param  string $value
+     * @return string
+     */
+    public function getFormattedTagName($value)
+    {
+        $format = config('tags.format');
+        // Force an array, makes life easier...
+        if (!is_array($format)) {
+            $format = [$format];
+        }
+        foreach ($format as $callable) {
+            $value = call_user_func($callable, $value);
+        }
+        return $value;
     }
 }

@@ -17,7 +17,6 @@ class AssetService extends BaseService
         $this->model = new Asset;
     }
 
-
     /**
      * Gets the driver for the upload
      * @param  string $mimeType
@@ -57,14 +56,35 @@ class AssetService extends BaseService
         return $asset;
     }
 
+    /**
+     * Update all the assets
+     *
+     * @param array $assets
+     * 
+     * @return void
+     */
     public function updateAll($assets)
     {
         foreach ($assets as $asset) {
-            $this->update($asset['id'], $asset);
+            $model = $this->update($asset['id'], $asset);
+
+            if (isset($asset['tags'])) {
+                $tagIds = app('api')->tags()->getSyncableIds($asset['tags']);
+                $model->tags()->sync($tagIds);
+            }
         }
         return true;
     }
-    public function update($id, $data)
+
+    /**
+     * Update an asset
+     *
+     * @param string $id
+     * @param array $data
+     * 
+     * @return Asset
+     */
+    public function update($id, array $data)
     {
         $asset = $this->getByHashedId($id);
         $asset->fill($data);
@@ -72,7 +92,15 @@ class AssetService extends BaseService
         return $asset;
     }
 
-    public function getAssets(Model $assetable, $params)
+    /**
+     * Get some assets
+     *
+     * @param Model $assetable
+     * @param array $params
+     * 
+     * @return Collection
+     */
+    public function getAssets(Model $assetable, $params = [])
     {
         $assets = $assetable->assets();
         if (!empty($params['type'])) {
@@ -86,18 +114,17 @@ class AssetService extends BaseService
     }
 
     /**
-     * @param $id
+     * Delete an asset
      *
-     * @return bool
+     * @param string $id
+     * 
+     * @return boolean
      */
     public function delete($id)
     {
         $asset = $this->getByHashedId($id);
-
         dispatch(new CleanUpAssetFiles($asset));
-
         $asset->delete();
-
         return true;
     }
 }

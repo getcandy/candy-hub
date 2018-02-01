@@ -79,7 +79,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +152,7 @@ return [
         Illuminate\Encryption\EncryptionServiceProvider::class,
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-        Illuminate\Hashing\HashServiceProvider::class,
+        // Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
@@ -188,6 +188,7 @@ return [
         GetCandy\Providers\RouteServiceProvider::class,
         GetCandy\Providers\CmsServiceProvider::class,
         GetCandy\Providers\PluginServiceProvider::class,
+        GetCandy\Providers\ImporterServiceProvider::class
 
     ],
 
@@ -237,7 +238,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'CurrencyConverter' => Facades\GetCandy\Api\Currencies\CurrencyConverter::class,
+        'TaxCalculator' => Facades\GetCandy\Api\Taxes\TaxCalculator::class,
+        'PriceCalculator' => Facades\GetCandy\Api\Pricing\PriceCalculator::class,
+        'GetCandy' => Facades\GetCandy\Api\Helpers\GetCandy::class
     ],
 
 ];
