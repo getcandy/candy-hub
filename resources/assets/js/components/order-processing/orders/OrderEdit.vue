@@ -308,18 +308,20 @@
                                         </template>
                                     </div>
                                     <div class="col-md-3">
-                                        <h4>Order ID</h4>
+                                        <strong style="margin-bottom:5px;display:block;">Order ID</strong>
                                         <code style="padding:5px">{{ order.reference }}</code>
-
-                                        <h4>Account</h4>
+                                        <br><br>
+                                        <strong style="margin-bottom:5px;display:block;">Account</strong>
                                         <span v-if="!order.user">Guest</span>
                                         <template v-else>
                                             {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
                                         </template>
-
-                                        <hr>
+                                        <br><br>
+                                        <strong style="margin-bottom:5px;display:block;">Order Date</strong>
+                                        {{ order.created_at.date|formatDate }}
+                                        <br><br>
                                         <div class="form-group">
-                                            <label>Order status</label>
+                                            <strong style="margin-bottom:5px;display:block;">Order status</strong>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
                                                 <option value="awaiting-payment">Awaiting Payment</option>
                                                 <option value="payment-received">Payment Received</option>
@@ -331,7 +333,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Tracking Number</label>
+                                            <strong style="margin-bottom:5px;display:block;">Tracking Number</strong>
                                             <input class="form-control" v-model="order.tracking_no">
                                         </div>
 
