@@ -207,48 +207,6 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="row">
-                                            <div class="col-md-4 col-offset-md-1">
-                                                <h4>Billing Information</h4>
-                                                <hr>
-                                                <strong>Name</strong><br>
-                                                {{ order.billing.firstname }} {{ order.billing.lastname }}<br><br>
-                                                <strong>Address</strong><br>
-                                                {{ order.billing.address }}<br>
-                                                {{ order.billing.address_two }}<br v-if="order.billing.address_two">
-                                                {{ order.billing.address_three }}<br v-if="order.billing.address_three">
-                                                {{ order.billing.city }}<br>
-                                                {{ order.billing.county }}<br v-if="order.billing.county">
-                                                {{ order.billing.state }}<br v-if="order.billing.state">
-                                                {{ order.billing.country }}<br>
-                                                {{ order.billing.zip }}
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h4>Shipping Information</h4>
-                                                <hr>
-                                                <strong>Name</strong><br>
-                                                {{ order.shipping.firstname }} {{ order.shipping.lastname }}<br><br>
-                                                <strong>Address</strong><br>
-                                                {{ order.shipping.address }}<br>
-                                                {{ order.shipping.address_two }}<br v-if="order.shipping.address_two">
-                                                {{ order.shipping.address_three }}<br v-if="order.shipping.address_three">
-                                                {{ order.shipping.city }}<br>
-                                                {{ order.shipping.county }}<br v-if="order.shipping.county">
-                                                {{ order.shipping.state }}<br v-if="order.shipping.state">
-                                                {{ order.shipping.country }}<br>
-                                                {{ order.shipping.zip }}
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h4>Contact information</h4>
-                                                <hr>
-                                                <strong>Email</strong><br>
-                                                {{ order.contact_email }}
-                                                <br><br>
-                                                <strong>Telephone</strong><br>
-                                                {{ order.contact_phone }}
-                                                <span class="text-muted" v-if="!order.contact_phone">Not provided</span>
-                                            </div>
-                                        </div>
                                         <template v-if="transactions.length">
                                             <h3>Transactions</h3>
                                             <table class="table table-bordered">
@@ -308,18 +266,17 @@
                                         </template>
                                     </div>
                                     <div class="col-md-3">
-                                        <strong style="margin-bottom:5px;display:block;">Order ID</strong>
-                                        <code style="padding:5px">{{ order.reference }}</code>
-                                        <br><br>
-                                        <strong style="margin-bottom:5px;display:block;">Account</strong>
-                                        <span v-if="!order.user">Guest</span>
-                                        <template v-else>
-                                            {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
-                                        </template>
-                                        <br><br>
-                                        <strong style="margin-bottom:5px;display:block;">Order Date</strong>
-                                        {{ order.created_at.date|formatDate }}
-                                        <br><br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong style="margin-bottom:5px;display:block;">Order ID</strong>
+                                                <code style="padding:5px">{{ order.reference }}</code>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong style="margin-bottom:5px;display:block;">Order Date</strong>
+                                                {{ order.created_at.date|formatDate }}
+                                            </div>
+                                        </div>
+                                        <br>
                                         <div class="form-group">
                                             <strong style="margin-bottom:5px;display:block;">Order status</strong>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
@@ -344,6 +301,53 @@
                                         <template v-if="order.dispatched_at">
                                             <button class="btn btn-primary" @click="sendTracking">Send dispatched email</button>
                                         </template>
+                                        <hr>
+
+                                        <strong style="margin-bottom:5px;display:block;">Account</strong>
+                                        <span v-if="!order.user">Guest</span>
+                                        <template v-else>
+                                            {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
+                                        </template>
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong style="margin-bottom:5px;display:block;">Email</strong>
+                                                {{ order.contact_email }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong style="margin-bottom:5px;display:block;">Telephone</strong>
+                                                {{ order.contact_phone }}
+                                                <span class="text-muted" v-if="!order.contact_phone">Not provided</span>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <strong style="margin-bottom:5px;display:block;">Billing info</strong>
+                                                {{ order.billing.firstname }} {{ order.billing.lastname }}<br>
+                                                {{ order.billing.address }}<br>
+                                                {{ order.billing.address_two }}<br v-if="order.billing.address_two">
+                                                {{ order.billing.address_three }}<br v-if="order.billing.address_three">
+                                                {{ order.billing.city }}<br>
+                                                {{ order.billing.county }}<br v-if="order.billing.county">
+                                                {{ order.billing.state }}<br v-if="order.billing.state">
+                                                {{ order.billing.country }}<br>
+                                                {{ order.billing.zip }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong style="margin-bottom:5px;display:block;">Shipping info</strong>
+                                                {{ order.shipping.firstname }} {{ order.shipping.lastname }}<br>
+                                                {{ order.shipping.address }}<br>
+                                                {{ order.shipping.address_two }}<br v-if="order.shipping.address_two">
+                                                {{ order.shipping.address_three }}<br v-if="order.shipping.address_three">
+                                                {{ order.shipping.city }}<br>
+                                                {{ order.shipping.county }}<br v-if="order.shipping.county">
+                                                {{ order.shipping.state }}<br v-if="order.shipping.state">
+                                                {{ order.shipping.country }}<br>
+                                                {{ order.shipping.zip }}
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
