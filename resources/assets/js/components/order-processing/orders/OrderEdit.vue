@@ -238,6 +238,16 @@
                                                 {{ order.shipping.country }}<br>
                                                 {{ order.shipping.zip }}
                                             </div>
+                                            <div class="col-md-4">
+                                                <h4>Contact information</h4>
+                                                <hr>
+                                                <strong>Email</strong><br>
+                                                {{ order.contact_email }}
+                                                <br><br>
+                                                <strong>Telephone</strong><br>
+                                                {{ order.contact_phone }}
+                                                <span class="text-muted" v-if="!order.contact_phone">Not provided</span>
+                                            </div>
                                         </div>
                                         <template v-if="transactions.length">
                                             <h3>Transactions</h3>
