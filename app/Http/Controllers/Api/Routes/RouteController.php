@@ -8,6 +8,7 @@ use GetCandy\Http\Transformers\Fractal\Routes\RouteTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use GetCandy\Http\Requests\Api\Routes\UpdateRequest;
 
 class RouteController extends BaseController
 {
@@ -25,6 +26,24 @@ class RouteController extends BaseController
     {
         try {
             $route = app('api')->routes()->getBySlug($slug);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($route, new RouteTransformer);
+    }
+
+    /**
+     * Update a route
+     *
+     * @param string $id
+     * @param UpdateRequest $request
+     *
+     * @return Json
+     */
+    public function update($id, UpdateRequest $request)
+    {
+        try {
+            $route = app('api')->routes()->update($id, $request->all());
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound();
         }

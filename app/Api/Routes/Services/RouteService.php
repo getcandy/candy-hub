@@ -25,6 +25,15 @@ class RouteService extends BaseService
         return $route;
     }
 
+    public function update($hashedId, array $data)
+    {
+        $model = $this->getByHashedId($hashedId);
+        $model->slug = $data['slug'];
+        $model->default = $data['default'];
+        $model->save();
+        return $model;
+    }
+
     public function slugExists($slug)
     {
         return $this->model->where('slug', '=', $slug)->exists();

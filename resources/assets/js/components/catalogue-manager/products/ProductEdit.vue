@@ -158,12 +158,12 @@
                         <candy-display></candy-display>
                     </candy-tab>
 
-                    <candy-tab name="URLS">
+                    <candy-tab name="URLS" dispatch="save-urls">
                         <candy-tabs nested="true">
-                            <candy-tab name="Locale URLS" handle="locale-urls" :selected="true">
+                            <candy-tab name="Locale URLS" handle="locale-urls" :selected="true" dispatch="save-urls">
                                 <candy-urls :languages="languages" :routes="routes" :model="product" endpoint="products"></candy-urls>
                             </candy-tab>
-                            <candy-tab name="Redirects" handle="redirects">
+                            <candy-tab name="Redirects" handle="redirects" dispatch="product-details">
                                 <candy-redirects :model="product" endpoint="products" :routes="routes"></candy-redirects>
                             </candy-tab>
                         </candy-tabs>
