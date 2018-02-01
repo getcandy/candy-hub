@@ -88,9 +88,9 @@ class DiscountService extends BaseService
         }
 
         if (!empty($data['sets']['data'])) {
-            $this->syncSets($data['sets']['data']);
+            $this->syncSets($discount, $data['sets']['data']);
         }
-        
+
         return $discount;
     }
 
@@ -99,7 +99,7 @@ class DiscountService extends BaseService
      *
      * @param Discount $discount
      * @param array $sets
-     * 
+     *
      * @return Discount
      */
     public function syncSets($discount, array $sets)
@@ -122,7 +122,7 @@ class DiscountService extends BaseService
                 }
             }
         }
-        
+
         return $discount;
     }
 

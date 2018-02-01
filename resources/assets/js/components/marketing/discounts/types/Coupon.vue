@@ -24,6 +24,5 @@
             <label for="">When the coupon equals</label>
             <input type="text" class="form-control" v-model="value">
         </div>
-
     </div>
 </template>

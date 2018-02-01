@@ -90,14 +90,15 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a href="#" @click="addCondition(index, 'coupon')">Coupon</a></li>
-                                        <li><a href="#" @click="addCondition(index, 'product-in-list')">Product in list</a></li>
-                                        <li><a href="#" @click="addCondition(index, 'user-in-list')">User in list</a></li>
+                                        <li><a href="#" @click="addCondition(index, 'products')">Product in list</a></li>
+                                        <li><a href="#" @click="addCondition(index, 'users')">User in list</a></li>
                                         <li><a href="#" @click="addCondition(index, 'customer-groups')">Customer groups</a></li>
                                     </ul>
                                 </div>
                                 <button class="btn btn-danger btn-sm btn-action" @click="deleteSet(index)"><i class="fa fa-trash"></i></button>
                             </section>
                         </header>
+
                         <div class="condition clearfix" v-for="(item, itemIndex) in set.items.data" :key="set.id">
                             <div class="divider" v-if="itemIndex > 0">
                                 <span v-if="set.scope == 'all'">AND</span>
@@ -114,6 +115,7 @@
                                 </div>
                             </section>
                         </div>
+
                     </div>
                 </div>
                 <button @click="addSet" class="btn btn-info">Add Set</button>

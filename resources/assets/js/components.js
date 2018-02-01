@@ -104,7 +104,10 @@ var includes = [
     path: 'marketing.discounts.types',
     components: {
       'discounts-coupon': 'Coupon',
-      'discounts-customer-groups' : 'CustomerGroups'
+      'discounts-customer-groups' : 'CustomerGroups',
+      'discounts-once-per-customer' : 'OncePerCustomer',
+      'discounts-products': 'Products',
+      'discounts-users': 'Users'
     }
   },
   {
