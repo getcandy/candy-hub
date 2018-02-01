@@ -14,15 +14,15 @@
             }
         },
         props: {
-            criteria: {
-                type: String
+            item: {
+                type: Object
             },
             eligibles: {
                 type: Object
             }
         },
         mounted() {
-            this.value = _.map(this.eligibles.data, item => {
+            this.value = _.map(this.item.eligibles.data, item => {
                 return item.id;
             });
             this.selected = this.value;
@@ -35,7 +35,7 @@
                 this.value = this.selected;
             },
             remove(id) {
-                this.criteria.groups.splice(this.criteria.groups.indexOf(id), 1);
+                this.item.criteria.groups.splice(this.item.criteria.groups.indexOf(id), 1);
             },
             unselect(index) {
                 this.selected.splice(index, 1);

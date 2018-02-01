@@ -33,7 +33,7 @@ class DiscountService extends BaseService
         if (!empty($data['start_at'])) {
             $discount->start_at = Carbon::parse($data['start_at']);
         }
-        if ($data['end_at']) {
+        if (isset($data['end_at'])) {
             $discount->end_at = Carbon::parse($data['end_at']);
         }
 

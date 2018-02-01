@@ -2,27 +2,27 @@
     export default {
         data() {
             return {
-                code: '',
-                value: null
+                code: ''
             }
         },
         props: {
-            criteria: {
-                type: String
+            item: {
+                type: Object
             }
         },
-        mounted() {
-            this.value = this.criteria;
+        methods: {
+            sync(value) {
+                this.$set(this.item, 'value', this.code);
+            },
         }
     }
 </script>
-
 
 <template>
     <div>
         <div class="form-group">
             <label for="">When the coupon equals</label>
-            <input type="text" class="form-control" v-model="value">
+            <input type="text" class="form-control" @input="sync" v-model="code" />
         </div>
     </div>
 </template>

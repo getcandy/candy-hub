@@ -16,17 +16,18 @@
             }
         },
         props: {
-            criteria: {
+            item: {
                 type: String
             }
         },
         mounted() {
-            this.payload = this.criteria;
+            this.$set(this.item, 'eligibles', this.payload);
+            /*
             if (!this.payload.value) {
                 this.$set(this.payload, 'value', []);
             } else {
                 this.getSelectedModels();
-            }
+            }*/
         },
         methods: {
             searchProducts() {
@@ -40,9 +41,10 @@
                     });
             },
             sync() {
-                this.payload.value = _.map(this.selected, item => {
+                var mappedItems = _.map(this.selected, item => {
                     return item.id;
                 });
+                this.$set(this.item, 'eligibles', mappedItems);
             },
             remove(id) {
                 this.selected.splice(this.selected.indexOf(id), 1);

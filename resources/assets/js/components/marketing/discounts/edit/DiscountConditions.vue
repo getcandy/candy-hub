@@ -42,8 +42,7 @@
                 var set = this.sets[index];
                 set.items.data.push({
                     type: type,
-                    scope: set.scope,
-                    criteria: {}
+                    scope: set.scope
                 });
             },
             addSet() {
@@ -92,7 +91,7 @@
                                         <li><a href="#" @click="addCondition(index, 'coupon')">Coupon</a></li>
                                         <li><a href="#" @click="addCondition(index, 'products')">Product in list</a></li>
                                         <li><a href="#" @click="addCondition(index, 'users')">User in list</a></li>
-                                        <li><a href="#" @click="addCondition(index, 'customer-groups')">Customer groups</a></li>
+                                        <li><a href="#" @click="addCondition(index, 'customer-group')">Customer groups</a></li>
                                     </ul>
                                 </div>
                                 <button class="btn btn-danger btn-sm btn-action" @click="deleteSet(index)"><i class="fa fa-trash"></i></button>
@@ -107,7 +106,7 @@
                             <section>
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <component :is="getType(item)" :criteria="item.value" :eligibles="item.eligibles"></component>
+                                        <component :is="getType(item)" :item="item"></component>
                                     </div>
                                     <div class="col-md-2">
                                         <button class="btn btn-danger btn-sm btn-action" @click="deleteCondition(index, itemIndex)"><i class="fa fa-trash"></i></button>
