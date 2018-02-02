@@ -48,9 +48,11 @@ class OrderService extends BaseService
 
         if ($user) {
             $order->user()->associate($user);
+            /*
             foreach ($user->addresses as $address) {
                 $this->setFields($order, $address->fields, $address->billing ? 'billing' : 'shipping');
             }
+            */
         }
 
         $order->total = $basket->total;
