@@ -104,7 +104,9 @@ class DiscountService extends BaseService
      */
     public function syncSets($discount, array $sets)
     {
+        //print_r($sets);exit;
         $discount->sets()->delete();
+        
         foreach ($sets as $set) {
             $groupModel = $discount->sets()->create([
                 'scope' => $set['scope'],
