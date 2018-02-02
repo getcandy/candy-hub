@@ -58,6 +58,7 @@ class OrderController extends BaseController
      */
     public function store(CreateRequest $request)
     {
+        var_dump('here');exit;
         $order = app('api')->orders()->store($request->basket_id, $request->user());
         return $this->respondWithItem($order, new OrderTransformer);
     }
