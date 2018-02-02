@@ -36,9 +36,9 @@ class OrderService extends BaseService
     {
         // // Get the basket
         $basket = app('api')->baskets()->getByHashedId($basketId);
-var_dump($basket);
-        $f = app('api')->baskets()->setTotals($basket);
-        var_dump($f);exit;
+
+        app('api')->baskets()->setTotals($basket);
+
         if ($basket->order) {
             $order = $basket->order;
         } else {
@@ -64,7 +64,7 @@ var_dump($basket);
         $order->currency = $basket->currency;
 
         $order->vat = $basket->tax;
-
+var_dump($order);exit;
         $order->save();
 
         $order->discounts()->delete();
