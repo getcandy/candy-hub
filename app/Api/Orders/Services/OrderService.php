@@ -64,9 +64,9 @@ class OrderService extends BaseService
         $order->currency = $basket->currency;
 
         $order->vat = $basket->tax;
-var_dump($order);exit;
-        $order->save();
 
+        $order->save();
+dd($order);
         $order->discounts()->delete();
         $order->lines()->delete();
 
