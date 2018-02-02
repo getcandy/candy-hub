@@ -36,9 +36,9 @@ class OrderService extends BaseService
     {
         // // Get the basket
         $basket = app('api')->baskets()->getByHashedId($basketId);
-
-        app('api')->baskets()->setTotals($basket);
-
+var_dump($basket);
+        $f = app('api')->baskets()->setTotals($basket);
+        var_dump($f);exit;
         if ($basket->order) {
             $order = $basket->order;
         } else {
@@ -48,11 +48,9 @@ class OrderService extends BaseService
 
         if ($user) {
             $order->user()->associate($user);
-            /*
             foreach ($user->addresses as $address) {
                 $this->setFields($order, $address->fields, $address->billing ? 'billing' : 'shipping');
             }
-            */
         }
 
         $order->total = $basket->total;
