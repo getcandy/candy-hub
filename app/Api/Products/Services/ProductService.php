@@ -138,9 +138,10 @@ class ProductService extends BaseService
             'stock' => $data['stock'],
             'sku' => $sku,
             'price' => $data['price'],
-            'pricing' => $this->getPriceMapping($data['price'])
+            'pricing' => $this->getPriceMapping($data['price']),
+            'tax_id' => app('api')->taxes()->getDefaultRecord()
         ]);
-        
+
         if (!empty($data['tax_id'])) {
             $variant->tax()->associate(
                 app('api')->taxes()->getByHashedId($data['tax_id'])

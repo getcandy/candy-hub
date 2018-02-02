@@ -66,7 +66,7 @@ class OrderService extends BaseService
         $order->vat = $basket->tax;
 
         $order->save();
-dd($order);
+
         $order->discounts()->delete();
         $order->lines()->delete();
 
