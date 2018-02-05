@@ -33,5 +33,15 @@ class CurrencyTableSeeder extends Seeder
             'decimal_point' => '.',
             'thousand_point' => ','
         ]);
+
+        Currency::create([
+            'code' => 'USD',
+            'name' => 'US Dollars',
+            'enabled' => true,
+            'exchange_rate' => 0.71,
+            'format' => '&euro;{price}',
+            'decimal_point' => '.',
+            'thousand_point' => ','
+        ]);
     }
 }
