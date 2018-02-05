@@ -25,16 +25,23 @@ class ProductVariantService extends BaseService
         $product = app('api')->products()->getByHashedId($id);
 
         // If we are adding a new set of variants, get rid.
+
         if ($product->variants->count() == 1) {
             $product->variants()->delete();
         }
 
         $options = $product->option_data;
 
+        // If the option data is empty, set it to our option data;
+        if (empty($options)) {
+            $product->update([
+                'option_data' => $data['options']
+            ]);
+        }
+
         foreach ($data['variants'] as $newVariant) {
 
             $options = $this->mapOptions($options, $newVariant['options']);
-
             $sku = $newVariant['sku'];
             $i = 1;
             while (app('api')->productVariants()->existsBySku($sku)) {

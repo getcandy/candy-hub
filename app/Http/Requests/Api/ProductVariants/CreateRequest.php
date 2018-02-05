@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
     {
         $rules = [];
 
-        foreach ($this->variants as $index => $variant) {
+        foreach (collect($this->variants) as $index => $variant) {
             if (empty($variant['id'])) {
                 $rules['sku'] = 'unique:product_variants';
             }
