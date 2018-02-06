@@ -146,6 +146,11 @@ class ProductService extends BaseService
                 app('api')->taxes()->getByHashedId($data['tax_id'])
             );
             $variant->save();
+        } else {
+            $variant->tax()->associate(
+                app('api')->taxes()->getDefaultRecord()
+            );
+            $variant->save();
         }
 
         event(new ProductCreatedEvent($product));

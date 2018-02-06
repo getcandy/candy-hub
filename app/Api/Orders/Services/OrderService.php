@@ -38,7 +38,7 @@ class OrderService extends BaseService
         $basket = app('api')->baskets()->getByHashedId($basketId);
 
         app('api')->baskets()->setTotals($basket);
-
+    
         if ($basket->order) {
             $order = $basket->order;
         } else {
@@ -227,6 +227,7 @@ class OrderService extends BaseService
     protected function setFields($order, array $fields, $prefix)
     {
         foreach ($fields as $handle => $value) {
+            if($handle == 'channel'){continue;}
             $field = $prefix . '_' . $handle;
             $order->setAttribute($field, $value);
         }
