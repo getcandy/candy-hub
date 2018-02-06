@@ -1,19 +1,9 @@
 <script>
     export default {
-        data() {
-            return {
-                code: ''
-            }
-        },
         props: {
             item: {
                 type: Object
             }
-        },
-        methods: {
-            sync(value) {
-                this.$set(this.item, 'value', this.code);
-            },
         }
     }
 </script>
@@ -22,7 +12,7 @@
     <div>
         <div class="form-group">
             <label for="">When the coupon equals</label>
-            <input type="text" class="form-control" @input="sync" v-model="code" />
+            <input type="text" class="form-control"  v-model="item.value" />
         </div>
     </div>
 </template>
