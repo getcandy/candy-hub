@@ -9,6 +9,10 @@
     <h1>@verbatim<template v-if="title">{{ title }}</template>@endverbatim</h1>
 @endsection
 
+@section('header_actions')
+    <candy-button style="display: inline-block;" override="save-customer">Save Customer</candy-button>
+@stop
+
 @section('content')
     <candy-customer-edit id="{{ $id }}"></candy-customer-edit>
 @endsection

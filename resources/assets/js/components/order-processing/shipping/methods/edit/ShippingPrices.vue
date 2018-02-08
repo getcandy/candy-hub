@@ -79,7 +79,7 @@
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Price deleted'
-                    });  
+                    });
                 });
             },
             edit(price) {
@@ -88,7 +88,7 @@
             },
             add() {
                 apiRequest.send('get', '/customers/groups').then(response => {
-                    
+
                     this.current = {
                         currency_id: this.defaultCurrency,
                         rate: '',
@@ -211,7 +211,7 @@
                                 <div class="input-group input-group-full">
                                     <span class="input-group-addon" v-html="symbol(current)"></span>
                                     <input type="number" class="form-control" v-model="current.rate">
-                                </div>   
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -230,7 +230,7 @@
                                 <div class="input-group input-group-full">
                                     <span class="input-group-addon" v-html="symbol(current)"></span>
                                     <input type="number" class="form-control" v-model="current.min_basket">
-                                </div>   
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">

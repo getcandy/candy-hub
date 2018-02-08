@@ -9,6 +9,8 @@
                 title: '',
                 loaded: false,
                 customer: {},
+                customerGroups: [],
+                selectedGroups: []
             }
         },
         props: {
@@ -19,24 +21,43 @@
         },
         created() {
             this.loadCustomer();
+            apiRequest.send('get', 'customers/groups').then(response => {
+                this.customerGroups = response.data;
+            });
+        },
+        mounted() {
+            Dispatcher.add('save-customer', this);
         },
         methods: {
+            save() {
+                this.customer.customer_groups = this.selectedGroups;
+                apiRequest.send('PUT', '/users/' + this.customer.id, this.customer).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success'
+                    });
+                });
+            },
             /**
              * Loads the customer by their ID
              * @param  {String} id
              */
             loadCustomer() {
                 apiRequest.send('get', '/customers/' + this.id, {}, {
-                    includes: 'addresses,orders'
+                    includes: 'addresses,orders,groups'
                 })
                 .then(response => {
                     this.customer = response.data;
                     this.loaded = true;
+                    this.selectedGroups = _.map(this.customer.groups.data, group => {
+                        console.log(group);
+                        return group.id;
+                    });
                     CandyEvent.$emit('title-changed', {
                         title: this.customer.firstname + ' ' + this.customer.lastname
                     });
                 }).catch(error => {
                 });
+
             },
             viewOrder(id) {
                 location.href = '/order-processing/orders/' + id;
@@ -48,29 +69,45 @@
 <template>
     <div>
         <template v-if="loaded">
-            <candy-tabs>
-                <candy-tab name="Customer Information" handle="collection-details" :selected="true">
+            <candy-tabs initial="save-customer">
+                <candy-tab name="Customer Information" handle="collection-details" :selected="true" dispatch="save-customer">
                     <div class="sub-panel">
                         <div class="sub-content block section">
                             <div class="row">
-                                <div class="col-xs-12">
-                                    <h4>Customer Details</h4>
-                                </div>
-                            </div>
+                                <div class="col-md-8">
+                                        <h4>Customer Details</h4>
                                     <hr>
-                            
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <strong>Customer Name</strong> <br>
-                                    {{ customer.firstname }} {{ customer.lastname }}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <strong>Customer Name</strong> <br>
+                                            {{ customer.firstname }} {{ customer.lastname }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>Company name</strong> <br>
+                                            {{ customer.company_name }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>Email address</strong> <br>
+                                            {{ customer.email }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <strong>Company name</strong> <br>
-                                    {{ customer.company_name }}
-                                </div>
-                                <div class="col-md-2">
-                                    <strong>Email address</strong> <br>
-                                    {{ customer.email }}
+                                <div class="col-md-4">
+                                    <h4>Customer Groups</h4>
+                                    <hr>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Group</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="group in customerGroups">
+                                                <td>{{ group.name }}</td>
+                                                <td><input type="checkbox" v-model="selectedGroups" :value="group.id"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">
