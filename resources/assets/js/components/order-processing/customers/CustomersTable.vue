@@ -7,7 +7,7 @@
                 keywords: null,
                 params: {
                     per_page: 50,
-                    current_page: 1,
+                    page: 1,
                     includes: 'user'
                 },
                 pagination: {}
@@ -19,6 +19,7 @@
         },
         methods: {
             loadCustomers() {
+                console.log(this.params);
                 apiRequest.send('get', '/customers', [], this.params)
                     .then(response => {
                         this.customers = response.data;
@@ -28,7 +29,7 @@
             },
             changePage(page) {
                 this.loaded = false;
-                this.params.current_page = page;
+                this.params.page = page;
                 this.loadCustomers();
             },
             loadCustomer: function (id) {
