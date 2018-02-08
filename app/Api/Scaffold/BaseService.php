@@ -117,7 +117,7 @@ abstract class BaseService
      */
     public function getPaginatedData($length = 50, $page = null)
     {
-        return $this->model->paginate($length, ['*'], 'page', $page);
+        return $this->model->orderBy('created_at', 'desc')->paginate($length, ['*'], 'page', $page);
     }
 
     /**
@@ -294,11 +294,11 @@ abstract class BaseService
         $query = $this->model->with($this->with)
             ->withoutGlobalScopes()
             ->whereIn('id', $parsedIds);
-        
+
         if (count($parsedIds)) {
             $query = $query->orderByRaw("field(id,{$placeholders})", $parsedIds);
         }
-            
+
         return $query->get();
     }
 
@@ -306,7 +306,7 @@ abstract class BaseService
      * Gets the mapping for the channel data
      *
      * @param array $data
-     * 
+     *
      * @return void
      */
     protected function getChannelMapping($data)
@@ -344,7 +344,7 @@ abstract class BaseService
      *
      * @param string $hashedId
      * @param array $data
-     * 
+     *
      * @return Model
      */
     public function update($hashedId, array $data)
@@ -400,7 +400,7 @@ abstract class BaseService
      * Sets the channel mapping
      *
      * @param array $channels
-     * 
+     *
      * @return array
      */
     protected function setChannelMapping($channels = [])
