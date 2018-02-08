@@ -126,6 +126,7 @@ $this->resource('layouts', 'Layouts\LayoutController', [
 /**
  * Orders
  */
+$this->get('orders/{id}/invoice', 'Orders\OrderController@invoice');
 $this->resource('orders', 'Orders\OrderController', [
     'only' => ['index', 'update']
 ]);
