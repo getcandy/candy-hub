@@ -57,6 +57,7 @@ class UserService extends BaseService
     {
         $user = new User();
 
+
         if (isset($data['id'])) {
             $user->id = $data['id'];
         }
@@ -103,9 +104,14 @@ class UserService extends BaseService
         $user = $this->getByHashedId($userId);
 
         $user->email = $data['email'];
-        $user->title = $data['title'];
+
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
+
+        if (!empty($data['title'])) {
+            $user->title = $data['title'];
+        }
+
         if (!empty($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
         }
@@ -114,6 +120,14 @@ class UserService extends BaseService
         }
         if (!empty($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
+        }
+
+        if (!empty($data['customer_groups'])) {
+            $groupData = app('api')->customerGroups()->getDecodedIds($data['customer_groups']);
+            $user->groups()->sync($groupData);
+        } else {
+            $default = app('api')->customerGroups()->getDefaultRecord();
+            $user->groups()->attach($default);
         }
 
         $user->save();

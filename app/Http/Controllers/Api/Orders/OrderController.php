@@ -209,4 +209,11 @@ class OrderController extends BaseController
         }
         return $this->respondWithItem($order, new OrderTransformer);
     }
+
+    public function invoice($id, Request $request)
+    {
+        $order = app('api')->orders()->getPdf($id);
+
+        dd($order);
+    }
 }

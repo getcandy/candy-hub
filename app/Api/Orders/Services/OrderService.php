@@ -473,4 +473,11 @@ class OrderService extends BaseService
         $order->save();
         return $order;
     }
+
+    public function getPdf($orderId)
+    {
+        $order = $this->getByHashedId($orderId);
+
+        dd($order);
+    }
 }

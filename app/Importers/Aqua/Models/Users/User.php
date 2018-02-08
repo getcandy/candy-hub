@@ -29,6 +29,7 @@ class User extends BaseModel
      */
     public function attributesToArray()
     {
+
         $data = [
             'id' => $this->user_id,
             'firstname' => $this->firstname,
@@ -38,9 +39,9 @@ class User extends BaseModel
             'salt' => $this->salt,
             'contact_number' => $this->phone,
             'email' => $this->email,
-            'language_id' => app('api')->languages()->getEnabledByLang($this->lang_code)->id,
-            'password' => 'getcandyreset'
+            'language_id' => app('api')->languages()->getEnabledByLang($this->lang_code)->id
         ];
+
 
         $groups = [];
 
