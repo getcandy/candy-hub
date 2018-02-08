@@ -308,6 +308,8 @@
                                         <template v-else>
                                             {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
                                         </template>
+                                        <br>
+                                        <a :href="'/order-processing/orders/pdf/'+ order.id">Download Invoice</a>
                                         <br><br>
                                         <div class="row">
                                             <div class="col-md-6">
