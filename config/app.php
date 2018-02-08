@@ -175,7 +175,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Alaouy\Youtube\YoutubeServiceProvider::class,
         Tightenco\Ziggy\ZiggyServiceProvider::class,
-
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
