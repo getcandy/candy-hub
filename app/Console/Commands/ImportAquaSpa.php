@@ -44,24 +44,24 @@ class ImportAquaSpa extends Command
      */
     public function handle()
     {
-        $this->call('migrate:refresh', [
-            '--seed' => true
-        ]);
+        // $this->call('migrate:refresh', [
+        //     '--seed' => true
+        // ]);
         $driver = $this->argument('driver');
         $this->importer = app($driver . '.importer');
 
         \Auth::loginUsingId(2);
 
-        $this->importChannels();
-        $this->importCustomerGroups();
-        $this->importShippingZones();
-        $this->importShippingMethods();
-        $this->importProductFamilies();
-        $this->importCategories();
+        // $this->importChannels();
+        // $this->importCustomerGroups();
+        // $this->importShippingZones();
+        // $this->importShippingMethods();
+        // $this->importProductFamilies();
+        // $this->importCategories();
         $this->importUsers();
         $this->importOrders();
-        $this->importProducts();
-        $this->importDiscounts();
+        // $this->importProducts();
+        // $this->importDiscounts();
 
         $this->info('Done!');
     }
@@ -69,7 +69,7 @@ class ImportAquaSpa extends Command
     protected function importDiscounts()
     {
         $discounts = $this->importer->getDiscounts();
-        
+
         foreach ($discounts as $index => $discount) {
             $model = app('api')->discounts()->create($discount);
 
@@ -84,7 +84,7 @@ class ImportAquaSpa extends Command
      *
      * @param Discount $model
      * @param array $conditions
-     * 
+     *
      * @return void
      */
     protected function mapSets($index, $model, array $discount)
@@ -292,6 +292,11 @@ class ImportAquaSpa extends Command
         $bar = $this->output->createProgressBar(count($orders));
 
         foreach ($orders as $order) {
+            if (\GetCandy\Api\Orders\Models\Order::withoutGlobalScopes()->find($order->order_id)) {
+                $bar->advance();
+                continue;
+            }
+
             \DB::table('orders')->insert([
                 $order->toArray()
             ]);
@@ -320,8 +325,13 @@ class ImportAquaSpa extends Command
         $bar = $this->output->createProgressBar(count($users));
 
         foreach ($users as $user) {
+            if (\GetCandy\Api\Auth\Models\User::find($user->user_id)) {
+                $bar->advance();
+                continue;
+            }
             $model = app('api')->users()->create($user->toArray());
 
+            // dd('hit');
             foreach ($user->profiles as $addresses) {
                 foreach ($addresses->toArray() as $type => $data) {
                     app('api')->addresses()->addAddress($model, $data, $type);
@@ -377,7 +387,7 @@ class ImportAquaSpa extends Command
                     }
                 }
             }
-            
+
             $bar->advance();
         }
 
@@ -485,7 +495,7 @@ class ImportAquaSpa extends Command
             foreach ($product['prices'] as $index => $price) {
                 $product['prices'][$index]['tax_id'] = $product['tax_id'];
             }
-            
+
             // This is seperated cause we wanna do two different things...
             if (count($product['options'])) {
                 $variants = [];
@@ -493,7 +503,7 @@ class ImportAquaSpa extends Command
                     if (!count($option['description'])) {
                         continue;
                     }
-                    
+
                     $name = str_slug($option['description'][0]['option_name']);
                     foreach ($option['variants'] as $vIndex => $variant) {
                         foreach ($variant['description'] as $vDesc) {
@@ -520,7 +530,7 @@ class ImportAquaSpa extends Command
                         }
                     }
                 }
-                
+
                 app('api')->productVariants()->create($model->encodedId(), ['variants' => $variants]);
                 foreach ($model->variants as $variant) {
                     $variant->image()->associate($model->primaryAsset());
@@ -541,7 +551,7 @@ class ImportAquaSpa extends Command
                 ];
 
                 app('api')->productVariants()->create($model->encodedId(), ['variants' => [$variant]]);
-                
+
                 foreach ($model->variants as $variant) {
                     $variant->image()->associate($model->primaryAsset());
                     $variant->save();
