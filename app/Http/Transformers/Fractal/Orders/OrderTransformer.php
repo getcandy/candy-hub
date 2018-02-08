@@ -34,7 +34,8 @@ class OrderTransformer extends BaseTransformer
             'billing' => $order->billing_details,
             'shipping' => $order->shipping_details,
             'status' => $order->status,
-            'created_at' => $order->created_at
+            'created_at' => $order->created_at,
+            'notes' => $order->notes
         ];
         return $data;
     }
