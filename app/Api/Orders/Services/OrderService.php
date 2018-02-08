@@ -38,7 +38,7 @@ class OrderService extends BaseService
         $basket = app('api')->baskets()->getByHashedId($basketId);
 
         app('api')->baskets()->setTotals($basket);
-    
+
         if ($basket->order) {
             $order = $basket->order;
         } else {
@@ -414,7 +414,7 @@ class OrderService extends BaseService
      */
     public function getPaginatedData($length = 50, $page = 1, $user = null)
     {
-        $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
+        $query = $this->model->orderBy('created_at', 'desc')->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         if (!app('auth')->user()->hasRole('admin')) {
             $query = $query->whereHas('user', function ($q) use ($user) {
                 $q->whereId($user->id);
