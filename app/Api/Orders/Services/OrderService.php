@@ -12,6 +12,7 @@ use GetCandy\Api\Orders\Events\OrderBeforeSavedEvent;
 use GetCandy\Api\Orders\Events\OrderProcessedEvent;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 
 class OrderService extends BaseService
 {
@@ -478,6 +479,20 @@ class OrderService extends BaseService
     {
         $order = $this->getByHashedId($orderId);
 
-        dd($order);
+        //return \View::make('order-processing.orders.pdf');
+        $dompdf = new Dompdf();
+
+        // Load view
+        $dompdf->loadHtml('hellow');
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream();
+
     }
 }
