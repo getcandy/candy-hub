@@ -97,6 +97,11 @@ class Order extends BaseModel
         })->toArray();
     }
 
+    public function getRefAttribute()
+    {
+        return '#ORD-' . str_pad(($this->reference ? : $this->id), 4, 0, STR_PAD_LEFT);
+    }
+
     public function getCustomerNameAttribute()
     {
         $name = null;

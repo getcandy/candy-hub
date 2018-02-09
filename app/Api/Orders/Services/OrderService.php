@@ -393,7 +393,7 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
-            $order->status = 'complete';
+            $order->status = 'payment-received';
         }
 
         $order->save();
