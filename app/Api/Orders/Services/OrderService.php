@@ -393,7 +393,7 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
-            $order->status = 'complete';
+            $order->status = 'payment-received';
         }
 
         $order->save();
@@ -481,6 +481,5 @@ class OrderService extends BaseService
 
         $pdf = PDF::loadView('order-processing.orders.pdf', $order);
         return $pdf->download('invoice.pdf');
-
     }
 }
