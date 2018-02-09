@@ -148,9 +148,9 @@ const app = new Vue({
           this.title = event.prefix + ' ';
         }
         if (_.isString(event.title)) {
-          this.title += event.title;
+          this.title = event.title;
         } else {
-          this.title += this.$options.filters.attribute(event.title, 'name');
+          this.title = this.$options.filters.attribute(event.title, 'name');
         }
       });
     }
