@@ -120,20 +120,19 @@
                                 <p>
 
                                 <h3>Billing</h3>
-                                {% set billing = order.billing %}
-                                {{ billing.firstname }} {{ billing.lastname }}<br>
-                                {{ billing.address }}
-                                {% if billing.address_two %}
-                                    {{ billing.address_two }} <br>
+                                {{ order.billing_firstname }} {{ order.billing_lastname }}<br>
+                                {{ order.billing_address }}
+                                {% if order.billing_address_two %}
+                                    {{ order.billing_address_two }} <br>
                                 {% endif %}
-                                 {% if billing.address_three %}
-                                    {{ billing.address_three }} <br>
+                                 {% if order.billing_address_three %}
+                                    {{ order.billing_address_three }} <br>
                                 {% endif %}
-                                {{ billing.city }}<br>
-                                {{ billing.county }} <br>
-                                {{ billing.state }}<br>
-                                {{ billing.zip }}<br>
-                                {{ billing.country }}
+                                {{ order.billing_city }}<br>
+                                {{ order.billing_county }} <br>
+                                {{ order.billing_state }}<br>
+                                {{ order.billing_zip }}<br>
+                                {{ order.billing_country }}
                                 {% if order.user.vat_no %}
                                     <p>VAT No.: {{ order.user.vat_no }}</p>
                                 {% endif %}
@@ -176,7 +175,7 @@
             {% set euros = order.currency != 'GBP' %}
 
 
-            {% for item in order.lines.data %}
+            {% for item in order.lines %}
                 <tr class="item">
                     <td>
                         {{ item.product }} <br>
@@ -193,7 +192,7 @@
                     </td>
                 </tr>
             {% endfor %}
-            {% for discount in order.discounts.data %}
+            {% for discount in order.discounts %}
                 <tr>
                     <td colspan="5"></td>
                     <td align="right">{{ discount.coupon }}</td>
