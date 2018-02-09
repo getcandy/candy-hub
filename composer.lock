@@ -4226,12 +4226,12 @@
             "version": "3.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vinkla/laravel-vimeo.git",
+                "url": "https://github.com/vimeo/laravel.git",
                 "reference": "1fbb9ae7daf4f6a315456726c527c4835b8302a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vinkla/laravel-vimeo/zipball/1fbb9ae7daf4f6a315456726c527c4835b8302a1",
+                "url": "https://api.github.com/repos/vimeo/laravel/zipball/1fbb9ae7daf4f6a315456726c527c4835b8302a1",
                 "reference": "1fbb9ae7daf4f6a315456726c527c4835b8302a1",
                 "shasum": ""
             },
@@ -4285,6 +4285,7 @@
                 "video",
                 "vimeo"
             ],
+            "abandoned": "vimeo/laravel",
             "time": "2017-09-02T21:55:20+00:00"
         },
         {

@@ -212,9 +212,7 @@ class OrderController extends BaseController
 
     public function invoice($id, Request $request)
     {
-        print_r('invoice');exit;
-        $order = app('api')->orders()->getPdf($id);
+        return app('api')->orders()->getPdf($id);
 
-        dd($order);
     }
 }
