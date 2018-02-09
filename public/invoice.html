@@ -52,6 +52,7 @@
         line-height:inherit;
         text-align:left;
     }
+
     .invoice-box table td{
         padding:5px;
         vertical-align:top;
@@ -100,11 +101,11 @@
                     <table>
                         <tr>
                             <td class="title" align="left">
+                                <h3>Order Invoice</h3>
                             </td>
                             <td align="right">
                                 Invoice #: ORD-{{ '%06d'|format(order.id) }} <br>
-                                Created: {{ order.invoice_date|date('dS F Y') }}<br>
-                                Purchased: {{ order.purchased_at ? order.purchased_at|date('dS F Y') : 'Unknown' }}<br>
+                                Created: {{ order.created_at|date('dS F Y') }}<br>
                             </td>
                         </tr>
                     </table>
@@ -117,23 +118,24 @@
                         <tr>
                             <td align="left">
                                 <p>
-                                {% if customer.group.handle == 'trade' or customer.group.handle == 'trade_int' %}
-                                    {{ customer.company_name }}
-                                {% else %}
-                                    {{ customer.salutation }} {{ customer.first_name }} {{ customer.last_name }}<br>
+
+                                <h3>Billing</h3>
+                                {% set billing = order.billing %}
+                                {{ billing.firstname }} {{ billing.lastname }}<br>
+                                {{ billing.address }}
+                                {% if billing.address_two %}
+                                    {{ billing.address_two }} <br>
                                 {% endif %}
-                                {{ address.line_one }}<br>
-                                {% if address.line_two %}
-                                    {{ address.line_two }} <br>
+                                 {% if billing.address_three %}
+                                    {{ billing.address_three }} <br>
                                 {% endif %}
-                                {% if address.town %}
-                                    {{ address.town }} <br>
-                                {% endif %}
-                                {{ address.county }}<br>
-                                {{ address.post_code }}<br>
-                                {{ address.country }}</p>
-                                {% if customer.vat_number %}
-                                    <p>VAT No.: {{ customer.vat_number }}</p>
+                                {{ billing.city }}<br>
+                                {{ billing.county }} <br>
+                                {{ billing.state }}<br>
+                                {{ billing.zip }}<br>
+                                {{ billing.country }}
+                                {% if order.user.vat_no %}
+                                    <p>VAT No.: {{ order.user.vat_no }}</p>
                                 {% endif %}
                             </td>
 
@@ -202,6 +204,11 @@
                 <td colspan="5"></td>
                 <td align="right">Tax</td>
                 <td align="right">{{ (euros ? '&euro;' : '&pound;')|raw }}{{ order.vat|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td align="right">Shipping</td>
+                <td align="right">{{ (euros ? '&euro;' : '&pound;')|raw }}{{ order.shipping_total }} {{ order.shipping_method }}</td>
             </tr>
             <tr>
                 <td colspan="5"></td>
