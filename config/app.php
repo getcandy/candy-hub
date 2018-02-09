@@ -188,7 +188,7 @@ return [
         GetCandy\Providers\RouteServiceProvider::class,
         GetCandy\Providers\CmsServiceProvider::class,
         GetCandy\Providers\PluginServiceProvider::class,
-        GetCandy\Providers\ImporterServiceProvider::class
+        GetCandy\Providers\ImporterServiceProvider::class,
 
     ],
 
@@ -242,7 +242,8 @@ return [
         'CurrencyConverter' => Facades\GetCandy\Api\Currencies\CurrencyConverter::class,
         'TaxCalculator' => Facades\GetCandy\Api\Taxes\TaxCalculator::class,
         'PriceCalculator' => Facades\GetCandy\Api\Pricing\PriceCalculator::class,
-        'GetCandy' => Facades\GetCandy\Api\Helpers\GetCandy::class
+        'GetCandy' => Facades\GetCandy\Api\Helpers\GetCandy::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

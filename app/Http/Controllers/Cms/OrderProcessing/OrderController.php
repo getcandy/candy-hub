@@ -19,8 +19,7 @@ class OrderController extends Controller
 
     public function invoice($id)
     {
-        $order = app('api')->orders()->getPdf($id);
-        print_r($order);exit;
+        return app('api')->orders()->getPdf($id);
     }
 
 }
