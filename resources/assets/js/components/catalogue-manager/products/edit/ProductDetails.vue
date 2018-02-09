@@ -29,6 +29,9 @@
                         CandyEvent.$emit('notification', {
                             level: 'success'
                         });
+                        CandyEvent.$emit('title-changed', {
+                            title: this.product
+                        });
                     }).catch(response => {
                     CandyEvent.$emit('notification', {
                         level: 'error',
