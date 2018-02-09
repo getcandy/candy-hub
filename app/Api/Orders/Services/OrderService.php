@@ -479,8 +479,8 @@ class OrderService extends BaseService
     {
         $order = $this->getByHashedId($orderId);
 
-        $pdf = PDF::loadView('order-processing.orders.pdf', $order);
-        return $pdf->download('invoice.pdf');
+        $pdf = PDF::loadView('pdf.order-invoice', ['order' => $order, 'lines' => $order->lines()->get(), 'discounts' => $order->discounts()->get()]);
+        return $pdf->stream('invoice.pdf');
 
     }
 }

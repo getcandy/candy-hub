@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{ title }}</title>
+    <title></title>
     <style>
     /**
  * For modern browsers
@@ -60,32 +60,32 @@
     .invoice-box table tr td:nth-child(2){
         text-align:right;
     }
-    .invoice-box table tr.top table td{
+    .invoice-box table tr->top table td{
         padding-bottom:20px;
     }
-    .invoice-box table tr.top table td.title{
+    .invoice-box table tr->top table td.title{
         font-size:45px;
         line-height:45px;
         color:#333;
     }
-    .invoice-box table tr.information table td{
+    .invoice-box table tr->information table td{
         padding-bottom:40px;
     }
-    .invoice-box table tr.heading td{
+    .invoice-box table tr->heading td{
         background:#eee;
         border-bottom:1px solid #ddd;
         font-weight:bold;
     }
-    .invoice-box table tr.details td{
+    .invoice-box table tr->details td{
         padding-bottom:20px;
     }
-    .invoice-box table tr.item td{
+    .invoice-box table tr->item td{
         border-bottom:1px solid #eee;
     }
-    .invoice-box table tr.item.last td{
+    .invoice-box table tr->item.last td{
         border-bottom:none;
     }
-    .invoice-box table tr.total td {
+    .invoice-box table tr->total td {
         border-top:2px solid #eee;
         font-weight:bold;
     }
@@ -104,8 +104,8 @@
                                 <h3>Order Invoice</h3>
                             </td>
                             <td align="right">
-                                Invoice #: ORD-{{ '%06d'|format(order.id) }} <br>
-                                Created: {{ order.created_at|date('dS F Y') }}<br>
+                                Invoice #: ORD-{{ $order->id }} <br>
+                                Created: {{ $order->created_at }}<br>
                             </td>
                         </tr>
                     </table>
@@ -120,22 +120,22 @@
                                 <p>
 
                                 <h3>Billing</h3>
-                                {{ order.billing_firstname }} {{ order.billing_lastname }}<br>
-                                {{ order.billing_address }}
-                                {% if order.billing_address_two %}
-                                    {{ order.billing_address_two }} <br>
-                                {% endif %}
-                                 {% if order.billing_address_three %}
-                                    {{ order.billing_address_three }} <br>
-                                {% endif %}
-                                {{ order.billing_city }}<br>
-                                {{ order.billing_county }} <br>
-                                {{ order.billing_state }}<br>
-                                {{ order.billing_zip }}<br>
-                                {{ order.billing_country }}
-                                {% if order.user.vat_no %}
-                                    <p>VAT No.: {{ order.user.vat_no }}</p>
-                                {% endif %}
+                                {{ $order->billing_firstname }} {{ $order->billing_lastname }}<br>
+                                {{ $order->billing_address }}
+                                @if ($orde->billing_address_two)
+                                    {{ $order->billing_address_two }} <br>
+                                @endif
+                                @if ($order->billing_address_three)
+                                    {{ order->billing_address_three }} <br>
+                                @endif
+                                {{ order->billing_city }}<br>
+                                {{ order->billing_county }} <br>
+                                {{ order->billing_state }}<br>
+                                {{ order->billing_zip }}<br>
+                                {{ order->billing_country }}
+                                @if(order->vat_no)
+                                    <p>VAT No.: {{ order->vat_no }}</p>
+                                @endif
                             </td>
 
                             <td align="right">
@@ -172,51 +172,50 @@
                 </td>
             </tr>
 
-            {% set euros = order.currency != 'GBP' %}
-
-
-            {% for item in order.lines %}
+            @foreach ($order->lines() as $item)
                 <tr class="item">
                     <td>
                         {{ item.product }} <br>
-                        {% if item.product != item.variant %}<small>{{ item.variant }}</small>{% endif %}
+                        @if ($item->product != $item->variant)
+                        <small>{{ $item.variant }}</small>
+                        @endif
                     </td>
                     <td>
-                        {{ item.sku }}
+                        {{ $item->sku }}
                     </td>
                     <td>
-                        {{ (euros ? '&euro;' : '&pound;')|raw }}{{ item.total|number_format(2) }}
+                        &pound;{{ $item->total }}
                     </td>
                     <td>
-                        {{ item.quantity }}
+                        {{ $item->quantity }}
                     </td>
                 </tr>
-            {% endfor %}
-            {% for discount in order.discounts %}
+            @endforeach
+            @foreach ($order->discounts() as $discount)
                 <tr>
                     <td colspan="5"></td>
-                    <td align="right">{{ discount.coupon }}</td>
-                    <td align="right">{{ discount.amount }}%</td>
+                    <td align="right">{{ $discount->coupon }}</td>
+                    <td align="right">{{ $discount->amount }}%</td>
                 </tr>
-            {% endif %}
+            @endif
             <tr>
                 <td colspan="5"></td>
                 <td align="right">Tax</td>
-                <td align="right">{{ (euros ? '&euro;' : '&pound;')|raw }}{{ order.vat|number_format(2) }}</td>
+                <td align="right">&euro;{{ $order->vat }}</td>
             </tr>
             <tr>
                 <td colspan="5"></td>
                 <td align="right">Shipping</td>
-                <td align="right">{{ (euros ? '&euro;' : '&pound;')|raw }}{{ order.shipping_total }} {{ order.shipping_method }}</td>
+                <td align="right">&euro;{{ $order->shipping_total }} {{ $order->shipping_method }}</td>
             </tr>
             <tr>
                 <td colspan="5"></td>
                 <td align="right">Total</td>
-                <td align="right">{{ (euros ? '&euro;' : '&pound;')|raw }}{{ (order.total)|number_format(2) }}</td>
+                <td align="right">&euro;{{ $order->total }}</td>
             </tr>
         </table>
         <p><strong>Order Notes</strong><br>
-        {{ order.notes ?: 'N/A' }}</p>
+        {{ $order->notes }}</p>
         <br>
     </div>
     </div>
