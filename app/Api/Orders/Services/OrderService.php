@@ -12,7 +12,7 @@ use GetCandy\Api\Orders\Events\OrderBeforeSavedEvent;
 use GetCandy\Api\Orders\Events\OrderProcessedEvent;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 use Carbon\Carbon;
-use Dompdf\Dompdf;
+use PDF;
 
 class OrderService extends BaseService
 {
@@ -479,7 +479,7 @@ class OrderService extends BaseService
     {
         $order = $this->getByHashedId($orderId);
 
-        $pdf = \PDF::loadView('order-processing.orders.pdf', $order);
+        $pdf = PDF::loadView('order-processing.orders.pdf', $order);
         return $pdf->download('invoice.pdf');
 
     }
