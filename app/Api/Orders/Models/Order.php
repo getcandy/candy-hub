@@ -84,7 +84,7 @@ class Order extends BaseModel
      * Gets the details, mainly for contact info
      *
      * @param string $type
-     * 
+     *
      * @return array
      */
     protected function getDetails($type)
@@ -100,17 +100,21 @@ class Order extends BaseModel
     public function getCustomerNameAttribute()
     {
         $name = null;
-        
+
         if ($billing = $this->getDetails('billing')) {
             $name = $billing['firstname'] . ' ' . $billing['lastname'];
         }
 
         if ($this->user) {
-            $name = $this->user->name;
+            if ($this->user->company_name) {
+                $name = $this->user->company_name;
+            } else {
+                $name = $this->user->name;
+            }
         }
-        
+
         if (!$name || $name == ' ') {
-            return 'Guest';
+            return 'Guest Checkout';
         }
         return $name;
     }
