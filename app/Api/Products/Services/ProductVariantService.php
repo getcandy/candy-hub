@@ -224,7 +224,7 @@ class ProductVariantService extends BaseService
         if (isset($data['group_pricing']) && !$data['group_pricing']) {
             $variant->customerPricing()->delete();
         }
-        if (!isset($data['inventory'])) {
+        if (isset($data['inventory'])) {
             $variant->stock = $data['inventory'];
         }
 
