@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
         \GetCandy\Console\Commands\ImportAquaSpa::class,
         \GetCandy\Console\Commands\IndexRefreshCommand::class,
         \GetCandy\Console\Commands\SyncDescriptionsCommand::class,
-        \GetCandy\Console\Commands\InstallGetCandyCommand::class
+        \GetCandy\Console\Commands\InstallGetCandyCommand::class,
+        \GetCandy\Console\Commands\SyncCustomerGroups::class
     ];
 
     /**
