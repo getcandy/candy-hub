@@ -123,8 +123,13 @@ class UserService extends BaseService
         if (!empty($data['company_name'])) {
             $user->company_name = $data['company_name'];
         }
-        if (!empty($data['contact_number'])) {
-            $user->contact_number = $data['contact_number'];
+
+        if (!empty($data['vat_no'])) {
+            $user->vat_no = $data['vat_no'];
+        }
+
+        if (!empty($data['password'])) {
+            $user->password = bcrypt($data['password']);
         }
 
         if (!empty($data['customer_groups'])) {
