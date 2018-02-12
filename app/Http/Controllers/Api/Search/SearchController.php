@@ -21,7 +21,7 @@ class SearchController extends BaseController
      *
      * @param Request $request
      * @param SearchContract $client
-     * 
+     *
      * @return Array
      */
     public function search(SearchRequest $request, SearchContract $client)
@@ -36,13 +36,13 @@ class SearchController extends BaseController
             $page = $request->page;
         }
 
-        
         try {
             $results = $client
                 ->client()
                 ->language(app()->getLocale())
                 ->on($request->channel)
                 ->against($this->types[$request->type])
+                ->user($request->user())
                 ->search(
                     $request->keywords,
                     $request->filters,
