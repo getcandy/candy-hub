@@ -40,7 +40,7 @@
         },
         mounted() {
             this.assets = this.product.assets.data;
-            
+
             this.groupPricing = this.current.pricing.data.length >= 1;
 
             CandyEvent.$on('asset_deleted', event => {
@@ -64,14 +64,14 @@
                         value: item.id
                     };
                 });
-                
+
                 this.priceTiers = _.map(this.current.tiers.data, item => {
                     return {
                         'lower_limit' : item.lower_limit,
                         'price' : item.price,
                         'customer_group_id' : item.group.data.id
                     };
-                });                
+                });
             });
 
             Dispatcher.add('product-variants', this);
@@ -418,7 +418,7 @@
                                                     </div>
                                                 </div>
                                             </candy-disabled>
-                                            <div class="col-md-4"> 
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>Tax</label>
                                                     <candy-select :options="taxes" v-model="group.tax_id"></candy-select>
@@ -431,7 +431,7 @@
                                             <label>Price</label>
                                             <div class="input-group input-group-full">
                                                 <span class="input-group-addon">&pound;</span>
-                                                <input type="number" class="form-control" v-model="singlePrice">
+                                                <input type="number" class="form-control" v-model="current.price">
                                             </div>
                                         </div>
                                         <candy-disabled>
@@ -445,7 +445,7 @@
                                             </div>
                                         </div>
                                         </candy-disabled>
-                                        <div class="col-md-4"> 
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Tax</label>
                                                 <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
@@ -484,7 +484,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
 
