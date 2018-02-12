@@ -94,14 +94,14 @@
                                 </td>
 
                                 <td align="right" width="50%">
-                                    <strong>Aqua Warehouse LTD</strong><br>
-                                    Unit 2 Rignals Lane<br>
-                                    Chelmsford<br>
-                                    Essex<br>
-                                    CM2 8RF<br>
-                                    United Kingdom
-                                    <p>VAT No.: GB820301490</p>
-                                    <p>Tel No: 01245 477400</p>
+                                    <strong>{{ $settings['address']['address'] }}</strong><br>
+                                    {{ $settings['address']['address_two'] }}<br>
+                                    {{ $settings['address']['city'] }}<br>
+                                    {{ $settings['address']['state'] }}<br>
+                                    {{ $settings['address']['zip'] }}<br>
+                                    {{ $settings['address']['country'] }}<br>
+                                    <p>VAT No.: {{ $settings['tax']['vat_number'] }}</p>
+                                    <p>Tel No: {{ $settings['contact']['telephone'] }}</p>
                                 </td>
                             </tr>
                         </table>
@@ -179,7 +179,7 @@
                     <td align="right" style="border-top: 2px solid #ccc;">&pound;{{ $order->total }}</td>
                 </tr>
             </table>
-            
+
             <p><strong>Order Notes</strong><br>
             {{ $order->notes }}</p>
             <br>
