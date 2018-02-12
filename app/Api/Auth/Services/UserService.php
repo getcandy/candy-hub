@@ -105,8 +105,13 @@ class UserService extends BaseService
 
         $user->email = $data['email'];
 
-        $user->firstname = $data['firstname'];
-        $user->lastname = $data['lastname'];
+        if (!empty($data['firstname'])) {
+            $user->firstname = $data['firstname'];
+        }
+
+        if (!empty($data['lastname'])) {
+            $user->lastname = $data['lastname'];
+        }
 
         if (!empty($data['title'])) {
             $user->title = $data['title'];
