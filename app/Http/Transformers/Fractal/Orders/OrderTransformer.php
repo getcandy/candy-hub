@@ -21,6 +21,7 @@ class OrderTransformer extends BaseTransformer
             'id' => $order->encodedId(),
             'total' => (float) number_format($order->total, 2),
             'reference' => $order->ref,
+            'invoice_reference' => $order->invoice_reference,
             'vat' => (float) number_format($order->vat, 2),
             'vat_no' => $order->vat_no,
             'tracking_no' => $order->tracking_no,

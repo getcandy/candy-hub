@@ -99,7 +99,15 @@ class Order extends BaseModel
 
     public function getRefAttribute()
     {
-        return '#ORD-' . str_pad(($this->reference ? : $this->id), 4, 0, STR_PAD_LEFT);
+        return '#ORD-' . str_pad($this->id, 4, 0, STR_PAD_LEFT);
+    }
+
+    public function getInvoiceReferenceAttribute()
+    {
+        if ($this->reference) {
+            return '#INV-' . str_pad($this->reference, 4, 0, STR_PAD_LEFT);
+        }
+        return null;
     }
 
     public function getCustomerNameAttribute()
