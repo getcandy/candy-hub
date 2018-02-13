@@ -47,13 +47,14 @@ class SearchService
         $transformer = new $this->types[$type];
 
         $resource = new Collection($collection, $transformer);
-        $data = app()->fractal->createData($resource)->toArray();
 
         $resource->setMeta([
             'pagination' => $this->getPagination($results, $page),
             'aggregation' => $this->getSearchAggregator($results),
             'suggestions' => $this->getSuggestions($results)
         ]);
+
+        $data = app()->fractal->createData($resource)->toArray();
 
         return $data;
     }
