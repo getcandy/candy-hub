@@ -393,7 +393,13 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
+            $settings = app('api')->settings()->get('invoices');
             $order->status = 'payment-received';
+            $order->reference = $settings->content['next_id'];
+            $data = $settings->content;
+            $data['next_id'] = $order->reference + 1;
+            $settings->content = $data;
+            $settings->save();
         }
 
         $order->save();

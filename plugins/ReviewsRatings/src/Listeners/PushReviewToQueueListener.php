@@ -14,6 +14,11 @@ class PushReviewToQueueListener
     public function handle(OrderProcessedEvent $event)
     {
         $order = $event->order;
+
+        if ($order->status != 'payment-received') {
+            return;
+        }
+
         $details = $order->billingDetails;
 
         $data = [
@@ -21,7 +26,7 @@ class PushReviewToQueueListener
             'apikey' => config('services.reviews.key'),
             'name' => $details['firstname'] . ' ' . $details['lastname'],
             'email' => $order->contact_email,
-            'order_id' => $order->encodedId()
+            'order_id' => $order->ref
         ];
 
         // Post request

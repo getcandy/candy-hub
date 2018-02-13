@@ -56,10 +56,11 @@
                         <table width="100%">
                             <tr>
                                 <td class="title" align="left" width="50%">
+                                    <img src="{{ url('/images/logo/logo.jpg') }}" width="100px">
                                     <h3>Order Invoice</h3>
                                 </td>
                                 <td align="right" width="50%">
-                                    Invoice #: ORD-{{ @$order->id }} <br>
+                                    Invoice: {{ @$order->invoice_reference }} <br>
                                     Created: {{ $order->created_at }}<br>
                                 </td>
                             </tr>
@@ -67,13 +68,13 @@
                     </td>
                 </tr>
             </table>
-            
+
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td>
                         <table width="100%">
                             <tr>
-                                <td align="left" width="50%">
+                                <td align="left" width="33%">
                                     <h3>Billing</h3>
                                     {{ $order->billing_firstname }} {{ @$order->billing_lastname }}<br>
                                     {{ $order->billing_address }}
@@ -93,7 +94,24 @@
                                     @endif
                                 </td>
 
-                                <td align="right" width="50%">
+                                <td align="left" width="33%">
+                                    <h3>Shipping</h3>
+                                    {{ $order->shipping_firstname }} {{ @$order->shipping_lastname }}<br>
+                                    {{ $order->shipping_address }}
+                                    @if ($order->shipping_address_two)
+                                        {{ $order->shipping_address_two }} <br>
+                                    @endif
+                                    @if ($order->shipping_address_three)
+                                        {{ $order->shipping_address_three }} <br>
+                                    @endif
+                                    {{ $order->shipping_city }}<br>
+                                    {{ $order->shipping_county }}<br>
+                                    {{ $order->shipping_state }}<br>
+                                    {{ $order->shipping_zip }}<br>
+                                    {{ $order->shipping_country }}
+                                </td>
+
+                                <td align="right" width="33%">
                                     <strong>{{ $settings['address']['address'] }}</strong><br>
                                     {{ $settings['address']['address_two'] }}<br>
                                     {{ $settings['address']['city'] }}<br>
@@ -180,9 +198,11 @@
                 </tr>
             </table>
 
+            @if($order->notes)
             <p><strong>Order Notes</strong><br>
             {{ $order->notes }}</p>
             <br>
+            @endif
         </div>
     </div>
 </body>
