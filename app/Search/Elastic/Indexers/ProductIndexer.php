@@ -30,7 +30,7 @@ class ProductIndexer extends BaseIndexer
     public function rankings()
     {
         return [
-            "name^5",  "name.english^3", "description^1"
+            "name^5",  "sku^4", "name.english^3", "description^1"
         ];
     }
 
