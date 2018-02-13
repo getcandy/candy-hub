@@ -268,12 +268,6 @@ class OrderService extends BaseService
      */
     public function syncWithBasket(Order $order, Basket $basket)
     {
-        $basket = app('api')->baskets()->setTotals($basket);
-
-        $order->total = $basket->total;
-        $order->vat = $basket->vat_total;
-        $order->currency = $basket->currency;
-
         $order->lines()->delete();
         $order->discounts()->delete();
 
@@ -284,6 +278,10 @@ class OrderService extends BaseService
         $order->lines()->createMany(
             $this->mapOrderLines($basket)
         );
+
+        $order->total = $basket->total;
+        $order->vat = $basket->vat_total;
+        $order->currency = $basket->currency;
 
         $order->save();
 
