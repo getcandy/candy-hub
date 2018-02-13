@@ -21,8 +21,8 @@ class BasketTransformer extends BaseTransformer
         $basket = app('api')->baskets()->setTotals($basket);
         $data = [
             'id' => $basket->encodedId(),
-            'total' => $basket->total,
-            'tax_total' => $basket->tax
+            'total' => number_format($basket->total, 2),
+            'tax_total' => number_format($basket->tax, 2)
         ];
         return $data;
     }
