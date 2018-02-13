@@ -35,6 +35,7 @@ class ProductTransformer extends BaseTransformer
         'layout',
         'routes',
         'variants',
+        'first_variant'
     ];
 
     /**
@@ -44,7 +45,9 @@ class ProductTransformer extends BaseTransformer
      */
     public function transform(Product $product)
     {
+        // clock()->startEvent('apply_' . $product->id . 'discounts', 'Applying Discounts');
         $this->applyDiscounts($product);
+        // clock()->endEvent('apply_' . $product->id . 'discounts');
         $response = [
             'id' => $product->encodedId(),
             'attribute_data' => $product->attribute_data,
@@ -71,7 +74,7 @@ class ProductTransformer extends BaseTransformer
         $product->min_price = 0;
         $product->original_max_price = 0;
         $product->original_min_price = 0;
-        
+
         foreach ($product->variants as $variant) {
 
             $variantPrice = $variant->total_price;
@@ -219,5 +222,15 @@ class ProductTransformer extends BaseTransformer
     public function includeCategories(Product $product)
     {
         return $this->collection($product->categories, new CategoryTransformer);
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeFirstVariant(Product $product)
+    {
+        return $this->item($product->variants()->first(), new ProductVariantTransformer);
     }
 }
