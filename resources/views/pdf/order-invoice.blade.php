@@ -56,7 +56,7 @@
                         <table width="100%">
                             <tr>
                                 <td class="title" align="left" width="50%">
-                                    <img src="{{ url('/images/logo/logo.png') }}" width="100px">
+                                    <img src="{{ url('/images/logo/logo.jpg') }}" width="100px">
                                     <h3>Order Invoice</h3>
                                 </td>
                                 <td align="right" width="50%">
