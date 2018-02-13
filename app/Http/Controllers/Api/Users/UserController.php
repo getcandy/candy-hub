@@ -58,7 +58,7 @@ class UserController extends BaseController
         return $this->respondWithItem(\Auth::user(), new UserTransformer);
     }
 
-    public function update(UpdateRequest $request, $userId)
+    public function update($userId, UpdateRequest $request)
     {
         $user = app('api')->users()->update($userId, $request->all());
         return $this->respondWithItem($user, new UserTransformer);

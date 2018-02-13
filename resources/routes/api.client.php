@@ -34,7 +34,7 @@ $this->get('customers/groups', 'Customers\CustomerGroupController@index');
 /**
  * Users
  */
-$this->post('users/{id}', 'Users\UserController@update');
+$this->post('users/{user}', 'Users\UserController@update');
 
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
