@@ -4,6 +4,7 @@ namespace GetCandy\Api\Products\Services;
 
 use GetCandy\Api\Products\Models\ProductVariant;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Api\Search\Events\IndexableSavedEvent;
 use GetCandy\Exceptions\InvalidLanguageException;
 use PriceCalculator;
 
@@ -237,6 +238,9 @@ class ProductVariantService extends BaseService
         }
 
         $variant->save();
+
+        event(new IndexableSavedEvent($variant->product));
+
         return $variant;
     }
 
