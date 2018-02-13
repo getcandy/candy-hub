@@ -69,9 +69,16 @@ class Factory
                 if ($tieredPrice) {
                     $basket->tax += $tieredPrice->tax * $line->quantity;
                 } else {
-                    $basket->tax += TaxCalculator::set($line->variant->tax)->amount($line->current_total);
+                    // TODO: Move to tax calculator
+                    if ($line->variant->tax) {
+                        $exVat = $line->current_total / (($line->variant->tax->percentage + 100) / 100);
+                        $basket->tax += $line->current_total - $exVat;
+                    } else {
+                        $basket->tax += 0;
+                    }
                 }
             }
+
         }
     }
 
