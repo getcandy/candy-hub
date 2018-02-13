@@ -117,14 +117,15 @@ class UserService extends BaseService
             $user->title = $data['title'];
         }
 
-        if (!empty($data['contact_number'])) {
+        if (isset($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
         }
-        if (!empty($data['company_name'])) {
+
+        if (isset($data['company_name'])) {
             $user->company_name = $data['company_name'];
         }
 
-        if (!empty($data['vat_no'])) {
+        if (isset($data['vat_no'])) {
             $user->vat_no = $data['vat_no'];
         }
 
