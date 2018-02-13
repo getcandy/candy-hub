@@ -276,7 +276,15 @@
                                                 {{ order.created_at.date|formatDate }}
                                             </div>
                                         </div>
-                                        <br>
+                                        <hr>
+                                        <template v-if="order.invoice_reference">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <a :href="'/order-processing/orders/'+ order.id +'/invoice'" class="btn btn-primary">Download Invoice</a>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </template>
                                         <div class="form-group">
                                             <strong style="margin-bottom:5px;display:block;">Order status</strong>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
@@ -308,9 +316,6 @@
                                         <template v-else>
                                             {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
                                         </template>
-                                        <br>
-                                        <a :href="'/order-processing/orders/'+ order.id +'/invoice'" class="btn btn-primary">Download Invoice</a>
-                                        <br><br>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong style="margin-bottom:5px;display:block;">Email</strong>
