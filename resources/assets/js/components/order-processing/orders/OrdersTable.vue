@@ -49,11 +49,11 @@
             },
             status(order) {
                 var type = 'success'
-                var text = 'Payment Received';
+                var text = 'Awaiting Payment';
                 switch (order.status) {
-                    case 'open' || 'awaiting-payment':
-                        type = 'warning';
-                        text = 'Awaiting payment';
+                    case 'payment-received':
+                        type = 'success';
+                        text = 'Payment Received';
                         break;
                     case 'refunded':
                         type = 'warning';
