@@ -24,7 +24,7 @@ class PriceCalculator
         $taxamount = TaxCalculator::set($tax)->amount($converted);
 
         $this->pricing = [
-            'amount' => number_format($converted + $taxamount, 2),
+            'amount' => round($converted + $taxamount, 2),
             'tax' => $taxamount
         ];
         return $this;
