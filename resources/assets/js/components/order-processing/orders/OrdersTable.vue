@@ -72,6 +72,8 @@
                         text = 'Expired';
                         break;
                     default:
+                        type = 'warning';
+                        text = 'Awaiting payment';
                         break;
                 }
                 return {
