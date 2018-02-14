@@ -449,7 +449,9 @@ class OrderService extends BaseService
 
         // Take off any previous shipping costs
         if ($order->shipping_total) {
+            $shippingTax = TaxCalculator::set(20)->amount($order->shipping_total);
             $order->total -= $order->shipping_total;
+            $order->vat -= $shippingTax;
         }
 
         $order->shipping_total = round($price->rate, 2);
