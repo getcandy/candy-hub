@@ -16,7 +16,7 @@ class TrackingNotifyService
         }
 
         if ($email) {
-            Mail::to()->send(new TrackingMailable($order));
+            Mail::to($email)->send(new TrackingMailable($order));
             Mail::to(config('mail.from.address'))->send(new TrackingMailable($order));
         }
     }
