@@ -1,5 +1,11 @@
-Vue.filter('formatDate', function(value) {
+Vue.filter('formatDate', function(value, passedFormat) {
   if (value) {
-    return moment(String(value)).format('YYYY/MM/DD hh:mma')
+    var format = 'YYYY/MM/DD hh:mma';
+
+    if (passedFormat) {
+      format = passedFormat;
+    }
+
+    return moment(String(value)).format(format);
   }
 });

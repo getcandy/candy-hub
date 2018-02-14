@@ -146,10 +146,11 @@
                     <thead>
                         <tr>
                             <th>Status</th>
-                            <th>Reference</th>
-                            <th>Customer</th>
+                            <th>Order Id</th>
+                            <th>Invoice Id</th>
+                            <th>Customer Name</th>
+                            <th>Customer Type</th>
                             <th>Total</th>
-                            <th>Tax</th>
                             <th>Shipping</th>
                             <th>Currency</th>
                             <th>Date Created</th>
@@ -162,25 +163,25 @@
                                 {{ order.reference }}
                             </td>
                             <td>
-                                <template v-if="order.customer_name == 'Guest'">
-                                    <span class="text-muted">Guest</span>
-                                </template>
-                                <template v-else>
-                                    {{ order.customer_name }}
-                                </template>
+                                <span v-if="order.invoice_reference">{{ order.invoice_reference }}</span>
+                                <span v-else class="text-muted"> - </span>
+                            </td>
+                            <td>
+                                {{ order.customer_name }}
+                            </td>
+                            <td>
+                                <span v-if="order.user">Account</span>
+                                <span v-else>Guest</span>
                             </td>
                             <td>
                                 <span v-html="localisedPrice(order.total, order.currency)"></span>
-                            </td>
-                            <td>
-                                <span v-html="localisedPrice(order.vat, order.currency)"></span>
                             </td>
                             <td>
                                 <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
                             </td>
                             <td>{{ order.currency }}</td>
                             <td>
-                                {{ order.created_at.date|formatDate }}
+                                {{ order.created_at.date|formatDate('Do MMMM YYYY, h:mm:ss') }}
                             </td>
                         </tr>
 
