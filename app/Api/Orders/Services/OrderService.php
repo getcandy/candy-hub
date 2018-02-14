@@ -449,6 +449,7 @@ class OrderService extends BaseService
         $shippingTax = TaxCalculator::set(20)->amount($order->shipping_total);
 
         $order->vat += $shippingTax;
+        $order->total += round($shippingTax, 2);
 
         $order->save();
 
