@@ -199,21 +199,7 @@ class OrderService extends BaseService
      */
     public function setDeliveryPrice($orderId, $priceId)
     {
-        $price = app('api')->shippingPrices()->getByHashedId($priceId);
-        $order = app('api')->orders()->getByHashedId($orderId);
-
-        // Remove old shipping beforehand
-        if ($order->shipping_total) {
-            $order->total -= $order->shipping_total;
-        }
-
-        $order->shipping_total = $price->rate;
-        $order->shipping_method = $price->method->attribute('name');
-        $order->total = $order->total + $price->rate;
-
-        $order->save();
-
-        return $order;
+        return $this->setShippingCost($orderId, $priceId);
     }
 
     /**
@@ -396,6 +382,7 @@ class OrderService extends BaseService
             $settings = app('api')->settings()->get('invoices');
             $order->status = 'payment-received';
             $order->reference = $settings->content['next_id'];
+            $order->placed_at = Carbon::now();
             $data = $settings->content;
             $data['next_id'] = $order->reference + 1;
             $settings->content = $data;
