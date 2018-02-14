@@ -19,6 +19,7 @@ class Search extends AbstractProvider implements ClientContract
 {
     protected $categories = [];
     protected $channel = null;
+    protected $authUser = null;
 
     public function with($searchterm)
     {
@@ -28,6 +29,12 @@ class Search extends AbstractProvider implements ClientContract
     protected function getSearchIndex($indexer)
     {
         return config('search.index_prefix') . $this->lang;
+    }
+
+    public function user($user = null)
+    {
+        $this->authUser = $user;
+        return $this;
     }
 
     /**
@@ -279,7 +286,16 @@ class Search extends AbstractProvider implements ClientContract
     {
         $filter = new BoolQuery;
 
-        $groups = app('api')->users()->getCustomerGroups(app('auth')->user());
+        if ($user = $this->authUser) {
+            // Set to empty array as we don't want to filter any out.
+            if ($user->hasRole('admin')) {
+                $groups = [];
+            } else {
+                $groups = $user->groups;
+            }
+        } else {
+            $groups = [app('api')->customerGroups()->getGuest()];
+        }
 
         foreach ($groups as $model) {
             $cat = new NestedQuery();

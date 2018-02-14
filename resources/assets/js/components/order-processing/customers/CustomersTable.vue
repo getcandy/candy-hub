@@ -8,7 +8,7 @@
                 params: {
                     per_page: 50,
                     page: 1,
-                    includes: 'user'
+                    includes: 'groups'
                 },
                 pagination: {}
             }
@@ -81,14 +81,26 @@
                             <th width="10%">Customer name</th>
                             <th width="19%">Company name</th>
                             <th width="19%">Email</th>
+                            <th>Customer Group(s)</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="customer in customers">
                             <td @click="loadCustomer(customer.id)">{{ customer.id }}</td>
-                            <td @click="loadCustomer(customer.id)">{{ customer.firstname }} {{ customer.lastname }}</td>
-                            <td @click="loadCustomer(customer.id)">{{ customer.company_name }}</td>
+                            <td @click="loadCustomer(customer.id)">
+                                <template v-if="customer.firstname">
+                                    {{ customer.firstname }} {{ customer.lastname }}
+                                </template>
+                                <span v-else class="text-muted"><small>-</small></span>
+                            </td>
+                            <td @click="loadCustomer(customer.id)">
+                                <span v-if="customer.company_name">{{ customer.company_name }}</span>
+                                <span v-else class="text-muted"><small>-</small></span>
+                            </td>
                             <td @click="loadCustomer(customer.id)">{{ customer.email }}</td>
+                            <td @click="loadCustomer(customer.id)">
+                                <span v-for="group, index in customer.groups.data">{{ group.name }}<span v-if="index + 1 != customer.groups.data.length" class="text-muted">&nbsp;&middot;&nbsp;</span></span>
+                            </td>
                         </tr>
 
 

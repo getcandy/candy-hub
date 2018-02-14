@@ -213,6 +213,5 @@ class OrderController extends BaseController
     public function invoice($id, Request $request)
     {
         return app('api')->orders()->getPdf($id);
-
     }
 }

@@ -76,7 +76,7 @@
                 <!-- Header -->
                 <table align="center" border="0" cellpadding="15" cellspacing="0" width="100%" style="font-family: Tahoma, Geneva, sans-serif;">
                   <tr>
-                    <td align="left"><a href="http://www.aquaspasupplies.co.uk/" class="logo"><img src="http://www.aquaspasupplies.co.uk/img/aqua-logo.png" alt="Aqua Spa Supplies" width="138" height="60"><a></td>
+                    <td align="left"><a href="http://www.aquaspasupplies.co.uk/" class="logo"><img src="https://aquaspasupplies.co.uk/images/aqua/branding/aqua-spa.png" alt="Aqua Spa Supplies" width="138" height="60"><a></td>
                     <td align="right" style="font-size: 16px; color: white;">Have an enquiry?<br> Call <strong>01245 477 400</strong></td>
                   </tr>
                 </table>

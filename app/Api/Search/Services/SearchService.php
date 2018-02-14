@@ -24,7 +24,7 @@ class SearchService
      * @param integer $page
      * @param integer $perpage
      * @param mixed $includes
-     * 
+     *
      * @return array
      */
     public function getResults(ResultSet $results, $type, $includes = null, $page = 1)
@@ -47,22 +47,23 @@ class SearchService
         $transformer = new $this->types[$type];
 
         $resource = new Collection($collection, $transformer);
-        $data = app()->fractal->createData($resource)->toArray();
 
         $resource->setMeta([
             'pagination' => $this->getPagination($results, $page),
             'aggregation' => $this->getSearchAggregator($results),
             'suggestions' => $this->getSuggestions($results)
         ]);
-        
-        return app()->fractal->createData($resource)->toArray();
+
+        $data = app()->fractal->createData($resource)->toArray();
+
+        return $data;
     }
 
     /**
      * Get the pagination for the results
      *
      * @param array $results
-     * 
+     *
      * @return array
      */
     protected function getPagination($results, $page)
@@ -84,13 +85,13 @@ class SearchService
      * Get the search suggestions
      *
      * @param ResultSet $results
-     * 
+     *
      * @return array
      */
     public function getSuggestions($results)
     {
         $suggestions = [];
-        
+
         foreach ($results->getSuggests() as $field => $item) {
             foreach ($item as $suggestion) {
                 if (count($suggestion['options'])) {
@@ -108,7 +109,7 @@ class SearchService
      * Gets the aggregation fields for the results
      *
      * @param array $results
-     * 
+     *
      * @return void
      */
     protected function getSearchAggregator($results)

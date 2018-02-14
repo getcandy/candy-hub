@@ -21,7 +21,8 @@
         <li><a href="#" title="View product on live site">View</a></li>
       </ul>
     </div>
-    <candy-button style="display: inline-block;" override="product-details">Save Product</candy-button>
+    <candy-button style="display: inline-block;">Save Product</candy-button>
+
     <candy-delete
       element="product"
       endpoint="/products/{{ $id }}"

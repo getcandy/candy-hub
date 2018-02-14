@@ -268,10 +268,6 @@ class OrderService extends BaseService
      */
     public function syncWithBasket(Order $order, Basket $basket)
     {
-        $order->total = $basket->total;
-        $order->vat = $basket->vat_total;
-        $order->currency = $basket->currency;
-
         $order->lines()->delete();
         $order->discounts()->delete();
 
@@ -282,6 +278,10 @@ class OrderService extends BaseService
         $order->lines()->createMany(
             $this->mapOrderLines($basket)
         );
+
+        $order->total = $basket->total;
+        $order->vat = $basket->vat_total;
+        $order->currency = $basket->currency;
 
         $order->save();
 
@@ -393,7 +393,13 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
+            $settings = app('api')->settings()->get('invoices');
             $order->status = 'payment-received';
+            $order->reference = $settings->content['next_id'];
+            $data = $settings->content;
+            $data['next_id'] = $order->reference + 1;
+            $settings->content = $data;
+            $settings->save();
         }
 
         $order->save();
@@ -479,7 +485,12 @@ class OrderService extends BaseService
     {
         $order = $this->getByHashedId($orderId);
 
-        $pdf = PDF::loadView('order-processing.orders.pdf', $order);
-        return $pdf->download('invoice.pdf');
+        $settings['address'] =  app('api')->settings()->get('address')['content'];
+        $settings['tax'] = app('api')->settings()->get('tax')['content'];
+        $settings['contact'] = app('api')->settings()->get('contact')['content'];
+
+        $pdf = PDF::loadView('pdf.order-invoice', ['order' => $order, 'lines' => $order->lines()->get(), 'discounts' => $order->discounts()->get(), 'settings' => $settings]);
+        return $pdf->stream('invoice.pdf');
+
     }
 }

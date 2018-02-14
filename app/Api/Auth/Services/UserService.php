@@ -105,21 +105,38 @@ class UserService extends BaseService
 
         $user->email = $data['email'];
 
-        $user->firstname = $data['firstname'];
-        $user->lastname = $data['lastname'];
+        if (!empty($data['firstname'])) {
+            $user->firstname = $data['firstname'];
+        }
+
+        if (!empty($data['lastname'])) {
+            $user->lastname = $data['lastname'];
+        }
 
         if (!empty($data['title'])) {
             $user->title = $data['title'];
         }
 
-        if (!empty($data['contact_number'])) {
+        if (isset($data['contact_number'])) {
             $user->contact_number = $data['contact_number'];
+        } else {
+            $user->contact_number = null;
         }
-        if (!empty($data['company_name'])) {
+
+        if (isset($data['company_name'])) {
             $user->company_name = $data['company_name'];
+        } else {
+            $user->company_name = null;
         }
-        if (!empty($data['contact_number'])) {
-            $user->contact_number = $data['contact_number'];
+
+        if (isset($data['vat_no'])) {
+            $user->vat_no = $data['vat_no'];
+        } else {
+            $user->vat_no = null;
+        }
+
+        if (!empty($data['password'])) {
+            $user->password = bcrypt($data['password']);
         }
 
         if (!empty($data['customer_groups'])) {

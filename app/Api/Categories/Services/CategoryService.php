@@ -3,13 +3,14 @@
 namespace GetCandy\Api\Categories\Services;
 
 use Carbon\Carbon;
+use GetCandy;
 use GetCandy\Api\Attributes\Events\AttributableSavedEvent;
 use GetCandy\Api\Categories\Models\Category;
 use GetCandy\Api\Routes\Models\Route;
 use GetCandy\Api\Scaffold\BaseService;
+use GetCandy\Api\Search\Events\IndexableSavedEvent;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
-use GetCandy;
 
 class CategoryService extends BaseService
 {
@@ -47,11 +48,6 @@ class CategoryService extends BaseService
 
         $category->attribute_data = $data;
 
-        //TODO: REMOVE AS FROM IMPORT
-        if (!empty($data['historical_id'])) {
-            $category->id = $data['historical_id'];
-        }
-
         $category->save();
 
         event(new AttributableSavedEvent($category));
@@ -76,7 +72,34 @@ class CategoryService extends BaseService
             $parentNode = $this->getByHashedId($data['parent']['id']);
             $parentNode->prependNode($category);
         }
+
+        event(new IndexableSavedEvent($category));
+
         return $category;
+    }
+
+    public function update($hashedId, array $data)
+    {
+        $model = $this->getByHashedId($hashedId);
+        $model->attribute_data = $data['attributes'];
+
+        if (!empty($data['customer_groups'])) {
+            $groupData = $this->mapCustomerGroupData($data['customer_groups']['data']);
+            $model->customerGroups()->sync($groupData);
+        }
+
+        if (!empty($data['channels']['data'])) {
+            $model->channels()->sync(
+                $this->getChannelMapping($data['channels']['data'])
+            );
+        }
+
+        $model->save();
+
+        event(new AttributableSavedEvent($model));
+        event(new IndexableSavedEvent($model));
+
+        return $model;
     }
 
     public function reorder(array $data)

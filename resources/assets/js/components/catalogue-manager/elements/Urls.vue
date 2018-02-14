@@ -114,7 +114,6 @@
 
 <template>
     <div>
-        <pre>{{ errors }}</pre>
         <div class="row">
             <div class="col-xs-12 col-md-11">
                 <div class="row">
@@ -137,7 +136,6 @@
                     <tr v-for="(url, index) in urls">
                         <td>
                             <input type="text" class="form-control" v-model="url.slug">
-                            <pre>{{ errors[index] }}</pre>
                             <template v-if="errors[index] && errors[index].length">
                                 <p v-for="error in errors[index]">{{ error }}</p>
                             </template>

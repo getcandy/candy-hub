@@ -10,5 +10,6 @@ class TrackingNotifyService
     public function sendMailer($order)
     {
         Mail::to($order->contact_email)->send(new TrackingMailable($order));
+        Mail::to(config('mail.from.address'))->send(new TrackingMailable($order));
     }
 }

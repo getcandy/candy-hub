@@ -10,7 +10,10 @@
                 loaded: false,
                 customer: {},
                 customerGroups: [],
-                selectedGroups: []
+                selectedGroups: [],
+                newPassword: null,
+                confirmPassword: null,
+                request: apiRequest
             }
         },
         props: {
@@ -21,7 +24,7 @@
         },
         created() {
             this.loadCustomer();
-            apiRequest.send('get', 'customers/groups').then(response => {
+            this.request.send('get', 'customers/groups').then(response => {
                 this.customerGroups = response.data;
             });
         },
@@ -31,10 +34,21 @@
         methods: {
             save() {
                 this.customer.customer_groups = this.selectedGroups;
+
+                if (this.newPassword && this.confirmPassword) {
+                    this.customer.password = this.newPassword;
+                    this.customer.password_confirmation = this.confirmPassword;
+                }
+
                 apiRequest.send('PUT', '/users/' + this.customer.id, this.customer).then(response => {
+                    this.newPassword = null;
+                    this.confirmPassword = null;
                     CandyEvent.$emit('notification', {
                         level: 'success'
                     });
+                }).catch(error => {
+                    this.newPassword = null;
+                    this.confirmPassword = null;
                 });
             },
             /**
@@ -79,16 +93,72 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <strong>Customer Name</strong> <br>
-                                            {{ customer.firstname }} {{ customer.lastname }}
+                                            <div class="form-group">
+                                                <label>First name</label>
+                                                <input class="form-control" v-model="customer.firstname">
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <strong>Company name</strong> <br>
-                                            {{ customer.company_name }}
+                                            <div class="form-group">
+                                                <label>Last name</label>
+                                                <input class="form-control" v-model="customer.lastname">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input class="form-control" v-model="customer.email">
+                                            </div>
+                                            <span class="text-danger" v-if="request.hasError('email')">
+                                                {{ request.getError('email') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Company Name</label>
+                                                <input class="form-control" v-model="customer.company_name">
+                                            </div>
+                                            <span class="text-danger" v-if="request.hasError('company_name')">
+                                                {{ request.getError('company_name') }}
+                                            </span>
                                         </div>
                                         <div class="col-md-4">
-                                            <strong>Email address</strong> <br>
-                                            {{ customer.email }}
+                                            <div class="form-group">
+                                                <label>Contact Number</label>
+                                                <input type="tel" class="form-control" v-model="customer.contact_number">
+                                            </div>
+                                            <span class="text-danger" v-if="request.hasError('contact_number')">
+                                                {{ request.getError('contact_number') }}
+                                            </span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>VAT Number</label>
+                                                <input class="form-control" v-model="customer.vat_no">
+                                            </div>
+                                            <span class="text-danger" v-if="request.hasError('vat_no')">
+                                                {{ request.getError('vat_no') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>New Password</label>
+                                                <input class="form-control" type="password" v-model="newPassword">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>New Password confirmation</label>
+                                                <input class="form-control" type="password" v-model="confirmPassword">
+                                            </div>
+                                            <span class="text-danger" v-if="request.hasError('password')">
+                                                {{ request.getError('password') }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

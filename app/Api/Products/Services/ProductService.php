@@ -14,6 +14,7 @@ use GetCandy\Exceptions\InvalidLanguageException;
 use GetCandy\Exceptions\MinimumRecordRequiredException;
 use GetCandy\Search\SearchContract;
 use Illuminate\Database\Eloquent\Model;
+use GetCandy\Api\Search\Events\IndexableSavedEvent;
 
 class ProductService extends BaseService
 {
@@ -64,7 +65,7 @@ class ProductService extends BaseService
             $product->customerGroups()->sync($groupData);
         }
 
-        event(new ProductCreatedEvent($product));
+        event(new IndexableSavedEvent($product));
 
         return $product;
     }

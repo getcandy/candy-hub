@@ -56,8 +56,10 @@ class Factory
 
     protected function setTotalAndTax($basket)
     {
+
         foreach ($basket->lines as $line) {
             $basket->total += $line->current_total;
+
             if ($line->variant->tax) {
                 $tieredPrice = app('api')->productVariants()->getTieredPrice(
                     $line->variant,
@@ -65,11 +67,18 @@ class Factory
                     $basket->user
                 );
                 if ($tieredPrice) {
-                    $basket->tax += $tieredPrice->tax;
+                    $basket->tax += $tieredPrice->tax * $line->quantity;
                 } else {
-                    $basket->tax += TaxCalculator::set($line->variant->tax)->amount($line->current_total);
+                    // TODO: Move to tax calculator
+                    if ($line->variant->tax) {
+                        $exVat = $line->current_total / (($line->variant->tax->percentage + 100) / 100);
+                        $basket->tax += $line->current_total - $exVat;
+                    } else {
+                        $basket->tax += 0;
+                    }
                 }
             }
+
         }
     }
 
@@ -104,7 +113,7 @@ class Factory
                         }
 
                         $subtotal += $discountable;
-                        
+
                         break;
                     } elseif ($set instanceof Coupon) {
                         foreach ($discount->getRewards() as $reward) {
@@ -154,7 +163,7 @@ class Factory
         }
 
         $product->setAttribute('discounts', $labels);
-        
+
     }
 
     protected function applyPercentage($price, $amount)

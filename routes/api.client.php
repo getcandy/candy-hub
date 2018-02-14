@@ -67,6 +67,7 @@ $this->put('orders/{id}/billing/address', 'Orders\OrderController@billingAddress
 $this->resource('orders', 'Orders\OrderController', [
     'only' => ['store', 'show']
 ]);
+$this->get('orders/{id}/invoice', 'Orders\OrderController@invoice');
 
 /**
  * Payments

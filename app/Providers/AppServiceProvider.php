@@ -35,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
             return new Manager();
         });
 
+        if ($this->app->environment('production')) {
+            $this->app->register(\Rollbar\Laravel\RollbarServiceProvider::class);
+        }
+
         $mediaDrivers = config('assets.upload_drivers');
         foreach ($mediaDrivers as $name => $driver) {
             $this->app->singleton($name . '.driver', function ($app) use ($driver) {

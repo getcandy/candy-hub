@@ -19,9 +19,23 @@
 
         <div class="side-purple-overlay"></div>
 
+                <div class="user-info">
+          <small>Hello,</small>
+          <strong>
+            @if(Auth::user()->firstname)
+              {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
+            @else
+              {{ Auth::user()->email }}
+            @endif
+          </strong>
+        </div>
+
+        <hr>
+
         @yield('side_menu')
 
         <hr>
+
         <nav class="side-nav">
           <ul>
               <li><a href="{{ route('logout') }}">Logout</a></li>

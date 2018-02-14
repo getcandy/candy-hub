@@ -16971,6 +16971,10 @@ textarea.bootstrap-tagsinput {
   background-color: #fc636b;
 }
 
+.modal {
+  overflow-y: scroll;
+}
+
 .modal-content {
   border-radius: 0;
 }
@@ -17212,6 +17216,19 @@ textarea.bootstrap-tagsinput {
 .sidebar .side-nav ul li a:hover svg,
 .sidebar .side-nav ul li a:active svg {
   color: white;
+}
+
+.user-info {
+  margin: 0px 60px 0px 40px;
+}
+
+.user-info small {
+  display: block;
+  text-color: grey;
+}
+
+.user-info strong {
+  display: block;
 }
 
 .content-panel {
