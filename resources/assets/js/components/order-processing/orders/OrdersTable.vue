@@ -181,7 +181,7 @@
                             </td>
                             <td>{{ order.currency }}</td>
                             <td>
-                                {{ order.created_at.date|formatDate('Do MMMM YYYY, h:mm:ss') }}
+                                {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
                             </td>
                         </tr>
 
