@@ -17,7 +17,7 @@ class OrderLineTransformer extends BaseTransformer
         $data = [
             'id' => $line->encodedId(),
             'quantity' => $line->quantity,
-            'total' => $line->total,
+            'total' => round($line->total, 2),
             'product' => $line->product,
             'sku' => $line->sku,
             'variant' => $line->variant
