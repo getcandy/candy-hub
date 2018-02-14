@@ -9,14 +9,14 @@ use GetCandy\Api\Payments\Exceptions\AlreadyRefundedException;
 class PaymentService extends BaseService
 {
     protected $configPath = 'getcandy.payments';
-    
+
     protected $provider;
 
     public function __construct()
     {
         $this->model = new Transaction;
     }
-    
+
     /**
      * Gets the payment provider class
      *
@@ -51,7 +51,7 @@ class PaymentService extends BaseService
      * Validates a payment token
      *
      * @param string $token
-     * 
+     *
      * @return void
      */
     public function validateToken($token)
@@ -64,6 +64,7 @@ class PaymentService extends BaseService
         $result = $this->getProvider()->charge($token, $order);
         $transaction = new Transaction;
         $transaction->success = $result->success;
+
         $transaction->provider = $result->transaction->paymentInstrumentType;
         $transaction->status = $result->transaction->status;
         $transaction->transaction_id = $result->transaction->id;
@@ -78,7 +79,7 @@ class PaymentService extends BaseService
      * Refund a sale
      *
      * @param string $token
-     * 
+     *
      * @return void
      */
     public function refund($token)
@@ -115,9 +116,9 @@ class PaymentService extends BaseService
         }
 
         $refund = $this->createTransaction($data);
-        
+
         // Add up each transaction that isn't voided or refunded and successful.
-        
+
         // TODO Improve the way this is checked...
         if ($order->transactions()->charged()->count() === 1 && $order->total === $transaction->amount) {
             $order->status = 'refunded';
@@ -134,7 +135,7 @@ class PaymentService extends BaseService
      * Creates a transaction
      *
      * @param array $data
-     * 
+     *
      * @return Transaction
      */
     protected function createTransaction(array $data)
@@ -155,7 +156,7 @@ class PaymentService extends BaseService
      * Voids a transaction
      *
      * @param string $transactionId
-     * 
+     *
      * @return Transaction
      */
     public function void($transactionId)
@@ -167,7 +168,7 @@ class PaymentService extends BaseService
 
         $transaction->success = $result->success;
         $transaction->status = 'voided';
-        
+
         if (!$result->success) {
             $transaction->notes = $result->message;
         }
