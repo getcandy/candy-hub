@@ -9,7 +9,15 @@ class TrackingNotifyService
 {
     public function sendMailer($order)
     {
-        Mail::to($order->contact_email)->send(new TrackingMailable($order));
-        Mail::to(config('mail.from.address'))->send(new TrackingMailable($order));
+        $email = $order->contact_email;
+
+        if (!$email && $order->user) {
+            $email = $order->user->email;
+        }
+
+        if ($email) {
+            Mail::to()->send(new TrackingMailable($order));
+            Mail::to(config('mail.from.address'))->send(new TrackingMailable($order));
+        }
     }
 }
