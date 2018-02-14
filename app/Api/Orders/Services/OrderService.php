@@ -456,6 +456,11 @@ class OrderService extends BaseService
         $order->shipping_method = $price->method->attribute('name');
         $order->total += round($price->rate, 2);
 
+        //TODO: Remove hard coded VAT amount
+        $shippingTax = TaxCalculator::set(20)->amount($order->shipping_total);
+
+        $order->vat += $shippingTax;
+
         $order->save();
 
         return $order;
