@@ -48,8 +48,8 @@
                     });
             },
             status(order) {
-                var type = 'success'
-                var text = 'Awaiting Payment';
+                var type = 'default'
+                var text = 'Unknown';
                 switch (order.status) {
                     case 'payment-received':
                         type = 'success';
@@ -59,9 +59,17 @@
                         type = 'warning';
                         text = 'Refunded';
                         break;
-                    case 'void':
+                    case 'returned':
+                        type = 'warning';
+                        text = 'Returned';
+                        break;
+                    case 'voided':
                         type = 'danger';
                         text = 'Void';
+                        break;
+                    case 'failed':
+                        type = 'danger';
+                        text = 'Failed';
                         break;
                     case 'dispatched':
                         type = 'info';
