@@ -382,7 +382,7 @@ class OrderService extends BaseService
             $settings = app('api')->settings()->get('invoices');
             $order->status = 'payment-received';
             $order->reference = $settings->content['next_id'];
-            $order->placed_at = Carbon::now();
+            // $order->placed_at = Carbon::now();
             $data = $settings->content;
             $data['next_id'] = $order->reference + 1;
             $settings->content = $data;
