@@ -17,6 +17,7 @@ class OrderDiscountTransformer extends BaseTransformer
     {
         $data = [
             'id' => $discount->encodedId(),
+            'name' => $discount->name,
             'coupon' => $discount->coupon,
             'amount' => $discount->amount,
             'type' => $discount->type

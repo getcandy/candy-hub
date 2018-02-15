@@ -67,7 +67,7 @@
              */
             loadOrder() {
                 apiRequest.send('get', '/orders/' + this.id, {}, {
-                    includes: 'user,lines,transactions'
+                    includes: 'user,lines,transactions,discounts'
                 })
                 .then(response => {
                     this.order = response.data;
@@ -206,6 +206,30 @@
                                                     <td v-html="currencySymbol(line.total)"></td>
                                                 </tr>
                                             </tbody>
+                                            <template v-if="order.discounts.data.length">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">Discount</th>
+                                                        <th colspan="3">Coupon</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="discount in order.discounts.data">
+                                                        <td colspan="2">{{ discount.name }}</td>
+                                                        <td colspan="2">
+                                                            <span v-if="discount.coupon">
+                                                                {{ discount.coupon }}
+                                                            </span>
+                                                            <span class="text-muted" v-else> - </span>
+                                                        </td>
+                                                        <td>
+                                                            <span v-if="discount.type == 'percentage'">
+                                                                {{ discount.amount }}%
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </template>
                                         </table>
                                         <template v-if="transactions.length">
                                             <h3>Transactions</h3>
