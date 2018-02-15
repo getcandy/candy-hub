@@ -121,7 +121,7 @@ class Order extends BaseModel
         if ($this->user) {
             if ($this->user->company_name) {
                 $name = $this->user->company_name;
-            } else {
+            } elseif ($this->user->name) {
                 $name = $this->user->name;
             }
         }

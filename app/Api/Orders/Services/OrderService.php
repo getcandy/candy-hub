@@ -13,6 +13,7 @@ use GetCandy\Api\Orders\Events\OrderProcessedEvent;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 use Carbon\Carbon;
 use PDF;
+use DB;
 
 class OrderService extends BaseService
 {
@@ -199,21 +200,7 @@ class OrderService extends BaseService
      */
     public function setDeliveryPrice($orderId, $priceId)
     {
-        $price = app('api')->shippingPrices()->getByHashedId($priceId);
-        $order = app('api')->orders()->getByHashedId($orderId);
-
-        // Remove old shipping beforehand
-        if ($order->shipping_total) {
-            $order->total -= $order->shipping_total;
-        }
-
-        $order->shipping_total = $price->rate;
-        $order->shipping_method = $price->method->attribute('name');
-        $order->total = $order->total + $price->rate;
-
-        $order->save();
-
-        return $order;
+        return $this->setShippingCost($orderId, $priceId);
     }
 
     /**
@@ -257,6 +244,39 @@ class OrderService extends BaseService
         $query = $this->model->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         return $query->findOrFail($id);
     }
+
+    /**
+     * Get the next invoice reference
+     *
+     * @return string
+     */
+    protected function getNextInvoiceReference($year = null, $month = null)
+    {
+        if (!$year) {
+            $year = Carbon::now()->year;
+        }
+
+        if (!$month) {
+            $month = Carbon::now()->format('m');
+        }
+
+        $order = DB::table('orders')->select(
+            DB::RAW('MAX(reference) as reference')
+        )->whereRaw('YEAR(placed_at) = ' . $year)
+            ->whereRaw('MONTH(placed_at) = ' . $month)
+            ->whereRaw("reference REGEXP '^([0-9]*-[0-9]*-[0-9]*)'")
+            ->first();
+
+        if (!$order->reference) {
+            $increment = 1;
+        } else {
+            $segments = explode('-', $order->reference);
+            $increment = $segments[2] + 1;
+        }
+
+        return $year . '-' . $month . '-' . str_pad($increment, 4, 0, STR_PAD_LEFT);
+    }
+
 
     /**
      * Syncs a given basket with its order
@@ -393,13 +413,9 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
-            $settings = app('api')->settings()->get('invoices');
             $order->status = 'payment-received';
-            $order->reference = $settings->content['next_id'];
-            $data = $settings->content;
-            $data['next_id'] = $order->reference + 1;
-            $settings->content = $data;
-            $settings->save();
+            $order->reference = $this->getNextInvoiceReference();
+            $order->placed_at = Carbon::now();
         }
 
         $order->save();
@@ -421,7 +437,11 @@ class OrderService extends BaseService
      */
     public function getPaginatedData($length = 50, $page = 1, $user = null)
     {
-        $query = $this->model->orderBy('created_at', 'desc')->withoutGlobalScope('open')->withoutGlobalScope('not_expired');
+        $query = $this->model->orderBy('id', 'desc')
+            ->withoutGlobalScope('open')
+            ->withoutGlobalScope('not_expired')
+            ->whereNotIn('status', ['open', 'awaiting-payment']);
+
         if (!app('auth')->user()->hasRole('admin')) {
             $query = $query->whereHas('user', function ($q) use ($user) {
                 $q->whereId($user->id);
@@ -445,12 +465,20 @@ class OrderService extends BaseService
 
         // Take off any previous shipping costs
         if ($order->shipping_total) {
+            $shippingTax = TaxCalculator::set(20)->amount($order->shipping_total);
             $order->total -= $order->shipping_total;
+            $order->vat -= $shippingTax;
         }
 
         $order->shipping_total = round($price->rate, 2);
         $order->shipping_method = $price->method->attribute('name');
         $order->total += round($price->rate, 2);
+
+        //TODO: Remove hard coded VAT amount
+        $shippingTax = TaxCalculator::set(20)->amount($order->shipping_total);
+
+        $order->vat += $shippingTax;
+        $order->total += round($shippingTax, 2);
 
         $order->save();
 

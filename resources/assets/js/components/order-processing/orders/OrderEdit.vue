@@ -292,6 +292,7 @@
                                                 <option value="payment-received">Payment Received</option>
                                                 <option value="processing">Processing</option>
                                                 <option value="dispatched">Dispatched</option>
+                                                <option value="failed">Failed</option>
                                                 <option value="voided">Voided</option>
                                                 <option value="returned">Returned</option>
                                             </select>

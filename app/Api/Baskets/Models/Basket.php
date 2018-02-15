@@ -46,8 +46,9 @@ class Basket extends BaseModel
 
     public function order()
     {
-        return $this->hasOne(Order::class);
+        return $this->hasOne(Order::class)->withoutGlobalScopes();
     }
+
     // protected function getTotalWithoutDiscountAttribute()
     // {
     //     // $subTotal = 0;

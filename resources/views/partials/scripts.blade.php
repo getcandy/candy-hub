@@ -1,5 +1,5 @@
     @routes
 
-    <script src="{{ mix('/js/app.js') }}"></script>
+    <script src="/js/app.js?v=789"></script>
 
     {!! $scripts_html !!}
