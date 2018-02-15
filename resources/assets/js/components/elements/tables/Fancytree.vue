@@ -25,7 +25,7 @@
         margin-top: 14px!important;
         margin-right:15px;
     }
-    .treetable span.fancytree-icon:before{
+    .treetable span.fancytree-icon:before {
         font-family: FontAwesome;
         content:"\f047";
         color: #c1c2c3;
@@ -70,11 +70,13 @@
 
 <script>
 
-    import fancytree from 'jquery.fancytree/dist/jquery.fancytree-all-deps.min';
-    import 'jquery.fancytree/dist/src/jquery.fancytree.dnd5.js';
-    import 'jquery.fancytree/dist/src/jquery.fancytree.glyph.js';
-    import 'jquery.fancytree/dist/src/jquery.fancytree.table.js';
     import 'jquery.fancytree/dist/skin-win8/ui.fancytree.min.css';
+
+    const fancytree = require('jquery.fancytree');
+
+    require('jquery.fancytree/dist/modules/jquery.fancytree.dnd5');
+    require('jquery.fancytree/dist/modules/jquery.fancytree.glyph');
+    require('jquery.fancytree/dist/modules/jquery.fancytree.table');
 
     export default {
         data() {
@@ -120,7 +122,7 @@
             initFancytable() {
 
                 let glyph_opts = {
-                    preset: "bootstrap3",
+                    preset: "awesome4",
                     map: {
                         expanderClosed: "fa fa-chevron-right",
                         expanderLazy: "fa fa-chevron-right",
@@ -292,7 +294,7 @@
         <div class="text-center">
             <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
         </div>
-        
+
 
     </div>
 </template>
