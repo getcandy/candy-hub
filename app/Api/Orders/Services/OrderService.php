@@ -13,6 +13,7 @@ use GetCandy\Api\Orders\Events\OrderProcessedEvent;
 use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 use Carbon\Carbon;
 use PDF;
+use DB;
 
 class OrderService extends BaseService
 {
@@ -245,6 +246,39 @@ class OrderService extends BaseService
     }
 
     /**
+     * Get the next invoice reference
+     *
+     * @return string
+     */
+    protected function getNextInvoiceReference($year = null, $month = null)
+    {
+        if (!$year) {
+            $year = Carbon::now()->year;
+        }
+
+        if (!$month) {
+            $month = Carbon::now()->format('m');
+        }
+
+        $order = DB::table('orders')->select(
+            DB::RAW('MAX(reference) as reference')
+        )->whereRaw('YEAR(placed_at) = ' . $year)
+            ->whereRaw('MONTH(placed_at) = ' . $month)
+            ->whereRaw("reference REGEXP '^([0-9]*-[0-9]*-[0-9]*)'")
+            ->first();
+
+        if (!$order->reference) {
+            $increment = 1;
+        } else {
+            $segments = explode('-', $order->reference);
+            $increment = $segments[2] + 1;
+        }
+
+        return $year . '-' . $month . '-' . str_pad($increment, 4, 0, STR_PAD_LEFT);
+    }
+
+
+    /**
      * Syncs a given basket with its order
      *
      * @param Order $order
@@ -379,14 +413,9 @@ class OrderService extends BaseService
         );
 
         if ($transaction->success) {
-            $settings = app('api')->settings()->get('invoices');
             $order->status = 'payment-received';
-            $order->reference = $settings->content['next_id'];
-            // $order->placed_at = Carbon::now();
-            $data = $settings->content;
-            $data['next_id'] = $order->reference + 1;
-            $settings->content = $data;
-            $settings->save();
+            $order->reference = $this->getNextInvoiceReference();
+            $order->placed_at = Carbon::now();
         }
 
         $order->save();
