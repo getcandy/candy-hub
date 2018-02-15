@@ -31,16 +31,20 @@ class BasketService extends BaseService
      */
     protected function getBasket($id = null, $user = null)
     {
-        $basket = new $this->model;
+        $basket = new Basket();
+
         if ($id) {
             $basket = $this->getByHashedId($id);
-        } elseif ($user && $user->basket) {
-            $basket = $user->basket;
+        } elseif ($user) {
+            $userBasket = $user->basket;
+            if ($userBasket && !$userBasket->order) {
+                $basket = $userBasket;
+            }
         }
 
         $basket->save();
 
-        if ($user && !$user->basket) {
+        if ($user) {
             $basket->user()->associate($user);
         }
 
