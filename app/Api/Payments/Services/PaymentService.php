@@ -63,15 +63,20 @@ class PaymentService extends BaseService
     {
         $result = $this->getProvider()->charge($token, $order);
         $transaction = new Transaction;
+
+        // TODO: need to get away from Braintree result format
         $transaction->success = $result->success;
 
-        $transaction->provider = $result->transaction->paymentInstrumentType;
-        $transaction->status = $result->transaction->status;
-        $transaction->transaction_id = $result->transaction->id;
-        $transaction->amount = $result->transaction->amount;
-        $transaction->merchant = $result->transaction->merchantAccountId;
-        $transaction->card_type = $result->transaction->creditCardDetails->cardType;
-        $transaction->last_four = $result->transaction->creditCardDetails->last4;
+        if ($transaction->success) {
+            $transaction->provider = $result->transaction->paymentInstrumentType;
+            $transaction->status = $result->transaction->status;
+            $transaction->transaction_id = $result->transaction->id;
+            $transaction->amount = $result->transaction->amount;
+            $transaction->merchant = $result->transaction->merchantAccountId;
+            $transaction->card_type = $result->transaction->creditCardDetails->cardType ?? '';
+            $transaction->last_four = $result->transaction->creditCardDetails->last4 ?? '';
+        }
+
         return $transaction;
     }
 

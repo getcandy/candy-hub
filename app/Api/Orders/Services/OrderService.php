@@ -405,8 +405,6 @@ class OrderService extends BaseService
             $order->notes = $data['notes'];
         }
 
-        $total = $order->total + $order->shipping_total;
-
         $transaction = app('api')->payments()->charge(
             $data['payment_token'],
             $order
