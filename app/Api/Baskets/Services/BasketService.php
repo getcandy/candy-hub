@@ -167,8 +167,9 @@ class BasketService extends BaseService
             }
         }
 
-        return $basket;
+        return new Basket();
     }
+
     /**
      * Resolves a guest basket with an existing basket
      *
@@ -176,13 +177,13 @@ class BasketService extends BaseService
      * @param string $basketId
      * @param boolean $merge
      *
-            $userBasket->merged = true;
      * @return Basket
      */
-    public function resolve($user, $basketId, $merge = false)
+    public function resolve($user, $basketId, $merge = true)
     {
         // Guest basket
         $basket = $this->getByHashedId($basketId);
+
         // User basket
         $userBasket = $user->basket;
 
