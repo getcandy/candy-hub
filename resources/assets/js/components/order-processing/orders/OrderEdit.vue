@@ -201,7 +201,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <td colspan="2"></td>
-                                                    <td colspan="2"><strong>VAT (included)</strong></td>
+                                                    <td colspan="2" align="right"><strong>VAT (included)</strong></td>
                                                     <td v-html="currencySymbol(order.vat)"></td>
                                                 </tr>
                                                 <template v-if="order.discounts.data.length">
@@ -222,12 +222,12 @@
                                                 </template>
                                                 <tr>
                                                     <td colspan="2"></td>
-                                                    <td colspan="2"><strong>Shipping</strong></td>
+                                                    <td colspan="2" align="right"><strong>Shipping</strong></td>
                                                     <td v-html="currencySymbol(order.shipping_total)"></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2"></td>
-                                                    <td colspan="2"><strong>Total</strong></td>
+                                                    <td colspan="2" align="right"><strong>Total</strong></td>
                                                     <td v-html="currencySymbol(order.total)"></td>
                                                 </tr>
                                             </tfoot>
