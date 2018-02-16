@@ -204,6 +204,22 @@
                                                     <td colspan="2"><strong>VAT (included)</strong></td>
                                                     <td v-html="currencySymbol(order.vat)"></td>
                                                 </tr>
+                                                <template v-if="order.discounts.data.length">
+                                                    <tr v-for="discount in order.discounts.data">
+                                                        <td colspan="4" align="right">
+                                                            <strong>{{ discount.name }}</strong>
+                                                            <span v-if="discount.type == 'percentage'">
+                                                                @ {{ discount.amount }}%
+                                                            </span>
+                                                             Discount <br>
+                                                            <span v-if="discount.coupon">
+                                                                Code:  <code>{{ discount.coupon }}</code>
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-danger" v-html="currencySymbol(discountAmount(discount))">
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                                 <tr>
                                                     <td colspan="2"></td>
                                                     <td colspan="2"><strong>Shipping</strong></td>
@@ -224,33 +240,6 @@
                                                     <td v-html="currencySymbol(line.total)"></td>
                                                 </tr>
                                             </tbody>
-                                            <template v-if="order.discounts.data.length">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="2"></th>
-                                                        <th>Discount</th>
-                                                        <th colspan="2">Amount</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="discount in order.discounts.data">
-                                                        <td colspan="2"></td>
-                                                        <td>
-                                                            {{ discount.name }}
-                                                            <span v-if="discount.coupon">
-                                                                ({{ discount.coupon }})
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span v-if="discount.type == 'percentage'">
-                                                                {{ discount.amount }}%
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-danger" v-html="currencySymbol(discountAmount(discount))">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </template>
                                         </table>
                                         <template v-if="transactions.length">
                                             <h3>Transactions</h3>
