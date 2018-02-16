@@ -42,7 +42,7 @@ class Order extends BaseModel
         parent::boot();
 
         static::addGlobalScope('open', function (Builder $builder) {
-            $builder->where('status', '=', 'open');
+            $builder->whereNull('placed_at');
         });
 
         static::addGlobalScope('not_expired', function (Builder $builder) {
