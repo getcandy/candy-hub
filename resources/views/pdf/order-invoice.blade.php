@@ -14,7 +14,9 @@
             margin-top: 30px;
             margin-bottom: 30px;
         }
-
+        .discount-seperator {
+            color:#ccc;
+        }
         .lines-heading {
             text-align: left;
             background-color: #ededed;
@@ -30,12 +32,26 @@
             border: 1px solid #ededed;
         }
 
+        .lines-footer {
+            border-top:5px solid #f5f5f5;
+            text-align:right;
+        }
+
+        .lines-footer td {
+            padding: 10px;
+            border: 1px solid #ededed;
+        }
+
         .summary {
             margin-bottom: 40px;
         }
 
         .summary td {
             padding: 5px 10px;
+        }
+
+        .info {
+            color:#0099e5;
         }
 
         .summary .total td {
@@ -148,7 +164,7 @@
                     </tr>
                 </thead>
                 <tbody class="lines-body">
-                    @foreach ($lines as $item)
+                    @foreach ($order->lines as $item)
                     <tr>
                         <td>
                             {{ $item->product }} <br>
@@ -160,42 +176,50 @@
                             {{ $item->sku }}
                         </td>
                         <td>
-                            &pound;{{ $item->total }}
+                            {{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($item->total / $item->quantity, 2) }}
                         </td>
                         <td>
                             {{ $item->quantity }}
                         </td>
-                        <td>
-                            &pound;{{ $item->total }}
+                        <td align="right">
+                            {{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $item->total }}
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
-
-            <table cellpadding="0" cellspacing="0" width="100%" class="summary">
-                @foreach ($order->discounts() as $discount)
+                <tfoot class="lines-footer">
                     <tr>
-                        <td width="60%"></td>
-                        <td align="right">{{ $discount->coupon }}</td>
-                        <td align="right">{{ $discount->amount }}%</td>
+                        <td colspan="2"></td>
+                        <td colspan="2"><strong>Tax (included)</strong></td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->vat }}</td>
                     </tr>
-                @endforeach
-                <tr>
-                    <td width="60%"></td>
-                    <td align="right"><strong>Tax</strong></td>
-                    <td align="right">&pound;{{ $order->vat }}</td>
-                </tr>
-                <tr>
-                    <td width="60%"></td>
-                    <td align="right"><strong>Shipping</strong></td>
-                    <td align="right">&pound;{{ $order->shipping_total }}<br> <small>{{ $order->shipping_method }}</small></td>
-                </tr>
-                <tr>
-                    <td width="60%"></td>
-                    <td align="right" style="border-top: 2px solid #ccc;"><strong>Total</strong></td>
-                    <td align="right" style="border-top: 2px solid #ccc;">&pound;{{ $order->total }}</td>
-                </tr>
+                    @if($order->discounts)
+                        @foreach ($order->discounts as $discount)
+                            <tr class="discount-row">
+                                <td colspan="4">
+                                    <strong>{{ $discount->name }}</strong> @if($discount->type == 'percentage') @ {{ $discount->amount }}%@endif Discount<br>
+                                    @if ($discount->coupon)
+                                    Code: <code>{{ $discount->coupon }}</code>
+                                    @endif
+                                </td>
+                                <td>-{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($discount->total, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2">
+                            <strong>Shipping</strong> <br>
+                            <small>{{ $order->shipping_method }}</small>
+                        </td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->shipping_total }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2"><strong>Total</strong></td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->total }}</td>
+                    </tr>
+                </tfoot>
             </table>
 
             @if($order->notes)

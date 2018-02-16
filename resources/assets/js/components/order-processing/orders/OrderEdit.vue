@@ -61,6 +61,20 @@
                     });
                 })
             },
+            discountAmount(discount) {
+
+                var total = 0;
+
+                _.each(this.order.lines.data, line => {
+                    if (discount.type == 'percentage') {
+                        total += line.total * (discount.amount / 100);
+                    } else if (discount.type == 'fixed-price') {
+                        total += line.total - discount.amount;
+                    }
+                });
+
+                return -total;
+            },
             /**
              * Loads the product by its encoded ID
              * @param  {String} id
@@ -127,12 +141,12 @@
                 });
             },
             status(order) {
-                var type = 'success'
-                var text = 'Complete';
+                var type = 'warning'
+                var text = 'Awaiting Payment';
                 switch (order.status) {
-                    case 'open':
-                        type = 'info';
-                        text = 'Open';
+                    case 'payment-received':
+                        type = 'success';
+                        text = 'Payment Received';
                         break;
                     case 'refunded':
                         type = 'warning';
@@ -141,6 +155,10 @@
                     case 'void':
                         type = 'danger';
                         text = 'Void';
+                        break;
+                    case 'failed':
+                        type = 'danger';
+                        text = 'Failed';
                         break;
                     case 'expired':
                         type = 'default';
@@ -183,7 +201,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <td colspan="2"></td>
-                                                    <td colspan="2"><strong>VAT</strong></td>
+                                                    <td colspan="2"><strong>VAT (included)</strong></td>
                                                     <td v-html="currencySymbol(order.vat)"></td>
                                                 </tr>
                                                 <tr>
@@ -209,23 +227,26 @@
                                             <template v-if="order.discounts.data.length">
                                                 <thead>
                                                     <tr>
-                                                        <th colspan="2">Discount</th>
-                                                        <th colspan="3">Coupon</th>
+                                                        <th colspan="2"></th>
+                                                        <th>Discount</th>
+                                                        <th colspan="2">Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="discount in order.discounts.data">
-                                                        <td colspan="2">{{ discount.name }}</td>
-                                                        <td colspan="2">
+                                                        <td colspan="2"></td>
+                                                        <td>
+                                                            {{ discount.name }}
                                                             <span v-if="discount.coupon">
-                                                                {{ discount.coupon }}
+                                                                ({{ discount.coupon }})
                                                             </span>
-                                                            <span class="text-muted" v-else> - </span>
                                                         </td>
                                                         <td>
                                                             <span v-if="discount.type == 'percentage'">
                                                                 {{ discount.amount }}%
                                                             </span>
+                                                        </td>
+                                                        <td class="text-danger" v-html="currencySymbol(discountAmount(discount))">
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -304,7 +325,7 @@
                                         <template v-if="order.invoice_reference">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a :href="'/order-processing/orders/'+ order.id +'/invoice'" class="btn btn-primary">Download Invoice</a>
+                                                    <a :href="'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn btn-primary">Download Invoice</a>
                                                 </div>
                                             </div>
                                             <hr>

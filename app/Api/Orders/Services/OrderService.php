@@ -516,8 +516,26 @@ class OrderService extends BaseService
         $settings['tax'] = app('api')->settings()->get('tax')['content'];
         $settings['contact'] = app('api')->settings()->get('contact')['content'];
 
-        $pdf = PDF::loadView('pdf.order-invoice', ['order' => $order, 'lines' => $order->lines()->get(), 'discounts' => $order->discounts()->get(), 'settings' => $settings]);
-        return $pdf->stream('invoice.pdf');
+        $data = [
+            'order' => $order->load(['lines', 'discounts']),
+            'settings' => $settings
+        ];
 
+        //TODO: This is bad mmkay, refactor when orders are re engineered
+
+        foreach ($data['order']['discounts'] as $index => $discount) {
+            $total = 0;
+            foreach ($order->lines as $line) {
+                if ($discount->type == 'percentage') {
+                    $total += $line->total * ($discount->amount / 100);
+                } elseif ($discount->type == 'fixed-price') {
+                    $total += $line->total - $discount->amount;
+                }
+            }
+            $discount->total = $total;
+        }
+
+        $pdf = PDF::loadView('pdf.order-invoice', $data);
+        return $pdf->stream('invoice.pdf');
     }
 }

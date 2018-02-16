@@ -210,6 +210,14 @@ class OrderController extends BaseController
         return $this->respondWithItem($order, new OrderTransformer);
     }
 
+    /**
+     * Get the invoice PDF
+     *
+     * @param string $id
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function invoice($id, Request $request)
     {
         return app('api')->orders()->getPdf($id);
