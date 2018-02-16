@@ -28,6 +28,6 @@ class LegacyHasher extends BcryptHasher
 
     protected function checkMd5($value, $hash)
     {
-        return md5($value . $hash['salt']) == $hash['password'];
+        return md5(md5($value) . md5($hash['salt'])) == $hash['password'];
     }
 }
