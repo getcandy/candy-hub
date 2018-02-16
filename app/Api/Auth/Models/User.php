@@ -73,9 +73,14 @@ class User extends Authenticatable
         return json_decode($value, true);
     }
 
-    public function basket()
+    public function baskets()
     {
-        return $this->hasOne(Basket::class);
+        return $this->hasMany(Basket::class);
+    }
+
+    public function latestBasket()
+    {
+        return $this->hasOne(Basket::class)->orderBy('created_at', 'DESC');
     }
 
     public function setFieldsAttribute($value)

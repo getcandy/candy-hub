@@ -29,24 +29,26 @@ class BasketService extends BaseService
      *
      * @return Basket
      */
-    protected function getBasket($id = null, $user = null)
+    public function getBasket($id = null, $user = null)
     {
         $basket = new Basket();
 
         if ($id) {
             $basket = $this->getByHashedId($id);
         } elseif ($user) {
-            $userBasket = $user->basket;
-            if ($userBasket && !$userBasket->order) {
-                $basket = $userBasket;
+            $userBasket = $user->latestBasket;
+            if ($userBasket) {
+                if ($userBasket->order && !$userBasket->order->placed_at || !$userBasket->order) {
+                    $basket = $userBasket;
+                }
             }
         }
 
-        $basket->save();
-
-        if ($user) {
+        if ($user && !$basket->user) {
             $basket->user()->associate($user);
         }
+
+        $basket->save();
 
         return $basket;
     }
@@ -71,6 +73,7 @@ class BasketService extends BaseService
             $basket->currency = $data['currency'];
         }
 
+
         $basket->lines()->delete();
 
         if (!empty($data['variants'])) {
@@ -78,7 +81,6 @@ class BasketService extends BaseService
         }
 
         $basket->save();
-
         event(new BasketStoredEvent($basket));
 
         return $basket;
