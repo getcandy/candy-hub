@@ -17,7 +17,7 @@ class TrackingMailable extends Mailable
 
     public function __construct(Order $order)
     {
-        $this->order = $order->load('lines')->toArray();
+        $this->order = $order->load(['lines', 'discounts'])->toArray();
 
         $this->template = 'trackingnotify::email';
         if (view()->exists('emails.trackingnotify')) {
