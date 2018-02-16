@@ -6,6 +6,8 @@ return [
      */
     'hub_access' => ['editor'],
 
+    'storefronturl' => env('STOREFRONT_URL'),
+
     'default_customer_group' => 'retail',
 
     'discounters' => [

@@ -76,7 +76,7 @@
                 <!-- Header -->
                 <table align="center" border="0" cellpadding="15" cellspacing="0" width="100%" style="font-family: Tahoma, Geneva, sans-serif;">
                   <tr>
-                    <td align="left"><a href="http://www.aquaspasupplies.co.uk/" class="logo"><img src="https://aquaspasupplies.co.uk/images/aqua/branding/aqua-spa.png" alt="Aqua Spa Supplies" width="138" height="60"><a></td>
+                    <td align="left"><a href="http://www.aquaspasupplies.co.uk/" class="logo"><img src="{{ config('getcandy.storefronturl')}}/images/aqua/branding/aqua-spa.png" alt="Aqua Spa Supplies" width="138" height="60"><a></td>
                     <td align="right" style="font-size: 16px; color: white;">Have an enquiry?<br> Call <strong>01245 477 400</strong></td>
                   </tr>
                 </table>
@@ -124,12 +124,7 @@
                     <tr>
                       <td align="center" style="padding-top: 0; font-size: 16px;">
                         <p style="margin-top: 0;">Order no.:<br><strong style="font-size: 26px; color: #1790d5;">
-                            @if($order['reference'])
-                                #ORD-{{ str_pad($order['reference'], 4, '0') }}
-                            @else
-                                #ORD-{{ str_pad($order['id'], 4, '0') }}
-                            @endif
-
+                            #ORD-{{ str_pad($order['id'], 4, '0') }}
                         </strong></p>
                       </td>
                     </tr>
@@ -212,6 +207,21 @@
                                 {{ number_format($order['total'], 2) }}
                             </td>
                           </tr>
+                          @if(isset($order['discounts']))
+                              @foreach ($order['discounts'] as $discount)
+                                  <tr align="right">
+                                      <td align="right">
+                                          <strong>{{ $discount['name'] }}</strong> <br>
+
+                                          @if($discount['type'] == 'percentage') @ {{ $discount['amount'] }}%@endif Discount
+                                          @if ($discount['coupon'])
+                                            Code: <code>{{ $discount['coupon'] }}</code>
+                                          @endif
+                                      </td>
+                                      <td></td>
+                                  </tr>
+                              @endforeach
+                          @endif
                           <tr>
                             <td align="right">
                               <p>Delivery</p>
@@ -258,7 +268,8 @@
                     <tr>
                       <!-- Terms & Conditions -->
                       <td align="center">
-                        <p><small>All purchases are subject to our terms and conditions, saved at <a href="{{ url('terms-and-conditions') }}">{{ url('terms-and-conditions') }}</a></small></p>
+                        <p><small>All purchases are subject to our terms and conditions, saved at <a href="
+                          {{ config('getcandy.storefronturl') }}/terms-and-conditions">Terms and Conditions</a></small></p>
                       </td>
                       <!-- END Terms & Conditions -->
                     </tr>
@@ -272,13 +283,13 @@
                 <td class="external-links" align="center">
                   <!-- External links -->
                   <a href="https://www.facebook.com/aquaspasupplies/">
-                    <img src="http://www.aquaspasupplies.co.uk/img/facebook.png" alt="Go to our Facebok page">
+                    <img src="{{ config('getcandy.storefronturl')}}/images/aqua/email/facebook.png" alt="Go to our Facebok page">
                   </a>
                   <a href="https://twitter.com/aquaspasupplies">
-                    <img src="http://www.aquaspasupplies.co.uk/img/twitter.png" alt="Go to our Twitter page">
+                    <img src="{{ config('getcandy.storefronturl')}}/images/aqua/email/twitter.png" alt="Go to our Twitter page">
                   </a>
                   <a href="http://www.aquaspasupplies.co.uk/img/">
-                    <img src="http://www.aquaspasupplies.co.uk/img/web.png" alt="Go to our Website page">
+                    <img src="{{ config('getcandy.storefronturl')}}/images/aqua/email/web.png" alt="Go to our Website page">
                   </a>
                   <!-- END External links -->
                 </td>
