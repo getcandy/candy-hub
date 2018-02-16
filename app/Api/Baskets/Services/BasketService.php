@@ -35,13 +35,8 @@ class BasketService extends BaseService
 
         if ($id) {
             $basket = $this->getByHashedId($id);
-        } elseif ($user) {
-            $userBasket = $user->latestBasket;
-            if ($userBasket) {
-                if ($userBasket->order && !$userBasket->order->placed_at || !$userBasket->order) {
-                    $basket = $userBasket;
-                }
-            }
+        } elseif ($user && $userBasket = $this->getCurrentForUser($user)) {
+            $basket = $userBasket;
         }
 
         if ($user && !$basket->user) {
@@ -150,15 +145,30 @@ class BasketService extends BaseService
     /**
      * Get a basket for a user
      *
-     * @param User $user
+     * @param mixed $user
      *
-     * @return Mixed
+     * @return mixed
      */
-    public function getForUser(User $user)
+    public function getCurrentForUser($user)
     {
-        return $user->basket;
-    }
+        if (!$user || !is_string($user) && !$user instanceof User) {
+            return null;
+        }
 
+        if (is_string($user)) {
+            $user = $this->getByHashedId($user);
+        }
+
+        $basket = $user->latestBasket;
+
+        if ($basket) {
+            if ($basket->order && !$basket->order->placed_at || !$basket->order) {
+                return $basket;
+            }
+        }
+
+        return $basket;
+    }
     /**
      * Resolves a guest basket with an existing basket
      *
@@ -166,6 +176,7 @@ class BasketService extends BaseService
      * @param string $basketId
      * @param boolean $merge
      *
+            $userBasket->merged = true;
      * @return Basket
      */
     public function resolve($user, $basketId, $merge = false)
@@ -176,9 +187,9 @@ class BasketService extends BaseService
         $userBasket = $user->basket;
 
         if ($merge) {
-            $userBasket->merged = true;
             return $this->merge($basket, $userBasket);
         }
+
         $basket->resolved_at = Carbon::now();
         $user->basket()->save($basket);
         $basket->save();

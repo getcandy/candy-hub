@@ -8,6 +8,7 @@ use GetCandy\Http\Requests\Api\Baskets\UpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Baskets\AddDiscountRequest;
 use GetCandy\Http\Requests\Api\Baskets\DeleteDiscountRequest;
+use GetCandy\Http\Requests\Api\Baskets\ResolveRequest;
 use GetCandy\Http\Transformers\Fractal\Baskets\BasketTransformer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -72,7 +73,7 @@ class BasketController extends BaseController
      */
     public function current(Request $request)
     {
-        $basket = app('api')->baskets()->getBasket(null, $request->user());
+        $basket = app('api')->baskets()->getCurrentForUser($request->user());
         if (!$basket) {
             return $this->errorNotFound("Basket does't exist");
         }
