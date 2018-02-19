@@ -3,6 +3,7 @@
 namespace GetCandy\Api\Discounts\Validators;
 
 use Carbon\Carbon;
+use GetCandy\Api\Discounts\Factory;
 
 class DiscountValidator
 {
@@ -40,7 +41,18 @@ class DiscountValidator
         if (!$discount->status) {
             return false;
         }
-        
+
+        $factory = app('api')->discounts()->getFactory($discount);
+
+        $check = (new Factory)->checkCriteria(
+            $factory,
+            $basket->user,
+            $basket
+        );
+
+        if (!$check) {
+            return false;
+        }
 
         return !$basket->discounts->filter(function ($discount) use ($value) {
             if ($discount->stop_rules || ($discount->pivot->coupon === $value)) {

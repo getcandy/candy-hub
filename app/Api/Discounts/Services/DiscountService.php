@@ -22,7 +22,7 @@ class DiscountService extends BaseService
      * Create a discount
      *
      * @param array $data
-     * 
+     *
      * @return Discount
      */
     public function create(array $data)
@@ -60,7 +60,7 @@ class DiscountService extends BaseService
      *
      * @param string $id
      * @param array $data
-     * 
+     *
      * @return Discount
      */
     public function update($id, array $data)
@@ -106,7 +106,7 @@ class DiscountService extends BaseService
     {
         //print_r($sets);exit;
         $discount->sets()->delete();
-        
+
         foreach ($sets as $set) {
             $groupModel = $discount->sets()->create([
                 'scope' => $set['scope'],
@@ -133,7 +133,7 @@ class DiscountService extends BaseService
      *
      * @param Discount $discount
      * @param array $rewards
-     * 
+     *
      * @return void
      */
     public function syncRewards($discount, array $rewards)
@@ -194,5 +194,35 @@ class DiscountService extends BaseService
             }
         }
         return collect($sets);
+    }
+
+    public function getFactory($discount)
+    {
+        $factory = new DiscountFactory();
+        $factory->setModel($discount);
+        $factory->stop = $discount->stop_rules;
+
+        $rewardSet = new RewardSet;
+
+        foreach ($discount->rewards as $reward) {
+            $rewardSet->add([
+                'type' => $reward->type,
+                'value' => $reward->value
+            ]);
+        }
+
+        $factory->setReward($rewardSet);
+
+        foreach ($discount->sets as $set) {
+            $criteriaSet = new \GetCandy\Api\Discounts\CriteriaSet;
+            $criteriaSet->scope = $set['scope'];
+            $criteriaSet->outcome = $set['outcome'];
+            foreach ($set->items as $item) {
+                $criteriaSet->add($item);
+            }
+            $factory->addCriteria($criteriaSet);
+        }
+
+        return $factory;
     }
 }
