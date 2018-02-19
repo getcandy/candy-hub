@@ -217,6 +217,7 @@ var includes = [
   {
     path: 'order-processing.customers',
     components: {
+      'customer-impersonate': 'Impersonate',
       'customer-create': 'CreateCustomer',
       'customers-table': 'CustomersTable',
       'customer-edit': 'CustomerEdit'

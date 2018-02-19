@@ -163,4 +163,17 @@ class UserService extends BaseService
 
         return $user;
     }
+
+    /**
+     * Creates a user token
+     *
+     * @param string $userId
+     *
+     * @return PersonalAccessTokenResult
+     */
+    public function getImpersonationToken($userId)
+    {
+        $user = $this->getByHashedId($userId);
+        return $user->createToken(str_random(25));
+    }
 }
