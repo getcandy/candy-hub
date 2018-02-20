@@ -27,7 +27,7 @@ class SetCustomerGroups
             }
 
         } else {
-            $groups = [app('api')->customerGroups()->getGuest()];
+            $groups = collect([app('api')->customerGroups()->getGuest()]);
         }
         GetCandy::setGroups($groups);
         return $next($request);

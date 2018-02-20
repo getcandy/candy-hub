@@ -22,7 +22,7 @@ class ProductVariantTransformer extends BaseTransformer
 
     public function transform(ProductVariant $variant)
     {
-        // $price = 
+        // $price =
         $response = [
             'id' => $variant->encodedId(),
             'sku' => $variant->sku,
@@ -90,9 +90,16 @@ class ProductVariantTransformer extends BaseTransformer
 
     public function includeTiers(ProductVariant $product)
     {
-        if (!$product->tiers) {
-            return $this->null();
-        }
-        return $this->collection($product->tiers, new ProductPricingTierTransformer);
+        $groups = \GetCandy::getGroups();
+
+        //TODO: Review for performace
+        $tiers = $product->tiers()->inGroups(
+            $groups->pluck('id')->toArray()
+        )->get();
+
+        return $this->collection(
+            $tiers,
+            new ProductPricingTierTransformer
+        );
     }
 }

@@ -14,6 +14,12 @@ class ProductPricingTier extends BaseModel
         'price'
     ];
 
+    public function scopeInGroups($query, $groups)
+    {
+        return $query->whereHas('group', function ($q) use ($groups) {
+            $q->whereIn('id', $groups);
+        });
+    }
     /**
      * The Hashid Channel for encoding the id
      * @var string
