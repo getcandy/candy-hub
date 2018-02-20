@@ -7,7 +7,6 @@ class Dispatcher {
     }
 
     add(ref, component) {
-        console.log('Added ' + ref);
         this.methods[ref] = component;
     }
 
