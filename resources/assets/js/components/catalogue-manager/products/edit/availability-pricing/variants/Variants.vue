@@ -13,7 +13,6 @@
                 groupPricing: false,
                 customerGroups: [],
                 customerGroupSelect: [],
-                priceTiers: [],
                 pricing: [],
                 assets: [],
                 variants: [],
@@ -64,14 +63,6 @@
                         value: item.id
                     };
                 });
-
-                this.priceTiers = _.map(this.current.tiers.data, item => {
-                    return {
-                        'lower_limit' : item.lower_limit,
-                        'price' : item.price,
-                        'customer_group_id' : item.group.data.id
-                    };
-                });
             });
 
             Dispatcher.add('product-variants', this);
@@ -107,14 +98,14 @@
                 });
             },
             addPriceTier() {
-                this.priceTiers.push({
+                this.current.tiers.data.push({
                     'lower_limit' : '',
                     'price' : '',
                     'customer_group_id' : this.customerGroups[0].id
                 });
             },
             removeTier(index) {
-                this.priceTiers.splice(index, 1);
+                this.current.tiers.data.splice(index, 1);
             },
             save() {
                 let data = this.current;
@@ -238,6 +229,14 @@
                     });
                 });
                 return options;
+            },
+            priceTiers() {
+                return _.map(this.current.tiers.data, item => {
+                    if (!item.customer_group_id) {
+                        item.customer_group_id = item.group.data.id;
+                    }
+                    return item;
+                });
             },
             volume() {
                 // Convert height to cm...
@@ -458,7 +457,7 @@
 
                         <h4>Price Tiers</h4>
                         <hr>
-                        <div class="row" v-for="(tier, index) in priceTiers">
+                        <div class="row" v-for="(tier, index) in priceTiers" v-if="customerGroupSelect.length">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Lower limit</label>
