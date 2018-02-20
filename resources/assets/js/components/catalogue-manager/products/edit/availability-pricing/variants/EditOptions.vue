@@ -175,7 +175,6 @@
                                 };
                             };
                             if (variant.options[field[0].slugify()][locale.current()] == value[field]) {
-                                console.log(optionValues[optionValueIndex]);
                                 optionsToRemove.push(optionValueIndex);
                             }
                         });
