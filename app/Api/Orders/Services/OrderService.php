@@ -405,24 +405,34 @@ class OrderService extends BaseService
             $order->notes = $data['notes'];
         }
 
-        $transaction = app('api')->payments()->charge(
-            $data['payment_token'],
-            $order
+        $type = null;
+        if (!empty($data['payment_type_id'])) {
+            $type = app('api')->paymentTypes()->getByHashedId($data['payment_type_id']);
+        }
+
+        $result = app('api')->payments()->charge(
+            $order,
+            $data['payment_token'] ?? null,
+            $type
         );
 
-        if ($transaction->success) {
-            $order->status = 'payment-received';
+        if ($result) {
+            if ($type) {
+                $order->status = $type->success_status;
+            } else {
+                $order->status = 'payment-received';
+            }
             $order->reference = $this->getNextInvoiceReference();
             $order->placed_at = Carbon::now();
+        } else {
+            $order->status = 'failed';
         }
 
         $order->save();
 
         event(new OrderProcessedEvent($order));
 
-        $transaction->order_id = $order->id;
-        $transaction->save();
-        return $transaction;
+        return $order;
     }
 
     /**

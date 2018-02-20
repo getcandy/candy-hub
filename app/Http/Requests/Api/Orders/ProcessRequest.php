@@ -25,7 +25,8 @@ class ProcessRequest extends FormRequest
     {
         return [
             'order_id' => 'required',
-            'payment_token' => 'required|valid_payment_token'
+            'payment_token' => 'valid_payment_token|required_without:payment_type_id',
+            'payment_type_id' => 'required_without:payment_token|hashid_is_valid:payment_types'
         ];
     }
 }

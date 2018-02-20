@@ -79,6 +79,10 @@
                         type = 'default';
                         text = 'Expired';
                         break;
+                    case 'on-account':
+                        type = 'primary';
+                        text = 'On Account';
+                        break;
                     default:
                         type = 'warning';
                         text = 'Awaiting payment';

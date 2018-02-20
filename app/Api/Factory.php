@@ -14,6 +14,7 @@ use GetCandy\Api\Search\Services\SearchService;
 use GetCandy\Api\Layouts\Services\LayoutService;
 use GetCandy\Api\Baskets\Services\BasketService;
 use GetCandy\Api\Payments\Services\PaymentService;
+use GetCandy\Api\Payments\Services\PaymentTypeService;
 use GetCandy\Api\Channels\Services\ChannelService;
 use GetCandy\Api\Settings\Services\SettingService;
 use GetCandy\Api\Products\Services\ProductService;
@@ -135,6 +136,11 @@ class Factory
     protected $payments;
 
     /**
+     * @var PaymentTypeService
+     */
+    protected $paymentTypes;
+
+    /**
      * @var PageService
      */
     protected $pages;
@@ -245,6 +251,7 @@ class Factory
         LanguageService $languages,
         LayoutService $layouts,
         OrderService $orders,
+        PaymentTypeService $paymentTypes,
         PaymentService $payments,
         PageService $pages,
         ProductAssociationService $productAssociations,
@@ -286,6 +293,7 @@ class Factory
         $this->orders = $orders;
         $this->pages = $pages;
         $this->payments = $payments;
+        $this->paymentTypes = $paymentTypes;
         $this->productAssociations = $productAssociations;
         $this->productCategories = $productCategories;
         $this->productCollections = $productCollections;

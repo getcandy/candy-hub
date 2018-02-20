@@ -24,7 +24,7 @@ class PaymentController extends BaseController
      *
      * @param string $id
      * @param RefundRequest $request
-     * 
+     *
      * @return mixed
      */
     public function refund($id, RefundRequest $request)
@@ -43,7 +43,7 @@ class PaymentController extends BaseController
 
         return $this->respondWithItem($transaction, new TransactionTransformer);
     }
-    
+
     public function void($id, VoidRequest $request)
     {
         try {

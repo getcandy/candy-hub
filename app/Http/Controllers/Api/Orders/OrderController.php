@@ -72,13 +72,11 @@ class OrderController extends BaseController
     public function process(ProcessRequest $request)
     {
         try {
-            $transaction = app('api')->orders()->process($request->all());
-            switch ($transaction->status) {
-                case 'processor_declined':
-                    return $this->errorForbidden('Payment was declined');
-                default:
-                    return $this->respondWithItem($transaction, new TransactionTransformer);
+            $order = app('api')->orders()->process($request->all());
+            if (!$order->placed_at) {
+                return $this->errorForbidden('Payment has failed');
             }
+            return $this->respondWithItem($order, new OrderTransformer);
         } catch (IncompleteOrderException $e) {
             return $this->errorForbidden('The order is missing billing information');
         }

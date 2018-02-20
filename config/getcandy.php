@@ -18,10 +18,11 @@ return [
     ],
 
     'payments' => [
-        'gateway' => 'braintree',
+        'gateway' => 'card',
         'environment' => env('PAYMENT_ENV'),
         'providers' => [
-            'braintree' => GetCandy\Api\Payments\Providers\Braintree::class
+            'account' => GetCandy\Api\Payments\Providers\OnAccount::class,
+            'card' => GetCandy\Api\Payments\Providers\Braintree::class,
         ]
     ]
 ];

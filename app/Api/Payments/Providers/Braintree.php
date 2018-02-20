@@ -8,6 +8,7 @@ use Braintree_PaymentMethodNonce;
 use Braintree_Exception_NotFound;
 use Braintree_Transaction;
 use Braintree_Test_Transaction;
+use GetCandy\Api\Payments\Models\Transaction;
 
 class Braintree extends AbstractProvider
 {
@@ -65,7 +66,7 @@ class Braintree extends AbstractProvider
             } else {
                 $info = $token->threeDSecureInfo;
             }
-            
+
             if ($token->consumed || (empty($info) && $this->threeDSecured())) {
                 return false;
             }
@@ -118,8 +119,34 @@ class Braintree extends AbstractProvider
                 'submitForSettlement' => true
             ]
         ]);
-    
-        return $sale;
+
+        $transaction = $this->createTransaction($sale, $order);
+
+        return $transaction->success;
+    }
+
+
+    protected function createTransaction($result, $order)
+    {
+        $transaction = new Transaction;
+
+        $transaction->success = $result->success;
+
+        if ($transaction->success) {
+            $transaction->provider = $result->transaction->paymentInstrumentType;
+            $transaction->status = $result->transaction->status;
+            $transaction->transaction_id = $result->transaction->id;
+            $transaction->amount = $result->transaction->amount;
+            $transaction->merchant = $result->transaction->merchantAccountId;
+            $transaction->card_type = $result->transaction->creditCardDetails->cardType ?? '';
+            $transaction->last_four = $result->transaction->creditCardDetails->last4 ?? '';
+        }
+
+        $transaction->order_id = $order->id;
+
+        $transaction->save();
+
+        return $transaction;
     }
 
     public function refund($token, $amount = null)

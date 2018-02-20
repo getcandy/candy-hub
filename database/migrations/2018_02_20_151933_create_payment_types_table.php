@@ -17,6 +17,7 @@ class CreatePaymentTypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('driver')->index();
+            $table->string('success_status')->index();
             $table->timestamps();
         });
     }

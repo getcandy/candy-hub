@@ -73,6 +73,7 @@ $this->get('orders/{id}/invoice', 'Orders\OrderController@invoice');
  * Payments
  */
 $this->get('payments/provider', 'Payments\PaymentController@provider');
+$this->get('payments/types', 'Payments\PaymentTypeController@index');
 
 $this->get('routes', 'Routes\RouteController@index');
 $this->get('routes/{slug}', [
