@@ -10,7 +10,7 @@
                 createVariant: false,
                 editOptions: false,
                 changeImage: false,
-                groupPricing: false,
+                hasGroupPricing: false,
                 customerGroups: [],
                 customerGroupSelect: [],
                 pricing: [],
@@ -40,7 +40,7 @@
         mounted() {
             this.assets = this.product.assets.data;
 
-            this.groupPricing = this.current.pricing.data.length >= 1;
+            this.hasGroupPricing = this.current.pricing.data.length >= 1;
 
             CandyEvent.$on('asset_deleted', event => {
                 this.assets.splice(event.index, 1);
@@ -56,7 +56,6 @@
 
             this.request.send('GET', 'customers/groups').then(response => {
                 this.customerGroups = response.data;
-                this.setGroupPricing();
                 this.customerGroupSelect = _.map(response.data, item => {
                     return {
                         label: item.name,
@@ -68,35 +67,6 @@
             Dispatcher.add('product-variants', this);
         },
         methods: {
-            setGroupPricing() {
-                let pricing = this.current.pricing.data;
-
-                _.each(this.customerGroups, group => {
-                    let tier = _.find(pricing, price => {
-                        return price.group.data.id == group.id;
-                    });
-
-                    let tax = null,
-                    price = this.current.price;
-
-                    if (tier) {
-                        if (tier.tax.data.id) {
-                            tax = tier.tax.data.id;
-                        }
-                        price = tier.price;
-                    } else {
-                        tax = _.find(this.$store.getters.getTaxes, item => {
-                            return item.default;
-                        }).id;
-                    }
-                    this.pricing.push({
-                        name: group.name,
-                        customer_group_id: group.id,
-                        tax_id: tax,
-                        price: price
-                    });
-                });
-            },
             addPriceTier() {
                 this.current.tiers.data.push({
                     'lower_limit' : '',
@@ -108,11 +78,9 @@
                 this.current.tiers.data.splice(index, 1);
             },
             save() {
-                let data = this.current;
-                data.pricing = this.pricing;
-                data.tiers = this.priceTiers;
-
-                if (!this.groupPricing) {
+                let data = JSON.parse(JSON.stringify(this.current));
+                data.pricing = this.groupPricing;
+                if (!this.hasGroupPricing) {
                     data.pricing = [];
                 }
 
@@ -120,7 +88,9 @@
                     data.priceTiers = [];
                 }
 
-                data.group_pricing = this.groupPricing;
+                data.group_pricing = this.hasGroupPricing;
+
+                data.tiers = this.priceTiers;
 
                 this.request.send('put', '/products/variants/' + this.current.id, data)
                     .then(response => {
@@ -229,6 +199,36 @@
                     });
                 });
                 return options;
+            },
+            groupPricing() {
+                let pricing = this.current.pricing.data;
+                let prices = [];
+                _.each(this.customerGroups, group => {
+                    let tier = _.find(pricing, price => {
+                        return price.group.data.id == group.id;
+                    });
+
+                    let tax = null,
+                    price = this.current.price;
+
+                    if (tier) {
+                        if (tier.tax.data.id) {
+                            tax = tier.tax.data.id;
+                        }
+                        price = tier.price;
+                    } else {
+                        tax = _.find(this.$store.getters.getTaxes, item => {
+                            return item.default;
+                        }).id;
+                    }
+                    prices.push({
+                        name: group.name,
+                        customer_group_id: group.id,
+                        tax_id: tax,
+                        price: price
+                    });
+                });
+                return prices;
             },
             priceTiers() {
                 return _.map(this.current.tiers.data, item => {
@@ -390,13 +390,13 @@
                             <div class="col-xs-12 col-md-12">
                                 <div class="form-group">
                                     <label for="groupPricing">
-                                        <input id="groupPricing" type="checkbox" v-model="groupPricing">
+                                        <input id="groupPricing" type="checkbox" v-model="hasGroupPricing">
                                         <span class="faux-label"> Individual Customer Group Pricing</span>
                                     </label>
                                 </div>
                                 <div class="row">
-                                    <template v-if="groupPricing">
-                                        <template v-for="group in pricing">
+                                    <template v-if="hasGroupPricing">
+                                        <template v-for="group in groupPricing">
                                             <div class="col-md-4">
                                                 <div class="form-group" >
                                                     <label>{{ group.name }}</label>
