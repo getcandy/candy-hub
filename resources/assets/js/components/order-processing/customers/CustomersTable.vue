@@ -19,7 +19,6 @@
         },
         methods: {
             loadCustomers() {
-                console.log(this.params);
                 apiRequest.send('get', '/customers', [], this.params)
                     .then(response => {
                         this.customers = response.data;

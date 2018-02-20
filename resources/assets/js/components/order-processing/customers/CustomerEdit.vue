@@ -63,7 +63,6 @@
                     this.customer = response.data;
                     this.loaded = true;
                     this.selectedGroups = _.map(this.customer.groups.data, group => {
-                        console.log(group);
                         return group.id;
                     });
                     CandyEvent.$emit('title-changed', {

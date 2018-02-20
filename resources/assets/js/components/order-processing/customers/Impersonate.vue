@@ -37,10 +37,6 @@
                     this.processing = false;
                     return false;
                 }
-
-                console.log({
-                    'customer_id' : this.customerId
-                });
                 apiRequest.send('POST', '/auth/impersonate', {
                     'customer_id' : this.customerId
                 }).then(response => {

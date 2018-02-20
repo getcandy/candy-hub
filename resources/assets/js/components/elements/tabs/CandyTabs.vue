@@ -40,7 +40,6 @@
             selectTab(selectedTab) {
                 this.tabs.forEach(tab => {
                     if (tab.name == selectedTab.name) {
-                        console.log(1);
                         CandyEvent.$emit('current-tab', tab);
                         tab.isActive = true;
                         // this.selectTab(tab);

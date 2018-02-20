@@ -66,7 +66,6 @@
             },
             loadProducts() {
                 this.loaded = false;
-                console.log(this.params);
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
@@ -131,10 +130,8 @@
                     this.params['keywords'] = this.keywords;
 
                     if (this.keywords) {
-                        console.log('searching');
                         this.searchProducts();
                     } else {
-                        console.log('loading');
                         this.loadProducts();
                     }
                 }, 500

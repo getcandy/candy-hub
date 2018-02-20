@@ -40,11 +40,9 @@
             },
             searchUsers() {
                 this.loading = true;
-                console.log('hit');
                 apiRequest.send('GET', 'users', [], this.params)
                     .then(response => {
                         this.users = response.data;
-                        console.log(response.data);
                         this.params.total_pages = response.meta.pagination.total_pages;
                         this.meta = response.meta;
                         this.loading = false;
