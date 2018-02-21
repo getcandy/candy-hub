@@ -228,7 +228,7 @@
                                                 <tr>
                                                     <td colspan="2"></td>
                                                     <td colspan="2" align="right"><strong>Sub total</strong></td>
-                                                    <td v-html="currencySymbol(order.total - order.vat)"></td>
+                                                    <td v-html="currencySymbol(order.total)"></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2"></td>

@@ -8,6 +8,7 @@ use GetCandy\Http\Requests\Api\Orders\UpdateRequest;
 use GetCandy\Http\Requests\Api\Orders\StoreAddressRequest;
 use GetCandy\Http\Transformers\Fractal\Orders\OrderTransformer;
 use GetCandy\Http\Transformers\Fractal\Shipping\ShippingPriceTransformer;
+use GetCandy\Http\Transformers\Fractal\Documents\PdfTransformer;
 use GetCandy\Http\Transformers\Fractal\Payments\TransactionTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -220,6 +221,8 @@ class OrderController extends BaseController
      */
     public function invoice($id, Request $request)
     {
-        return app('api')->orders()->getPdf($id);
+        $order = app('api')->orders()->getByHashedId($id);
+        $pdf = app('api')->orders()->getPdf($order);
+        return $this->respondWithItem($pdf, new PdfTransformer);
     }
 }

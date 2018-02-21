@@ -523,10 +523,8 @@ class OrderService extends BaseService
         return $order;
     }
 
-    public function getPdf($orderId)
+    public function getPdf($order)
     {
-        $order = $this->getByHashedId($orderId);
-
         $settings['address'] =  app('api')->settings()->get('address')['content'];
         $settings['tax'] = app('api')->settings()->get('tax')['content'];
         $settings['contact'] = app('api')->settings()->get('contact')['content'];
@@ -551,6 +549,6 @@ class OrderService extends BaseService
         }
 
         $pdf = PDF::loadView('pdf.order-invoice', $data);
-        return $pdf->stream('invoice.pdf');
+        return $pdf;
     }
 }

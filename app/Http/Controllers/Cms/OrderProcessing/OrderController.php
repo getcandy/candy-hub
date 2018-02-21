@@ -19,7 +19,9 @@ class OrderController extends Controller
 
     public function invoice($id)
     {
-        return app('api')->orders()->getPdf($id);
+        $order = app('api')->orders()->getByHashedId($id);
+        $pdf = app('api')->orders()->getPdf($order);
+        return $pdf->stream('#INV-' . $order->reference . '.pdf');
     }
 
 }

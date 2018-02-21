@@ -188,11 +188,6 @@
                     @endforeach
                 </tbody>
                 <tfoot class="lines-footer">
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="2"><strong>VAT (included)</strong></td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->vat }}</td>
-                    </tr>
                     @if($order->discounts)
                         @foreach ($order->discounts as $discount)
                             <tr class="discount-row">
@@ -217,7 +212,12 @@
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="2"><strong>Sub Total</strong></td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->total - $order->vat }}</td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($order->total, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2"><strong>VAT</strong></td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->vat }}</td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
