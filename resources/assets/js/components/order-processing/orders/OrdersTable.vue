@@ -9,6 +9,7 @@
                 checkedCount: 0,
                 filter: null,
                 currencies: [],
+                keywords: null,
                 params: {
                     per_page: 50,
                     current_page: 1,
@@ -39,6 +40,7 @@
         watch: {
             filter() {
                 this.loadOrders();
+                this.params.current_page = 1;
             }
         },
         methods: {
@@ -47,6 +49,10 @@
 
                 if (this.filter) {
                     this.params.status = this.filter;
+                }
+
+                if (this.keywords) {
+                    this.params.keywords = this.keywords;
                 }
 
                 apiRequest.send('get', '/orders', [], this.params)
@@ -59,6 +65,12 @@
                         });
                     });
             },
+            search: _.debounce(function (){
+                    this.loaded = false;
+                    this.params['keywords'] = this.keywords;
+                    this.loadOrders();
+                }, 500
+            ),
             status(order) {
                 var type = 'default'
                 var text = 'Unknown';
@@ -178,7 +190,7 @@
                                   <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" placeholder="Search">
+                                <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
                         </div>
                     </div>

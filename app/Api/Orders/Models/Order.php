@@ -50,6 +50,15 @@ class Order extends BaseModel
         });
     }
 
+    public function scopeSearch($qb, $keywords)
+    {
+        $query = $qb->where('billing_firstname', 'LIKE', '%'.$keywords.'%')
+            ->orWhere('id', '=', str_replace('#ORD-', '', $keywords))
+            ->orWhere('reference', '=', str_replace('#INV-', '', $keywords));
+
+        return $query;
+    }
+
     public function getChargedAmountAttribute()
     {
         $total = 0;

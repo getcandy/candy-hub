@@ -446,6 +446,10 @@ class OrderService extends BaseService
             $query = $query->where('status', '=', $status);
         }
 
+        if ($keywords) {
+            $query = $query->search($keywords);
+        }
+
         if (!app('auth')->user()->hasRole('admin')) {
             $query = $query->whereHas('user', function ($q) use ($user) {
                 $q->whereId($user->id);
