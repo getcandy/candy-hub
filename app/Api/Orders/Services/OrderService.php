@@ -435,9 +435,10 @@ class OrderService extends BaseService
      */
     public function getPaginatedData($length = 50, $page = 1, $user = null)
     {
-        $query = $this->model->orderBy('id', 'desc')
+        $query = $this->model
             ->withoutGlobalScope('open')
             ->withoutGlobalScope('not_expired')
+            ->orderBy('placed_at', 'desc')
             ->whereNotIn('status', ['open', 'awaiting-payment']);
 
         if (!app('auth')->user()->hasRole('admin')) {

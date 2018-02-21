@@ -154,6 +154,7 @@
                             <th>Shipping</th>
                             <th>Currency</th>
                             <th>Date Created</th>
+                            <th>Date Placed</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
@@ -182,6 +183,9 @@
                             <td>{{ order.currency }}</td>
                             <td>
                                 {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                            </td>
+                            <td>
+                                {{ order.placed_at|formatDate('Do MMM YYYY, H:mm:ss') }}
                             </td>
                         </tr>
 
