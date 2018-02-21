@@ -23,50 +23,37 @@
                     <h3 class="panel-title">Sales this week</h3>
                 </header>
                 <div class="panel-body">
-                    <span class="dashboard-figure">&pound;{{ number_format($sales_total, 2) }}</span>
+                    <div class="dashboard-figure">
+                        &pound;{{ number_format($sales_this_week, 2) }}<br>
+                        <section style="margin-top:10px;font-size:.75em">
+                            @if($sales_this_week - $sales_last_week >= 0)
+                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>&pound;{{ number_format($sales_this_week - $sales_last_week, 2) }}</span>
+                            @else
+                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>&pound;{{ number_format($sales_this_week - $sales_last_week, 2) }}</span>
+                            @endif
+                        </section>
+                    </div>
                 </div>
-                <footer class="panel-footer">
-                    <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 81.54%</span> from last week
-                </footer>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="panel">
                 <header class="panel-heading">
-                    <h3 class="panel-title">Total Orders</h3>
+                    <h3 class="panel-title">Orders this week</h3>
                 </header>
                 <div class="panel-body">
-                    <span class="dashboard-figure">{{ $order_count }}</span>
+                    <div class="dashboard-figure">
+                        {{ $orders_this_week }} <br>
+                        <section style="margin-top:10px;font-size:.75em">
+                            @if($orders_this_week - $orders_last_week >= 0)
+                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>{{ $orders_this_week - $orders_last_week }}</span>
+                            @else
+                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>{{ $orders_this_week - $orders_last_week }}</span>
+                            @endif
+                        </section>
+                    </div>
                 </div>
-                <footer class="panel-footer">
-                    <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 10%</span> from last week
-                </footer>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel">
-                <header class="panel-heading">
-                    <h3 class="panel-title">Taxes</h3>
-                </header>
-                <div class="panel-body">
-                    <span class="dashboard-figure">&pound;{{ number_format($tax_total, 2) }}</span>
-                </div>
-                <footer class="panel-footer">
-                    <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 80.42%</span> from last week
-                </footer>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel">
-                <header class="panel-heading">
-                    <h3 class="panel-title">Abandoned / Live Carts</h3>
-                </header>
-                <div class="panel-body">
-                    <span class="dashboard-figure">{{ $basket_count }}</span>
-                </div>
-                <footer class="panel-footer">
-                    <span class="text-success"><sup><fa icon="caret-up"></fa></sup> 296.67%</span> from last week
-                </footer>
             </div>
         </div>
     </div>
@@ -81,7 +68,6 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Status</th>
                                 <th>ID</th>
                                 <th>Customer</th>
                                 <th>Date</th>
@@ -91,8 +77,7 @@
                         <tbody>
                             @forelse($recent_orders as $order)
                             <tr>
-                                <td><span class="label label-success">Complete</span></td>
-                                <td><a href="#">#{{ $order->encodedId() }}</a></td>
+                                <td><a href="#">{{ $order->ref }}</a></td>
                                 <td>{{ $order->customer_name }}</td>
                                 <td>{{ $order->created_at }}</td>
                                 <td>&pound;{{ number_format($order->total, 2) }}</td>
@@ -119,7 +104,7 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <!--  <div class="row">
         <div class="col-md-2">
             <div class="panel">
                 <header class="panel-heading">
@@ -170,7 +155,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 @endsection
 
 @section('scripts')
