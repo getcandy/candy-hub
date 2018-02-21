@@ -433,13 +433,18 @@ class OrderService extends BaseService
      * @param User $user
      * @return void
      */
-    public function getPaginatedData($length = 50, $page = 1, $user = null)
+    public function getPaginatedData($length = 50, $page = 1, $user = null, $status = null, $keywords = null)
     {
         $query = $this->model
             ->withoutGlobalScope('open')
             ->withoutGlobalScope('not_expired')
-            ->orderBy('placed_at', 'desc')
-            ->whereNotIn('status', ['open', 'awaiting-payment']);
+            ->orderBy('placed_at', 'desc');
+
+        if (!$status || $status == 'processed') {
+            $query = $query->whereNotIn('status', ['open', 'awaiting-payment']);
+        } else {
+            $query = $query->where('status', '=', $status);
+        }
 
         if (!app('auth')->user()->hasRole('admin')) {
             $query = $query->whereHas('user', function ($q) use ($user) {

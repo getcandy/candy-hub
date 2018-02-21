@@ -27,7 +27,7 @@ class OrderController extends BaseController
             $request->per_page,
             $request->current_page,
             $request->user(),
-            $request->sort,
+            $request->status,
             $request->keywords
         );
         return $this->respondWithCollection($orders, new OrderTransformer);

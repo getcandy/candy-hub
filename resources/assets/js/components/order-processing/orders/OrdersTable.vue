@@ -36,8 +36,19 @@
         mounted() {
             this.loadOrders();
         },
+        watch: {
+            filter() {
+                this.loadOrders();
+            }
+        },
         methods: {
             loadOrders() {
+                this.loaded = false;
+
+                if (this.filter) {
+                    this.params.status = this.filter;
+                }
+
                 apiRequest.send('get', '/orders', [], this.params)
                     .then(response => {
                         this.orders = response.data;
@@ -55,6 +66,10 @@
                     case 'payment-received':
                         type = 'success';
                         text = 'Payment Received';
+                        break;
+                    case 'on-account':
+                        type = 'primary';
+                        text = 'On Account';
                         break;
                     case 'refunded':
                         type = 'warning';
@@ -120,27 +135,32 @@
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" :class="{'active' : !filter}">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'processed'">
                     All Orders
                 </a>
             </li>
             <li role="presentation" :class="{'active' : filter == 'awaiting-payment'}">
-                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab">
+                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab" @click="filter = 'awaiting-payment'">
                     Awaiting Payment
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+            <li role="presentation" :class="{'active' : filter == 'payment-received'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'payment-received'">
                     Payment received
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+            <li role="presentation" :class="{'active' : filter == 'dispatched'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'dispatched'">
                     Dispatched
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+            <li role="presentation" :class="{'active' : filter == 'on-account'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'on-account'">
+                    On Account
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'failed'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'failed'">
                     Failed
                 </a>
             </li>
@@ -174,7 +194,8 @@
                             <th>Total</th>
                             <th>Shipping</th>
                             <th>Currency</th>
-                            <th>Date Placed</th>
+                            <th v-if="filter != 'awaiting-payment'">Date Placed</th>
+                            <th v-else>Date Created</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
@@ -201,8 +222,11 @@
                                 <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
                             </td>
                             <td>{{ order.currency }}</td>
-                            <td>
+                            <td v-if="filter != 'awaiting-payment'">
                                 {{ order.placed_at|formatDate('Do MMM YYYY, H:mm:ss') }}
+                            </td>
+                            <td v-else>
+                                {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
                             </td>
                         </tr>
 
