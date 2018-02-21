@@ -437,13 +437,18 @@ class OrderService extends BaseService
     {
         $query = $this->model
             ->withoutGlobalScope('open')
-            ->withoutGlobalScope('not_expired')
-            ->orderBy('placed_at', 'desc');
+            ->withoutGlobalScope('not_expired');
 
         if (!$status || $status == 'processed') {
             $query = $query->whereNotIn('status', ['open', 'awaiting-payment']);
         } else {
             $query = $query->where('status', '=', $status);
+        }
+
+        if ($status == 'awaiting-payment') {
+            $query = $query->orderBy('created_at', 'desc');
+        } else {
+            $query = $query->orderBy('placed_at', 'desc');
         }
 
         if ($keywords) {
