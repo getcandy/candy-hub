@@ -21,7 +21,7 @@ return [
         'gateway' => 'card',
         'environment' => env('PAYMENT_ENV'),
         'providers' => [
-            'account' => GetCandy\Api\Payments\Providers\OnAccount::class,
+            'offline' => GetCandy\Api\Payments\Providers\OnAccount::class,
             'card' => GetCandy\Api\Payments\Providers\Braintree::class,
         ]
     ]
