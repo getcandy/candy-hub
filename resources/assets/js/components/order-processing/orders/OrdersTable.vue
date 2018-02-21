@@ -7,7 +7,9 @@
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                filter: null,
                 currencies: [],
+                keywords: null,
                 params: {
                     per_page: 50,
                     current_page: 1,
@@ -35,8 +37,24 @@
         mounted() {
             this.loadOrders();
         },
+        watch: {
+            filter() {
+                this.loadOrders();
+                this.params.current_page = 1;
+            }
+        },
         methods: {
             loadOrders() {
+                this.loaded = false;
+
+                if (this.filter) {
+                    this.params.status = this.filter;
+                }
+
+                if (this.keywords) {
+                    this.params.keywords = this.keywords;
+                }
+
                 apiRequest.send('get', '/orders', [], this.params)
                     .then(response => {
                         this.orders = response.data;
@@ -47,6 +65,12 @@
                         });
                     });
             },
+            search: _.debounce(function (){
+                    this.loaded = false;
+                    this.params['keywords'] = this.keywords;
+                    this.loadOrders();
+                }, 500
+            ),
             status(order) {
                 var type = 'default'
                 var text = 'Unknown';
@@ -54,6 +78,10 @@
                     case 'payment-received':
                         type = 'success';
                         text = 'Payment Received';
+                        break;
+                    case 'on-account':
+                        type = 'primary';
+                        text = 'On Account';
                         break;
                     case 'refunded':
                         type = 'warning';
@@ -122,9 +150,34 @@
 
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+            <li role="presentation" :class="{'active' : !filter}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'processed'">
                     All Orders
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'awaiting-payment'}">
+                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab" @click="filter = 'awaiting-payment'">
+                    Awaiting Payment
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'payment-received'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'payment-received'">
+                    Payment received
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'dispatched'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'dispatched'">
+                    Dispatched
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'on-account'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'on-account'">
+                    On Account
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'failed'}">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'failed'">
+                    Failed
                 </a>
             </li>
         </ul>
@@ -141,7 +194,7 @@
                                   <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" placeholder="Search">
+                                <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
                         </div>
                     </div>
@@ -157,7 +210,8 @@
                             <th>Total</th>
                             <th>Shipping</th>
                             <th>Currency</th>
-                            <th>Date Created</th>
+                            <th v-if="filter != 'awaiting-payment'">Date Placed</th>
+                            <th v-else>Date Created</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
@@ -184,7 +238,10 @@
                                 <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
                             </td>
                             <td>{{ order.currency }}</td>
-                            <td>
+                            <td v-if="filter != 'awaiting-payment'">
+                                {{ order.placed_at|formatDate('Do MMM YYYY, H:mm:ss') }}
+                            </td>
+                            <td v-else>
                                 {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
                             </td>
                         </tr>

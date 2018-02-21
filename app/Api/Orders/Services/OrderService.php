@@ -443,12 +443,27 @@ class OrderService extends BaseService
      * @param User $user
      * @return void
      */
-    public function getPaginatedData($length = 50, $page = 1, $user = null)
+    public function getPaginatedData($length = 50, $page = 1, $user = null, $status = null, $keywords = null)
     {
-        $query = $this->model->orderBy('id', 'desc')
+        $query = $this->model
             ->withoutGlobalScope('open')
-            ->withoutGlobalScope('not_expired')
-            ->whereNotIn('status', ['open', 'awaiting-payment']);
+            ->withoutGlobalScope('not_expired');
+
+        if (!$status || $status == 'processed') {
+            $query = $query->whereNotIn('status', ['open', 'awaiting-payment']);
+        } else {
+            $query = $query->where('status', '=', $status);
+        }
+
+        if ($status == 'awaiting-payment') {
+            $query = $query->orderBy('created_at', 'desc');
+        } else {
+            $query = $query->orderBy('placed_at', 'desc');
+        }
+
+        if ($keywords) {
+            $query = $query->search($keywords);
+        }
 
         if (!app('auth')->user()->hasRole('admin')) {
             $query = $query->whereHas('user', function ($q) use ($user) {
@@ -518,10 +533,8 @@ class OrderService extends BaseService
         return $order;
     }
 
-    public function getPdf($orderId)
+    public function getPdf($order)
     {
-        $order = $this->getByHashedId($orderId);
-
         $settings['address'] =  app('api')->settings()->get('address')['content'];
         $settings['tax'] = app('api')->settings()->get('tax')['content'];
         $settings['contact'] = app('api')->settings()->get('contact')['content'];
@@ -546,6 +559,6 @@ class OrderService extends BaseService
         }
 
         $pdf = PDF::loadView('pdf.order-invoice', $data);
-        return $pdf->stream('invoice.pdf');
+        return $pdf;
     }
 }
