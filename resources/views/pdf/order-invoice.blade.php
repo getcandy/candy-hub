@@ -190,7 +190,7 @@
                 <tfoot class="lines-footer">
                     <tr>
                         <td colspan="2"></td>
-                        <td colspan="2"><strong>Tax (included)</strong></td>
+                        <td colspan="2"><strong>VAT (included)</strong></td>
                         <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->vat }}</td>
                     </tr>
                     @if($order->discounts)
@@ -213,6 +213,11 @@
                             <small>{{ $order->shipping_method }}</small>
                         </td>
                         <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->shipping_total }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2"><strong>Sub Total</strong></td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->total - $order->vat }}</td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
