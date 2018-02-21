@@ -7,6 +7,7 @@
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                filter: null,
                 currencies: [],
                 params: {
                     per_page: 50,
@@ -118,9 +119,29 @@
 
         <!-- Search tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
+            <li role="presentation" :class="{'active' : !filter}">
                 <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
                     All Orders
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'awaiting-payment'}">
+                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab">
+                    Awaiting Payment
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+                    Payment received
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+                    Dispatched
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab">
+                    Failed
                 </a>
             </li>
         </ul>
