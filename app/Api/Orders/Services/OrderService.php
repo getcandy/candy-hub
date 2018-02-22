@@ -423,7 +423,7 @@ class OrderService extends BaseService
             if ($type) {
                 $order->status = $type->success_status;
             } else {
-                $order->status = 'payment-received';
+                $order->status = 'payment-processing';
             }
             $order->reference = $this->getNextInvoiceReference();
             $order->placed_at = Carbon::now();
