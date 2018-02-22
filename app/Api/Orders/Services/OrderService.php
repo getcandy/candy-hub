@@ -60,15 +60,18 @@ class OrderService extends BaseService
 
         $order->conversion = CurrencyConverter::rate();
 
+        $order->vat = $basket->tax;
+
         if ($order->shipping_total) {
             $order->total += $order->shipping_total;
+            $shippingTax = TaxCalculator::set(20)->amount($order->shipping_total);
+            $order->total += round($shippingTax, 2);
+            $order->vat += $shippingTax;
         } else {
             $order->shipping_total = 0;
         }
 
         $order->currency = $basket->currency;
-
-        $order->vat = $basket->tax;
 
         $order->save();
 
