@@ -14,6 +14,7 @@ use GetCandy\Api\Orders\Exceptions\IncompleteOrderException;
 use Carbon\Carbon;
 use PDF;
 use DB;
+use CurrencyConverter;
 
 class OrderService extends BaseService
 {
@@ -56,6 +57,8 @@ class OrderService extends BaseService
         }
 
         $order->total = $basket->total;
+
+        $order->conversion = CurrencyConverter::rate();
 
         if ($order->shipping_total) {
             $order->total += $order->shipping_total;

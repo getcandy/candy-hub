@@ -93,12 +93,12 @@ class DashboardController extends Controller
             $total = $ordersData[] = $this->ordersForDateRange(
                 $start,
                 $end
-            )->sum('total');
+            )->sum(\DB::RAW('total / conversion'));
 
             $previous = $this->ordersForDateRange(
                 $prevStart,
                 $prevEnd
-            )->sum('total');
+            )->sum(\DB::RAW('total / conversion'));
 
             $data[$label] = [
                 'total' => $total,
@@ -133,7 +133,7 @@ class DashboardController extends Controller
             $salesData[] = $this->ordersForDateRange(
                 $start,
                 $end
-            )->sum('total');
+            )->sum(\DB::RAW('total / conversion'));
         }
 
         $datasets[] = [
@@ -192,11 +192,11 @@ class DashboardController extends Controller
 
     protected function getSalesThisWeek()
     {
-        return $this->ordersThisWeek()->sum('total');
+        return $this->ordersThisWeek()->sum(\DB::RAW('total / conversion'));
     }
 
     protected function getSalesLastWeek()
     {
-        return $this->ordersLastWeek()->sum('total');
+        return $this->ordersLastWeek()->sum(\DB::RAW('total / conversion'));
     }
 }

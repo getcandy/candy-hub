@@ -18,6 +18,11 @@ class CurrencyConverter
         return $this->currency;
     }
 
+    public function rate()
+    {
+        return $this->currency->exchange_rate;
+    }
+
     public function set($currency)
     {
         try {
