@@ -148,6 +148,10 @@
                         type = 'success';
                         text = 'Payment Received';
                         break;
+                    case 'on-account':
+                        type = 'primary';
+                        text = 'On Account';
+                        break;
                     case 'refunded':
                         type = 'warning';
                         text = 'Refunded';
@@ -199,11 +203,6 @@
                                                 </tr>
                                             </thead>
                                             <tfoot>
-                                                <tr>
-                                                    <td colspan="2"></td>
-                                                    <td colspan="2" align="right"><strong>VAT (included)</strong></td>
-                                                    <td v-html="currencySymbol(order.vat)"></td>
-                                                </tr>
                                                 <template v-if="order.discounts.data.length">
                                                     <tr v-for="discount in order.discounts.data">
                                                         <td colspan="4" align="right">
@@ -228,7 +227,12 @@
                                                 <tr>
                                                     <td colspan="2"></td>
                                                     <td colspan="2" align="right"><strong>Sub total</strong></td>
-                                                    <td v-html="currencySymbol(order.total)"></td>
+                                                    <td v-html="currencySymbol(order.total - order.vat)"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"></td>
+                                                    <td colspan="2" align="right"><strong>VAT</strong></td>
+                                                    <td v-html="currencySymbol(order.vat)"></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2"></td>
