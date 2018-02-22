@@ -20,7 +20,28 @@ class DashboardController extends Controller
         $lastWeeksSales = $this->getSalesLastWeek();
         $thisWeeksSales = $this->getSalesThisWeek();
 
+        $lastMonthSales = $this->ordersForDateRange(
+            Carbon::now()->startOfMonth()->subMonth(),
+            Carbon::now()->endOfMonth()->subMonth()
+        )->sum('total');
+
+        $thisMonthSales = $this->ordersForDateRange(
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        )->sum('total');
+
         $ordersLastWeek = $this->ordersLastWeek()->count();
+
+        $ordersThisMonth = $this->ordersForDateRange(
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        )->count();
+
+        $ordersLastMonth = $this->ordersForDateRange(
+            Carbon::now()->startOfMonth()->subMonth(),
+            Carbon::now()->endOfMonth()->subMonth()
+        )->count();
+
         $ordersThisWeek = $this->ordersThisWeek()->count();
 
         $salesPercent = (1 - $lastWeeksSales / $thisWeeksSales) * 100;
@@ -33,20 +54,95 @@ class DashboardController extends Controller
         $channels = Channel::count();
 
         return view('dashboard', [
-            'order_count' => $orders,
-            'recent_orders' => $recentOrders,
-            'sales_this_week' => $thisWeeksSales,
-            'sales_last_week' => $lastWeeksSales,
-            'orders_this_week' => $ordersThisWeek,
-            'orders_last_week' => $ordersLastWeek,
-            'sales_percent' => $salesPercent,
             'basket_count' => $baskets,
-            'recent_orders' => $recentOrders,
-            'product_count' => $products,
-            'user_count' => $users,
             'category_count' => $categories,
-            'channel_count' => $channels
+            'channel_count' => $channels,
+            'graph_data' => $this->getGraph(),
+            'order_count' => $orders,
+            'orders_last_month' => $ordersLastMonth,
+            'orders_last_week' => $ordersLastWeek,
+            'orders_this_month' => $ordersThisMonth,
+            'orders_this_week' => $ordersThisWeek,
+            'product_count' => $products,
+            'recent_orders' => $recentOrders,
+            'recent_orders' => $recentOrders,
+            'sales_data' => $this->salesData(),
+            'sales_last_month' => $lastMonthSales,
+            'sales_last_week' => $lastWeeksSales,
+            'sales_percent' => $salesPercent,
+            'sales_this_month' => $thisMonthSales,
+            'sales_this_week' => $thisWeeksSales,
+            'user_count' => $users
         ]);
+    }
+
+    protected function salesData()
+    {
+        $data = [];
+
+        for ($i = 1; $i < 9; $i++) {
+            // Set up initial labels
+            $start = Carbon::now()->startOfWeek()->subWeeks($i);
+            $end = Carbon::now()->endOfWeek()->subWeeks($i);
+
+            $prevStart = Carbon::now()->startOfWeek()->subWeeks($i + 1);
+            $prevEnd = Carbon::now()->endOfWeek()->subWeeks($i + 1);
+
+            $label = $start->format('dS') . ' to ' . $end->format('dS') . ' ' . $end->format('F Y');
+
+            $total = $ordersData[] = $this->ordersForDateRange(
+                $start,
+                $end
+            )->sum('total');
+
+            $previous = $this->ordersForDateRange(
+                $prevStart,
+                $prevEnd
+            )->sum('total');
+
+            $data[$label] = [
+                'total' => $total,
+                'previous' => $previous,
+                'diff' => $total - $previous
+            ];
+        }
+
+        return $data;
+    }
+
+    public function getGraph()
+    {
+        $datasets = [];
+
+        $labels = [];
+        $ordersData = [];
+        $salesData = [];
+
+        for ($i=9; $i > 0; $i--) {
+            // Set up initial labels
+            $start = Carbon::now()->startOfWeek()->subWeeks($i);
+            $end = Carbon::now()->endOfWeek()->subWeeks($i);
+            $labels[] = $start->format('dS') . '/' . $end->format('dS') . ' ' . $end->format('M');
+
+            // Set up orders dataset
+            $ordersData[] = $this->ordersForDateRange(
+                $start,
+                $end
+            )->count();
+        }
+
+        $datasets[] = [
+            'label' => 'Orders',
+            'backgroundColor' => '#E7028C',
+            'borderColor' => '#E7028C',
+            'data' => $ordersData,
+            'fill' =>  false
+        ];
+
+        return [
+            'labels' => $labels,
+            'datasets' => $datasets
+        ];
     }
 
     protected function ordersThisWeek()
@@ -60,15 +156,23 @@ class DashboardController extends Controller
             ]);
     }
 
-    protected function ordersLastWeek()
+    protected function ordersForDateRange($from, $to)
     {
         return Order::withoutGlobalScope('open')
             ->withoutGlobalScope('not_expired')
             ->whereNotNull('placed_at')
             ->whereBetween('placed_at', [
-                Carbon::now()->startOfWeek()->subWeeks(1),
-                Carbon::now()->endofWeek()->subWeeks(1)
-            ]);
+                $from,
+                $to
+        ]);
+    }
+
+    protected function ordersLastWeek()
+    {
+        return $this->ordersForDateRange(
+            Carbon::now()->startOfWeek()->subWeeks(1),
+            Carbon::now()->endofWeek()->subWeeks(1)
+        );
     }
 
     protected function getSalesThisWeek()

@@ -56,10 +56,89 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-3">
+            <div class="panel">
+                <header class="panel-heading">
+                    <h3 class="panel-title">Sales this month</h3>
+                </header>
+                <div class="panel-body">
+                    <div class="dashboard-figure">
+                        &pound;{{ number_format($sales_this_month,2 ) }} <br>
+                        <section style="margin-top:10px;font-size:.75em">
+                            @if($sales_this_month - $sales_last_month >= 0)
+                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>&pound;{{ number_format($sales_this_month - $sales_last_month, 2) }}</span>
+                            @else
+                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>&pound;{{ number_format($sales_this_month - $sales_last_month, 2) }}</span>
+                            @endif
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel">
+                <header class="panel-heading">
+                    <h3 class="panel-title">Orders this month</h3>
+                </header>
+                <div class="panel-body">
+                    <div class="dashboard-figure">
+                        {{ $orders_this_month }} <br>
+                        <section style="margin-top:10px;font-size:.75em">
+                            @if($orders_this_month - $orders_last_month >= 0)
+                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>{{ $orders_this_month - $orders_last_month }}</span>
+                            @else
+                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>{{ $orders_this_month - $orders_last_month }}</span>
+                            @endif
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
+            <div class="panel">
+                <header class="panel-heading">
+                    <h3 class="panel-title">Orders for the previous 8 weeks</h3>
+                </header>
+                <div class="panel-body">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel">
+                <header class="panel-heading">
+                    <h3 class="panel-title">Sales for the previous 8 weeks</h3>
+                </header>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        @foreach($sales_data as $label => $data)
+                        <li class="list-group-item clearfix">
+                            <div class="pull-left">
+                                {{ $label }}
+                            </div>
+                            <div class="pull-right text-right">
+                                &pound;{{ number_format($data['total'], 2) }}
+
+                                <br>
+                                <small class="{{ $data['diff'] >= 0 ? 'text-success' : 'text-danger' }}">
+                                    <i class="fa {{ $data['diff'] >= 0 ? 'fa-chevron-up' : 'fa-chevron-down' }}"></i>
+                                    &pound;{{ number_format($data['diff'], 2) }}
+                                </small>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
             <div class="panel">
                 <header class="panel-heading">
                     <h3 class="panel-title">Recent Orders</h3>
@@ -89,16 +168,6 @@
                             @endforelse
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel">
-                <header class="panel-heading">
-                    <h3 class="panel-title">Orders / Sales</h3>
-                </header>
-                <div class="panel-body">
-                    <canvas id="canvas"></canvas>
                 </div>
             </div>
         </div>
@@ -161,40 +230,11 @@
 @section('scripts')
 
 <script>
-    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var config = {
-            type: 'line',
-            data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                datasets: [{
-                    label: "Orders",
-                    backgroundColor: '#E7028C',
-                    borderColor: '#E7028C',
-                    data: [
-                        10, 3, 10, 20, 15, 36, 40, 16, 10, 5, 15, 0
-                    ],
-                    fill: false,
-                },
-                {
-                    label: "Baskets",
-                    backgroundColor: '#333A8F',
-                    borderColor: '#333A8F',
-                    data: [
-                        25, 18, 23, 50, 30, 45, 50, 40, 15, 12, 19, 10
-                    ],
-                    fill: false,
-                },
-                {
-                    label: "Transactions",
-                    backgroundColor: '#961B8E',
-                    borderColor: '#961B8E',
-                    data: [
-                        10, 2, 10, 20, 14, 36, 40, 16, 10, 5, 0, 0
-                    ],
-                    fill: false,
-                }]
-            },
+            type: 'bar',
+            data: {!! json_encode($graph_data) !!},
             options: {
+                multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> foo",
                 responsive: true,
                 tooltips: {
                     mode: 'index',
@@ -209,11 +249,14 @@
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Month'
+                            labelString: 'Week'
                         }
                     }],
                     yAxes: [{
                         display: true,
+                        ticks: {
+                            beginAtZero: true
+                        },
                         scaleLabel: {
                             display: true,
                             labelString: 'Value'
@@ -227,64 +270,5 @@
             var ctx = document.getElementById("canvas").getContext("2d");
             window.myLine = new Chart(ctx, config);
         };
-
-        document.getElementById('randomizeData').addEventListener('click', function() {
-            config.data.datasets.forEach(function(dataset) {
-                dataset.data = dataset.data.map(function() {
-                    return randomScalingFactor();
-                });
-
-            });
-
-            window.myLine.update();
-        });
-
-        var colorNames = Object.keys(window.chartColors);
-        document.getElementById('addDataset').addEventListener('click', function() {
-            var colorName = colorNames[config.data.datasets.length % colorNames.length];
-            var newColor = window.chartColors[colorName];
-            var newDataset = {
-                label: 'Dataset ' + config.data.datasets.length,
-                backgroundColor: newColor,
-                borderColor: newColor,
-                data: [],
-                fill: false
-            };
-
-            for (var index = 0; index < config.data.labels.length; ++index) {
-                newDataset.data.push(randomScalingFactor());
-            }
-
-            config.data.datasets.push(newDataset);
-            window.myLine.update();
-        });
-
-        document.getElementById('addData').addEventListener('click', function() {
-            if (config.data.datasets.length > 0) {
-                var month = MONTHS[config.data.labels.length % MONTHS.length];
-                config.data.labels.push(month);
-
-                config.data.datasets.forEach(function(dataset) {
-                    dataset.data.push(randomScalingFactor());
-                });
-
-                window.myLine.update();
-            }
-        });
-
-        document.getElementById('removeDataset').addEventListener('click', function() {
-            config.data.datasets.splice(0, 1);
-            window.myLine.update();
-        });
-
-        document.getElementById('removeData').addEventListener('click', function() {
-            config.data.labels.splice(-1, 1); // remove the label first
-
-            config.data.datasets.forEach(function(dataset, datasetIndex) {
-                dataset.data.pop();
-            });
-
-            window.myLine.update();
-        });
 </script>
 @endsection
