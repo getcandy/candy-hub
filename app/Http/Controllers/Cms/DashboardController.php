@@ -129,14 +129,29 @@ class DashboardController extends Controller
                 $start,
                 $end
             )->count();
+
+            $salesData[] = $this->ordersForDateRange(
+                $start,
+                $end
+            )->sum('total');
         }
 
         $datasets[] = [
             'label' => 'Orders',
             'backgroundColor' => '#E7028C',
+            'yAxisID' => 'A',
             'borderColor' => '#E7028C',
             'data' => $ordersData,
             'fill' =>  false
+        ];
+
+        $datasets[] = [
+            'label' => 'Sales',
+            'backgroundColor' => '#0099e5',
+            'yAxisID' => 'B',
+            'borderColor' => '#0099e5',
+            'data' => $salesData,
+            'fill' => false
         ];
 
         return [

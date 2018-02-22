@@ -12,11 +12,6 @@
 @section('content')
 
     <div class="row">
-    <div class="col-md-12 text-center">
-        <div class="alert alert-warning">
-            Test Data
-        </div>
-    </div>
         <div class="col-md-3">
             <div class="panel">
                 <header class="panel-heading">
@@ -24,12 +19,12 @@
                 </header>
                 <div class="panel-body">
                     <div class="dashboard-figure">
-                        &pound;{{ number_format($sales_this_week, 2) }}<br>
+                        &pound;{{ number_format($sales_this_week, 0) }}<br>
                         <section style="margin-top:10px;font-size:.75em">
                             @if($sales_this_week - $sales_last_week >= 0)
-                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>&pound;{{ number_format($sales_this_week - $sales_last_week, 2) }}</span>
+                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>&pound;{{ number_format($sales_this_week - $sales_last_week, 0) }}</span>
                             @else
-                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>&pound;{{ number_format($sales_this_week - $sales_last_week, 2) }}</span>
+                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>&pound;{{ number_format($sales_this_week - $sales_last_week, 0) }}</span>
                             @endif
                         </section>
                     </div>
@@ -64,12 +59,12 @@
                 </header>
                 <div class="panel-body">
                     <div class="dashboard-figure">
-                        &pound;{{ number_format($sales_this_month,2 ) }} <br>
+                        &pound;{{ number_format($sales_this_month, 0) }} <br>
                         <section style="margin-top:10px;font-size:.75em">
                             @if($sales_this_month - $sales_last_month >= 0)
-                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>&pound;{{ number_format($sales_this_month - $sales_last_month, 2) }}</span>
+                                <span class="text-success"><sup><fa icon="caret-up"></fa></sup>&pound;{{ number_format($sales_this_month - $sales_last_month, 0) }}</span>
                             @else
-                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>&pound;{{ number_format($sales_this_month - $sales_last_month, 2) }}</span>
+                                <span class="text-danger"><sup><fa icon="caret-down"></fa></sup>&pound;{{ number_format($sales_this_month - $sales_last_month, 0) }}</span>
                             @endif
                         </section>
                     </div>
@@ -99,75 +94,13 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="panel">
                 <header class="panel-heading">
-                    <h3 class="panel-title">Orders for the previous 8 weeks</h3>
+                    <h3 class="panel-title">Orders / Sales for the previous 8 weeks</h3>
                 </header>
                 <div class="panel-body">
                     <canvas id="canvas"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel">
-                <header class="panel-heading">
-                    <h3 class="panel-title">Sales for the previous 8 weeks</h3>
-                </header>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        @foreach($sales_data as $label => $data)
-                        <li class="list-group-item clearfix">
-                            <div class="pull-left">
-                                {{ $label }}
-                            </div>
-                            <div class="pull-right text-right">
-                                &pound;{{ number_format($data['total'], 2) }}
-
-                                <br>
-                                <small class="{{ $data['diff'] >= 0 ? 'text-success' : 'text-danger' }}">
-                                    <i class="fa {{ $data['diff'] >= 0 ? 'fa-chevron-up' : 'fa-chevron-down' }}"></i>
-                                    &pound;{{ number_format($data['diff'], 2) }}
-                                </small>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="panel">
-                <header class="panel-heading">
-                    <h3 class="panel-title">Recent Orders</h3>
-                </header>
-                <div class="panel-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($recent_orders as $order)
-                            <tr>
-                                <td><a href="#">{{ $order->ref }}</a></td>
-                                <td>{{ $order->customer_name }}</td>
-                                <td>{{ $order->created_at }}</td>
-                                <td>&pound;{{ number_format($order->total, 2) }}</td>
-                            </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5">No orders</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -231,7 +164,7 @@
 
 <script>
         var config = {
-            type: 'bar',
+            type: 'line',
             data: {!! json_encode($graph_data) !!},
             options: {
                 multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> foo",
@@ -239,6 +172,15 @@
                 tooltips: {
                     mode: 'index',
                     intersect: false,
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var label = tooltipItem.yLabel;
+                            if (tooltipItem.datasetIndex == 1) {
+                                label = '£' + tooltipItem.yLabel.money();
+                            }
+                            return data.datasets[tooltipItem.datasetIndex].label + ': ' + label;
+                        }
+                    }
                 },
                 hover: {
                     mode: 'nearest',
@@ -252,16 +194,33 @@
                             labelString: 'Week'
                         }
                     }],
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            beginAtZero: true
+                    yAxes: [
+                        {
+                            id: 'A',
+                            position:'left',
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: '# Orders'
+                            }
                         },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Value'
+                        {
+                            id: 'B',
+                            position:'right',
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return '£' + value.money();
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Total Value'
+                            }
                         }
-                    }]
+                    ]
                 }
             }
         };
