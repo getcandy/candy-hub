@@ -49,6 +49,54 @@ class BasketService extends BaseService
     }
 
     /**
+     * Detach a user from a basket
+     *
+     * @param string $basketId
+     *
+     * @return Basket
+     */
+    public function removeUser($basketId)
+    {
+        $basket = $this->getByHashedId($basketId);
+
+        $basket->user()->dissociate();
+
+        if ($basket->discounts) {
+            foreach ($basket->discounts as $discount) {
+                $discountFactory = app('api')->discounts()->getFactory($discount);
+                $check = (new Factory)->checkCriteria(
+                    $discountFactory,
+                    $basket->user,
+                    $basket
+                );
+                if (!$check) {
+                    $basket->discounts()->detach($discount);
+                }
+            }
+        }
+
+        $basket->save();
+        return $basket;
+    }
+
+    /**
+     * Add a user to a basket
+     *
+     * @param string $basketId
+     * @param string $userId
+     *
+     * @return Basket
+     */
+    public function addUser($basketId, $userId)
+    {
+        $basket = $this->getByHashedId($basketId);
+        $user = app('api')->users()->getByHashedId($userId);
+        $basket->user()->associate($user);
+        $basket->save();
+        return $basket;
+    }
+
+    /**
      * Store a basket
      *
      * @param array $data

@@ -212,7 +212,7 @@
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="2"><strong>Sub Total</strong></td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($order->total, 2) }}</td>
+                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($order->total - $order->vat, 2) }}</td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>

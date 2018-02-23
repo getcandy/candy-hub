@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use GetCandy\Http\Controllers\Api\BaseController;
 use GetCandy\Http\Requests\Api\Baskets\CreateRequest;
 use GetCandy\Http\Requests\Api\Baskets\UpdateRequest;
+use GetCandy\Http\Requests\Api\Baskets\PutUserRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use GetCandy\Http\Requests\Api\Baskets\AddDiscountRequest;
 use GetCandy\Http\Requests\Api\Baskets\DeleteDiscountRequest;
@@ -62,6 +63,33 @@ class BasketController extends BaseController
     public function store(CreateRequest $request)
     {
         $basket = app('api')->baskets()->store($request->all(), $request->user());
+        return $this->respondWithItem($basket, new BasketTransformer);
+    }
+
+    /**
+     * Associate a user to a basket request
+     *
+     * @param PutUserRequest $request
+     *
+     * @return void
+     */
+    public function putUser($basketId, PutUserRequest $request)
+    {
+        try {
+            $basket = app('api')->baskets()->addUser($basketId, $request->user_id);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
+        return $this->respondWithItem($basket, new BasketTransformer);
+    }
+
+    public function deleteUser($basketId)
+    {
+        try {
+            $basket = app('api')->baskets()->removeUser($basketId);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound();
+        }
         return $this->respondWithItem($basket, new BasketTransformer);
     }
 
