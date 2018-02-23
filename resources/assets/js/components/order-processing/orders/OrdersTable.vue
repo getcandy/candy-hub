@@ -79,6 +79,10 @@
                         type = 'success';
                         text = 'Payment Received';
                         break;
+                    case 'payment-processing':
+                        type = 'alert';
+                        text = 'Payment Processing';
+                        break;
                     case 'on-account':
                         type = 'primary';
                         text = 'On Account';
