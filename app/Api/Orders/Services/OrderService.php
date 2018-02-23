@@ -42,6 +42,9 @@ class OrderService extends BaseService
 
         app('api')->baskets()->setTotals($basket);
 
+
+
+
         if ($basket->order) {
             $order = $basket->order;
         } else {
