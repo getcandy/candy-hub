@@ -80,7 +80,7 @@
                         text = 'Payment Received';
                         break;
                     case 'payment-processing':
-                        type = 'alert';
+                        type = 'danger';
                         text = 'Payment Processing';
                         break;
                     case 'on-account':
