@@ -473,6 +473,11 @@ class OrderService extends BaseService
         return $query->paginate($length, ['*'], 'page', $page);
     }
 
+    public function getPending()
+    {
+        return $this->model->withoutGlobalScopes()->where('status', '=', 'payment-processing')->get();
+    }
+
     /**
      * Set the shipping cost and method on an order
      *
