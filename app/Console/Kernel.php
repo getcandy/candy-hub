@@ -20,6 +20,8 @@ class Kernel extends ConsoleKernel
         \GetCandy\Console\Commands\InstallGetCandyCommand::class,
         \GetCandy\Console\Commands\SyncCustomerGroups::class,
         \GetCandy\Console\Commands\FixInvoiceReference::class,
+        \GetCandy\Console\Commands\SyncPendingOrders::class,
+        \GetCandy\Console\Commands\UpdateTransactionsCommand::class
     ];
 
     /**
