@@ -2,7 +2,7 @@
 
 namespace GetCandy\Hub\Http\Controllers\CatalogueManager;
 
-use GetCandy\Http\Controllers\Cms\Controller;
+use GetCandy\Hub\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
