@@ -18,7 +18,7 @@ class NavItem
 
     public function getTitle()
     {
-        return trans($this->title);
+        return trans('hub::'.$this->title);
     }
 
     public function getUrl()

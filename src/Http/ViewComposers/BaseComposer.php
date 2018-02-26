@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Http\ViewComposers;
+namespace GetCandy\Hub\Http\ViewComposers;
 
 use Event;
 

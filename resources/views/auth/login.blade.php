@@ -16,7 +16,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- GetCandy -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ url('hub/css/hub.css') }}" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -34,7 +34,7 @@
     <div class="row">
       <div class="col-xs-12 col-md-5">
         <div class="login-form">
-          <img src="/images/logo/getcandy.png" class="logo" alt="GetCandy">
+          <img src="{{ url('hub/images/logo/getcandy.png') }}" class="logo" alt="GetCandy">
 
           @if(\Session::has('unauth'))
             <div class="alert alert-danger">
@@ -91,6 +91,6 @@
   </div>
     <div class="main-purple-overlay"></div>
 
-    <script src="/js/app.js"></script>
+    <script src="{{ url('hub/js/app.js') }}"></script>
   </body>
 </html>

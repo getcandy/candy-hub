@@ -12,9 +12,9 @@ require('laravel-mix-purgecss');
  |
  */
 
-mix.js('resources/assets/js/hub.js', 'public/js')
-    .sass('resources/assets/sass/hub.scss', 'public/css')
-    .copy('resources/assets/icons', 'public/icons')
-    .copy('resources/assets/images', 'public/images')
+mix.js('resources/assets/js/hub.js', 'resources/build/js')
+    .sass('resources/assets/sass/hub.scss', 'resources/build/css')
+    .copy('resources/assets/icons', 'resources/build/icons')
+    .copy('resources/assets/images', 'resources/build/images')
     // .purgeCss()
     .version();

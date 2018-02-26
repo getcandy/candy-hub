@@ -19,6 +19,6 @@ class SideMenu extends Menu
             // new NavItem('Discounts', route('hub.discounts.index'))
         ];
 
-        $this->view = 'menus.side-menu';
+        $this->view = 'hub::menus.side-menu';
     }
 }

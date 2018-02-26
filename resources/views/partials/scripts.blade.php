@@ -1,5 +1,5 @@
     @routes
 
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ url('hub/js/app.js') }}"></script>
 
     {!! $scripts_html !!}

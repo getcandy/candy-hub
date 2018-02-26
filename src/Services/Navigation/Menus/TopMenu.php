@@ -50,6 +50,6 @@ class TopMenu extends Menu
             new NavItem('menus/top_menu.settings', route('hub.products.index'), $settingItems)
         ];
 
-        $this->view = 'menus.top-menu';
+        $this->view = 'hub::menus.top-menu';
     }
 }

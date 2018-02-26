@@ -1,7 +1,6 @@
-@extends('layout')
+@extends('hub::layout')
 
 @section('side_menu')
-    @include('catalogue-manager.partials.side-menu')
 @endsection
 
 @section('header_title')

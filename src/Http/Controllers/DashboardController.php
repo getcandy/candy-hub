@@ -8,7 +8,6 @@ class DashboardController extends Controller
 {
     public function getIndex()
     {
-        dd('hit');
         // $orderCollection = Order::withoutGlobalScope('open')->withoutGlobalScope('not_expired');
         // $orders = $orderCollection->count();
 
@@ -48,27 +47,27 @@ class DashboardController extends Controller
         // $categories = Category::count();
         // $channels = Channel::count();
 
-        // return view('dashboard', [
-        //     'basket_count' => $baskets,
-        //     'category_count' => $categories,
-        //     'channel_count' => $channels,
-        //     'graph_data' => $this->getGraph(),
-        //     'order_count' => $orders,
-        //     'orders_last_month' => $ordersLastMonth,
-        //     'orders_last_week' => $ordersLastWeek,
-        //     'orders_this_month' => $ordersThisMonth,
-        //     'orders_this_week' => $ordersThisWeek,
-        //     'product_count' => $products,
-        //     'recent_orders' => $recentOrders,
-        //     'recent_orders' => $recentOrders,
-        //     'sales_data' => $this->salesData(),
-        //     'sales_last_month' => $lastMonthSales,
-        //     'sales_last_week' => $lastWeeksSales,
-        //     'sales_percent' => $salesPercent,
-        //     'sales_this_month' => $thisMonthSales,
-        //     'sales_this_week' => $thisWeeksSales,
-        //     'user_count' => $users
-        // ]);
+        return view('hub::dashboard', [
+            'basket_count' => 0,
+            'category_count' => 0,
+            'channel_count' => 0,
+            'graph_data' => [],
+            'order_count' => 0,
+            'orders_last_month' => 1,
+            'orders_last_week' => 2,
+            'orders_this_month' => 1,
+            'orders_this_week' => 1,
+            'product_count' => 1,
+            'recent_orders' => 1,
+            'recent_orders' => 2,
+            'sales_data' => [],
+            'sales_last_month' => 2,
+            'sales_last_week' => 2,
+            'sales_percent' => 3,
+            'sales_this_month' => 2,
+            'sales_this_week' => 2,
+            'user_count' => 2
+        ]);
     }
 
     protected function salesData()

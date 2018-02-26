@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Http\Controllers\Cms\Auth;
+namespace GetCandy\Hub\Http\Controllers\Auth;
 
 use GetCandy\User;
 use GetCandy\Http\Controllers\Cms\Controller;

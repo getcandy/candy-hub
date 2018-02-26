@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCandy\Http\ViewComposers\Partials;
+namespace GetCandy\Hub\Http\ViewComposers\Partials;
 
-use GetCandy\Http\ViewComposers\BaseComposer;
+use GetCandy\Hub\Http\ViewComposers\BaseComposer;
 use Illuminate\View\View;
 
 class ScriptsComposer extends BaseComposer

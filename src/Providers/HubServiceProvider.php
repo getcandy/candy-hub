@@ -17,6 +17,8 @@ class HubServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'hub');
+
         $this->registerViewComposers();
     }
 
@@ -33,16 +35,21 @@ class HubServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('hub.refresh_token', CreateFreshApiToken::class);
         $this->app['router']->aliasMiddleware('hub.access', CreateFreshApiToken::class);
 
+
+        $this->publishes([
+            __DIR__ . '/../../resources/build' => public_path('hub'),
+        ], 'public');
+
     }
 
     protected function registerViewComposers()
     {
-        View::composer('partials.head', 'GetCandy\Http\ViewComposers\Partials\HeadComposer');
-        View::composer('partials.scripts', 'GetCandy\Http\ViewComposers\Partials\ScriptsComposer');
-        View::composer('partials.top-menu', 'GetCandy\Http\ViewComposers\Partials\TopMenuComposer');
+        View::composer('hub::partials.head', 'GetCandy\Hub\Http\ViewComposers\Partials\HeadComposer');
+        View::composer('hub::partials.scripts', 'GetCandy\Hub\Http\ViewComposers\Partials\ScriptsComposer');
+        View::composer('hub::partials.top-menu', 'GetCandy\Hub\Http\ViewComposers\Partials\TopMenuComposer');
 
-        View::composer('catalogue-manager.partials.side-menu', 'GetCandy\Http\ViewComposers\CatalogueManager\Partials\SideMenuComposer');
-        View::composer('order-processing.partials.side-menu', 'GetCandy\Http\ViewComposers\OrderProcessing\Partials\SideMenuComposer');
-        View::composer('marketing-suite.partials.side-menu', 'GetCandy\Http\ViewComposers\MarketingSuite\Partials\SideMenuComposer');
+        View::composer('hub::catalogue-manager.partials.side-menu', 'GetCandy\Hub\Http\ViewComposers\CatalogueManager\Partials\SideMenuComposer');
+        View::composer('hub::order-processing.partials.side-menu', 'GetCandy\Hub\Http\ViewComposers\OrderProcessing\Partials\SideMenuComposer');
+        View::composer('hub::marketing-suite.partials.side-menu', 'GetCandy\Hub\Http\ViewComposers\MarketingSuite\Partials\SideMenuComposer');
     }
 }

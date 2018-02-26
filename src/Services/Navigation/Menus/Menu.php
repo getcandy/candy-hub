@@ -14,7 +14,6 @@ abstract class Menu
     public function render()
     {
         $this->viewData['navItems'] = $this->navItems;
-
         return view($this->view, $this->viewData);
     }
 

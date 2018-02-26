@@ -16,6 +16,6 @@ class SideMenu extends Menu
             new NavItem('Shipping Zones', route('hub.shipping.zones')),
         ];
 
-        $this->view = 'menus.side-menu';
+        $this->view = 'hub::menus.side-menu';
     }
 }

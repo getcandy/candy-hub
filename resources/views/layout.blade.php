@@ -8,14 +8,14 @@
 
     <title>GetCandy</title>
 
-    @include('partials.head')
+    @include('hub::partials.head')
 
   </head>
   <body>
     <div class="wrap" id="app">
       <div class="sidebar">
 
-        @include('partials.top-menu')
+        @include('hub::partials.top-menu')
 
         <div class="side-purple-overlay"></div>
 
@@ -64,7 +64,7 @@
       <candy-notification></candy-notification>
     </div>
     <div class="main-purple-overlay"></div>
-    @include('partials.scripts')
+    @include('hub::partials.scripts')
     @yield('scripts')
   </body>
 </html>

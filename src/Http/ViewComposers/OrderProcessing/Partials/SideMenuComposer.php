@@ -1,8 +1,8 @@
 <?php
-namespace GetCandy\Http\ViewComposers\OrderProcessing\Partials;
+namespace GetCandy\Hub\Http\ViewComposers\OrderProcessing\Partials;
 
-use GetCandy\Http\ViewComposers\BaseComposer;
-use GetCandy\Cms\Services\Navigation\NavigationService;
+use GetCandy\Hub\Http\ViewComposers\BaseComposer;
+use GetCandy\Hub\Services\Navigation\NavigationService;
 use Illuminate\View\View;
 
 class SideMenuComposer extends BaseComposer
