@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Http\Controllers\Cms\CatalogueManager;
+namespace GetCandy\Hub\Http\Controllers\CatalogueManager;
 
 use GetCandy\Http\Controllers\Cms\Controller;
 
@@ -8,12 +8,12 @@ class CategoriesController extends Controller
 {
     public function getIndex()
     {
-        return view('catalogue-manager.categories.index');
+        return view('hub::catalogue-manager.categories.index');
     }
 
     public function getEdit($id)
     {
-        return view('catalogue-manager.categories.edit', [
+        return view('hub::catalogue-manager.categories.edit', [
             'id' => $id
         ]);
     }

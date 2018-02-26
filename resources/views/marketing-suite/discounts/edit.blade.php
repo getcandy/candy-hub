@@ -1,7 +1,7 @@
-@extends('layout')
+@extends('hub::layout')
 
 @section('side_menu')
-    @include('marketing-suite.partials.side-menu')
+    @include('hub::marketing-suite.partials.side-menu')
 @endsection
 
 @section('header_title')

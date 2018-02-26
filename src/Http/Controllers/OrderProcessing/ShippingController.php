@@ -1,30 +1,30 @@
 <?php
-namespace GetCandy\Http\Controllers\Cms\OrderProcessing;
+namespace GetCandy\Hub\Http\Controllers\OrderProcessing;
 
-use GetCandy\Http\Controllers\Cms\Controller;
+use GetCandy\Hub\Http\Controllers\Controller;
 
 class ShippingController extends Controller
 {
     public function getIndex()
     {
-        return view('order-processing.shipping.methods.index');
+        return view('hub::order-processing.shipping.methods.index');
     }
 
     public function getEdit($id)
     {
-        return view('order-processing.shipping.methods.edit', [
+        return view('hub::order-processing.shipping.methods.edit', [
             'id' => $id
         ]);
     }
 
     public function getZones()
     {
-        return view('order-processing.shipping.zones.index');
+        return view('hub::order-processing.shipping.zones.index');
     }
 
     public function getZone($id)
     {
-        return view('order-processing.shipping.zones.edit', [
+        return view('hub::order-processing.shipping.zones.edit', [
             'id' => $id
         ]);
     }

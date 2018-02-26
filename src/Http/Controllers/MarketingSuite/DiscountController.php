@@ -1,23 +1,23 @@
 <?php
-namespace GetCandy\Http\Controllers\Cms\MarketingSuite;
+namespace GetCandy\Hub\Http\Controllers\MarketingSuite;
 
-use GetCandy\Http\Controllers\Cms\Controller;
+use GetCandy\Hub\Http\Controllers\Controller;
 
 class DiscountController extends Controller
 {
     public function getIndex()
     {
-        return view('marketing-suite.discounts.index');
+        return view('hub::marketing-suite.discounts.index');
     }
 
     public function getCreate()
     {
-        return view('marketing-suite.discounts.create');
+        return view('hub::marketing-suite.discounts.create');
     }
 
     public function getEdit($id)
     {
-        return view('marketing-suite.discounts.edit', [
+        return view('hub::marketing-suite.discounts.edit', [
             'id' => $id
         ]);
     }

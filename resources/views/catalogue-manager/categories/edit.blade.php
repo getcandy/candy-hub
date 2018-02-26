@@ -1,7 +1,7 @@
-@extends('layout')
+@extends('hub::layout')
 
 @section('side_menu')
-    @include('catalogue-manager.partials.side-menu')
+    @include('hub::catalogue-manager.partials.side-menu')
 @endsection
 
 @section('header_title')
@@ -10,7 +10,7 @@
 @endsection
 
 @section('header_actions')
-    
+
     <candy-disabled pos="bottom" :inline="true">
         <button class="btn btn-default white category-menu btn-pop-over"><span class="hamburger"></span></button>
         <!-- Menu Pop Over -->

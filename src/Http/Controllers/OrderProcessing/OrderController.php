@@ -1,18 +1,18 @@
 <?php
-namespace GetCandy\Http\Controllers\Cms\OrderProcessing;
+namespace GetCandy\Hub\Http\Controllers\OrderProcessing;
 
-use GetCandy\Http\Controllers\Cms\Controller;
+use GetCandy\Hub\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
     public function getIndex()
     {
-        return view('order-processing.orders.index');
+        return view('hub::order-processing.orders.index');
     }
 
     public function getEdit($id)
     {
-        return view('order-processing.orders.edit', [
+        return view('hub::order-processing.orders.edit', [
             'id' => $id
         ]);
     }
