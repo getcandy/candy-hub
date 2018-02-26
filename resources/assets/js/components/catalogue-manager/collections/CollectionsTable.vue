@@ -61,7 +61,7 @@
                 this.loadCollections();
             },
             loadCollection: function (id) {
-                location.href = '/catalogue-manager/collections/' + id;
+                location.href = '/hub/catalogue-manager/collections/' + id;
             },
             getVisibilty(collection, ref) {
                 let groups = collection[ref].data;

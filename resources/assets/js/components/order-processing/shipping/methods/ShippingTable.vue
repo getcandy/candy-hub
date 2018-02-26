@@ -33,7 +33,7 @@
                 this.loadOrders();
             },
             loadMethod: function (id) {
-                location.href = '/order-processing/shipping-methods/' + id;
+                location.href = '/hub/order-processing/shipping-methods/' + id;
             },
             localisedPrice(amount, currency) {
                 var currency = _.find(this.currencies, item => {

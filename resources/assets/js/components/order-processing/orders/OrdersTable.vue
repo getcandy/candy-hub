@@ -137,7 +137,7 @@
                 this.loadOrders();
             },
             loadOrder: function (id) {
-                location.href = '/order-processing/orders/' + id;
+                location.href = '/hub/order-processing/orders/' + id;
             },
             localisedPrice(amount, currency) {
                 var currency = _.find(this.currencies, item => {

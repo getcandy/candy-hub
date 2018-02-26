@@ -62,7 +62,7 @@
                 return false;
             },
             loadProduct: function (id) {
-                location.href = '/catalogue-manager/products/' + id;
+                location.href = '/hub/catalogue-manager/products/' + id;
             },
             loadProducts() {
                 this.loaded = false;
