@@ -168,14 +168,13 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
-        Vinkla\Hashids\HashidsServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-        Alaouy\Youtube\YoutubeServiceProvider::class,
-        Tightenco\Ziggy\ZiggyServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        // Laravel\Tinker\TinkerServiceProvider::class,
+        // Vinkla\Hashids\HashidsServiceProvider::class,
+        // Laravel\Passport\PassportServiceProvider::class,
+        // Intervention\Image\ImageServiceProvider::class,
+        // Alaouy\Youtube\YoutubeServiceProvider::class,
+        // Tightenco\Ziggy\ZiggyServiceProvider::class,
+        // Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
