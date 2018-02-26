@@ -9,34 +9,34 @@ class TopMenu extends Menu
     public function __construct()
     {
         $catalogueManagerItems = [
-            new NavItem('Products', route('hub.products.index')),
-            new NavItem('Collections', route('hub.collections.index')),
-            new NavItem('Categories', route('hub.categories.index')),
+            new NavItem('titles.products', route('hub.products.index')),
+            new NavItem('titles.collections', route('hub.collections.index')),
+            new NavItem('titles.categories', route('hub.categories.index')),
             // new NavItem('Media', route('hub.index')),
             // new NavItem('Attributes', route('hub.index')),
             // new NavItem('Aliases', route('hub.index'))
         ];
 
         $orderProcessingItems = [
-            new NavItem('Orders', route('hub.orders.index')),
+            new NavItem('titles.orders', route('hub.orders.index')),
             // new NavItem('Returns', route('hub.orders.index')),
-            new NavItem('Customers', route('hub.customers.index')),
-            new NavItem('Shipping', route('hub.shipping.index')),
+            new NavItem('titles.customers', route('hub.customers.index')),
+            new NavItem('titles.shipping', route('hub.shipping.index')),
         ];
 
         $marketingItems = [
-            new NavItem('Discounts', route('hub.discounts.index'))
+            new NavItem('titles.discounts', route('hub.discounts.index'))
         ];
 
         $reportItems = [
-            new NavItem('Orders', route('hub.products.index')),
+            new NavItem('titles.products', route('hub.products.index')),
             // new NavItem('Customers', route('hub.products.index')),
         ];
 
         $settingItems = [
             // new NavItem('General', route('hub.products.index')),
             // new NavItem('Localisation', route('hub.products.index')),
-            new NavItem('Products', route('hub.products.index')),
+            new NavItem('titles.products', route('hub.products.index')),
             // new NavItem('Channels', route('hub.products.index')),
             // new NavItem('Categories', route('hub.products.index')),
         ];

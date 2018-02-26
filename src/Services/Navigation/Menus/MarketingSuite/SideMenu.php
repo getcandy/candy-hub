@@ -9,7 +9,7 @@ class SideMenu extends Menu
     public function __construct()
     {
         $this->navItems = [
-            new NavItem('Discounts', route('hub.discounts.index'))
+            new NavItem('titles.discounts', route('hub.discounts.index'))
         ];
 
         $this->view = 'hub::menus.side-menu';
