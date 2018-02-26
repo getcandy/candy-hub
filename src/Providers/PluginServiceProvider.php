@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Providers;
+namespace GetCandy\Hub\Providers;
 
 use File;
 use Illuminate\Support\ServiceProvider;

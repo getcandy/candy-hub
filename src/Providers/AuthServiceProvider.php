@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Providers;
+namespace GetCandy\Hub\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

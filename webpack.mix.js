@@ -12,8 +12,8 @@ require('laravel-mix-purgecss');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
+mix.js('resources/assets/js/hub.js', 'public/js')
+    .sass('resources/assets/sass/hub.scss', 'public/css')
     .copy('resources/assets/icons', 'public/icons')
     .copy('resources/assets/images', 'public/images')
     // .purgeCss()

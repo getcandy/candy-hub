@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Scaffold;
+namespace GetCandy\Hub\Scaffold;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,9 +1,18 @@
 {
-    "name": "getcandy/api",
+    "name": "getcandy/hub",
     "description": "Ecommerce API",
-    "keywords": ["ecommerce", "laravel"],
+    "keywords": ["ecommerce", "getcandy-hub", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../candy",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": ">=7.1.3",
         "alaouy/youtube": "^2.1",
@@ -22,7 +31,8 @@
         "ruflin/elastica": "^6.0",
         "spatie/laravel-permission": "^2.9",
         "tightenco/ziggy": "^0.6.2",
-        "vinkla/hashids": "^4.0"
+        "vinkla/hashids": "^4.0",
+        "getcandy/api": "dev-FEAT_PACKAGE"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -39,7 +49,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "GetCandy\\Providers\\ApiServiceProvider"
+                "GetCandy\\Hub\\Providers\\HubServiceProvider"
             ]
         }
     }

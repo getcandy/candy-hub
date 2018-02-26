@@ -1,6 +1,6 @@
 <?php
 
-namespace GetCandy\Providers;
+namespace GetCandy\Hub\Providers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
