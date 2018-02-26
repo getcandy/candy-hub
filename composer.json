@@ -1,5 +1,5 @@
 {
-    "name": "getcandy/candy",
+    "name": "getcandy/api",
     "description": "Ecommerce API",
     "keywords": ["ecommerce", "laravel"],
     "license": "MIT",

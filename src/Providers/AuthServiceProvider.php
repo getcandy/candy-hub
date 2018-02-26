@@ -31,12 +31,6 @@ class AuthServiceProvider extends ServiceProvider
 
         // Gate::resource('product', ProductPolicy::class);
 
-        Passport::tokensCan([
-            'read' => 'Read API'
-        ]);
-        Passport::routes();
 
-        Passport::tokensExpireIn(Carbon::now()->addMinutes(60));
-        Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(60));
     }
 }

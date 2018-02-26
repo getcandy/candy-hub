@@ -5,6 +5,9 @@ namespace GetCandy\Providers;
 use GetCandy\Api\Factory;
 use Illuminate\Support\ServiceProvider;
 use Validator;
+use Route;
+use Laravel\Passport\Passport;
+use Carbon\Carbon;
 
 class ApiServiceProvider extends ServiceProvider
 {
@@ -30,25 +33,18 @@ class ApiServiceProvider extends ServiceProvider
             return $app->make(Factory::class);
         });
 
-        $this->app->bind('assets.driver', function ($app) {
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/api.client.php');
 
-        });
+        Passport::tokensCan([
+            'read' => 'Read API'
+        ]);
+        Passport::routes();
 
-        $this->mapApiRoutes();
-    }
+        Passport::tokensExpireIn(Carbon::now()->addMinutes(60));
+        Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(60));
 
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+        // $this->mapApiRoutes();
     }
 
     /**
