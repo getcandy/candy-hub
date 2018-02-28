@@ -1,0 +1,150 @@
+.table {
+  thead {
+    tr {
+      th {
+        font-weight: normal;
+        color: lighten($grey, 20%);
+      }
+    }
+  }
+  tbody {
+    .handle {
+      cursor: grab;
+    }
+    tr {
+      .empty {
+        text-align: center;
+        padding:20px;
+      }
+      background-color:#fff;
+      &.sortable-ghost {
+        opacity: .25;
+        background-color: #eeeeee;
+      }
+      &.clickable {
+        cursor: pointer;
+        &:hover {
+          td {
+            background-color: lighten($blue, 60%);
+          }
+        }
+      }
+
+      &.selected {
+        td {
+          background-color: lighten($purple, 60%);
+        }
+      }
+
+      &:hover .hover-btn {
+        display: inline-block;
+      }
+
+      td {
+        position: relative;
+        vertical-align: middle;
+
+        &.product {
+          color: $blue;
+        }
+
+        &.publish-date {
+          em {
+            margin-right: 15px;
+          }
+        }
+
+        img {
+          width: 60px;
+
+          &.img-sm {
+            width: 50px;
+          }
+        }
+
+        .form-control, .btn {
+          height: 40px;
+        }
+
+        .btn {
+          font-size: 0.9em;
+
+          &.btn-action {
+            font-size: 1.1em;
+          }
+        }
+
+        .checkbox {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        .hover-btn {
+          display: none;
+          background-color: #fff;
+          float: right;
+        }
+        .hover-btn:hover {
+          background-color: #f3f3f3;
+        }
+      }
+    }
+  }
+
+  &.association-table {
+    thead, tbody {
+      display: block;
+
+      tr {
+        display: table;
+        width: 868px;
+      }
+    }
+
+    tbody {
+      @extend thead;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 300px;
+
+      tr {
+        display: table;
+        width: 856px;
+      }
+    }
+
+    &.variants-table {
+      tbody {
+        height: 200px;
+      }
+    }
+  }
+}
+
+.faux-table {
+  &.row {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.scrollable {
+  thead, tbody { display: block; }
+
+  tbody {
+    height: 300px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+  }
+}
+
+
+
+.status-icon {
+  display:inline-block;
+  margin-right:5px;
+  i {
+    color:lighten($grey, 25%);
+    font-size:1em;
+  }
+}

@@ -1,0 +1,1 @@
+Please see instructions over at https://github.com/getcandy/candy-store

@@ -1,0 +1,520 @@
+/* Forms */
+.form-group {
+  .help-txt {
+    display: block;
+    font-size: 0.9em;
+    color: lighten($grey, 15%);
+  }
+}
+
+label {
+  font-weight: normal;
+}
+
+.form-control, .datetimepicker[readonly] {
+  background-color:white;
+  height: 40px;
+  border-radius: 0;
+  border-color: lighten($grey, 30%);
+  &:disabled {
+    cursor: text;
+  }
+  textarea {
+    max-width:100%;
+  }
+}
+
+textarea.form-control {
+  max-width:100%!important;
+}
+
+.bootstrap-tagsinput {
+  display: block;
+  width: 100%;
+  padding: 6px 6px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  text-align: left;
+  background-color: #fff;
+  background-image: none;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  @extend .form-control;
+
+  input {
+    border: 0;
+    outline: none;
+  }
+}
+
+/* Inline Form */
+
+.form-inline {
+  .form-group {
+    margin-right: 10px;
+  }
+}
+
+/* Bootstrap Select */
+
+.bootstrap-select {
+  button {
+    .fa {
+      width: 15px;
+      margin-right: 10px;
+      text-align: center;
+    }
+  }
+
+  ul {
+    li {
+      .fa {
+        width: 15px;
+        margin-right: 10px;
+        text-align: center;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+
+/* Select All */
+
+.bulk-options {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 3px 7px 7px;
+  border: 1px solid lighten($grey, 30%);
+  cursor: pointer;
+
+  > label {
+    position: relative;
+    z-index: 3;
+  }
+
+  .fa {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    color: $blue;
+  }
+
+  .bulk-actions {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    top: -1px;
+    left: -1px;
+    height: 32px;
+    background: white;
+
+    .border-inner {
+      display: inline-block;
+      height: 100%;
+      padding-left: 30px;
+      border: 1px solid lighten($grey, 30%);
+
+      .btn {
+        height: auto;
+        margin-right: -4px;
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 0.9em;
+        line-height: 32px;
+        border: 0;
+        border-left: 1px solid lighten($grey, 30%);
+
+        &:first-of-type {
+          margin-left: 30px;
+          border-right: 0;
+        }
+      }
+    }
+
+    .all-selected {
+      display: inline-block;
+      height: 100%;
+      margin-left: 15px;
+      background: white;
+    }
+  }
+
+  &.active {
+    > .fa {
+      color: white;
+    }
+
+    .bulk-actions {
+      display: block;
+    }
+  }
+}
+
+/* Input Group */
+
+.input-group-full {
+  width: 100%;
+}
+
+.input-group {
+  .bootstrap-select {
+    &.input-group-btn {
+      padding: 0;
+      border: 0;
+    }
+  }
+
+  .candy-select {
+    display: table-cell;
+    vertical-align: top;
+
+    button {
+      border-left: 0;
+    }
+
+    &:hover {
+      button {
+        border-left: 0;
+      }
+    }
+  }
+}
+
+/* Input Group Addons */
+.input-group-addon {
+  width: 40px;
+  color: lighten($grey, 45%);
+  background-color: transparent;
+  border-radius: 0;
+  border: 1px solid lighten($grey, 30%);
+}
+
+/* Custom checkboxes */
+
+.checkbox {
+  input[type="checkbox"] {
+    display: none;
+
+    + label {
+      padding-left: 0;
+
+      span.check {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 15px;
+        height: 15px;
+        border: 1px solid lighten($grey, 30%);
+        border-radius: 3px;
+
+        &:after {
+          display: none;
+          content: '\f00c';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 14px;
+          height: 14px;
+          font-family: 'FontAwesome';
+          font-size: 0.85em;
+          text-align: center;
+          line-height: 14px;
+          color: $blue;
+        }
+      }
+
+      span.faux-label {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      span {
+        &:nth-child(2) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    &:checked {
+      + label {
+        span.check {
+          border-color: $blue;
+
+          &:after {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+.attributecheckbox{
+
+  .checkbox {
+    margin-top:0;
+    margin-bottom:5px;
+  }
+
+  .check:after {
+    margin-right: 20px;
+  }
+
+}
+
+/* Custom radio */
+
+.custom-radio-group {
+  margin-bottom: 15px;
+
+  .group-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+  }
+}
+
+/* Custom radio
+-- Search Toggle */
+
+.toggle-radio {
+  display: inline-block;
+  margin-right: -4px;
+  &.small {
+    font-size:.875em;
+    input[type="radio"] + label {
+      padding:0 10px;
+    }
+  }
+  input[type="radio"] {
+    display: none;
+
+    + label {
+      position: relative;
+      height: 40px;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 0.9em;
+      line-height: 39px;
+      border: 1px solid lighten($grey, 30%);
+      cursor: pointer;
+
+      span.check {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 15px;
+        height: 15px;
+
+        &:after {
+          display: none;
+          content: '\f00c';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 14px;
+          height: 14px;
+          font-family: 'FontAwesome';
+          font-size: 0.85em;
+          text-align: center;
+          line-height: 14px;
+          color: white;
+        }
+      }
+
+      span.faux-label {
+        display: inline-block;
+        margin-right: 15px;
+      }
+    }
+
+    &:checked {
+      + label {
+        color: white;
+        background-color: $purple;
+        border-color: darken($purple, 5%);
+
+        span.check {
+
+          &:after {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  &.rounded {
+    input[type="radio"] {
+      + label {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+
+        span.check {
+          z-index: 4;
+          margin-top: -11px;
+          margin-left: -3px;
+          font-size: 1.2em;
+        }
+
+        span.faux-label {
+          display: none;
+        }
+      }
+
+      &:checked {
+        + label {
+          background-color: $pink;
+          border-color: darken($pink, 5%);
+        }
+        &:hover {
+          + label {
+            span.faux-label {
+              display: block;
+              position: absolute;
+              z-index: 3;
+              top: -1px;
+              left: 16px;
+              height: 30px;
+              width: 65px;
+              padding-left: 10px;
+              line-height: 30px;
+              border-top-right-radius: 20px;
+              border-bottom-right-radius: 20px;
+              background-color: $pink;
+              border-width: 1px;
+              border-color: darken($pink, 5%);
+              border-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Product Layout Select */
+
+.radio-layout {
+  position: relative;
+  display: block;
+  width: 600px;
+  margin: 0 auto 30px;
+  border: 1px solid #eee;
+
+  input[type="radio"] {
+    display: none;
+
+    +label {
+      opacity: 0.5;
+      width: 100%;
+      margin-bottom: 0;
+      cursor: pointer;
+
+      .title {
+        position: relative;
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 1.4em;
+        border-bottom: 1px solid #eee;
+
+          .btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 47px;
+            height: 100%;
+            font-size: 0.8em;
+            line-height: 34px;
+            border-color: #eee;
+            border-top: 0;
+            border-right: 0;
+            border-bottom: 0;
+          }
+      }
+
+      .layout {
+        float: left;
+        width: 169px;
+        height: 150px;
+        padding-left: 10px;
+        padding-bottom: 10px;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      .layout-content {
+        float: right;
+        width: calc(100% - 169px);
+        padding-left: 15px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+      }
+
+      .description {
+        display: block;
+      }
+    }
+
+    &:checked {
+      + label {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* Toggle */
+
+.toggle {
+  label {
+    display: block;
+  }
+
+  .bootstrap-switch {
+    .bootstrap-switch-primary {
+      background-color: $purple;
+    }
+  }
+}
+
+/* Tags */
+
+.bootstrap-tagsinput {
+  input {
+    line-height: 28px;
+  }
+
+  .tag {
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 26px;
+
+    [data-value] {
+      font-weight: 300;
+    }
+  }
+}
+
+/**
+ * For when you want to display text but keep the same
+ * size as what an input would be if it was there.
+ */
+.input-alt {
+  line-height: 40px;
+  display: inline-block;
+}
