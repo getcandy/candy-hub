@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('side_menu')
-    @include('order-processing.partials.side-menu')
+    @include('hub::order-processing.partials.side-menu')
 @endsection
 
 @section('header_title')

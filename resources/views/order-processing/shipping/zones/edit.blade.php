@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('side_menu')
-    @include('order-processing.partials.side-menu')
+    @include('hub::order-processing.partials.side-menu')
 @endsection
 
 @section('header_title')
@@ -11,7 +11,7 @@
 
 @section('header_actions')
     <candy-button style="display: inline-block;" override="save-shipping-zone">Save Zone</candy-button>
-    
+
 @stop
 
 
