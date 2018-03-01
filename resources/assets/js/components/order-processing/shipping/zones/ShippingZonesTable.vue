@@ -33,7 +33,7 @@
                 this.load();
             },
             goTo: function (id) {
-                location.href = '/order-processing/shipping-zones/' + id;
+                location.href = '/hub/order-processing/shipping-zones/' + id;
             },
             getRegions(zone) {
                 var regions = [];
@@ -46,7 +46,7 @@
                         regions.push(country.region);
                     }
                 });
-                
+
                 return regions;
             }
         }

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('hub::layout')
 
 @section('side_menu')
     @include('hub::order-processing.partials.side-menu')
