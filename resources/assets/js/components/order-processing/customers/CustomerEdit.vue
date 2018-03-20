@@ -6,20 +6,14 @@
     export default {
         data() {
             return {
+                title: '',
                 loaded: false,
                 customer: {},
                 customerGroups: [],
                 selectedGroups: [],
                 newPassword: null,
                 confirmPassword: null,
-                request: apiRequest,
-                details: {
-                    firstname: '',
-                    lastname: '',
-                    contact_number: '',
-                    vat_no: '',
-                    company_name: ''
-                }
+                request: apiRequest
             }
         },
         props: {
@@ -37,24 +31,9 @@
         mounted() {
             Dispatcher.add('save-customer', this);
         },
-        computed: {
-            title() {
-                let title = '';
-                if (this.details.firstname) {
-                    title = this.details.firstname;
-                    if (this.details.lastname) {
-                        title = title + ' ' + this.details.lastname;
-                    }
-                } else {
-                    title = 'Customer';
-                }
-                return title;
-            }
-        },
         methods: {
             save() {
                 this.customer.customer_groups = this.selectedGroups;
-                this.customer.details = this.details;
 
                 if (this.newPassword && this.confirmPassword) {
                     this.customer.password = this.newPassword;
@@ -67,9 +46,6 @@
                     CandyEvent.$emit('notification', {
                         level: 'success'
                     });
-                    CandyEvent.$emit('title-changed', {
-                        title: this.title
-                    });
                 }).catch(error => {
                     this.newPassword = null;
                     this.confirmPassword = null;
@@ -81,21 +57,16 @@
              */
             loadCustomer() {
                 apiRequest.send('get', '/customers/' + this.id, {}, {
-                    includes: 'addresses,orders,groups,details'
+                    includes: 'addresses,orders,groups'
                 })
                 .then(response => {
                     this.customer = response.data;
                     this.loaded = true;
-
-                    if (this.customer.details.data) {
-                        this.details = this.customer.details.data;
-                    }
                     this.selectedGroups = _.map(this.customer.groups.data, group => {
                         return group.id;
                     });
-
                     CandyEvent.$emit('title-changed', {
-                        title: this.title
+                        title: this.customer.firstname + ' ' + this.customer.lastname
                     });
                 }).catch(error => {
                 });
@@ -123,13 +94,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>First name</label>
-                                                <input class="form-control" v-model="details.firstname">
+                                                <input class="form-control" v-model="customer.firstname">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Last name</label>
-                                                <input class="form-control" v-model="details.lastname">
+                                                <input class="form-control" v-model="customer.lastname">
                                             </div>
                                         </div>
 
@@ -147,7 +118,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Company Name</label>
-                                                <input class="form-control" v-model="details.company_name">
+                                                <input class="form-control" v-model="customer.company_name">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('company_name')">
                                                 {{ request.getError('company_name') }}
@@ -156,7 +127,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Contact Number</label>
-                                                <input type="tel" class="form-control" v-model="details.contact_number">
+                                                <input type="tel" class="form-control" v-model="customer.contact_number">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('contact_number')">
                                                 {{ request.getError('contact_number') }}
@@ -165,7 +136,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>VAT Number</label>
-                                                <input class="form-control" v-model="details.vat_no">
+                                                <input class="form-control" v-model="customer.vat_no">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('vat_no')">
                                                 {{ request.getError('vat_no') }}

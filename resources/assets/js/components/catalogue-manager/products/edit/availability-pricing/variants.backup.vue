@@ -270,7 +270,7 @@
               <li v-for="(v, index) in variants">
                 <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
                   <div class="variant-img" v-if="v.image">
-                    <img src="img/placeholder/product.jpg" alt="">
+                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
                   </div>
                   <div class="variant-img" v-else>
                     <img src="/images/placeholder/no-image.svg" alt="Placeholder">

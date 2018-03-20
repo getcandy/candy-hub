@@ -11,6 +11,7 @@
                 order: {},
                 currency: {},
                 transactions: {},
+                isMailable: false
             }
         },
         props: {
@@ -34,6 +35,26 @@
                 return this.currency.format.replace('{price}', total.money());
                 // return 'ho';
             },
+            unitPrice(line) {
+                let sub_total = line.total;
+                if (this.order.vat) {
+                    sub_total = line.total - (line.total - (line.total / 1.2));
+                }
+                return sub_total / line.quantity;
+            },
+            taxAmount(line) {
+                if (this.order.vat) {
+                    return line.total - (line.total / 1.2);
+                }
+                return 0;
+            },
+            setMailable() {
+                if (this.order.status == 'dispatched') {
+                    this.isMailable = true;
+                } else {
+                    this.isMailable = false;
+                }
+            },
             save() {
                 apiRequest.send('PUT', '/orders/' + this.order.id, {
                     tracking_no: this.order.tracking_no,
@@ -42,6 +63,14 @@
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Order saved'
+                    });
+                })
+            },
+            sendTracking() {
+                apiRequest.send('POST', '/orders/' + this.order.id + '/sendtracking').then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Tracking email sent'
                     });
                 })
             },
@@ -56,8 +85,7 @@
                         total += line.total - discount.amount;
                     }
                 });
-
-                return -total;
+                return -total + (total - (total / 1.2));
             },
             /**
              * Loads the product by its encoded ID
@@ -128,9 +156,17 @@
                 var type = 'warning'
                 var text = 'Awaiting Payment';
                 switch (order.status) {
+                    case 'payment-processing':
+                        type = 'info';
+                        text = 'Payment Processing';
+                        break;
                     case 'payment-received':
                         type = 'success';
                         text = 'Payment Received';
+                        break;
+                    case 'dispatched':
+                        type = 'default';
+                        text = 'Dispatched';
                         break;
                     case 'on-account':
                         type = 'primary';
@@ -143,6 +179,10 @@
                     case 'void':
                         type = 'danger';
                         text = 'Void';
+                        break;
+                    case 'in-progress':
+                        type = 'purple';
+                        text = 'In Progress';
                         break;
                     case 'failed':
                         type = 'danger';
@@ -183,13 +223,16 @@
                                                     <th>Product</th>
                                                     <th>Variant</th>
                                                     <th>QTY</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Tax Rate</th>
+                                                    <th>Tax Amount</th>
                                                     <th>Line total</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <template v-if="order.discounts.data.length">
                                                     <tr v-for="discount in order.discounts.data">
-                                                        <td colspan="4" align="right">
+                                                        <td colspan="7" align="right">
                                                             <strong>{{ discount.name }}</strong>
                                                             <span v-if="discount.type == 'percentage'">
                                                                 @ {{ discount.amount }}%
@@ -204,24 +247,30 @@
                                                     </tr>
                                                 </template>
                                                 <tr>
-                                                    <td colspan="2"></td>
-                                                    <td colspan="2" align="right"><strong>Shipping</strong></td>
+                                                    <td colspan="4"></td>
+                                                    <td colspan="3" align="right"><strong>Shipping</strong></td>
                                                     <td v-html="currencySymbol(order.shipping_total)"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2"></td>
-                                                    <td colspan="2" align="right"><strong>Sub total</strong></td>
+                                                    <td colspan="4"></td>
+                                                    <td colspan="3" align="right"><strong>Sub total (Excl VAT)</strong></td>
                                                     <td v-html="currencySymbol(order.total - order.vat)"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2"></td>
-                                                    <td colspan="2" align="right"><strong>VAT</strong></td>
+                                                    <td colspan="4"></td>
+                                                    <td colspan="3" align="right"><strong>VAT</strong></td>
                                                     <td v-html="currencySymbol(order.vat)"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2"></td>
-                                                    <td colspan="2" align="right"><strong>Total</strong></td>
+                                                    <td colspan="4"></td>
+                                                    <td colspan="3" align="right"><strong>Total</strong></td>
                                                     <td v-html="currencySymbol(order.total)"></td>
+                                                </tr>
+                                                <tr v-if="order.vat_no && order.billing.country != 'United Kingdom'">
+                                                    <td colspan="4"></td>
+                                                    <td colspan="4" align="right">
+                                                        <span class="text-info">EU Reverse Charge VAT Applied</span>
+                                                    </td>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
@@ -230,7 +279,10 @@
                                                     <td>{{ line.product }}</td>
                                                     <td>{{ line.variant ? line.variant : '-' }}</td>
                                                     <td>{{ line.quantity }}</td>
-                                                    <td v-html="currencySymbol(line.total)"></td>
+                                                    <td v-html="currencySymbol(unitPrice(line))"></td>
+                                                    <td><span v-if="order.vat">VAT @ 20%</span><span v-else>-</span></td>
+                                                    <td v-html="currencySymbol(taxAmount(line))"></td>
+                                                    <td v-html="currencySymbol(line.total - taxAmount(line))"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -304,6 +356,12 @@
                                             </div>
                                         </div>
                                         <hr>
+                                        <div class="row" v-if="order.vat_no">
+                                            <div class="col-md-12">
+                                                <strong>Customer VAT No.</strong> {{ order.vat_no }}
+                                            </div>
+                                        </div>
+                                        <hr>
                                         <template v-if="order.invoice_reference">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -315,9 +373,11 @@
                                         <div class="form-group">
                                             <strong style="margin-bottom:5px;display:block;">Order status</strong>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
+                                                <option value="on-account">On Account</option>
+                                                <option value="payment-processing">Payment Processing</option>
                                                 <option value="awaiting-payment">Awaiting Payment</option>
                                                 <option value="payment-received">Payment Received</option>
-                                                <option value="processing">Processing</option>
+                                                <option value="in-progress">In Progress</option>
                                                 <option value="dispatched">Dispatched</option>
                                                 <option value="failed">Failed</option>
                                                 <option value="voided">Voided</option>
@@ -329,6 +389,15 @@
                                             <strong style="margin-bottom:5px;display:block;">Tracking Number</strong>
                                             <input class="form-control" v-model="order.tracking_no">
                                         </div>
+
+                                        <div class="alert alert-info" v-if="isMailable">
+                                            <p>Saving will send a delivery email notification to <strong>{{ order.contact_email }}</strong></p>
+                                        </div>
+
+                                        <template v-if="order.dispatched_at">
+                                            <button class="btn btn-primary" @click="sendTracking">Send dispatched email</button>
+                                        </template>
+                                        <hr>
 
                                         <strong style="margin-bottom:5px;display:block;">Account</strong>
                                         <span v-if="!order.user">Guest</span>

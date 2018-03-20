@@ -152,6 +152,7 @@ var includes = [
     components: {
       'category-availability' : 'CategoryAvailability',
       'category-details'      : 'CategoryDetails',
+      'category-product-positioning' : 'ProductPositioning'
     }
   },
   /**
@@ -188,13 +189,20 @@ var includes = [
     components: {
       'categories' : 'Categories',
       'collections' : 'Collections',
-      'products' : 'Products'
+      'products' : 'Products',
+      'association-modals' : 'Modals'
     }
   },
   {
     path: 'catalogue-manager.products.edit.display',
     components: {
       'display' : 'Display'
+    }
+  },
+  {
+    path: 'catalogue-manager.products.edit.urls',
+    components: {
+      'url-modals' : 'Modals'
     }
   },
   /**

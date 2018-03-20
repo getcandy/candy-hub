@@ -29,7 +29,7 @@
 <script>
     import trumbowyg from 'vue-trumbowyg';
     // Import editor css
-    // import 'trumbowyg/dist/ui/trumbowyg.css';
+    import 'trumbowyg/dist/ui/trumbowyg.css';
 
     export default {
         data() {

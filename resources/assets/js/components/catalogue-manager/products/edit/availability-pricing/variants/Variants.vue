@@ -487,22 +487,14 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary" @click="addPriceTier">
-                            <fa icon="plus"></fa> Add tier
-                        </button>
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="addPriceTier">
+                                <fa icon="plus"></fa> Add tier
+                            </button>
+                        </div>
 
                         <h4>Inventory</h4>
                         <hr>
-                        <candy-disabled>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-5">
-                                    <div class="form-group">
-                                        <label>Inventory Policy</label>
-                                        <candy-select :options="['Option 1','Option 2','Option 3']"></candy-select>
-                                    </div>
-                                </div>
-                            </div>
-                        </candy-disabled>
                         <div class="row">
                             <div class="col-xs-6 col-md-5">
                                 <div class="form-group">
@@ -516,14 +508,13 @@
                                     <input type="number" class="form-control" v-model="current.inventory">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-2">
+                            <!-- <div class="col-xs-12 col-md-2">
                                 <div class="form-group">
                                     <label>Incoming</label>
                                     <br><a href="#" class="btn btn-lg btn-link">0</a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
-                        <candy-disabled>
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -534,9 +525,8 @@
                                 </div>
                             </div>
                         </div>
-                        </candy-disabled>
 
-                        <h4>Shipping</h4>
+                        <!-- <h4>Shipping</h4>
                         <hr>
                         <div class="form-group">
                             <label for="requiresShipping">
@@ -621,7 +611,7 @@
                                         v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-xs-12 col-md-4 col-md-pull-8" v-if="variants.length > 1">
                         <ul class="variant-list">

@@ -99,7 +99,7 @@
             },
             searchCategories() {
                 this.categoriesLoaded = false;
-
+                
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.categories = response.data;
@@ -116,6 +116,19 @@
             },
             createCategory() {
                 let _this = this;
+
+                // this.createModalData['attributes'] = [{
+                //     'key': 'name',
+                //     'value': this.category.name,
+                //     'channel': this.channel,
+                //     'locale': this.language
+                // }];
+
+                // this.createModalData['routes'] = [{
+                //     'slug': this.category.name,
+                //     'locale': this.language,
+                //     'default': 1
+                // }];
 
                 this.request.send('post', '/categories', {
                     'name' : {
@@ -217,6 +230,31 @@
                 <form>
                     <div class="row">
                         <div class="col-xs-12 col-md-2">
+
+                            <!--<button type="button" class="btn btn-default btn-full btn-pop-over">
+                                Add Filter <i class="fa fa-angle-down fa-last" aria-hidden="true"></i>
+                            </button>-->    
+
+                            <!-- Filter Pop Over 
+                            <div class="pop-over">
+                                <form>
+                                    <label>Show all products where:</label>
+                                    <div class="form-group">
+                                        <select class="form-control selectpicker">
+                                            <option>Display</option>
+                                        </select>
+                                    </div>
+                                    <span class="form-link">
+                                        is
+                                    </span>
+                                    <div class="form-group">
+                                        <select class="form-control selectpicker">
+                                            <option>Visible on Storefront</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-default">Add filter</button>
+                                </form>
+                            </div>-->
 
                         </div>
                         <div class="form-group col-xs-12 col-md-8">

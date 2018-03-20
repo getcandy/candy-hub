@@ -58,7 +58,7 @@
              */
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
-                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes'
+                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
@@ -91,6 +91,14 @@
 
                     <candy-tab name="Availability &amp; Pricing" handle="category-availability" dispatch="category-availability">
                         <candy-category-availability :category="category" v-if="category"></candy-category-availability>
+                    </candy-tab>
+
+                    <candy-tab name="Associations">
+                        <candy-tabs nested="true">
+                            <candy-tab name="Products" :selected="true">
+                                <candy-category-product-positioning :category-id="category.id" :sort="category.sort" :products="category.products.data"></candy-category-product-positioning>
+                            </candy-tab>
+                        </candy-tabs>
                     </candy-tab>
 
                     <candy-tab name="URLS">

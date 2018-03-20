@@ -206,7 +206,7 @@
             },
             getImage: function(data) {
                 let url = '/hub/images/placeholder/no-image.svg';
-                if (data.thumbnail.data) {
+                if (data.thumbnail) {
                     url = data.thumbnail.data.thumbnail;
                 }
                 return '<img class="fancytree-image" src="' + url + '" >';

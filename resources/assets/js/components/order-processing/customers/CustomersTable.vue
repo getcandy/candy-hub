@@ -8,7 +8,7 @@
                 params: {
                     per_page: 50,
                     page: 1,
-                    includes: 'groups,details'
+                    includes: 'groups'
                 },
                 pagination: {}
             }
@@ -87,13 +87,13 @@
                         <tr class="clickable" v-for="customer in customers">
                             <td @click="loadCustomer(customer.id)">{{ customer.id }}</td>
                             <td @click="loadCustomer(customer.id)">
-                                <template v-if="customer.details.data.firstname">
-                                    {{ customer.details.data.firstname }} {{ customer.details.data.lastname }}
+                                <template v-if="customer.firstname">
+                                    {{ customer.firstname }} {{ customer.lastname }}
                                 </template>
                                 <span v-else class="text-muted"><small>-</small></span>
                             </td>
                             <td @click="loadCustomer(customer.id)">
-                                <span v-if="customer.details.data.company_name">{{ customer.details.data.company_name }}</span>
+                                <span v-if="customer.company_name">{{ customer.company_name }}</span>
                                 <span v-else class="text-muted"><small>-</small></span>
                             </td>
                             <td @click="loadCustomer(customer.id)">{{ customer.email }}</td>

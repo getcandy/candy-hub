@@ -7,7 +7,7 @@
                 params: {
                     per_page: 50,
                     current_page: 1,
-                    includes: 'prices,zones'
+                    includes: 'prices.customer_groups,zones'
                 },
                 pagination: {}
             }
@@ -35,11 +35,22 @@
             loadMethod: function (id) {
                 location.href = '/hub/order-processing/shipping-methods/' + id;
             },
-            localisedPrice(amount, currency) {
-                var currency = _.find(this.currencies, item => {
-                    return item.code == currency;
+            getCustomerGroups(prices) {
+                let groups = [];
+                _.each(prices, price => {
+                    _.each(price.customer_groups.data, group => {
+                        if (group.visible && !groups.contains(group.name)) {
+                            groups.push(group.name);
+                        }
+                    });
                 });
-                return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
+                return groups;
+                // return prices.customer_groups.data;
+            },
+            localisedPrice(price) {
+                var currency = price.currency.data;
+                // price.currency.data.format
+                return currency.format.replace('{price}', price.rate.money(2, currency.thousand_point, currency.decimal_point));
             }
         }
     }
@@ -65,28 +76,34 @@
                             <th>Name</th>
                             <th>Prices</th>
                             <th>Zones</th>
+                            <th>Customer Groups</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
-                        <tr class="clickable" v-for="method in methods">
-                            <td @click="loadMethod(method.id)">
+                        <tr class="clickable" v-for="method in methods" @click="loadMethod(method.id)">
+                            <td>
                                 {{ method|attribute('name') }}
                             </td>
-                            <td @click="loadMethod(method.id)">
+                            <td>
                                 <template v-if="method.prices.data.length">
                                     <template v-for="(price, index) in method.prices.data">
-                                        {{ price.rate }}<span v-if="index < method.prices.data.length - 1">,</span>
+                                        <span v-html="localisedPrice(price)"></span><span v-if="index < method.prices.data.length - 1">, </span>
                                     </template>
                                 </template>
                                 <span class="text-info" v-else>No prices set</span>
                             </td>
-                            <td @click="loadMethod(method.id)">
+                            <td>
                                 <template v-if="method.zones.data.length">
                                     <template v-for="(zone, index) in method.zones.data">
                                         {{ zone.name }}<span v-if="index < method.zones.data.length - 1">,</span>
                                     </template>
                                 </template>
                                 <span class="text-info" v-else>No zones set</span>
+                            </td>
+                            <td>
+                                <span v-for="(group, index) in getCustomerGroups(method.prices.data)">
+                                    {{ group }}<span v-if="index != getCustomerGroups(method.prices.data).length - 1">, </span>
+                                </span>     
                             </td>
                         </tr>
 

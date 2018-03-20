@@ -210,7 +210,37 @@
                 <!-- Search Form -->
                 <form v-on:submit.prevent>
                     <div class="row">
+                        <div class="col-xs-12 col-md-2">
+                            <candy-disabled>
+                                <button type="button" class="btn btn-default btn-full btn-pop-over">
+                                    Add Filter <i class="fa fa-angle-down fa-last" aria-hidden="true"></i>
+                                </button>
+                            </candy-disabled>
+
+                            <!-- Filter Pop Over -->
+                            <!-- <div class="pop-over">
+                                <form>
+                                    <label>Show all products where:</label>
+                                    <div class="form-group">
+                                        <select class="form-control selectpicker">
+                                            <option>Display</option>
+                                        </select>
+                                    </div>
+                                    <span class="form-link">
+                                        is
+                                    </span>
+                                    <div class="form-group">
+                                        <select class="form-control selectpicker">
+                                            <option>Visible on Storefront</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-default">Add filter</button>
+                                </form>
+                            </div> -->
+
+                        </div>
                         <div class="form-group col-xs-12 col-md-8">
+
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
                                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -218,11 +248,14 @@
                                 <label class="sr-only" for="search">Search</label>
                                 <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
+
                         </div>
                         <div class="form-group col-xs-12 col-md-2">
+
                             <button type="button" class="btn btn-default btn-full" @click="saveSearch()">
                                 <i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search
                             </button>
+
                         </div>
                     </div>
                 </form>
@@ -234,10 +267,44 @@
                     </template>
                     <hr>
                 </template>
+
+                <!-- Filter List -->
+                <!-- <div class="filters">
+                    <div class="filter active">Visible on Storefront
+                        <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="filter active">Visible on Facebook
+                        <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                </div> -->
+
                 <hr>
+
                 <table class="table table-striped product-table">
                     <thead>
                         <tr>
+                            <th width="6%">
+                                <candy-disabled>
+                                    <div class="checkbox bulk-options" :class="{'active': (selectAll || checkedCount > 0)}">
+                                        <input v-model="selectAll" type="checkbox" class="select-all">
+                                        <label @click="selectAllClick"><span class="check"></span></label>
+                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+
+                                        <div class="bulk-actions">
+                                            <div class="border-inner">
+                                                {{ checkedCount }} product selected
+                                                <a href="#" class="btn btn-outline btn-sm">Edit</a>
+                                                <a href="#" class="btn btn-outline btn-sm">Publish</a>
+                                                <a href="#" class="btn btn-outline btn-sm">Hide</a>
+                                                <a href="#" class="btn btn-outline btn-sm">Delete</a>
+                                            </div>
+                                            <div v-if="checkedCount == products.length" class="all-selected">
+                                                <em>All products on this page are selected</em>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </candy-disabled>
+                            </th>
                             <th width="10%">Image</th>
                             <th width="25%">Product</th>
                             <th width="19%">Display</th>
@@ -247,6 +314,12 @@
                     </thead>
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="product in products">
+                            <td>
+                                <!-- <div class="checkbox">
+                                    <input type="checkbox" :id="'prod' + product.id" :value="product.id" v-model="selected">
+                                    <label :for="'prod' + product.id"><span class="check"></span></label>
+                                </div> -->
+                            </td>
                             <td @click="loadProduct(product.id)">
                                 <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
                             </td>

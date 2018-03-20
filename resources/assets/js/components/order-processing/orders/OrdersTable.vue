@@ -75,27 +75,35 @@
                 var type = 'default'
                 var text = 'Unknown';
                 switch (order.status) {
-                    case 'payment-received':
-                        type = 'success';
-                        text = 'Payment Received';
+                    case 'awaiting-payment':
+                        type = 'waiting';
+                        text = 'Awaiting Payment';
                         break;
                     case 'payment-processing':
-                        type = 'danger';
+                        type = 'processing';
                         text = 'Payment Processing';
                         break;
+                    case 'payment-received':
+                        type = 'live';
+                        text = 'Payment Received';
+                        break;
+                    case 'in-progress':
+                        type = 'pending';
+                        text = 'In Progress';
+                        break;
+                    case 'dispatched':
+                        type = 'default';
+                        text = 'Dispatched';
+                        break;
                     case 'on-account':
-                        type = 'primary';
+                        type = 'live';
                         text = 'On Account';
                         break;
                     case 'refunded':
-                        type = 'warning';
+                        type = 'danger';
                         text = 'Refunded';
                         break;
-                    case 'returned':
-                        type = 'warning';
-                        text = 'Returned';
-                        break;
-                    case 'voided':
+                    case 'void':
                         type = 'danger';
                         text = 'Void';
                         break;
@@ -103,25 +111,15 @@
                         type = 'danger';
                         text = 'Failed';
                         break;
-                    case 'dispatched':
-                        type = 'info';
-                        text = 'Dispatched';
-                        break;
                     case 'expired':
                         type = 'default';
                         text = 'Expired';
                         break;
-                    case 'on-account':
-                        type = 'primary';
-                        text = 'On Account';
-                        break;
                     default:
-                        type = 'warning';
-                        text = 'Awaiting payment';
                         break;
                 }
                 return {
-                    class: 'label-' + type,
+                    class: 'order-status-' + type,
                     text: text
                 };
             },
@@ -137,7 +135,7 @@
                 this.loadOrders();
             },
             loadOrder: function (id) {
-                location.href = '/hub/order-processing/orders/' + id;
+                location.href = '/order-processing/orders/' + id;
             },
             localisedPrice(amount, currency) {
                 var currency = _.find(this.currencies, item => {
@@ -153,35 +151,46 @@
     <div>
 
         <!-- Search tabs -->
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs order-status-tabs" role="tablist">
             <li role="presentation" :class="{'active' : !filter}">
                 <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'processed'">
                     All Orders
                 </a>
             </li>
-            <li role="presentation" :class="{'active' : filter == 'awaiting-payment'}">
-                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab" @click="filter = 'awaiting-payment'">
-                    Awaiting Payment
+            <li role="presentation" :class="{'active' : filter == 'payment-processing'}" class="processing">
+                <a href="#payment-processing" aria-controls="payment-processing" role="tab" data-toggle="tab" @click="filter = 'payment-processing'">
+                    Payment Processing
                 </a>
             </li>
-            <li role="presentation" :class="{'active' : filter == 'payment-received'}">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'payment-received'">
+            <li role="presentation" :class="{'active' : filter == 'payment-received'}" class="live">
+                <a href="#payment-received" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'payment-received'">
                     Payment received
                 </a>
             </li>
-            <li role="presentation" :class="{'active' : filter == 'dispatched'}">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'dispatched'">
-                    Dispatched
-                </a>
-            </li>
-            <li role="presentation" :class="{'active' : filter == 'on-account'}">
+            <li role="presentation" :class="{'active' : filter == 'on-account'}" class="live">
                 <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'on-account'">
                     On Account
                 </a>
             </li>
-            <li role="presentation" :class="{'active' : filter == 'failed'}">
+            <li role="presentation" :class="{'active' : filter == 'in-progress'}" class="pending">
+                <a href="#in-progress" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'in-progress'">
+                    In Progress
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'dispatched'}" class="default">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'dispatched'">
+                    Dispatched
+                </a>
+            </li>
+
+            <li role="presentation" :class="{'active' : filter == 'failed'}" class="danger">
                 <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'failed'">
                     Failed
+                </a>
+            </li>
+            <li role="presentation" :class="{'active' : filter == 'awaiting-payment'}" class="waiting">
+                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab" @click="filter = 'awaiting-payment'">
+                    Awaiting Payment
                 </a>
             </li>
         </ul>
@@ -220,7 +229,7 @@
                     </thead>
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="order in orders" @click="loadOrder(order.id)">
-                            <td><span class="label" :class="status(order).class">{{ status(order).text }}</span></td>
+                            <td><span  class="order-status" :class="status(order).class">{{ status(order).text }}</span></td>
                             <td>
                                 {{ order.reference }}
                             </td>
