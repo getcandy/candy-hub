@@ -36,8 +36,7 @@ Route::group([
     /**
      * Hub Routes
      */
-    $router->group(['middleware' => ['auth', 'hub.refresh_token', 'hub.access']], function ($router) {
-
+    $router->group(['middleware' => ['hub.auth', 'hub.refresh_token', 'hub.access']], function ($router) {
         $router->get('dashboard', [
             'as' => 'hub.index',
             'uses' => 'DashboardController@getIndex'

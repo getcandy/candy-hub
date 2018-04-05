@@ -6,7 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Validator;
 use View;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
-use GetCandy\Hub\Http\Middleware\HubAccess;
+use GetCandy\Hub\Http\Middleware\Access;
+use GetCandy\Hub\Http\Middleware\Authenticated;
 use Illuminate\Support\Facades\Blade;
 
 
@@ -36,7 +37,8 @@ class HubServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'hub');
 
         $this->app['router']->aliasMiddleware('hub.refresh_token', CreateFreshApiToken::class);
-        $this->app['router']->aliasMiddleware('hub.access', CreateFreshApiToken::class);
+        $this->app['router']->aliasMiddleware('hub.access', Access::class);
+        $this->app['router']->aliasMiddleware('hub.auth', Authenticated::class);
 
 
         $this->publishes([

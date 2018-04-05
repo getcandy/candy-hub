@@ -1,11 +1,11 @@
 <?php
 
-namespace GetCandy\Http\Middleware\Hub;
+namespace GetCandy\Hub\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\AuthenticationException;
 
-class HubAccess
+class Access
 {
     public function handle($request, Closure $next)
     {
