@@ -42,7 +42,7 @@ class HubServiceProvider extends ServiceProvider
 
 
         $this->publishes([
-            __DIR__ . '/../../resources/build' => public_path('hub'),
+            __DIR__ . '/../../resources/build' => public_path('candy-hub'),
         ], 'public');
 
     }

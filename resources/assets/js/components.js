@@ -189,8 +189,7 @@ var includes = [
     components: {
       'categories' : 'Categories',
       'collections' : 'Collections',
-      'products' : 'Products',
-      'association-modals' : 'Modals'
+      'products' : 'Products'
     }
   },
   {
@@ -202,7 +201,6 @@ var includes = [
   {
     path: 'catalogue-manager.products.edit.urls',
     components: {
-      'url-modals' : 'Modals'
     }
   },
   /**

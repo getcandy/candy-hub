@@ -18,7 +18,7 @@ Route::group([
 ], function ($router) {
 
     $router->get('/', function () {
-        return redirect()->route('login');
+        return redirect()->route('hub.login');
     });
 
     // Authentication Routes...
