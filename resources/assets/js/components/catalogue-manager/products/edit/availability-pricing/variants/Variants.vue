@@ -607,11 +607,15 @@
                                                       v-model="current.volume.unit"></candy-select>
                                     </div>
                                 </div>
-                                <button class="btn btn-danger" @click="deleteVariant(currentIndex)"
-                                        v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
-                                </button>
                             </div>
                         </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-danger" @click="deleteVariant(currentIndex)"
+                                    v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
+                                </button>
+                            </div>
+                       </div>
                     </div>
                     <div class="col-xs-12 col-md-4 col-md-pull-8" v-if="variants.length > 1">
                         <ul class="variant-list">

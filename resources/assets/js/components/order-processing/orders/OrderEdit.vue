@@ -31,6 +31,9 @@
             Dispatcher.add('save-order', this);
         },
         methods: {
+            productLink(sku) {
+                return route('hub.products.edit', sku);
+            },
             currencySymbol(total) {
                 return this.currency.format.replace('{price}', total.money());
                 // return 'ho';
@@ -275,8 +278,16 @@
                                             </tfoot>
                                             <tbody>
                                                 <tr v-for="line in order.lines.data">
-                                                    <td>{{ line.sku }}</td>
-                                                    <td>{{ line.product }}</td>
+                                                    <td>
+                                                        <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
+                                                        {{ line.sku }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
+                                                            {{ line.product }}
+                                                        </a>
+                                                    </td>
                                                     <td>{{ line.variant ? line.variant : '-' }}</td>
                                                     <td>{{ line.quantity }}</td>
                                                     <td v-html="currencySymbol(unitPrice(line))"></td>
