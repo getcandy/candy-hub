@@ -33,7 +33,7 @@
                 this.loadOrders();
             },
             loadMethod: function (id) {
-                location.href = '/hub/order-processing/shipping-methods/' + id;
+                location.href = route('hub.shipping.edit', id);
             },
             getCustomerGroups(prices) {
                 let groups = [];
@@ -103,7 +103,7 @@
                             <td>
                                 <span v-for="(group, index) in getCustomerGroups(method.prices.data)">
                                     {{ group }}<span v-if="index != getCustomerGroups(method.prices.data).length - 1">, </span>
-                                </span>     
+                                </span>
                             </td>
                         </tr>
 

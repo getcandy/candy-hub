@@ -62,7 +62,7 @@
                 return false;
             },
             loadProduct: function (id) {
-                location.href = '/hub/catalogue-manager/products/' + id;
+                location.href = route('hub.products.edit', id);
             },
             loadProducts() {
                 this.loaded = false;

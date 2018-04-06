@@ -32,7 +32,7 @@
                 this.loadCustomers();
             },
             loadCustomer: function (id) {
-                location.href = '/hub/order-processing/customers/' + id;
+                location.href = route('hub.customers.edit', id);
             },
             search: _.debounce(function (){
                     this.loaded = false;

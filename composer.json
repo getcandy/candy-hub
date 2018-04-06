@@ -21,7 +21,7 @@
         "rollbar/rollbar-laravel": "^2.2",
         "ruflin/elastica": "^6.0",
         "spatie/laravel-permission": "^2.9",
-        "tightenco/ziggy": "^0.6.2",
+        "tightenco/ziggy": "^0.6.3",
         "vinkla/hashids": "^4.0"
     },
     "require-dev": {
@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "GetCandy\\": "src/"
+            "GetCandy\\Hub\\": "src/"
         }
     },
     "extra": {

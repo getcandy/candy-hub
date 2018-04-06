@@ -95,11 +95,11 @@ Route::group([
             ]);
 
             $router->get('shipping-zones', [
-                'as' => 'hub.shipping.zones',
+                'as' => 'hub.shipping_zones.index',
                 'uses' => 'ShippingController@getZones'
             ]);
             $router->get('shipping-zones/{id}', [
-                'as' => 'hub.shipping.zones.edit',
+                'as' => 'hub.shipping_zones.edit',
                 'uses' => 'ShippingController@getZone'
             ]);
 
@@ -109,7 +109,7 @@ Route::group([
                 'uses' => 'CustomerController@getIndex'
             ]);
             $router->get('customers/{id}', [
-                'as' => 'hub.customers.view',
+                'as' => 'hub.customers.edit',
                 'uses' => 'CustomerController@getShow'
             ]);
 

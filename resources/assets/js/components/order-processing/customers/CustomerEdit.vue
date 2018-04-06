@@ -73,7 +73,7 @@
 
             },
             viewOrder(id) {
-                location.href = '/order-processing/orders/' + id;
+                location.href = route('hub.orders.edit', id);
             }
         }
     }

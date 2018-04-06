@@ -61,7 +61,7 @@
                 this.loadCollections();
             },
             loadCollection: function (id) {
-                location.href = '/hub/catalogue-manager/collections/' + id;
+                location.href = route('hub.collections.edit', id);
             },
             getVisibilty(collection, ref) {
                 let groups = collection[ref].data;

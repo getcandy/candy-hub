@@ -13,7 +13,7 @@ class SideMenu extends Menu
             // new NavItem('Returns', route('hub.orders.index')),
             new NavItem('titles.customers', route('hub.customers.index')),
             new NavItem('titles.shipping_methods', route('hub.shipping.index')),
-            new NavItem('titles.shipping_zones', route('hub.shipping.zones')),
+            new NavItem('titles.shipping_zones', route('hub.shipping_zones.index')),
         ];
 
         $this->view = 'hub::menus.side-menu';

@@ -99,7 +99,7 @@
             },
             searchCategories() {
                 this.categoriesLoaded = false;
-                
+
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.categories = response.data;
@@ -233,9 +233,9 @@
 
                             <!--<button type="button" class="btn btn-default btn-full btn-pop-over">
                                 Add Filter <i class="fa fa-angle-down fa-last" aria-hidden="true"></i>
-                            </button>-->    
+                            </button>-->
 
-                            <!-- Filter Pop Over 
+                            <!-- Filter Pop Over
                             <div class="pop-over">
                                 <form>
                                     <label>Show all products where:</label>

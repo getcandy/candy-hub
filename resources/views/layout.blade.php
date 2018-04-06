@@ -7,7 +7,7 @@
     <meta name="channel" content="@channel()">
 
     <title>GetCandy</title>
-
+    @routes
     @include('hub::partials.head')
 
   </head>
