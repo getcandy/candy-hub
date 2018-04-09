@@ -10,6 +10,7 @@
                 loaded: false,
                 order: {},
                 currency: {},
+                currencies: [],
                 transactions: {},
                 isMailable: false
             }

@@ -11,9 +11,12 @@
                 customer: {},
                 customerGroups: [],
                 selectedGroups: [],
+                ordersBatch: 1,
                 newPassword: null,
                 confirmPassword: null,
-                request: apiRequest
+                ordersPerPage: 10,
+                request: apiRequest,
+                orders: []
             }
         },
         props: {
@@ -30,8 +33,61 @@
         },
         mounted() {
             Dispatcher.add('save-customer', this);
+
         },
         methods: {
+                        status(order) {
+                var type = 'default'
+                var text = 'Unknown';
+                switch (order.status) {
+                    case 'awaiting-payment':
+                        type = 'waiting';
+                        text = 'Awaiting Payment';
+                        break;
+                    case 'payment-processing':
+                        type = 'processing';
+                        text = 'Payment Processing';
+                        break;
+                    case 'payment-received':
+                        type = 'live';
+                        text = 'Payment Received';
+                        break;
+                    case 'in-progress':
+                        type = 'pending';
+                        text = 'In Progress';
+                        break;
+                    case 'dispatched':
+                        type = 'default';
+                        text = 'Dispatched';
+                        break;
+                    case 'on-account':
+                        type = 'live';
+                        text = 'On Account';
+                        break;
+                    case 'refunded':
+                        type = 'danger';
+                        text = 'Refunded';
+                        break;
+                    case 'void':
+                        type = 'danger';
+                        text = 'Void';
+                        break;
+                    case 'failed':
+                        type = 'danger';
+                        text = 'Failed';
+                        break;
+                    case 'expired':
+                        type = 'default';
+                        text = 'Expired';
+                        break;
+                    default:
+                        break;
+                }
+                return {
+                    class: 'order-status-' + type,
+                    text: text
+                };
+            },
             save() {
 
                 let data = JSON.parse(JSON.stringify(this.customer));
@@ -68,20 +124,44 @@
                     includes: 'addresses,orders,groups,details'
                 })
                 .then(response => {
+
                     this.customer = response.data;
-                    this.loaded = true;
                     this.selectedGroups = _.map(this.customer.groups.data, group => {
                         return group.id;
                     });
                     CandyEvent.$emit('title-changed', {
-                        title: this.customer.firstname + ' ' + this.customer.lastname
+                        title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
                     });
+
+                    let chunkedOrders = _.chunk(this.customer.orders.data, this.ordersPerPage);
+
+                    _.each(chunkedOrders, (orders, index) => {
+                        this.orders[index + 1] = orders;
+                    });
+
+                    apiRequest.send('GET', 'currencies').then(response => {
+                        this.currencies = response.data;
+                        this.loaded = true;
+                    });
+
                 }).catch(error => {
                 });
 
             },
+            getOrders(batch) {
+                return this.orders[batch];
+            },
+            changeOrderBatch(batch) {
+                this.ordersBatch = batch;
+            },
             viewOrder(id) {
-                location.href = route('hub.orders.edit', id);
+                return route('hub.orders.edit', id);
+            },
+            localisedPrice(amount, currency) {
+                var currency = _.find(this.currencies, item => {
+                    return item.code == currency;
+                });
+                return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
             }
         }
     }
@@ -241,18 +321,30 @@
                                 <div class="col-xs-12">
                                     <h4>Order History</h4>
                                 </div>
+
                             </div>
                             <hr>
+                            <!-- <div class="row">
+                                <div class="form-group col-md-12">
+                                    <div class="input-group input-group-full">
+                                        <span class="input-group-addon">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                        <label class="sr-only" for="search">Search Orders</label>
+                                        <input type="text" class="form-control" id="search" placeholder="Search by order ID" @keyup="search" v-model="searchedOrder">
+                                    </div>
+                                </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Order ID</th>
+                                                <th width="10%">Status</th>
+                                                <th>Order Id</th>
                                                 <th>Total</th>
-                                                <th>Tax</th>
-                                                <th>Date created</th>
-                                                <th></th>
+                                                <th>Shipping</th>
+                                                <th>Date Placed / Created</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -263,21 +355,51 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr v-for="order in customer.orders.data">
+                                            <tr v-for="order in orders[ordersBatch]">
+                                                <td><span  class="order-status" :class="status(order).class">{{ status(order).text }}</span></td>
                                                <td>
-                                                   #{{ order.id }}
+                                                   <a :href="viewOrder(order.id)" title="View order">
+                                                       {{ order.reference }}
+                                                   </a>
                                                </td>
-                                               <td>{{ order.total }} {{ order.currency }}</td>
-                                               <td>{{ order.vat }}</td>
-                                               <td>{{ order.created_at.date|formatDate('dF m Y') }}</td>
                                                <td>
-                                                   <button @click="viewOrder(order.id)" class="btn btn-action btn-default btn-sm">
-                                                       <fa icon="eye"></fa>
-                                                   </button>
+                                                   <span v-html="localisedPrice(order.total, order.currency)"></span>
+                                                </td>
+
+                                               <td>
+                                                   <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
                                                </td>
+                                               <td>{{ order.placed_at|formatDate('Do MMM YYYY, H:mm:ss') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination" v-if="orders.length">
+                                                <li v-if="ordersBatch !== 1">
+                                                    <a href="#" aria-label="First page" data-toggle="tooltip" data-placement="top" data-original-title="First page" title="First page" @click.prevent="changeOrderBatch(1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li v-if="ordersBatch > 1">
+                                                    <a href="#" aria-label="Previous" data-toggle="tooltip" data-placement="top" data-original-title="Previous page" title="Previous page" @click.prevent="changeOrderBatch(ordersBatch - 1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li v-for="(orders, batch) in orders" v-bind:class="[ batch == ordersBatch ? 'active' : '']" v-if="batch > 0">
+                                                    <a href="#" @click.prevent="changeOrderBatch(batch)">{{ batch }}</a>
+                                                </li>
+                                                <li v-if="ordersBatch < orders.length - 1">
+                                                    <a href="#" aria-label="Next" data-toggle="tooltip" data-placement="top" data-original-title="Next page" title="Next page" @click.prevent="changeOrderBatch(ordersBatch + 1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li v-if="ordersBatch !== orders.length">
+                                                    <a href="#" aria-label="Last page" data-toggle="tooltip" data-placement="top" data-original-title="Last page" title="Last page" @click.prevent="changeOrderBatch(orders.length - 1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                 </div>
                             </div>
                         </div>
