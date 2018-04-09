@@ -72,7 +72,7 @@
                 if (element.thumbnail) {
                     return element.thumbnail.data.thumbnail;
                 }
-                return '/images/placeholder/no-image.svg';
+                return '/candy-hub/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;

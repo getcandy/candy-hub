@@ -273,7 +273,7 @@
                     <img src="img/placeholder/product.jpg" alt="Aquacomb">
                   </div>
                   <div class="variant-img" v-else>
-                    <img src="/images/placeholder/no-image.svg" alt="Placeholder">
+                    <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder">
                   </div>
                   <div class="variant-options">
                     <template v-for="(option, label, index) in v.options">

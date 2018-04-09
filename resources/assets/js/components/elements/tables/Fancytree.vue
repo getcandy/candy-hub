@@ -205,7 +205,7 @@
                 return '<a data-parent-id="'+ parentID +'" data-parent-name="'+ parentName +'" class="btn btn-default modal-button"><i class="fa fa-plus"></i> Create Subcategory</a>';
             },
             getImage: function(data) {
-                let url = '/hub/images/placeholder/no-image.svg';
+                let url = '/candy-hub/images/placeholder/no-image.svg';
                 if (data.thumbnail) {
                     url = data.thumbnail.data.thumbnail;
                 }

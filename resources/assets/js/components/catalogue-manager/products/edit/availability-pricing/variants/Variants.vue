@@ -329,7 +329,7 @@
                                         <figure>
                                             <img :src="current.thumbnail.data.thumbnail" :alt="current.id"
                                                  class="placeholder" v-if="hasThumbnail(current)">
-                                            <img src="/images/placeholder/no-image.svg" alt="Placeholder"
+                                            <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder placeholder-empty" v-else>
                                         </figure>
                                         <span class="change-img">
@@ -625,7 +625,7 @@
                                     <div class="variant-img">
                                         <figure>
                                             <img :src="v.thumbnail.data.thumbnail" alt="v.id" v-if="hasThumbnail(v)">
-                                            <img src="/images/placeholder/no-image.svg" alt="Placeholder"
+                                            <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder" v-else>
                                         </figure>
                                     </div>

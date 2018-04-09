@@ -29,22 +29,22 @@
         },
         mounted() {
           this.associations = this.product.associations.data;
-          
+
           this.request.send('GET', 'associations/groups').then(response => {
             this.types = response.data;
           });
 
           _.each(this.associations, item => {
-            this.selected.push(item.association.data.id);  
+            this.selected.push(item.association.data.id);
           });
 
           Dispatcher.add('product-associations', this);
         },
         methods: {
           /**
-           * 
+           *
            * Listing Methods
-           * 
+           *
            */
           getAssociations(type) {
             if (type) {
@@ -92,9 +92,9 @@
             });
           },
           /**
-           * 
+           *
            * Modal Methods
-           * 
+           *
           */
           showProductAssociationModal() {
             this.addAssociationModal = true;
@@ -118,7 +118,7 @@
               if (product.thumbnail) {
                   return product.thumbnail.data.thumbnail;
               }
-              return '/images/placeholder/no-image.svg';
+              return '/candy-hub/images/placeholder/no-image.svg';
           },
           alreadyLinked(product) {
             return this.selected.contains(product.id);
@@ -179,7 +179,7 @@
             <th>Name</th>
             <th width="20%">Type</th>
             <th></th>
-            
+
             <!-- <th colspan="2">Type</th> -->
           </tr>
         </thead>
