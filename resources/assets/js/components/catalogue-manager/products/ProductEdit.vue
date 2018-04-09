@@ -150,7 +150,6 @@
                                 <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>
-                        <candy-association-modals></candy-association-modals>
                     </candy-tab>
 
                     <candy-tab name="Display">
