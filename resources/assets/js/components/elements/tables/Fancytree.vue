@@ -195,7 +195,6 @@
                                 } else if (column.type === 'image') {
                                     $tdList.eq(index).html(this.getImage(node.data[column.source]));
                                 } else {
-                                    console.log(node.data);
                                     $tdList.eq(index)[column.type](node.data[column.source]);
                                 }
                             }

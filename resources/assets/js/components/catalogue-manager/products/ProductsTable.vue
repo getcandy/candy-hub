@@ -205,11 +205,6 @@
 
                 if (this.editableVariants.length > 1) {
                     this.quickEditModal = true;
-                } else {
-                    console.log(this.$refs);
-                    // this.$refs[
-                    //     this.products[this.editing].id
-                    // ].$el.focus();
                 }
             },
             quickSave() {

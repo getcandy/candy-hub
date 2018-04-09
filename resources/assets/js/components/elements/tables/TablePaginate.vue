@@ -21,7 +21,6 @@
                 }
                 var from = this.pagination.current_page - this.offset;
 
-                console.log(this.pagination);
                 if (from < 1) {
                     from = 1;
                 }

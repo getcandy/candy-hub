@@ -86,35 +86,3 @@
         }
     }
 </script>
-
-/**
- if (tab.$parent && tab.$parent.parent) {
-                            let href = '#' + tab.$parent.parent;
-                            // let topTabs = this.$store.getters.getTabByHref(href);
-
-                            // let parent = _.filter(topTabs, tab => {
-                            //     console.log(tab.href);
-                            // });
-                            // topTabs.forEach(tab => {
-                            //     console.log(tab);
-                            // });
-                            // console.log(topTabs);
-                            // console.log(topTabs.length);
-                            // _.forEach(topTabs, function (tab) {
-                            //     console.log(tab);
-                            // })
-                            // topTabs.forEach(tab => {
-                            //     console.log(tab.getHref());
-                            // });
-                            // console.log(parent);
-                            // this.selectTab(tab);
-                            // CandyEvent.$emit('select-parent', '#' + tab.$parent.parent);
-                            // // // console.log('#' + tab.$parent.parent);
-                            // // this.topTabs.forEach(parent => {
-                            // //     console.log(tab.$parent.parent);
-                            // //     if (parent.href == tab.$parent.parent) {
-                            // //         this.selectTabByHref('#' + tab.$parent.parent);
-                            // //     }
-                            // // })
-                        }
-*/
