@@ -33,14 +33,19 @@
         },
         methods: {
             save() {
-                this.customer.customer_groups = this.selectedGroups;
+
+                let data = JSON.parse(JSON.stringify(this.customer));
+
+                data.customer_groups = this.selectedGroups;
 
                 if (this.newPassword && this.confirmPassword) {
-                    this.customer.password = this.newPassword;
-                    this.customer.password_confirmation = this.confirmPassword;
+                    data.password = this.newPassword;
+                    data.password_confirmation = this.confirmPassword;
                 }
 
-                apiRequest.send('PUT', '/users/' + this.customer.id, this.customer).then(response => {
+                data.details = data.details.data;
+
+                apiRequest.send('PUT', '/users/' + this.customer.id, data).then(response => {
                     this.newPassword = null;
                     this.confirmPassword = null;
                     CandyEvent.$emit('notification', {
@@ -51,13 +56,16 @@
                     this.confirmPassword = null;
                 });
             },
+            details(customer) {
+                 return customer.details.data;
+            },
             /**
              * Loads the customer by their ID
              * @param  {String} id
              */
             loadCustomer() {
                 apiRequest.send('get', '/customers/' + this.id, {}, {
-                    includes: 'addresses,orders,groups'
+                    includes: 'addresses,orders,groups,details'
                 })
                 .then(response => {
                     this.customer = response.data;
@@ -94,13 +102,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>First name</label>
-                                                <input class="form-control" v-model="customer.firstname">
+                                                <input class="form-control" v-model="customer.details.data.firstname">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Last name</label>
-                                                <input class="form-control" v-model="customer.lastname">
+                                                <input class="form-control" v-model="customer.details.data.lastname">
                                             </div>
                                         </div>
 
@@ -118,7 +126,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Company Name</label>
-                                                <input class="form-control" v-model="customer.company_name">
+                                                <input class="form-control" v-model="customer.details.data.company_name">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('company_name')">
                                                 {{ request.getError('company_name') }}
@@ -127,7 +135,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Contact Number</label>
-                                                <input type="tel" class="form-control" v-model="customer.contact_number">
+                                                <input type="tel" class="form-control" v-model="customer.details.data.contact_number">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('contact_number')">
                                                 {{ request.getError('contact_number') }}
@@ -136,7 +144,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>VAT Number</label>
-                                                <input class="form-control" v-model="customer.vat_no">
+                                                <input class="form-control" v-model="customer.details.data.vat_no">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('vat_no')">
                                                 {{ request.getError('vat_no') }}
