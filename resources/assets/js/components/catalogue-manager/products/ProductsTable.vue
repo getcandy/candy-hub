@@ -61,6 +61,9 @@
             }
         },
         methods: {
+            route(path, param1) {
+                return route(path, param1);
+            },
             suggest(term) {
                 this.keywords = term;
                 this.search();
@@ -358,7 +361,6 @@
                             <th width="5%"></th>
                             <th width="25%">Product</th>
                             <th width="10%">Stock</th>
-
                             <th width="15%">Display</th>
                             <th width="19%">Purchasable</th>
                             <th width="19%">Group</th>
@@ -370,12 +372,12 @@
                             <tr>
 
                                 <td>
-                                    <a :href="'/catalogue-manager/products/' + product.id">
+                                    <a :href="route('hub.products.edit', product.id)">
                                         <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
                                     </a>
                                 </td>
                                 <td>
-                                    <a :href="'/catalogue-manager/products/' + product.id">
+                                    <a :href="route('hub.products.edit', product.id)">
                                         {{ product|attribute('name') }}
                                     </a>
                                 </td>
