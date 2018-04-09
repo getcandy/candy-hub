@@ -50,7 +50,7 @@
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }
-                return '/hub/images/placeholder/no-image.svg';
+                return '/candy-hub/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;

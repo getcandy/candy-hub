@@ -15,10 +15,13 @@
                 return this.pagination.current_page;
             },
             pagesNumber: function () {
+
                 if (!this.pagination.total_pages) {
                     return [];
                 }
                 var from = this.pagination.current_page - this.offset;
+
+                console.log(this.pagination);
                 if (from < 1) {
                     from = 1;
                 }
@@ -47,7 +50,7 @@
 <template>
     <div>
         <nav aria-label="Page navigation">
-            <ul class="pagination">
+            <ul class="pagination" v-if="pagination">
                 <li v-if="pagination.current_page !== 1">
                     <a href="#" aria-label="First page" data-toggle="tooltip" data-placement="top" data-original-title="First page" title="First page" @click.prevent="changePage(pagination.current_page = 1)">
                         <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>

@@ -165,7 +165,8 @@
                         data.result = request.promise();
 
                         apiRequest.send('get', this.sourceURL + nodeID, [],  {
-                                includes: 'children, assets'
+                                includes: 'children, assets',
+                                tree: true
                             })
                             .then(response => {
                                 request.resolve(response.data.children.data);
@@ -189,11 +190,12 @@
                         this.params.columns.forEach((column, index) => {
                             // Skip first as that will always be the title
                             if(index > 0){
-                                if(column.type === 'button'){
+                                if (column.type === 'button') {
                                     $tdList.eq(index).html(this.createNewButton(node.data.id, this.getAttribute(node.data, 'name')));
-                                }else if(column.type === 'image'){
+                                } else if (column.type === 'image') {
                                     $tdList.eq(index).html(this.getImage(node.data[column.source]));
-                                }else{
+                                } else {
+                                    console.log(node.data);
                                     $tdList.eq(index)[column.type](node.data[column.source]);
                                 }
                             }
@@ -217,7 +219,8 @@
             reloadData: function() {
                 apiRequest.send('get', this.sourceURL, [], {
                     per_page: 15,
-                    current_page: this.pagination.current_page
+                    current_page: this.pagination.current_page,
+                    tree: true
                 })
                 .then(response => {
                     this.data = response.data;
@@ -230,7 +233,8 @@
             loadData: function() {
                 apiRequest.send('get', this.sourceURL, [], {
                     per_page: 15,
-                    current_page: this.pagination.current_page
+                    current_page: this.pagination.current_page,
+                    tree: true
                 })
                 .then(response => {
                     this.data = response.data;
