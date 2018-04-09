@@ -203,8 +203,10 @@
         width: 100%;
         &.active {
           a {
-            color: white;
-            background-color: $purple;
+            border-left:5px solid $pink;
+            padding-left:35px;
+            // color: white;
+            // background-color: $purple;
             svg {
               color:white;
             }
@@ -222,6 +224,7 @@
           &:hover, &:active {
             color: white;
             background-color: $purple;
+            text-decoration: none;
             svg {
               color:white;
             }
