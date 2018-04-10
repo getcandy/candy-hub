@@ -91,6 +91,6 @@
   </div>
     <div class="main-purple-overlay"></div>
 
-    <script src="{{ url('hub/js/app.js') }}"></script>
+    <script src="{{ url('candy-hub/js/app.js') }}"></script>
   </body>
 </html>
