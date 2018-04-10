@@ -356,20 +356,22 @@
                                         </tfoot>
                                         <tbody>
                                             <tr v-for="order in orders[ordersBatch]">
-                                                <td><span  class="order-status" :class="status(order).class">{{ status(order).text }}</span></td>
-                                               <td>
-                                                   <a :href="viewOrder(order.id)" title="View order">
-                                                       {{ order.reference }}
-                                                   </a>
-                                               </td>
-                                               <td>
-                                                   <span v-html="localisedPrice(order.total, order.currency)"></span>
-                                                </td>
-
-                                               <td>
-                                                   <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
-                                               </td>
-                                               <td>{{ order.placed_at|formatDate('Do MMM YYYY, H:mm:ss') }}</td>
+                                              <td><span  class="order-status" :class="status(order).class">{{ status(order).text }}</span></td>
+                                              <td>
+                                                  <a :href="viewOrder(order.id)" title="View order">
+                                                    {{ order.reference }}
+                                                  </a>
+                                              </td>
+                                              <td>
+                                                <span v-html="localisedPrice(order.total, order.currency)"></span>
+                                              </td>
+                                              <td>
+                                                <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
+                                              </td>
+                                              <td>
+                                                <span v-if="order.placed_at">{{ order.placed_at|formatDate }}</span>
+                                                <span v-else>{{ order.created_at.date|formatDate }}</span>
+                                              </td>
                                             </tr>
                                         </tbody>
                                     </table>
