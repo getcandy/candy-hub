@@ -85,7 +85,7 @@
                 };
 
                 this.model.firstname = this.customer.details.data.firstname;
-                this.model.firstname = this.customer.details.data.lastname;
+                this.model.lastname = this.customer.details.data.lastname;
             }
         }
     }

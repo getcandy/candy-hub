@@ -269,7 +269,7 @@
                                         <tfoot>
                                             <tr v-if="!customer.orders.data.length">
                                                 <td colspan="25" class="text-muted text-center">
-                                                    {{ customer.name }} has no order history
+                                                    {{ customer.details.data.firstname }} has no order history
                                                 </td>
                                             </tr>
                                         </tfoot>
