@@ -218,8 +218,8 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="group in customerGroups">
-                                                <td>{{ group.name }}</td>
-                                                <td><input type="checkbox" v-model="selectedGroups" :value="group.id"></td>
+                                                <td><label :for="group.name + 'Checkbox'">{{ group.name }}</label></td>
+                                                <td><input type="checkbox" v-model="selectedGroups" :value="group.id" :id="group.name + 'Checkbox'"></td>
                                             </tr>
                                         </tbody>
                                     </table>
