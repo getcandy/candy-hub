@@ -37,61 +37,8 @@
       },
       mounted() {
           Dispatcher.add('save-customer', this);
-
       },
       methods: {
-                      status(order) {
-              var type = 'default'
-              var text = 'Unknown';
-              switch (order.status) {
-                  case 'awaiting-payment':
-                      type = 'waiting';
-                      text = 'Awaiting Payment';
-                      break;
-                  case 'payment-processing':
-                      type = 'processing';
-                      text = 'Payment Processing';
-                      break;
-                  case 'payment-received':
-                      type = 'live';
-                      text = 'Payment Received';
-                      break;
-                  case 'in-progress':
-                      type = 'pending';
-                      text = 'In Progress';
-                      break;
-                  case 'dispatched':
-                      type = 'default';
-                      text = 'Dispatched';
-                      break;
-                  case 'on-account':
-                      type = 'live';
-                      text = 'On Account';
-                      break;
-                  case 'refunded':
-                      type = 'danger';
-                      text = 'Refunded';
-                      break;
-                  case 'void':
-                      type = 'danger';
-                      text = 'Void';
-                      break;
-                  case 'failed':
-                      type = 'danger';
-                      text = 'Failed';
-                      break;
-                  case 'expired':
-                      type = 'default';
-                      text = 'Expired';
-                      break;
-                  default:
-                      break;
-              }
-              return {
-                  class: 'order-status-' + type,
-                  text: text
-              };
-          },
           save() {
 
               let data = JSON.parse(JSON.stringify(this.customer));
@@ -173,7 +120,6 @@
 
 <template>
     <div>
-        {{ statuses }}
         <template v-if="loaded">
             <candy-tabs initial="save-customer">
                 <candy-tab name="Customer Information" handle="collection-details" :selected="true" dispatch="save-customer">
@@ -361,7 +307,7 @@
                                         </tfoot>
                                         <tbody>
                                             <tr v-for="order in orders[ordersBatch]">
-                                              <td><span  class="order-status" :class="status(order).class">{{ status(order).text }}</span></td>
+                                              <td><span  class="order-status" :class="order.status">{{ status(order.status) }}</span></td>
                                               <td>
                                                   <a :href="viewOrder(order.id)" title="View order">
                                                     {{ order.reference }}

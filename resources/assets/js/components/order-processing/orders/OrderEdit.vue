@@ -1,9 +1,8 @@
-<!--
-  Product Edit
-  This component is responsible for displaying the product edit page.
- -->
 <script>
+    import Orders from '../../../mixins/OrderMixin';
+
     export default {
+        mixins: [Orders],
         data() {
             return {
                 title: '',
