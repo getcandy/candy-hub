@@ -17573,19 +17573,22 @@ textarea.bootstrap-tagsinput {
   color: #fff;
 }
 
-.order-status-waiting {
+.order-status.expired,
+.order-status.awaiting-payment {
   background-color: rgba(202, 204, 209, 0.2);
   color: #9397a2;
   border-color: #caccd1;
 }
 
-.order-status-processing {
+.order-status.payment-processing,
+.order-status.in-progress {
   background-color: rgba(3, 126, 243, 0.2);
   color: #0264c1;
   border-color: #037ef3;
 }
 
-.order-status-live {
+.order-status.on-account,
+.order-status.payment-received {
   background-color: rgba(48, 195, 158, 0.2);
   color: #175d4b;
   border-color: #269a7d;
@@ -17597,12 +17600,14 @@ textarea.bootstrap-tagsinput {
   border-color: #8e43e7;
 }
 
-.order-status-default {
+.order-status.dispatched {
   background-color: #fff;
   color: #333;
 }
 
-.order-status-danger {
+.order-status.void,
+.order-status.refunded,
+.order-status.failed {
   background-color: rgba(248, 90, 64, 0.2);
   color: #b21f07;
   border-color: #f85a40;

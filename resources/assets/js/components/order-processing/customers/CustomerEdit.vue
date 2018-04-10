@@ -3,172 +3,177 @@
   This component is responsible for displaying the product edit page.
  -->
 <script>
-    export default {
-        data() {
-            return {
-                title: '',
-                loaded: false,
-                customer: {},
-                customerGroups: [],
-                selectedGroups: [],
-                ordersBatch: 1,
-                newPassword: null,
-                confirmPassword: null,
-                ordersPerPage: 10,
-                request: apiRequest,
-                orders: []
-            }
-        },
-        props: {
-            id: {
-                type: String,
-                required: true
-            }
-        },
-        created() {
-            this.loadCustomer();
-            this.request.send('get', 'customers/groups').then(response => {
-                this.customerGroups = response.data;
-            });
-        },
-        mounted() {
-            Dispatcher.add('save-customer', this);
+  import Orders from '../../../mixins/OrderMixin';
+  export default {
+      mixins: [Orders],
+      data() {
+          return {
+              title: '',
+              loaded: false,
+              customer: {},
+              customerGroups: [],
+              selectedGroups: [],
+              ordersBatch: 1,
+              newPassword: null,
+              confirmPassword: null,
+              ordersPerPage: 10,
+              request: apiRequest,
+              orders: []
+          }
+      },
+      props: {
+          id: {
+              type: String,
+              required: true
+          }
+      },
+      created() {
+          this.loadCustomer();
+          this.request.send('get', 'customers/groups').then(response => {
+              this.customerGroups = response.data;
+          });
 
-        },
-        methods: {
-                        status(order) {
-                var type = 'default'
-                var text = 'Unknown';
-                switch (order.status) {
-                    case 'awaiting-payment':
-                        type = 'waiting';
-                        text = 'Awaiting Payment';
-                        break;
-                    case 'payment-processing':
-                        type = 'processing';
-                        text = 'Payment Processing';
-                        break;
-                    case 'payment-received':
-                        type = 'live';
-                        text = 'Payment Received';
-                        break;
-                    case 'in-progress':
-                        type = 'pending';
-                        text = 'In Progress';
-                        break;
-                    case 'dispatched':
-                        type = 'default';
-                        text = 'Dispatched';
-                        break;
-                    case 'on-account':
-                        type = 'live';
-                        text = 'On Account';
-                        break;
-                    case 'refunded':
-                        type = 'danger';
-                        text = 'Refunded';
-                        break;
-                    case 'void':
-                        type = 'danger';
-                        text = 'Void';
-                        break;
-                    case 'failed':
-                        type = 'danger';
-                        text = 'Failed';
-                        break;
-                    case 'expired':
-                        type = 'default';
-                        text = 'Expired';
-                        break;
-                    default:
-                        break;
-                }
-                return {
-                    class: 'order-status-' + type,
-                    text: text
-                };
-            },
-            save() {
+          this.getStatuses();
+      },
+      mounted() {
+          Dispatcher.add('save-customer', this);
 
-                let data = JSON.parse(JSON.stringify(this.customer));
+      },
+      methods: {
+                      status(order) {
+              var type = 'default'
+              var text = 'Unknown';
+              switch (order.status) {
+                  case 'awaiting-payment':
+                      type = 'waiting';
+                      text = 'Awaiting Payment';
+                      break;
+                  case 'payment-processing':
+                      type = 'processing';
+                      text = 'Payment Processing';
+                      break;
+                  case 'payment-received':
+                      type = 'live';
+                      text = 'Payment Received';
+                      break;
+                  case 'in-progress':
+                      type = 'pending';
+                      text = 'In Progress';
+                      break;
+                  case 'dispatched':
+                      type = 'default';
+                      text = 'Dispatched';
+                      break;
+                  case 'on-account':
+                      type = 'live';
+                      text = 'On Account';
+                      break;
+                  case 'refunded':
+                      type = 'danger';
+                      text = 'Refunded';
+                      break;
+                  case 'void':
+                      type = 'danger';
+                      text = 'Void';
+                      break;
+                  case 'failed':
+                      type = 'danger';
+                      text = 'Failed';
+                      break;
+                  case 'expired':
+                      type = 'default';
+                      text = 'Expired';
+                      break;
+                  default:
+                      break;
+              }
+              return {
+                  class: 'order-status-' + type,
+                  text: text
+              };
+          },
+          save() {
 
-                data.customer_groups = this.selectedGroups;
+              let data = JSON.parse(JSON.stringify(this.customer));
 
-                if (this.newPassword && this.confirmPassword) {
-                    data.password = this.newPassword;
-                    data.password_confirmation = this.confirmPassword;
-                }
+              data.customer_groups = this.selectedGroups;
 
-                data.details = data.details.data;
+              if (this.newPassword && this.confirmPassword) {
+                  data.password = this.newPassword;
+                  data.password_confirmation = this.confirmPassword;
+              }
 
-                apiRequest.send('PUT', '/users/' + this.customer.id, data).then(response => {
-                    this.newPassword = null;
-                    this.confirmPassword = null;
-                    CandyEvent.$emit('notification', {
-                        level: 'success'
-                    });
-                }).catch(error => {
-                    this.newPassword = null;
-                    this.confirmPassword = null;
-                });
-            },
-            details(customer) {
-                 return customer.details.data;
-            },
-            /**
-             * Loads the customer by their ID
-             * @param  {String} id
-             */
-            loadCustomer() {
-                apiRequest.send('get', '/customers/' + this.id, {}, {
-                    includes: 'addresses,orders,groups,details'
-                })
-                .then(response => {
+              data.details = data.details.data;
 
-                    this.customer = response.data;
-                    this.selectedGroups = _.map(this.customer.groups.data, group => {
-                        return group.id;
-                    });
-                    CandyEvent.$emit('title-changed', {
-                        title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
-                    });
+              apiRequest.send('PUT', '/users/' + this.customer.id, data).then(response => {
+                  this.newPassword = null;
+                  this.confirmPassword = null;
+                  CandyEvent.$emit('notification', {
+                      level: 'success'
+                  });
+              }).catch(error => {
+                  this.newPassword = null;
+                  this.confirmPassword = null;
+              });
+          },
+          details(customer) {
+                return customer.details.data;
+          },
+          /**
+           * Loads the customer by their ID
+           * @param  {String} id
+           */
+          loadCustomer() {
+              apiRequest.send('get', '/customers/' + this.id, {}, {
+                  includes: 'addresses,orders,groups,details'
+              })
+              .then(response => {
 
-                    let chunkedOrders = _.chunk(this.customer.orders.data, this.ordersPerPage);
+                  this.customer = response.data;
+                  this.selectedGroups = _.map(this.customer.groups.data, group => {
+                      return group.id;
+                  });
+                  CandyEvent.$emit('title-changed', {
+                      title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
+                  });
 
-                    _.each(chunkedOrders, (orders, index) => {
-                        this.orders[index + 1] = orders;
-                    });
+                  let chunkedOrders = _.chunk(this.customer.orders.data, this.ordersPerPage);
 
-                    apiRequest.send('GET', 'currencies').then(response => {
-                        this.currencies = response.data;
-                        this.loaded = true;
-                    });
+                  _.each(chunkedOrders, (orders, index) => {
+                      this.orders[index + 1] = orders;
+                  });
 
-                }).catch(error => {
-                });
+                  apiRequest.send('GET', 'currencies').then(response => {
+                      this.currencies = response.data;
+                      this.loaded = true;
+                  });
 
-            },
-            getOrders(batch) {
-                return this.orders[batch];
-            },
-            changeOrderBatch(batch) {
-                this.ordersBatch = batch;
-            },
-            viewOrder(id) {
-                return route('hub.orders.edit', id);
-            },
-            localisedPrice(amount, currency) {
-                var currency = _.find(this.currencies, item => {
-                    return item.code == currency;
-                });
-                return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
-            }
-        }
-    }
+              }).catch(error => {
+              });
+
+          },
+          getOrders(batch) {
+              return this.orders[batch];
+          },
+          changeOrderBatch(batch) {
+              this.ordersBatch = batch;
+          },
+          viewOrder(id) {
+              return route('hub.orders.edit', id);
+          },
+          localisedPrice(amount, currency) {
+              var currency = _.find(this.currencies, item => {
+                  return item.code == currency;
+              });
+              return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
+          }
+      }
+  }
 </script>
 
 <template>
     <div>
+        {{ statuses }}
         <template v-if="loaded">
             <candy-tabs initial="save-customer">
                 <candy-tab name="Customer Information" handle="collection-details" :selected="true" dispatch="save-customer">

@@ -155,55 +155,7 @@
                         message: error.message
                     });
                 });
-            },
-            status(order) {
-                var type = 'warning'
-                var text = 'Awaiting Payment';
-                switch (order.status) {
-                    case 'payment-processing':
-                        type = 'info';
-                        text = 'Payment Processing';
-                        break;
-                    case 'payment-received':
-                        type = 'success';
-                        text = 'Payment Received';
-                        break;
-                    case 'dispatched':
-                        type = 'default';
-                        text = 'Dispatched';
-                        break;
-                    case 'on-account':
-                        type = 'primary';
-                        text = 'On Account';
-                        break;
-                    case 'refunded':
-                        type = 'warning';
-                        text = 'Refunded';
-                        break;
-                    case 'void':
-                        type = 'danger';
-                        text = 'Void';
-                        break;
-                    case 'in-progress':
-                        type = 'purple';
-                        text = 'In Progress';
-                        break;
-                    case 'failed':
-                        type = 'danger';
-                        text = 'Failed';
-                        break;
-                    case 'expired':
-                        type = 'default';
-                        text = 'Expired';
-                        break;
-                    default:
-                        break;
-                }
-                return {
-                    class: 'text-' + type,
-                    text: text
-                };
-            },
+            }
         }
     }
 </script>
