@@ -4,8 +4,13 @@
  -->
 <script>
   import Orders from '../../../mixins/OrderMixin';
+  import CustomerAddresses from './Edit/CustomerAddresses';
+
   export default {
       mixins: [Orders],
+      components: {
+          'customer-addresses' : CustomerAddresses
+      },
       data() {
           return {
               title: '',
@@ -32,6 +37,7 @@
           this.request.send('get', 'customers/groups').then(response => {
               this.customerGroups = response.data;
           });
+
 
           this.getStatuses();
       },
@@ -80,6 +86,7 @@
                   this.selectedGroups = _.map(this.customer.groups.data, group => {
                       return group.id;
                   });
+
                   CandyEvent.$emit('title-changed', {
                       title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
                   });
@@ -226,46 +233,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>First name</th>
-                                                <th>Last name</th>
-                                                <th>Address</th>
-                                                <th>Address line 2</th>
-                                                <th>Address line 3</th>
-                                                <th>City</th>
-                                                <th>County</th>
-                                                <th>State</th>
-                                                <th>Country</th>
-                                                <th>Shipping / Billing</th>
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr v-if="!customer.addresses.data.length">
-                                                <td colspan="25" class="text-muted text-center">
-                                                    {{ customer.name }} has no addresses listed on their acount
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <tr v-for="address in customer.addresses.data">
-                                                <td>{{ address.firstname }}</td>
-                                                <td>{{ address.lastname }}</td>
-                                                <td>{{ address.address }}</td>
-                                                <td>{{ address.address_two }}</td>
-                                                <td>{{ address.address_three }}</td>
-                                                <td>{{ address.city }}</td>
-                                                <td>{{ address.county }}</td>
-                                                <td>{{ address.state }}</td>
-                                                <td>{{ address.country }}</td>
-                                                <td>
-                                                    <span class="text-info" v-if="address.shipping">Shipping</span>
-                                                    <span class="text-warning" v-if="address.billing">Billing</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <customer-addresses :addresses="customer.addresses.data" :customer="customer"></customer-addresses>
                                 </div>
                             </div>
                             <div class="row">
