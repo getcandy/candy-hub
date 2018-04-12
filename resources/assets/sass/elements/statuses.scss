@@ -66,17 +66,17 @@ $danger: #f85a40;
     font-weight:600;
     color:#fff;
 
-    &-waiting {
+    &.expired, &.awaiting-payment {
         background-color:rgba($waiting, .2);
         color:darken($waiting, 20%);
         border-color:$waiting;
     }
-    &-processing {
+    &.payment-processing, &.in-progress {
         background-color:rgba($processing, .2);
         color:darken($processing, 10%);
         border-color:$processing;
     }
-    &-live {
+    &.on-account, &.payment-received {
         background-color:rgba($live, .2);
         color:darken($live, 25%);
         border-color:darken($live, 10%);
@@ -86,16 +86,13 @@ $danger: #f85a40;
         color:$pending;
         border-color:$pending;
     }
-    &-default {
+    &.dispatched {
         background-color:#fff;
         color:#333;
     }
-    &-danger {
+    &.void, &.refunded, &.failed {
         background-color:rgba($danger, .2);
         color:darken($danger, 25%);
         border-color:$danger;
     }
-
-
-
 }

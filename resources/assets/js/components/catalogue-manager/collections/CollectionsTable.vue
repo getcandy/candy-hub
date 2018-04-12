@@ -50,7 +50,7 @@
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }
-                return '/hub/images/placeholder/no-image.svg';
+                return '/candy-hub/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
@@ -61,7 +61,7 @@
                 this.loadCollections();
             },
             loadCollection: function (id) {
-                location.href = '/hub/catalogue-manager/collections/' + id;
+                location.href = route('hub.collections.edit', id);
             },
             getVisibilty(collection, ref) {
                 let groups = collection[ref].data;

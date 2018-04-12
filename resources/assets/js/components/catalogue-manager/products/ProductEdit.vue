@@ -86,7 +86,6 @@
                         level: 'error',
                         message: error.message
                     });
-                    // window.location = '/catalogue-manager/products';
                 });
             },
             getCategoryCount() {
@@ -151,7 +150,6 @@
                                 <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>
-                        <candy-association-modals></candy-association-modals>
                     </candy-tab>
 
                     <candy-tab name="Display">

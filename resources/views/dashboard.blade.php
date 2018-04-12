@@ -1,6 +1,7 @@
 @extends('hub::layout')
 
 @section('side_menu')
+    @include('hub::order-processing.partials.side-menu')
 @endsection
 
 @section('header_title')
@@ -93,7 +94,17 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel">
+                <header class="panel-heading">
+                    <h3 class="panel-title">Orders totals for last 6 months</h3>
+                </header>
+                <div class="panel-body">
+                    <canvas id="monthSales"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="panel">
                 <header class="panel-heading">
                     <h3 class="panel-title">Orders / Sales for the previous 8 weeks</h3>
@@ -166,7 +177,6 @@
             type: 'line',
             data: {!! json_encode($graph_data) !!},
             options: {
-                multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> foo",
                 responsive: true,
                 tooltips: {
                     mode: 'index',
@@ -226,7 +236,46 @@
 
         window.onload = function() {
             var ctx = document.getElementById("canvas").getContext("2d");
+            var monthSales = document.getElementById("monthSales").getContext("2d");
             window.myLine = new Chart(ctx, config);
+
+
+            var monthSalesConfig = {
+                type: 'bar',
+                data: {!! json_encode($month_graph_data) !!},
+                options: {
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var label = tooltipItem.yLabel;
+                                if (tooltipItem.datasetIndex == 0) {
+                                    label = '£' + tooltipItem.yLabel.money();
+                                }
+                                return data.datasets[tooltipItem.datasetIndex].label + ': ' + label;
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return '£' + value.money();
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Total Value'
+                            }
+                        }]
+                    }
+                }
+
+            };
+
+            window.myLine = new Chart(monthSales, monthSalesConfig);
         };
 </script>
 @endsection

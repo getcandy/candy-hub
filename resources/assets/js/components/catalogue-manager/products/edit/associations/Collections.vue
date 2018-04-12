@@ -148,7 +148,7 @@
                 <tbody>
                     <tr v-for="collection in productCollections">
                         <td width="80">
-                            <img src="/hub/images/placeholder/no-image.svg" :alt="getAttribute(collection, 'name')">
+                            <img src="/candy-hub/images/placeholder/no-image.svg" :alt="getAttribute(collection, 'name')">
                         </td>
                         <td>
                             {{ getAttribute(collection, 'name') }}

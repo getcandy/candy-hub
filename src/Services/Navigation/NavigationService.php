@@ -16,6 +16,7 @@ class NavigationService
 
         $menu = $r->newInstanceArgs([]);
 
+
         Event::fire('cms.navigation.pre_render', [$menu]);
 
         return $menu->render();

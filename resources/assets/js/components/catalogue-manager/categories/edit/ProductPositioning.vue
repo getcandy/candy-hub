@@ -46,7 +46,6 @@
             sortProducts() {
                 if (this.sortType != 'custom') {
                     let sorts = this.sortType.split(':');
-                    // console.log('object.);' + sorts[0]
                     this.positioning = _.orderBy(this.positioning, 'object.max_price', sorts[1]);
                 }
                 this.updatePositions();

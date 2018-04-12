@@ -21,7 +21,7 @@
         },
         methods: {
             loadDiscount: function (id) {
-                location.href = '/hub/marketing-suite/discounts/' + id;
+                location.href = route('hub.discounts.edit', id);
             },
             status(discount) {
                 if (!discount.status) {

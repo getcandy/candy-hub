@@ -25,7 +25,12 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/hub/dashboard';
+    protected $redirectPath = '/hub ';
+
+    protected function redirectTo()
+    {
+        return route('hub.index');
+    }
 
     /**
      * Create a new controller instance.

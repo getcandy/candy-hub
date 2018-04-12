@@ -9,11 +9,11 @@ class Access
 {
     public function handle($request, Closure $next)
     {
-        // $roles = app('api')->roles()->getHubAccessRoles();
-        // if (!$request->user()->hasAnyRole($roles)) {
-        //     \Auth::logout();
-        //     return redirect('login')->with('unauth', 'You are unauthorized to view this page');
-        // }
+        $roles = app('api')->roles()->getHubAccessRoles();
+        if (!$request->user()->hasAnyRole($roles)) {
+            \Auth::logout();
+            return redirect()->route('hub.login')->with('unauth', 'You are unauthorized to view this page');
+        }
         return $next($request);
     }
 }

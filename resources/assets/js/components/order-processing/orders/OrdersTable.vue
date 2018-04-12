@@ -1,5 +1,7 @@
 <script>
+    import Orders from '../../../mixins/OrderMixin';
     export default {
+        mixins: [Orders],
         data() {
             return {
                 loaded: false,
@@ -59,6 +61,7 @@
                     .then(response => {
                         this.orders = response.data;
                         this.pagination = response.meta.pagination;
+                        this.getStatuses();
                         apiRequest.send('GET', 'currencies').then(response => {
                             this.currencies = response.data;
                             this.loaded = true;
@@ -71,61 +74,6 @@
                     this.loadOrders();
                 }, 500
             ),
-            status(order) {
-                var type = 'default'
-                var text = 'Unknown';
-                switch (order.status) {
-                    case 'awaiting-payment':
-                        type = 'waiting';
-                        text = 'Awaiting Payment';
-                        break;
-                    case 'payment-processing':
-                        type = 'processing';
-                        text = 'Payment Processing';
-                        break;
-                    case 'payment-received':
-                        type = 'live';
-                        text = 'Payment Received';
-                        break;
-                    case 'in-progress':
-                        type = 'pending';
-                        text = 'In Progress';
-                        break;
-                    case 'dispatched':
-                        type = 'default';
-                        text = 'Dispatched';
-                        break;
-                    case 'on-account':
-                        type = 'live';
-                        text = 'On Account';
-                        break;
-                    case 'refunded':
-                        type = 'danger';
-                        text = 'Refunded';
-                        break;
-                    case 'void':
-                        type = 'danger';
-                        text = 'Void';
-                        break;
-                    case 'failed':
-                        type = 'danger';
-                        text = 'Failed';
-                        break;
-                    case 'expired':
-                        type = 'default';
-                        text = 'Expired';
-                        break;
-                    default:
-                        break;
-                }
-                return {
-                    class: 'order-status-' + type,
-                    text: text
-                };
-            },
-            statusLabelText(order) {
-
-            },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
             },
@@ -135,7 +83,7 @@
                 this.loadOrders();
             },
             loadOrder: function (id) {
-                location.href = '/order-processing/orders/' + id;
+                location.href = route('hub.orders.edit', id);
             },
             localisedPrice(amount, currency) {
                 var currency = _.find(this.currencies, item => {
@@ -229,7 +177,7 @@
                     </thead>
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="order in orders" @click="loadOrder(order.id)">
-                            <td><span  class="order-status" :class="status(order).class">{{ status(order).text }}</span></td>
+                            <td><span  class="order-status" :class="order.status">{{ status(order.status) }}</span></td>
                             <td>
                                 {{ order.reference }}
                             </td>

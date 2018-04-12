@@ -3,80 +3,126 @@
   This component is responsible for displaying the product edit page.
  -->
 <script>
-    export default {
-        data() {
-            return {
-                title: '',
-                loaded: false,
-                customer: {},
-                customerGroups: [],
-                selectedGroups: [],
-                newPassword: null,
-                confirmPassword: null,
-                request: apiRequest
-            }
-        },
-        props: {
-            id: {
-                type: String,
-                required: true
-            }
-        },
-        created() {
-            this.loadCustomer();
-            this.request.send('get', 'customers/groups').then(response => {
-                this.customerGroups = response.data;
-            });
-        },
-        mounted() {
-            Dispatcher.add('save-customer', this);
-        },
-        methods: {
-            save() {
-                this.customer.customer_groups = this.selectedGroups;
+  import Orders from '../../../mixins/OrderMixin';
+  import CustomerAddresses from './Edit/CustomerAddresses';
 
-                if (this.newPassword && this.confirmPassword) {
-                    this.customer.password = this.newPassword;
-                    this.customer.password_confirmation = this.confirmPassword;
-                }
+  export default {
+      mixins: [Orders],
+      components: {
+          'customer-addresses' : CustomerAddresses
+      },
+      data() {
+          return {
+              title: '',
+              loaded: false,
+              customer: {},
+              customerGroups: [],
+              selectedGroups: [],
+              ordersBatch: 1,
+              newPassword: null,
+              confirmPassword: null,
+              ordersPerPage: 10,
+              request: apiRequest,
+              orders: []
+          }
+      },
+      props: {
+          id: {
+              type: String,
+              required: true
+          }
+      },
+      created() {
+          this.loadCustomer();
+          this.request.send('get', 'customers/groups').then(response => {
+              this.customerGroups = response.data;
+          });
 
-                apiRequest.send('PUT', '/users/' + this.customer.id, this.customer).then(response => {
-                    this.newPassword = null;
-                    this.confirmPassword = null;
-                    CandyEvent.$emit('notification', {
-                        level: 'success'
-                    });
-                }).catch(error => {
-                    this.newPassword = null;
-                    this.confirmPassword = null;
-                });
-            },
-            /**
-             * Loads the customer by their ID
-             * @param  {String} id
-             */
-            loadCustomer() {
-                apiRequest.send('get', '/customers/' + this.id, {}, {
-                    includes: 'addresses,orders,groups'
-                })
-                .then(response => {
-                    this.customer = response.data;
-                    this.loaded = true;
-                    this.selectedGroups = _.map(this.customer.groups.data, group => {
-                        return group.id;
-                    });
-                    CandyEvent.$emit('title-changed', {
-                        title: this.customer.firstname + ' ' + this.customer.lastname
-                    });
-                }).catch(error => {
-                });
 
-            },
-            viewOrder(id) {
-                location.href = '/order-processing/orders/' + id;
-            }
-        }
-    }
+          this.getStatuses();
+      },
+      mounted() {
+          Dispatcher.add('save-customer', this);
+      },
+      methods: {
+          save() {
+
+              let data = JSON.parse(JSON.stringify(this.customer));
+
+              data.customer_groups = this.selectedGroups;
+
+              if (this.newPassword && this.confirmPassword) {
+                  data.password = this.newPassword;
+                  data.password_confirmation = this.confirmPassword;
+              }
+
+              data.details = data.details.data;
+
+              apiRequest.send('PUT', '/users/' + this.customer.id, data).then(response => {
+                  this.newPassword = null;
+                  this.confirmPassword = null;
+                  CandyEvent.$emit('notification', {
+                      level: 'success'
+                  });
+              }).catch(error => {
+                  this.newPassword = null;
+                  this.confirmPassword = null;
+              });
+          },
+          details(customer) {
+                return customer.details.data;
+          },
+          /**
+           * Loads the customer by their ID
+           * @param  {String} id
+           */
+          loadCustomer() {
+              apiRequest.send('get', '/customers/' + this.id, {}, {
+                  includes: 'addresses,orders,groups,details'
+              })
+              .then(response => {
+
+                  this.customer = response.data;
+                  this.selectedGroups = _.map(this.customer.groups.data, group => {
+                      return group.id;
+                  });
+
+                  CandyEvent.$emit('title-changed', {
+                      title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
+                  });
+
+                  let chunkedOrders = _.chunk(this.customer.orders.data, this.ordersPerPage);
+
+                  _.each(chunkedOrders, (orders, index) => {
+                      this.orders[index + 1] = orders;
+                  });
+
+                  apiRequest.send('GET', 'currencies').then(response => {
+                      this.currencies = response.data;
+                      this.loaded = true;
+                  });
+
+              }).catch(error => {
+              });
+
+          },
+          getOrders(batch) {
+              return this.orders[batch];
+          },
+          changeOrderBatch(batch) {
+              this.ordersBatch = batch;
+          },
+          viewOrder(id) {
+              return route('hub.orders.edit', id);
+          },
+          localisedPrice(amount, currency) {
+              var currency = _.find(this.currencies, item => {
+                  return item.code == currency;
+              });
+              return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
+          }
+      }
+  }
 </script>
 
 <template>
@@ -94,13 +140,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>First name</label>
-                                                <input class="form-control" v-model="customer.firstname">
+                                                <input class="form-control" v-model="customer.details.data.firstname">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Last name</label>
-                                                <input class="form-control" v-model="customer.lastname">
+                                                <input class="form-control" v-model="customer.details.data.lastname">
                                             </div>
                                         </div>
 
@@ -118,7 +164,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Company Name</label>
-                                                <input class="form-control" v-model="customer.company_name">
+                                                <input class="form-control" v-model="customer.details.data.company_name">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('company_name')">
                                                 {{ request.getError('company_name') }}
@@ -127,7 +173,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Contact Number</label>
-                                                <input type="tel" class="form-control" v-model="customer.contact_number">
+                                                <input type="tel" class="form-control" v-model="customer.details.data.contact_number">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('contact_number')">
                                                 {{ request.getError('contact_number') }}
@@ -136,7 +182,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>VAT Number</label>
-                                                <input class="form-control" v-model="customer.vat_no">
+                                                <input class="form-control" v-model="customer.details.data.vat_no">
                                             </div>
                                             <span class="text-danger" v-if="request.hasError('vat_no')">
                                                 {{ request.getError('vat_no') }}
@@ -172,8 +218,8 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="group in customerGroups">
-                                                <td>{{ group.name }}</td>
-                                                <td><input type="checkbox" v-model="selectedGroups" :value="group.id"></td>
+                                                <td><label :for="group.name + 'Checkbox'">{{ group.name }}</label></td>
+                                                <td><input type="checkbox" v-model="selectedGroups" :value="group.id" :id="group.name + 'Checkbox'"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -187,89 +233,94 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>First name</th>
-                                                <th>Last name</th>
-                                                <th>Address</th>
-                                                <th>Address line 2</th>
-                                                <th>Address line 3</th>
-                                                <th>City</th>
-                                                <th>County</th>
-                                                <th>State</th>
-                                                <th>Country</th>
-                                                <th>Shipping / Billing</th>
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr v-if="!customer.addresses.data.length">
-                                                <td colspan="25" class="text-muted text-center">
-                                                    {{ customer.name }} has no addresses listed on their acount
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <tr v-for="address in customer.addresses.data">
-                                                <td>{{ address.firstname }}</td>
-                                                <td>{{ address.lastname }}</td>
-                                                <td>{{ address.address }}</td>
-                                                <td>{{ address.address_two }}</td>
-                                                <td>{{ address.address_three }}</td>
-                                                <td>{{ address.city }}</td>
-                                                <td>{{ address.county }}</td>
-                                                <td>{{ address.state }}</td>
-                                                <td>{{ address.country }}</td>
-                                                <td>
-                                                    <span class="text-info" v-if="address.shipping">Shipping</span>
-                                                    <span class="text-warning" v-if="address.billing">Billing</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <customer-addresses :addresses="customer.addresses.data" :customer="customer"></customer-addresses>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <h4>Order History</h4>
                                 </div>
+
                             </div>
                             <hr>
+                            <!-- <div class="row">
+                                <div class="form-group col-md-12">
+                                    <div class="input-group input-group-full">
+                                        <span class="input-group-addon">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                        <label class="sr-only" for="search">Search Orders</label>
+                                        <input type="text" class="form-control" id="search" placeholder="Search by order ID" @keyup="search" v-model="searchedOrder">
+                                    </div>
+                                </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Order ID</th>
+                                                <th width="10%">Status</th>
+                                                <th>Order Id</th>
                                                 <th>Total</th>
-                                                <th>Tax</th>
-                                                <th>Date created</th>
-                                                <th></th>
+                                                <th>Shipping</th>
+                                                <th>Date Placed / Created</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr v-if="!customer.orders.data.length">
                                                 <td colspan="25" class="text-muted text-center">
-                                                    {{ customer.name }} has no order history
+                                                    {{ customer.details.data.firstname }} has no order history
                                                 </td>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr v-for="order in customer.orders.data">
-                                               <td>
-                                                   #{{ order.id }}
-                                               </td>
-                                               <td>{{ order.total }} {{ order.currency }}</td>
-                                               <td>{{ order.vat }}</td>
-                                               <td>{{ order.created_at.date|formatDate('dF m Y') }}</td>
-                                               <td>
-                                                   <button @click="viewOrder(order.id)" class="btn btn-action btn-default btn-sm">
-                                                       <fa icon="eye"></fa>
-                                                   </button>
-                                               </td>
+                                            <tr v-for="order in orders[ordersBatch]">
+                                              <td><span  class="order-status" :class="order.status">{{ status(order.status) }}</span></td>
+                                              <td>
+                                                  <a :href="viewOrder(order.id)" title="View order">
+                                                    {{ order.reference }}
+                                                  </a>
+                                              </td>
+                                              <td>
+                                                <span v-html="localisedPrice(order.total, order.currency)"></span>
+                                              </td>
+                                              <td>
+                                                <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
+                                              </td>
+                                              <td>
+                                                <span v-if="order.placed_at">{{ order.placed_at|formatDate }}</span>
+                                                <span v-else>{{ order.created_at.date|formatDate }}</span>
+                                              </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination" v-if="orders.length">
+                                                <li v-if="ordersBatch !== 1">
+                                                    <a href="#" aria-label="First page" data-toggle="tooltip" data-placement="top" data-original-title="First page" title="First page" @click.prevent="changeOrderBatch(1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li v-if="ordersBatch > 1">
+                                                    <a href="#" aria-label="Previous" data-toggle="tooltip" data-placement="top" data-original-title="Previous page" title="Previous page" @click.prevent="changeOrderBatch(ordersBatch - 1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li v-for="(orders, batch) in orders" v-bind:class="[ batch == ordersBatch ? 'active' : '']" v-if="batch > 0">
+                                                    <a href="#" @click.prevent="changeOrderBatch(batch)">{{ batch }}</a>
+                                                </li>
+                                                <li v-if="ordersBatch < orders.length - 1">
+                                                    <a href="#" aria-label="Next" data-toggle="tooltip" data-placement="top" data-original-title="Next page" title="Next page" @click.prevent="changeOrderBatch(ordersBatch + 1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li v-if="ordersBatch !== orders.length">
+                                                    <a href="#" aria-label="Last page" data-toggle="tooltip" data-placement="top" data-original-title="Last page" title="Last page" @click.prevent="changeOrderBatch(orders.length - 1)">
+                                                        <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                 </div>
                             </div>
                         </div>

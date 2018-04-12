@@ -172,7 +172,7 @@
                 <tbody>
                     <tr v-for="category in productCategories">
                         <td width="80">
-                            <img src="/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
+                            <img src="/candy-hub/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
                         </td>
                         <td>
                             {{ getAttribute(category, 'name') }}

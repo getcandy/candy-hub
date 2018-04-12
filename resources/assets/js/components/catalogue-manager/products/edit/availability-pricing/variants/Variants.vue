@@ -329,7 +329,7 @@
                                         <figure>
                                             <img :src="current.thumbnail.data.thumbnail" :alt="current.id"
                                                  class="placeholder" v-if="hasThumbnail(current)">
-                                            <img src="/images/placeholder/no-image.svg" alt="Placeholder"
+                                            <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder placeholder-empty" v-else>
                                         </figure>
                                         <span class="change-img">
@@ -607,11 +607,15 @@
                                                       v-model="current.volume.unit"></candy-select>
                                     </div>
                                 </div>
-                                <button class="btn btn-danger" @click="deleteVariant(currentIndex)"
-                                        v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
-                                </button>
                             </div>
                         </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-danger" @click="deleteVariant(currentIndex)"
+                                    v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
+                                </button>
+                            </div>
+                       </div>
                     </div>
                     <div class="col-xs-12 col-md-4 col-md-pull-8" v-if="variants.length > 1">
                         <ul class="variant-list">
@@ -621,7 +625,7 @@
                                     <div class="variant-img">
                                         <figure>
                                             <img :src="v.thumbnail.data.thumbnail" alt="v.id" v-if="hasThumbnail(v)">
-                                            <img src="/images/placeholder/no-image.svg" alt="Placeholder"
+                                            <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder" v-else>
                                         </figure>
                                     </div>

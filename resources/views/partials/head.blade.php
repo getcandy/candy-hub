@@ -8,7 +8,11 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- GetCandy -->
-    <link href="{{ url('hub/css/hub.css') }}" rel="stylesheet">
+    <link href="{{ url('candy-hub/css/hub.css') }}" rel="stylesheet">
+
+    @if(File::exists(public_path('css/candy-hub.css')))
+        <link href="{{ url('css/candy-hub.css') }}" rel="stylesheet">
+    @endif
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>

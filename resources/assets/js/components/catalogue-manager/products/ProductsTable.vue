@@ -10,6 +10,9 @@
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                editing: null,
+                editingBackup: null,
+                quickEditModal: false,
                 filters: [],
                 keywords: '',
                 meta: [],
@@ -17,7 +20,7 @@
                     type: 'product',
                     per_page: 25,
                     current_page: 1,
-                    includes: 'channels,customer_groups,family,attribute_groups'
+                    includes: 'channels,customer_groups,family,attribute_groups,variants'
                 }
             }
         },
@@ -37,6 +40,7 @@
                 this.selected = selected;
             }
         },
+
         mounted() {
             this.loadProducts();
             CandyEvent.$on('product-added', product => {
@@ -48,7 +52,18 @@
                     this.savedSearches = response.data;
                 });
         },
+        computed: {
+            editableVariants() {
+                if (!this.editing) {
+                    return [];
+                }
+                return this.products[this.editing].variants.data;
+            }
+        },
         methods: {
+            route(path, param1) {
+                return route(path, param1);
+            },
             suggest(term) {
                 this.keywords = term;
                 this.search();
@@ -62,7 +77,7 @@
                 return false;
             },
             loadProduct: function (id) {
-                location.href = '/hub/catalogue-manager/products/' + id;
+                location.href = route('hub.products.edit', id);
             },
             loadProducts() {
                 this.loaded = false;
@@ -123,10 +138,11 @@
                 if (product.thumbnail) {
                     return product.thumbnail.data.thumbnail;
                 }
-                return '/hub/images/placeholder/no-image.png';
+                return '/images/placeholder/no-image.png';
             },
             search: _.debounce(function (){
                     this.loaded = false;
+                    this.editing = null;
                     this.params['keywords'] = this.keywords;
 
                     if (this.keywords) {
@@ -136,6 +152,13 @@
                     }
                 }, 500
             ),
+            getStock(product) {
+                var variants = product.variants.data;
+                if (product.variant_count == 1) {
+                    return variants[0].inventory;
+                }
+                return 'Multiple';
+            },
             getVisibilty(product, ref) {
                 let groups = product[ref].data;
                 let visible = [];
@@ -176,6 +199,44 @@
 
                 return visible.join(', ');
             },
+            quickEdit(index) {
+                this.editing = index;
+                this.editingBackup = JSON.parse(JSON.stringify(this.products[index]));
+
+                if (this.editableVariants.length > 1) {
+                    this.quickEditModal = true;
+                }
+            },
+            quickSave() {
+                var product = this.products[this.editing];
+                var variants = product.variants.data;
+
+                variants.forEach(variant => {
+                    apiRequest.send('put', '/products/variants/' + variant.id, variant)
+                        .then(response => {
+                        }).catch(response => {
+                            CandyEvent.$emit('notification', {
+                                level: 'error',
+                                message: response.message
+                            });
+                            return false;
+                        });
+                });
+
+                CandyEvent.$emit('notification', {
+                    level: 'success',
+                    message: 'Stock Updated'
+                });
+
+                this.editingBackup = null;
+                this.editing = null;
+                this.quickEditModal = false;
+            },
+            cancelQuickEdit() {
+                this.products[this.editing] = this.editingBackup;
+                this.editingBackup = null;
+                this.editing = null;
+            },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
             },
@@ -184,7 +245,16 @@
                 this.params.current_page = page;
                 this.search();
             }
+        },
+        directives: {
+            focus: {
+                // directive definition
+                inserted: function (el) {
+                    el.focus()
+                }
+            }
         }
+
     }
 </script>
 
@@ -280,55 +350,67 @@
 
                 <hr>
 
-                <table class="table table-striped product-table">
+                <table class="table product-table">
                     <thead>
                         <tr>
-                            <th width="6%">
-                                <candy-disabled>
-                                    <div class="checkbox bulk-options" :class="{'active': (selectAll || checkedCount > 0)}">
-                                        <input v-model="selectAll" type="checkbox" class="select-all">
-                                        <label @click="selectAllClick"><span class="check"></span></label>
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-
-                                        <div class="bulk-actions">
-                                            <div class="border-inner">
-                                                {{ checkedCount }} product selected
-                                                <a href="#" class="btn btn-outline btn-sm">Edit</a>
-                                                <a href="#" class="btn btn-outline btn-sm">Publish</a>
-                                                <a href="#" class="btn btn-outline btn-sm">Hide</a>
-                                                <a href="#" class="btn btn-outline btn-sm">Delete</a>
-                                            </div>
-                                            <div v-if="checkedCount == products.length" class="all-selected">
-                                                <em>All products on this page are selected</em>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </candy-disabled>
-                            </th>
-                            <th width="10%">Image</th>
+                            <th width="5%"></th>
                             <th width="25%">Product</th>
-                            <th width="19%">Display</th>
+                            <th width="10%">Stock</th>
+                            <th width="15%">Display</th>
                             <th width="19%">Purchasable</th>
                             <th width="19%">Group</th>
+                            <th  width="15%"></th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
-                        <tr class="clickable" v-for="product in products">
-                            <td>
-                                <!-- <div class="checkbox">
-                                    <input type="checkbox" :id="'prod' + product.id" :value="product.id" v-model="selected">
-                                    <label :for="'prod' + product.id"><span class="check"></span></label>
-                                </div> -->
-                            </td>
-                            <td @click="loadProduct(product.id)">
-                                <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
-                            </td>
-                            <td @click="loadProduct(product.id)">{{ product|attribute('name') }}</td>
-                            <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'channels') }}</td>
-                            <td @click="loadProduct(product.id)">{{ getVisibilty(product, 'customer_groups') }}</td>
-                            <td @click="loadProduct(product.id)">{{ getAttributeGroups(product) }}</td>
+                        <template v-for="(product, index) in products">
+                            <tr>
 
-                        </tr>
+                                <td>
+                                    <a :href="route('hub.products.edit', product.id)">
+                                        <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a :href="route('hub.products.edit', product.id)">
+                                        {{ product|attribute('name') }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <template v-if="editing == index && product.variant_count == 1 && !this.quickEditModal">
+                                        <input v-focus @keyup.enter="quickSave" class="form-control" v-model="product.variants.data[0].inventory" @blur="quickSave">
+                                    </template>
+                                    <template v-else>
+                                        <a href="#" data-toggle="tooltip" v-on:click.prevent="quickEdit(index)" data-placement="top" title="Edit" class="editable-stock">
+                                           {{ getStock(product) }}
+                                        </a>
+                                    </template>
+                                </td>
+                                <td>{{ getVisibilty(product, 'channels') }}</td>
+                                <td>{{ getVisibilty(product, 'customer_groups') }}</td>
+                                <td>
+                                    {{ getAttributeGroups(product) }}
+                                </td>
+                                <td>
+                                    <!-- <template v-if="editing == index">
+                                        <button class="btn btn-danger btn-sm btn-action" @click="cancelQuickEdit" >
+                                            <fa icon="times"></fa>
+                                        </button>
+                                        <button class="btn btn-success btn-sm btn-action" @click="quickSave">
+                                            <fa icon="check"></fa>
+                                        </button>
+                                    </template>
+                                    <template v-else>
+                                        <button class="btn btn-default btn-sm btn-action" @click="quickEdit(index)">
+                                            <fa icon="edit"></fa>
+                                        </button>
+                                        <a :href="'/catalogue-manager/products/' + product.id" class="btn btn-default btn-sm btn-action" >
+                                            <fa icon="eye"></fa>
+                                        </a>
+                                    </template> -->
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                     <tfoot class="text-center" v-else>
                         <tr>
@@ -352,7 +434,32 @@
                     <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
+            <candy-modal title="Edit Stock" v-show="quickEditModal" size="modal-md" @closed="quickEditModal = false">
+                <div slot="body">
+                    <div v-for="(variant, vIndex) in editableVariants" class="form-group">
+                        <label>{{ variant.sku }}</label>
+                       <input class="form-control" v-model="variant.inventory">
+                    </div>
+                </div>
+                <template slot="footer">
+                    <button type="button" class="btn btn-primary" @click="quickSave">Save Stock</button>
+                </template>
+            </candy-modal>
 
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+    .editable-stock {
+        padding:2px 4px;
+        position: relative;
+        border:1px dashed transparent;
+        color:#333;
+        &:hover {
+            text-decoration: none;
+            background-color:#f5f5f5;
+            border-color: #BEBEBE;
+        }
+    }
+</style>
