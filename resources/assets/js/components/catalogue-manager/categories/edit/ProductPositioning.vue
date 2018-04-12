@@ -1,5 +1,7 @@
 <script>
-    export default {
+    import ProductAssociation from './ProductAssociation';
+
+export default {
         data() {
             return {
                 request: apiRequest,
@@ -12,6 +14,9 @@
                     animation: 150
                 }
             }
+        },
+        components: {
+            'product-association' : ProductAssociation
         },
         props: {
             categoryId: {
@@ -51,8 +56,12 @@
                 this.updatePositions();
             },
             remove(index) {
+                let product = this.positioning[index].object.id;
                 this.positioning.splice(index, 1);
-                this.updatePositions();
+
+                this.request.send('DELETE', '/products/' + product + '/categories/' + this.categoryId)
+                    .then(response => {
+                    });
             },
             save() {
                 let payload = {
@@ -71,7 +80,6 @@
         },
         mounted() {
             this.sortType = this.sort;
-
             this.positioning = _.map(this.products, product => {
                 return {
                     id: product.id,
@@ -110,6 +118,9 @@
                         <p>Ordering by price can be influenced by customer group pricing and so may be different from the order shown below. For complete control, choose <strong>custom</strong> from the sort type above</p>
                     </div>
 
+                    <div>
+                        <product-association :current="products" :categoryId="categoryId" v-if="positioning"></product-association>
+                    </div>
                     <table class="table table-striped sortable">
                         <thead>
                             <tr>

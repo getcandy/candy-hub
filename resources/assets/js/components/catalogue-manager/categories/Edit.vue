@@ -74,9 +74,9 @@
         <template v-if="loaded">
 
             <transition name="fade">
-                <candy-tabs initial="categorydetails">
+                <candy-tabs initial="associations">
 
-                    <candy-tab name="Category Details" handle="category-details" :selected="true" dispatch="category-details">
+                    <candy-tab name="Category Details" handle="category-details" dispatch="category-details">
                         <candy-tabs nested="true">
                             <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
                                 <candy-category-details :category="category" :languages="languages" :group="group">
@@ -93,7 +93,7 @@
                         <candy-category-availability :category="category" v-if="category"></candy-category-availability>
                     </candy-tab>
 
-                    <candy-tab name="Associations">
+                    <candy-tab name="Associations"  :selected="true">
                         <candy-tabs nested="true">
                             <candy-tab name="Products" :selected="true">
                                 <candy-category-product-positioning :category-id="category.id" :sort="category.sort" :products="category.products.data"></candy-category-product-positioning>
