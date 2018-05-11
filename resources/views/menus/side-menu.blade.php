@@ -1,5 +1,8 @@
 
         @foreach ($navItems as $navItem)
+          @if($navItem instanceof \GetCandy\Hub\Services\Navigation\NavBreak)
+            <hr>
+          @else
             <li @if($navItem->getCurrent()) class="active" @endif>
               <a href="{{ $navItem->getUrl() }}" title="Go to {{ $navItem->getTitle() }}">
                 {{ $navItem->getTitle() }}
@@ -15,4 +18,5 @@
               </div>
               @endif
             </li>
+          @endif
         @endforeach

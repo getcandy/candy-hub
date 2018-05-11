@@ -38,15 +38,7 @@
 
         <nav class="side-nav">
           <ul>
-            <li @if(request()->segment(2) == 'dashboard') class="active" @endif><a href="{{ route('hub.index') }}" >Dashboard</a></li>
-            <li><a href="{{ route('logout') }}">Logout</a></li>
-          </ul>
-        </nav>
-
-        <hr>
-
-        <nav class="side-nav">
-          <ul>
+              <li @if(request()->segment(2) == 'dashboard') class="active" @endif><a href="{{ route('hub.index') }}" >Dashboard</a></li>
               <li><a href="{{ route('logout') }}">Logout</a></li>
           </ul>
         </nav>

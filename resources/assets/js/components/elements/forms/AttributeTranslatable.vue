@@ -146,7 +146,7 @@
                         <div class="form-group" v-for="attribute in attributes">
 
                             <!-- Label -->
-                            <label :for="attribute.handle">{{ attribute.name }}</label>
+                            <label :for="attribute.handle">{{ attribute.name|t }}</label>
 
                             <!-- Inputs -->
                             <candy-input v-if="attribute.type == 'text'"

@@ -136,6 +136,18 @@ CandyHelpers.install = function (Vue, options) {
   }
 };
 
+// Gradually move top level components into here, so we can use local registration per component.
+Vue.component('candy-attributes-table', require('./components/catalogue-manager/attributes/Table.vue'));
+Vue.component('candy-attribute-edit', require('./components/catalogue-manager/attributes/Edit.vue'));
+Vue.component('candy-attribute-create', require('./components/catalogue-manager/attributes/Create.vue'));
+Vue.component('candy-attribute-groups-table', require('./components/catalogue-manager/attribute-groups/Table.vue'));
+Vue.component('candy-attribute-groups-edit', require('./components/catalogue-manager/attribute-groups/Edit.vue'));
+Vue.component('candy-attribute-group-create', require('./components/catalogue-manager/attribute-groups/Create.vue'));
+
+Vue.component('candy-product-families-table', require('./components/catalogue-manager/product-families/Table.vue'));
+Vue.component('candy-product-family-edit', require('./components/catalogue-manager/product-families/Edit.vue'));
+Vue.component('candy-product-family-create', require('./components/catalogue-manager/product-families/Create.vue'));
+
 const app = new Vue({
     el: '#app',
     store,
