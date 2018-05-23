@@ -1,7 +1,14 @@
 <script>
     import Dropzone from 'vue2-dropzone'
+    import VariantGroupPricing from './VariantGroupPricing.vue';
+    import PriceInput from '../../../../../elements/forms/inputs/PriceInput.vue';
 
     export default {
+        components: {
+            Dropzone,
+            VariantGroupPricing,
+            PriceInput
+        },
         data() {
             return {
                 request: apiRequest,
@@ -40,7 +47,7 @@
         mounted() {
             this.assets = this.product.assets.data;
 
-            this.hasGroupPricing = this.current.pricing.data.length >= 1;
+            this.hasGroupPricing = this.current.group_pricing;
 
             CandyEvent.$on('asset_deleted', event => {
                 this.assets.splice(event.index, 1);
@@ -79,13 +86,17 @@
             },
             save() {
                 let data = JSON.parse(JSON.stringify(this.current));
-                data.pricing = this.groupPricing;
-                if (!this.hasGroupPricing) {
-                    data.pricing = [];
-                }
 
-                if (!this.priceTiers) {
-                    data.priceTiers = [];
+                if (this.hasGroupPricing) {
+                    data.pricing = _.map(data.pricing.data, item => {
+                        return {
+                            customer_group_id: item.group.data.id,
+                            tax_id: item.tax.data.id,
+                            price: item.value
+                        }
+                    });
+                } else {
+                    data.pricing = [];
                 }
 
                 data.group_pricing = this.hasGroupPricing;
@@ -200,36 +211,6 @@
                 });
                 return options;
             },
-            groupPricing() {
-                let pricing = this.current.pricing.data;
-                let prices = [];
-                _.each(this.customerGroups, group => {
-                    let tier = _.find(pricing, price => {
-                        return price.group.data.id == group.id;
-                    });
-
-                    let tax = null,
-                    price = this.current.price;
-
-                    if (tier) {
-                        if (tier.tax.data.id) {
-                            tax = tier.tax.data.id;
-                        }
-                        price = tier.price;
-                    } else {
-                        tax = _.find(this.$store.getters.getTaxes, item => {
-                            return item.default;
-                        }).id;
-                    }
-                    prices.push({
-                        name: group.name,
-                        customer_group_id: group.id,
-                        tax_id: tax,
-                        price: price
-                    });
-                });
-                return prices;
-            },
             priceTiers() {
                 return _.map(this.current.tiers.data, item => {
                     if (!item.customer_group_id) {
@@ -267,9 +248,6 @@
                 });
                 return fields;
             }
-        },
-        components: {
-            Dropzone
         }
     }
 </script>
@@ -394,56 +372,14 @@
                                         <span class="faux-label"> Individual Customer Group Pricing</span>
                                     </label>
                                 </div>
-                                <div class="row">
                                     <template v-if="hasGroupPricing">
-                                        <template v-for="group in groupPricing">
-                                            <div class="col-md-4">
-                                                <div class="form-group" >
-                                                    <label>{{ group.name }}</label>
-                                                    <div class="input-group input-group-full">
-                                                        <span class="input-group-addon">&pound;</span>
-                                                        <input type="number" class="form-control" v-model="group.price">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <candy-disabled>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Compare at Price</label>
-                                                        <div class="input-group input-group-full">
-                                                            <span class="input-group-addon">&pound;</span>
-                                                            <input type="number" class="form-control" v-model="group.compare_at">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </candy-disabled>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Tax</label>
-                                                    <candy-select :options="taxes" v-model="group.tax_id"></candy-select>
-                                                </div>
-                                            </div>
-                                        </template>
+                                        <variant-group-pricing v-model="current.pricing.data" :price="current.price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
                                     </template>
                                     <template v-else>
                                         <div class="col-md-4">
                                             <label>Price</label>
-                                            <div class="input-group input-group-full">
-                                                <span class="input-group-addon">&pound;</span>
-                                                <input type="number" class="form-control" v-model="current.price">
-                                            </div>
+                                            <price-input v-model="current.price"></price-input>
                                         </div>
-                                        <candy-disabled>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Compare at Price</label>
-                                                <div class="input-group input-group-full">
-                                                    <span class="input-group-addon">&pound;</span>
-                                                    <input type="number" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </candy-disabled>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Tax</label>
@@ -451,7 +387,6 @@
                                             </div>
                                         </div>
                                     </template>
-                                </div>
                             </div>
                         </div>
 
@@ -466,10 +401,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label>Price</label>
-                                <div class="input-group input-group-full">
-                                    <span class="input-group-addon">&pound;</span>
-                                    <input type="number" class="form-control" v-model="tier.price">
-                                </div>
+                                <price-input v-model="tier.price"></price-input>
                             </div>
                             <div class="col-md-6">
                                 <label>Customer Group</label>

@@ -30,8 +30,20 @@
             });
             Dispatcher.add('save-order', this);
         },
+        computed: {
+            discountTotal() {
+                let total = 0;
+                _.each(this.order.lines.data, line => {
+                    total += line.discount;
+                });
+                return total;
+            }
+        },
         methods: {
             productLink(sku) {
+                if (!sku) {
+                    return '#';
+                }
                 return route('hub.products.edit', sku);
             },
             currencySymbol(total) {
@@ -39,17 +51,7 @@
                 // return 'ho';
             },
             unitPrice(line) {
-                let sub_total = line.total;
-                if (this.order.vat) {
-                    sub_total = line.total - (line.total - (line.total / 1.2));
-                }
-                return sub_total / line.quantity;
-            },
-            taxAmount(line) {
-                if (this.order.vat) {
-                    return line.total - (line.total / 1.2);
-                }
-                return 0;
+                return line.line_amount / line.quantity;
             },
             setMailable() {
                 if (this.order.status == 'dispatched') {
@@ -77,26 +79,13 @@
                     });
                 })
             },
-            discountAmount(discount) {
-
-                var total = 0;
-
-                _.each(this.order.lines.data, line => {
-                    if (discount.type == 'percentage') {
-                        total += line.total * (discount.amount / 100);
-                    } else if (discount.type == 'fixed-price') {
-                        total += line.total - discount.amount;
-                    }
-                });
-                return -total + (total - (total / 1.2));
-            },
             /**
              * Loads the product by its encoded ID
              * @param  {String} id
              */
             loadOrder() {
                 apiRequest.send('get', '/orders/' + this.id, {}, {
-                    includes: 'user,lines,transactions,discounts'
+                    includes: 'user,lines,transactions,discounts,shipping'
                 })
                 .then(response => {
                     this.order = response.data;
@@ -179,73 +168,73 @@
                                                     <th>Variant</th>
                                                     <th>QTY</th>
                                                     <th>Unit Price</th>
+                                                    <th>Discount</th>
                                                     <th>Tax Rate</th>
                                                     <th>Tax Amount</th>
                                                     <th>Line total</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
-                                                <template v-if="order.discounts.data.length">
-                                                    <tr v-for="discount in order.discounts.data">
-                                                        <td colspan="7" align="right">
-                                                            <strong>{{ discount.name }}</strong>
-                                                            <span v-if="discount.type == 'percentage'">
-                                                                @ {{ discount.amount }}%
-                                                            </span>
-                                                             Discount <br>
-                                                            <span v-if="discount.coupon">
-                                                                Code:  <code>{{ discount.coupon }}</code>
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-danger" v-html="currencySymbol(discountAmount(discount))">
-                                                        </td>
-                                                    </tr>
-                                                </template>
+                                                <!--  -->
                                                 <tr>
-                                                    <td colspan="4"></td>
-                                                    <td colspan="3" align="right"><strong>Shipping</strong></td>
-                                                    <td v-html="currencySymbol(order.shipping_total)"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4"></td>
+                                                    <td colspan="5"></td>
                                                     <td colspan="3" align="right"><strong>Sub total (Excl VAT)</strong></td>
-                                                    <td v-html="currencySymbol(order.total - order.vat)"></td>
+                                                    <td v-html="currencySymbol(order.sub_total)"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4"></td>
+                                                    <td colspan="5"></td>
                                                     <td colspan="3" align="right"><strong>VAT</strong></td>
-                                                    <td v-html="currencySymbol(order.vat)"></td>
+                                                    <td v-html="currencySymbol(order.tax_total)"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4"></td>
+                                                    <td colspan="5"></td>
                                                     <td colspan="3" align="right"><strong>Total</strong></td>
-                                                    <td v-html="currencySymbol(order.total)"></td>
+                                                    <td v-html="currencySymbol(order.order_total)"></td>
                                                 </tr>
-                                                <tr v-if="order.vat_no && order.billing.country != 'United Kingdom'">
-                                                    <td colspan="4"></td>
+                                                <!-- <tr v-if="order.vat_no && order.billing.country != 'United Kingdom'">
+                                                    <td colspan="5"></td>
                                                     <td colspan="4" align="right">
                                                         <span class="text-info">EU Reverse Charge VAT Applied</span>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                             </tfoot>
                                             <tbody>
                                                 <tr v-for="line in order.lines.data">
                                                     <td>
+                                                        <template v-if="line.sku">
                                                         <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
                                                         {{ line.sku }}
                                                         </a>
+                                                        </template>
+                                                        <template v-else>
+                                                            -
+                                                        </template>
                                                     </td>
                                                     <td>
-                                                        <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
-                                                            {{ line.product }}
-                                                        </a>
+                                                        <template v-if="line.sku">
+                                                            <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
+                                                                {{ line.description }}
+                                                            </a>
+                                                        </template>
+                                                        <template v-else>
+                                                            {{ line.description }}
+                                                        </template>
+
                                                     </td>
                                                     <td>{{ line.variant ? line.variant : '-' }}</td>
                                                     <td>{{ line.quantity }}</td>
-                                                    <td v-html="currencySymbol(unitPrice(line))"></td>
-                                                    <td><span v-if="order.vat">VAT @ 20%</span><span v-else>-</span></td>
-                                                    <td v-html="currencySymbol(taxAmount(line))"></td>
-                                                    <td v-html="currencySymbol(line.total - taxAmount(line))"></td>
+                                                    <td v-html="currencySymbol(line.unit_price)"></td>
+                                                    <td>
+                                                        <template v-if="line.discount">
+                                                            <span class="text-danger" v-html="currencySymbol(-line.discount_total)"></span>
+                                                        </template>
+                                                        <template v-else>
+                                                            -
+                                                        </template>
+                                                    </td>
+                                                    <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
+                                                    <td v-html="currencySymbol(line.tax_total)"></td>
+                                                    <td v-html="currencySymbol(line.line_total)"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -382,27 +371,27 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong style="margin-bottom:5px;display:block;">Billing info</strong>
-                                                {{ order.billing.firstname }} {{ order.billing.lastname }}<br>
-                                                {{ order.billing.address }}<br>
-                                                {{ order.billing.address_two }}<br v-if="order.billing.address_two">
-                                                {{ order.billing.address_three }}<br v-if="order.billing.address_three">
-                                                {{ order.billing.city }}<br>
-                                                {{ order.billing.county }}<br v-if="order.billing.county">
-                                                {{ order.billing.state }}<br v-if="order.billing.state">
-                                                {{ order.billing.country }}<br>
-                                                {{ order.billing.zip }}
+                                                {{ order.billing_details.firstname }} {{ order.billing_details.lastname }}<br>
+                                                {{ order.billing_details.address }}<br>
+                                                {{ order.billing_details.address_two }}<br v-if="order.billing_details.address_two">
+                                                {{ order.billing_details.address_three }}<br v-if="order.billing_details.address_three">
+                                                {{ order.billing_details.city }}<br>
+                                                {{ order.billing_details.county }}<br v-if="order.billing_details.county">
+                                                {{ order.billing_details.state }}<br v-if="order.billing_details.state">
+                                                {{ order.billing_details.country }}<br>
+                                                {{ order.billing_details.zip }}
                                             </div>
                                             <div class="col-md-6">
                                                 <strong style="margin-bottom:5px;display:block;">Shipping info</strong>
-                                                {{ order.shipping.firstname }} {{ order.shipping.lastname }}<br>
-                                                {{ order.shipping.address }}<br>
-                                                {{ order.shipping.address_two }}<br v-if="order.shipping.address_two">
-                                                {{ order.shipping.address_three }}<br v-if="order.shipping.address_three">
-                                                {{ order.shipping.city }}<br>
-                                                {{ order.shipping.county }}<br v-if="order.shipping.county">
-                                                {{ order.shipping.state }}<br v-if="order.shipping.state">
-                                                {{ order.shipping.country }}<br>
-                                                {{ order.shipping.zip }}
+                                                {{ order.shipping_details.firstname }} {{ order.shipping_details.lastname }}<br>
+                                                {{ order.shipping_details.address }}<br>
+                                                {{ order.shipping_details.address_two }}<br v-if="order.shipping_details.address_two">
+                                                {{ order.shipping_details.address_three }}<br v-if="order.shipping_details.address_three">
+                                                {{ order.shipping_details.city }}<br>
+                                                {{ order.shipping_details.county }}<br v-if="order.shipping_details.county">
+                                                {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
+                                                {{ order.shipping_details.country }}<br>
+                                                {{ order.shipping_details.zip }}
                                             </div>
                                         </div>
 

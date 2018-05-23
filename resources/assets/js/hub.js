@@ -171,6 +171,7 @@ const app = new Vue({
 Vue.use(CandyHelpers);
 
 function formatMoney (n, c,t,d) {
+  n = n / 100;
   var
     c = isNaN(c = Math.abs(c)) ? 2 : c,
     d = d == undefined ? "." : d,

@@ -15,7 +15,7 @@
                 params: {
                     per_page: 50,
                     current_page: 1,
-                    includes: 'user'
+                    includes: 'user,shipping'
                 },
                 pagination: {}
             }
@@ -90,6 +90,11 @@
                     return item.code == currency;
                 });
                 return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
+            },
+            shippingCost(order, current) {
+                const line = order.shipping.data;
+                let total = line.line_amount + line.tax;
+                return this.localisedPrice(total, current);
             }
         }
     }
@@ -196,7 +201,8 @@
                                 <span v-html="localisedPrice(order.total, order.currency)"></span>
                             </td>
                             <td>
-                                <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
+
+                                <span v-html="shippingCost(order, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping.data.description"></span>
                             </td>
                             <td>{{ order.currency }}</td>
                             <td v-if="filter != 'awaiting-payment'">

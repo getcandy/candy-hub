@@ -46,6 +46,7 @@
              */
             decorate(data) {
                 this.attribute_groups = data.attribute_groups.data;
+
                 this.product = data;
                 this.product.attributes = this.product.attribute_data;
                 this.variants = this.product.variants.data;
