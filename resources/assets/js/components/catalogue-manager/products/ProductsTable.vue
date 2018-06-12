@@ -1,5 +1,6 @@
 <script>
     import Flatify from '../../../classes/Flatify'
+    import GroupService from '../../../services/Attributes/GroupService.js';
 
     export default {
         data() {
@@ -20,7 +21,7 @@
                     type: 'product',
                     per_page: 25,
                     current_page: 1,
-                    includes: 'channels,customer_groups,family,attribute_groups,variants'
+                    includes: 'channels,customer_groups,family,attribute_groups,variants,thumbnail.transforms'
                 }
             }
         },
@@ -183,21 +184,9 @@
                 return visible.join(', ');
             },
             getAttributeGroups(product) {
-                let groups = product.attribute_groups.data,
-                    visible = [];
-
-                groups.forEach(group => {
-                    visible.push(group.name);
-                });
-
-                // if (visible.length == groups.length) {
-                //     return 'All';
-                // }
-                if (!visible.length) {
-                    return 'None';
-                }
-
-                return visible.join(', ');
+                return GroupService.getLabel(
+                    product.attribute_groups.data
+                );
             },
             quickEdit(index) {
                 this.editing = index;

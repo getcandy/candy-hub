@@ -54,6 +54,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { VTooltip } from 'v-tooltip'
 import VueLazyload from 'vue-lazyload'
+import Language from './services/Locale/Language';
 
 Vue.use(Vuex);
 Vue.use(VueLazyload, {
@@ -124,7 +125,16 @@ config.get('taxes').then(response => {
 
 config.get('languages').then(response => {
   languages = response.data;
+  languages.forEach(item => {
+    if (item.default) {
+      Language.setCode(item.lang);
+    }
+  });
 });
+
+window.trans = function (obj) {
+  return Language.trans(obj);
+}
 
 Vue.directive('tooltip', VTooltip);
 
