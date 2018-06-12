@@ -20,7 +20,7 @@
         props: {
             value: {
                 required: true,
-                type: Number
+                type: [String, Number]
             },
             tax: {
                 required: false,

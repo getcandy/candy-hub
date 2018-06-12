@@ -4,7 +4,7 @@
             <div class="col-md-4">
                 <div class="form-group" >
                     <label>{{ item.group.data.name }}</label>
-                    <price-input v-model="item.value"></price-input>
+                    <price-input v-model="item.price"></price-input>
                 </div>
             </div>
             <div class="col-md-4">
@@ -50,7 +50,7 @@
                                 return tax.default;
                             })
                         },
-                        value: this.price
+                        price: this.price
                     })
                 });
             }

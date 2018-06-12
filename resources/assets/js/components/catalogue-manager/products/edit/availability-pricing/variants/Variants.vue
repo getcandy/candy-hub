@@ -77,7 +77,7 @@
             addPriceTier() {
                 this.current.tiers.data.push({
                     'lower_limit' : '',
-                    'price' : '',
+                    'unit_price' : 0,
                     'customer_group_id' : this.customerGroups[0].id
                 });
             },
@@ -92,7 +92,7 @@
                         return {
                             customer_group_id: item.group.data.id,
                             tax_id: item.tax.data.id,
-                            price: item.value
+                            price: item.price
                         }
                     });
                 } else {
@@ -373,12 +373,12 @@
                                     </label>
                                 </div>
                                     <template v-if="hasGroupPricing">
-                                        <variant-group-pricing v-model="current.pricing.data" :price="current.price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
+                                        <variant-group-pricing v-model="current.pricing.data" :price="current.unit_price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
                                     </template>
                                     <template v-else>
                                         <div class="col-md-4">
                                             <label>Price</label>
-                                            <price-input v-model="current.price"></price-input>
+                                            <price-input v-model="current.unit_price"></price-input>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -428,16 +428,34 @@
                         <h4>Inventory</h4>
                         <hr>
                         <div class="row">
-                            <div class="col-xs-6 col-md-5">
+                            <div class="col-xs-6 col-md-4">
                                 <div class="form-group">
                                     <label>SKU</label>
                                     <input type="text" class="form-control" v-model="current.sku">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-5">
+                            <div class="col-xs-12 col-md-2">
                                 <div class="form-group">
                                     <label>Quantity</label>
                                     <input type="number" class="form-control" v-model="current.inventory">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-2">
+                                <div class="form-group">
+                                    <label>Unit Quantity</label>
+                                    <input type="number" class="form-control" v-model="current.unit_qty">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-2">
+                                <div class="form-group">
+                                    <label>Min Quantity</label>
+                                    <input type="number" class="form-control" v-model="current.min_qty">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-2">
+                                <div class="form-group">
+                                    <label>Max Quantity</label>
+                                    <input type="number" class="form-control" v-model="current.max_qty">
                                 </div>
                             </div>
                             <!-- <div class="col-xs-12 col-md-2">
