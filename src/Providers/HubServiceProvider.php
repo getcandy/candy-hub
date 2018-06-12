@@ -2,14 +2,13 @@
 
 namespace GetCandy\Hub\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Validator;
 use View;
-use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+use Validator;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 use GetCandy\Hub\Http\Middleware\Access;
 use GetCandy\Hub\Http\Middleware\Authenticated;
-use Illuminate\Support\Facades\Blade;
-
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
 class HubServiceProvider extends ServiceProvider
 {
