@@ -99,6 +99,10 @@
                     data.pricing = [];
                 }
 
+                data.price = data.unit_price;
+
+                console.log(data.price);
+
                 data.group_pricing = this.hasGroupPricing;
 
                 data.tiers = this.priceTiers;
@@ -247,6 +251,13 @@
                     };
                 });
                 return fields;
+            },
+            backorderOptions() {
+                return [
+                    {label: 'In Stock', value: 'in-stock'},
+                    {label: 'Expected', value: 'expected'},
+                    {label: 'Always', value: 'always'}
+                ];
             }
         }
     }
@@ -365,6 +376,35 @@
                         <h4>Pricing</h4>
                         <hr>
                         <div class="row">
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Unit Quantity
+                                        <em class="help-txt">The number of units that make up the price</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.unit_qty">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Min Purchase Quantity
+                                        <em class="help-txt">The minimum amount that can be purchased</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.min_qty">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Max Purchase Quantity
+                                        <em class="help-txt">The maximum amount that can be purchased (0 = unlim.)</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.max_qty">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12 col-md-12">
                                 <div class="form-group">
                                     <label for="groupPricing">
@@ -376,14 +416,16 @@
                                         <variant-group-pricing v-model="current.pricing.data" :price="current.unit_price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
                                     </template>
                                     <template v-else>
-                                        <div class="col-md-4">
-                                            <label>Price</label>
-                                            <price-input v-model="current.unit_price"></price-input>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Tax</label>
-                                                <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Price</label>
+                                                <price-input v-model="current.unit_price"></price-input>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Tax</label>
+                                                    <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
+                                                </div>
                                             </div>
                                         </div>
                                     </template>
@@ -436,46 +478,39 @@
                             </div>
                             <div class="col-xs-12 col-md-2">
                                 <div class="form-group">
-                                    <label>Quantity</label>
+                                    <label>In Stock</label>
                                     <input type="number" class="form-control" v-model="current.inventory">
                                 </div>
                             </div>
+
                             <div class="col-xs-12 col-md-2">
-                                <div class="form-group">
-                                    <label>Unit Quantity</label>
-                                    <input type="number" class="form-control" v-model="current.unit_qty">
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-md-2">
-                                <div class="form-group">
-                                    <label>Min Quantity</label>
-                                    <input type="number" class="form-control" v-model="current.min_qty">
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-md-2">
-                                <div class="form-group">
-                                    <label>Max Quantity</label>
-                                    <input type="number" class="form-control" v-model="current.max_qty">
-                                </div>
-                            </div>
-                            <!-- <div class="col-xs-12 col-md-2">
                                 <div class="form-group">
                                     <label>Incoming</label>
-                                    <br><a href="#" class="btn btn-lg btn-link">0</a>
+                                    <input type="number" class="form-control" v-model="current.incoming">
                                 </div>
-                            </div> -->
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
+                            </div>
+
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="backorder">
-                                        <input id="backorder" type="checkbox" v-model="current.backorder">
-                                        <span class="faux-label">Allow customers to purchase this product when it's out of stock</span>
+                                    <label>
+                                        Purchasability
+
                                     </label>
+                                    <candy-select :options="backorderOptions" v-model="current.backorder"></candy-select>
+                                    <em class="text-info help-txt">
+                                            <span v-if="current.backorder == 'in-stock'">
+                                                This item can <strong>only</strong> be bought when in stock.
+                                            </span>
+                                            <span v-if="current.backorder == 'expected'">
+                                                This item can be bought when on backorder <strong>or</strong> in stock
+                                            </span>
+                                            <span v-if="current.backorder == 'always'">
+                                                This item can be bought when <strong>not</strong> in stock <strong>or</strong> not on backorder
+                                            </span>
+                                        </em>
                                 </div>
                             </div>
                         </div>
-
                         <!-- <h4>Shipping</h4>
                         <hr>
                         <div class="form-group">
@@ -597,3 +632,10 @@
         </div> <!-- col-xs-12 col-md-11 -->
     </div> <!-- row -->
 </template>
+
+<style lang="scss" scoped>
+    .stock-purchasability {
+        display:block;
+        margin-top:2.5em;
+    }
+</style>

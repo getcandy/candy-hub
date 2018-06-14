@@ -30,11 +30,11 @@
         computed: {
             price : {
                 get: function() {
-                    return (this.value / 100);
+                    return this.value;
                 },
-                set: _.debounce(function(value) {
-                    this.$emit('input', value ? (parseFloat(value).toFixed(2)) * 100 : 0);
-                }, 800)
+                set: function (val) {
+                    this.$emit('input', val);
+                }
             }
         }
     }
