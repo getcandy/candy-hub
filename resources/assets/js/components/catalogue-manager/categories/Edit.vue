@@ -76,14 +76,14 @@
             <transition name="fade">
                 <candy-tabs initial="categorydetails">
 
-                    <!-- <candy-tab name="Category Details" handle="category-details" :selected="true" dispatch="category-details">
+                    <candy-tab name="Category Details" handle="category-details" :selected="true" dispatch="category-details">
                         <candy-tabs nested="true">
                             <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
                                 <candy-category-details :category="category" :languages="languages" :group="group">
                                 </candy-category-details>
                             </candy-tab>
                         </candy-tabs>
-                    </candy-tab> -->
+                    </candy-tab>
 
                     <candy-tab name="Media" dispatch="save-media">
                         <candy-media assetable="categories" :parent="category"></candy-media>
