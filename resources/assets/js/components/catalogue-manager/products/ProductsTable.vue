@@ -269,12 +269,12 @@
                 <!-- Search Form -->
                 <form v-on:submit.prevent>
                     <div class="row">
-                        <div class="col-xs-12 col-md-2">
-                            <candy-disabled>
+                        <!-- <div class="col-xs-12 col-md-2"> -->
+                            <!-- <candy-disabled>
                                 <button type="button" class="btn btn-default btn-full btn-pop-over">
                                     Add Filter <i class="fa fa-angle-down fa-last" aria-hidden="true"></i>
                                 </button>
-                            </candy-disabled>
+                            </candy-disabled> -->
 
                             <!-- Filter Pop Over -->
                             <!-- <div class="pop-over">
@@ -297,8 +297,8 @@
                                 </form>
                             </div> -->
 
-                        </div>
-                        <div class="form-group col-xs-12 col-md-8">
+                        <!-- </div> -->
+                        <div class="form-group col-xs-12 col-md-10">
 
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
