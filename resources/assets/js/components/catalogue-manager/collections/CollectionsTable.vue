@@ -123,11 +123,6 @@
                     All Collections
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#winter" aria-controls="winter" role="tab" data-toggle="tab">
-                    Winter <i class="fa fa-times" aria-hidden="true"></i>
-                </a>
-            </li>
         </ul>
 
         <!-- Tab panes -->
