@@ -94,7 +94,7 @@
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.pagination.total_pages;
+                        this.params.total_pages = response.meta.pagination.data.total_pages;
                         this.meta = response.meta;
                         this.loaded = true;
                     });
