@@ -120,7 +120,6 @@
         },
         methods: {
             initFancytable() {
-
                 let glyph_opts = {
                     preset: "awesome4",
                     map: {
@@ -163,9 +162,8 @@
                         let nodeID = data.node.data.id;
                         let request = new $.Deferred();
                         data.result = request.promise();
-
                         apiRequest.send('get', this.sourceURL + nodeID, [],  {
-                                includes: 'children, assets',
+                                includes: 'children',
                                 tree: true
                             })
                             .then(response => {
@@ -207,6 +205,7 @@
             },
             getImage: function(data) {
                 let url = '/candy-hub/images/placeholder/no-image.svg';
+                console.log(data);
                 if (data.thumbnail) {
                     url = data.thumbnail.data.thumbnail;
                 }

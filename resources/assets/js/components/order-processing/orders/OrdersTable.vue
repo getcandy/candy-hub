@@ -90,11 +90,6 @@
                     return item.code == currency;
                 });
                 return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
-            },
-            shippingCost(order, current) {
-                const line = order.shipping.data;
-                let total = line.line_amount + line.tax;
-                return this.localisedPrice(total, current);
             }
         }
     }
@@ -173,8 +168,11 @@
                             <th>Invoice Id</th>
                             <th>Customer Name</th>
                             <th>Customer Type</th>
+                            <th>Sub Total</th>
+                            <th>Discount Total</th>
+                            <th>Shipping Total</th>
+                            <th>Tax Total</th>
                             <th>Total</th>
-                            <th>Shipping</th>
                             <th>Currency</th>
                             <th v-if="filter != 'awaiting-payment'">Date Placed</th>
                             <th v-else>Date Created</th>
@@ -197,16 +195,14 @@
                                 <span v-if="order.user">Account</span>
                                 <span v-else>Guest</span>
                             </td>
-                            <td>
-                                <span v-html="localisedPrice(order.total, order.currency)"></span>
-                            </td>
-                            <td>
-
-                                <span v-html="shippingCost(order, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping.data.description"></span>
-                            </td>
+                            <td><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td>
+                            <td><span v-html="localisedPrice(order.discount_total, order.currency)"></span></td>
+                            <td><span v-html="localisedPrice(order.delivery_total, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping_method"></span></td>
+                            <td><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td>
+                            <td><span v-html="localisedPrice(order.order_total, order.currency)"></span></td>
                             <td>{{ order.currency }}</td>
                             <td v-if="filter != 'awaiting-payment'">
-                                {{ order.placed_at|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
                             </td>
                             <td v-else>
                                 {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
