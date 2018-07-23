@@ -43,6 +43,10 @@
     .treetable .table > tbody > tr:hover .btn{
         display: inline-block;
     }
+
+    .treetable tfoot tr td {
+        border:none;
+    }
     .treetable .fancytree-ext-childcounter span.fancytree-childcounter,
     .treetable .fancytree-ext-filter span.fancytree-childcounter {
         color: #fff;
@@ -84,7 +88,8 @@
                 data: [],
                 pagination: {
                     current_page: 1
-                }
+                },
+                loading: true
             };
         },
         props: {
@@ -120,6 +125,8 @@
         },
         methods: {
             initFancytable() {
+                this.$emit('loaded', true);
+                this.loading = false;
                 let glyph_opts = {
                     preset: "awesome4",
                     map: {
@@ -195,6 +202,8 @@
                                 } else {
                                     $tdList.eq(index)[column.type](node.data[column.source]);
                                 }
+                            } else {
+
                             }
                         });
                     }.bind(this)
@@ -229,6 +238,7 @@
                 });
             },
             loadData: function() {
+                this.$emit('loading', true);
                 apiRequest.send('get', this.sourceURL, [], {
                     per_page: 15,
                     current_page: this.pagination.current_page,
@@ -283,6 +293,13 @@
                     </th>
                 </tr>
             </thead>
+            <tfoot v-if="loading">
+                <tr>
+                    <td colspan="2">
+                        <i class="fa fa-refresh fa-spin"></i> Loading
+                    </td>
+                </tr>
+            </tfoot>
             <tbody>
                 <tr>
                     <td v-for="column in params.columns" :align="column.align">
