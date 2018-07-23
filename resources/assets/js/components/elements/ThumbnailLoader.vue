@@ -10,7 +10,7 @@
     export default {
         data() {
             return {
-                imageSrc: '/hub/images/placeholder/no-image.png'
+                imageSrc: '/candy-hub/images/placeholder/no-image.png'
             }
         },
         props: {
