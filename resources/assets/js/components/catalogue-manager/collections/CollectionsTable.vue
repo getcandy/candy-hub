@@ -117,20 +117,20 @@
     <div>
 
         <!-- Search tabs -->
-        <ul class="nav nav-tabs" role="tablist">
+        <!-- <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#all-collections" aria-controls="all-products" role="tab" data-toggle="tab">
                     All Collections
                 </a>
             </li>
-        </ul>
+        </ul> -->
 
         <!-- Tab panes -->
-        <div class="tab-content section block">
-            <div role="tabpanel" class="tab-pane active" id="all-collections">
+        <!-- <div class="tab-content section block">
+            <div role="tabpanel" class="tab-pane active" id="all-collections"> -->
 
                 <!-- Search Form -->
-                <form>
+                <!-- <form>
                     <div class="row">
                         <div class="col-xs-12 col-md-2">
                             <candy-disabled>
@@ -139,7 +139,6 @@
                                 </button>
                             </candy-disabled>
 
-                            <!-- Filter Pop Over -->
                             <div class="pop-over">
                                 <form>
                                     <label>Show all products where:</label>
@@ -180,7 +179,7 @@
 
                         </div>
                     </div>
-                </form>
+                </form> -->
 
                 <!-- Filter List -->
                 <!-- <div class="filters">
@@ -192,12 +191,12 @@
                     </div>
                 </div> -->
 
-                <hr>
-
+        <div class="panel">
+            <div class="panel-body">
                 <table class="table table-striped collection-table">
                     <thead>
                         <tr>
-                            <th width="6%">
+                            <!-- <th width="6%">
                                 <candy-disabled>
                                     <div class="checkbox bulk-options" :class="{'active': (selectAll || checkedCount > 0)}">
                                         <input v-model="selectAll" type="checkbox" class="select-all">
@@ -218,7 +217,7 @@
                                         </div>
                                     </div>
                                 </candy-disabled>
-                            </th>
+                            </th> -->
                             <th width="10%">Image</th>
                             <th width="25%">Collection</th>
                             <th width="19%">Display</th>
@@ -228,12 +227,12 @@
                     </thead>
                     <tbody v-if="loaded">
                         <tr class="clickable" v-for="collection in collections">
-                            <td>
+                            <!-- <td> -->
                                 <!-- <div class="checkbox">
                                     <input type="checkbox" :id="'coll' + collection.id" :value="collection.id" v-model="selected">
                                     <label :for="'coll' + collection.id"><span class="check"></span></label>
                                 </div> -->
-                            </td>
+                            <!-- </td> -->
                             <td @click="loadCollection(collection.id)">
                                 <img :src="thumbnail(collection)" :alt="collection.name">
                             </td>
@@ -261,7 +260,9 @@
                     <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
-
         </div>
+            <!-- </div> -->
+
+        <!-- </div> -->
     </div>
 </template>
