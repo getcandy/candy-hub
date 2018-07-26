@@ -282,13 +282,13 @@
                                                   </a>
                                               </td>
                                               <td>
-                                                <span v-html="localisedPrice(order.total, order.currency)"></span>
+                                                <span v-html="localisedPrice(order.order_total, order.currency)"></span>
                                               </td>
                                               <td>
-                                                <span v-html="localisedPrice(order.shipping_total, order.currency)"></span>
+                                                <span v-html="localisedPrice(order.delivery_total, order.currency)"></span>
                                               </td>
                                               <td>
-                                                <span v-if="order.placed_at">{{ order.placed_at|formatDate }}</span>
+                                                <span v-if="order.placed_at">{{ order.placed_at.date|formatDate }}</span>
                                                 <span v-else>{{ order.created_at.date|formatDate }}</span>
                                               </td>
                                             </tr>
