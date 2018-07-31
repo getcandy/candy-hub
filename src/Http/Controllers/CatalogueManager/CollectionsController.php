@@ -8,7 +8,6 @@ class CollectionsController extends Controller
 {
     public function getIndex()
     {
-
         return view('hub::catalogue-manager.collections.index');
     }
 

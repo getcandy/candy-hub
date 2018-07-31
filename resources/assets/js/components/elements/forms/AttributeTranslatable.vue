@@ -41,10 +41,11 @@
         },
         methods: {
             getError (mapping) {
-                return this.request.getError(mapping);
+                let messageArr = _.get(this.request.errors, 'attributes\.'+mapping+'\.webstore\.en');
+                return _.head(messageArr);
             },
             hasError (mapping) {
-                return this.request.hasError(mapping);
+                return _.has(this.request.errors, 'attributes\.'+mapping+'\.webstore\.en');
             },
             useDefault (obj) {
                 if (obj.checked) {
@@ -57,7 +58,6 @@
                 var channel = '';
                 var language = '';
                 var source = {};
-
 
                 if (type === 'default') {
                     channel = this.defaultChannel;
@@ -143,10 +143,15 @@
                 <div class="row">
                     <div class="col-xs-12 form-group" :class="{ 'col-md-6': translating }">
 
-                        <div class="form-group" v-for="attribute in attributes">
+                        <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
 
                             <!-- Label -->
-                            <label :for="attribute.handle">{{ attribute.name|t }}</label>
+                            <label :for="attribute.handle">{{ attribute.name|t }}</label><br>
+
+                            <!-- Errors -->
+                            <span class="text-danger" v-if="getError(attribute.handle)">
+                                <strong>* {{ getError(attribute.handle) }}</strong>
+                            </span>
 
                             <!-- Inputs -->
                             <candy-input v-if="attribute.type == 'text'"
@@ -168,10 +173,7 @@
                                 :required="attribute.required">
                             </candy-textarea>
 
-                            <!-- Errors -->
-                            <span class="text-danger" v-if="getError(attribute.handle)"
-                                  v-text="getError(attribute.handle)">
-                            </span>
+                            
 
                             <!--
                             <div v-else-if="attribute.type == 'date'">
@@ -213,7 +215,7 @@
 
                     </div>
                     <div class="col-xs-12 col-md-6" v-if="translating">
-                        <div class="form-group" v-for="attribute in attributes">
+                        <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
 
                             <!-- Checkbox -->
                             <candy-checkbox v-show="attribute.translatable && !isDefault"
