@@ -42,6 +42,7 @@ var includes = [
     path: 'elements.forms.inputs',
     components: {
       'checkbox' : 'Checkbox',
+      'date-picker': 'DatePicker',
       'input' : 'Input',
       'radio' : 'Radio',
       'select' : 'Select',
