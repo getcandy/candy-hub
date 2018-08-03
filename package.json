@@ -20,6 +20,7 @@
     "laravel-mix": "2.*",
     "list.js": "^1.5.0",
     "lodash": "^4.17.5",
+    "pikaday": "^1.7.0",
     "vue": "^2.5.13",
     "vue-svgicon": "^2.1.2"
   },
