@@ -11,11 +11,10 @@ class NavigationService
         if (class_exists($menuClass)) {
             $r = new \ReflectionClass($menuClass);
         } else {
-            $r = new \ReflectionClass('GetCandy\\Hub\\Services\\Navigation\\Menus\\' . $menuClass);
+            $r = new \ReflectionClass('GetCandy\\Hub\\Services\\Navigation\\Menus\\'.$menuClass);
         }
 
         $menu = $r->newInstanceArgs([]);
-
 
         Event::fire('cms.navigation.pre_render', [$menu]);
 

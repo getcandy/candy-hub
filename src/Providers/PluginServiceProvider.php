@@ -16,16 +16,16 @@ class PluginServiceProvider extends ServiceProvider
     {
         $loader = $this->app->make('composer_loader');
 
-        $list = File::directories(realpath(__DIR__ . "/../../plugins"));
+        $list = File::directories(realpath(__DIR__.'/../../plugins'));
 
         foreach ($list as $dir) {
-            $config = require($dir . '/candy.php');
+            $config = require $dir.'/candy.php';
 
-            $namespace = "GetCandy\\Plugins\\" . $config['namespace_suffix'] . "\\";
+            $namespace = 'GetCandy\\Plugins\\'.$config['namespace_suffix'].'\\';
 
-            $loader->setPsr4($namespace, $dir . "/src/");
+            $loader->setPsr4($namespace, $dir.'/src/');
 
-            $serviceProvider = $namespace . $config['service_provider'];
+            $serviceProvider = $namespace.$config['service_provider'];
 
             $this->app->register($serviceProvider);
         }

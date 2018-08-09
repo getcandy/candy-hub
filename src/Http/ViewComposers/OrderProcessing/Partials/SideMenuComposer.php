@@ -1,4 +1,5 @@
 <?php
+
 namespace GetCandy\Hub\Http\ViewComposers\OrderProcessing\Partials;
 
 use GetCandy\Hub\Http\ViewComposers\BaseComposer;

@@ -2,13 +2,12 @@
 
 namespace GetCandy\Hub\Providers;
 
-use View;
-use Validator;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use GetCandy\Hub\Http\Middleware\Access;
 use GetCandy\Hub\Http\Middleware\Authenticated;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+use View;
 
 class HubServiceProvider extends ServiceProvider
 {
@@ -19,7 +18,7 @@ class HubServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'hub');
+        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'hub');
 
         $this->registerViewComposers();
         $this->registerBladeDirectives();
@@ -32,18 +31,16 @@ class HubServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../../routes/hub.php');
-        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'hub');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/hub.php');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'hub');
 
         $this->app['router']->aliasMiddleware('hub.refresh_token', CreateFreshApiToken::class);
         $this->app['router']->aliasMiddleware('hub.access', Access::class);
         $this->app['router']->aliasMiddleware('hub.auth', Authenticated::class);
 
-
         $this->publishes([
-            __DIR__ . '/../../resources/build' => public_path('candy-hub'),
+            __DIR__.'/../../resources/build' => public_path('candy-hub'),
         ], 'public');
-
     }
 
     protected function registerViewComposers()
@@ -61,6 +58,7 @@ class HubServiceProvider extends ServiceProvider
     {
         Blade::directive('channel', function ($expression) {
             $channel = app('api')->channels()->getDefaultRecord();
+
             return "<?php echo '{$channel->handle}' ?>";
         });
     }

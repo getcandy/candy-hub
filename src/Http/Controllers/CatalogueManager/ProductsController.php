@@ -14,7 +14,7 @@ class ProductsController extends Controller
     public function getEdit($id)
     {
         return view('hub::catalogue-manager.products.edit', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }
