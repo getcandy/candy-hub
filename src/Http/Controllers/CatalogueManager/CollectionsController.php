@@ -14,7 +14,7 @@ class CollectionsController extends Controller
     public function getEdit($id)
     {
         return view('hub::catalogue-manager.collections.edit', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

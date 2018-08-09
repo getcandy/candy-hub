@@ -2,13 +2,13 @@
 
 namespace GetCandy\Hub\Http\Controllers;
 
-use GetCandy\Api\Core\Auth\Models\User;
-use GetCandy\Api\Core\Orders\Models\Order;
-use GetCandy\Api\Core\Baskets\Models\Basket;
-use GetCandy\Api\Core\Channels\Models\Channel;
-use GetCandy\Api\Core\Products\Models\Product;
-use GetCandy\Api\Core\Categories\Models\Category;
 use Carbon\Carbon;
+use GetCandy\Api\Core\Auth\Models\User;
+use GetCandy\Api\Core\Baskets\Models\Basket;
+use GetCandy\Api\Core\Categories\Models\Category;
+use GetCandy\Api\Core\Channels\Models\Channel;
+use GetCandy\Api\Core\Orders\Models\Order;
+use GetCandy\Api\Core\Products\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -54,7 +54,6 @@ class DashboardController extends Controller
             $salesPercent = 0;
         }
 
-
         $baskets = Basket::count();
         $recentOrders = $orderCollection->orderBy('placed_at', 'desc')->take(8)->get();
         $products = Product::count();
@@ -63,26 +62,26 @@ class DashboardController extends Controller
         $channels = Channel::count();
 
         return view('hub::dashboard', [
-            'basket_count' => $baskets,
-            'category_count' => $categories,
-            'channel_count' => $channels,
-            'graph_data' => $this->getGraph(),
-            'month_graph_data' => $this->getOrderMonthsGraph(),
-            'order_count' => $orders,
+            'basket_count'      => $baskets,
+            'category_count'    => $categories,
+            'channel_count'     => $channels,
+            'graph_data'        => $this->getGraph(),
+            'month_graph_data'  => $this->getOrderMonthsGraph(),
+            'order_count'       => $orders,
             'orders_last_month' => $ordersLastMonth,
-            'orders_last_week' => $ordersLastWeek,
+            'orders_last_week'  => $ordersLastWeek,
             'orders_this_month' => $ordersThisMonth,
-            'orders_this_week' => $ordersThisWeek,
-            'product_count' => $products,
-            'recent_orders' => $recentOrders,
-            'recent_orders' => $recentOrders,
-            'sales_data' => $this->salesData(),
-            'sales_last_month' => $lastMonthSales,
-            'sales_last_week' => $lastWeeksSales,
-            'sales_percent' => $salesPercent,
-            'sales_this_month' => $thisMonthSales,
-            'sales_this_week' => $thisWeeksSales,
-            'user_count' => $users
+            'orders_this_week'  => $ordersThisWeek,
+            'product_count'     => $products,
+            'recent_orders'     => $recentOrders,
+            'recent_orders'     => $recentOrders,
+            'sales_data'        => $this->salesData(),
+            'sales_last_month'  => $lastMonthSales,
+            'sales_last_week'   => $lastWeeksSales,
+            'sales_percent'     => $salesPercent,
+            'sales_this_month'  => $thisMonthSales,
+            'sales_this_week'   => $thisWeeksSales,
+            'user_count'        => $users,
         ]);
     }
 
@@ -149,14 +148,14 @@ class DashboardController extends Controller
         }
 
         $dataset = [
-            'label' => 'Order Totals',
+            'label'           => 'Order Totals',
             'backgroundColor' => '#E7028C',
-            'data' => $data
+            'data'            => $data,
         ];
 
         return [
-            'labels' => $labels,
-            'datasets' => [$dataset]
+            'labels'   => $labels,
+            'datasets' => [$dataset],
         ];
     }
 
@@ -172,7 +171,7 @@ class DashboardController extends Controller
             // Set up initial labels
             $start = Carbon::now()->startOfWeek()->subWeeks($i);
             $end = Carbon::now()->endOfWeek()->subWeeks($i);
-            $labels[] = $start->format('dS') . '/' . $end->format('dS') . ' ' . $end->format('M');
+            $labels[] = $start->format('dS').'/'.$end->format('dS').' '.$end->format('M');
 
             // Set up orders dataset
             $ordersData[] = $this->ordersForDateRange(
@@ -187,26 +186,26 @@ class DashboardController extends Controller
         }
 
         $datasets[] = [
-            'label' => 'Orders',
+            'label'           => 'Orders',
             'backgroundColor' => '#E7028C',
-            'yAxisID' => 'A',
-            'borderColor' => '#E7028C',
-            'data' => $ordersData,
-            'fill' => false
+            'yAxisID'         => 'A',
+            'borderColor'     => '#E7028C',
+            'data'            => $ordersData,
+            'fill'            => false,
         ];
 
         $datasets[] = [
-            'label' => 'Sales',
+            'label'           => 'Sales',
             'backgroundColor' => '#0099e5',
-            'yAxisID' => 'B',
-            'borderColor' => '#0099e5',
-            'data' => $salesData,
-            'fill' => false
+            'yAxisID'         => 'B',
+            'borderColor'     => '#0099e5',
+            'data'            => $salesData,
+            'fill'            => false,
         ];
 
         return [
-            'labels' => $labels,
-            'datasets' => $datasets
+            'labels'   => $labels,
+            'datasets' => $datasets,
         ];
     }
 
@@ -217,7 +216,7 @@ class DashboardController extends Controller
             ->whereNotNull('placed_at')
             ->whereBetween('placed_at', [
                 Carbon::now()->startOfWeek(),
-                Carbon::now()->endOfWeek()
+                Carbon::now()->endOfWeek(),
             ]);
     }
 
@@ -228,7 +227,7 @@ class DashboardController extends Controller
             ->whereNotNull('placed_at')
             ->whereBetween('placed_at', [
                 $from,
-                $to
+                $to,
             ]);
     }
 
@@ -242,11 +241,11 @@ class DashboardController extends Controller
 
     protected function getSalesThisWeek()
     {
-        return 0;//$this->ordersThisWeek()->sum(\DB::RAW('total / conversion'));
+        return 0; //$this->ordersThisWeek()->sum(\DB::RAW('total / conversion'));
     }
 
     protected function getSalesLastWeek()
     {
-        return 0;//$this->ordersLastWeek()->sum(\DB::RAW('total / conversion'));
+        return 0; //$this->ordersLastWeek()->sum(\DB::RAW('total / conversion'));
     }
 }
