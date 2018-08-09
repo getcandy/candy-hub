@@ -58,7 +58,7 @@
              */
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
-                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
+                    includes: 'channels,layout,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
@@ -99,6 +99,10 @@
                                 <candy-category-product-positioning :category-id="category.id" :sort="category.sort" :products="category.products.data"></candy-category-product-positioning>
                             </candy-tab>
                         </candy-tabs>
+                    </candy-tab>
+
+                    <candy-tab name="Display" dispatch="category-display" v-if="category">
+                        <candy-category-display :current="category.layout" :category-id="category.id"></candy-category-display>
                     </candy-tab>
 
                     <candy-tab name="URLS">

@@ -2,12 +2,9 @@
 
 namespace GetCandy\Hub\Providers;
 
-use Carbon\Carbon;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use Laravel\Passport\Passport;
-use GetCandy\Api\Products\Policies\ProductPolicy;
 use GetCandy\Api\Products\Models\Product;
+use GetCandy\Api\Products\Policies\ProductPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

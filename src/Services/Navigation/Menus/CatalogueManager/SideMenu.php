@@ -3,8 +3,8 @@
 namespace GetCandy\Hub\Services\Navigation\Menus\CatalogueManager;
 
 use GetCandy\Hub\Services\Navigation\Menus\Menu;
-use GetCandy\Hub\Services\Navigation\NavItem;
 use GetCandy\Hub\Services\Navigation\NavBreak;
+use GetCandy\Hub\Services\Navigation\NavItem;
 
 class SideMenu extends Menu
 {
@@ -14,7 +14,7 @@ class SideMenu extends Menu
             new NavItem('titles.products', route('hub.products.index'), 'products'),
             new NavItem('titles.collections', route('hub.collections.index'), 'collections'),
             new NavItem('titles.categories', route('hub.categories.index'), 'categories'),
-            new NavBreak,
+            new NavBreak(),
             new NavItem('titles.attributes', route('hub.attributes.index'), 'attributes'),
             new NavItem('titles.attribute-groups', route('hub.attribute-groups.index'), 'attribute-groups'),
             new NavItem('titles.product-families', route('hub.product-families.index'), 'product-families'),
