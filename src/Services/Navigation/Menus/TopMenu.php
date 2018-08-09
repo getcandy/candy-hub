@@ -21,13 +21,13 @@ class TopMenu extends Menu
         ];
 
         $marketingItems = [
-            new NavItem('titles.discounts', route('hub.discounts.index'), 'discounts')
+            new NavItem('titles.discounts', route('hub.discounts.index'), 'discounts'),
         ];
 
         $this->navItems = [
-            new NavItem('menus/top_menu.catalogue_manager', route('hub.products.index'),null, $catalogueManagerItems),
+            new NavItem('menus/top_menu.catalogue_manager', route('hub.products.index'), null, $catalogueManagerItems),
             new NavItem('menus/top_menu.order_processing', route('hub.orders.index'), null, $orderProcessingItems),
-            new NavItem('menus/top_menu.marketing_suite', route('hub.discounts.index'), null, $marketingItems)
+            new NavItem('menus/top_menu.marketing_suite', route('hub.discounts.index'), null, $marketingItems),
         ];
 
         $this->view = 'hub::menus.top-menu';

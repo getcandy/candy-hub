@@ -15,6 +15,7 @@ abstract class BaseComposer
         if (!$items) {
             return '';
         }
+
         return implode(PHP_EOL, $items);
     }
 }

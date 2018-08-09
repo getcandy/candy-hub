@@ -1,4 +1,5 @@
 <?php
+
 namespace GetCandy\Hub\Http\Controllers\MarketingSuite;
 
 use GetCandy\Hub\Http\Controllers\Controller;
@@ -18,7 +19,7 @@ class DiscountController extends Controller
     public function getEdit($id)
     {
         return view('hub::marketing-suite.discounts.edit', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace GetCandy\Hub\Services\Navigation\Menus;
 
-use Event;
 use GetCandy\Hub\Services\Navigation\NavItem;
 
 abstract class Menu
@@ -14,6 +13,7 @@ abstract class Menu
     public function render()
     {
         $this->viewData['navItems'] = $this->navItems;
+
         return view($this->view, $this->viewData);
     }
 
