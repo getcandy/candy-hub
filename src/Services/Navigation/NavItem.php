@@ -38,7 +38,7 @@ class NavItem
         return $this->subItems;
     }
 
-    public function addSubItem(NavItem $subItem)
+    public function addSubItem(self $subItem)
     {
         $this->subItems[] = $subItem;
     }

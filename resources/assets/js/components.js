@@ -15,7 +15,8 @@ var includes = [
       'button' : 'Button',
       'modal' : 'Modal',
       'notification' : 'NotificationBar',
-      'delete' : 'Delete'
+      'delete' : 'Delete',
+      'layout-picker': 'LayoutPicker'
     }
   },
   /**
@@ -42,6 +43,7 @@ var includes = [
     path: 'elements.forms.inputs',
     components: {
       'checkbox' : 'Checkbox',
+      'date-picker': 'DatePicker',
       'input' : 'Input',
       'radio' : 'Radio',
       'select' : 'Select',
@@ -152,7 +154,8 @@ var includes = [
     components: {
       'category-availability' : 'CategoryAvailability',
       'category-details'      : 'CategoryDetails',
-      'category-product-positioning' : 'ProductPositioning'
+      'category-product-positioning' : 'ProductPositioning',
+      'category-display': 'CategoryDisplay'
     }
   },
   /**

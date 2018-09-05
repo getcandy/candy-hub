@@ -12,11 +12,10 @@
 */
 
 Route::group([
-    'prefix' => config('getcandy.hub_prefix', 'hub'),
-    'namespace' => 'GetCandy\Hub\Http\Controllers',
-    'middleware' => ['web'],
+    'prefix'        => config('getcandy.hub_prefix', 'hub'),
+    'namespace'     => 'GetCandy\Hub\Http\Controllers',
+    'middleware'    => ['web'],
 ], function ($router) {
-
     $router->get('/', function () {
         return redirect()->route('hub.login');
     });
@@ -33,128 +32,124 @@ Route::group([
         $router->post('password/reset', 'ResetPasswordController@reset');
     });
 
-    /**
+    /*
      * Hub Routes
      */
     $router->group(['middleware' => ['hub.auth', 'hub.refresh_token', 'hub.access']], function ($router) {
         $router->get('dashboard', [
-            'as' => 'hub.index',
-            'uses' => 'DashboardController@getIndex'
+            'as'   => 'hub.index',
+            'uses' => 'DashboardController@getIndex',
         ]);
 
-        /**
+        /*
          * Catalogue manager routes
          */
         $router->group(['prefix' => 'catalogue-manager', 'namespace' => 'CatalogueManager'], function ($router) {
-
             $router->get('attributes', [
-                'as' => 'hub.attributes.index',
-                'uses' => 'AttributeController@getIndex'
+                'as'   => 'hub.attributes.index',
+                'uses' => 'AttributeController@getIndex',
             ]);
             $router->get('attributes/{id}', [
-                'as' => 'hub.attributes.edit',
-                'uses' => 'AttributeController@getShow'
+                'as'   => 'hub.attributes.edit',
+                'uses' => 'AttributeController@getShow',
             ]);
 
             $router->get('attribute-groups', [
-                'as' => 'hub.attribute-groups.index',
-                'uses' => 'AttributeGroupController@getIndex'
+                'as'   => 'hub.attribute-groups.index',
+                'uses' => 'AttributeGroupController@getIndex',
             ]);
             $router->get('attribute-groups/{id}', [
-                'as' => 'hub.attribute-groups.edit',
-                'uses' => 'AttributeGroupController@getShow'
+                'as'   => 'hub.attribute-groups.edit',
+                'uses' => 'AttributeGroupController@getShow',
             ]);
 
             $router->get('products', [
-                'as' => 'hub.products.index',
-                'uses' => 'ProductsController@getIndex'
+                'as'   => 'hub.products.index',
+                'uses' => 'ProductsController@getIndex',
             ]);
             $router->get('products/{id}', [
-                'as' => 'hub.products.edit',
-                'uses' => 'ProductsController@getEdit'
+                'as'   => 'hub.products.edit',
+                'uses' => 'ProductsController@getEdit',
             ]);
 
             $router->get('product-families', [
-                'as' => 'hub.product-families.index',
-                'uses' => 'ProductFamilyController@getIndex'
+                'as'   => 'hub.product-families.index',
+                'uses' => 'ProductFamilyController@getIndex',
             ]);
             $router->get('products-families/{id}', [
-                'as' => 'hub.product-families.edit',
-                'uses' => 'ProductFamilyController@getEdit'
+                'as'   => 'hub.product-families.edit',
+                'uses' => 'ProductFamilyController@getEdit',
             ]);
 
             $router->get('collections', [
-                'as' => 'hub.collections.index',
-                'uses' => 'CollectionsController@getIndex'
+                'as'   => 'hub.collections.index',
+                'uses' => 'CollectionsController@getIndex',
             ]);
             $router->get('collections/{id}', [
-                'as' => 'hub.collections.edit',
-                'uses' => 'CollectionsController@getEdit'
+                'as'   => 'hub.collections.edit',
+                'uses' => 'CollectionsController@getEdit',
             ]);
             $router->get('categories', [
-                'as' => 'hub.categories.index',
-                'uses' => 'CategoriesController@getIndex'
+                'as'   => 'hub.categories.index',
+                'uses' => 'CategoriesController@getIndex',
             ]);
             $router->get('categories/{id}', [
-                'as' => 'hub.categories.edit',
-                'uses' => 'CategoriesController@getEdit'
+                'as'   => 'hub.categories.edit',
+                'uses' => 'CategoriesController@getEdit',
             ]);
         });
 
         $router->group(['prefix' => 'order-processing', 'namespace' => 'OrderProcessing'], function ($router) {
             $router->get('orders', [
-                'as' => 'hub.orders.index',
-                'uses' => 'OrderController@getIndex'
+                'as'   => 'hub.orders.index',
+                'uses' => 'OrderController@getIndex',
             ]);
             $router->get('orders/{id}', [
-                'as' => 'hub.orders.edit',
-                'uses' => 'OrderController@getEdit'
+                'as'   => 'hub.orders.edit',
+                'uses' => 'OrderController@getEdit',
             ]);
             $router->get('orders/{id}/invoice', [
-                'as' => 'hub.orders.invoice',
-                'uses' => 'OrderController@invoice'
+                'as'   => 'hub.orders.invoice',
+                'uses' => 'OrderController@invoice',
             ]);
             $router->get('shipping-methods', [
-                'as' => 'hub.shipping.index',
-                'uses' => 'ShippingController@getIndex'
+                'as'   => 'hub.shipping.index',
+                'uses' => 'ShippingController@getIndex',
             ]);
             $router->get('shipping-methods/{id}', [
-                'as' => 'hub.shipping.edit',
-                'uses' => 'ShippingController@getEdit'
+                'as'   => 'hub.shipping.edit',
+                'uses' => 'ShippingController@getEdit',
             ]);
 
             $router->get('shipping-zones', [
-                'as' => 'hub.shipping_zones.index',
-                'uses' => 'ShippingController@getZones'
+                'as'   => 'hub.shipping_zones.index',
+                'uses' => 'ShippingController@getZones',
             ]);
             $router->get('shipping-zones/{id}', [
-                'as' => 'hub.shipping_zones.edit',
-                'uses' => 'ShippingController@getZone'
+                'as'   => 'hub.shipping_zones.edit',
+                'uses' => 'ShippingController@getZone',
             ]);
 
-        // Customer routes
+            // Customer routes
             $router->get('customers', [
-                'as' => 'hub.customers.index',
-                'uses' => 'CustomerController@getIndex'
+                'as'   => 'hub.customers.index',
+                'uses' => 'CustomerController@getIndex',
             ]);
             $router->get('customers/{id}', [
-                'as' => 'hub.customers.edit',
-                'uses' => 'CustomerController@getShow'
+                'as'   => 'hub.customers.edit',
+                'uses' => 'CustomerController@getShow',
             ]);
-
         });
 
         $router->group(['prefix' => 'marketing-suite', 'namespace' => 'MarketingSuite'], function ($router) {
             $router->get('discounts', [
-                'as' => 'hub.discounts.index',
-                'uses' => 'DiscountController@getIndex'
+                'as'   => 'hub.discounts.index',
+                'uses' => 'DiscountController@getIndex',
             ]);
             $router->get('discounts/{id}', [
-                'as' => 'hub.discounts.edit',
-                'uses' => 'DiscountController@getEdit'
+                'as'   => 'hub.discounts.edit',
+                'uses' => 'DiscountController@getEdit',
             ]);
         });
     });
 });
-
-

@@ -15,6 +15,7 @@ class Authenticated extends Authenticate
         } catch (AuthenticationException $e) {
             return redirect()->route('hub.login');
         }
+
         return $next($request);
     }
 }

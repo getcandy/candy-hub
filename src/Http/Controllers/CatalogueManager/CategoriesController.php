@@ -14,7 +14,7 @@ class CategoriesController extends Controller
     public function getEdit($id)
     {
         return view('hub::catalogue-manager.categories.edit', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

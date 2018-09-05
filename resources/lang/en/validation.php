@@ -96,9 +96,9 @@ return [
     'url'                  => 'The :attribute format is invalid.',
 
     'hashid_is_valid' => 'The selected :attribute is invalid',
-    'valid_locales' => 'Invalid locale',
+    'valid_locales'   => 'Invalid locale',
     'valid_structure' => 'The :attribute structure is invalid',
-    'unique_route' => 'This route has already been taken',
+    'unique_route'    => 'This route has already been taken',
 
     /*
     |--------------------------------------------------------------------------
@@ -112,7 +112,7 @@ return [
     */
 
     'asset_url' => 'This is not a valid url',
-    'custom' => [
+    'custom'    => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
@@ -132,8 +132,8 @@ return [
     'attributes' => [
         'groups' => [
             'dupe_position' => 'Duplicate position',
-            'invalid_id' => 'The group id :id is invalid'
-        ]
+            'invalid_id'    => 'The group id :id is invalid',
+        ],
     ],
 
 ];

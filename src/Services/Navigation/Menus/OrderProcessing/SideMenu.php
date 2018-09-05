@@ -1,4 +1,5 @@
 <?php
+
 namespace GetCandy\Hub\Services\Navigation\Menus\OrderProcessing;
 
 use GetCandy\Hub\Services\Navigation\Menus\Menu;

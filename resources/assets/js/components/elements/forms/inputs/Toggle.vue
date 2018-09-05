@@ -1,8 +1,6 @@
 <template>
     <div>
-
-        <input class="bootstrap-switch" type="checkbox" :value="value" :required="required">
-
+        <input class="bootstrap-switch" type="checkbox" :value="value" :required="required" :checked="value">
     </div>
 </template>
 

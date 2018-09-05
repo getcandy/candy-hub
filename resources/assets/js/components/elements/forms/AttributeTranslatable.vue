@@ -160,6 +160,14 @@
                                         @input="set(attribute.handle, $event, 'default')"
                                         :required="attribute.required">
                             </candy-input>
+
+                            <candy-date-picker
+                                v-if="attribute.type == 'date'"
+                                :value="get(attribute.handle, 'default')"
+                                @input="set(attribute.handle, $event, 'default')"
+                            >
+                            </candy-date-picker>
+
                             <candy-select v-if="attribute.type == 'select'"
                                         :id="'default-'+ attribute.id"
                                         v-model="attributeData[attribute.handle]"
@@ -173,7 +181,24 @@
                                 :required="attribute.required">
                             </candy-textarea>
 
-                            
+                            <candy-taggable :options="defaultTags" :value="['foo', 'bar']"
+                                @input="set(attribute.handle, $event, 'default')" v-if="attribute.type == 'multiselect'"></candy-taggable>
+
+                            <div v-if="attribute.type == 'toggle'">
+
+                                <candy-toggle :id="'default-'+ attribute.id"
+                                              :value="get(attribute.handle, 'default')"
+                                                @input="set(attribute.handle, $event, 'default')"
+                                              :required="attribute.required">
+                                </candy-toggle>
+                                <!-- <span class="text-danger"
+                                      v-if="getError(getValue(attribute.handle))"
+                                      v-text="getError(getValue(attribute.handle))">
+                                </span> -->
+
+                            </div>
+
+
 
                             <!--
                             <div v-else-if="attribute.type == 'date'">
