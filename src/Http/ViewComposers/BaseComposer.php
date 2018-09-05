@@ -10,7 +10,7 @@ abstract class BaseComposer
     {
         $items = [];
 
-        list($items) = Event::fire($event, [$items]);
+        //list($items) = Event::fire($event, [$items]);
 
         if (!$items) {
             return '';

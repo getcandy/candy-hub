@@ -12,7 +12,7 @@
 */
 
 Route::group([
-    'prefix' => 'hub',
+    'prefix' => config('getcandy.hub_prefix', 'hub'),
     'namespace' => 'GetCandy\Hub\Http\Controllers',
     'middleware' => ['web'],
 ], function ($router) {
