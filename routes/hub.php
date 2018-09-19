@@ -12,9 +12,9 @@
 */
 
 Route::group([
-    'prefix'     => 'hub',
-    'namespace'  => 'GetCandy\Hub\Http\Controllers',
-    'middleware' => ['web'],
+    'prefix'        => config('getcandy.hub_prefix', 'hub'),
+    'namespace'     => 'GetCandy\Hub\Http\Controllers',
+    'middleware'    => ['web'],
 ], function ($router) {
     $router->get('/', function () {
         return redirect()->route('hub.login');
