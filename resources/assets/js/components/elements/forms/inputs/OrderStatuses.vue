@@ -28,10 +28,11 @@
             getOptions() {
                 apiRequest.send('get', '/settings/orders', [], [])
                     .then(response => {
-                        _.each(response.data.data.statuses, (label, value) => {
+                        let config = response.data;
+                        _.each(config.statuses.options, (option, handle) => {
                             this.options.push({
-                                label: label,
-                                value: value
+                                label: option.label,
+                                value: handle
                             });
                         });
                         this.loaded = true;

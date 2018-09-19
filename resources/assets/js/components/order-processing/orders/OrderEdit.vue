@@ -11,7 +11,8 @@
                 currency: {},
                 currencies: [],
                 transactions: {},
-                isMailable: false
+                isMailable: false,
+                sendEmails: true,
             }
         },
         props: {
@@ -22,6 +23,7 @@
         },
         created() {
             this.loadOrder();
+            this.getStatuses();
         },
         mounted() {
             CandyEvent.$on('order-updated', event => {
@@ -64,7 +66,8 @@
                 return line.line_amount / line.quantity;
             },
             setMailable() {
-                if (this.order.status == 'dispatched') {
+                let status = this.statuses[this.order.status];
+                if (this.config.dispatched == this.order.status) {
                     this.isMailable = true;
                 } else {
                     this.isMailable = false;
@@ -73,7 +76,8 @@
             save() {
                 apiRequest.send('PUT', '/orders/' + this.order.id, {
                     tracking_no: this.order.tracking_no,
-                    status: this.order.status
+                    status: this.order.status,
+                    send_emails: this.sendEmails,
                 }).then(response => {
                     CandyEvent.$emit('notification', {
                         level: 'success',
@@ -338,8 +342,9 @@
                                                 {{ order.created_at.date|formatDate }}
                                             </div>
                                         </div>
-                                        <hr>
+
                                         <div class="row" v-if="order.vat_no">
+                                            <hr>
                                             <div class="col-md-12">
                                                 <strong>Customer VAT No.</strong> {{ order.vat_no }}
                                             </div>
@@ -356,15 +361,7 @@
                                         <div class="form-group">
                                             <strong style="margin-bottom:5px;display:block;">Order status</strong>
                                             <select class="form-control" v-model="order.status" @change="setMailable">
-                                                <option value="on-account">On Account</option>
-                                                <option value="payment-processing">Payment Processing</option>
-                                                <option value="awaiting-payment">Awaiting Payment</option>
-                                                <option value="payment-received">Payment Received</option>
-                                                <option value="in-progress">In Progress</option>
-                                                <option value="dispatched">Dispatched</option>
-                                                <option value="failed">Failed</option>
-                                                <option value="voided">Voided</option>
-                                                <option value="returned">Returned</option>
+                                                <option :value="handle" v-for="(status, handle) in statuses" :key="handle">{{ status.label }}</option>
                                             </select>
                                         </div>
 
@@ -372,14 +369,16 @@
                                             <strong style="margin-bottom:5px;display:block;">Tracking Number</strong>
                                             <input class="form-control" v-model="order.tracking_no">
                                         </div>
-
                                         <div class="alert alert-info" v-if="isMailable">
-                                            <p>Saving will send a delivery email notification to <strong>{{ order.contact_email }}</strong></p>
-                                        </div>
 
-                                        <template v-if="order.dispatched_at">
-                                            <button class="btn btn-primary" @click="sendTracking">Send dispatched email</button>
-                                        </template>
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
+                                                <label for="sendEmails">
+                                                    <span class="check"></span> &nbsp; Saving will send a delivery email notification to <strong>{{ order.contact_details.email }}</strong> uncheck to stop this.
+                                                </label>
+
+                                            </div>
+                                        </div>
                                         <hr>
 
                                         <strong style="margin-bottom:5px;display:block;">Account</strong>
@@ -390,12 +389,13 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong style="margin-bottom:5px;display:block;">Email</strong>
-                                                {{ order.contact_email }}
+                                                {{ order.contact_details.email }}
+                                                <span class="text-muted" v-if="!order.contact_details.email">Not provided</span>
                                             </div>
                                             <div class="col-md-6">
                                                 <strong style="margin-bottom:5px;display:block;">Telephone</strong>
-                                                {{ order.contact_phone }}
-                                                <span class="text-muted" v-if="!order.contact_phone">Not provided</span>
+                                                {{ order.contact_details.phone }}
+                                                <span class="text-muted" v-if="!order.contact_details.phone">Not provided</span>
                                             </div>
                                         </div>
                                         <br>

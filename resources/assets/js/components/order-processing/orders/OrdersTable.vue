@@ -10,6 +10,7 @@
                 selectAll: false,
                 checkedCount: 0,
                 bulkSaving:false,
+                sendEmails: true,
                 bulk: {
                     status: null,
                 },
@@ -18,7 +19,7 @@
                 keywords: null,
                 params: {
                     per_page: 50,
-                    current_page: 1,
+                    page: 1,
                     includes: 'user,shipping,lines'
                 },
                 pagination: {}
@@ -42,11 +43,12 @@
         },
         mounted() {
             this.loadOrders();
+            this.getStatuses();
         },
         watch: {
             filter() {
                 this.loadOrders();
-                this.params.current_page = 1;
+                this.params.page = 1;
             }
         },
         methods: {
@@ -57,7 +59,8 @@
                     apiRequest.send('POST', 'orders/bulk', {
                         orders: this.selected,
                         field: 'status',
-                        value: this.bulk.status
+                        value: this.bulk.status,
+                        send_emails: this.sendEmails,
                     }).then(response => {
                         this.bulkSaving = false;
                         this.loadOrders();
@@ -72,9 +75,7 @@
             loadOrders() {
                 this.loaded = false;
 
-                if (this.filter) {
-                    this.params.status = this.filter;
-                }
+                this.params.status = this.filter;
 
                 if (this.keywords) {
                     this.params.keywords = this.keywords;
@@ -84,7 +85,6 @@
                     .then(response => {
                         this.orders = response.data;
                         this.pagination = response.meta.pagination;
-                        this.getStatuses();
                         apiRequest.send('GET', 'currencies').then(response => {
                             this.currencies = response.data;
                             this.loaded = true;
@@ -102,7 +102,7 @@
             },
             changePage(page) {
                 this.loaded = false;
-                this.params.current_page = page;
+                this.params.page = page;
                 this.loadOrders();
             },
             getShippingZone(order) {
@@ -130,16 +130,18 @@
         <!-- Search tabs -->
         <ul class="nav nav-tabs order-status-tabs" role="tablist">
             <li role="presentation" :class="{'active' : !filter}">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'processed'">
+                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = null">
                     All Orders
                 </a>
             </li>
-            <li role="presentation" :class="{'active' : filter == 'payment-processing'}" class="processing">
-                <a href="#payment-processing" aria-controls="payment-processing" role="tab" data-toggle="tab" @click="filter = 'payment-processing'">
-                    Payment Processing
+            <li role="presentation" v-for="(tab, handle) in statuses" :key="handle" :style="{
+                'border-color' : tab.color
+            }">
+                <a :href="'#' + handle" :aria-controls="handle" role="tab" data-toggle="tab" @click="filter = handle">
+                    {{ tab.label }}
                 </a>
             </li>
-            <li role="presentation" :class="{'active' : filter == 'payment-received'}" class="live">
+            <!-- <li role="presentation" :class="{'active' : filter == 'payment-received'}" class="live">
                 <a href="#payment-received" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'payment-received'">
                     Payment received
                 </a>
@@ -169,7 +171,7 @@
                 <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab" @click="filter = 'awaiting-payment'">
                     Awaiting Payment
                 </a>
-            </li>
+            </li> -->
         </ul>
         <!-- Tab panes -->
         <div class="tab-content section block">
@@ -219,7 +221,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span  class="order-status" :class="order.status">{{ status(order.status) }}</span>
+                                        <span  class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
                                     </td>
                                     <td @click="loadOrder(order.id)" >
                                         {{ order.reference }}
@@ -246,7 +248,12 @@
                                         </template>
                                     </td>
                                     <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
-                                        {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                        <template v-if="order.placed_at">
+                                            {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                        </template>
+                                        <template v-else>
+                                            -
+                                        </template>
                                     </td>
                                     <td v-else @click="loadOrder(order.id)" >
                                         {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
@@ -275,9 +282,15 @@
                         <div class="form-group">
                             <label>
                                 Update Status
-                                <em class="help-txt">Changing the status will trigger any relevant emails</em>
                             </label>
                             <candy-order-status-select v-model="bulk.status"></candy-order-status-select>
+                            <div class="checkbox">
+                                <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
+                                <label for="sendEmails">
+                                    <span class="check"></span> Send notification emails
+                                </label>
+
+                            </div>
                         </div>
                         <button class="btn btn-primary" @click="bulkSave" :disabled="bulkSaving">
                             <template v-if="bulkSaving">
