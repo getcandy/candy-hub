@@ -20,7 +20,7 @@
                 params: {
                     type: 'product',
                     per_page: 25,
-                    current_page: 1,
+                    page: 1,
                     includes: 'channels,customer_groups,family,attribute_groups,variants,thumbnail.transforms'
                 }
             }
@@ -231,7 +231,7 @@
             },
             changePage(page) {
                 this.loaded = false;
-                this.params.current_page = page;
+                this.params.page = page;
                 this.search();
             }
         },
