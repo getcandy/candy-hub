@@ -158,6 +158,8 @@ Vue.component('candy-product-families-table', require('./components/catalogue-ma
 Vue.component('candy-product-family-edit', require('./components/catalogue-manager/product-families/Edit.vue'));
 Vue.component('candy-product-family-create', require('./components/catalogue-manager/product-families/Create.vue'));
 
+Vue.component('candy-order-status-select', require('./components/elements/forms/inputs/OrderStatuses.vue'));
+
 const app = new Vue({
     el: '#app',
     store,
