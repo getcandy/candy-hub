@@ -15,7 +15,7 @@
                 params: {
                     per_page: 50,
                     current_page: 1,
-                    includes: 'user,shipping'
+                    includes: 'user,shipping,lines'
                 },
                 pagination: {}
             }
@@ -81,6 +81,12 @@
                 this.loaded = false;
                 this.params.current_page = page;
                 this.loadOrders();
+            },
+            getShippingZone(order) {
+                let shipping = _.find(order.lines.data, line => {
+                    return line.is_shipping;
+                });
+                return shipping ? shipping.variant : null;
             },
             loadOrder: function (id) {
                 location.href = route('hub.orders.edit', id);
@@ -165,7 +171,6 @@
                         <tr>
                             <th>Status</th>
                             <th>Order Id</th>
-                            <th>Invoice Id</th>
                             <th>Customer Name</th>
                             <th>Customer Type</th>
                             <th>Sub Total</th>
@@ -174,6 +179,7 @@
                             <th>Tax Total</th>
                             <th>Total</th>
                             <th>Currency</th>
+                            <th v-if="filter != 'awaiting-payment'">Shipping Zone</th>
                             <th v-if="filter != 'awaiting-payment'">Date Placed</th>
                             <th v-else>Date Created</th>
                         </tr>
@@ -183,10 +189,6 @@
                             <td><span  class="order-status" :class="order.status">{{ status(order.status) }}</span></td>
                             <td>
                                 {{ order.reference }}
-                            </td>
-                            <td>
-                                <span v-if="order.invoice_reference">{{ order.invoice_reference }}</span>
-                                <span v-else class="text-muted"> - </span>
                             </td>
                             <td>
                                 {{ order.customer_name }}
@@ -201,6 +203,14 @@
                             <td><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td>
                             <td><span v-html="localisedPrice(order.order_total, order.currency)"></span></td>
                             <td>{{ order.currency }}</td>
+                            <td v-if="filter != 'awaiting-payment'">
+                                <template v-if="getShippingZone(order)">
+                                    {{ getShippingZone(order) }}
+                                </template>
+                                <template v-else>
+                                    -
+                                </template>
+                            </td>
                             <td v-if="filter != 'awaiting-payment'">
                                 {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
                             </td>
