@@ -9,6 +9,10 @@
                 selected: [],
                 selectAll: false,
                 checkedCount: 0,
+                bulkSaving:false,
+                bulk: {
+                    status: null,
+                },
                 filter: null,
                 currencies: [],
                 keywords: null,
@@ -46,6 +50,25 @@
             }
         },
         methods: {
+            bulkSave() {
+                this.bulkSaving = true;
+
+                if (this.bulk.status) {
+                    apiRequest.send('POST', 'orders/bulk', {
+                        orders: this.selected,
+                        field: 'status',
+                        value: this.bulk.status
+                    }).then(response => {
+                        this.bulkSaving = false;
+                        this.loadOrders();
+                        this.selected = [];
+                    }).catch(response => {
+                        this.bulkSaving = false;
+                    });
+                } else {
+                    this.bulkSaving = false;
+                }
+            },
             loadOrders() {
                 this.loaded = false;
 
@@ -166,75 +189,107 @@
                         </div>
                     </div>
                 </form>
-                <table class="table table-striped collection-table">
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Order Id</th>
-                            <th>Customer Name</th>
-                            <th>Customer Type</th>
-                            <th>Sub Total</th>
-                            <th>Discount Total</th>
-                            <th>Shipping Total</th>
-                            <th>Tax Total</th>
-                            <th>Total</th>
-                            <th>Currency</th>
-                            <th v-if="filter != 'awaiting-payment'">Shipping Zone</th>
-                            <th v-if="filter != 'awaiting-payment'">Date Placed</th>
-                            <th v-else>Date Created</th>
-                        </tr>
-                    </thead>
-                    <tbody v-if="loaded">
-                        <tr class="clickable" v-for="order in orders" @click="loadOrder(order.id)">
-                            <td><span  class="order-status" :class="order.status">{{ status(order.status) }}</span></td>
-                            <td>
-                                {{ order.reference }}
-                            </td>
-                            <td>
-                                {{ order.customer_name }}
-                            </td>
-                            <td>
-                                <span v-if="order.user">Account</span>
-                                <span v-else>Guest</span>
-                            </td>
-                            <td><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td>
-                            <td><span v-html="localisedPrice(order.discount_total, order.currency)"></span></td>
-                            <td><span v-html="localisedPrice(order.delivery_total, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping_method"></span></td>
-                            <td><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td>
-                            <td><span v-html="localisedPrice(order.order_total, order.currency)"></span></td>
-                            <td>{{ order.currency }}</td>
-                            <td v-if="filter != 'awaiting-payment'">
-                                <template v-if="getShippingZone(order)">
-                                    {{ getShippingZone(order) }}
-                                </template>
-                                <template v-else>
-                                    -
-                                </template>
-                            </td>
-                            <td v-if="filter != 'awaiting-payment'">
-                                {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
-                            </td>
-                            <td v-else>
-                                {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
-                            </td>
-                        </tr>
+                <div class="row">
+                    <div :class="{'col-md-12' : !selected.length, 'col-md-10': selected.length}">
+                       <table class="table table-striped collection-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Status</th>
+                                    <th>Order Id</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Type</th>
+                                    <th>Sub Total</th>
+                                    <th>Discount Total</th>
+                                    <th>Shipping Total</th>
+                                    <th>Tax Total</th>
+                                    <th>Total</th>
+                                    <th>Currency</th>
+                                    <th v-if="filter != 'awaiting-payment'">Shipping Zone</th>
+                                    <th v-if="filter != 'awaiting-payment'">Date Placed</th>
+                                    <th v-else>Date Created</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="loaded">
+                                <tr class="clickable" v-for="order in orders" :key="order.id">
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" :id="'coll' + order.id" :value="order.id" v-model="selected">
+                                            <label :for="'coll' + order.id"><span class="check"></span></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span  class="order-status" :class="order.status">{{ status(order.status) }}</span>
+                                    </td>
+                                    <td @click="loadOrder(order.id)" >
+                                        {{ order.reference }}
+                                    </td>
+                                    <td @click="loadOrder(order.id)" >
+                                        {{ order.customer_name }}
+                                    </td>
+                                    <td @click="loadOrder(order.id)" >
+                                        <span v-if="order.user">Account</span>
+                                        <span v-else>Guest</span>
+                                    </td>
+                                    <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td>
+                                    <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.discount_total, order.currency)"></span></td>
+                                    <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.delivery_total, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping_method"></span></td>
+                                    <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td>
+                                    <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.order_total, order.currency)"></span></td>
+                                    <td @click="loadOrder(order.id)" >{{ order.currency }}</td>
+                                    <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
+                                        <template v-if="getShippingZone(order)">
+                                            {{ getShippingZone(order) }}
+                                        </template>
+                                        <template v-else>
+                                            -
+                                        </template>
+                                    </td>
+                                    <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
+                                        {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                    </td>
+                                    <td v-else @click="loadOrder(order.id)" >
+                                        {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                    </td>
+                                </tr>
 
 
-                    </tbody>
-                    <tfoot class="text-center" v-else>
-                        <tr>
-                            <td colspan="25" style="padding:40px;">
-                                <div class="loading">
-                                    <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                            </tbody>
+                            <tfoot class="text-center" v-else>
+                                <tr>
+                                    <td colspan="25" style="padding:40px;">
+                                        <div class="loading">
+                                            <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-                <div class="text-center">
-                    <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
+                        <div class="text-center">
+                            <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
+                        </div>
+                    </div>
+                    <div class="col-md-2" v-if="selected.length">
+                        <h4>Bulk Actions</h4>
+                        <div class="form-group">
+                            <label>
+                                Update Status
+                                <em class="help-txt">Changing the status will trigger any relevant emails</em>
+                            </label>
+                            <candy-order-status-select v-model="bulk.status"></candy-order-status-select>
+                        </div>
+                        <button class="btn btn-primary" @click="bulkSave" :disabled="bulkSaving">
+                            <template v-if="bulkSaving">
+                                <i class="fa fa-refresh fa-spin"></i> Saving
+                            </template>
+                            <template v-else>
+                                Save Orders
+                            </template>
+                        </button>
+                    </div>
                 </div>
+
             </div>
 
         </div>
