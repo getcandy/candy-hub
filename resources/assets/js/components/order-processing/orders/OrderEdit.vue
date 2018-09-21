@@ -174,8 +174,8 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <strong>Order ID</strong> <br>
-                            {{ order.reference }}
+                            <strong>Order ID <span v-if="order.customer_reference">/ Customer Reference</span></strong> <br>
+                            {{ order.reference }} <span v-if="order.customer_reference">/ {{ order.customer_reference }}</span>
                         </div>
                         <div class="col-md-3">
                             <strong>Date Created</strong><br>
@@ -339,6 +339,10 @@
                         </table>
                         </div>
                     </div>
+                    <article v-if="order.notes">
+                        <h3>Order Notes</h3>
+                        <p>{{ order.notes }}</p>
+                    </article>
                     <div class="row">
                         <div class="col-md-12">
                             <template v-if="transactions.length">
