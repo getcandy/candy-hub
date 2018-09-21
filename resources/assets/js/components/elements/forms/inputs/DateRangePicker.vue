@@ -16,25 +16,36 @@
         data() {
             return {
                 date: this.value,
+                config: {
+                    alwaysShowCalendars: true,
+                    autoUpdateInput: false,
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                        'Last Year': [moment().subtract(1, 'year'), moment()],
+                        'Last 10 Years': [moment().subtract(10, 'year'), moment()],
+                    },
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                        cancelLabel: 'Clear'
+                    }
+                }
             }
         },
         mounted() {
-            const picker = $(this.$refs.daterange).daterangepicker({
-                startDate: moment(this.from),
-                endDate: moment(this.to),
-                alwaysShowCalendars: true,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
-                locale: {
-                    format: 'YYYY-MM-DD'
-                }
-            });
+
+            if (this.from) {
+                this.config.startDate = moment(this.from);
+            }
+            if (this.to) {
+                this.config.endDate = moment(this.to);
+            }
+
+            const picker = $(this.$refs.daterange).daterangepicker(this.config);
 
             picker.on('apply.daterangepicker', this.update);
 

@@ -27,8 +27,8 @@
                     per_page: 50,
                     page: 1,
                     includes: 'user,shipping,lines',
-                    from: moment().day(-7).format('YYYY-MM-DD'),
-                    to: moment().format('YYYY-MM-DD')
+                    from: null,
+                    to: null
                 },
                 pagination: {}
             }
