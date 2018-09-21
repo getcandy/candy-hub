@@ -1,7 +1,12 @@
 <script>
     import Orders from '../../../mixins/OrderMixin';
+    import DateRangePicker from '../../elements/forms/inputs/DateRangePicker';
+
     export default {
         mixins: [Orders],
+        components: {
+            DateRangePicker
+        },
         data() {
             return {
                 loaded: false,
@@ -20,7 +25,9 @@
                 params: {
                     per_page: 50,
                     page: 1,
-                    includes: 'user,shipping,lines'
+                    includes: 'user,shipping,lines',
+                    from: moment().day(-7).format('YYYY-MM-DD'),
+                    to: moment().format('YYYY-MM-DD')
                 },
                 pagination: {}
             }
@@ -52,6 +59,11 @@
             }
         },
         methods: {
+            filterDate(event) {
+                this.params.from = event.start.format('YYYY-MM-DD');
+                this.params.to = event.end.format('YYYY-MM-DD');
+                this.loadOrders();
+            },
             bulkSave() {
                 this.bulkSaving = true;
 
@@ -135,9 +147,9 @@
                     All Orders
                 </a>
             </li>
-            <li role="presentation" v-for="(tab, handle) in statuses" :key="handle" :style="{
+            <li role="presentation" v-for="(tab, handle) in favourites" :key="handle" :style="{
                 'border-color' : tab.color
-            }">
+            }" :class="{'active' : filter == handle}">
                 <a :href="'#' + handle" :aria-controls="handle" role="tab" data-toggle="tab" @click="filter = handle">
                     {{ tab.label }}
                 </a>
@@ -179,9 +191,8 @@
             <div role="tabpanel" class="tab-pane active" id="all-collections">
 
                 <!-- Search Form -->
-                <form>
                     <div class="row">
-                        <div class="form-group col-xs-12 col-md-8">
+                        <div class="col-md-6">
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
                                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -190,8 +201,13 @@
                                 <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <date-range-picker @update="filterDate" :from="params.from" :to="params.to"></date-range-picker>
+                        </div>
+                        <div class="col-md-3">
+                            <candy-select null-label="All order statuses" :options="statusSelect" v-if="statusSelect.length" v-model="filter"></candy-select>
+                        </div>
                     </div>
-                </form>
                 <div class="row">
                     <div :class="{'col-md-12' : !selected.length, 'col-md-10': selected.length}">
                        <table class="table table-striped collection-table">

@@ -1,6 +1,7 @@
 <template>
     <div class="candy-select">
-        <select :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
+        <select ref="select" :class="{'input-group-addon' : addon, 'selectpicker' : true, 'form-control' : true}" :required="required" @change="updateValue($event.target.value)" :value="value">
+            <option value readonly>{{ nullLabel }}</option>
             <option v-for="option in options" :value="option.value ? option.value : option" :data-content="option.content ? option.content : ''">
                 {{ option.label ? option.label : option }}
             </option>
@@ -13,6 +14,9 @@
         props: {
             options: {
                 type: Array|Object
+            },
+            nullLabel: {
+                default: 'Please select',
             },
             value: {
                 type: String
@@ -30,6 +34,13 @@
                 this.refresh();
             });
         },
+        watch: {
+            value() {
+                this.$nextTick(function() {
+                    $(this.$refs.select).selectpicker('refresh');
+                });
+            }
+        },
         mounted() {
             this.refresh();
         },
@@ -38,8 +49,8 @@
                 this.$emit('input', value);
             },
             refresh() {
-                const $selectpicker = $(this.$el).find('select');
-                $selectpicker.selectpicker('render');
+                // const $selectpicker = .find('select');
+                $(this.$refs.select).selectpicker('render');
             },
         }
     }

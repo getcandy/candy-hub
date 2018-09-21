@@ -2,6 +2,8 @@ module.exports = {
     data() {
         return {
             statuses: [],
+            favourites: [],
+            statusSelect: [],
             config: {},
         }
     },
@@ -10,6 +12,17 @@ module.exports = {
             apiRequest.send('GET', '/settings/orders').then(response => {
                 if (response.data) {
                     this.statuses = response.data.statuses.options;
+                    this.favourites = _.pickBy(this.statuses, status => {
+                        return status.favourite;
+                    });
+
+                    this.statusSelect = _.map(this.statuses, (status, handle) => {
+                        return {
+                            label: status.label,
+                            value: handle,
+                        }
+                    })
+
                     this.config = response.data.statuses;
                 }
             });
