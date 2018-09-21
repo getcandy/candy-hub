@@ -28,7 +28,7 @@
                 params: {
                     per_page: 50,
                     page: 1,
-                    includes: 'user,shipping,lines',
+                    includes: 'user.details,shipping,lines',
                     from: null,
                     to: null
                 },
@@ -276,6 +276,7 @@
                                     <th width="10%">Status</th>
                                     <th>Order Id</th>
                                     <th>Customer Name</th>
+                                    <th>Account No.</th>
                                     <th>Contact Email</th>
                                     <th>Customer Type</th>
                                     <th>Sub Total</th>
@@ -305,6 +306,20 @@
                                     </td>
                                     <td @click="loadOrder(order.id)" >
                                         {{ order.customer_name }}
+                                    </td>
+
+                                    <td @click="loadOrder(order.id)">
+                                        <template v-if="
+                                            order.user &&
+                                            order.user.data.details &&
+                                            order.user.data.details.data.fields.account_number &&
+                                            order.user.data.details.data.fields.account_number != 0
+                                        ">
+                                            {{ order.user.data.details.data.fields.account_number }}
+                                        </template>
+                                        <template v-else>
+                                            -
+                                        </template>
                                     </td>
                                     <td @click="loadOrder(order.id)">
                                         {{ order.contact_details.email }}
