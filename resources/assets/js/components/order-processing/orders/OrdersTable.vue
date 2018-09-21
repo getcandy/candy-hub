@@ -1,6 +1,7 @@
 <script>
     import Orders from '../../../mixins/OrderMixin';
     import DateRangePicker from '../../elements/forms/inputs/DateRangePicker';
+    import UrlHelper from '../../../classes/UrlHelpers';
 
     export default {
         mixins: [Orders],
@@ -49,11 +50,22 @@
             }
         },
         mounted() {
+            let urlParams = UrlHelper.params();
+
+            this.params.to = urlParams.get('to');
+            this.params.from = urlParams.get('from');
+            this.filter = urlParams.get('status');
+
+            if (urlParams.get('keywords')) {
+                this.keywords = urlParams.get('keywords');
+            }
+
             this.loadOrders();
             this.getStatuses();
         },
         watch: {
             filter() {
+                UrlHelper.setParam('status', this.filter);
                 this.loadOrders();
                 this.params.page = 1;
             }
@@ -62,6 +74,10 @@
             filterDate(event) {
                 this.params.from = event.start.format('YYYY-MM-DD');
                 this.params.to = event.end.format('YYYY-MM-DD');
+
+                UrlHelper.setParam('to', this.params.to);
+                UrlHelper.setParam('from', this.params.from);
+
                 this.loadOrders();
             },
             bulkSave() {
@@ -91,6 +107,9 @@
 
                 if (this.keywords) {
                     this.params.keywords = this.keywords;
+                    UrlHelper.setParam('keywords', this.keywords);
+                } else {
+                    UrlHelper.setParam('keywords', '');
                 }
 
                 apiRequest.send('get', '/orders', [], this.params)
