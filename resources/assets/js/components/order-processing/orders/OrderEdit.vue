@@ -253,13 +253,12 @@
                                 </tr>
                             </thead>
                             <tfoot>
-                                <!--  -->
                                 <tr>
                                     <td colspan="6"></td>
                                     <td colspan="2" align="right"><strong>Sub total (Excl VAT)</strong></td>
                                     <td v-html="currencySymbol(order.sub_total)"></td>
                                 </tr>
-                                <tr>
+                                <tr v-if="shipping">
                                     <td>-</td>
                                     <td>
                                         {{ shipping.description }}
@@ -284,12 +283,6 @@
                                     <td colspan="2" align="right"><strong>Total</strong></td>
                                     <td v-html="currencySymbol(order.order_total)"></td>
                                 </tr>
-                                <!-- <tr v-if="order.vat_no && order.billing.country != 'United Kingdom'">
-                                    <td colspan="5"></td>
-                                    <td colspan="4" align="right">
-                                        <span class="text-info">EU Reverse Charge VAT Applied</span>
-                                    </td>
-                                </tr> -->
                             </tfoot>
                             <tbody>
                                 <tr v-for="line in productLines" :key="line.id">
@@ -305,12 +298,12 @@
                                     </td>
                                     <td>
                                         <template v-if="line.sku">
-                                            <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
+                                            <!-- <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
                                                 {{ line.description }}
-                                            </a>
+                                            </a> -->
                                         </template>
                                         <template v-else>
-                                            {{ line.description }}
+                                            <!-- {{ line.description }} -->
                                         </template>
 
                                     </td>
