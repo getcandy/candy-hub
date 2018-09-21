@@ -57,6 +57,9 @@
         },
         methods: {
             update(event, picker) {
+                $(this.$refs.daterange).val(
+                    picker.startDate.format(this.config.locale.format) + ' - ' + picker.endDate.format(this.config.locale.format)
+                );
                 this.$emit('update', {
                     start: picker.startDate,
                     end: picker.endDate
