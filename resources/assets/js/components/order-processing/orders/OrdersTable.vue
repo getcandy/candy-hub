@@ -198,9 +198,10 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Status</th>
+                                    <th width="10%">Status</th>
                                     <th>Order Id</th>
                                     <th>Customer Name</th>
+                                    <th>Contact Email</th>
                                     <th>Customer Type</th>
                                     <th>Sub Total</th>
                                     <th>Discount Total</th>
@@ -229,6 +230,9 @@
                                     </td>
                                     <td @click="loadOrder(order.id)" >
                                         {{ order.customer_name }}
+                                    </td>
+                                    <td @click="loadOrder(order.id)">
+                                        {{ order.contact_details.email }}
                                     </td>
                                     <td @click="loadOrder(order.id)" >
                                         <span v-if="order.user">Account</span>
