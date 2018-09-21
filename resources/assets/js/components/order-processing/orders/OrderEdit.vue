@@ -165,274 +165,243 @@
 <template>
     <div>
         <template v-if="loaded">
+            <div class="text-right">
+                <a :href="customerLink(order.user.data)" class="btn btn-primary" v-if="order.user">View Customer Account</a>
+                <a :href="'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn btn-primary">Download Invoice</a>
+            </div>
+            <hr>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Order ID</strong> <br>
+                            {{ order.reference }}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Date Created</strong><br>
+                            {{ order.created_at.date|formatDate }}
+                        </div>
+                        <div class="col-md-3" v-if="order.placed_at">
+                            <strong>Payment Date</strong><br>
+                            {{ order.placed_at.date|formatDate }}
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <!-- <strong>Order Status</strong><br> -->
+                            <select class="form-control" v-model="order.status" @change="setMailable">
+                                <option :value="handle" v-for="(status, handle) in statuses" :key="handle">{{ status.label }}</option>
+                            </select>
+                            <div class="checkbox" v-if="isMailable">
+                                <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
+                                <label for="sendEmails">
+                                    <span class="check"></span> &nbsp; Saving will send a delivery email notification to <strong>{{ order.contact_details.email }}</strong> uncheck to stop this.
+                                </label>
 
-            <transition name="fade">
-                <candy-tabs initial="orderdetails">
-                    <candy-tab name="Order Details" handle="collection-details" dispatch="save-order" :selected="true">
-                        <div class="panel">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h3>Order Lines</h3>
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>SKU</th>
-                                                    <th>Product</th>
-                                                    <th>Variant</th>
-                                                    <th>QTY</th>
-                                                    <th>Unit Price</th>
-                                                    <th>Discount</th>
-                                                    <th>Tax Rate</th>
-                                                    <th>Tax Amount</th>
-                                                    <th>Line total</th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <!--  -->
-                                                <tr>
-                                                    <td colspan="6"></td>
-                                                    <td colspan="2" align="right"><strong>Sub total (Excl VAT)</strong></td>
-                                                    <td v-html="currencySymbol(order.sub_total)"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>-</td>
-                                                    <td>
-                                                        {{ shipping.description }}
-                                                    </td>
-                                                    <td>
-                                                        {{ shipping.variant }}
-                                                    </td>
-                                                    <td>-</td>
-                                                    <td>{{ shipping.unit_cost }}</td>
-                                                    <td>{{ shipping.discount_total }}</td>
-                                                    <td><span v-if="shipping.tax_total">VAT @ {{ shipping.tax_rate }}%</span><span v-else>-</span></td>
-                                                    <td v-html="currencySymbol(shipping.tax_total)"></td>
-                                                    <td v-html="currencySymbol(shipping.line_total)"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6"></td>
-                                                    <td colspan="2" align="right"><strong>VAT</strong></td>
-                                                    <td v-html="currencySymbol(order.tax_total)"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6"></td>
-                                                    <td colspan="2" align="right"><strong>Total</strong></td>
-                                                    <td v-html="currencySymbol(order.order_total)"></td>
-                                                </tr>
-                                                <!-- <tr v-if="order.vat_no && order.billing.country != 'United Kingdom'">
-                                                    <td colspan="5"></td>
-                                                    <td colspan="4" align="right">
-                                                        <span class="text-info">EU Reverse Charge VAT Applied</span>
-                                                    </td>
-                                                </tr> -->
-                                            </tfoot>
-                                            <tbody>
-                                                <tr v-for="line in productLines" :key="line.id">
-                                                    <td>
-                                                        <template v-if="line.sku">
-                                                        <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
-                                                        {{ line.sku }}
-                                                        </a>
-                                                        </template>
-                                                        <template v-else>
-                                                            -
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="line.sku">
-                                                            <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
-                                                                {{ line.description }}
-                                                            </a>
-                                                        </template>
-                                                        <template v-else>
-                                                            {{ line.description }}
-                                                        </template>
-
-                                                    </td>
-                                                    <td>{{ line.variant ? line.variant : '-' }}</td>
-                                                    <td>{{ line.quantity }}</td>
-                                                    <td v-html="currencySymbol(line.unit_price)"></td>
-                                                    <td>
-                                                        <template v-if="line.discount_total">
-                                                            <span class="text-danger" v-html="currencySymbol(-line.discount_total + line.tax_total)"></span>
-                                                        </template>
-                                                        <template v-else>
-                                                            -
-                                                        </template>
-                                                    </td>
-                                                    <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
-                                                    <template v-if="line.discount_total">
-                                                        <td v-html="currencySymbol(line.tax_total + (line.discount_total - (line.discount_total + line.tax_total)))"></td>
-                                                        <td v-html="currencySymbol(line.line_total - (line.discount_total - line.tax_total))"></td>
-                                                    </template>
-                                                    <template v-else>
-                                                        <td v-html="currencySymbol(line.tax_total)"></td>
-                                                        <td v-html="currencySymbol(line.line_total)"></td>
-                                                    </template>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <template v-if="transactions.length">
-                                            <h3>Transactions</h3>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Merchant</th>
-                                                        <th>Successful</th>
-                                                        <th>Amount</th>
-                                                        <th>Payment Type</th>
-                                                        <th>Card type</th>
-                                                        <th>Card number</th>
-                                                        <th>Status</th>
-                                                        <th>Notes</th>
-                                                        <th width="8%">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(item, index) in transactions">
-                                                        <td>{{ item.transaction_id }}</td>
-                                                        <td>{{ item.merchant }}</td>
-                                                        <td>
-                                                            <span class="text-success" v-if="item.success">Processed</span>
-                                                            <span class="text-info" v-else-if="item.status == 'voided'">Voided</span>
-                                                            <span class="text-danger" v-else>Failed</span>
-                                                        </td>
-                                                        <td v-html="currencySymbol(item.amount)"></td>
-                                                        <td>
-                                                            <span v-if="item.provider == 'paypal_account'">
-                                                                PayPal
-                                                            </span>
-                                                            <span v-else>Credit card</span>
-                                                        </td>
-                                                        <td>{{ item.card_type }}</td>
-                                                        <td>
-                                                            <template v-if="item.last_four">
-                                                                **** **** **** {{ item.last_four }}
-                                                            </template>
-                                                        </td>
-                                                        <td>
-                                                            {{ item.status }}
-                                                        </td>
-                                                        <td>{{ item.notes }}</td>
-                                                        <td>
-                                                            <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
-                                                            <button @click="refund(index)" type="button" class="btn btn-small btn-info" v-if="item.status == 'settled' && !item.refunding">Issue Refund</button>
-                                                            <button  type="button" class="btn btn-small btn-warning" v-if="item.refunding" disabled>
-                                                                <i class="fa fa-refresh fa-spin"></i> Refunding
-                                                            </button>
-                                                            <button  type="button" class="btn btn-small btn-warning" v-if="item.voiding" disabled>
-                                                                <i class="fa fa-refresh fa-spin"></i> voiding
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </template>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong style="margin-bottom:5px;display:block;">Order ID</strong>
-                                                <code style="padding:5px">{{ order.reference }}</code>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <strong style="margin-bottom:5px;display:block;">Order Date</strong>
-                                                {{ order.created_at.date|formatDate }}
-                                            </div>
-                                        </div>
-
-                                        <div class="row" v-if="order.vat_no">
-                                            <hr>
-                                            <div class="col-md-12">
-                                                <strong>Customer VAT No.</strong> {{ order.vat_no }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <template v-if="order.invoice_reference">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <a :href="'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn btn-primary">Download Invoice</a>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </template>
-                                        <div class="form-group">
-                                            <strong style="margin-bottom:5px;display:block;">Order status</strong>
-                                            <select class="form-control" v-model="order.status" @change="setMailable">
-                                                <option :value="handle" v-for="(status, handle) in statuses" :key="handle">{{ status.label }}</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <strong style="margin-bottom:5px;display:block;">Tracking Number</strong>
-                                            <input class="form-control" v-model="order.tracking_no">
-                                        </div>
-                                        <div class="alert alert-info" v-if="isMailable">
-
-                                            <div class="checkbox">
-                                                <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
-                                                <label for="sendEmails">
-                                                    <span class="check"></span> &nbsp; Saving will send a delivery email notification to <strong>{{ order.contact_details.email }}</strong> uncheck to stop this.
-                                                </label>
-
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <strong style="margin-bottom:5px;display:block;">Account</strong>
-                                        <span v-if="!order.user">Guest</span>
-                                        <template v-else>
-                                            {{ order.user.data.name }} <a :href="customerLink(order.user.data)" class="link">View</a>
-                                        </template>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong style="margin-bottom:5px;display:block;">Email</strong>
-                                                {{ order.contact_details.email }}
-                                                <span class="text-muted" v-if="!order.contact_details.email">Not provided</span>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <strong style="margin-bottom:5px;display:block;">Telephone</strong>
-                                                {{ order.contact_details.phone }}
-                                                <span class="text-muted" v-if="!order.contact_details.phone">Not provided</span>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <strong style="margin-bottom:5px;display:block;">Billing info</strong>
-                                                {{ order.billing_details.firstname }} {{ order.billing_details.lastname }}<br>
-                                                {{ order.billing_details.address }}<br>
-                                                {{ order.billing_details.address_two }}<br v-if="order.billing_details.address_two">
-                                                {{ order.billing_details.address_three }}<br v-if="order.billing_details.address_three">
-                                                {{ order.billing_details.city }}<br>
-                                                {{ order.billing_details.county }}<br v-if="order.billing_details.county">
-                                                {{ order.billing_details.state }}<br v-if="order.billing_details.state">
-                                                {{ order.billing_details.country }}<br>
-                                                {{ order.billing_details.zip }}
-                                            </div>
-                                            <div class="col-md-6">
-                                                <strong style="margin-bottom:5px;display:block;">Shipping info</strong>
-                                                {{ order.shipping_details.firstname }} {{ order.shipping_details.lastname }}<br>
-                                                {{ order.shipping_details.address }}<br>
-                                                {{ order.shipping_details.address_two }}<br v-if="order.shipping_details.address_two">
-                                                {{ order.shipping_details.address_three }}<br v-if="order.shipping_details.address_three">
-                                                {{ order.shipping_details.city }}<br>
-                                                {{ order.shipping_details.county }}<br v-if="order.shipping_details.county">
-                                                {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
-                                                {{ order.shipping_details.country }}<br>
-                                                {{ order.shipping_details.zip }}
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    </candy-tab>
-                </candy-tabs>
-            </transition>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong style="margin-bottom:5px;display:block;">Billing info</strong>
+                            {{ order.billing_details.firstname }} {{ order.billing_details.lastname }}<br>
+                            {{ order.billing_details.address }}<br>
+                            {{ order.billing_details.address_two }}<br v-if="order.billing_details.address_two">
+                            {{ order.billing_details.address_three }}<br v-if="order.billing_details.address_three">
+                            {{ order.billing_details.city }}<br>
+                            {{ order.billing_details.county }}<br v-if="order.billing_details.county">
+                            {{ order.billing_details.state }}<br v-if="order.billing_details.state">
+                            {{ order.billing_details.country }}<br>
+                            {{ order.billing_details.zip }}
+                        </div>
+                        <div class="col-md-4">
+                            <strong style="margin-bottom:5px;display:block;">Shipping info</strong>
+                            {{ order.shipping_details.firstname }} {{ order.shipping_details.lastname }}<br>
+                            {{ order.shipping_details.address }}<br>
+                            {{ order.shipping_details.address_two }}<br v-if="order.shipping_details.address_two">
+                            {{ order.shipping_details.address_three }}<br v-if="order.shipping_details.address_three">
+                            {{ order.shipping_details.city }}<br>
+                            {{ order.shipping_details.county }}<br v-if="order.shipping_details.county">
+                            {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
+                            {{ order.shipping_details.country }}<br>
+                            {{ order.shipping_details.zip }}
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                <strong style="margin-bottom:5px;display:block;">Contact Information</strong>
+                            Email: {{ order.contact_details.email }} <span class="text-muted" v-if="!order.contact_details.email">Not provided</span> <br>
+                            Telephone: {{ order.contact_details.phone }} <span class="text-muted" v-if="!order.contact_details.phone">Not provided</span>
+                            </p>
+                            <strong style="margi:10px 0 5px 0;display:block;">Tracking Number</strong>
+                            <input class="form-control" v-model="order.tracking_no">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Product</th>
+                                    <th>Variant</th>
+                                    <th>QTY</th>
+                                    <th>Unit Price</th>
+                                    <th>Discount</th>
+                                    <th>Tax Rate</th>
+                                    <th>Tax Amount</th>
+                                    <th>Line total</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <!--  -->
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td colspan="2" align="right"><strong>Sub total (Excl VAT)</strong></td>
+                                    <td v-html="currencySymbol(order.sub_total)"></td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>
+                                        {{ shipping.description }}
+                                    </td>
+                                    <td>
+                                        {{ shipping.variant }}
+                                    </td>
+                                    <td>-</td>
+                                    <td>{{ shipping.unit_cost }}</td>
+                                    <td>{{ shipping.discount_total }}</td>
+                                    <td><span v-if="shipping.tax_total">VAT @ {{ shipping.tax_rate }}%</span><span v-else>-</span></td>
+                                    <td v-html="currencySymbol(shipping.tax_total)"></td>
+                                    <td v-html="currencySymbol(shipping.line_total)"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td colspan="2" align="right"><strong>VAT</strong></td>
+                                    <td v-html="currencySymbol(order.tax_total)"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td colspan="2" align="right"><strong>Total</strong></td>
+                                    <td v-html="currencySymbol(order.order_total)"></td>
+                                </tr>
+                                <!-- <tr v-if="order.vat_no && order.billing.country != 'United Kingdom'">
+                                    <td colspan="5"></td>
+                                    <td colspan="4" align="right">
+                                        <span class="text-info">EU Reverse Charge VAT Applied</span>
+                                    </td>
+                                </tr> -->
+                            </tfoot>
+                            <tbody>
+                                <tr v-for="line in productLines" :key="line.id">
+                                    <td>
+                                        <template v-if="line.sku">
+                                        <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
+                                        {{ line.sku }}
+                                        </a>
+                                        </template>
+                                        <template v-else>
+                                            -
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="line.sku">
+                                            <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
+                                                {{ line.description }}
+                                            </a>
+                                        </template>
+                                        <template v-else>
+                                            {{ line.description }}
+                                        </template>
+
+                                    </td>
+                                    <td>{{ line.variant ? line.variant : '-' }}</td>
+                                    <td>{{ line.quantity }}</td>
+                                    <td v-html="currencySymbol(line.unit_price)"></td>
+                                    <td>
+                                        <template v-if="line.discount_total">
+                                            <span class="text-danger" v-html="currencySymbol(-line.discount_total + line.tax_total)"></span>
+                                        </template>
+                                        <template v-else>
+                                            -
+                                        </template>
+                                    </td>
+                                    <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
+                                    <template v-if="line.discount_total">
+                                        <td v-html="currencySymbol(line.tax_total + (line.discount_total - (line.discount_total + line.tax_total)))"></td>
+                                        <td v-html="currencySymbol(line.line_total - (line.discount_total - line.tax_total))"></td>
+                                    </template>
+                                    <template v-else>
+                                        <td v-html="currencySymbol(line.tax_total)"></td>
+                                        <td v-html="currencySymbol(line.line_total)"></td>
+                                    </template>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <template v-if="transactions.length">
+                            <h3>Transactions</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Merchant</th>
+                                            <th>Successful</th>
+                                            <th>Amount</th>
+                                            <th>Payment Type</th>
+                                            <th>Card type</th>
+                                            <th>Card number</th>
+                                            <th>Status</th>
+                                            <th>Notes</th>
+                                            <th width="8%">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in transactions">
+                                            <td>{{ item.transaction_id }}</td>
+                                            <td>{{ item.merchant }}</td>
+                                            <td>
+                                                <span class="text-success" v-if="item.success">Processed</span>
+                                                <span class="text-info" v-else-if="item.status == 'voided'">Voided</span>
+                                                <span class="text-danger" v-else>Failed</span>
+                                            </td>
+                                            <td v-html="currencySymbol(item.amount)"></td>
+                                            <td>
+                                                <span v-if="item.provider == 'paypal_account'">
+                                                    PayPal
+                                                </span>
+                                                <span v-else>Credit card</span>
+                                            </td>
+                                            <td>{{ item.card_type }}</td>
+                                            <td>
+                                                <template v-if="item.last_four">
+                                                    **** **** **** {{ item.last_four }}
+                                                </template>
+                                            </td>
+                                            <td>
+                                                {{ item.status }}
+                                            </td>
+                                            <td>{{ item.notes }}</td>
+                                            <td>
+                                                <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
+                                                <button @click="refund(index)" type="button" class="btn btn-small btn-info" v-if="item.success && !item.refunding">Issue Refund</button>
+                                                <button  type="button" class="btn btn-small btn-warning" v-if="item.refunding" disabled>
+                                                    <i class="fa fa-refresh fa-spin"></i> Refunding
+                                                </button>
+                                                <button  type="button" class="btn btn-small btn-warning" v-if="item.voiding" disabled>
+                                                    <i class="fa fa-refresh fa-spin"></i> voiding
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </template>
 
         <div v-else>
