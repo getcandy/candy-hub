@@ -13,7 +13,6 @@
                 loaded: false,
                 orders: [],
                 selected: [],
-                selectAll: false,
                 zone: null,
                 checkedCount: 0,
                 bulkSaving:false,
@@ -37,20 +36,6 @@
             }
         },
         watch: {
-            selected: function(val) {
-                this.checkedCount = val.length;
-                this.selectAll = (val.length === this.orders.length);
-            },
-            selectAll: function(val) {
-                let selected = [];
-
-                if (val) {
-                    this.orders.forEach(function (order) {
-                        selected.push(order.id);
-                    });
-                }
-                this.selected = selected;
-            },
             zone() {
                 UrlHelper.setParam('zone', this.zone);
                 this.loadOrders();
@@ -86,6 +71,11 @@
 
             this.loadOrders();
             this.getStatuses();
+        },
+        computed: {
+            allSelected() {
+                return !this.orders.length ? false : this.orders.length == this.selected.length;
+            }
         },
         methods: {
             isSelected(id) {
@@ -133,6 +123,8 @@
                 this.params.status = this.filter;
                 this.params.zone = this.zone;
 
+                this.selected = [];
+
                 if (this.keywords) {
                     this.params.keywords = this.keywords;
                     UrlHelper.setParam('keywords', this.keywords);
@@ -157,8 +149,21 @@
                     this.loadOrders();
                 }, 500
             ),
-            selectAllClick() {
-                this.selectAll = !this.selectAll;
+            selectAll() {
+                this.selected = [];
+                _.each(this.orders, order => {
+                    this.selected.push(order.id);
+                });
+            },
+            selectNone() {
+                this.selected = [];
+            },
+            toggleSelectAll() {
+                if (this.allSelected) {
+                    this.selectNone();
+                } else {
+                    this.selectAll();
+                }
             },
             changePage(page) {
                 this.loaded = false;
@@ -186,7 +191,6 @@
 
 <template>
     <div>
-
         <!-- Search tabs -->
         <ul class="nav nav-tabs order-status-tabs" role="tablist">
             <li role="presentation" :class="{'active' : !filter}">
@@ -263,7 +267,12 @@
                        <table class="table table-striped collection-table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>
+                                        <div class="checkbox no-mar">
+                                            <input type="checkbox" id="selectAll" @change="toggleSelectAll" :checked="allSelected">
+                                            <label for="selectAll"><span class="check"></span></label>
+                                        </div>
+                                    </th>
                                     <th width="10%">Status</th>
                                     <th>Order Id</th>
                                     <th>Customer Name</th>
