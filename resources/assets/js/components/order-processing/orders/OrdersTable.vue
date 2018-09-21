@@ -88,6 +88,9 @@
             this.getStatuses();
         },
         methods: {
+            isSelected(id) {
+                return this.selected.contains(id);
+            },
             clearDates() {
                 this.params.from = null;
                 this.params.to = null;
@@ -278,7 +281,7 @@
                                 </tr>
                             </thead>
                             <tbody v-if="loaded">
-                                <tr class="clickable" v-for="order in orders" :key="order.id">
+                                <tr class="clickable" :class="{'selected': isSelected(order.id)}" v-for="order in orders" :key="order.id">
                                     <td>
                                         <div class="checkbox">
                                             <input type="checkbox" :id="'coll' + order.id" :value="order.id" v-model="selected">

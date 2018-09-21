@@ -16,6 +16,9 @@
         text-align: center;
         padding:20px;
       }
+      &.selected {
+        background-color: rgba(215, 239, 255, .5);
+      }
       background-color:#fff;
       &.sortable-ghost {
         opacity: .25;
