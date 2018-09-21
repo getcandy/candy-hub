@@ -14,9 +14,11 @@
                 orders: [],
                 selected: [],
                 selectAll: false,
+                zone: null,
                 checkedCount: 0,
                 bulkSaving:false,
                 sendEmails: true,
+                shippingZones: [],
                 bulk: {
                     status: null,
                 },
@@ -48,6 +50,16 @@
                     });
                 }
                 this.selected = selected;
+            },
+            zone() {
+                UrlHelper.setParam('zone', this.zone);
+                this.loadOrders();
+                this.params.page = 1;
+            },
+            filter() {
+                UrlHelper.setParam('status', this.filter);
+                this.loadOrders();
+                this.params.page = 1;
             }
         },
         created() {
@@ -57,20 +69,23 @@
         mounted() {
 
             this.filter = this.urlParams.get('status');
+            this.zone = this.urlParams.get('zone');
 
             if (this.urlParams.get('keywords')) {
                 this.keywords = this.urlParams.get('keywords');
             }
 
+            apiRequest.send('GET', 'shipping/zones').then(response => {
+                this.shippingZones = _.map(response.data, zone => {
+                    return {
+                        label: zone.name,
+                        value: zone.name
+                    };
+                });
+            });
+
             this.loadOrders();
             this.getStatuses();
-        },
-        watch: {
-            filter() {
-                UrlHelper.setParam('status', this.filter);
-                this.loadOrders();
-                this.params.page = 1;
-            }
         },
         methods: {
             clearDates() {
@@ -113,6 +128,7 @@
                 this.loaded = false;
 
                 this.params.status = this.filter;
+                this.params.zone = this.zone;
 
                 if (this.keywords) {
                     this.params.keywords = this.keywords;
@@ -220,7 +236,7 @@
 
                 <!-- Search Form -->
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
                                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -231,6 +247,9 @@
                         </div>
                         <div class="col-md-3">
                             <date-range-picker @update="filterDate" @clear="clearDates" :from="params.from" :to="params.to"></date-range-picker>
+                        </div>
+                        <div class="col-md-3">
+                            <candy-select null-label="All shipping zones" :options="shippingZones" v-if="shippingZones.length" v-model="zone"></candy-select>
                         </div>
                         <div class="col-md-3">
                             <candy-select null-label="All order statuses" :options="statusSelect" v-if="statusSelect.length" v-model="filter"></candy-select>
