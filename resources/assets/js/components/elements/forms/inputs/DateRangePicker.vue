@@ -38,24 +38,25 @@
         },
         mounted() {
 
-            if (this.from) {
-                this.config.startDate = moment(this.from);
-            }
-            if (this.to) {
-                this.config.endDate = moment(this.to);
-            }
-
             const picker = $(this.$refs.daterange).daterangepicker(this.config);
 
-            picker.on('apply.daterangepicker', this.update);
+            if (this.from && this.to) {
+                $(this.$refs.daterange).val(
+                    this.from + ' - ' + this.to
+                );
+            }
 
-            // const picker = new DateRangePicker(this.$refs.daterange, {
-            //     applyDaterangePicker: (ev, picker) => {
-            //         console.log('hi!');
-            //     }
-            // });
+            picker.on('apply.daterangepicker', this.update);
+            picker.on('cancel.daterangepicker', this.clear);
         },
         methods: {
+            clear(event, picker) {
+                $(this.$refs.daterange).val('');
+                this.$emit('clear', {
+                    start: null,
+                    end: null
+                });
+            },
             update(event, picker) {
                 $(this.$refs.daterange).val(
                     picker.startDate.format(this.config.locale.format) + ' - ' + picker.endDate.format(this.config.locale.format)

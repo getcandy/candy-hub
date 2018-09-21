@@ -23,6 +23,7 @@
                 filter: null,
                 currencies: [],
                 keywords: null,
+                urlParams:  UrlHelper.params(),
                 params: {
                     per_page: 50,
                     page: 1,
@@ -49,15 +50,16 @@
                 this.selected = selected;
             }
         },
+        created() {
+            this.params.to = this.urlParams.get('to');
+            this.params.from = this.urlParams.get('from');
+        },
         mounted() {
-            let urlParams = UrlHelper.params();
 
-            this.params.to = urlParams.get('to');
-            this.params.from = urlParams.get('from');
-            this.filter = urlParams.get('status');
+            this.filter = this.urlParams.get('status');
 
-            if (urlParams.get('keywords')) {
-                this.keywords = urlParams.get('keywords');
+            if (this.urlParams.get('keywords')) {
+                this.keywords = this.urlParams.get('keywords');
             }
 
             this.loadOrders();
@@ -71,6 +73,13 @@
             }
         },
         methods: {
+            clearDates() {
+                this.params.from = null;
+                this.params.to = null;
+                UrlHelper.setParam('to');
+                UrlHelper.setParam('from');
+                this.loadOrders();
+            },
             filterDate(event) {
                 this.params.from = event.start.format('YYYY-MM-DD');
                 this.params.to = event.end.format('YYYY-MM-DD');
@@ -221,7 +230,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <date-range-picker @update="filterDate" :from="params.from" :to="params.to"></date-range-picker>
+                            <date-range-picker @update="filterDate" @clear="clearDates" :from="params.from" :to="params.to"></date-range-picker>
                         </div>
                         <div class="col-md-3">
                             <candy-select null-label="All order statuses" :options="statusSelect" v-if="statusSelect.length" v-model="filter"></candy-select>
