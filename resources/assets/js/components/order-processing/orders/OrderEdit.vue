@@ -138,7 +138,7 @@
 
             },
             customerLink(user) {
-                return '/order-processing/customers/' + user.id;
+                return '/hub/order-processing/customers/' + user.id;
             },
             voidit(index) {
                 if (!confirm('Are you sure?')) {
