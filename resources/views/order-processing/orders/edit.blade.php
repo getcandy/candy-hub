@@ -12,7 +12,7 @@
 @endsection
 
 @section('header_actions')
-    <candy-button style="display: inline-block;" event="save-order">Save Order</candy-button>
+    <candy-button style="display: inline-block;" override="save-order">Save Order</candy-button>
 @stop
 
 
