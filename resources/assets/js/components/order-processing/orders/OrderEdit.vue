@@ -12,7 +12,6 @@
                 currencies: [],
                 transactions: {},
                 showStatusModal: false,
-                isMailable: false,
                 sendEmails: true,
                 loadingEmail: false,
                 emailText: null,
@@ -72,6 +71,9 @@
                     }).then(response => {
                         this.loadingEmail = false;
                         this.emailContent = window.atob(response.content);
+                    }).catch(response => {
+                        this.loadingEmail = false;
+                        this.emailContent = null;
                     });
                 }, 500
             ),
@@ -458,28 +460,26 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Order Status</label>
-                                <select class="form-control" v-model="order.status" @change="setMailable">
+                                <select class="form-control" v-model="order.status" @change="loadEmailPreview">
                                     <option :value="handle" v-for="(status, handle) in statuses" :key="handle">{{ status.label }}</option>
                                 </select>
                             </div>
-                            <template v-if="isMailable">
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
-                                        <label for="sendEmails">
-                                            <span class="check"></span> &nbsp; Saving will send a delivery email notification to <strong>{{ order.contact_details.email }}</strong> uncheck to stop this.
-                                        </label>
-                                    </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
+                                    <label for="sendEmails">
+                                        <span class="check"></span> &nbsp; Send notification emails
+                                    </label>
                                 </div>
-                                <div class="form-group">
-                                    <label>Additional Content</label>
-                                    <textarea class="form-control" @keyup="loadEmailPreview" v-model="emailText"></textarea>
-                                </div>
-                            </template>
+                            </div>
+                            <div class="form-group">
+                                <label>Additional Content</label>
+                                <textarea class="form-control" @keyup="loadEmailPreview" v-model="emailText"></textarea>
+                            </div>
                         </div>
                         <div class="col-md-8">
                             <h5>Preview Email</h5>
-                            <div class="alert alert-info"  v-if="!isMailable">
+                            <div class="alert alert-info"  v-if="!emailContent">
                                 Select a status with a configured mailer to see preview.
                             </div>
                             <template v-if="loadingEmail">
