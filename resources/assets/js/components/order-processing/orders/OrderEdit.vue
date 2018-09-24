@@ -247,6 +247,10 @@
                                     <strong>Payment Date</strong><br>
                                     {{ order.placed_at.date|formatDate }}
                                 </div>
+                                <div class="col-md-3" v-if="order.placed_at">
+                                    <strong>Status</strong><br>
+                                    {{ status(order.status) }}
+                                </div>
                             </div>
                             <hr>
                             <div class="row">
