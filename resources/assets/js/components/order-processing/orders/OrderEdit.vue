@@ -129,6 +129,11 @@
                 apiRequest.send('PUT', '/orders/' + this.order.id, {
                     tracking_no: this.order.tracking_no
                 }).then(response => {
+                    this.initialFields.tracking_no = this.order.tracking_no ? this.order.tracking_no : ' ';
+                    this.initialFields.status = this.order.status;
+                    
+                    this.refreshState();
+                    
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Order saved'
