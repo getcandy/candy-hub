@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         body {
-            font-size:14px;
+            font-size:12px;
             font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
         }
 
@@ -72,7 +72,7 @@
                         <table width="100%">
                             <tr>
                                 <td class="title" align="left" width="50%">
-                                    <img src="{{ url('/images/logo/logo.jpg') }}" width="100px">
+                                    <img src="{{ url('/images/logo.png') }}" width="100px">
                                     <h3>Order Invoice</h3>
                                 </td>
                                 <td align="right" width="50%">
@@ -134,8 +134,12 @@
                                     {{ $settings['address']['state'] }}<br>
                                     {{ $settings['address']['zip'] }}<br>
                                     {{ $settings['address']['country'] }}<br>
+                                    @if($settings['tax']['vat_number'])
                                     <p>VAT No.: {{ $settings['tax']['vat_number'] }}</p>
+                                    @endif
+                                    @if($settings['contact']['telephone'])
                                     <p>Tel No: {{ $settings['contact']['telephone'] }}</p>
+                                    @endif
                                 </td>
                             </tr>
                         </table>
@@ -152,11 +156,20 @@
                         <th width="28%">
                             SKU
                         </th>
-                        <th width="15%">
-                            Price
-                        </th>
                         <th width="10%">
                             Qty
+                        </th>
+                        <th width="15%">
+                            Unit Price
+                        </th>
+                        <th width="15%">
+                            Discount
+                        </th>
+                        <th width="15%">
+                            Tax Rate
+                        </th>
+                        <th width="15%">
+                            Tax Amount
                         </th>
                         <th width="12%">
                             Line Total
@@ -167,7 +180,7 @@
                     @foreach ($order->lines as $item)
                     <tr>
                         <td>
-                            {{ $item->product }} <br>
+                            {{ $item->description }} <br>
                             @if ($item->product != $item->variant)
                                 <small>{{ $item->variant }}</small>
                             @endif
@@ -176,13 +189,20 @@
                             {{ $item->sku }}
                         </td>
                         <td>
-                            {{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($item->total / $item->quantity, 2) }}
-                        </td>
-                        <td>
                             {{ $item->quantity }}
                         </td>
+                        <td>
+                            {!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($item->unit_price / 100, 2) }}
+                        </td>
+                        <td>
+                            {!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($item->discount_total / 100, 2) }}
+                        </td>
+                        <td>VAT @ {{ $item->tax_rate }}%</td>
+                        <td>
+                            {!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($item->tax_total / 100, 2) }}
+                        </td>
                         <td align="right">
-                            {{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $item->total }}
+                            {!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($item->line_total / 100, 2) }}
                         </td>
                     </tr>
                     @endforeach
@@ -202,27 +222,27 @@
                         @endforeach
                     @endif
                     <tr>
-                        <td colspan="2"></td>
+                        <td colspan="5"></td>
                         <td colspan="2">
                             <strong>Shipping</strong> <br>
                             <small>{{ $order->shipping_method }}</small>
                         </td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->shipping_total }}</td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($order->shipping_total / 100, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="2"></td>
-                        <td colspan="2"><strong>Sub Tdotal</strong></td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ number_format($order->sub_total, 2) }}</td>
+                        <td colspan="5"></td>
+                        <td colspan="2"><strong>Sub Total</strong></td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($order->sub_total / 100, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="2"></td>
+                        <td colspan="5"></td>
                         <td colspan="2"><strong>VAT</strong></td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->vat }}</td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($order->tax_total / 100, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="2"></td>
+                        <td colspan="5"></td>
                         <td colspan="2"><strong>Total</strong></td>
-                        <td>{{ $order->currency == 'GBP' ? '&pound;' : '&euro;' }}{{ $order->total }}</td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format(($order->sub_total + $order->tax_total) / 100, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
