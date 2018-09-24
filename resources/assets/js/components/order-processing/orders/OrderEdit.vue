@@ -99,7 +99,7 @@
              */
             loadOrder() {
                 apiRequest.send('get', '/orders/' + this.id, {}, {
-                    includes: 'user,lines,transactions,discounts,shipping'
+                    includes: 'user.details,lines,transactions,discounts,shipping'
                 })
                 .then(response => {
                     this.order = response.data;
@@ -230,10 +230,14 @@
                         <div class="col-md-4">
                             <p>
                                 <strong style="margin-bottom:5px;display:block;">Contact Information</strong>
-                            Email: {{ order.contact_details.email }} <span class="text-muted" v-if="!order.contact_details.email">Not provided</span> <br>
-                            Telephone: {{ order.contact_details.phone }} <span class="text-muted" v-if="!order.contact_details.phone">Not provided</span>
+                                Email: {{ order.contact_details.email }} <span class="text-muted" v-if="!order.contact_details.email">Not provided</span> <br>
+                                Telephone: {{ order.contact_details.phone }} <span class="text-muted" v-if="!order.contact_details.phone">Not provided</span>
                             </p>
-                            <strong style="margi:10px 0 5px 0;display:block;">Tracking Number</strong>
+                            <template v-if="order.user && order.user.data.details.data.fields.account_number">
+                                <p><strong style="margi:10px 0 5px 0;display:block;">Account Number</strong>
+                                {{ order.user.data.details.data.fields.account_number }}</p>
+                            </template>
+                            <strong style="margi:10px  0;display:block;">Tracking Number</strong>
                             <input class="form-control" v-model="order.tracking_no">
                         </div>
                     </div>
