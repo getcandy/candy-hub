@@ -110,6 +110,8 @@
                         title: this.order.customer_name
                     });
 
+                    document.title = document.title + ' ' + this.order.reference;
+
                     apiRequest.send('GET', 'currencies/' + this.order.currency).then(response => {
                         this.currency = response.data;
                         this.loaded = true;

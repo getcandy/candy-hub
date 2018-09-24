@@ -97,6 +97,8 @@
                       this.orders[index + 1] = orders;
                   });
 
+                  document.title = document.title + ' ' + this.customer.email;
+
                   apiRequest.send('GET', 'currencies').then(response => {
                       this.currencies = response.data;
                       this.loaded = true;

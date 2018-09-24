@@ -1,5 +1,6 @@
-@extends('hub::layout')
-
+@extends('hub::layout', [
+    'title' => 'Discounts',
+])
 @section('side_menu')
     @include('hub::marketing-suite.partials.side-menu')
 @endsection

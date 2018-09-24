@@ -1,4 +1,7 @@
-@extends('hub::layout')
+@extends('hub::layout', [
+    'title' => 'Edit Product Family',
+])
+
 
 @section('side_menu')
     @include('hub::catalogue-manager.partials.side-menu')
