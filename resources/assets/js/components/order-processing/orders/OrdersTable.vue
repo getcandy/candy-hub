@@ -110,6 +110,10 @@
                         this.bulkSaving = false;
                         this.loadOrders();
                         this.selected = [];
+                        CandyEvent.$emit('notification', {
+                            level: 'success',
+                            message: 'Orders Updated'
+                        });
                     }).catch(response => {
                         this.bulkSaving = false;
                     });
