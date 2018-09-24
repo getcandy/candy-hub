@@ -292,8 +292,8 @@
                                     </tr>
                                 </thead>
                                 <tbody v-if="loaded">
-                                    <tr class="clickable" v-for="order in orders" :key="order.id">
-                                        <td :class="{'selected': isSelected(order.id)}">
+                                    <tr class="clickable" :class="{'selected': isSelected(order.id)}" v-for="order in orders" :key="order.id">
+                                        <td>
                                             <div class="checkbox">
                                                 <input type="checkbox" :id="'coll' + order.id" :value="order.id" v-model="selected">
                                                 <label :for="'coll' + order.id"><span class="check"></span></label>

@@ -22,14 +22,21 @@
         opacity: .25;
         background-color: #eeeeee;
       }
+      &.selected {
+        background-color:rgba(#037ef3, .10);
+      }
       &.clickable {
         cursor: pointer;
+        &.selected {
+          &:hover {
+            td {
+              background-color:transparent;
+            }
+          }
+        }
         &:hover {
           td {
             background-color: lighten($blue, 60%);
-            &.selected {
-              background-color:#037ef3;
-            }
           }
         }
       }
@@ -41,15 +48,7 @@
       td {
         position: relative;
         vertical-align: middle;
-        &.selected {
-          background-color:#037ef3;
-          .checkbox input[type="checkbox"]:checked + label span.check {
-            border-color:white;
-            &:after {
-              color:white;
-            }
-          }
-        }
+
         &.product {
           color: $blue;
         }
