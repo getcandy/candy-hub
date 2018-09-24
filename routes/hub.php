@@ -29,7 +29,7 @@ Route::group([
         $router->get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
         $router->post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
         $router->get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
-        $router->post('password/reset', 'ResetPasswordController@reset');
+        $router->post('password/reset', 'ResetPasswordController@reset')->name('hub.password.reset');
     });
 
     /*
