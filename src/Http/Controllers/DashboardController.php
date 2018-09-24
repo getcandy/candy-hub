@@ -20,19 +20,20 @@ class DashboardController extends Controller
         $lastWeeksSales = $this->getSalesLastWeek();
         $thisWeeksSales = $this->getSalesThisWeek();
 
-        $lastMonthSales = 0;
 
-        // $this->ordersForDateRange(
-        //     Carbon::now()->startOfMonth()->subMonth(),
-        //     Carbon::now()->endOfMonth()->subMonth()
-        // )->sum('total')
+        $lastMonthSales = $this->ordersForDateRange(
+            Carbon::now()->startOfMonth()->subMonth(),
+            Carbon::now()->endOfMonth()->subMonth()
+        )->select(
+            \DB::RAW('SUM((sub_total + tax_total - discount_total) / 100) as grand_total')
+        )->first()->grand_total ?: 0;
 
-        $thisMonthSales = 0;
-
-        // $this->ordersForDateRange(
-        //     Carbon::now()->startOfMonth(),
-        //     Carbon::now()->endOfMonth()
-        // )->sum('total');
+        $thisMonthSales = $this->ordersForDateRange(
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        )->select(
+            \DB::RAW('SUM((sub_total + tax_total - discount_total) / 100) as grand_total')
+        )->first()->grand_total ?: 0;
 
         $ordersLastWeek = $this->ordersLastWeek()->count();
 
@@ -89,32 +90,36 @@ class DashboardController extends Controller
     {
         $data = [];
 
-        // for ($i = 1; $i < 9; $i++) {
-        //     // Set up initial labels
-        //     $start = Carbon::now()->startOfWeek()->subWeeks($i);
-        //     $end = Carbon::now()->endOfWeek()->subWeeks($i);
+        for ($i = 1; $i < 9; $i++) {
+            // Set up initial labels
+            $start = Carbon::now()->startOfWeek()->subWeeks($i);
+            $end = Carbon::now()->endOfWeek()->subWeeks($i);
 
-        //     $prevStart = Carbon::now()->startOfWeek()->subWeeks($i + 1);
-        //     $prevEnd = Carbon::now()->endOfWeek()->subWeeks($i + 1);
+            $prevStart = Carbon::now()->startOfWeek()->subWeeks($i + 1);
+            $prevEnd = Carbon::now()->endOfWeek()->subWeeks($i + 1);
 
-        //     $label = $start->format('dS') . ' to ' . $end->format('dS') . ' ' . $end->format('F Y');
+            $label = $start->format('dS') . ' to ' . $end->format('dS') . ' ' . $end->format('F Y');
 
-        //     $total = $ordersData[] = $this->ordersForDateRange(
-        //         $start,
-        //         $end
-        //     )->sum(\DB::RAW('total / conversion'));
+            $total = $this->ordersForDateRange(
+                $start,
+                $end
+            )->select(
+                \DB::RAW('SUM(((sub_total + tax_total - discount_total / conversion) / 100)) as grand_total')
+            )->first()->grand_total;
 
-        //     $previous = $this->ordersForDateRange(
-        //         $prevStart,
-        //         $prevEnd
-        //     )->sum(\DB::RAW('total / conversion'));
+            $previous = $this->ordersForDateRange(
+                $prevStart,
+                $prevEnd
+            )->select(
+                \DB::RAW('SUM(((sub_total + tax_total - discount_total / conversion) / 100)) as grand_total')
+            )->first()->grand_total;
 
-        //     $data[$label] = [
-        //         'total' => $total,
-        //         'previous' => $previous,
-        //         'diff' => $total - $previous
-        //     ];
-        // }
+            $data[$label] = [
+                'total' => $total,
+                'previous' => $previous,
+                'diff' => $total - $previous
+            ];
+        }
 
         return $data;
     }
@@ -136,15 +141,16 @@ class DashboardController extends Controller
 
         $data = [];
         foreach ($months as $month => $orders) {
-            // $labels[] = $month;
+            $labels[] = $month;
 
-            // $total = 0;
+            $total = 0;
 
-            // foreach ($orders as $order) {
-            //     $total += $order->total;
-            // }
+            foreach ($orders as $order) {
+                $total += $order->total;
+            }
 
-            // $data[] = round($total, 2);
+
+            $data[] = round($total / 100, 2);
         }
 
         $dataset = [
@@ -179,10 +185,12 @@ class DashboardController extends Controller
                 $end
             )->count();
 
-            // $salesData[] = $this->ordersForDateRange(
-            //     $start,
-            //     $end
-            // )->sum(\DB::RAW('total / conversion'));
+            $salesData[] = $this->ordersForDateRange(
+                $start,
+                $end
+            )->select(
+                \DB::RAW('SUM(((sub_total + tax_total - discount_total / conversion) / 100)) as grand_total')
+            )->first()->grand_total;
         }
 
         $datasets[] = [
@@ -241,11 +249,16 @@ class DashboardController extends Controller
 
     protected function getSalesThisWeek()
     {
-        return 0; //$this->ordersThisWeek()->sum(\DB::RAW('total / conversion'));
+
+        return $this->ordersThisWeek()->select(
+            \DB::RAW('SUM(((sub_total + tax_total - discount_total / conversion) / 100)) as grand_total')
+        )->first()->grand_total;
     }
 
     protected function getSalesLastWeek()
     {
-        return 0; //$this->ordersLastWeek()->sum(\DB::RAW('total / conversion'));
+        return $this->ordersLastWeek()->select(
+            \DB::RAW('SUM(((sub_total + tax_total - discount_total / conversion) / 100)) as grand_total')
+        )->first()->grand_total;
     }
 }
