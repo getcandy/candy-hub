@@ -167,7 +167,7 @@
         <template v-if="loaded">
             <div class="text-right">
                 <a :href="customerLink(order.user.data)" class="btn btn-primary" v-if="order.user">View Customer Account</a>
-                <a :href="'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn btn-primary">Download Invoice</a>
+                <a :href="'/hub/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn btn-primary">Download Invoice</a>
             </div>
             <hr>
             <div class="panel">
