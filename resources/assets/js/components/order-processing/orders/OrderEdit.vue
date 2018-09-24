@@ -40,6 +40,7 @@
                 this.loadOrder(this.id);
             });
             Dispatcher.add('save-order', this);
+            this.loadEmailPreview();
         },
         computed: {
             discountTotal() {
@@ -63,7 +64,6 @@
         methods: {
             loadEmailPreview: _.debounce(function (){
                 this.loadingEmail = true;
-                this.emailContent = null;
                     apiRequest.send('POST', '/orders/email-preview/' + this.order.status, {
                         data: {
                             content: this.emailText
