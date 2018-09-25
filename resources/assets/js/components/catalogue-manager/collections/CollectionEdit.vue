@@ -68,10 +68,13 @@
                 .then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
+
                     CandyEvent.$emit('title-changed', {
                         prefix: 'Editing',
                         title: this.collection
                     });
+
+                    document.title = this.$options.filters.attribute(this.collection, 'name') + ' Collection - GetCandy';
                 }).catch(error => {
                 });
             }

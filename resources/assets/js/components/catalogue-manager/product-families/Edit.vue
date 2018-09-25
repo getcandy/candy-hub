@@ -31,6 +31,9 @@
                             translatable: true
                         };
                         this.attribute_groups = this.family.attribute_groups.data;
+
+                        document.title = this.$options.filters.attribute(this.family, 'name') + ' Product Family - GetCandy';
+
                         this.loaded = true;
                     });
             },

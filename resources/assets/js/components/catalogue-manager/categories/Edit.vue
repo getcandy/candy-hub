@@ -61,6 +61,7 @@
                     includes: 'channels,layout,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
                 }).then(response => {
                     this.decorate(response.data);
+                    document.title = this.$options.filters.attribute(this.category, 'name') + ' Category - GetCandy';
                     this.loaded = true;
                 }).catch(error => {
                 });

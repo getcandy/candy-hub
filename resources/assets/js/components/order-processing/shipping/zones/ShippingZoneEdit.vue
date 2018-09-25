@@ -31,7 +31,7 @@
             });
 
             Dispatcher.add('save-shipping-zone', this);
-            
+
             this.loadCountries();
         },
         methods: {
@@ -79,7 +79,7 @@
             deselect(region) {
                 var indexes = [],
                     selected = [];
-                
+
                 var ids = _.map(region.countries.data, item => {
                     return item.id;
                 });
@@ -124,6 +124,8 @@
                     CandyEvent.$emit('title-changed', {
                         title: this.zone.name
                     });
+
+                    document.title = this.zone.name + ' Shipping Zone - GetCandy';
 
                     // apiRequest.send('GET', 'currencies/' + this.order.currency).then(response => {
                     //     this.currency = response.data;

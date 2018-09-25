@@ -97,7 +97,11 @@
                       this.orders[index + 1] = orders;
                   });
 
-                  document.title = document.title + ' ' + this.customer.email;
+                  document.title = 'Editing ' +
+                    this.customer.details.data.firstname +
+                    ' ' +
+                    this.customer.details.data.lastname +
+                    ' - GetCandy';
 
                   apiRequest.send('GET', 'currencies').then(response => {
                       this.currencies = response.data;

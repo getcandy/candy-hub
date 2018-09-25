@@ -162,13 +162,13 @@
 
                     CandyEvent.$emit('title-changed', {
                         prefix: 'Order for ',
-                        title: this.order.customer_name
+                        title: this.order.display_id
                     });
 
                     this.initialFields.tracking_no = this.order.tracking_no ? this.order.tracking_no : ' ';
                     this.initialFields.status = this.order.status;
 
-                    document.title = document.title + ' ' + this.order.reference;
+                    document.title = this.order.reference + ' Order - GetCandy';
 
                     apiRequest.send('GET', 'currencies/' + this.order.currency).then(response => {
                         this.currency = response.data;

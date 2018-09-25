@@ -82,6 +82,7 @@
                     CandyEvent.$emit('title-changed', {
                         title: this.product
                     });
+                    document.title = this.$options.filters.attribute(this.product, 'name') + ' Product - GetCandy';
                 }).catch(error => {
                     CandyEvent.$emit('notification', {
                         level: 'error',

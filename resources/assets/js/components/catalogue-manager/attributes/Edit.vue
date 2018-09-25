@@ -38,6 +38,8 @@
                             translatable: true
                         };
                         this.loaded = true;
+
+                        // document.title = this.$options.filters.attribute(, 'name') + ' Category - GetCandy';
                     });
             },
             loadGroups() {
