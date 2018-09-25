@@ -1,8 +1,12 @@
 <script>
     import Orders from '../../../mixins/OrderMixin';
+    import UpdateOrderStatus from './UpdateOrderStatus';
 
     export default {
         mixins: [Orders],
+        components: {
+            UpdateOrderStatus
+        },
         data() {
             return {
                 title: '',
@@ -12,11 +16,6 @@
                 currencies: [],
                 transactions: {},
                 showStatusModal: false,
-                sendEmails: true,
-                loadingEmail: false,
-                emailText: null,
-                emailContent: null,
-                saving: false,
                 dirty: false,
                 initialFields : {
                     tracking_no: null,
@@ -40,7 +39,6 @@
                 this.loadOrder(this.id);
             });
             Dispatcher.add('save-order', this);
-            this.loadEmailPreview();
         },
         computed: {
             discountTotal() {
@@ -62,21 +60,6 @@
             },
         },
         methods: {
-            loadEmailPreview: _.debounce(function (){
-                this.loadingEmail = true;
-                    apiRequest.send('POST', '/orders/email-preview/' + this.order.status, {
-                        data: {
-                            content: this.emailText
-                        }
-                    }).then(response => {
-                        this.loadingEmail = false;
-                        this.emailContent = window.atob(response.content);
-                    }).catch(response => {
-                        this.loadingEmail = false;
-                        this.emailContent = null;
-                    });
-                }, 500
-            ),
             refreshState() {
                 let dirtyFields = _.filter(this.initialFields, (value, field) => {
                     return this.order[field] && this.order[field] != value;
@@ -97,27 +80,17 @@
             unitPrice(line) {
                 return line.line_amount / line.quantity;
             },
-            setMailable() {
-                let status = this.statuses[this.order.status];
-                if (this.config.dispatched == this.order.status) {
-                    this.isMailable = true;
-                    this.loadEmailPreview();
-                } else {
-                    this.isMailable = false;
-                }
-            },
-            updateStatus() {
+            updateStatus(event) {
                 this.saving = true;
+                this.showStatusModal = true;
                 apiRequest.send('PUT', '/orders/' + this.order.id, {
                     status: this.order.status,
-                    send_emails: this.sendEmails,
+                    send_emails: event.sendEmails,
                     data: {
-                        content: this.emailText
+                        content: event.text
                     }
                 }).then(response => {
                     this.showStatusModal = false;
-                    this.emailContent = null;
-                    this.emailText = null;
                     this.saving = false;
                     CandyEvent.$emit('notification', {
                         level: 'success',
@@ -229,7 +202,8 @@
                 <div class="col-md-12 text-right">
                     <a :href="customerLink(order.user.data)" class="btn   btn-primary" v-if="order.user">View Customer Account</a>
                     <a :href="'/hub/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Download Invoice</a>
-                    <button @click="showStatusModal = true" class="btn  btn-primary">Update Status</button>
+                    <!-- <button @click="showStatusModal = true" class="btn  btn-primary">Update Status</button> -->
+                    <update-order-status :saving="showStatusModal" :show-modal="showStatusModal" :statuses="statuses" v-model="order.status" @save="updateStatus"></update-order-status>
                 </div>
             </div>
             <hr>
@@ -364,12 +338,12 @@
                                             </td>
                                             <td>
                                                 <template v-if="line.sku">
-                                                    <!-- <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
+                                                    <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
                                                         {{ line.description }}
-                                                    </a> -->
+                                                    </a>
                                                 </template>
                                                 <template v-else>
-                                                    <!-- {{ line.description }} -->
+                                                    {{ line.description }}
                                                 </template>
 
                                             </td>
@@ -503,53 +477,7 @@
                     </div>
 
 
-            <candy-modal title="Create Attribute" v-show="showStatusModal" size="modal-lg" @closed="showStatusModal = false">
-                <div slot="body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Order Status</label>
-                                <select class="form-control" v-model="order.status" @change="loadEmailPreview">
-                                    <option :value="handle" v-for="(status, handle) in statuses" :key="handle">{{ status.label }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
-                                    <label for="sendEmails">
-                                        <span class="check"></span> &nbsp; Send notification emails
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Additional Content</label>
-                                <textarea class="form-control" @keyup="loadEmailPreview" v-model="emailText"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h5>Preview Email</h5>
-                            <div class="alert alert-info"  v-if="!emailContent">
-                                Select a status with a configured mailer to see preview.
-                            </div>
-                            <template v-if="loadingEmail">
-                                <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
-                            </template>
-                            <iframe v-if="emailContent" :srcdoc="emailContent" ref="emailPreview">
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-                <template slot="footer">
-                    <button type="button" class="btn btn-primary" @click="updateStatus">
-                        <template v-if="!saving">
-                            Update Status
-                        </template>
-                        <template v-else>
-                            <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> Saving
-                        </template>
-                    </button>
-                </template>
-            </candy-modal>
+
         </template>
 
         <div v-else>

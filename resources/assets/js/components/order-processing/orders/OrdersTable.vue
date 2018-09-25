@@ -2,11 +2,13 @@
     import Orders from '../../../mixins/OrderMixin';
     import DateRangePicker from '../../elements/forms/inputs/DateRangePicker';
     import UrlHelper from '../../../classes/UrlHelpers';
+    import UpdateOrderStatus from './UpdateOrderStatus';
 
     export default {
         mixins: [Orders],
         components: {
-            DateRangePicker
+            DateRangePicker,
+            UpdateOrderStatus
         },
         data() {
             return {
@@ -97,29 +99,28 @@
 
                 this.loadOrders();
             },
-            bulkSave() {
+            bulkSave(event) {
                 this.bulkSaving = true;
-
-                if (this.bulk.status) {
-                    apiRequest.send('POST', 'orders/bulk', {
-                        orders: this.selected,
-                        field: 'status',
-                        value: this.bulk.status,
-                        send_emails: this.sendEmails,
-                    }).then(response => {
-                        this.bulkSaving = false;
-                        this.loadOrders();
-                        this.selected = [];
-                        CandyEvent.$emit('notification', {
-                            level: 'success',
-                            message: 'Orders Updated'
-                        });
-                    }).catch(response => {
-                        this.bulkSaving = false;
-                    });
-                } else {
+                apiRequest.send('POST', 'orders/bulk', {
+                    orders: this.selected,
+                    field: 'status',
+                    value: event.status,
+                    send_emails: event.sendEmails,
+                    data: {
+                        content: event.text
+                    }
+                }).then(response => {
                     this.bulkSaving = false;
-                }
+                    this.loadOrders();
+                    this.selected = [];
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Orders Updated'
+                    });
+                }).catch(response => {
+                    this.bulkSaving = false;
+                });
+
             },
             loadOrders() {
                 this.loaded = false;
@@ -246,28 +247,38 @@
             <div role="tabpanel" class="tab-pane active" id="all-collections">
 
                 <!-- Search Form -->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">
-                                  <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                                <label class="sr-only" for="search">Search</label>
-                                <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <date-range-picker @update="filterDate" @clear="clearDates" :from="params.from" :to="params.to"></date-range-picker>
-                        </div>
-                        <div class="col-md-3">
-                            <candy-select null-label="All shipping zones" :options="shippingZones" v-if="shippingZones.length" v-model="zone"></candy-select>
-                        </div>
-                        <div class="col-md-3">
-                            <candy-select null-label="All order statuses" :options="statusSelect" v-if="statusSelect.length" v-model="filter"></candy-select>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-full">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                            <label class="sr-only" for="search">Search</label>
+                            <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <date-range-picker @update="filterDate" @clear="clearDates" :from="params.from" :to="params.to"></date-range-picker>
+                    </div>
+                    <div class="col-md-3">
+                        <candy-select null-label="All shipping zones" :options="shippingZones" v-if="shippingZones.length" v-model="zone"></candy-select>
+                    </div>
+                    <div class="col-md-3">
+                        <candy-select null-label="All order statuses" :options="statusSelect" v-if="statusSelect.length" v-model="filter"></candy-select>
+                    </div>
+                </div>
+                <!-- Bulk Actions -->
+                <div class="row" v-if="selected.length">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <update-order-status :statuses="statuses" :saving="bulkSaving" :show-modal="bulkSaving" @save="bulkSave"></update-order-status>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
-                    <div :class="{'col-md-12' : !selected.length, 'col-md-10': selected.length}">
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table table-striped collection-table">
                                 <thead>
@@ -380,30 +391,6 @@
                         <div class="text-center">
                             <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
                         </div>
-                    </div>
-                    <div class="col-md-2" v-if="selected.length">
-                        <h4>Bulk Actions</h4>
-                        <div class="form-group">
-                            <label>
-                                Update Status
-                            </label>
-                            <candy-order-status-select v-model="bulk.status"></candy-order-status-select>
-                            <div class="checkbox">
-                                <input type="checkbox" id="sendEmails" v-model="sendEmails" value="1">
-                                <label for="sendEmails">
-                                    <span class="check"></span> Send notification emails
-                                </label>
-
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" @click="bulkSave" :disabled="bulkSaving">
-                            <template v-if="bulkSaving">
-                                <i class="fa fa-refresh fa-spin"></i> Saving
-                            </template>
-                            <template v-else>
-                                Save Orders
-                            </template>
-                        </button>
                     </div>
                 </div>
 
