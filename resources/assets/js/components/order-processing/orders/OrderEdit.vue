@@ -131,9 +131,9 @@
                 }).then(response => {
                     this.initialFields.tracking_no = this.order.tracking_no ? this.order.tracking_no : ' ';
                     this.initialFields.status = this.order.status;
-                    
+
                     this.refreshState();
-                    
+
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Order saved'
@@ -412,6 +412,10 @@
                                                     <th>Payment Type</th>
                                                     <th>Card type</th>
                                                     <th>Card number</th>
+                                                    <th>CVC Matched</th>
+                                                    <th>Address Matched</th>
+                                                    <th>Postcode Matched</th>
+                                                    <th>3DSecure</th>
                                                     <th>Status</th>
                                                     <th>Notes</th>
                                                     <th width="8%">Actions</th>
@@ -437,6 +441,38 @@
                                                     <td>
                                                         <template v-if="item.last_four">
                                                             **** **** **** {{ item.last_four }}
+                                                        </template>
+                                                    </td>
+                                                    <td>
+                                                        <template v-if="item.cvc_matched">
+                                                            <i class="fa fa-check text-success"></i>
+                                                        </template>
+                                                        <template v-else>
+                                                            <i class="fa fa-times text-danger"></i>
+                                                        </template>
+                                                    </td>
+                                                    <td>
+                                                        <template v-if="item.address_matched">
+                                                            <i class="fa fa-check text-success"></i>
+                                                        </template>
+                                                        <template v-else>
+                                                            <i class="fa fa-times text-danger"></i>
+                                                        </template>
+                                                    </td>
+                                                    <td>
+                                                        <template v-if="item.postcode_matched">
+                                                            <i class="fa fa-check text-success"></i>
+                                                        </template>
+                                                        <template v-else>
+                                                            <i class="fa fa-times text-danger"></i>
+                                                        </template>
+                                                    </td>
+                                                    <td>
+                                                        <template v-if="item.threed_secure">
+                                                            <i class="fa fa-check text-success"></i>
+                                                        </template>
+                                                        <template v-else>
+                                                            <i class="fa fa-times text-danger"></i>
                                                         </template>
                                                     </td>
                                                     <td>
