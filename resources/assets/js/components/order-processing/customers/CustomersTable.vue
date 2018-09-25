@@ -40,6 +40,7 @@
             search: _.debounce(function (){
                     this.loaded = false;
                     this.params['keywords'] = this.keywords;
+                    this.params['page'] = 1;
                     this.loadCustomers();
                 }, 500
             ),
