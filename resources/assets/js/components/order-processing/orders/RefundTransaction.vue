@@ -3,16 +3,16 @@
         <button class="btn btn-small btn-info" @click="showModal = true">Refund</button>
         <candy-modal title="Issue Refund" v-show="showModal" size="modal-md" @closed="showModal = false">
             <div slot="body" class="text-left">
-                <template v-if="amount > initial">
+                <template v-if="max && amount > max">
                     <div class="alert alert-danger">
-                        Amount cannot be more than {{ initial }}
+                        Amount cannot be more than {{ max }}
                     </div>
                 </template>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Amount</label>
-                            <input type="number" class="form-control" v-model="amount">
+                            <input type="number" class="form-control" v-model="amount" :max="max">
                             <template v-if="this.errors.amount">
                                 <span class="text-danger" v-for="error in this.errors.amount">{{ error }}</span> <br>
                             </template>
@@ -69,6 +69,9 @@
                 type: Number,
                 required: true,
             },
+            max: {
+                type: Number,
+            },
             id: {
                 type: String,
                 required: true
@@ -87,6 +90,11 @@
                 confirmation: null,
                 amount: this.initial,
                 notes: null,
+            }
+        },
+        mounted() {
+            if (this.max) {
+                this.amount = this.max;
             }
         },
         methods: {

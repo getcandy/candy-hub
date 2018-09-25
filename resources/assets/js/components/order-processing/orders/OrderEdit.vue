@@ -49,6 +49,15 @@
 
         },
         computed: {
+            maxRefund() {
+                let transactions = 0;
+
+                _.each(this.order.transactions.data, item => {
+                    transactions += item.amount;
+                });
+
+                return transactions;
+            },
             discountTotal() {
                 let total = 0;
                 _.each(this.order.lines.data, line => {
@@ -69,14 +78,7 @@
         },
         methods: {
             canRefund(transaction) {
-                // If all the transactions minus all the refunds is more than transaction amount.
-                let transactions = 0;
-
-                _.each(this.order.transactions.data, item => {
-                    transactions += item.amount;
-                });
-
-                return transaction.amount <= transactions &&
+                return this.maxRefund &&
                     this.paymentProviders[transaction.driver] &&
                     !transaction.refund;
             },
@@ -469,7 +471,7 @@
                                                     <td>{{ item.notes }}</td>
                                                     <td>
                                                         <template v-if="canRefund(item)">
-                                                            <refund-transaction :initial="item.amount / 100" :reference="item.transaction_id" :id="item.id" @refunded="loadOrder"></refund-transaction>
+                                                            <refund-transaction :initial="item.amount / 100" :reference="item.transaction_id" :max="maxRefund / 100" :id="item.id" @refunded="loadOrder"></refund-transaction>
                                                         </template>
                                                         <!-- <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
                                                         <button @click="refund(index)" type="button" class="btn btn-small btn-info" v-if="item.success && !item.refunding">Issue Refund</button>
