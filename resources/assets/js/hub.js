@@ -168,13 +168,13 @@ const app = new Vue({
     },
     mounted() {
       CandyEvent.$on('title-changed', event => {
-        if (event.prefix) {
-          this.title = event.prefix + ' ';
-        }
         if (_.isString(event.title)) {
           this.title = event.title;
         } else {
           this.title = this.$options.filters.attribute(event.title, 'name');
+        }
+        if (event.prefix) {
+          this.title = event.prefix + ' ' + this.title;
         }
       });
     }
