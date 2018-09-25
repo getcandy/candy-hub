@@ -128,5 +128,9 @@
 </script>
 
 <style scoped>
-
+    iframe {
+        width:100%;
+        border:1px solid #ebebeb;
+        height:400px;
+    }
 </style>
