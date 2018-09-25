@@ -279,7 +279,8 @@
                                             </div>
                                         </th>
                                         <th width="10%">Status</th>
-                                        <th>ID/Reference</th>
+                                        <th>ID</th>
+                                        <th>Reference</th>
                                         <th>Customer Name</th>
                                         <th>Account No.</th>
                                         <th>Contact Email</th>
@@ -305,6 +306,9 @@
                                         </td>
                                         <td>
                                             <span  class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
+                                        </td>
+                                        <td>
+                                            {{ order.display_id }}
                                         </td>
                                         <td @click="loadOrder(order.id)" >
                                             {{ order.reference }}

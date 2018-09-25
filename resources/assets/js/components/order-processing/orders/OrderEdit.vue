@@ -240,19 +240,23 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <strong>Order ID <span v-if="order.customer_reference">/ Customer Reference</span></strong> <br>
+                                <div class="col-md-2">
+                                    <strong>Order ID</strong> <br>
+                                    {{ order.display_id }}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Order Reference <span v-if="order.customer_reference">/ Customer Reference</span></strong> <br>
                                     {{ order.reference }} <span v-if="order.customer_reference">/ {{ order.customer_reference }}</span>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <strong>Date Created</strong><br>
                                     {{ order.created_at.date|formatDate }}
                                 </div>
-                                <div class="col-md-3" v-if="order.placed_at">
+                                <div class="col-md-2" v-if="order.placed_at">
                                     <strong>Payment Date</strong><br>
                                     {{ order.placed_at.date|formatDate }}
                                 </div>
-                                <div class="col-md-3" v-if="order.placed_at">
+                                <div class="col-md-2" v-if="order.placed_at">
                                     <strong>Status</strong><br>
                                     {{ status(order.status) }}
                                 </div>
