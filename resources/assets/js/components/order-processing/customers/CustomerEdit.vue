@@ -281,7 +281,9 @@
                                         </tfoot>
                                         <tbody>
                                             <tr v-for="order in orders[ordersBatch]">
-                                              <td><span  class="order-status" :class="order.status">{{ status(order.status) }}</span></td>
+                                              <td>
+                                                  <span  class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
+                                              </td>
                                               <td>
                                                   <a :href="viewOrder(order.id)" title="View order">
                                                     {{ order.reference }}
