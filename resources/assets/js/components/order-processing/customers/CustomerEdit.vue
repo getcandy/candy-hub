@@ -267,6 +267,7 @@
                                             <tr>
                                                 <th width="10%">Status</th>
                                                 <th>Order Id</th>
+                                                <th>Order Reference</th>
                                                 <th>Total</th>
                                                 <th>Shipping</th>
                                                 <th>Date Placed / Created</th>
@@ -286,8 +287,11 @@
                                               </td>
                                               <td>
                                                   <a :href="viewOrder(order.id)" title="View order">
-                                                    {{ order.reference }}
+                                                    {{ order.display_id }}
                                                   </a>
+                                              </td>
+                                              <td>
+                                                  {{ order.reference }}
                                               </td>
                                               <td>
                                                 <span v-html="localisedPrice(order.order_total, order.currency)"></span>
