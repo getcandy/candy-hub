@@ -1,11 +1,13 @@
 <script>
     import Orders from '../../../mixins/OrderMixin';
     import UpdateOrderStatus from './UpdateOrderStatus';
+    import RefundTransaction from './RefundTransaction';
 
     export default {
         mixins: [Orders],
         components: {
-            UpdateOrderStatus
+            UpdateOrderStatus,
+            RefundTransaction
         },
         data() {
             return {
@@ -15,6 +17,7 @@
                 currency: {},
                 currencies: [],
                 transactions: {},
+                paymentProviders: [],
                 showStatusModal: false,
                 dirty: false,
                 initialFields : {
@@ -39,6 +42,11 @@
                 this.loadOrder(this.id);
             });
             Dispatcher.add('save-order', this);
+
+            apiRequest.send('GET', '/payments/providers').then(response => {
+                this.paymentProviders = response;
+            })
+
         },
         computed: {
             discountTotal() {
@@ -60,6 +68,18 @@
             },
         },
         methods: {
+            canRefund(transaction) {
+                // If all the transactions minus all the refunds is more than transaction amount.
+                let transactions = 0;
+
+                _.each(this.order.transactions.data, item => {
+                    transactions += item.amount;
+                });
+
+                return transaction.amount <= transactions &&
+                    this.paymentProviders[transaction.driver] &&
+                    !transaction.refund;
+            },
             refreshState() {
                 let dirtyFields = _.filter(this.initialFields, (value, field) => {
                     return this.order[field] && this.order[field] != value;
@@ -150,26 +170,6 @@
                 }).catch(error => {
                 });
             },
-            refund(index) {
-                if (!confirm('Are you sure?')) {
-                    return false;
-                }
-                this.$set(this.transactions[index], 'refunding', true);
-
-                var transaction = this.transactions[index];
-
-                apiRequest.send('post', '/payments/' + transaction.id + '/refund').then(response => {
-                    this.$set(this.transactions[index], 'refunding', false);
-                    this.loadOrder();
-                }).catch(response => {
-                    this.$set(this.transactions[index], 'refunding', false);
-                    CandyEvent.$emit('notification', {
-                        level: 'error',
-                        message: error.message
-                    });
-                });
-
-            },
             customerLink(user) {
                 return '/hub/order-processing/customers/' + user.id;
             },
@@ -198,6 +198,7 @@
 <template>
     <div>
         <template v-if="loaded">
+
             <div class="row">
                 <div class="col-md-12 text-right">
                     <a :href="customerLink(order.user.data)" class="btn   btn-primary" v-if="order.user">View Customer Account</a>
@@ -394,6 +395,7 @@
                                                     <th>Address Matched</th>
                                                     <th>Postcode Matched</th>
                                                     <th>3DSecure</th>
+                                                    <th>Refund</th>
                                                     <th>Status</th>
                                                     <th>Notes</th>
                                                     <th width="8%">Actions</th>
@@ -454,18 +456,29 @@
                                                         </template>
                                                     </td>
                                                     <td>
+                                                        <template v-if="item.refund">
+                                                            <i class="fa fa-check text-success"></i>
+                                                        </template>
+                                                        <template v-else>
+                                                            <i class="fa fa-times text-danger"></i>
+                                                        </template>
+                                                    </td>
+                                                    <td>
                                                         {{ item.status }}
                                                     </td>
                                                     <td>{{ item.notes }}</td>
                                                     <td>
-                                                        <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
+                                                        <template v-if="canRefund(item)">
+                                                            <refund-transaction :initial="item.amount / 100" :reference="item.transaction_id" :id="item.id" @refunded="loadOrder"></refund-transaction>
+                                                        </template>
+                                                        <!-- <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
                                                         <button @click="refund(index)" type="button" class="btn btn-small btn-info" v-if="item.success && !item.refunding">Issue Refund</button>
                                                         <button  type="button" class="btn btn-small btn-warning" v-if="item.refunding" disabled>
                                                             <i class="fa fa-refresh fa-spin"></i> Refunding
                                                         </button>
                                                         <button  type="button" class="btn btn-small btn-warning" v-if="item.voiding" disabled>
                                                             <i class="fa fa-refresh fa-spin"></i> voiding
-                                                        </button>
+                                                        </button> -->
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -495,12 +508,6 @@
 <style lang="scss" scoped>
     .fade-enter-active, .fade-leave-active {
         transition: opacity 1s;
-    }
-
-    iframe {
-        width:100%;
-        border:1px solid #ebebeb;
-        height:400px;
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
     {
