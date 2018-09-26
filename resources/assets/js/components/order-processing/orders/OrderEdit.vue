@@ -401,7 +401,7 @@
                                                     <th>Address Matched</th>
                                                     <th>Postcode Matched</th>
                                                     <th>3DSecure</th>
-                                                    <th>Provider Notes</th>
+                                                    <th>Provider Response</th>
                                                     <th>Notes</th>
                                                     <th width="8%">Actions</th>
                                                 </tr>
