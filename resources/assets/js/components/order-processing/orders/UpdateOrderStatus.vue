@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="btn-holder">
             <button class="btn btn-primary" @click="show = true">Update Status</button>
             <candy-modal title="Create Attribute" v-show="show" size="modal-lg" @closed="reset">
                 <div slot="body" class="text-left">
@@ -132,5 +132,8 @@
         width:100%;
         border:1px solid #ebebeb;
         height:400px;
+    }
+    .btn-holder {
+        display:inline-block;
     }
 </style>
