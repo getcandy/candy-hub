@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" id="fullRefundCheckbox">
                             <div class="checkbox">
                                 <input type="checkbox" id="fullAmount" value="1" :checked="amount == initial" @change="setFull">
                                 <label for="fullAmount">
@@ -110,6 +110,8 @@
                     this.processing = false;
                     this.showModal = false;
                     this.message = null;
+                    this.confirmation = null;
+                    this.amount = this.value;
                     this.$emit('refunded', response);
 
                     CandyEvent.$emit('notification', {
@@ -134,5 +136,7 @@
 </script>
 
 <style scoped>
-
+    #fullRefundCheckbox {
+        margin-top:2.25em;
+    }
 </style>

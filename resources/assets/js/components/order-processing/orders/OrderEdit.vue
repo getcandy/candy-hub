@@ -82,7 +82,8 @@
             canRefund(transaction) {
                 return this.maxRefund &&
                     this.paymentProviders[transaction.driver] &&
-                    !transaction.refund;
+                    !transaction.refund &&
+                    transaction.success;
             },
             refreshState() {
                 let dirtyFields = _.filter(this.initialFields, (value, field) => {
