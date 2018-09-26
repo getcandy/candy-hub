@@ -53,7 +53,9 @@
                 let transactions = 0;
 
                 _.each(this.order.transactions.data, item => {
-                    transactions += item.amount;
+                    if (item.success) {
+                        transactions += item.amount;
+                    }
                 });
 
                 return transactions;
@@ -388,7 +390,8 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Merchant</th>
-                                                    <th>Successful</th>
+                                                    <th>Status</th>
+                                                    <th>Refund</th>
                                                     <th>Amount</th>
                                                     <th>Payment Type</th>
                                                     <th>Card type</th>
@@ -397,8 +400,7 @@
                                                     <th>Address Matched</th>
                                                     <th>Postcode Matched</th>
                                                     <th>3DSecure</th>
-                                                    <th>Refund</th>
-                                                    <th>Status</th>
+                                                    <th>Provider Notes</th>
                                                     <th>Notes</th>
                                                     <th width="8%">Actions</th>
                                                 </tr>
@@ -406,11 +408,21 @@
                                             <tbody>
                                                 <tr v-for="(item, index) in transactions">
                                                     <td>{{ item.transaction_id }}</td>
-                                                    <td>{{ item.merchant }}</td>
+                                                    <td>
+                                                        {{ item.merchant }} - {{ item.provider }}
+                                                    </td>
                                                     <td>
                                                         <span class="text-success" v-if="item.success">Processed</span>
                                                         <span class="text-info" v-else-if="item.status == 'voided'">Voided</span>
                                                         <span class="text-danger" v-else>Failed</span>
+                                                    </td>
+                                                    <td>
+                                                        <template v-if="item.refund">
+                                                            <i class="fa fa-check text-success"></i>
+                                                        </template>
+                                                        <template v-else>
+                                                            <i class="fa fa-times text-danger"></i>
+                                                        </template>
                                                     </td>
                                                     <td v-html="currencySymbol(item.amount)"></td>
                                                     <td>
@@ -451,14 +463,6 @@
                                                     </td>
                                                     <td>
                                                         <template v-if="item.threed_secure">
-                                                            <i class="fa fa-check text-success"></i>
-                                                        </template>
-                                                        <template v-else>
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="item.refund">
                                                             <i class="fa fa-check text-success"></i>
                                                         </template>
                                                         <template v-else>
