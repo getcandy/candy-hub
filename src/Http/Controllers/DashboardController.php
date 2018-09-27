@@ -146,12 +146,12 @@ class DashboardController extends Controller
             $total = 0;
 
             foreach ($orders as $order) {
-                $total += $order->total;
+                $total += $order->order_total;
             }
 
-
-            $data[] = round($total / 100, 2);
+            $data[] = $total;
         }
+
 
         $dataset = [
             'label'           => 'Order Totals',
