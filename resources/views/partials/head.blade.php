@@ -23,6 +23,7 @@
     window.Laravel = {
         "csrfToken": "{{ csrf_token() }}"
     };
+    window.hubPrefix = "{{ config('getcandy.hub_prefix', 'hub') }}";
     </script>
 
     {!! $head_html !!}
