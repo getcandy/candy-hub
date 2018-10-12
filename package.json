@@ -29,6 +29,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.6",
     "@fortawesome/vue-fontawesome": "0.0.22",
     "babel-polyfill": "^6.23.0",
+    "bootstrap-daterangepicker": "^3.0.3",
     "bootstrap-switch": "^3.3.4",
     "bootstrap-tagsinput": "^0.7.1",
     "chart.js": "^2.7.1",
