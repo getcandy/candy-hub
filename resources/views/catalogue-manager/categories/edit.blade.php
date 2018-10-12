@@ -16,11 +16,11 @@
       element="category"
       endpoint="/categories/{{ $id }}"
       id="{{ $id }}"
-      redirect="/catalogue-manager/categories"
+      redirect="/{{ config('getcandy.hub_prefix', 'hub') }}/catalogue-manager/categories"
       warning="You will lose any child categories along with any associations"
       style="display: inline-block;"
     ></candy-delete>
-    <candy-button style="display: inline-block;" event="save-category">Save Category</candy-button>
+    <candy-button style="display: inline-block;" event="save-category">Save Category123</candy-button>
 @endsection
 
 @section('content')
