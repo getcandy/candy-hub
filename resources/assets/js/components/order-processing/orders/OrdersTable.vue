@@ -189,6 +189,12 @@
                     return item.code == currency;
                 });
                 return currency.format.replace('{price}', amount.money(2, currency.thousand_point, currency.decimal_point));
+            },
+            has(obj, path) {
+                return _.has(obj, path);
+            },
+            get(obj, path, defaultVal) {
+                return _.get(obj, path, defaultVal);
             }
         }
     }
@@ -327,18 +333,10 @@
                                         <td @click="loadOrder(order.id)" >
                                             {{ order.customer_name }}
                                         </td>
-
                                         <td @click="loadOrder(order.id)">
-                                            <template v-if="
-                                                order.user &&
-                                                order.user.data.details &&
-                                                order.user.data.details.data.fields.account_number &&
-                                                order.user.data.details.data.fields.account_number != 0
-                                            ">
-                                                {{ order.user.data.details.data.fields.account_number }}
-                                            </template>
-                                            <template v-else>
-                                                -
+                                            <template v-if="has(order, 'user.data.details.data.fields.account_number') &&
+                                                  get(order, 'user.data.details.data.fields.account_number') != 0">
+                                                {{ get(order, 'user.data.details.data.fields.account_number', '-') }}
                                             </template>
                                         </td>
                                         <td @click="loadOrder(order.id)">
