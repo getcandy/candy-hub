@@ -17,7 +17,7 @@
       element="product"
       endpoint="/products/{{ $id }}"
       id="{{ $id }}"
-      redirect="/catalogue-manager/products"
+      redirect="/{{ config('getcandy.hub_prefix', 'hub') }}/catalogue-manager/products"
       style="display: inline-block;"
     ></candy-delete>
 @endsection

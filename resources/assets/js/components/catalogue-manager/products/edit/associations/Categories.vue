@@ -98,10 +98,11 @@
                             level: 'success'
                         });
                         this.results = [];
-                        this.closeAddModal();
+                        this.addModalOpen = false;
                     });
             },
             closeAddModal() {
+                this.save();
                 this.addModalOpen = false;
             },
             openDeleteModal(category) {

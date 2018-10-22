@@ -23,7 +23,8 @@
                 initialFields : {
                     tracking_no: null,
                     status: null
-                }
+                },
+                hubPrefix: window.hubPrefix
             }
         },
         props: {
@@ -176,7 +177,7 @@
                 });
             },
             customerLink(user) {
-                return '/hub/order-processing/customers/' + user.id;
+                return '/'+ this.hubPrefix +'/order-processing/customers/' + user.id;
             },
             voidit(index) {
                 if (!confirm('Are you sure?')) {
@@ -195,6 +196,12 @@
                         message: error.message
                     });
                 });
+            },
+            has(obj, path) {
+                return _.has(obj, path);
+            },
+            get(obj, path, defaultVal) {
+                return _.get(obj, path, defaultVal);
             }
         }
     }
@@ -207,7 +214,7 @@
             <div class="row">
                 <div class="col-md-12 text-right">
                     <a :href="customerLink(order.user.data)" class="btn   btn-primary" v-if="order.user">View Customer Account</a>
-                    <a :href="'/hub/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Download Invoice</a>
+                    <a :href="'/'+ hubPrefix +'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Download Invoice</a>
                     <!-- <button @click="showStatusModal = true" class="btn  btn-primary">Update Status</button> -->
                     <update-order-status :saving="showStatusModal" :show-modal="showStatusModal" :statuses="statuses" v-model="order.status" @save="updateStatus"></update-order-status>
                 </div>
@@ -273,9 +280,10 @@
                                         Email: {{ order.contact_details.email }} <span class="text-muted" v-if="!order.contact_details.email">Not provided</span> <br>
                                         Telephone: {{ order.contact_details.phone }} <span class="text-muted" v-if="!order.contact_details.phone">Not provided</span>
                                     </p>
-                                    <template v-if="order.user && order.user.data.details.data.fields.account_number">
-                                        <p><strong style="margi:10px 0 5px 0;display:block;">Account Number</strong>
-                                        {{ order.user.data.details.data.fields.account_number }}</p>
+                                    <template v-if="has(order, 'user.data.details.data.fields.account_number') &&
+                                              get(order, 'user.data.details.data.fields.account_number') != 0">
+                                        <p><strong style="margin:10px 0 5px 0;display:block;">Account Number</strong>
+                                        {{ get(order, 'user.data.details.data.fields.account_number') }}</p>
                                     </template>
                                     <strong style="margi:10px  0;display:block;">Tracking Number</strong>
                                     <input class="form-control" v-model="order.tracking_no" @keyup="refreshState">

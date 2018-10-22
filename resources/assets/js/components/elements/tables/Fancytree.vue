@@ -43,6 +43,11 @@
     .treetable .table > tbody > tr:hover .btn{
         display: inline-block;
     }
+    .fancytree-image {
+        max-width: 40px;
+        max-height: 40px;
+        margin-right: 10px;
+    }
 
     .treetable tfoot tr td {
         border:none;
@@ -213,11 +218,7 @@
                 return '<a data-parent-id="'+ parentID +'" data-parent-name="'+ parentName +'" class="btn btn-default modal-button"><i class="fa fa-plus"></i> Create Subcategory</a>';
             },
             getImage: function(data) {
-                let url = '/candy-hub/images/placeholder/no-image.svg';
-                console.log(data);
-                if (data.thumbnail) {
-                    url = data.thumbnail.data.thumbnail;
-                }
+                let url = _.get(data, ['assets', 0, 'url'], '/candy-hub/images/placeholder/no-image.svg');
                 return '<img class="fancytree-image" src="' + url + '" >';
             },
             getAttribute: function(data, attribute) {

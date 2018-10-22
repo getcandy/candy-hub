@@ -46,7 +46,6 @@ window.List           = require('list.js');
 window.locale         = new Locale();
 window.moment         = require('moment');
 window.defaultChannel = document.head.querySelector('meta[name="channel"]').content;
-
 // Include our custom v stuff here, so we know everything is loaded
 
 require('./directives/sortable');
