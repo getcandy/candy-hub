@@ -16,7 +16,7 @@
         },
         props: {
             value: {
-                type: String
+                type: String|Boolean
             },
             required: {
                 type: Boolean

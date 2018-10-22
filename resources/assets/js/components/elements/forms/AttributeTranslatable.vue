@@ -170,7 +170,7 @@
 
                             <candy-select v-if="attribute.type == 'select'"
                                         :id="'default-'+ attribute.id"
-                                        v-model="attributeData[attribute.handle]"
+                                        v-model="attributeData[attribute.handle][defaultChannel][defaultLanguage]"
                                         :options="attribute.lookups" :required="attribute.required">
                             </candy-select>
                             <candy-textarea v-if="attribute.type == 'textarea' || attribute.type == 'richtext'"
@@ -185,7 +185,6 @@
                                 @input="set(attribute.handle, $event, 'default')" v-if="attribute.type == 'multiselect'"></candy-taggable>
 
                             <div v-if="attribute.type == 'toggle'">
-
                                 <candy-toggle :id="'default-'+ attribute.id"
                                               :value="get(attribute.handle, 'default')"
                                                 @input="set(attribute.handle, $event, 'default')"

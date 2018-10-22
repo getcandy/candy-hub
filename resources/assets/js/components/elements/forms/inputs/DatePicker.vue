@@ -12,7 +12,7 @@ export default {
   props: {
     value: { required: true },
     format: { default: "YYYY-MM-DD" },
-    options: { default: {} }
+    options: { default: () => {} }
   },
   mounted() {
     const picker = new Pikaday({
