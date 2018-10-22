@@ -1,20 +1,23 @@
 <script>
     import Flatify from '../../../classes/Flatify'
-    import GroupService from '../../../services/Attributes/GroupService.js';
+    import HasGroups from '../../../mixins/HasGroups.js';
+    import HasAttributes from '../../../mixins/HasAttributes.js';
+    import HasAssets from '../../../mixins/HasAssets.js';
 
     export default {
+        mixins: [
+            HasGroups,
+            HasAttributes,
+            HasAssets,
+        ],
         data() {
             return {
                 loaded: false,
                 savedSearches: [],
                 products: [],
-                selected: [],
-                selectAll: false,
-                checkedCount: 0,
                 editing: null,
                 editingBackup: null,
                 quickEditModal: false,
-                filters: [],
                 keywords: '',
                 meta: [],
                 params: {
@@ -23,22 +26,6 @@
                     page: 1,
                     includes: 'channels,customer_groups,family,attribute_groups,variants,thumbnail.transforms'
                 }
-            }
-        },
-        watch: {
-            selected: function(val) {
-                this.checkedCount = val.length;
-                this.selectAll = (val.length === this.products.length);
-            },
-            selectAll: function(val) {
-                let selected = [];
-
-                if (val) {
-                    this.products.forEach(function (product) {
-                        selected.push(product.id);
-                    });
-                }
-                this.selected = selected;
             }
         },
 
@@ -104,10 +91,6 @@
                     this.params['keywords'] = search.payload.keywords;
                     this.keywords = search.payload.keywords;
                 }
-
-                if (search && search.payload.filters) {
-                    this.params['filters'] = search.payload.filters;
-                }
                 this.searchProducts();
             },
             deleteSaved(index) {
@@ -122,24 +105,16 @@
             resetSearch() {
                 this.params['keywords'] = null;
                 this.keywords = '';
-                this.params['filters'] = null;
                 this.loadProducts();
             },
             saveSearch() {
                 apiRequest.send('POST', '/saved-searches', {
                     type: 'product',
                     name: this.keywords,
-                    keywords: this.keywords,
-                    filters: this.filters
+                    keywords: this.keywords
                 }).then(response => {
                     this.savedSearches.push(response.data);
                 });
-            },
-            productThumbnail(product) {
-                if (product.thumbnail) {
-                    return product.thumbnail.data.thumbnail;
-                }
-                return '/candy-hub/images/placeholder/no-image.png';
             },
             search: _.debounce(function (){
                     this.loaded = false;
@@ -160,34 +135,6 @@
                 }
                 return 'Multiple';
             },
-            getVisibilty(product, ref) {
-                let groups = product[ref].data;
-                let visible = [];
-                groups.forEach(group => {
-                    if (group.visible) {
-                        visible.push(group.name);
-                    }
-                    if (group.published_at) {
-                        let now = moment();
-                        let publish_date = moment(group.published_at);
-                        if (!publish_date.isAfter(now)) {
-                            visible.push(group.name);
-                        }
-                    }
-                });
-                if (visible.length == groups.length) {
-                    return 'All';
-                }
-                if (!visible.length) {
-                    return 'None';
-                }
-                return visible.join(', ');
-            },
-            getAttributeGroups(product) {
-                return GroupService.getLabel(
-                    product.attribute_groups.data
-                );
-            },
             quickEdit(index) {
                 this.editing = index;
                 this.editingBackup = JSON.parse(JSON.stringify(this.products[index]));
@@ -200,9 +147,17 @@
                 var product = this.products[this.editing];
                 var variants = product.variants.data;
 
-                variants.forEach(variant => {
+                variants.forEach((variant, index) => {
+                    // Only save if it has changed.
+                    if (JSON.stringify(variant) == JSON.stringify(this.editingBackup.variants.data[index])) {
+                        return;
+                    }
                     apiRequest.send('put', '/products/variants/' + variant.id, variant)
                         .then(response => {
+                            CandyEvent.$emit('notification', {
+                                level: 'success',
+                                message: 'Stock Updated'
+                            });
                         }).catch(response => {
                             CandyEvent.$emit('notification', {
                                 level: 'error',
@@ -210,11 +165,6 @@
                             });
                             return false;
                         });
-                });
-
-                CandyEvent.$emit('notification', {
-                    level: 'success',
-                    message: 'Stock Updated'
                 });
 
                 this.editingBackup = null;
@@ -225,9 +175,6 @@
                 this.products[this.editing] = this.editingBackup;
                 this.editingBackup = null;
                 this.editing = null;
-            },
-            selectAllClick() {
-                this.selectAll = !this.selectAll;
             },
             changePage(page) {
                 this.loaded = false;
@@ -257,7 +204,7 @@
                 </a>
             </li>
             <li role="presentation" v-for="(search, index) in savedSearches" :key="search.id" :class="{'active' : isActive(search)}">
-                <a href="#shoes" aria-controls="shoes" role="tab" data-toggle="tab" @click="applySavedSearch(search)">
+                <a href="#"  role="tab" data-toggle="tab" @click="applySavedSearch(search)">
                     {{ search.name }} <i class="fa fa-times" aria-hidden="true" @click="deleteSaved(index)"></i>
                 </a>
             </li>
@@ -326,17 +273,6 @@
                     </template>
                     <hr>
                 </template>
-
-                <!-- Filter List -->
-                <!-- <div class="filters">
-                    <div class="filter active">Visible on Storefront
-                        <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    </div>
-                    <div class="filter active">Visible on Facebook
-                        <button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    </div>
-                </div> -->
-
                 <hr>
 
                 <table class="table product-table">
@@ -375,8 +311,8 @@
                                         </a>
                                     </template>
                                 </td>
-                                <td>{{ getVisibilty(product, 'channels') }}</td>
-                                <td>{{ getVisibilty(product, 'customer_groups') }}</td>
+                                <td>{{ visibility(product, 'channels') }}</td>
+                                <td>{{ visibility(product, 'customer_groups') }}</td>
                                 <td>
                                     {{ getAttributeGroups(product) }}
                                 </td>
