@@ -1,6 +1,11 @@
 <script>
 
+    import HasAttributes from '../../../mixins/HasAttributes.js';
+
     export default {
+        mixins: [
+            HasAttributes,
+        ],
         data() {
             return {
                 family : {},
@@ -25,11 +30,9 @@
                 apiRequest.send('get', '/product-families/' + this.id, [], this.params)
                     .then(response => {
                         this.family = response.data;
-                        this.fields['name'] = {
-                            value: this.family.name,
-                            type: 'text',
-                            translatable: true
-                        };
+
+                        this.setUp(this.family.attribute_data);
+
                         this.attribute_groups = this.family.attribute_groups.data;
 
                         document.title = this.$options.filters.attribute(this.family, 'name') + ' Product Family - GetCandy';
