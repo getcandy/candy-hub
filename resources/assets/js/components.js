@@ -155,6 +155,7 @@ var includes = [
       'category-availability' : 'CategoryAvailability',
       'category-details'      : 'CategoryDetails',
       'category-product-positioning' : 'ProductPositioning',
+      'category-nodes' : 'CategoryNodes',
       'category-display': 'CategoryDisplay'
     }
   },
