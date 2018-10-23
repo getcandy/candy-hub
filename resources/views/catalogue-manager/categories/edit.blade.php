@@ -8,7 +8,7 @@
 
 @section('header_title')
     <small>Catalogue Manager</small>
-    <h1>Edit Category</h1>
+    <h1>@verbatim<template v-if="title">{{ title }}</template>@endverbatim</h1>
 @endsection
 
 @section('header_actions')
