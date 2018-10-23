@@ -26,6 +26,9 @@
             });
         },
         methods: {
+            url(id) {
+                return route('hub.categories.edit', id);
+            },
             /**
              * Decorates the data ready for the template to use
              * @param  {Object} data
@@ -58,11 +61,14 @@
              */
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
-                    includes: 'channels,layout,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
+                    includes: 'channels,layout,assets,assets.tags,children,parent,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
                 }).then(response => {
                     this.decorate(response.data);
                     document.title = this.$options.filters.attribute(this.category, 'name') + ' Category - GetCandy';
                     this.loaded = true;
+                    CandyEvent.$emit('title-changed', {
+                        title: this.category
+                    });
                 }).catch(error => {
                 });
             }
@@ -74,7 +80,13 @@
     <div>
         <template v-if="loaded">
 
-            <transition name="fade">
+                <div class="panel" v-if="category.parent">
+                    <div class="panel-body">
+                        <i class="fa fa-info-circle text-info"></i> This category is a descendant of <a :href="url(category.parent.data.id)"><strong>{{ category.parent.data|attribute('name') }}</strong></a>
+                    </div>
+                </div>
+
+
                 <candy-tabs initial="categorydetails">
 
                     <candy-tab name="Category Details" handle="category-details" :selected="true" dispatch="category-details">
@@ -99,6 +111,9 @@
                             <candy-tab name="Products" :selected="true">
                                 <candy-category-product-positioning :category-id="category.id" :sort="category.sort" :products="category.products.data"></candy-category-product-positioning>
                             </candy-tab>
+                            <candy-tab name="Children Categories">
+                                <candy-category-nodes :nodes="category.children.data" :category-id="category.id"></candy-category-nodes>
+                            </candy-tab>
                         </candy-tabs>
                     </candy-tab>
 
@@ -118,7 +133,6 @@
                     </candy-tab>
 
                 </candy-tabs>
-            </transition>
         </template>
 
         <div v-else>
