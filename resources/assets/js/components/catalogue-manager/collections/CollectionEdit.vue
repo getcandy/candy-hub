@@ -63,7 +63,7 @@
              */
             loadCollection(id) {
                 apiRequest.send('get', '/collections/' + id, {}, {
-                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes'
+                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
                 })
                 .then(response => {
                     this.decorate(response.data);
@@ -102,6 +102,14 @@
 
                     <candy-tab name="Availability" handle="collection-availability" dispatch="collection-availability">
                         <candy-collection-availability :collection="collection" :languages="languages"></candy-collection-availability>
+                    </candy-tab>
+
+                    <candy-tab name="Associations">
+                        <candy-tabs nested="true">
+                            <candy-tab name="Products" :selected="true">
+                                <candy-collection-products :collection-id="collection.id" :products="collection.products.data"></candy-collection-products>
+                            </candy-tab>
+                        </candy-tabs>
                     </candy-tab>
 
                     <candy-tab name="URLS">

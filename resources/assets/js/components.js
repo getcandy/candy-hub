@@ -135,7 +135,8 @@ var includes = [
     path: 'catalogue-manager.collections.edit',
     components: {
       'collection-details' : 'CollectionDetails',
-      'collection-availability' : 'CollectionAvailability'
+      'collection-availability' : 'CollectionAvailability',
+      'collection-products' : 'CollectionProducts'
     }
   },
   /**
