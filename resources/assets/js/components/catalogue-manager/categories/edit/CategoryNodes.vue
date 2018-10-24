@@ -21,27 +21,53 @@
                         </tr>
                     </thead>
                     <tbody  v-sortable="sortableOptions">
-                        <tr v-for="item in nodes" :key="item.id">
-                            <td class="handle" width="10%">
-                                <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g id="Artboard" fill="#D8D8D8">
-                                            <rect id="Rectangle" x="2" y="2" width="3" height="3"></rect>
-                                            <rect id="Rectangle-Copy-2" x="2" y="8" width="3" height="3"></rect>
-                                            <rect id="Rectangle-Copy-4" x="2" y="14" width="3" height="3"></rect>
-                                            <rect id="Rectangle-Copy-5" x="8" y="14" width="3" height="3"></rect>
-                                            <rect id="Rectangle-Copy" x="8" y="2" width="3" height="3"></rect>
-                                            <rect id="Rectangle-Copy-3" x="8" y="8" width="3" height="3"></rect>
+                        <template v-for="item in nodes">
+                            <tr :key="item.id">
+                                <td class="handle" width="10%">
+                                    <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="Artboard" fill="#D8D8D8">
+                                                <rect id="Rectangle" x="2" y="2" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-2" x="2" y="8" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-4" x="2" y="14" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-5" x="8" y="14" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy" x="8" y="2" width="3" height="3"></rect>
+                                                <rect id="Rectangle-Copy-3" x="8" y="8" width="3" height="3"></rect>
+                                            </g>
                                         </g>
-                                    </g>
-                                </svg>
-                            </td>
-                            <td>
-                                <a :href="url(item)">{{ item|attribute('name') }}</a>
-                            </td>
-                            <td>{{ item.children_count }}</td>
-                            <td>{{ item.products_count }}</td>
-                        </tr>
+                                    </svg>
+                                </td>
+                                <td>
+                                    <a :href="url(item)">{{ item|attribute('name') }}</a>
+                                </td>
+                                <td>{{ item.children_count }}</td>
+                                <td>
+                                    {{ item.products_count }}
+                                    <template v-if="item.products_count">
+                                        <a href="#" @click.prevent="expand(item.id)" v-if="!isExpanded(item.id)">Expand</a>
+                                        <a href="#" @click.prevent="collapse(item.id)" v-else>Collapse</a>
+                                    </template>
+                                </td>
+                            </tr>
+                            <tr v-if="item.products_count && isExpanded(item.id)">
+                                <td colspan="4">
+                                    <div class="overflow">
+                                        <table class="table product-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="product in item.products.data" :key="product.id">
+                                                <td>{{ product|attribute('name') }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
@@ -65,8 +91,10 @@
         },
         data() {
             return {
+                expanded: [],
                 sortableOptions: {
                     onEnd: this.reorder,
+                    onStart: this.collapseAll(),
                     filter: '.disabled',
                     handle: '.handle',
                     animation: 150
@@ -77,8 +105,20 @@
 
         },
         methods: {
+            expand(index) {
+                this.expanded.push(index);
+            },
+            collapse(index) {
+                this.expanded.splice(index, 1);
+            },
+            isExpanded(index) {
+                return this.expanded.contains(index);
+            },
             url(category) {
                 return route('hub.categories.edit', category.id);
+            },
+            collapseAll() {
+                this.expanded = [];
             },
             reorder ({oldIndex, newIndex}) {
                 let action = 'after';
@@ -113,5 +153,10 @@
 </script>
 
 <style scoped>
-
+    .product-table tbody {
+        display: inline-table;
+        width:100%;
+        max-height: 100px;
+        overflow: scroll;
+    }
 </style>
