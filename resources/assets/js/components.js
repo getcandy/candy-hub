@@ -16,7 +16,8 @@ var includes = [
       'modal' : 'Modal',
       'notification' : 'NotificationBar',
       'delete' : 'Delete',
-      'layout-picker': 'LayoutPicker'
+      'layout-picker': 'LayoutPicker',
+      'product-browser': 'ProductBrowser',
     }
   },
   /**
