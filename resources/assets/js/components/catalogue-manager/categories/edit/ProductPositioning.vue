@@ -3,7 +3,6 @@
         data() {
             return {
                 request: apiRequest,
-                positioning: [],
                 sortType: '',
                 sortableOptions: {
                     onEnd: this.reorder,
@@ -26,17 +25,18 @@
         },
         methods: {
             reorder ({oldIndex, newIndex}) {
-                const movedItem = this.positioning.splice(oldIndex, 1)[0];
-                this.positioning.splice(newIndex, 0, movedItem);
+                const movedItem = this.products.splice(oldIndex, 1)[0];
+                this.products.splice(newIndex, 0, movedItem);
                 this.updatePositions();
-                CandyEvent.$emit('notification', {
-                    level: 'success'
-                });
+            },
+            add(products) {
+                this.products = products;
+                this.updatePositions();
             },
             updatePositions() {
                 let pos = 1;
 
-                this.positioning.forEach(product => {
+                this.products.forEach(product => {
                     product.position = pos;
                     pos++;
                 });
@@ -51,34 +51,40 @@
                 this.updatePositions();
             },
             remove(index) {
-                this.positioning.splice(index, 1);
+                this.products.splice(index, 1);
                 this.updatePositions();
             },
             save() {
                 let payload = {
                     sort_type: this.sortType
                 };
-                payload.products = _.map(this.positioning, item => {
+                payload.products = _.map(this.products, item => {
                     return {
                         id: item.id,
-                        position: item.position
+                        position: item.position ? item.position : 1
                     }
                 });
                 this.request.send('PUT', '/categories/' + this.categoryId + '/products', payload)
                     .then(response => {
+                        CandyEvent.$emit('notification', {
+                            level: 'success'
+                        });
                     });
+            }
+        },
+        computed: {
+            positioning() {
+                return _.map(this.products, product => {
+                    return {
+                        id: product.id,
+                        position: product.position,
+                        object: product
+                    }
+                });
             }
         },
         mounted() {
             this.sortType = this.sort;
-
-            this.positioning = _.map(this.products, product => {
-                return {
-                    id: product.id,
-                    position: product.position,
-                    object: product
-                }
-            });
         }
     }
 </script>
@@ -87,14 +93,21 @@
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <h4>Product Positioning</h4>
                             <span class="text-warning">If product is unavailable for a customer, the next one in the order will be shown</span>
                         </div>
-                        <div class="col-md-1 text-right">
-                            <label style="margin-top:8px;">Sort type</label>
+                        <div class="col-md-2">
+                            <candy-product-browser
+                                :current="products"
+                                button-text="Add Product"
+                                button-confirm="Associate Products"
+                                @saved="add"
+                            >
+                            </candy-product-browser>
                         </div>
                         <div class="col-md-2">
+                            <label>Sort type</label>
                             <select v-model="sortType" class="form-control" @change="sortProducts">
                                 <option value="min_price:asc">Price Low/High</option>
                                 <option value="max_price:desc">Price High/Low</option>
