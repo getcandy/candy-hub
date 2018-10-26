@@ -156,6 +156,7 @@ Vue.component('candy-attribute-group-create', require('./components/catalogue-ma
 Vue.component('candy-product-families-table', require('./components/catalogue-manager/product-families/Table.vue'));
 Vue.component('candy-product-family-edit', require('./components/catalogue-manager/product-families/Edit.vue'));
 Vue.component('candy-product-family-create', require('./components/catalogue-manager/product-families/Create.vue'));
+Vue.component('candy-product-family-delete', require('./components/catalogue-manager/product-families/Delete.vue'));
 
 Vue.component('candy-order-status-select', require('./components/elements/forms/inputs/OrderStatuses.vue'));
 
