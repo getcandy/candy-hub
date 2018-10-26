@@ -9,12 +9,16 @@
         },
         methods: {
             save() {
-                // apiRequest.send('get', '/attributes', [], this.params)
-                //     .then(response => {
-                //         this.attributes = response.data;
-                //         this.pagination = response.meta.pagination;
-                //         this.loaded = true;
-                //     });
+                apiRequest.send('POST', '/product-families', {
+                    name: {
+                        [locale.current()] : this.name,
+                    }
+                })
+                    .then(response => {
+                        this.name = null;
+                        this.modal = false;
+                        CandyEvent.$emit('product-family-added', response.data);
+                    });
             }
         }
     }
@@ -22,20 +26,16 @@
 
 <template>
     <div>
-        <button class="btn btn-success" @click="modal = true"><fa icon="plus" class="fa-first"></fa> Create Attribute Group</button>
-        <candy-modal title="Create Attribute" v-show="modal" size="modal-md" @closed="modal = false">
+        <button class="btn btn-success" @click="modal = true"><fa icon="plus" class="fa-first"></fa> Create Product Family</button>
+        <candy-modal title="Create Product Family" v-show="modal" size="modal-md" @closed="modal = false">
             <div slot="body">
                 <div class="form-group">
                     <label>Name</label>
-                    <input class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Handle</label>
-                    <input class="form-control">
+                    <input class="form-control" v-model="name">
                 </div>
             </div>
             <template slot="footer">
-                <button type="button" class="btn btn-primary">Create Attribute Group</button>
+                <button type="button" class="btn btn-primary" @click="save">Save</button>
             </template>
         </candy-modal>
     </div>

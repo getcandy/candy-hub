@@ -76,7 +76,7 @@ Route::group([
                 'as'   => 'hub.product-families.index',
                 'uses' => 'ProductFamilyController@getIndex',
             ]);
-            $router->get('products-families/{id}', [
+            $router->get('product-families/{id}', [
                 'as'   => 'hub.product-families.edit',
                 'uses' => 'ProductFamilyController@getEdit',
             ]);

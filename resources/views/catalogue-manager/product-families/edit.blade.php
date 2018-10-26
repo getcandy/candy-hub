@@ -14,6 +14,7 @@
 
 @section('header_actions')
     <candy-button style="display: inline-block;" event="save-attribute">Save Product Family</candy-button>
+    <candy-product-family-delete id="{{ $id }}" style="display: inline-block;"></candy-product-family-delete>
 @stop
 
 

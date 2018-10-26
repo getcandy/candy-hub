@@ -18,6 +18,7 @@ var includes = [
       'delete' : 'Delete',
       'layout-picker': 'LayoutPicker',
       'product-browser': 'ProductBrowser',
+      'collection-browser': 'CollectionBrowser',
     }
   },
   /**
@@ -194,7 +195,7 @@ var includes = [
     path: 'catalogue-manager.products.edit.associations',
     components: {
       'categories' : 'Categories',
-      'collections' : 'Collections',
+      'product-collections' : 'Collections',
       'products' : 'Products'
     }
   },
