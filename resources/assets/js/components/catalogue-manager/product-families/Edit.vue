@@ -2,10 +2,12 @@
 
     import HasAttributes from '../../../mixins/HasAttributes.js';
     import FamilyDetails from './Edit/Details';
+    import AttributeGroups from './Edit/AttributeGroups';
 
     export default {
         components: {
-            FamilyDetails
+            FamilyDetails,
+            AttributeGroups,
         },
         mixins: [
             HasAttributes,
@@ -70,7 +72,7 @@
                     </candy-tabs>
                 </candy-tab>
                 <candy-tab name="Attribute Groups" dispatch="product-family-details">
-
+                    <attribute-groups :groups="attribute_groups"></attribute-groups>
                 </candy-tab>
             </candy-tabs>
         </template>

@@ -106,14 +106,12 @@
 
 <template>
     <div>
-
         <div class="row" v-if="defaultChannel">
             <div class="col-xs-12">
 
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
-
                             <div class="col-md-6">
                                 <button v-if="!translating" class="btn btn-default" @click="translating = true">Translate</button>
                                 <button v-if="translating" class="btn btn-default" @click="translating = false">Hide Translation</button>
