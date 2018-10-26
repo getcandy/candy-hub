@@ -57,6 +57,10 @@
             value: {
                 type: String,
             },
+            orderId: {
+                type: String,
+                required: true,
+            },
             statuses : {
                 type: Array|Object,
                 default() {
@@ -104,8 +108,9 @@
             loadEmailPreview: _.debounce(function (){
                     this.loadingEmail = true;
                     apiRequest.send('POST', '/orders/email-preview/' + this.status, {
+                        id: this.orderId,
                         data: {
-                            content: this.additionalCopy
+                            content: this.additionalCopy,
                         }
                     }).then(response => {
                         this.loadingEmail = false;
