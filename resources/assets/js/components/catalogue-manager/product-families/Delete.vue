@@ -3,7 +3,7 @@
         <button class="btn btn-default white" @click="showModal = true" :disabled="!deletable"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
         <candy-modal title="Confirm deletion" v-show="showModal" size="modal-md" @closed="showModal = false">
             <div slot="body">
-                <template v-if="family.product_count">
+                <template v-if="family && family.product_count">
                 <div class="alert alert-danger" v-if="!selected">
                     If you don't choose a product family to migrate to, all products associated to this product family will move to "default"
                 </div>
