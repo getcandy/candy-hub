@@ -45,6 +45,10 @@
           Dispatcher.add('save-customer', this);
       },
       methods: {
+          formatLabel(value) {
+              value = value.split('_').join(' ').toString();
+              return value.charAt(0).toUpperCase() + value.slice(1);
+          },
           save() {
 
               let data = JSON.parse(JSON.stringify(this.customer));
@@ -140,7 +144,7 @@
                         <div class="sub-content block section">
                             <div class="row">
                                 <div class="col-md-8">
-                                        <h4>Customer Details</h4>
+                                    <h4>Customer Details</h4>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -212,7 +216,27 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+
+                                        <template v-if="customer.details.data && customer.details.data.fields">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h4>Additional Information</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4" v-for="(field, label) in customer.details.data.fields" :key="label">
+                                                    <div class="form-group">
+                                                        <label>{{ formatLabel(label) }}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="text"
+                                                            v-model="customer.details.data.fields[label]"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
                                 <div class="col-md-4">
                                     <h4>Customer Groups</h4>
                                     <hr>
@@ -231,6 +255,7 @@
                                     </table>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-xs-12">
                                     <h4>Addresses</h4>
