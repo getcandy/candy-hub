@@ -49,7 +49,7 @@ class DashboardController extends Controller
 
         $ordersThisWeek = $this->ordersThisWeek()->count();
 
-        if ($thisWeeksSales) {
+        if ($thisWeeksSales && $lastWeeksSales) {
             $salesPercent = (1 - $lastWeeksSales / $thisWeeksSales) * 100;
         } else {
             $salesPercent = 0;
