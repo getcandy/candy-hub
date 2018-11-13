@@ -20,6 +20,7 @@
                 bulkSaving:false,
                 sendEmails: true,
                 shippingZones: [],
+                type: null,
                 bulk: {
                     status: null,
                 },
@@ -40,6 +41,11 @@
         watch: {
             zone() {
                 UrlHelper.setParam('zone', this.zone);
+                this.loadOrders();
+                this.params.page = 1;
+            },
+            type() {
+                UrlHelper.setParam('type', this.type);
                 this.loadOrders();
                 this.params.page = 1;
             },
@@ -73,6 +79,7 @@
 
             this.loadOrders();
             this.getStatuses();
+            this.getTypes();
         },
         computed: {
             allSelected() {
@@ -127,6 +134,7 @@
 
                 this.params.status = this.filter;
                 this.params.zone = this.zone;
+                this.params.type = this.type;
 
                 this.selected = [];
 
@@ -266,11 +274,14 @@
                     <div class="col-md-3">
                         <date-range-picker @update="filterDate" @clear="clearDates" :from="params.from" :to="params.to"></date-range-picker>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <candy-select null-label="All shipping zones" :options="shippingZones" v-if="shippingZones.length" v-model="zone"></candy-select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <candy-select null-label="All order statuses" :options="statusSelect" v-if="statusSelect.length" v-model="filter"></candy-select>
+                    </div>
+                    <div class="col-md-2">
+                        <candy-select null-label="All order types" :options="typeSelect" v-if="typeSelect.length" v-model="type"></candy-select>
                     </div>
                 </div>
                 <!-- Bulk Actions -->

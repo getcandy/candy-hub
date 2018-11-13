@@ -4,6 +4,8 @@ module.exports = {
             statuses: [],
             favourites: [],
             statusSelect: [],
+            types: [],
+            typeSelect: [],
             config: {},
         }
     },
@@ -24,6 +26,20 @@ module.exports = {
                     })
 
                     this.config = response.data.statuses;
+                }
+            });
+        },
+        getTypes() {
+            apiRequest.send('GET', '/orders/types').then(response => {
+                if (response.data) {
+                    this.types = response.data;
+
+                    this.typeSelect = _.map(this.types, (type) => {
+                        return {
+                            label: type.label ? type.label : 'Unknown',
+                            value: type.label ? type.label : 'Unknown',
+                        }
+                    })
                 }
             });
         },
