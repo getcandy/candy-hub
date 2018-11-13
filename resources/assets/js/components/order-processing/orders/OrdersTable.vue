@@ -296,18 +296,17 @@
                                             </div>
                                         </th>
                                         <th width="10%">Status</th>
-                                        <th>ID</th>
                                         <th>Reference</th>
                                         <th>Customer Name</th>
                                         <th>Account No.</th>
                                         <th>Contact Email</th>
+                                        <th>Order Type</th>
                                         <th>Customer Type</th>
-                                        <th>Sub Total</th>
-                                        <th>Discount Total</th>
-                                        <th>Shipping Total</th>
-                                        <th>Tax Total</th>
+                                        <!-- <th class="visible-lg">Sub Total</th>
+                                        <th class="visible-lg">Discount Total</th>
+                                        <th class="visible-lg">Shipping Total</th>
+                                        <th class="visible-lg">Tax Total</th> -->
                                         <th>Total</th>
-                                        <th>Currency</th>
                                         <th v-if="filter != 'awaiting-payment'">Shipping Zone</th>
                                         <th v-if="filter != 'awaiting-payment'">Date Placed</th>
                                         <th v-else>Date Created</th>
@@ -322,10 +321,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span  class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
-                                        </td>
-                                        <td>
-                                            {{ order.display_id }}
+                                            <span class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
                                         </td>
                                         <td @click="loadOrder(order.id)" >
                                             {{ order.reference }}
@@ -343,15 +339,17 @@
                                             {{ order.contact_details.email }}
                                         </td>
                                         <td @click="loadOrder(order.id)" >
+                                            {{ order.type }}
+                                        </td>
+                                        <td @click="loadOrder(order.id)" >
                                             <span v-if="order.user">Account</span>
                                             <span v-else>Guest</span>
                                         </td>
-                                        <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td>
-                                        <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.discount_total, order.currency)"></span></td>
-                                        <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.delivery_total, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping_method"></span></td>
-                                        <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td>
+                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td> -->
+                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.discount_total, order.currency)"></span></td> -->
+                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.delivery_total, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping_method"></span></td> -->
+                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td> -->
                                         <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.order_total, order.currency)"></span></td>
-                                        <td @click="loadOrder(order.id)" >{{ order.currency }}</td>
                                         <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
                                             <template v-if="getShippingZone(order)">
                                                 {{ getShippingZone(order) }}
@@ -362,14 +360,14 @@
                                         </td>
                                         <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
                                             <template v-if="order.placed_at">
-                                                {{ order.placed_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                                {{ order.placed_at.date|formatDate('D/MM/YYYY') }}
                                             </template>
                                             <template v-else>
                                                 -
                                             </template>
                                         </td>
                                         <td v-else @click="loadOrder(order.id)" >
-                                            {{ order.created_at.date|formatDate('Do MMM YYYY, H:mm:ss') }}
+                                            {{ order.created_at.date|formatDate('D/MM/YYYY') }}
                                         </td>
                                     </tr>
 
