@@ -30,7 +30,6 @@ module.exports = {
         getStyles(status) {
             if (!this.statuses[status]) {
                 return {
-                    'background-color': 'white',
                     'color' : '#333',
                 };
             }
@@ -40,9 +39,9 @@ module.exports = {
             let color = this.hexToRgb(statusObject.color);
 
             return {
-                'background-color': 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', .05)',
                 'color' : statusObject.color,
-                'border-color': statusObject.color,
+                'border': 'transparent',
+                'padding' : 0,
             };
         },
         hexToRgb(hex) {
