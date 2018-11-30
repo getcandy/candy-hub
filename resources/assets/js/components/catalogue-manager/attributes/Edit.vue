@@ -25,8 +25,12 @@
             this.loadLanguages();
             this.loadGroups();
             this.load();
+            Dispatcher.add('save-attribute', this);
         },
         methods: {
+            save() {
+                alert('Save!');
+            },
             load() {
                 apiRequest.send('get', '/attributes/' + this.id, [], this.params)
                     .then(response => {
@@ -70,8 +74,8 @@
         <template v-if="loaded">
 
             <transition name="fade">
-                <candy-tabs initial="orderdetails">
-                    <candy-tab name="Attribute Details" handle="collection-details" dispatch="save-order" :selected="true">
+                <candy-tabs initial="attributedetails">
+                    <candy-tab name="Attribute Details" handle="attribute-details" dispatch="save-attribute" :selected="true">
                         <div class="panel">
                             <div class="panel-body">
                                 <div class="row">
