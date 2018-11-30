@@ -1,4 +1,5 @@
 <?php
+
 namespace GetCandy\Hub\Http\Controllers\OrderProcessing;
 
 use GetCandy\Hub\Http\Controllers\Controller;
@@ -13,7 +14,7 @@ class CustomerController extends Controller
     public function getShow($id)
     {
         return view('hub::order-processing.customers.view', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

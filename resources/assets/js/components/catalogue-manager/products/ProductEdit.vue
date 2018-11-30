@@ -46,6 +46,7 @@
              */
             decorate(data) {
                 this.attribute_groups = data.attribute_groups.data;
+
                 this.product = data;
                 this.product.attributes = this.product.attribute_data;
                 this.variants = this.product.variants.data;
@@ -81,12 +82,12 @@
                     CandyEvent.$emit('title-changed', {
                         title: this.product
                     });
+                    document.title = this.$options.filters.attribute(this.product, 'name') + ' Product - GetCandy';
                 }).catch(error => {
                     CandyEvent.$emit('notification', {
                         level: 'error',
                         message: error.message
                     });
-                    // window.location = '/catalogue-manager/products';
                 });
             },
             getCategoryCount() {
@@ -145,13 +146,12 @@
                                 <candy-categories :product="product"></candy-categories>
                             </candy-tab>
                             <candy-tab name="Collections" handle="collections">
-                                <candy-collections :product="product"></candy-collections>
+                                <candy-product-collections :product-id="product.id" :existing="product.collections.data"></candy-product-collections>
                             </candy-tab>
                             <candy-tab name="Products" handle="products" :badge="getAssociationCount()" dispatch="product-associations">
                                 <candy-products :product="product"></candy-products>
                             </candy-tab>
                         </candy-tabs>
-                        <candy-association-modals></candy-association-modals>
                     </candy-tab>
 
                     <candy-tab name="Display">

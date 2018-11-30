@@ -71,16 +71,16 @@ Array.prototype.contains = function(obj) {
     return false;
 };
 
-String.prototype.slugify = function(allowSubPaths = false) {
-    const a = 'àáäâèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ·/_,:;'
+String.prototype.slugify = function(delimiter = '-', allowSubPaths = false) {
+    const a = 'àáäâèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ·/,:;'
     const b = 'aaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzh------'
     const p = new RegExp(a.split('').join('|'), 'g');
 
     let slug = this.toString().toLowerCase();
 
-    slug = slug.replace(/[^\w\-]+/g, allowSubPaths ? '/' : '-');
-    slug = slug.replace(/\s+/g, '-')
-        .replace(/&/g, '-and-')
+    slug = slug.replace(/[^\w\-]+/g, allowSubPaths ? '/' : delimiter);
+    slug = slug.replace(/\s+/g, delimiter)
+        .replace(/&/g, delimiter + 'and' + delimiter)
         .replace(/^-+/, '')
         .replace(/-+$/, '');
 
@@ -89,7 +89,5 @@ String.prototype.slugify = function(allowSubPaths = false) {
             .replace(/-+$/, '')
             .replace(/-+$/, '');
     }
-
-
     return slug;
 };

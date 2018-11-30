@@ -43,6 +43,15 @@
     .treetable .table > tbody > tr:hover .btn{
         display: inline-block;
     }
+    .fancytree-image {
+        max-width: 40px;
+        max-height: 40px;
+        margin-right: 10px;
+    }
+
+    .treetable tfoot tr td {
+        border:none;
+    }
     .treetable .fancytree-ext-childcounter span.fancytree-childcounter,
     .treetable .fancytree-ext-filter span.fancytree-childcounter {
         color: #fff;
@@ -84,7 +93,8 @@
                 data: [],
                 pagination: {
                     current_page: 1
-                }
+                },
+                loading: true
             };
         },
         props: {
@@ -120,7 +130,8 @@
         },
         methods: {
             initFancytable() {
-
+                this.$emit('loaded', true);
+                this.loading = false;
                 let glyph_opts = {
                     preset: "awesome4",
                     map: {
@@ -163,9 +174,9 @@
                         let nodeID = data.node.data.id;
                         let request = new $.Deferred();
                         data.result = request.promise();
-
                         apiRequest.send('get', this.sourceURL + nodeID, [],  {
-                                includes: 'children, assets'
+                                includes: 'children',
+                                tree: true
                             })
                             .then(response => {
                                 request.resolve(response.data.children.data);
@@ -189,13 +200,15 @@
                         this.params.columns.forEach((column, index) => {
                             // Skip first as that will always be the title
                             if(index > 0){
-                                if(column.type === 'button'){
+                                if (column.type === 'button') {
                                     $tdList.eq(index).html(this.createNewButton(node.data.id, this.getAttribute(node.data, 'name')));
-                                }else if(column.type === 'image'){
+                                } else if (column.type === 'image') {
                                     $tdList.eq(index).html(this.getImage(node.data[column.source]));
-                                }else{
+                                } else {
                                     $tdList.eq(index)[column.type](node.data[column.source]);
                                 }
+                            } else {
+
                             }
                         });
                     }.bind(this)
@@ -205,10 +218,7 @@
                 return '<a data-parent-id="'+ parentID +'" data-parent-name="'+ parentName +'" class="btn btn-default modal-button"><i class="fa fa-plus"></i> Create Subcategory</a>';
             },
             getImage: function(data) {
-                let url = '/hub/images/placeholder/no-image.svg';
-                if (data.thumbnail.data) {
-                    url = data.thumbnail.data.thumbnail;
-                }
+                let url = _.get(data, ['assets', 0, 'url'], '/candy-hub/images/placeholder/no-image.svg');
                 return '<img class="fancytree-image" src="' + url + '" >';
             },
             getAttribute: function(data, attribute) {
@@ -217,7 +227,8 @@
             reloadData: function() {
                 apiRequest.send('get', this.sourceURL, [], {
                     per_page: 15,
-                    current_page: this.pagination.current_page
+                    current_page: this.pagination.current_page,
+                    tree: true
                 })
                 .then(response => {
                     this.data = response.data;
@@ -228,9 +239,11 @@
                 });
             },
             loadData: function() {
+                this.$emit('loading', true);
                 apiRequest.send('get', this.sourceURL, [], {
                     per_page: 15,
-                    current_page: this.pagination.current_page
+                    current_page: this.pagination.current_page,
+                    tree: true
                 })
                 .then(response => {
                     this.data = response.data;
@@ -281,6 +294,13 @@
                     </th>
                 </tr>
             </thead>
+            <tfoot v-if="loading">
+                <tr>
+                    <td colspan="2">
+                        <i class="fa fa-refresh fa-spin"></i> Loading
+                    </td>
+                </tr>
+            </tfoot>
             <tbody>
                 <tr>
                     <td v-for="column in params.columns" :align="column.align">

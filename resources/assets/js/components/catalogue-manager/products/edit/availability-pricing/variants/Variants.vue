@@ -1,7 +1,14 @@
 <script>
     import Dropzone from 'vue2-dropzone'
+    import VariantGroupPricing from './VariantGroupPricing.vue';
+    import PriceInput from '../../../../../elements/forms/inputs/PriceInput.vue';
 
     export default {
+        components: {
+            Dropzone,
+            VariantGroupPricing,
+            PriceInput
+        },
         data() {
             return {
                 request: apiRequest,
@@ -40,7 +47,7 @@
         mounted() {
             this.assets = this.product.assets.data;
 
-            this.hasGroupPricing = this.current.pricing.data.length >= 1;
+            this.hasGroupPricing = this.current.group_pricing;
 
             CandyEvent.$on('asset_deleted', event => {
                 this.assets.splice(event.index, 1);
@@ -70,7 +77,7 @@
             addPriceTier() {
                 this.current.tiers.data.push({
                     'lower_limit' : '',
-                    'price' : '',
+                    'unit_price' : 0,
                     'customer_group_id' : this.customerGroups[0].id
                 });
             },
@@ -79,14 +86,22 @@
             },
             save() {
                 let data = JSON.parse(JSON.stringify(this.current));
-                data.pricing = this.groupPricing;
-                if (!this.hasGroupPricing) {
+
+                if (this.hasGroupPricing) {
+                    data.pricing = _.map(data.pricing.data, item => {
+                        return {
+                            customer_group_id: item.group.data.id,
+                            tax_id: item.tax.data.id,
+                            price: item.price
+                        }
+                    });
+                } else {
                     data.pricing = [];
                 }
 
-                if (!this.priceTiers) {
-                    data.priceTiers = [];
-                }
+                data.price = data.unit_price;
+
+                console.log(data.price);
 
                 data.group_pricing = this.hasGroupPricing;
 
@@ -200,36 +215,6 @@
                 });
                 return options;
             },
-            groupPricing() {
-                let pricing = this.current.pricing.data;
-                let prices = [];
-                _.each(this.customerGroups, group => {
-                    let tier = _.find(pricing, price => {
-                        return price.group.data.id == group.id;
-                    });
-
-                    let tax = null,
-                    price = this.current.price;
-
-                    if (tier) {
-                        if (tier.tax.data.id) {
-                            tax = tier.tax.data.id;
-                        }
-                        price = tier.price;
-                    } else {
-                        tax = _.find(this.$store.getters.getTaxes, item => {
-                            return item.default;
-                        }).id;
-                    }
-                    prices.push({
-                        name: group.name,
-                        customer_group_id: group.id,
-                        tax_id: tax,
-                        price: price
-                    });
-                });
-                return prices;
-            },
             priceTiers() {
                 return _.map(this.current.tiers.data, item => {
                     if (!item.customer_group_id) {
@@ -266,10 +251,14 @@
                     };
                 });
                 return fields;
+            },
+            backorderOptions() {
+                return [
+                    {label: 'In Stock', value: 'in-stock'},
+                    {label: 'Expected', value: 'expected'},
+                    {label: 'Always', value: 'always'}
+                ];
             }
-        },
-        components: {
-            Dropzone
         }
     }
 </script>
@@ -329,7 +318,7 @@
                                         <figure>
                                             <img :src="current.thumbnail.data.thumbnail" :alt="current.id"
                                                  class="placeholder" v-if="hasThumbnail(current)">
-                                            <img src="/images/placeholder/no-image.svg" alt="Placeholder"
+                                            <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder placeholder-empty" v-else>
                                         </figure>
                                         <span class="change-img">
@@ -387,6 +376,35 @@
                         <h4>Pricing</h4>
                         <hr>
                         <div class="row">
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Unit Quantity
+                                        <em class="help-txt">The number of units that make up the price</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.unit_qty">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Min Purchase Quantity
+                                        <em class="help-txt">The minimum amount that can be purchased</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.min_qty">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Max Purchase Quantity
+                                        <em class="help-txt">The maximum amount that can be purchased (0 = unlim.)</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.max_qty">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12 col-md-12">
                                 <div class="form-group">
                                     <label for="groupPricing">
@@ -394,64 +412,23 @@
                                         <span class="faux-label"> Individual Customer Group Pricing</span>
                                     </label>
                                 </div>
-                                <div class="row">
                                     <template v-if="hasGroupPricing">
-                                        <template v-for="group in groupPricing">
+                                        <variant-group-pricing v-model="current.pricing.data" :price="current.unit_price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
+                                    </template>
+                                    <template v-else>
+                                        <div class="row">
                                             <div class="col-md-4">
-                                                <div class="form-group" >
-                                                    <label>{{ group.name }}</label>
-                                                    <div class="input-group input-group-full">
-                                                        <span class="input-group-addon">&pound;</span>
-                                                        <input type="number" class="form-control" v-model="group.price">
-                                                    </div>
-                                                </div>
+                                                <label>Price</label>
+                                                <price-input v-model="current.unit_price"></price-input>
                                             </div>
-                                            <candy-disabled>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Compare at Price</label>
-                                                        <div class="input-group input-group-full">
-                                                            <span class="input-group-addon">&pound;</span>
-                                                            <input type="number" class="form-control" v-model="group.compare_at">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </candy-disabled>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>Tax</label>
-                                                    <candy-select :options="taxes" v-model="group.tax_id"></candy-select>
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </template>
-                                    <template v-else>
-                                        <div class="col-md-4">
-                                            <label>Price</label>
-                                            <div class="input-group input-group-full">
-                                                <span class="input-group-addon">&pound;</span>
-                                                <input type="number" class="form-control" v-model="current.price">
-                                            </div>
-                                        </div>
-                                        <candy-disabled>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Compare at Price</label>
-                                                <div class="input-group input-group-full">
-                                                    <span class="input-group-addon">&pound;</span>
-                                                    <input type="number" class="form-control">
+                                                    <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
                                                 </div>
                                             </div>
                                         </div>
-                                        </candy-disabled>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Tax</label>
-                                                <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
-                                            </div>
-                                        </div>
                                     </template>
-                                </div>
                             </div>
                         </div>
 
@@ -466,10 +443,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label>Price</label>
-                                <div class="input-group input-group-full">
-                                    <span class="input-group-addon">&pound;</span>
-                                    <input type="number" class="form-control" v-model="tier.price">
-                                </div>
+                                <price-input v-model="tier.price"></price-input>
                             </div>
                             <div class="col-md-6">
                                 <label>Customer Group</label>
@@ -487,56 +461,57 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary" @click="addPriceTier">
-                            <fa icon="plus"></fa> Add tier
-                        </button>
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="addPriceTier">
+                                <fa icon="plus"></fa> Add tier
+                            </button>
+                        </div>
 
                         <h4>Inventory</h4>
                         <hr>
-                        <candy-disabled>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-5">
-                                    <div class="form-group">
-                                        <label>Inventory Policy</label>
-                                        <candy-select :options="['Option 1','Option 2','Option 3']"></candy-select>
-                                    </div>
-                                </div>
-                            </div>
-                        </candy-disabled>
                         <div class="row">
-                            <div class="col-xs-6 col-md-5">
+                            <div class="col-xs-6 col-md-4">
                                 <div class="form-group">
                                     <label>SKU</label>
                                     <input type="text" class="form-control" v-model="current.sku">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-5">
+                            <div class="col-xs-12 col-md-2">
                                 <div class="form-group">
-                                    <label>Quantity</label>
+                                    <label>In Stock</label>
                                     <input type="number" class="form-control" v-model="current.inventory">
                                 </div>
                             </div>
+
                             <div class="col-xs-12 col-md-2">
                                 <div class="form-group">
                                     <label>Incoming</label>
-                                    <br><a href="#" class="btn btn-lg btn-link">0</a>
+                                    <input type="number" class="form-control" v-model="current.incoming">
                                 </div>
                             </div>
-                        </div>
-                        <candy-disabled>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="backorder">
-                                        <input id="backorder" type="checkbox" v-model="current.backorder">
-                                        <span class="faux-label">Allow customers to purchase this product when it's out of stock</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        </candy-disabled>
 
-                        <h4>Shipping</h4>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Purchasability
+
+                                    </label>
+                                    <candy-select :options="backorderOptions" v-model="current.backorder"></candy-select>
+                                    <em class="text-info help-txt">
+                                            <span v-if="current.backorder == 'in-stock'">
+                                                This item can <strong>only</strong> be bought when in stock.
+                                            </span>
+                                            <span v-if="current.backorder == 'expected'">
+                                                This item can be bought when on backorder <strong>or</strong> in stock
+                                            </span>
+                                            <span v-if="current.backorder == 'always'">
+                                                This item can be bought when <strong>not</strong> in stock <strong>or</strong> not on backorder
+                                            </span>
+                                        </em>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <h4>Shipping</h4>
                         <hr>
                         <div class="form-group">
                             <label for="requiresShipping">
@@ -617,11 +592,15 @@
                                                       v-model="current.volume.unit"></candy-select>
                                     </div>
                                 </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
                                 <button class="btn btn-danger" @click="deleteVariant(currentIndex)"
-                                        v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
+                                    v-if="variants.length > 1"><i class="fa fa-trash"></i> Delete variant
                                 </button>
                             </div>
-                        </div>
+                       </div>
                     </div>
                     <div class="col-xs-12 col-md-4 col-md-pull-8" v-if="variants.length > 1">
                         <ul class="variant-list">
@@ -631,7 +610,7 @@
                                     <div class="variant-img">
                                         <figure>
                                             <img :src="v.thumbnail.data.thumbnail" alt="v.id" v-if="hasThumbnail(v)">
-                                            <img src="/images/placeholder/no-image.svg" alt="Placeholder"
+                                            <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder" v-else>
                                         </figure>
                                     </div>
@@ -653,3 +632,10 @@
         </div> <!-- col-xs-12 col-md-11 -->
     </div> <!-- row -->
 </template>
+
+<style lang="scss" scoped>
+    .stock-purchasability {
+        display:block;
+        margin-top:2.5em;
+    }
+</style>

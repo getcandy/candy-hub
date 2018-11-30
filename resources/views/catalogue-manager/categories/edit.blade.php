@@ -1,4 +1,6 @@
-@extends('hub::layout')
+@extends('hub::layout', [
+    'title' => 'Edit Category',
+])
 
 @section('side_menu')
     @include('hub::catalogue-manager.partials.side-menu')
@@ -6,7 +8,7 @@
 
 @section('header_title')
     <small>Catalogue Manager</small>
-    <h1>Edit Category</h1>
+    <h1>@verbatim<template v-if="title">{{ title }}</template>@endverbatim</h1>
 @endsection
 
 @section('header_actions')
@@ -14,7 +16,7 @@
       element="category"
       endpoint="/categories/{{ $id }}"
       id="{{ $id }}"
-      redirect="/catalogue-manager/categories"
+      redirect="/{{ config('getcandy.hub_prefix', 'hub') }}/catalogue-manager/categories"
       warning="You will lose any child categories along with any associations"
       style="display: inline-block;"
     ></candy-delete>

@@ -1,4 +1,6 @@
-@extends('hub::layout')
+@extends('hub::layout', [
+    'title' => 'Edit Collection',
+])
 
 @section('side_menu')
     @include('hub::catalogue-manager.partials.side-menu')
@@ -14,7 +16,7 @@
       element="collection"
       endpoint="/collections/{{ $id }}"
       id="{{ $id }}"
-      redirect="/catalogue-manager/collections"
+      redirect="/{{ config('getcandy.hub_prefix', 'hub') }}/catalogue-manager/collections"
       style="display: inline-block;"
     ></candy-delete>
     <candy-button style="display: inline-block;" event="save-collection">Save Collection</candy-button>

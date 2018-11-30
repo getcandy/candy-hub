@@ -33,7 +33,7 @@
                 this.load();
             },
             goTo: function (id) {
-                location.href = '/hub/order-processing/shipping-zones/' + id;
+                location.href = route('hub.shipping_zones.edit', id);
             },
             getRegions(zone) {
                 var regions = [];

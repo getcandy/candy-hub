@@ -6,7 +6,7 @@
                     :value="value"
                     @tbw-change="updateValue($event.target.value)"
                     :required="required"
-                    svg-path="/hub/images/trumbowyg.svg"
+                    svg-path="/candy-hub/images/trumbowyg.svg"
                     :config="config"
                     :placeholder="placeholder">
                 {{ value }}
@@ -29,7 +29,7 @@
 <script>
     import trumbowyg from 'vue-trumbowyg';
     // Import editor css
-    // import 'trumbowyg/dist/ui/trumbowyg.css';
+    import 'trumbowyg/dist/ui/trumbowyg.css';
 
     export default {
         data() {

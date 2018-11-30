@@ -68,11 +68,41 @@
             getUrl(id) {
                 return this.itemUrl + id;
             },
+            getAvailability(data, association, field) {
+
+                let items = data[association] ? data[association].data : [];
+
+                if (!items.length) {
+                    return 'None';
+                }
+
+                let label = 'All',
+                    visible = [];
+
+                items.forEach(item => {
+                    if (item.published_at) {
+                        let now = moment();
+                        let publish_date = moment(item.published_at);
+                        if (!publish_date.isAfter(now)) {
+                            visible.push(item.name);
+                        }
+                    } else if (item[field]) {
+                        visible.push(item.name);
+                    }
+                });
+
+                if (visible.length == items.length) {
+                    return 'All';
+                } else if (!visible.length) {
+                    return 'None';
+                }
+                return visible.join(', ');
+            },
             thumbnail(element) {
                 if (element.thumbnail) {
                     return element.thumbnail.data.thumbnail;
                 }
-                return '/images/placeholder/no-image.svg';
+                return '/candy-hub/images/placeholder/no-image.svg';
             },
             selectAllClick() {
                 this.selectAll = !this.selectAll;
@@ -96,26 +126,6 @@
 
             <thead>
             <tr>
-                <th width="6%">
-                    <div class="checkbox bulk-options" :class="{'active': (selectAll || checkedCount > 0)}">
-                        <input v-model="selectAll" type="checkbox" class="select-all">
-                        <label @click="selectAllClick"><span class="check"></span></label>
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-
-                        <div class="bulk-actions">
-                            <div class="border-inner">
-                                {{ checkedCount }} item(s) selected
-                                <a href="#" class="btn btn-outline btn-sm">Edit</a>
-                                <a href="#" class="btn btn-outline btn-sm">Publish</a>
-                                <a href="#" class="btn btn-outline btn-sm">Hide</a>
-                                <a href="#" class="btn btn-outline btn-sm">Delete</a>
-                            </div>
-                            <div v-if="checkedCount == items.length" class="all-selected">
-                                <em>All items on this page are selected</em>
-                            </div>
-                        </div>
-                    </div>
-                </th>
                 <th v-for="column in params.columns" :style="'text-align:'+column.align" :width="column.width">{{ column.name }}</th>
             </tr>
             </thead>
@@ -123,15 +133,6 @@
             <!-- Loaded with data -->
             <tbody v-if="loaded && items.length > 0">
                 <tr class="clickable" v-for="item in items">
-
-                    <!-- Default Columns -->
-                    <td>
-                        <div class="checkbox">
-                            <input type="checkbox" :id="'item' + item.id" :value="item.id" v-model="selected">
-                            <label :for="'item' + item.id"><span class="check"></span></label>
-                        </div>
-                    </td>
-
                     <!-- Dynamic Columns -->
                     <td v-for="column in params.columns" :align="column.align" :width="column.width">
 
@@ -151,6 +152,10 @@
                             <a :data-parent-id="item.id" :data-parent-name="item|attribute('name')" class="btn btn-default modal-button hover-btn">
                                 <i :class="column.icon"></i> {{ column.buttonName }}
                             </a>
+                        </template>
+
+                        <template v-else-if="column.type == 'availability'">
+                            {{ getAvailability(item, column.source, column.field) }}
                         </template>
 
                         <template v-else>
@@ -189,7 +194,7 @@
 
         </table>
 
-        <div class="text-center">
+        <div class="text-center" v-if="loaded">
             <candy-table-paginate :pagination="pagination" @change="changePage" v-if="loaded"></candy-table-paginate>
         </div>
 

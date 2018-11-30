@@ -77,29 +77,36 @@
         <button class="btn btn-default white" v-if="isAdmin" @click="impersonate = true">Impersonate</button>
         <candy-modal title="Impersonate customer" v-show="impersonate" size="modal-md" @closed="impersonate = false">
             <div slot="body">
-                <div class="form-group" v-if="!processing">
-                    <label>Choose the storefront to impersonate on</label>
-                    <select class="form-control" @change="clearErrors"  v-model="target">
-                        <option value>Select a channel</option>
-                        <option :value="channel.url" v-for="channel in channels">{{ channel.name }}</option>
-                    </select>
-                </div>
-                <span v-else>
-                    <p>
-                        <fa icon="spinner" spin></fa> &nbsp; Processing impersonation request, you will be redirected shortly.
-                    </p>
-                </span>
+                <template v-if="customerId != user.id">
+                    <div class="form-group" v-if="!processing">
+                        <label>Choose the storefront to impersonate on</label>
+                        <select class="form-control" @change="clearErrors"  v-model="target">
+                            <option value>Select a channel</option>
+                            <option :value="channel.url" v-for="channel in channels" :key="channel.id">{{ channel.name }}</option>
+                        </select>
+                    </div>
+                    <span v-else>
+                        <p>
+                            <fa icon="spinner" spin></fa> &nbsp; Processing impersonation request, you will be redirected shortly.
+                        </p>
+                    </span>
 
-                <span v-if="sent" class="text-success">
-                    We have opened a new tab with the logged in session.
-                </span>
+                    <span v-if="sent" class="text-success">
+                        We have opened a new tab with the logged in session.
+                    </span>
 
-                <div v-if="errors.length">
-                    <span class="text-danger" v-for="error in errors">{{ error }}</span>
-                </div>
+                    <div v-if="errors.length">
+                        <span class="text-danger" v-for="(error, index) in errors" :key="index">{{ error }}</span>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="alert alert-danger">
+                        You cannot impersonate yourself.
+                    </div>
+                </template>
             </div>
             <template slot="footer">
-                <button type="button" class="btn btn-primary" @click="process" :disabled="processing">Impersonate</button>
+                <button type="button" class="btn btn-primary" @click="process" :disabled="processing || customerId == user.id">Impersonate</button>
             </template>
         </candy-modal>
     </div>

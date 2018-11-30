@@ -15,9 +15,8 @@
                 keywords: '',
                 requestParams: {
                     per_page: 25,
-                    current_page: 1,
                     keywords: '',
-                    includes: 'routes,assets'
+                    includes: 'routes,assets,channels'
                 },
                 params: {
                     type: 'category',
@@ -38,19 +37,18 @@
                 },
                 fancyParams: {
                     columns: [
-                        {'name': 'Title', 'link': true, 'width': '*', 'type': 'attribute', 'source': 'name'},
-                        {'name': 'Products', 'width': '100px', 'align': 'center', 'type': 'text', 'source': 'productCount'},
-                        {'name': 'Availability', 'width': '200px', 'type': 'text', 'source': ''},
+                        {'name': 'Title', 'link': true, 'width': '10%', 'type': 'attribute', 'source': 'name'},
+                        {'name': 'Products', 'width': '100px', 'align': 'center', 'type': 'text', 'source': 'products_count'},
                         {'name': '', 'width': '200px', 'type': 'button', 'source': ''}
                     ],
                     linkUrl: 'categories'
                 },
                 tableParams: {
                     columns: [
-                        {'name': '', 'link': true, 'width': '50px', 'type': 'image', 'source': 'asset'},
-                        {'name': 'Title', 'link': true, 'width': '*', 'type': 'attribute', 'source': 'name'},
-                        {'name': 'Products', 'width': '100px', 'align': 'center', 'type': 'text', 'source': 'product_count'},
-                        {'name': 'Availability', 'width': '100px', 'type': 'text', 'source': ''},
+                        {'name': '', 'link': true, 'width': '5%', 'type': 'image', 'source': 'asset'},
+                        {'name': 'Title', 'link': true, 'width': '25%', 'type': 'attribute', 'source': 'name'},
+                        {'name': 'Products', 'width': '15%', 'align': 'center', 'type': 'text', 'source': 'products_count'},
+                        {'name': 'Availability', 'width': '15%', 'type': 'availability', 'source': 'channels', 'field' : 'published_at'},
                         {'name': '', 'width': '200px', 'type': 'button', 'buttonName': 'Create Subcategory', 'icon': 'fa fa-plus'}
                     ],
                     linkUrl: 'category'
@@ -90,6 +88,7 @@
                     .then(response => {
                         this.categories = response.data;
                         this.requestParams.total_pages = response.meta.pagination.total_pages;
+                        this.requestParams.current_page = response.meta.pagination.current_page;
                         this.categoriesLoaded = true;
                     });
 
@@ -103,15 +102,16 @@
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.categories = response.data;
-                        this.params.total_pages = response.meta.pagination.total_pages;
+                        this.requestParams.total_pages = response.meta.pagination.total_pages;
+                        this.requestParams.current_page = response.meta.pagination.current_page;
                         this.meta = response.meta;
                         this.categoriesLoaded = true;
                     });
             },
             resetSearch() {
-                this.params['keywords'] = null;
+                this.requestParams['keywords'] = null;
                 this.keywords = '';
-                this.params['filters'] = null;
+                this.requestParams['filters'] = null;
                 this.loadCategories();
             },
             createCategory() {
@@ -202,11 +202,6 @@
                     List View
                 </a>
             </li>
-            <li role="presentation" v-for="(search, index) in savedSearches" :key="search.id" :class="{'active' : isActive(search)}">
-                <a href="#" role="tab" data-toggle="tab" @click="applySavedSearch(search)">
-                    {{ search.name }} <i class="fa fa-times" aria-hidden="true" @click="deleteSaved(index)"></i>
-                </a>
-            </li>
         </ul>
 
         <!-- Tab panes -->
@@ -214,38 +209,20 @@
             <div role="tabpanel" class="tab-pane active" id="all-products">
 
                 <!-- Search Form -->
-                <form>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-2">
-
-                        </div>
-                        <div class="form-group col-xs-12 col-md-8">
-
+                <div class="row" v-if="currentView == 'list-view'">
+                    <div class="col-md-12">
+                        <form>
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
-                                  <i class="fa fa-search" aria-hidden="true"></i>
+                                    <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                                 <label class="sr-only" for="search">Search</label>
                                 <input type="text" class="form-control" id="search" placeholder="Search" @keyup="search" v-model="keywords">
                             </div>
-
-                        </div>
-                        <div class="form-group col-xs-12 col-md-2">
-
-                            <button type="submit" class="btn btn-default btn-full" @click="saveSearch()">
-                                <i class="fa fa-floppy-o fa-first" aria-hidden="true"></i> Save Search
-                            </button>
-
-                        </div>
+                        </form>
+                        <hr>
                     </div>
-                </form>
-
-                <!-- Applied Filter List -->
-                <!-- <div class="filters">
-
-                </div> -->
-
-                <hr>
+                </div>
 
                 <!-- Fancy Tree View -->
                 <div id="tree-view" v-show="currentView === 'tree-view'">

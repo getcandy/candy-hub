@@ -16,23 +16,28 @@
         text-align: center;
         padding:20px;
       }
+
       background-color:#fff;
       &.sortable-ghost {
         opacity: .25;
         background-color: #eeeeee;
       }
+      &.selected {
+        background-color:rgba(#037ef3, .10);
+      }
       &.clickable {
         cursor: pointer;
+        &.selected {
+          &:hover {
+            td {
+              background-color:transparent;
+            }
+          }
+        }
         &:hover {
           td {
             background-color: lighten($blue, 60%);
           }
-        }
-      }
-
-      &.selected {
-        td {
-          background-color: lighten($purple, 60%);
         }
       }
 

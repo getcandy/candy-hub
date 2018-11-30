@@ -10,11 +10,12 @@ abstract class BaseComposer
     {
         $items = [];
 
-        list($items) = Event::fire($event, [$items]);
+        //list($items) = Event::fire($event, [$items]);
 
         if (!$items) {
             return '';
         }
+
         return implode(PHP_EOL, $items);
     }
 }

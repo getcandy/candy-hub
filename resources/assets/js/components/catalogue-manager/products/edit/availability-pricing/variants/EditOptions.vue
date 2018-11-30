@@ -117,6 +117,8 @@
                 this.generateVariants();
             },
             addOptionRow(event) {
+                this.request.clearError('options');
+
                 if (this.optionRowExists) {
                     return;
                 }
@@ -161,6 +163,7 @@
              * @return {Array}
              */
             generateVariants() {
+                this.request.clearError('variants');
                 let optionValues = this.getOptionValues();
 
                 let optionsToRemove = [];
@@ -276,12 +279,14 @@
 
 <template>
     <div>
-        {{ request.getError('variants.0.sku') }}
         <button class="btn btn-primary" @click="modalOpen = true">Edit options</button>
         <candy-modal title="Edit options" v-show="modalOpen" @closed="modalOpen = false">
             <div slot="body" class="text-left">
                 <h4>Options</h4>
                 <p>need to get a unique identy for the options for loop</p>
+                <div class="alert alert-danger" v-if="request.getError('options')">
+                    {{ request.getError('options') }}
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -313,7 +318,12 @@
                                     </g>
                                 </svg>
                             </td>
-                            <td width="20%">{{ option.label.en }}</td>
+                            <td width="20%">
+                                {{ option.label.en }}
+                                <template v-if="request.getError('options.' + handle + '.options')">
+                                    <br><span class="text-danger">{{ request.getError('options.' + handle + '.options') }}</span>
+                                </template>
+                            </td>
                             <td>
                                 <ul v-sortable="sortListOptions" class="sortable-tags-list">
                                     <li v-for="(item, itemHandle) in option.options" :data-parent="option.label.en" :data-handle="itemHandle" :key="item.values.en">
@@ -371,6 +381,9 @@
 
                 <hr>
                 <h4>Variants</h4>
+                <div class="alert alert-danger" v-if="request.getError('variants')">
+                    {{ request.getError('variants') }}
+                </div>
                 <table class="table association-table">
                     <thead>
                     <tr>
@@ -393,7 +406,12 @@
                         <td v-for="(option, handle) in options">
                             <input type="text" class="form-control" :value="getOptionValue(option, variant)" disabled>
                         </td>
-                        <td><input type="text" v-model="variant.price" class="form-control"></td>
+                        <td>
+                            <input type="number" v-model="variant.price" class="form-control">
+                            <span class="text-danger">
+                                {{ request.getError('variants.' + index + '.price') }}
+                            </span>
+                        </td>
                         <td>
                             <button class="btn btn-sm btn-default btn-action" @click="deleteFromArray(variants, index)">
                                 <i aria-hidden="true" class="fa fa-trash-o"></i>

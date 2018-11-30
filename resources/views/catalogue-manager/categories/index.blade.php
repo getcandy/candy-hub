@@ -1,4 +1,6 @@
-@extends('hub::layout')
+@extends('hub::layout', [
+    'title' => 'Categories',
+])
 
 @section('side_menu')
     @include('hub::catalogue-manager.partials.side-menu')

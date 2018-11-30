@@ -11,7 +11,7 @@
             save() {
                 this.request.send('post', '/users', this.customer)
                 .then(response => {
-                    window.location = '/order-processing/customers/' + response.data.id;
+                    window.location = route('hub.customers.edit', response.data.id);
                 }).catch(response => {
                     CandyEvent.$emit('notification', {
                         level: 'error',

@@ -1,4 +1,5 @@
 <?php
+
 namespace GetCandy\Hub\Http\Controllers\OrderProcessing;
 
 use GetCandy\Hub\Http\Controllers\Controller;
@@ -13,7 +14,7 @@ class ShippingController extends Controller
     public function getEdit($id)
     {
         return view('hub::order-processing.shipping.methods.edit', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 
@@ -25,7 +26,7 @@ class ShippingController extends Controller
     public function getZone($id)
     {
         return view('hub::order-processing.shipping.zones.edit', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

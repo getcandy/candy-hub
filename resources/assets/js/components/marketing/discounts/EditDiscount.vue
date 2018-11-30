@@ -29,6 +29,7 @@
                 includes: 'channels,sets,rewards,sets.items.eligibles,attribute_groups.attributes'
             }).then(response => {
                 this.discount = response.data;
+                document.title = this.$options.filters.attribute(this.discount, 'name') + ' Discount - GetCandy';
                 this.loaded = true;
             });
         }

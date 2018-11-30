@@ -26,17 +26,21 @@
                         this.loaded = true;
                     });
             },
+            details(customer) {
+                return customer.details.data;
+            },
             changePage(page) {
                 this.loaded = false;
                 this.params.page = page;
                 this.loadCustomers();
             },
             loadCustomer: function (id) {
-                location.href = '/hub/order-processing/customers/' + id;
+                location.href = route('hub.customers.edit', id);
             },
             search: _.debounce(function (){
                     this.loaded = false;
                     this.params['keywords'] = this.keywords;
+                    this.params['page'] = 1;
                     this.loadCustomers();
                 }, 500
             ),
@@ -62,7 +66,7 @@
                 <!-- Search Form -->
                 <form>
                     <div class="row">
-                        <div class="form-group col-xs-12 col-md-8">
+                        <div class="form-group col-md-12">
                             <div class="input-group input-group-full">
                                 <span class="input-group-addon">
                                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -87,13 +91,13 @@
                         <tr class="clickable" v-for="customer in customers">
                             <td @click="loadCustomer(customer.id)">{{ customer.id }}</td>
                             <td @click="loadCustomer(customer.id)">
-                                <template v-if="customer.details.data.firstname">
-                                    {{ customer.details.data.firstname }} {{ customer.details.data.lastname }}
+                                <template v-if="details(customer).firstname">
+                                    {{ details(customer).firstname }} {{ details(customer).lastname }}
                                 </template>
                                 <span v-else class="text-muted"><small>-</small></span>
                             </td>
                             <td @click="loadCustomer(customer.id)">
-                                <span v-if="customer.details.data.company_name">{{ customer.details.data.company_name }}</span>
+                                <span v-if="details(customer).company_name">{{ details(customer).company_name }}</span>
                                 <span v-else class="text-muted"><small>-</small></span>
                             </td>
                             <td @click="loadCustomer(customer.id)">{{ customer.email }}</td>

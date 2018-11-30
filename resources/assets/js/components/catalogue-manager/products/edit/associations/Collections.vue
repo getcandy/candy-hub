@@ -3,22 +3,13 @@
         data() {
             return {
                 request: apiRequest,
-                requestParams: {
-                    per_page: 6,
-                    current_page: 1,
-                    keywords: '',
-                    includes: 'routes'
-                },
                 channel: this.$store.getters.getDefaultChannel.handle,
                 language: locale.current(),
-                addModalOpen: false,
-                selectedCollections: [],
                 deleteModalOpen: false,
                 deleteModalData: {},
+                foo: false,
                 search: '',
-                collections: [],
-                collectionsLoaded: false,
-                productCollections: [],
+                collections: null,
                 tableParams: {
                     columns: [
                         {'name': '', 'width': '50px', 'type': 'image', 'align': 'left', 'source': 'name'},
@@ -28,20 +19,22 @@
                 }
             }
         },
-        mounted() {
-            if (!this.collections.length) {
-                this.loadCollections();
-            }
-            this.productCollections = this.product.collections.data;
-
-            this.productCollections.forEach(collection => {
-                this.selectedCollections.push(collection.id);
-            });
-        },
         props: {
-            product: {
-                type: Object
+            productId: {
+                type: String,
+                required: true,
+            },
+            existing: {
+                type: Array,
+                default() {
+                    return [];
+                }
             }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.collections = this.existing;
+            });
         },
         methods: {
             getAttribute(data, attribute) {
@@ -57,40 +50,26 @@
 
                 return slug;
             },
-            loadCollections() {
-                this.request.send('get', '/collections', [], this.requestParams)
-                    .then(response => {
-                        this.collections = response.data;
-                        this.requestParams.total_pages = response.meta.pagination.total_pages;
-                        this.collectionsLoaded = true;
-                    });
+            addNew(event) {
+                this.collections = event;
+                this.save();
             },
             removeCollection() {
-                let productID = this.product.id;
-                let collectionID = this.deleteModalData.id;
-
-                this.productCollections.splice(this.deleteModalData.index, 1);
-
+                this.collections.splice(this.deleteModalData.index, 1);
                 this.deleteModalOpen = false;
                 CandyEvent.$emit('notification', {
                     level: 'success',
                     message: 'Collection removed'
                 });
-
-                this.request.send('delete', '/products/' + productID + '/collections/' + collectionID);
-            },
-            changePage(page) {
-                this.loaded = false;
-                this.requestParams.current_page = page;
-                this.loadCollections();
+                this.request.send('delete', '/products/' + this.productId + '/collections/' + this.deleteModalData.id);
             },
             save() {
-                let ids = [];
-                _.forEach(this.selectedCollections, value => {
-                    ids.push(value);
+
+                const ids = _.map(this.collections, c => {
+                    return c.id;
                 });
 
-                this.request.send('post', '/products/' + this.product.id + '/collections', {'collections': ids})
+                this.request.send('post', '/products/' + this.productId + '/collections', {'collections': ids})
                     .then(response => {
                         this.collectionsLoaded = true;
                         CandyEvent.$emit('notification', {
@@ -100,13 +79,10 @@
                         this.closeAddModal();
                     });
             },
-            closeAddModal() {
-                this.addModalOpen = false;
-            },
             openDeleteModal(collection) {
                 this.deleteModalData = {
                     'id': collection.id,
-                    'index': this.productCollections.indexOf(collection),
+                    'index': this.collections.indexOf(collection),
                     'name': this.getAttribute(collection, 'name'),
                     'slug': this.getRoute(collection)
                 };
@@ -116,9 +92,6 @@
                 this.deleteModalData = {};
                 this.deleteModalOpen = false;
             },
-            addSelected(ids){
-                this.selectedCollections = ids;
-            }
         }
     }
 </script>
@@ -131,9 +104,7 @@
                     <h4>Collections</h4>
                 </div>
                 <div class="col-xs-12 col-sm-6 text-right">
-                    <button type="button" class="btn btn-primary" @click="addModalOpen = true">
-                        Add Collection
-                    </button>
+                    <candy-collection-browser @saved="addNew" :current="collections" v-if="collections"></candy-collection-browser>
                 </div>
             </div>
             <hr>
@@ -146,15 +117,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="collection in productCollections">
+                    <tr v-for="collection in collections" :key="collection.id">
                         <td width="80">
-                            <img src="/hub/images/placeholder/no-image.svg" :alt="getAttribute(collection, 'name')">
+                            <img src="/candy-hub/images/placeholder/no-image.svg" :alt="collection|attribute('name')">
                         </td>
                         <td>
-                            {{ getAttribute(collection, 'name') }}
+                            {{ collection|attribute('name') }}
                         </td>
                         <td>
-                            {{ getRoute(collection) }}
+                            <!-- {{ getRoute(collection) }} -->
                         </td>
                         <td align="right">
                             <button class="btn btn-sm btn-default btn-action" @click="openDeleteModal(collection)">
@@ -163,7 +134,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot v-if="!productCollections.length">
+                <tfoot v-if="collections && !collections.length">
                     <tr>
                       <td colspan="4">
                         <span class="text-muted">No collections found</span>
@@ -172,30 +143,6 @@
                 </tfoot>
             </table>
         </div>
-
-        <!-- Add category to product Modal -->
-        <candy-modal id="addModal" title="Add this product to collections" size="modal-lg" v-show="addModalOpen" @closed="closeAddModal()">
-
-            <div slot="body">
-                <div class="form-group">
-                    <label class="sr-only">Search</label>
-                    <input type="text" class="form-control search" v-model="search" placeholder="Search Collections">
-                </div>
-                <hr>
-
-                <candy-table :items="collections" :loaded="collectionsLoaded" @selected="addSelected"
-                                :associations="true"
-                             :params="tableParams" :pagination="requestParams" @change="changePage"
-                             :checked="selectedCollections">
-                </candy-table>
-
-            </div>
-
-            <div slot="footer">
-                <button type="button" class="btn btn-primary" @click="save()">Add to Collection</button>
-            </div>
-
-        </candy-modal>
 
         <!-- Delete category from product Modal -->
         <candy-modal id="deleteCollectionModal" title="Remove Collection?" size="modal-md" v-show="deleteModalOpen" @closed="closeDeleteModal()">

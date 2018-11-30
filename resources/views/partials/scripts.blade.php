@@ -1,5 +1,5 @@
     @routes
 
-    <script src="{{ url('hub/js/hub.js') }}"></script>
+    <script src="{{ url('candy-hub/js/hub.js') }}"></script>
 
     {!! $scripts_html !!}

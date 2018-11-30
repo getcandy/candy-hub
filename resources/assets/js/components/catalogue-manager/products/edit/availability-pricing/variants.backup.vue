@@ -105,7 +105,7 @@
               <div class="col-xs-12 col-md-4">
                 <a href="" class="variant-option-img">
                   <div class="change-img">
-                    <img src="/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder">
+                    <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder" class="placeholder">
                     Change image
                   </div>
                 </a>
@@ -270,10 +270,10 @@
               <li v-for="(v, index) in variants">
                 <a href="#" @click.prevent="selectVariant(index)" :class="{ 'active' : v.id == current.id }" title="">
                   <div class="variant-img" v-if="v.image">
-                    <img src="img/placeholder/product.jpg" alt="">
+                    <img src="img/placeholder/product.jpg" alt="Aquacomb">
                   </div>
                   <div class="variant-img" v-else>
-                    <img src="/images/placeholder/no-image.svg" alt="Placeholder">
+                    <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder">
                   </div>
                   <div class="variant-options">
                     <template v-for="(option, label, index) in v.options">

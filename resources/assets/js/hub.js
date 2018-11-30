@@ -46,7 +46,6 @@ window.List           = require('list.js');
 window.locale         = new Locale();
 window.moment         = require('moment');
 window.defaultChannel = document.head.querySelector('meta[name="channel"]').content;
-
 // Include our custom v stuff here, so we know everything is loaded
 
 require('./directives/sortable');
@@ -54,6 +53,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { VTooltip } from 'v-tooltip'
 import VueLazyload from 'vue-lazyload'
+import Language from './services/Locale/Language';
 
 Vue.use(Vuex);
 Vue.use(VueLazyload, {
@@ -124,7 +124,16 @@ config.get('taxes').then(response => {
 
 config.get('languages').then(response => {
   languages = response.data;
+  languages.forEach(item => {
+    if (item.default) {
+      Language.setCode(item.lang);
+    }
+  });
 });
+
+window.trans = function (obj) {
+  return Language.trans(obj);
+}
 
 Vue.directive('tooltip', VTooltip);
 
@@ -136,6 +145,21 @@ CandyHelpers.install = function (Vue, options) {
   }
 };
 
+// Gradually move top level components into here, so we can use local registration per component.
+Vue.component('candy-attributes-table', require('./components/catalogue-manager/attributes/Table.vue'));
+Vue.component('candy-attribute-edit', require('./components/catalogue-manager/attributes/Edit.vue'));
+Vue.component('candy-attribute-create', require('./components/catalogue-manager/attributes/Create.vue'));
+Vue.component('candy-attribute-groups-table', require('./components/catalogue-manager/attribute-groups/Table.vue'));
+Vue.component('candy-attribute-groups-edit', require('./components/catalogue-manager/attribute-groups/Edit.vue'));
+Vue.component('candy-attribute-group-create', require('./components/catalogue-manager/attribute-groups/Create.vue'));
+
+Vue.component('candy-product-families-table', require('./components/catalogue-manager/product-families/Table.vue'));
+Vue.component('candy-product-family-edit', require('./components/catalogue-manager/product-families/Edit.vue'));
+Vue.component('candy-product-family-create', require('./components/catalogue-manager/product-families/Create.vue'));
+Vue.component('candy-product-family-delete', require('./components/catalogue-manager/product-families/Delete.vue'));
+
+Vue.component('candy-order-status-select', require('./components/elements/forms/inputs/OrderStatuses.vue'));
+
 const app = new Vue({
     el: '#app',
     store,
@@ -144,13 +168,13 @@ const app = new Vue({
     },
     mounted() {
       CandyEvent.$on('title-changed', event => {
-        if (event.prefix) {
-          this.title = event.prefix + ' ';
-        }
         if (_.isString(event.title)) {
           this.title = event.title;
         } else {
           this.title = this.$options.filters.attribute(event.title, 'name');
+        }
+        if (event.prefix) {
+          this.title = event.prefix + ' ' + this.title;
         }
       });
     }
@@ -159,6 +183,7 @@ const app = new Vue({
 Vue.use(CandyHelpers);
 
 function formatMoney (n, c,t,d) {
+  n = n / 100;
   var
     c = isNaN(c = Math.abs(c)) ? 2 : c,
     d = d == undefined ? "." : d,

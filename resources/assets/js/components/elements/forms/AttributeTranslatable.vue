@@ -41,10 +41,11 @@
         },
         methods: {
             getError (mapping) {
-                return this.request.getError(mapping);
+                let messageArr = _.get(this.request.errors, 'attributes\.'+mapping+'\.webstore\.en');
+                return _.head(messageArr);
             },
             hasError (mapping) {
-                return this.request.hasError(mapping);
+                return _.has(this.request.errors, 'attributes\.'+mapping+'\.webstore\.en');
             },
             useDefault (obj) {
                 if (obj.checked) {
@@ -57,7 +58,6 @@
                 var channel = '';
                 var language = '';
                 var source = {};
-
 
                 if (type === 'default') {
                     channel = this.defaultChannel;
@@ -106,14 +106,12 @@
 
 <template>
     <div>
-
         <div class="row" v-if="defaultChannel">
             <div class="col-xs-12">
 
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
-
                             <div class="col-md-6">
                                 <button v-if="!translating" class="btn btn-default" @click="translating = true">Translate</button>
                                 <button v-if="translating" class="btn btn-default" @click="translating = false">Hide Translation</button>
@@ -143,10 +141,15 @@
                 <div class="row">
                     <div class="col-xs-12 form-group" :class="{ 'col-md-6': translating }">
 
-                        <div class="form-group" v-for="attribute in attributes">
+                        <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
 
                             <!-- Label -->
-                            <label :for="attribute.handle">{{ attribute.name }}</label>
+                            <label :for="attribute.handle">{{ attribute.name|t }}</label><br>
+
+                            <!-- Errors -->
+                            <span class="text-danger" v-if="getError(attribute.handle)">
+                                <strong>* {{ getError(attribute.handle) }}</strong>
+                            </span>
 
                             <!-- Inputs -->
                             <candy-input v-if="attribute.type == 'text'"
@@ -155,9 +158,17 @@
                                         @input="set(attribute.handle, $event, 'default')"
                                         :required="attribute.required">
                             </candy-input>
+
+                            <candy-date-picker
+                                v-if="attribute.type == 'date'"
+                                :value="get(attribute.handle, 'default')"
+                                @input="set(attribute.handle, $event, 'default')"
+                            >
+                            </candy-date-picker>
+
                             <candy-select v-if="attribute.type == 'select'"
                                         :id="'default-'+ attribute.id"
-                                        v-model="attributeData[attribute.handle]"
+                                        v-model="attributeData[attribute.handle][defaultChannel][defaultLanguage]"
                                         :options="attribute.lookups" :required="attribute.required">
                             </candy-select>
                             <candy-textarea v-if="attribute.type == 'textarea' || attribute.type == 'richtext'"
@@ -168,10 +179,23 @@
                                 :required="attribute.required">
                             </candy-textarea>
 
-                            <!-- Errors -->
-                            <span class="text-danger" v-if="getError(attribute.handle)"
-                                  v-text="getError(attribute.handle)">
-                            </span>
+                            <candy-taggable :options="defaultTags" :value="['foo', 'bar']"
+                                @input="set(attribute.handle, $event, 'default')" v-if="attribute.type == 'multiselect'"></candy-taggable>
+
+                            <div v-if="attribute.type == 'toggle'">
+                                <candy-toggle :id="'default-'+ attribute.id"
+                                              :value="get(attribute.handle, 'default')"
+                                                @input="set(attribute.handle, $event, 'default')"
+                                              :required="attribute.required">
+                                </candy-toggle>
+                                <!-- <span class="text-danger"
+                                      v-if="getError(getValue(attribute.handle))"
+                                      v-text="getError(getValue(attribute.handle))">
+                                </span> -->
+
+                            </div>
+
+
 
                             <!--
                             <div v-else-if="attribute.type == 'date'">
@@ -213,7 +237,7 @@
 
                     </div>
                     <div class="col-xs-12 col-md-6" v-if="translating">
-                        <div class="form-group" v-for="attribute in attributes">
+                        <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
 
                             <!-- Checkbox -->
                             <candy-checkbox v-show="attribute.translatable && !isDefault"

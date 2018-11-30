@@ -58,6 +58,9 @@
                     CandyEvent.$emit('title-changed', {
                         title: this.method
                     });
+                    console.log(this.method);
+                    document.title = this.$options.filters.attribute(this.method, 'name') +
+                        ' Shipping Method - GetCandy';
                 }).catch(error => {
                 });
             }

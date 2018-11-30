@@ -1,4 +1,6 @@
-@extends('hub::layout')
+@extends('hub::layout', [
+    'title' => 'Edit Product',
+])
 
 @section('side_menu')
     @include('hub::catalogue-manager.partials.side-menu')
@@ -15,7 +17,7 @@
       element="product"
       endpoint="/products/{{ $id }}"
       id="{{ $id }}"
-      redirect="/catalogue-manager/products"
+      redirect="/{{ config('getcandy.hub_prefix', 'hub') }}/catalogue-manager/products"
       style="display: inline-block;"
     ></candy-delete>
 @endsection

@@ -1,6 +1,7 @@
 .content-panel {
   float: left;
   width: calc(100% - 250px);
+  min-width: 1100px;
   margin-left: 250px;
 
   .section {

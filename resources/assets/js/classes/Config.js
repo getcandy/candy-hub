@@ -29,7 +29,9 @@ class Config {
      * @return {[type]} [description]
      */
     get(config) {
+        let response = [];
         return this.request.send('GET', config);
+        return response;
     }
 }
 

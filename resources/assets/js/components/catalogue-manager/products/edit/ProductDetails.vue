@@ -32,12 +32,12 @@
                         CandyEvent.$emit('title-changed', {
                             title: this.product
                         });
-                    }).catch(response => {
-                    CandyEvent.$emit('notification', {
-                        level: 'error',
-                        message: 'Missing / Invalid fields'
+                    }).catch(errors => {
+                        CandyEvent.$emit('notification', {
+                            level: 'error',
+                            message: 'Missing / Invalid fields'
+                        });
                     });
-                });
             },
             getChannels(channels) {
                 let arr = [];

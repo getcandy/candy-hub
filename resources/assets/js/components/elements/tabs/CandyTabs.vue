@@ -2,7 +2,7 @@
     <div class="sub-panel">
         <ul class="nav nav-tabs sub-nav-tabs" v-if="!nested" role="tablist">
             <li role="presentation" :class="{ 'active' : tab.isActive}" v-for="tab in tabs">
-                <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name }}</a>
+                <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name|t }}</a>
             </li>
         </ul>
         <div :class="{'tab-content' : true, 'sub-content section block' : nested }">
@@ -10,7 +10,7 @@
         </div>
         <ul class="nav nav-tabs secondary sub-nav" v-if="nested" role="tablist">
             <li role="presentation" :class="{ 'active' : tab.isActive}" v-for="tab in tabs">
-                <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name }} <span class="badge">{{ tab.badge }}</span></a>
+                <a :href="tab.href" @click="selectTab(tab)" :aria-controls="tab.href" role="tab">{{ tab.name|t }} <span class="badge">{{ tab.badge }}</span></a>
             </li>
         </ul>
     </div>
@@ -86,35 +86,3 @@
         }
     }
 </script>
-
-/**
- if (tab.$parent && tab.$parent.parent) {
-                            let href = '#' + tab.$parent.parent;
-                            // let topTabs = this.$store.getters.getTabByHref(href);
-
-                            // let parent = _.filter(topTabs, tab => {
-                            //     console.log(tab.href);
-                            // });
-                            // topTabs.forEach(tab => {
-                            //     console.log(tab);
-                            // });
-                            // console.log(topTabs);
-                            // console.log(topTabs.length);
-                            // _.forEach(topTabs, function (tab) {
-                            //     console.log(tab);
-                            // })
-                            // topTabs.forEach(tab => {
-                            //     console.log(tab.getHref());
-                            // });
-                            // console.log(parent);
-                            // this.selectTab(tab);
-                            // CandyEvent.$emit('select-parent', '#' + tab.$parent.parent);
-                            // // // console.log('#' + tab.$parent.parent);
-                            // // this.topTabs.forEach(parent => {
-                            // //     console.log(tab.$parent.parent);
-                            // //     if (parent.href == tab.$parent.parent) {
-                            // //         this.selectTabByHref('#' + tab.$parent.parent);
-                            // //     }
-                            // // })
-                        }
-*/

@@ -118,7 +118,7 @@
               if (product.thumbnail) {
                   return product.thumbnail.data.thumbnail;
               }
-              return '/images/placeholder/no-image.svg';
+              return '/candy-hub/images/placeholder/no-image.svg';
           },
           alreadyLinked(product) {
             return this.selected.contains(product.id);

@@ -51,7 +51,7 @@
               if (product.thumbnail) {
                   return product.thumbnail.data.thumbnail;
               }
-              return '/images/placeholder/no-image.svg';
+              return '/candy-hub/images/placeholder/no-image.svg';
             },
             getRoute(data) {
                 let slug = '';
@@ -98,10 +98,11 @@
                             level: 'success'
                         });
                         this.results = [];
-                        this.closeAddModal();
+                        this.addModalOpen = false;
                     });
             },
             closeAddModal() {
+                this.save();
                 this.addModalOpen = false;
             },
             openDeleteModal(category) {
@@ -172,7 +173,7 @@
                 <tbody>
                     <tr v-for="category in productCategories">
                         <td width="80">
-                            <img src="/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
+                            <img src="/candy-hub/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
                         </td>
                         <td>
                             {{ getAttribute(category, 'name') }}

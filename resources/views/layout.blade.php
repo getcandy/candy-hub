@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta name="channel" content="@channel()">
 
-    <title>GetCandy</title>
-
+    <title>@if(isset($title)){{ $title }} -@endif GetCandy</title>
+    @routes
     @include('hub::partials.head')
 
   </head>
@@ -38,6 +38,7 @@
 
         <nav class="side-nav">
           <ul>
+              <li @if(request()->segment(2) == 'dashboard') class="active" @endif><a href="{{ route('hub.index') }}" >Dashboard</a></li>
               <li><a href="{{ route('logout') }}">Logout</a></li>
           </ul>
         </nav>

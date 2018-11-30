@@ -15,7 +15,10 @@ var includes = [
       'button' : 'Button',
       'modal' : 'Modal',
       'notification' : 'NotificationBar',
-      'delete' : 'Delete'
+      'delete' : 'Delete',
+      'layout-picker': 'LayoutPicker',
+      'product-browser': 'ProductBrowser',
+      'collection-browser': 'CollectionBrowser',
     }
   },
   /**
@@ -42,6 +45,7 @@ var includes = [
     path: 'elements.forms.inputs',
     components: {
       'checkbox' : 'Checkbox',
+      'date-picker': 'DatePicker',
       'input' : 'Input',
       'radio' : 'Radio',
       'select' : 'Select',
@@ -133,7 +137,8 @@ var includes = [
     path: 'catalogue-manager.collections.edit',
     components: {
       'collection-details' : 'CollectionDetails',
-      'collection-availability' : 'CollectionAvailability'
+      'collection-availability' : 'CollectionAvailability',
+      'collection-products' : 'CollectionProducts'
     }
   },
   /**
@@ -152,6 +157,9 @@ var includes = [
     components: {
       'category-availability' : 'CategoryAvailability',
       'category-details'      : 'CategoryDetails',
+      'category-product-positioning' : 'ProductPositioning',
+      'category-nodes' : 'CategoryNodes',
+      'category-display': 'CategoryDisplay'
     }
   },
   /**
@@ -187,7 +195,7 @@ var includes = [
     path: 'catalogue-manager.products.edit.associations',
     components: {
       'categories' : 'Categories',
-      'collections' : 'Collections',
+      'product-collections' : 'Collections',
       'products' : 'Products'
     }
   },
@@ -195,6 +203,11 @@ var includes = [
     path: 'catalogue-manager.products.edit.display',
     components: {
       'display' : 'Display'
+    }
+  },
+  {
+    path: 'catalogue-manager.products.edit.urls',
+    components: {
     }
   },
   /**

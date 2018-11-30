@@ -5,7 +5,17 @@
     background-color: transparent;
     border:1px solid lighten($grey, 30%);
     display:inline-block;
+    padding:4px;
+    color:#fff;
     &-disabled {
+        background-color:$red;
+        border-color:darken($red, 10%);
+    }
+    &-default {
+        background-color:#fff;
+        border-color:#333;
+    }
+    &-danger {
         background-color:$red;
         border-color:darken($red, 10%);
     }
@@ -16,5 +26,73 @@
     &-pending {
         background-color:$blue;
         border-color:$blue;
+    }
+}
+
+$waiting: #caccd1;
+$processing: #037ef3;
+$live: #30c39e;
+$pending: #8e43e7;
+$danger: #f85a40;
+
+.order-status-tabs {
+    li {
+        border-top:2px solid transparent;
+    }
+    .waiting {
+        border-color: $waiting;
+    }
+    .processing {
+        border-color: $processing;
+    }
+    .live {
+        border-color: $live;
+    }
+    .pending {
+        border-color:$pending;
+    }
+    .default {
+        border-color:#fff;
+    }
+    .danger {
+        border-color:$danger;
+    }
+}
+.order-status {
+    border:1px solid lighten($grey, 30%);
+    display:inline-block;
+    padding:6px 8px;
+    font-size:.75em;
+    font-weight:600;
+    color:#fff;
+
+    &.expired, &.awaiting-payment {
+        background-color:rgba($waiting, .2);
+        color:darken($waiting, 20%);
+        border-color:$waiting;
+    }
+    &.payment-processing, &.in-progress {
+        background-color:rgba($processing, .2);
+        color:darken($processing, 10%);
+        border-color:$processing;
+    }
+    &.on-account, &.payment-received {
+        background-color:rgba($live, .2);
+        color:darken($live, 25%);
+        border-color:darken($live, 10%);
+    }
+    &-pending {
+        background-color: rgba($pending, .2);
+        color:$pending;
+        border-color:$pending;
+    }
+    &.dispatched {
+        background-color:#fff;
+        color:#333;
+    }
+    &.void, &.refunded, &.failed {
+        background-color:rgba($danger, .2);
+        color:darken($danger, 25%);
+        border-color:$danger;
     }
 }

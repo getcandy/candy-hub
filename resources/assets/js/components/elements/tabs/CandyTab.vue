@@ -14,7 +14,7 @@
         },
         props: {
             name: {
-                type: String,
+                type: [String, Object],
                 required: true
             },
             handle: {
@@ -41,7 +41,11 @@
         },
         methods: {
             getHref() {
-                return '#' + this.name.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '');
+                let name = this.name;
+                if (typeof this.name == 'object') {
+                     name = this.name[locale.current()];
+                }
+                return '#' + name.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '');
             }
         },
         mounted() {

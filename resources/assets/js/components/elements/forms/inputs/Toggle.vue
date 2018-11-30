@@ -1,8 +1,6 @@
 <template>
     <div>
-
-        <input class="bootstrap-switch" type="checkbox" :value="value" :required="required">
-
+        <input class="bootstrap-switch" type="checkbox" :value="value" :required="required" :checked="value">
     </div>
 </template>
 
@@ -18,7 +16,7 @@
         },
         props: {
             value: {
-                type: String
+                type: String|Boolean
             },
             required: {
                 type: Boolean

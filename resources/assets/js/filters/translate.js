@@ -1,4 +1,7 @@
 Vue.filter('t', function (value, lang) {
+    if (typeof value === 'string') {
+        return value;
+    }
     if (!lang) {
         lang = locale.current();
     }
