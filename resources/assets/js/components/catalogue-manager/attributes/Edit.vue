@@ -24,12 +24,19 @@
         mounted() {
             this.loadLanguages();
             this.loadGroups();
-            this.load();
             Dispatcher.add('save-attribute', this);
+            this.load();
         },
         methods: {
-            save() {
-                alert('Save!');
+            base() {
+                return {
+                    name: {
+                        [locale.current()] : ''
+                    },
+                    handle: '',
+                    type: 'text',
+                    group_id: ''
+                };
             },
             load() {
                 apiRequest.send('get', '/attributes/' + this.id, [], this.params)
@@ -44,6 +51,22 @@
                         this.loaded = true;
 
                         // document.title = this.$options.filters.attribute(, 'name') + ' Category - GetCandy';
+                    });
+            },
+            save() {
+                apiRequest.send('put', '/attributes/' + this.id, this.attribute)
+                    .then(response => {
+                        CandyEvent.$emit('notification', {
+                            level: 'success'
+                        });
+                        this.attribute = this.base();
+                        CandyEvent.$emit('attribute-updated', response.data);
+                    }).catch(response => {
+                        console.log(response);
+                        CandyEvent.$emit('notification', {
+                            level: 'error',
+                            message: 'Missing / Invalid fields'
+                        });
                     });
             },
             loadGroups() {
@@ -111,6 +134,7 @@
                                                 <option value="text">Text</option>
                                                 <option value="richtext">Richtext</option>
                                                 <option value="select">Select</option>
+                                                <option value="number">Number</option>
                                             </select>
                                         </div>
                                         <template v-if="attribute.type == 'select'">
