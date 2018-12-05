@@ -80,6 +80,7 @@
                     <label>Type</label>
                     <select class="form-control" v-model="attribute.type">
                         <option value="text">Text</option>
+                        <option value="number">Number</option>
                         <option value="select">Select</option>
                         <option value="richtext">Richtext</option>
                         <option value="checkbox">Checkbox</option>
