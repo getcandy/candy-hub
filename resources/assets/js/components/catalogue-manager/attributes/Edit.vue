@@ -34,7 +34,6 @@
                         [locale.current()] : ''
                     },
                     handle: '',
-                    type: 'text',
                     group_id: ''
                 };
             },
