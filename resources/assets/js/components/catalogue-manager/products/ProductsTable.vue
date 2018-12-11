@@ -24,7 +24,7 @@
                     type: 'product',
                     per_page: 25,
                     page: 1,
-                    includes: 'channels,customer_groups,family,attribute_groups,variants,thumbnail.transforms'
+                    includes: 'channels,customerGroups,family,variants'
                 }
             }
         },
@@ -72,7 +72,7 @@
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.pagination.total_pages;
+                        this.params.total_pages = response.meta.last_page;
                         this.loaded = true;
                     });
             },
@@ -81,7 +81,7 @@
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.pagination.data.total_pages;
+                        this.params.total_pages = response.meta.last_page;
                         this.meta = response.meta;
                         this.loaded = true;
                     });
@@ -130,7 +130,7 @@
             ),
             getStock(product) {
                 var variants = product.variants.data;
-                if (product.variant_count == 1) {
+                if (variants.length == 1) {
                     return variants[0].inventory;
                 }
                 return 'Multiple';
@@ -138,7 +138,6 @@
             quickEdit(index) {
                 this.editing = index;
                 this.editingBackup = JSON.parse(JSON.stringify(this.products[index]));
-
                 if (this.editableVariants.length > 1) {
                     this.quickEditModal = true;
                 }
@@ -152,7 +151,7 @@
                     if (JSON.stringify(variant) == JSON.stringify(this.editingBackup.variants.data[index])) {
                         return;
                     }
-                    apiRequest.send('put', '/products/variants/' + variant.id, variant)
+                    apiRequest.send('put', '/products/variants/' + variant.id + '/inventory', variant)
                         .then(response => {
                             CandyEvent.$emit('notification', {
                                 level: 'success',
@@ -298,11 +297,11 @@
                                 </td>
                                 <td>
                                     <a :href="route('hub.products.edit', product.id)">
-                                        {{ product|attribute('name') }}
+                                        {{ product.name }}
                                     </a>
                                 </td>
                                 <td>
-                                    <template v-if="editing == index && product.variant_count == 1 && !this.quickEditModal">
+                                    <template v-if="editing == index && product.variants.data.length == 1 && !this.quickEditModal">
                                         <input v-focus @keyup.enter="quickSave" class="form-control" v-model="product.variants.data[0].inventory" @blur="quickSave">
                                     </template>
                                     <template v-else>
@@ -311,10 +310,10 @@
                                         </a>
                                     </template>
                                 </td>
-                                <td>{{ visibility(product, 'channels') }}</td>
-                                <td>{{ visibility(product, 'customer_groups') }}</td>
+                                <td><!-- {{ visibility(product, 'channels') }} --></td>
+                                <td><!-- {{ visibility(product, 'customer_groups') }} --></td>
                                 <td>
-                                    {{ getAttributeGroups(product) }}
+                                    <!-- {{ getAttributeGroups(product) }} -->
                                 </td>
                                 <td>
                                     <!-- <template v-if="editing == index">
