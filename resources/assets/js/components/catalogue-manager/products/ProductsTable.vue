@@ -152,7 +152,7 @@
                     if (JSON.stringify(variant) == JSON.stringify(this.editingBackup.variants.data[index])) {
                         return;
                     }
-                    apiRequest.send('put', '/products/variants/' + variant.id, variant)
+                    apiRequest.send('put', '/products/variants/' + variant.id + '/inventory', variant)
                         .then(response => {
                             CandyEvent.$emit('notification', {
                                 level: 'success',
