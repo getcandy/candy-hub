@@ -52,6 +52,8 @@ class HubServiceProvider extends ServiceProvider
         View::composer('hub::catalogue-manager.partials.side-menu', 'GetCandy\Hub\Http\ViewComposers\CatalogueManager\Partials\SideMenuComposer');
         View::composer('hub::order-processing.partials.side-menu', 'GetCandy\Hub\Http\ViewComposers\OrderProcessing\Partials\SideMenuComposer');
         View::composer('hub::marketing-suite.partials.side-menu', 'GetCandy\Hub\Http\ViewComposers\MarketingSuite\Partials\SideMenuComposer');
+
+        View::composer('hub::layout', 'GetCandy\Hub\Http\ViewComposers\Plugins\PluginResourceComposer');
     }
 
     protected function registerBladeDirectives()

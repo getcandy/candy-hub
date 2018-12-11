@@ -66,6 +66,9 @@
     </div>
     <div class="main-purple-overlay"></div>
     @include('hub::partials.scripts')
+    @foreach($plugin_scripts as $script)
+      <script src="{{ url('hub/plugins/' . $script) }}"></script>
+    @endforeach
     @yield('scripts')
   </body>
 </html>
