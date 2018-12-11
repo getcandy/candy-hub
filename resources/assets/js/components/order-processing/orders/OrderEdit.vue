@@ -318,7 +318,7 @@
                                                 {{ shipping.description }}
                                             </td>
                                             <td>
-                                                {{ shipping.variant }}
+                                                {{ shipping.variant_name }}
                                             </td>
                                             <td>-</td>
                                             <td>{{ shipping.unit_cost }}</td>
@@ -361,7 +361,7 @@
                                                 </template>
 
                                             </td>
-                                            <td>{{ line.variant ? line.variant : '-' }}</td>
+                                            <td>{{ line.variant_name ? line.variant_name : '-' }}</td>
                                             <td>{{ line.quantity }}</td>
                                             <td v-html="currencySymbol(line.unit_price)"></td>
                                             <td>
