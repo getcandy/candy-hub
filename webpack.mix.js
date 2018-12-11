@@ -13,6 +13,8 @@ require('laravel-mix-purgecss');
  */
 
 mix.js('resources/assets/js/hub.js', 'resources/build/js')
+    .js('resources/assets/js/setup.js', 'resources/build/js')
+    .js('resources/assets/js/candyhub.js', 'resources/build/js')
     .sass('resources/assets/sass/hub.scss', 'resources/build/css')
     .copy('resources/assets/icons', 'resources/build/icons')
     .copy('resources/assets/images', 'resources/build/images');
