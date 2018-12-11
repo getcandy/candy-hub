@@ -45,10 +45,30 @@
              * @return
              */
             decorate(data) {
-                this.attribute_groups = data.attribute_groups.data;
+                // this.attribute_groups = data.attribute_groups.data;
+
+                let groups = [];
+
+                _.each(data.attributes.data, attribute => {
+                    if (attribute.group && !_.includes(groups, attribute.group)) {
+                        groups.push(attribute.group.data);
+                    }
+                });
+
+                _.each(data.family.data.attributes.data, attribute => {
+                    // Find the attribute
+                    let exists = _.find(groups, group => {
+                        return group.handle == attribute.group.data.handle;
+                    });
+                    if (!exists) {
+                        groups.push(attribute.group.data);
+                    }
+                });
+
+                this.attribute_groups = groups;
 
                 this.product = data;
-                this.product.attributes = this.product.attribute_data;
+                // this.product.attributes = this.product.attribute_data;
                 this.variants = this.product.variants.data;
                 this.routes = this.product.routes.data;
             },
@@ -74,8 +94,9 @@
             loadProduct(id) {
                 apiRequest.send('get', '/products/' + this.productId, {}, {
                     excl_tax: true,
-                    includes: 'family,variants.pricing.tax,variants.pricing.group,variants.tiers.group,variants.tax,assets,assets.tags,attribute_groups,attribute_groups.attributes,' +
-                    'layout,associations,routes,channels,customer_groups,categories,categories.routes,collections,collections.routes'
+                    full_response: true,
+                    includes: 'family.attributes.group.attributes,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
+                    'layout,associations,routes,channels,customerGroups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;
