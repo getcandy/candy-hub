@@ -116,6 +116,9 @@
             },
             getAssociationCount() {
                 return this.product.associations.data.length;
+            },
+            getComponents(section) {
+                return CandyHub.getComponents(section);
             }
         }
     }
@@ -171,6 +174,9 @@
                             </candy-tab>
                             <candy-tab name="Products" handle="products" :badge="getAssociationCount()" dispatch="product-associations">
                                 <candy-products :product="product"></candy-products>
+                            </candy-tab>
+                            <candy-tab :name="component.tabLabel" :handle="component.reference" :dispatch="component.reference" v-for="(component, index) in getComponents('catalogue-manager.product.associations')" :key="index">
+                                <component :is="component.reference" :product="product" />
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>
