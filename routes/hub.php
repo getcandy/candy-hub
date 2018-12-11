@@ -151,5 +151,11 @@ Route::group([
                 'uses' => 'DiscountController@getEdit',
             ]);
         });
+
+        // Plugin routes
+        $router->group(['prefix' => 'plugins'], function ($router) {
+            $router->get('{section}/tabs', 'PluginController@tabs');
+            $router->get('{handle}/resources/{type}/{filename}', 'PluginController@resource');
+        });
     });
 });
