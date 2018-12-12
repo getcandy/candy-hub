@@ -24,7 +24,7 @@
                     type: 'product',
                     per_page: 25,
                     page: 1,
-                    includes: 'channels,customerGroups,family,variants'
+                    includes: 'channels,customerGroups,family,variants,assets.transforms'
                 }
             }
         },
