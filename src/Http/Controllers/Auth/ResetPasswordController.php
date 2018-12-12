@@ -2,9 +2,9 @@
 
 namespace GetCandy\Hub\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use GetCandy\Hub\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -43,8 +43,9 @@ class ResetPasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string|null  $token
+     * @param \Illuminate\Http\Request $request
+     * @param string|null              $token
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showResetForm(Request $request, $token = null)

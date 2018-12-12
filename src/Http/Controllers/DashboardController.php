@@ -20,7 +20,6 @@ class DashboardController extends Controller
         $lastWeeksSales = $this->getSalesLastWeek();
         $thisWeeksSales = $this->getSalesThisWeek();
 
-
         $lastMonthSales = $this->ordersForDateRange(
             Carbon::now()->startOfMonth()->subMonth(),
             Carbon::now()->endOfMonth()->subMonth()
@@ -98,7 +97,7 @@ class DashboardController extends Controller
             $prevStart = Carbon::now()->startOfWeek()->subWeeks($i + 1);
             $prevEnd = Carbon::now()->endOfWeek()->subWeeks($i + 1);
 
-            $label = $start->format('dS') . ' to ' . $end->format('dS') . ' ' . $end->format('F Y');
+            $label = $start->format('dS').' to '.$end->format('dS').' '.$end->format('F Y');
 
             $total = $this->ordersForDateRange(
                 $start,
@@ -115,9 +114,9 @@ class DashboardController extends Controller
             )->first()->grand_total;
 
             $data[$label] = [
-                'total' => $total,
+                'total'    => $total,
                 'previous' => $previous,
-                'diff' => $total - $previous
+                'diff'     => $total - $previous,
             ];
         }
 
@@ -151,7 +150,6 @@ class DashboardController extends Controller
 
             $data[] = $total;
         }
-
 
         $dataset = [
             'label'           => 'Order Totals',
@@ -249,7 +247,6 @@ class DashboardController extends Controller
 
     protected function getSalesThisWeek()
     {
-
         return $this->ordersThisWeek()->select(
             \DB::RAW('SUM(((sub_total + tax_total - discount_total / conversion) / 100)) as grand_total')
         )->first()->grand_total;

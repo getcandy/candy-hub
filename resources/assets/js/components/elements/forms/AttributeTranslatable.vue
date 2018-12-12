@@ -159,6 +159,13 @@
                                         :required="attribute.required">
                             </candy-input>
 
+                            <candy-number v-if="attribute.type == 'number'"
+                                        :handle="'default-'+ attribute.id"
+                                        :value="get(attribute.handle, 'default')"
+                                        @input="set(attribute.handle, $event, 'default')"
+                                        :required="attribute.required">
+                            </candy-number>
+
                             <candy-date-picker
                                 v-if="attribute.type == 'date'"
                                 :value="get(attribute.handle, 'default')"
