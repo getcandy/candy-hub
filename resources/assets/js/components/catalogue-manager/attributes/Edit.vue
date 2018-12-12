@@ -61,7 +61,6 @@
                         this.attribute = this.base();
                         CandyEvent.$emit('attribute-updated', response.data);
                     }).catch(response => {
-                        console.log(response);
                         CandyEvent.$emit('notification', {
                             level: 'error',
                             message: 'Missing / Invalid fields'
