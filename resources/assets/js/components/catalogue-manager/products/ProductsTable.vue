@@ -2,13 +2,11 @@
     import Flatify from '../../../classes/Flatify'
     import HasGroups from '../../../mixins/HasGroups.js';
     import HasAttributes from '../../../mixins/HasAttributes.js';
-    import HasAssets from '../../../mixins/HasAssets.js';
 
     export default {
         mixins: [
             HasGroups,
             HasAttributes,
-            HasAssets,
         ],
         data() {
             return {
@@ -288,8 +286,7 @@
                     </thead>
                     <tbody v-if="loaded">
                         <template v-for="(product, index) in products">
-                            <tr>
-
+                            <tr :key="product.id">
                                 <td>
                                     <a :href="route('hub.products.edit', product.id)">
                                         <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
