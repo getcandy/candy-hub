@@ -141,7 +141,7 @@
                 <div class="row">
                     <div class="col-xs-12 form-group" :class="{ 'col-md-6': translating }">
 
-                        <div class="form-group" v-for="attribute in attributes" :key="attribute.handle" v-if="attributeData[attribute.handle]">
+                        <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
 
                             <!-- Label -->
                             <label :for="attribute.handle">{{ attribute.name|t }}</label><br>
