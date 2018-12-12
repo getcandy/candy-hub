@@ -50,7 +50,10 @@
                 let groups = [];
 
                 _.each(data.attributes.data, attribute => {
-                    if (attribute.group && !_.includes(groups, attribute.group)) {
+                    let exists = _.find(groups, group => {
+                        return group.handle == attribute.group.data.handle;
+                    });
+                    if (attribute.group && !exists) {
                         groups.push(attribute.group.data);
                     }
                 });
