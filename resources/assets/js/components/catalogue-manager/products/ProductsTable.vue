@@ -20,6 +20,7 @@
                 meta: [],
                 params: {
                     type: 'product',
+                    fields: 'name',
                     per_page: 25,
                     page: 1,
                     includes: 'channels,customerGroups,family,variants,assets.transforms'
@@ -278,9 +279,10 @@
                             <th width="5%"></th>
                             <th width="25%">Product</th>
                             <th width="10%">Stock</th>
-                            <th width="15%">Display</th>
+                            <th width="15%">Channels</th>
+                            <th width="19%">Customer Groups</th>
                             <th width="19%">Purchasable</th>
-                            <th width="19%">Group</th>
+                            <!-- <th width="19%">Group</th> -->
                             <th  width="15%"></th>
                         </tr>
                     </thead>
@@ -307,11 +309,12 @@
                                         </a>
                                     </template>
                                 </td>
-                                <td><!-- {{ visibility(product, 'channels') }} --></td>
-                                <td><!-- {{ visibility(product, 'customer_groups') }} --></td>
-                                <td>
-                                    <!-- {{ getAttributeGroups(product) }} -->
-                                </td>
+                                <td>{{ visibility(product, 'channels') }}</td>
+                                <td>{{ visibility(product, 'customer_groups') }}</td>
+                                <td>{{ purchasable(product, 'customer_groups') }}</td>
+                                <!-- <td>
+                                    {{ getAttributeGroups(product) }}
+                                </td> -->
                                 <td>
                                     <!-- <template v-if="editing == index">
                                         <button class="btn btn-danger btn-sm btn-action" @click="cancelQuickEdit" >
