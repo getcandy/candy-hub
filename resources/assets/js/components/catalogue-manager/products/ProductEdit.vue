@@ -202,11 +202,6 @@
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>
-
-                    <candy-tab name="Display">
-                        <candy-display></candy-display>
-                    </candy-tab>
-
                     <candy-tab name="URLS" dispatch="save-urls">
                         <candy-tabs nested="true">
                             <candy-tab name="Locale URLS" handle="locale-urls" :selected="true" dispatch="save-urls">

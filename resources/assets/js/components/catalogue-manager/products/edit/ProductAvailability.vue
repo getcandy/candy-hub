@@ -73,10 +73,6 @@
             <candy-tab name="Customer Groups" handle="customer-groups" dispatch="product-availability">
                 <candy-customer-groups :groups="customerGroups"></candy-customer-groups>
             </candy-tab>
-            <candy-tab name="Discounts" handle="discounts">
-                <candy-discounts></candy-discounts>
-            </candy-tab>
-
         </candy-tabs>
     </div>
 </template>
