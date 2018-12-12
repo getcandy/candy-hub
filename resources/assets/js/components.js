@@ -47,6 +47,7 @@ var includes = [
       'checkbox' : 'Checkbox',
       'date-picker': 'DatePicker',
       'input' : 'Input',
+      'number' : 'Number',
       'radio' : 'Radio',
       'select' : 'Select',
       'taggable' : 'Taggable',
