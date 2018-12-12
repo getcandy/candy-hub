@@ -66,6 +66,16 @@
                     if (!exists) {
                         groups.push(attribute.group.data);
                     }
+
+                    // If the attribute doesn't exist on the product then we need
+                    // to give it at least an empty string.
+                    if (data.attribute_data[attribute.handle] == undefined) {
+                        this.$set(data.attribute_data, attribute.handle, {
+                            [this.channel] : {
+                                [this.locale] : ""
+                            }
+                        });
+                    }
                 });
 
                 this.attribute_groups = groups;
@@ -98,6 +108,7 @@
                 apiRequest.send('get', '/products/' + this.productId, {}, {
                     excl_tax: true,
                     full_response: true,
+                    option_data: true,
                     includes: 'family.attributes.group.attributes,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
                     'layout,associations,routes,channels,customerGroups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
@@ -122,6 +133,14 @@
             },
             getComponents(section) {
                 return CandyHub.getComponents(section);
+            }
+        },
+        computed: {
+            locale() {
+                return locale.current();
+            },
+            channel() {
+                return this.$store.getters.getDefaultChannel.handle;
             }
         }
     }
