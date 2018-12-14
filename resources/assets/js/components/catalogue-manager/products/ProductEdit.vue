@@ -59,12 +59,21 @@
                 });
 
                 _.each(data.family.data.attributes.data, attribute => {
-                    // Find the attribute
-                    let exists = _.find(groups, group => {
+                    // // Find the attribute
+                    let existing = _.find(groups, group => {
                         return group.handle == attribute.group.data.handle;
                     });
-                    if (!exists) {
-                        groups.push(attribute.group.data);
+
+                    if (!existing) {
+                        let group = attribute.group.data;
+                        // console.log(t);
+                        this.$set(group, 'attributes', {
+                            data: [],
+                        });
+                        group.attributes.data.push(attribute);
+                        groups.push(group);
+                    } else {
+                        existing.attributes.data.push(attribute);
                     }
 
                     // If the attribute doesn't exist on the product then we need
@@ -109,7 +118,7 @@
                     excl_tax: true,
                     full_response: true,
                     option_data: true,
-                    includes: 'family.attributes.group.attributes,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
+                    includes: 'family.attributes.group,attributes.group,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
                     'layout,associations,routes,channels,customerGroups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);
