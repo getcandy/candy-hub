@@ -157,6 +157,7 @@
                 })
                 .then(response => {
                     this.order = response.data;
+
                     this.transactions = response.data.transactions.data;
 
                     CandyEvent.$emit('title-changed', {
@@ -366,21 +367,15 @@
                                             <td v-html="currencySymbol(line.unit_price)"></td>
                                             <td>
                                                 <template v-if="line.discount_total">
-                                                    <span class="text-danger" v-html="currencySymbol(-line.discount_total + line.tax_total)"></span>
+                                                    <span class="text-danger" v-html="currencySymbol(-line.discount_total)"></span>
                                                 </template>
                                                 <template v-else>
                                                     -
                                                 </template>
                                             </td>
                                             <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
-                                            <template v-if="line.discount_total">
-                                                <td v-html="currencySymbol(line.tax_total + (line.discount_total - (line.discount_total + line.tax_total)))"></td>
-                                                <td v-html="currencySymbol(line.line_total - (line.discount_total - line.tax_total))"></td>
-                                            </template>
-                                            <template v-else>
                                                 <td v-html="currencySymbol(line.tax_total)"></td>
                                                 <td v-html="currencySymbol(line.line_total)"></td>
-                                            </template>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -390,6 +385,30 @@
                                 <h3>Order Notes</h3>
                                 <p>{{ order.notes }}</p>
                             </article>
+
+                            <div class="row" v-if="order.discounts.data && order.discounts.data.length">
+                                <div class="col-md-12">
+                                    <h3>Discounts Applied</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Type</th>
+                                                <th>Value</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="discount in order.discounts.data" :key="discount.id">
+                                                <td>{{ discount.name }}</td>
+                                                <td>{{ discount.type }}</td>
+                                                <td>{{ discount.coupon }}</td>
+                                                <td v-html="currencySymbol(discount.amount)"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <template v-if="transactions.length">
