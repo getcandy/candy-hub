@@ -71,7 +71,7 @@
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.last_page;
+                        // this.params.total_pages = response.meta.last_page;
                         this.loaded = true;
                     });
             },
@@ -283,7 +283,6 @@
                             <th width="19%">Customer Groups</th>
                             <th width="19%">Purchasable</th>
                             <!-- <th width="19%">Group</th> -->
-                            <th  width="15%"></th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
@@ -299,7 +298,7 @@
                                         {{ product.name }}
                                     </a>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <template v-if="editing == index && product.variants.data.length == 1 && !this.quickEditModal">
                                         <input v-focus @keyup.enter="quickSave" class="form-control" v-model="product.variants.data[0].inventory" @blur="quickSave">
                                     </template>
@@ -311,28 +310,7 @@
                                 </td>
                                 <td>{{ visibility(product, 'channels') }}</td>
                                 <td>{{ visibility(product, 'customer_groups') }}</td>
-                                <td>{{ purchasable(product, 'customer_groups') }}</td>
-                                <!-- <td>
-                                    {{ getAttributeGroups(product) }}
-                                </td> -->
-                                <td>
-                                    <!-- <template v-if="editing == index">
-                                        <button class="btn btn-danger btn-sm btn-action" @click="cancelQuickEdit" >
-                                            <fa icon="times"></fa>
-                                        </button>
-                                        <button class="btn btn-success btn-sm btn-action" @click="quickSave">
-                                            <fa icon="check"></fa>
-                                        </button>
-                                    </template>
-                                    <template v-else>
-                                        <button class="btn btn-default btn-sm btn-action" @click="quickEdit(index)">
-                                            <fa icon="edit"></fa>
-                                        </button>
-                                        <a :href="'/catalogue-manager/products/' + product.id" class="btn btn-default btn-sm btn-action" >
-                                            <fa icon="eye"></fa>
-                                        </a>
-                                    </template> -->
-                                </td>
+                                <td>{{ purchasable(product, 'customer_groups') }}</td> -->
                             </tr>
                         </template>
                     </tbody>
