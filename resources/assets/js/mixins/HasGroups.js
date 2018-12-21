@@ -11,7 +11,6 @@ module.exports = {
             }
 
             if (ref == 'customer_groups') {
-                console.log(groups)
             }
 
             groups.forEach(group => {
