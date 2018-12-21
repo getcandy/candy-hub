@@ -104,7 +104,6 @@
 
                 data.price = data.unit_price;
 
-                console.log(data.price);
 
                 data.group_pricing = this.hasGroupPricing;
 

@@ -22,7 +22,6 @@
         },
         methods: {
             update() {
-                console.log(this.selected);
                 this.$emit('input', this.selected);
             },
             getOptions() {
