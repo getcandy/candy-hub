@@ -52,7 +52,8 @@ var includes = [
       'select' : 'Select',
       'taggable' : 'Taggable',
       'textarea' : 'Textarea',
-      'toggle' : 'Toggle'
+      'toggle' : 'Toggle',
+      'media-upload' : 'MediaUpload'
     }
   },
   /**
