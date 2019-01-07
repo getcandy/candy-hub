@@ -23,7 +23,7 @@
         </figure>
 
         <div class="actions" v-if="url">
-            <button @click="url = null" class="text-danger"><i class="fa fa-trash"></i></button>
+            <button @click="remove" class="text-danger"><i class="fa fa-trash"></i></button>
         </div>
         <span class="text-danger" v-if="error">There was an issue uploading the file</span>
 
@@ -50,10 +50,11 @@
                 }
             }
         },
-        mounted() {
-            console.log(this.initial);
-        },
         methods: {
+            remove() {
+                this.url = null;
+                this.$emit('input', null);
+            },
             uploadSuccess(file, response) {
                 this.$refs.mediaDropzone.removeFile(file);
                 this.$emit('input', response.path);
