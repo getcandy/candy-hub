@@ -176,6 +176,7 @@ const app = new Vue({
     },
     mounted() {
       CandyEvent.$on('title-changed', event => {
+        console.log(1);
         if (_.isString(event.title)) {
           this.title = event.title;
         } else {
