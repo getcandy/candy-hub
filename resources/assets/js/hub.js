@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-var ApiRequest  = require('./classes/ApiRequest');
+
 var Dispatcher  = require('./classes/Dispatcher');
 var Locale      = require('./classes/Locale');
 var Config      = require('./classes/Config');
@@ -36,7 +36,7 @@ Vue.component('fa', FontAwesomeIcon);
  * Bind some bits to the window for usage.
  */
 
-window.apiRequest     = new ApiRequest();
+
 window.CandyEvent     = new Vue();
 window.channels       = [];
 window.config         = new Config();

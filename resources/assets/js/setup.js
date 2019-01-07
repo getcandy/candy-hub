@@ -1,5 +1,7 @@
 import Hub from './candyhub';
 
-window._ = require('lodash');
+var ApiRequest  = require('./classes/ApiRequest');
 
+window._ = require('lodash');
+window.apiRequest = new ApiRequest();
 window.CandyHub = Hub;
