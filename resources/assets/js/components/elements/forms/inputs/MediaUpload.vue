@@ -1,26 +1,32 @@
 <template>
     <div class="uploader">
-        <dropzone v-if="!url" :id="id"
-            ref="mediaDropzone"
-            :url="uploadUrl"
-            v-on:vdropzone-success="uploadSuccess"
-            v-bind:dropzone-options="dzOptions"
-            v-bind:use-custom-dropzone-options="true"
-            v-on:vdropzone-error="uploadError"
-            v-on:vdropzone-sending="errors = false"
-            :maxFileSizeInMB="50"
-        >
-            <div class="dz-default dz-message media-box">
-                <i class="fa fa-upload icon" aria-hidden="true"></i>
-                <p>Drop files here or click to upload</p>
-            </div>
-            <input type="hidden" name="_token" :value="token">
-        </dropzone>
-
-        <span class="text-danger" v-if="error">There was an issue uploading the file</span>
+        <div class="zone">
+            <dropzone v-if="!url" :id="id"
+                ref="mediaDropzone"
+                :url="uploadUrl"
+                v-on:vdropzone-success="uploadSuccess"
+                v-bind:dropzone-options="dzOptions"
+                v-bind:use-custom-dropzone-options="true"
+                v-on:vdropzone-error="uploadError"
+                v-on:vdropzone-sending="errors = false"
+                :maxFileSizeInMB="50"
+            >
+                <div class="dz-default dz-message media-box">
+                    <i class="fa fa-upload icon" aria-hidden="true"></i>
+                    <p>Drop files here or click to upload</p>
+                </div>
+                <input type="hidden" name="_token" :value="token">
+            </dropzone>
+        </div>
         <figure v-if="url">
-            <img :src="url" /><button @click="url = null"><i class="fa fa-trash"></i></button>
+            <img :src="url" />
         </figure>
+
+        <div class="actions" v-if="url">
+            <button @click="url = null" class="text-danger"><i class="fa fa-trash"></i></button>
+        </div>
+        <span class="text-danger" v-if="error">There was an issue uploading the file</span>
+
     </div>
 </template>
 
@@ -93,11 +99,23 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     figure img {
         max-width:100%;
     }
     .uploader {
         text-align:center;
+        position: relative;
+    }
+    .actions {
+        position:absolute;
+        top:15px;
+        right:15px;
+
+        button {
+            background:white;
+            border:none;
+            box-shadow:0px 2px 4px rgba(black, .25);
+        }
     }
 </style>

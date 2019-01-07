@@ -53,7 +53,9 @@ var includes = [
       'taggable' : 'Taggable',
       'textarea' : 'Textarea',
       'toggle' : 'Toggle',
-      'media-upload' : 'MediaUpload'
+      'media-upload' : 'MediaUpload',
+      'date-range-picker' : 'DateRangePicker',
+      'code-mirror' : 'CodeMirror',
     }
   },
   /**
