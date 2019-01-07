@@ -5,6 +5,7 @@
                     rows="8"
                     :value="value"
                     @tbw-change="updateValue($event.target.value)"
+                    @tbw-paste="updateValue($event.target.value)"
                     :required="required"
                     svg-path="/candy-hub/images/trumbowyg.svg"
                     :config="config"
