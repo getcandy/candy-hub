@@ -170,21 +170,6 @@
                         }.bind(this)
                     },
                     source: this.data,
-                    lazyLoad: function (event, data) {
-                        let nodeID = data.node.data.id;
-                        let request = new $.Deferred();
-                        data.result = request.promise();
-                        apiRequest.send('get', this.sourceURL + nodeID, [],  {
-                                includes: 'children',
-                                tree: true
-                            })
-                            .then(response => {
-                                request.resolve(response.data.children.data);
-                            })
-                            .catch(error => {
-                                request.reject(new Error("Could not load data"));
-                            });
-                    }.bind(this),
                     renderTitle: function(event, data){
                         let node = data.node;
                         node.title = '<a href="'+ this.params.linkUrl +'/'+ data.node.data.id +'">'+ this.getImage(node.data)+ this.getAttribute(node.data, 'name') +'</a>';
@@ -222,7 +207,7 @@
                 return '<img class="fancytree-image" src="' + url + '" >';
             },
             getAttribute: function(data, attribute) {
-                return data.attribute_data[attribute][this.channel][this.language];
+                return data.name;
             },
             reloadData: function() {
                 apiRequest.send('get', this.sourceURL, [], {
@@ -231,23 +216,50 @@
                     tree: true
                 })
                 .then(response => {
-                    this.data = response.data;
-                    this.pagination = response.meta.pagination;
+                    let payload = response.data;
+
+                    _.each(payload, (category, index) => {
+                        if (category.children) {
+                            payload[index].children = this.parseChildren(category.children.data)
+                        }
+                    });
+
+                    this.data = payload;
+                    // this.pagination = response.meta.pagination;
 
                     var tree = $('#treetable').fancytree('getTree');
                     tree.reload(this.data);
                 });
             },
+            parseChildren(children) {
+                _.each(children, (node, index) => {
+                    children[index].children = this.parseChildren(node.children.data);
+                });
+                return children;
+            },
+            getChildren(children) {
+                let nodes = [];
+                _.each(children, nodes => {
+
+                });
+                return children.data;
+            },
             loadData: function() {
                 this.$emit('loading', true);
                 apiRequest.send('get', this.sourceURL, [], {
-                    per_page: 15,
-                    current_page: this.pagination.current_page,
                     tree: true
                 })
                 .then(response => {
-                    this.data = response.data;
-                    this.pagination = response.meta.pagination;
+                    let payload = response.data;
+
+                    _.each(payload, (category, index) => {
+                        if (category.children) {
+                            payload[index].children = this.parseChildren(category.children.data)
+                        }
+                    });
+
+                    this.data = payload;
+                    // this.pagination = response.meta.pagination;
                     CandyEvent.$nextTick( function(){
                         this.initFancytable();
                     }.bind(this));
@@ -312,7 +324,7 @@
             </tbody>
         </table>
         <div class="text-center">
-            <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
+            <!-- <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate> -->
         </div>
 
 

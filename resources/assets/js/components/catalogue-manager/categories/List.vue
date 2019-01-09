@@ -191,7 +191,7 @@
     <div>
 
         <!-- Search tabs -->
-        <ul class="nav nav-tabs" role="tablist">
+        <!-- <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#tree-view" aria-controls="tree-view" role="tab" data-toggle="tab" @click="currentView = 'tree-view'">
                     Tree View
@@ -202,7 +202,7 @@
                     List View
                 </a>
             </li>
-        </ul>
+        </ul> -->
 
         <!-- Tab panes -->
         <div class="tab-content section block">
@@ -232,12 +232,12 @@
                 </div>
 
                 <!-- List View -->
-                <div id="list-view" v-show="currentView === 'list-view'">
+                <!-- <div id="list-view" v-show="currentView === 'list-view'">
                     <candy-table :items="categories" :loaded="categoriesLoaded" :params="tableParams"
                                     itemUrl="/hub/catalogue-manager/categories/"
                                  :pagination="requestParams" @change="changePage">
                     </candy-table>
-                </div>
+                </div> -->
 
             </div>
         </div>
