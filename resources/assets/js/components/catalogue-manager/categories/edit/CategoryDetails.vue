@@ -55,7 +55,7 @@
 <template>
     <div>
         <candy-attribute-translatable :languages="languages" :channels="getChannels(category.channels.data)"
-                              :attributes="group.attributes.data" :attributeData="category.attributes"
+                              :attributes="group.attributes.data" :attributeData="category.attribute_data"
                               :request="request">
         </candy-attribute-translatable>
     </div>

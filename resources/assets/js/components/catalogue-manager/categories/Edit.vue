@@ -35,7 +35,19 @@
              * @return
              */
             decorate(data) {
-                this.attribute_groups = data.attribute_groups.data;
+
+                let groups = [];
+                _.each(data.attributes.data, attribute => {
+                    let exists = _.find(groups, group => {
+                        return group.handle == attribute.group.data.handle;
+                    });
+                    if (attribute.group && !exists) {
+                        groups.push(attribute.group.data);
+                    }
+                });
+
+                this.attribute_groups = groups;
+
                 this.category = data;
                 this.category.attributes = this.category.attribute_data;
                 this.routes = this.category.routes.data;
@@ -61,7 +73,8 @@
              */
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
-                    includes: 'channels,layout,assets,assets.tags,children,parent,attribute_groups,attribute_groups.attributes,customer_groups,routes,products,children.products'
+                    full_response: true,
+                    includes: 'channels,layout,assets,assets.tags,children,parent,attributes.group.attributes,customerGroups,routes,products,children.products'
                 }).then(response => {
                     this.decorate(response.data);
                     document.title = this.$options.filters.attribute(this.category, 'name') + ' Category - GetCandy';
