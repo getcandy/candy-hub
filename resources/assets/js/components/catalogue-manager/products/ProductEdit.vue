@@ -48,7 +48,6 @@
                 // this.attribute_groups = data.attribute_groups.data;
 
                 let groups = [];
-
                 _.each(data.attributes.data, attribute => {
                     let exists = _.find(groups, group => {
                         return group.handle == attribute.group.data.handle;
@@ -118,7 +117,7 @@
                     excl_tax: true,
                     full_response: true,
                     option_data: true,
-                    includes: 'family.attributes.group,attributes.group,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
+                    includes: 'family.attributes.group,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
                     'layout,associations,routes,channels,customerGroups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);
