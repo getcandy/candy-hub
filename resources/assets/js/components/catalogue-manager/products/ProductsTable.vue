@@ -295,10 +295,16 @@
                                 </td>
                                 <td>
                                     <a :href="route('hub.products.edit', product.id)">
-                                        {{ product.name }}
+                                        <!-- legacy support, needs removing when search goes to eloquent resources -->
+                                        <template v-if="product.name">
+                                            {{ product.name }}
+                                        </template>
+                                        <template v-else>
+                                            {{ product|attribute('name') }}
+                                        </template>
                                     </a>
                                 </td>
-                                <!-- <td>
+                                <td>
                                     <template v-if="editing == index && product.variants.data.length == 1 && !this.quickEditModal">
                                         <input v-focus @keyup.enter="quickSave" class="form-control" v-model="product.variants.data[0].inventory" @blur="quickSave">
                                     </template>
@@ -308,9 +314,10 @@
                                         </a>
                                     </template>
                                 </td>
-                                <td>{{ visibility(product, 'channels') }}</td>
-                                <td>{{ visibility(product, 'customer_groups') }}</td>
-                                <td>{{ purchasable(product, 'customer_groups') }}</td> -->
+
+                                <td><!-- {{ visibility(product, 'channels') }} --> Webstore</td>
+                                <td><!-- {{ visibility(product, 'customer_groups') }} --> All</td>
+                                <td><!-- {{ purchasable(product, 'customer_groups') }} --> Yes</td>
                             </tr>
                         </template>
                     </tbody>
