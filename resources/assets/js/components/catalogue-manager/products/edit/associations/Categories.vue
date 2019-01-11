@@ -67,7 +67,7 @@
                 this.request.send('get', '/categories', [], this.requestParams)
                     .then(response => {
                         this.categories = response.data;
-                        this.requestParams.total_pages = response.meta.last_page;
+                        // this.requestParams.total_pages = response.meta.last_page;
                         this.categoriesLoaded = true;
                     });
             },
