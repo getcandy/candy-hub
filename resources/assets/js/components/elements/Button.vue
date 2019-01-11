@@ -33,7 +33,11 @@
                 } else {
                     var ref = Dispatcher.resolve(this.tab.dispatch);
                 }
-                ref.save();
+                if (this.tab.save) {
+                    ref[this.tab.save]()
+                } else {
+                    ref.save();
+                }
             }
         }
     }
