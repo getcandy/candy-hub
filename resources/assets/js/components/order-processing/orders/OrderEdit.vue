@@ -261,7 +261,9 @@
                                     {{ order.billing_details.county }}<br v-if="order.billing_details.county">
                                     {{ order.billing_details.state }}<br v-if="order.billing_details.state">
                                     {{ order.billing_details.country }}<br>
-                                    {{ order.billing_details.zip }}
+                                    {{ order.billing_details.zip }} <br>
+                                    {{ order.billing_details.phone }} <br>
+                                    {{ order.billing_details.email }}
                                 </div>
                                 <div class="col-md-4">
                                     <strong style="margin-bottom:5px;display:block;">Shipping info</strong>
@@ -273,7 +275,9 @@
                                     {{ order.shipping_details.county }}<br v-if="order.shipping_details.county">
                                     {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
                                     {{ order.shipping_details.country }}<br>
-                                    {{ order.shipping_details.zip }}
+                                    {{ order.shipping_details.zip }} <br>
+                                    {{ order.billing_details.phone }} <br>
+                                    {{ order.billing_details.email }}
                                 </div>
                                 <div class="col-md-4">
                                     <p>
