@@ -17,6 +17,9 @@ Route::group([
     'middleware'    => ['web'],
 ], function ($router) {
     $router->get('/', function () {
+        if (Auth::user()) {
+            return redirect()->route('hub.index');
+        }
         return redirect()->route('hub.login');
     });
 
