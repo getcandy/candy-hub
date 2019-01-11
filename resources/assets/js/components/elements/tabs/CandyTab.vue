@@ -32,6 +32,9 @@
             },
             dispatch: {
                 type: String
+            },
+            save: {
+                type: String
             }
         },
         computed: {
