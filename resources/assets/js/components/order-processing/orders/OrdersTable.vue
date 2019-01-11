@@ -187,7 +187,7 @@
                 let shipping = _.find(order.lines.data, line => {
                     return line.is_shipping;
                 });
-                return shipping ? shipping.variant : null;
+                return shipping ? shipping.variant_name : null;
             },
             loadOrder: function (id) {
                 location.href = route('hub.orders.edit', id);
