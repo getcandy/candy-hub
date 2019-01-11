@@ -43,15 +43,30 @@
             Dispatcher.add('product-availability', this);
         },
         methods: {
+            saveCustomerGroups() {
+                let payload = this.product.customer_groups.data;
+                apiRequest.send('POST', '/products/' + this.product.id + '/customer-groups', {
+                    groups: payload,
+                }).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success'
+                    });
+                });
+            },
+            saveChannels() {
+                let payload = this.product.channels.data;
+                apiRequest.send('POST', '/products/' + this.product.id + '/channels', {
+                    channels: payload,
+                }).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success'
+                    });
+                });
+            },
             save() {
                 this.request.send('put', '/products/' + this.product.id, this.product).then(response => {
                     CandyEvent.$emit('notification', {
                         level: 'success'
-                    });
-                }).catch(response => {
-                    CandyEvent.$emit('notification', {
-                        level: 'error',
-                        message: 'Missing / Invalid fields'
                     });
                 });
             }
@@ -67,10 +82,10 @@
             <candy-tab name="Optional Extras" handle="extras">
                 Coming soon
             </candy-tab>
-            <candy-tab name="Channels" handle="channels" dispatch="product-availability">
+            <candy-tab name="Channels" handle="channels" dispatch="product-availability" save="saveChannels">
                 <candy-channel-association :channels="product.channels.data"></candy-channel-association>
             </candy-tab>
-            <candy-tab name="Customer Groups" handle="customer-groups" dispatch="product-availability">
+            <candy-tab name="Customer Groups" handle="customer-groups" dispatch="product-availability" save="saveCustomerGroups">
                 <candy-customer-groups :groups="customerGroups"></candy-customer-groups>
             </candy-tab>
         </candy-tabs>
