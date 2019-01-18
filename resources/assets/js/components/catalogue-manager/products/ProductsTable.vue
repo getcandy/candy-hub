@@ -315,9 +315,9 @@
                                     </template>
                                 </td>
 
-                                <td><!-- {{ visibility(product, 'channels') }} --> Webstore</td>
-                                <td><!-- {{ visibility(product, 'customer_groups') }} --> All</td>
-                                <td><!-- {{ purchasable(product, 'customer_groups') }} --> Yes</td>
+                                <td>{{ visibility(product, 'channels') }}</td>
+                                <td>{{ visibility(product, 'customer_groups') }}</td>
+                                <td>{{ purchasable(product, 'customer_groups') }}</td>
                             </tr>
                         </template>
                     </tbody>
