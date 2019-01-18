@@ -11,7 +11,7 @@ class Authenticated extends Authenticate
     public function handle($request, Closure $next, ...$guards)
     {
         try {
-            $this->authenticate($guards);
+            $this->authenticate($request, $guards);
         } catch (AuthenticationException $e) {
             return redirect()->route('hub.login');
         }
