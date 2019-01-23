@@ -353,7 +353,7 @@
                                             {{ order.type }}
                                         </td>
                                         <td @click="loadOrder(order.id)" >
-                                            <span v-if="order.user">Account</span>
+                                            <span v-if="order.user.data">Account</span>
                                             <span v-else>Guest</span>
                                         </td>
                                         <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td> -->
