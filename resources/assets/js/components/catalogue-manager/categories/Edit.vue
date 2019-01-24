@@ -119,9 +119,9 @@
                         <candy-category-availability :category="category" v-if="category"></candy-category-availability>
                     </candy-tab>
 
-                    <candy-tab name="Associations">
+                    <candy-tab name="Associations" dispatch="product-positioning">
                         <candy-tabs nested="true">
-                            <candy-tab name="Products" :selected="true">
+                            <candy-tab name="Products" :selected="true" dispatch="product-positioning">
                                 <candy-category-product-positioning :category-id="category.id" :sort="category.sort" :products="category.products.data"></candy-category-product-positioning>
                             </candy-tab>
                             <candy-tab name="Children Categories">
