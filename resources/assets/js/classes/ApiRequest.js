@@ -14,6 +14,8 @@ class ApiRequest {
     getError(field) {
         if (this.errors['error'] && !field) {
             return this.errors.error.message;
+        } else if (this.errors.errors && this.errors.errors[field]) {
+            return this.errors.errors[field][0];
         } else if (this.errors[field]) {
             return this.errors[field][0];
         }
