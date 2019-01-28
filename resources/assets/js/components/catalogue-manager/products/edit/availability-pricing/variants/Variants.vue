@@ -425,6 +425,7 @@
                                                 <div class="form-group">
                                                     <label>Tax</label>
                                                     <candy-select :options="taxes" v-model="current.tax_id"></candy-select>
+                                                    <span class="text-danger" v-if="request.getError('tax_id')" v-text="request.getError('tax_id')"></span>
                                                 </div>
                                             </div>
                                         </div>
