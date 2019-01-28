@@ -209,6 +209,15 @@ Number.prototype.money = function (c, t, d) {
   return formatMoney(this, c, t, d);
 }
 
+String.prototype.trunc = String.prototype.trunc ||
+  function(n){
+      return (this.length > n) ? this.substr(0, n-1) + '&hellip;' : this;
+  };
+
+  Vue.filter('trunc', function (value, length = 5) {
+    return value.trunc(length);
+  })
+
 window.axios.interceptors.response.use((response) => { // intercept the global error
   return response
 }, function (error) {

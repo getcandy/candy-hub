@@ -1,7 +1,7 @@
 <template>
     <div>
         <lazy-component>
-            <img :src="imageSrc">
+            <img :src="imageSrc" style="max-width:100%;">
         </lazy-component>
     </div>
 </template>

@@ -19,6 +19,7 @@
                 params: {
                     type: 'category',
                     fields: 'name',
+                    includes: 'routes',
                     per_page: 25,
                     page: 1,
                 },
@@ -31,12 +32,17 @@
         },
         mounted() {
             this.loadCategories();
+
+            CandyEvent.$on('category-added', event => {
+                this.loadCategories();
+            });
         },
         methods: {
             loadCategories() {
                 this.loaded = false;
                 this.request.send('get', '/categories',[], {
                     tree: true,
+                    includes: ['routes', 'assets.transforms'],
                     depth: 0,
                 })
                 .then(response => {
@@ -53,7 +59,6 @@
             resetSearch() {
                 this.params['keywords'] = null;
                 this.keywords = '';
-                this.loadProducts();
             },
             searchCategories() {
                 this.loaded = false;
@@ -161,21 +166,32 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
                 <template v-if="loaded">
-                <ul class="list-group" v-sortable="{
-                    handle: '.sorter',
-                    group: 'root',
-                    onEnd: this.reorder,
-                    animation: 150,
-                }">
-                    <list-item :sortable="categories.length > 1" :category="category" v-for="category in categories" :key="category.id"></list-item>
-                </ul>
+                    <div v-sortable="{
+                        handle: '.sorter',
+                        group: 'root',
+                        onEnd: this.reorder,
+                        animation: 150,
+                    }">
+                        <list-item :sortable="categories.length > 1" :category="category" v-for="category in categories" :key="category.id"></list-item>
+                                <!-- <div class -->
+                            <!-- <ul class="list-group" v-sortable="{
+                                handle: '.sorter',
+                                group: 'root',
+                                onEnd: this.reorder,
+                                animation: 150,
+                            }">
+                                <list-item :sortable="categories.length > 1" :category="category" v-for="category in categories" :key="category.id"></list-item>
+                            </ul> -->
+                    </div>
                 </template>
                 <template v-else>
                     Loading
                 </template>
-            </div>
-        </div>
+
 
         <!-- Create Category Modal -->
 
