@@ -16,7 +16,6 @@
         mounted() {
             if (this.current) {
                 this.loaded = true;
-                console.log(this.current.data.id);
                 this.layout = this.current.data.id;
             }
             Dispatcher.add('category-display', this);

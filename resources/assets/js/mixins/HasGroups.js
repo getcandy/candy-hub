@@ -12,7 +12,6 @@ module.exports = {
 
             groups.forEach(group => {
                 let label = group.name;
-                console.log(group);
                 // If this is time based visibility, we need to account for it.
                 if (group.hasOwnProperty('published_at')) {
                     // Is this visible?

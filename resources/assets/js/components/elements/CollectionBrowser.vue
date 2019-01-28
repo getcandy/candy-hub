@@ -93,9 +93,6 @@
         },
         mounted() {
             this.selected = this.current;
-
-            console.log('Hi!');
-            console.log(this.current);
             apiRequest.send('GET', '/collections').then(response => {
                 this.collections = response.data;
             });
