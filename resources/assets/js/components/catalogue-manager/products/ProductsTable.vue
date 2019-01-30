@@ -68,6 +68,7 @@
             },
             loadProducts() {
                 this.loaded = false;
+                this.params['includes'] = 'channels,customerGroups,family,variants,assets.transforms';
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
@@ -77,6 +78,7 @@
             },
             searchProducts() {
                 this.loaded = false;
+                this.params['includes'] = 'channels,customer_groups,family,variants,assets.transforms';
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.products = response.data;
