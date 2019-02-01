@@ -297,6 +297,11 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
+                                    <div class="panel" v-if="order.shipping_preference">
+                                       <div class="panel-body">
+                                            <h4>Shipping Preference</h4> {{ order.shipping_preference }}
+                                        </div>
+                                    </div>
                                     <table class="table table-bordered">
                                     <thead>
                                         <tr>
