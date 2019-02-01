@@ -181,8 +181,14 @@
                     <tr>
                         <td>
                             {{ $item->description }} <br>
-                            @if ($item->product != $item->variant)
-                                <small>{{ $item->variant }}</small>
+                            <small>{{ $item->option }}</small>
+
+                            @if ($item->variant)
+                                <small>
+                                    @foreach($item->variant->options as $option)
+                                        {{ $option }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </small>
                             @endif
                         </td>
                         <td>
