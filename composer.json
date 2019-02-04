@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "getcandy/candy-api": "0.1.*"
+        "getcandy/candy-api": "0.2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
