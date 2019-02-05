@@ -7,7 +7,6 @@
     <meta name="channel" content="@channel()">
 
     <title>@if(isset($title)){{ $title }} -@endif GetCandy</title>
-    @routes
     @include('hub::partials.head')
 
   </head>
