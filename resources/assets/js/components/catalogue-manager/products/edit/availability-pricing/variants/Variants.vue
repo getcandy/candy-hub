@@ -74,6 +74,9 @@
             Dispatcher.add('product-variants', this);
         },
         methods: {
+            getIcon(type) {
+                return '/candy-hub/icons/file-types/' + type + '.svg';
+            },
             addPriceTier() {
                 this.current.tiers.data.push({
                     'lower_limit' : '',
@@ -101,7 +104,6 @@
 
                 data.price = data.unit_price;
 
-                console.log(data.price);
 
                 data.group_pricing = this.hasGroupPricing;
 

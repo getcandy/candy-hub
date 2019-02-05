@@ -3,6 +3,7 @@
         <input type="text"
                :value="value"
                @input="updateValue($event.target.value)"
+               @keyup="keyup($event.target.value)"
                class="form-control"
                :required="required"
                :placeholder="placeholder"
@@ -34,6 +35,9 @@
         methods: {
             updateValue: function (value) {
                 this.$emit('input', value);
+            },
+            keyup: function (value) {
+                this.$emit('keyup', value);
             }
         }
     }

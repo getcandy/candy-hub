@@ -157,6 +157,7 @@
                 })
                 .then(response => {
                     this.order = response.data;
+
                     this.transactions = response.data.transactions.data;
 
                     CandyEvent.$emit('title-changed', {
@@ -213,7 +214,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <a :href="customerLink(order.user.data)" class="btn   btn-primary" v-if="order.user">View Customer Account</a>
+                    <a :href="customerLink(order.user.data)" class="btn   btn-primary" v-if="order.user.data">View Customer Account</a>
                     <a :href="'/'+ hubPrefix +'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Download Invoice</a>
                     <!-- <button @click="showStatusModal = true" class="btn  btn-primary">Update Status</button> -->
                     <update-order-status :order-id="order.id" :saving="showStatusModal" :show-modal="showStatusModal" :statuses="statuses" v-model="order.status" @save="updateStatus"></update-order-status>
@@ -260,7 +261,9 @@
                                     {{ order.billing_details.county }}<br v-if="order.billing_details.county">
                                     {{ order.billing_details.state }}<br v-if="order.billing_details.state">
                                     {{ order.billing_details.country }}<br>
-                                    {{ order.billing_details.zip }}
+                                    {{ order.billing_details.zip }} <br>
+                                    {{ order.billing_details.phone }} <br>
+                                    {{ order.billing_details.email }}
                                 </div>
                                 <div class="col-md-4">
                                     <strong style="margin-bottom:5px;display:block;">Shipping info</strong>
@@ -272,7 +275,9 @@
                                     {{ order.shipping_details.county }}<br v-if="order.shipping_details.county">
                                     {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
                                     {{ order.shipping_details.country }}<br>
-                                    {{ order.shipping_details.zip }}
+                                    {{ order.shipping_details.zip }} <br>
+                                    {{ order.billing_details.phone }} <br>
+                                    {{ order.billing_details.email }}
                                 </div>
                                 <div class="col-md-4">
                                     <p>
@@ -292,6 +297,11 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
+                                    <div class="panel" v-if="order.shipping_preference">
+                                       <div class="panel-body">
+                                            <h4>Shipping Preference</h4> {{ order.shipping_preference }}
+                                        </div>
+                                    </div>
                                     <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -318,7 +328,7 @@
                                                 {{ shipping.description }}
                                             </td>
                                             <td>
-                                                {{ shipping.variant }}
+                                                {{ shipping.variant_name }}
                                             </td>
                                             <td>-</td>
                                             <td>{{ shipping.unit_cost }}</td>
@@ -361,26 +371,20 @@
                                                 </template>
 
                                             </td>
-                                            <td>{{ line.variant ? line.variant : '-' }}</td>
+                                            <td>{{ line.variant_name ? line.variant_name : '-' }}</td>
                                             <td>{{ line.quantity }}</td>
                                             <td v-html="currencySymbol(line.unit_price)"></td>
                                             <td>
                                                 <template v-if="line.discount_total">
-                                                    <span class="text-danger" v-html="currencySymbol(-line.discount_total + line.tax_total)"></span>
+                                                    <span class="text-danger" v-html="currencySymbol(-line.discount_total)"></span>
                                                 </template>
                                                 <template v-else>
                                                     -
                                                 </template>
                                             </td>
                                             <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
-                                            <template v-if="line.discount_total">
-                                                <td v-html="currencySymbol(line.tax_total + (line.discount_total - (line.discount_total + line.tax_total)))"></td>
-                                                <td v-html="currencySymbol(line.line_total - (line.discount_total - line.tax_total))"></td>
-                                            </template>
-                                            <template v-else>
                                                 <td v-html="currencySymbol(line.tax_total)"></td>
                                                 <td v-html="currencySymbol(line.line_total)"></td>
-                                            </template>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -390,6 +394,30 @@
                                 <h3>Order Notes</h3>
                                 <p>{{ order.notes }}</p>
                             </article>
+
+                            <div class="row" v-if="order.discounts.data && order.discounts.data.length">
+                                <div class="col-md-12">
+                                    <h3>Discounts Applied</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Type</th>
+                                                <th>Value</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="discount in order.discounts.data" :key="discount.id">
+                                                <td>{{ discount.name }}</td>
+                                                <td>{{ discount.type }}</td>
+                                                <td>{{ discount.coupon }}</td>
+                                                <td v-html="currencySymbol(discount.amount)"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <template v-if="transactions.length">

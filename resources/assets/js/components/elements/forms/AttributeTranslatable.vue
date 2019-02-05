@@ -109,7 +109,7 @@
         <div class="row" v-if="defaultChannel">
             <div class="col-xs-12">
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6">
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <hr> -->
                 <div class="row">
                     <div class="col-xs-12 form-group" :class="{ 'col-md-6': translating }">
 
@@ -151,6 +151,7 @@
                                 <strong>* {{ getError(attribute.handle) }}</strong>
                             </span>
 
+                           
                             <!-- Inputs -->
                             <candy-input v-if="attribute.type == 'text'"
                                         :handle="'default-'+ attribute.id"
@@ -172,7 +173,6 @@
                                 @input="set(attribute.handle, $event, 'default')"
                             >
                             </candy-date-picker>
-
                             <candy-select v-if="attribute.type == 'select'"
                                         :id="'default-'+ attribute.id"
                                         v-model="attributeData[attribute.handle][defaultChannel][defaultLanguage]"
@@ -204,7 +204,6 @@
 
 
 
-                            <!--
                             <div v-else-if="attribute.type == 'date'">
 
 
@@ -239,7 +238,7 @@
                                 </span>
 
                             </div>
--->
+
                         </div>
 
                     </div>

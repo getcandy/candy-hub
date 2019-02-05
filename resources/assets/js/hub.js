@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-var ApiRequest  = require('./classes/ApiRequest');
+
 var Dispatcher  = require('./classes/Dispatcher');
 var Locale      = require('./classes/Locale');
 var Config      = require('./classes/Config');
@@ -36,7 +36,7 @@ Vue.component('fa', FontAwesomeIcon);
  * Bind some bits to the window for usage.
  */
 
-window.apiRequest     = new ApiRequest();
+
 window.CandyEvent     = new Vue();
 window.channels       = [];
 window.config         = new Config();
@@ -54,6 +54,7 @@ import Vuex from 'vuex'
 import { VTooltip } from 'v-tooltip'
 import VueLazyload from 'vue-lazyload'
 import Language from './services/Locale/Language';
+import candyhub from './candyhub';
 
 Vue.use(Vuex);
 Vue.use(VueLazyload, {
@@ -145,6 +146,13 @@ CandyHelpers.install = function (Vue, options) {
   }
 };
 
+// Register the plugin components first so they will be overwritten by the system ones.
+_.each(CandyHub.plugins, plugin => {
+  _.each(plugin.components, component => {
+    Vue.component(component.reference, component.component);
+  });
+});
+
 // Gradually move top level components into here, so we can use local registration per component.
 Vue.component('candy-attributes-table', require('./components/catalogue-manager/attributes/Table.vue'));
 Vue.component('candy-attribute-edit', require('./components/catalogue-manager/attributes/Edit.vue'));
@@ -201,13 +209,23 @@ Number.prototype.money = function (c, t, d) {
   return formatMoney(this, c, t, d);
 }
 
+String.prototype.trunc = String.prototype.trunc ||
+  function(n){
+      return (this.length > n) ? this.substr(0, n-1) + '&hellip;' : this;
+  };
+
+  Vue.filter('trunc', function (value, length = 5) {
+    return value.trunc(length);
+  })
+
 window.axios.interceptors.response.use((response) => { // intercept the global error
   return response
 }, function (error) {
-  if (error.response.status === 401) {
-      window.location.href = '/login';
-      return;
-  }
+  // console.log(error);
+  // if (error.response.status === 401) {
+  //     window.location.href = '/login';
+  //     return;
+  // }
   // Do something with response error
   return Promise.reject(error)
 });

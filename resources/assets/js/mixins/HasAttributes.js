@@ -10,7 +10,6 @@ module.exports = {
     },
     methods: {
         setUp(data) {
-            console.log(data);
         },
         getAttributeGroups(collection) {
             let groups = collection.attribute_groups.data,

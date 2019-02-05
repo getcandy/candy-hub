@@ -187,7 +187,7 @@
                 let shipping = _.find(order.lines.data, line => {
                     return line.is_shipping;
                 });
-                return shipping ? shipping.variant : null;
+                return shipping ? shipping.variant_name : null;
             },
             loadOrder: function (id) {
                 location.href = route('hub.orders.edit', id);
@@ -353,7 +353,7 @@
                                             {{ order.type }}
                                         </td>
                                         <td @click="loadOrder(order.id)" >
-                                            <span v-if="order.user">Account</span>
+                                            <span v-if="order.user.data">Account</span>
                                             <span v-else>Guest</span>
                                         </td>
                                         <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td> -->

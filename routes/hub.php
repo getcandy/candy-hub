@@ -17,6 +17,9 @@ Route::group([
     'middleware'    => ['web'],
 ], function ($router) {
     $router->get('/', function () {
+        if (Auth::user()) {
+            return redirect()->route('hub.index');
+        }
         return redirect()->route('hub.login');
     });
 
@@ -150,6 +153,12 @@ Route::group([
                 'as'   => 'hub.discounts.edit',
                 'uses' => 'DiscountController@getEdit',
             ]);
+        });
+
+        // Plugin routes
+        $router->group(['prefix' => 'plugins'], function ($router) {
+            $router->get('{section}/tabs', 'PluginController@tabs');
+            $router->get('{handle}/resources/{type}/{filename}', 'PluginController@resource');
         });
     });
 });

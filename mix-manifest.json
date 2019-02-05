@@ -1,4 +1,6 @@
 {
     "/resources/build/js/hub.js": "/resources/build/js/hub.js",
-    "/resources/build/css/hub.css": "/resources/build/css/hub.css"
+    "/resources/build/css/hub.css": "/resources/build/css/hub.css",
+    "/resources/build/js/setup.js": "/resources/build/js/setup.js",
+    "/resources/build/js/candyhub.js": "/resources/build/js/candyhub.js"
 }

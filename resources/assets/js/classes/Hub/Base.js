@@ -3,7 +3,6 @@ export default class Base {
     constructor() {
         this.params = {};
         this.version = 'v1';
-        console.log(axios);
     }
 
     page(page) {

@@ -2,13 +2,11 @@
     import Flatify from '../../../classes/Flatify'
     import HasGroups from '../../../mixins/HasGroups.js';
     import HasAttributes from '../../../mixins/HasAttributes.js';
-    import HasAssets from '../../../mixins/HasAssets.js';
 
     export default {
         mixins: [
             HasGroups,
             HasAttributes,
-            HasAssets,
         ],
         data() {
             return {
@@ -22,9 +20,10 @@
                 meta: [],
                 params: {
                     type: 'product',
+                    fields: 'name',
                     per_page: 25,
                     page: 1,
-                    includes: 'channels,customer_groups,family,attribute_groups,variants,thumbnail.transforms'
+                    includes: 'channels,customerGroups,family,variants,assets.transforms'
                 }
             }
         },
@@ -69,19 +68,21 @@
             },
             loadProducts() {
                 this.loaded = false;
+                this.params['includes'] = 'channels,customerGroups,family,variants,assets.transforms';
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.pagination.total_pages;
+                        // this.params.total_pages = response.meta.last_page;
                         this.loaded = true;
                     });
             },
             searchProducts() {
                 this.loaded = false;
+                this.params['includes'] = 'channels,customer_groups,family,variants,assets.transforms';
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.pagination.data.total_pages;
+                        this.params.total_pages = response.meta.last_page;
                         this.meta = response.meta;
                         this.loaded = true;
                     });
@@ -130,7 +131,7 @@
             ),
             getStock(product) {
                 var variants = product.variants.data;
-                if (product.variant_count == 1) {
+                if (variants.length == 1) {
                     return variants[0].inventory;
                 }
                 return 'Multiple';
@@ -138,7 +139,6 @@
             quickEdit(index) {
                 this.editing = index;
                 this.editingBackup = JSON.parse(JSON.stringify(this.products[index]));
-
                 if (this.editableVariants.length > 1) {
                     this.quickEditModal = true;
                 }
@@ -281,16 +281,15 @@
                             <th width="5%"></th>
                             <th width="25%">Product</th>
                             <th width="10%">Stock</th>
-                            <th width="15%">Display</th>
+                            <th width="15%">Channels</th>
+                            <th width="19%">Customer Groups</th>
                             <th width="19%">Purchasable</th>
-                            <th width="19%">Group</th>
-                            <th  width="15%"></th>
+                            <!-- <th width="19%">Group</th> -->
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
                         <template v-for="(product, index) in products">
-                            <tr>
-
+                            <tr :key="product.id">
                                 <td>
                                     <a :href="route('hub.products.edit', product.id)">
                                         <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
@@ -298,11 +297,17 @@
                                 </td>
                                 <td>
                                     <a :href="route('hub.products.edit', product.id)">
-                                        {{ product|attribute('name') }}
+                                        <!-- legacy support, needs removing when search goes to eloquent resources -->
+                                        <template v-if="product.name">
+                                            {{ product.name }}
+                                        </template>
+                                        <template v-else>
+                                            {{ product|attribute('name') }}
+                                        </template>
                                     </a>
                                 </td>
                                 <td>
-                                    <template v-if="editing == index && product.variant_count == 1 && !this.quickEditModal">
+                                    <template v-if="editing == index && product.variants.data.length == 1 && !this.quickEditModal">
                                         <input v-focus @keyup.enter="quickSave" class="form-control" v-model="product.variants.data[0].inventory" @blur="quickSave">
                                     </template>
                                     <template v-else>
@@ -311,29 +316,10 @@
                                         </a>
                                     </template>
                                 </td>
+
                                 <td>{{ visibility(product, 'channels') }}</td>
                                 <td>{{ visibility(product, 'customer_groups') }}</td>
-                                <td>
-                                    {{ getAttributeGroups(product) }}
-                                </td>
-                                <td>
-                                    <!-- <template v-if="editing == index">
-                                        <button class="btn btn-danger btn-sm btn-action" @click="cancelQuickEdit" >
-                                            <fa icon="times"></fa>
-                                        </button>
-                                        <button class="btn btn-success btn-sm btn-action" @click="quickSave">
-                                            <fa icon="check"></fa>
-                                        </button>
-                                    </template>
-                                    <template v-else>
-                                        <button class="btn btn-default btn-sm btn-action" @click="quickEdit(index)">
-                                            <fa icon="edit"></fa>
-                                        </button>
-                                        <a :href="'/catalogue-manager/products/' + product.id" class="btn btn-default btn-sm btn-action" >
-                                            <fa icon="eye"></fa>
-                                        </a>
-                                    </template> -->
-                                </td>
+                                <td>{{ purchasable(product, 'customer_groups') }}</td>
                             </tr>
                         </template>
                     </tbody>

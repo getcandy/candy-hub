@@ -85,6 +85,7 @@
         },
         mounted() {
             this.sortType = this.sort;
+            Dispatcher.add('product-positioning', this);
         }
     }
 </script>

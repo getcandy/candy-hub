@@ -44,6 +44,7 @@
     "sortablejs": "^1.7.0",
     "v-tooltip": "^2.0.0-rc.31",
     "v2-datepicker": "^3.1.0",
+    "vue-codemirror": "^4.0.6",
     "vue-drag-and-drop-list": "^1.0.0",
     "vue-flatpickr-component": "^2.4.1",
     "vue-lazyload": "^1.2.1",

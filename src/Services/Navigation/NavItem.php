@@ -20,7 +20,7 @@ class NavItem
 
     public function getTitle()
     {
-        return trans('hub::'.$this->title);
+        return trans($this->title);
     }
 
     public function getCurrent()

@@ -65,6 +65,10 @@
       <candy-notification></candy-notification>
     </div>
     <div class="main-purple-overlay"></div>
+    <script src="{{ url('/candy-hub/js/setup.js') }}"></script>
+    @foreach($plugin_scripts as $script)
+      <script src="{{ url('hub/plugins/' . $script) }}"></script>
+    @endforeach
     @include('hub::partials.scripts')
     @yield('scripts')
   </body>

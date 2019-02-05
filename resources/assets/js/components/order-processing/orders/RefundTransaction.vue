@@ -92,6 +92,11 @@
                 notes: null,
             }
         },
+        computed: {
+            integer() {
+                return Math.round(this.amount * 100);
+            }
+        },
         mounted() {
             if (this.max) {
                 this.amount = this.max;
@@ -104,7 +109,7 @@
             refund() {
                 this.processing = true;
                 apiRequest.send('post', '/payments/' + this.id + '/refund', {
-                    amount: this.amount * 100,
+                    amount: this.integer,
                     notes: this.notes,
                 }).then(response => {
                     this.processing = false;

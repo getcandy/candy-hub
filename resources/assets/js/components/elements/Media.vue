@@ -179,7 +179,7 @@
                 this.deleteModalOpen = false;
             },
             getIcon(type) {
-                return '/icons/file-types/' + type + '.svg';
+                return '/candy-hub/icons/file-types/' + type + '.svg';
             },
             detectAssetUrlType() {
                 // First clear any errors
