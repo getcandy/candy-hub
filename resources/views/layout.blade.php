@@ -8,7 +8,7 @@
 
     <title>@if(isset($title)){{ $title }} -@endif GetCandy</title>
     @include('hub::partials.head')
-
+    @routes
   </head>
   <body>
     <div class="wrap" id="app">
