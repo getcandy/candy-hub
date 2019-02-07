@@ -5,7 +5,8 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "getcandy/candy-api": "0.2.*"
+        "getcandy/candy-api": "0.2.*",
+        "tightenco/ziggy": "^0.6.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
