@@ -102,7 +102,6 @@
                 </tbody>
             </table>
             <div class="text-center">
-                {{ requestParams }}
                 <candy-table-paginate :pagination="requestParams" @change="changePage" v-if="!loading"></candy-table-paginate>
             </div>
             </div>
