@@ -1,0 +1,24 @@
+.transaction-panel {
+    position: relative;
+    padding:10px;
+    margin-bottom:1em;
+    border:1px solid transparent;
+    border-color:#ddd;
+
+    header {
+        padding-bottom:10px;
+        text-transform: uppercase;
+        font-weight:600;
+        font-size:.75em;
+        color:#333;
+    }
+}
+.panel-inner {
+    background-color:white;
+    padding:20px;
+    border:1px solid transparent;
+}
+
+.card-no {
+    vertical-align: sub;
+}
