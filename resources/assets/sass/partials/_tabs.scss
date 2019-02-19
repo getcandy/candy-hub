@@ -2,10 +2,12 @@
 .nav-tabs {
   width: 100%;
   background: rgba(190, 190, 190, 0.15);
-
+  white-space: nowrap;
+  overflow-x:scroll;
   li {
     font-size: 1.1em;
-
+    display:inline-block;
+    float:none;
     .badge {
       width: 19px;
       height: 19px;
@@ -41,6 +43,12 @@
 
   &.secondary {
     font-size: 0.9em
+  }
+}
+
+@media (min-width: 576px) {
+  .nav-tabs {
+    font-size:.875em;
   }
 }
 
