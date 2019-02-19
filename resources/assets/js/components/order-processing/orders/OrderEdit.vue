@@ -418,121 +418,136 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <template v-if="transactions.length">
-                                    <h3>Transactions</h3>
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Merchant</th>
-                                                    <th>Status</th>
-                                                    <th>Refund</th>
-                                                    <th>Amount</th>
-                                                    <th>Payment Type</th>
-                                                    <th>Card type</th>
-                                                    <th>Card number</th>
-                                                    <th>CVC Matched</th>
-                                                    <th>Address Matched</th>
-                                                    <th>Postcode Matched</th>
-                                                    <th>3DSecure</th>
-                                                    <th>Provider Response</th>
-                                                    <th>Notes</th>
-                                                    <th width="8%">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item, index) in transactions">
-                                                    <td>{{ item.transaction_id }}</td>
-                                                    <td>
-                                                        {{ item.merchant }} - {{ item.provider }}
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-success" v-if="item.success">Processed</span>
-                                                        <span class="text-info" v-else-if="item.status == 'voided'">Voided</span>
-                                                        <span class="text-danger" v-else>Failed</span>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="item.refund">
-                                                            <i class="fa fa-check text-success"></i>
-                                                        </template>
-                                                        <template v-else>
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </template>
-                                                    </td>
-                                                    <td v-html="currencySymbol(item.amount)"></td>
-                                                    <td>
-                                                        <span v-if="item.provider == 'paypal_account'">
-                                                            PayPal
-                                                        </span>
-                                                        <span v-else>Credit card</span>
-                                                    </td>
-                                                    <td>{{ item.card_type }}</td>
-                                                    <td>
-                                                        <template v-if="item.last_four">
-                                                            **** **** **** {{ item.last_four }}
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="item.cvc_matched">
-                                                            <i class="fa fa-check text-success"></i>
-                                                        </template>
-                                                        <template v-else>
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="item.address_matched">
-                                                            <i class="fa fa-check text-success"></i>
-                                                        </template>
-                                                        <template v-else>
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="item.postcode_matched">
-                                                            <i class="fa fa-check text-success"></i>
-                                                        </template>
-                                                        <template v-else>
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        <template v-if="item.threed_secure">
-                                                            <i class="fa fa-check text-success"></i>
-                                                        </template>
-                                                        <template v-else>
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </template>
-                                                    </td>
-                                                    <td>
-                                                        {{ item.status }}
-                                                    </td>
-                                                    <td>{{ item.notes }}</td>
-                                                    <td>
-                                                        <template v-if="canRefund(item)">
-                                                            <refund-transaction :initial="item.amount / 100" :reference="item.transaction_id" :max="maxRefund / 100" :id="item.id" @refunded="loadOrder"></refund-transaction>
-                                                        </template>
-                                                        <!-- <button @click="voidit(index)" type="button" class="btn btn-small btn-danger" v-if="item.status == 'submitted_for_settlement' && !item.voiding">Void</button>
-                                                        <button @click="refund(index)" type="button" class="btn btn-small btn-info" v-if="item.success && !item.refunding">Issue Refund</button>
-                                                        <button  type="button" class="btn btn-small btn-warning" v-if="item.refunding" disabled>
-                                                            <i class="fa fa-refresh fa-spin"></i> Refunding
-                                                        </button>
-                                                        <button  type="button" class="btn btn-small btn-warning" v-if="item.voiding" disabled>
-                                                            <i class="fa fa-refresh fa-spin"></i> voiding
-                                                        </button> -->
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </template>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
+                    <template v-if="transactions.length">
+                    <h3>Transactions</h3>
+                        <div class="transaction-panel" v-for="t in transactions" :key="t.id" :class="{
+                            'transaction-charge' : !t.refund,
+                            'transaction-refund': t.refund,
+                            'transaction-success': t.success
+                        }">
+                            <header>
+                                <span v-if="t.refund">Refund</span>
+                                <span v-else>Charge</span>
+                            </header>
+                            <div class="panel-inner">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <strong>Status</strong><br>
+                                        <span class="text-success" v-if="t.success">Processed</span>
+                                        <span class="text-info" v-else-if="t.status == 'voided'">Voided</span>
+                                        <span class="text-danger" v-else>Failed</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Transaction ID</strong><br>
+                                        {{ t.transaction_id }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Date</strong><br>
+                                        {{ t.created_at.date|formatDate }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Merchant</strong><br>
+                                        {{ t.merchant }} / {{ t.provider }}
+                                    </div>
+                                    <div class="col-md-1">
+                                        <strong>Amount</strong><br>
+                                        <span v-html="currencySymbol(t.amount)"></span>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <template v-if="canRefund(t)">
+                                            <refund-transaction :initial="t.amount / 100" :reference="t.transaction_id" :max="maxRefund / 100" :id="t.id" @refunded="loadOrder"></refund-transaction>
+                                        </template>
+                                    </div>
+                                </div>
 
+                                <hr>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <strong>Payment Type</strong><br>
+                                                <span v-if="t.provider == 'paypal_account'">
+                                                    PayPal
+                                                </span>
+                                                <span v-else>Credit card</span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Card Type</strong><br>
+                                                {{ t.card_type }}
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Last Four</strong><br>
+                                                <template v-if="t.last_four">
+                                                    <p class="card-no">&#42;&#42;&#42;&#42; &#42;&#42;&#42;&#42; &#42;&#42;&#42;&#42; {{ t.last_four }}</p>
+                                                </template>
+                                                <template v-else>
+                                                    N/A
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <strong>Provider Response</strong><br>
+                                        {{ t.status }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Auth Checks</strong><br>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <span>CVC</span><br>
+                                                <template v-if="t.cvc_matched">
+                                                    <i class="fa fa-check text-success"></i>
+                                                </template>
+                                                <template v-else>
+                                                    <i class="fa fa-times text-danger"></i>
+                                                </template>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <span>Address</span><br>
+                                                <template v-if="t.address_matched">
+                                                    <i class="fa fa-check text-success"></i>
+                                                </template>
+                                                <template v-else>
+                                                    <i class="fa fa-times text-danger"></i>
+                                                </template>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <span>Postcode</span><br>
+                                                <template v-if="t.postcode_matched">
+                                                    <i class="fa fa-check text-success"></i>
+                                                </template>
+                                                <template v-else>
+                                                    <i class="fa fa-times text-danger"></i>
+                                                </template>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <span>3DSecure</span><br>
+                                                <template v-if="t.threed_secure">
+                                                    <i class="fa fa-check text-success"></i>
+                                                </template>
+                                                <template v-else>
+                                                    <i class="fa fa-times text-danger"></i>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <template v-if="t.notes">
+                                    <hr>
+                                    <strong>Notes</strong><br>
+                                    {{ t.notes }}
+                                </template>
+                            </div>
+                        </div>
+                    </template>
 
         </template>
 
