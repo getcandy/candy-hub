@@ -77,7 +77,7 @@
         <button class="btn btn-default white" v-if="isAdmin" @click="impersonate = true">Impersonate</button>
         <candy-modal title="Impersonate customer" v-show="impersonate" size="modal-md" @closed="impersonate = false">
             <div slot="body">
-                <template v-if="customerId != user.id">
+                <template v-if="user && customerId != user.id">
                     <div class="form-group" v-if="!processing">
                         <label>Choose the storefront to impersonate on</label>
                         <select class="form-control" @change="clearErrors"  v-model="target">
