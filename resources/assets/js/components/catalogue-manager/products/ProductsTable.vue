@@ -71,8 +71,9 @@
                 this.params['includes'] = 'channels,customerGroups,family,variants,assets.transforms';
                 apiRequest.send('GET', 'products', [], this.params)
                     .then(response => {
+                        this.params.total_pages = response.meta.last_page;
+                        this.params.current_page = response.meta.current_page;
                         this.products = response.data;
-                        // this.params.total_pages = response.meta.last_page;
                         this.loaded = true;
                     });
             },
@@ -82,7 +83,8 @@
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
                         this.products = response.data;
-                        this.params.total_pages = response.meta.last_page;
+                        this.params.total_pages = response.meta.pagination.data.last_page;
+                        this.params.current_page = response.meta.pagination.data.current_page;
                         this.meta = response.meta;
                         this.loaded = true;
                     });
@@ -121,6 +123,7 @@
                     this.loaded = false;
                     this.editing = null;
                     this.params['keywords'] = this.keywords;
+                    this.params.current_page = 1;
 
                     if (this.keywords) {
                         this.searchProducts();
