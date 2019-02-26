@@ -86,6 +86,9 @@
                     }
                 });
 
+
+                groups = _.orderBy(groups, 'position', 'asc');
+
                 this.attribute_groups = groups;
 
                 this.product = data;
