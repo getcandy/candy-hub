@@ -2,6 +2,8 @@
 
 namespace GetCandy\Hub\Http\Controllers\Auth;
 
+use CandyClient;
+use Illuminate\Http\Request;
 use GetCandy\Hub\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -50,5 +52,45 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('hub::auth.login');
+    }
+
+     /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if (class_exists(CandyClient::class)) {
+            // They are authenticated, so lets just get them a token
+            // That they can use for requests.
+            $token = CandyClient::getUserToken($request->email, $request->password);
+
+            $this->setSessionTokens(
+                $request,
+                $token->getBody()->access_token,
+                $token->getBody()->refresh_token,
+                $token->getBody()->expires_in
+            );
+        }
+    }
+
+    /**
+     * Sets the session tokens
+     *
+     * @param string $token
+     * @param string $refresh
+     * @param int $expires
+     * @return void
+     */
+    protected function setSessionTokens($request, $token, $refresh, $expires)
+    {
+        $tokenExpiry = \Carbon\Carbon::now()->addMinutes($expires / 60);
+        $request->session()->put('access_token', $token);
+        $request->session()->put('refresh_token', $refresh);
+        $request->session()->put('token_expires_at', $tokenExpiry);
+        CandyClient::setToken($token);
     }
 }
