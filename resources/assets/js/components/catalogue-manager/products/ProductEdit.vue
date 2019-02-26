@@ -47,7 +47,9 @@
             decorate(data) {
                 // this.attribute_groups = data.attribute_groups.data;
 
+                // Get all groups associated to this product.
                 let groups = [];
+
                 _.each(data.attributes.data, attribute => {
                     let exists = _.find(groups, group => {
                         return group.handle == attribute.group.data.handle;
@@ -57,6 +59,7 @@
                     }
                 });
 
+
                 _.each(data.family.data.attributes.data, attribute => {
                     // // Find the attribute
                     let existing = _.find(groups, group => {
@@ -65,27 +68,22 @@
 
                     if (!existing) {
                         let group = attribute.group.data;
-                        // console.log(t);
                         this.$set(group, 'attributes', {
                             data: [],
                         });
                         group.attributes.data.push(attribute);
                         groups.push(group);
                     } else {
-                        existing.attributes.data.push(attribute);
-                    }
-
-                    // If the attribute doesn't exist on the product then we need
-                    // to give it at least an empty string.
-                    if (data.attribute_data[attribute.handle] == undefined) {
-                        this.$set(data.attribute_data, attribute.handle, {
-                            [this.channel] : {
-                                [this.locale] : ""
-                            }
+                        let attributes = existing.attributes.data;
+                        // If the attribute doesn't exist, then we add it.
+                        let existingAttribute = _.find(attributes, att => {
+                            return att.handle == attribute.handle;
                         });
+                        if (!existingAttribute) {
+                            existing.attributes.data.push(attribute);
+                        }
                     }
                 });
-
 
                 groups = _.orderBy(groups, 'position', 'asc');
 
