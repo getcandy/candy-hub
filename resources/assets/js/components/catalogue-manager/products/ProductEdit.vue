@@ -118,7 +118,7 @@
                     excl_tax: true,
                     full_response: true,
                     option_data: true,
-                    includes: 'family.attributes.group,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets,assets.tags,' +
+                    includes: 'family.attributes.group,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets.transforms,assets.tags,' +
                     'layout,associations,routes,channels,customerGroups,categories,categories.routes,collections,collections.routes'
                 }).then(response => {
                     this.decorate(response.data);
