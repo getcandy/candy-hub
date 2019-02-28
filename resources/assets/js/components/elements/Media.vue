@@ -85,6 +85,12 @@
                         });
                     });
             },
+            getThumbnail(asset) {
+                if (!asset.transforms || !asset.transforms.data.length) {
+                    return false;
+                }
+                return _.first(asset.transforms.data).url;
+            },
             uploadUrlMedia() {
                 this.processingAssetUrl = true;
                 this.request.send('post', 'assets', {
@@ -296,7 +302,7 @@
                                     </svg>
                                 </td>
                                 <td>
-                                    <div class="toggle-radio rounded small" v-if="asset.thumbnail">
+                                    <div class="toggle-radio rounded small" v-if="getThumbnail(asset)">
                                         <input type="radio" :id="asset.id" value="true" v-model="asset.primary" @click="setPrimary(asset)">
                                         <label :for="asset.id">
                                             <span class="check"></span>
@@ -305,13 +311,13 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a :href="asset.url" v-if="asset.thumbnail" data-lity>
-                                        <img :src="asset.thumbnail" :alt="asset.title">
+                                    <a :href="asset.url" v-if="getThumbnail(asset)" data-lity>
+                                        <img :src="getThumbnail(asset)" :alt="asset.title">
                                     </a>
                                     <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
                                 </td>
-                                <td><input v-model="asset.title" type="text" class="form-control"></td>
-                                <td><input v-model="asset.caption" type="text" class="form-control"></td>
+                                <td><input v-model="asset.title" placeholder="Add a title" type="text" class="form-control"></td>
+                                <td><input v-model="asset.caption" placeholder="Add a description" type="text" class="form-control"></td>
                                 <td>
                                     <candy-taggable :options="defaultTags" v-model="asset.tags"></candy-taggable>
                                 </td>
