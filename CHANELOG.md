@@ -1,3 +1,8 @@
+#v0.2.6
+
+- [fixed] Fixed issue where required attributes weren't indicated and also validation errors weren't displaying.
+- [improved] The Rich text editor will now sanitize any weird HTML/tags from pasted content.
+
 #v0.2.5
 
 - [fixed] Stop duplicate attributes displaying on products
