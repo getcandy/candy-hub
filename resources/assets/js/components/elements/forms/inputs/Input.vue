@@ -15,7 +15,7 @@
     export default {
         props: {
             value: {
-                type: String
+                type: String|Number,
             },
             translate: {
                 type: String,
