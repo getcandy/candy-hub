@@ -31,11 +31,14 @@
     import trumbowyg from 'vue-trumbowyg';
     // Import editor css
     import 'trumbowyg/dist/ui/trumbowyg.css';
+    import 'trumbowyg/dist/plugins/cleanpaste/trumbowyg.cleanpaste.js';
 
     export default {
         data() {
             return {
                 config: {
+                    removeformatPasted: true,
+                    tagsToRemove: ['script', 'link', 'xml'],
                     btns: [['formatting'], ['bold', 'italic'], ['link'], ['unorderedList', 'orderedList'], ['removeformat'], ['viewHTML']]
                 }
             }
