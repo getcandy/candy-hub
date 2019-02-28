@@ -74,7 +74,7 @@
             loadCategory(id) {
                 apiRequest.send('get', '/categories/' + this.categoryId, {}, {
                     full_response: true,
-                    includes: 'channels,layout,assets,assets.tags,children,parent,attributes.group.attributes,customerGroups,routes,products,children.products'
+                    includes: 'channels,layout,assets.transforms,assets.tags,children,parent,attributes.group.attributes,customerGroups,routes,products,children.products'
                 }).then(response => {
                     this.decorate(response.data);
                     document.title = this.$options.filters.attribute(this.category, 'name') + ' Category - GetCandy';
