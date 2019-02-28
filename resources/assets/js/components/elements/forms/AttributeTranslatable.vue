@@ -41,11 +41,14 @@
         },
         methods: {
             getError (mapping) {
-                let messageArr = _.get(this.request.errors, 'attributes\.'+mapping+'\.webstore\.en');
+                let messageArr = _.get(this.errors, this.attributeMap(mapping));
                 return _.head(messageArr);
             },
             hasError (mapping) {
-                return _.has(this.request.errors, 'attributes\.'+mapping+'\.webstore\.en');
+                return _.has(this.errors, this.attributeMap(mapping));
+            },
+            attributeMap(mapping) {
+                return 'attribute_data\.'+mapping+'\.'+this.defaultChannel+'\.'+this.defaultLanguage;
             },
             useDefault (obj) {
                 if (obj.checked) {
@@ -97,6 +100,11 @@
                 this.$set(this.attributeData[handle][channel], language, value);
             }
         },
+        computed: {
+            errors() {
+                return this.request.errors;
+            }
+        },
         created: function() {
             // Non Reactive Data
             this.originalData = JSON.parse(JSON.stringify(this.attributeData));
@@ -140,18 +148,19 @@
                 <hr> -->
                 <div class="row">
                     <div class="col-xs-12 form-group" :class="{ 'col-md-6': translating }">
-
                         <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
 
                             <!-- Label -->
-                            <label :for="attribute.handle">{{ attribute.name|t }}</label><br>
+                            <label :for="attribute.handle">
+                                {{ attribute.name|t }} <span class="text-danger" v-if="attribute.required">*</span>
+                            </label><br>
 
                             <!-- Errors -->
                             <span class="text-danger" v-if="getError(attribute.handle)">
-                                <strong>* {{ getError(attribute.handle) }}</strong>
+                                <strong>{{ getError(attribute.handle) }}</strong>
                             </span>
 
-                           
+
                             <!-- Inputs -->
                             <candy-input v-if="attribute.type == 'text'"
                                         :handle="'default-'+ attribute.id"
