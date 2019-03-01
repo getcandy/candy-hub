@@ -1,3 +1,8 @@
+#0.2.8
+
+- [added] Added actions to allow moving a category across any child/parent
+- [changed] Upgraded FontAwesome to latest version
+
 #0.2.7
 
 - [fixed] Fixed issue where input prop validation failed if a number was passed
