@@ -291,7 +291,14 @@
                                         {{ get(order, 'user.data.details.data.fields.account_number') }}</p>
                                     </template>
                                     <strong style="margi:10px  0;display:block;">Tracking Number</strong>
-                                    <input class="form-control" v-model="order.tracking_no" @keyup="refreshState">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input class="form-control" v-model="order.tracking_no" @keyup="refreshState">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary" @click="save">Update Tracking</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
