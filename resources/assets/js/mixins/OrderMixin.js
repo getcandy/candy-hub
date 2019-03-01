@@ -11,6 +11,9 @@ module.exports = {
     },
     methods: {
         getStatuses() {
+            this.initConfig();
+        },
+        initConfig() {
             apiRequest.send('GET', '/settings/orders').then(response => {
                 if (response.data) {
                     this.statuses = response.data.statuses.options;
@@ -25,7 +28,7 @@ module.exports = {
                         }
                     })
 
-                    this.config = response.data.statuses;
+                    this.config = response.data;
                 }
             });
         },
