@@ -35,7 +35,49 @@
                     from: null,
                     to: null
                 },
-                pagination: {}
+                pagination: {},
+                getters: {
+                    name(order) {
+                        const firstname = order.shipping_details.firstname ? order.shipping_details.firstname : null;
+                        const lastname = order.shipping_details.lastname ? order.shipping_details.lastname : null;
+                        return firstname ? firstname + ' ' + lastname : null;
+                    },
+                    order_total(order, currencies) {
+                        var currency = _.find(currencies, item => {
+                            return item.code == order.currency;
+                        });
+                        return currency.format.replace('{price}', order.order_total.money(2, currency.thousand_point, currency.decimal_point));
+                    },
+                    delivery_total(order, currencies) {
+                        var currency = _.find(currencies, item => {
+                            return item.code == order.currency;
+                        });
+                        return currency.format.replace('{price}', order.delivery_total.money(2, currency.thousand_point, currency.decimal_point));
+                    },
+                    account(order) {
+                        return order.user.data ? 'Account' : 'Guest';
+                    },
+                    zone(order) {
+                        let shipping = _.find(order.lines.data, line => {
+                            return line.is_shipping;
+                        });
+                        return shipping ? shipping.option : null;
+                    },
+                    account_no(order) {
+                        const fields = _.get(order, 'order.user.data.details.data.fields');
+                        return fields ? fields.account_number : '-';
+                    },
+                    contact_email(order) {
+                        return order.contact_details.email;
+                    },
+                    date(order) {
+                        let date = order.placed_at;
+                        if (!date) {
+                           date = order.created_at;
+                        }
+                        return moment(date.date).format('D/MM/YYYY');
+                    }
+                }
             }
         },
         watch: {
@@ -60,6 +102,7 @@
             this.params.from = this.urlParams.get('from');
         },
         mounted() {
+            this.initConfig();
 
             this.filter = this.urlParams.get('status');
             this.zone = this.urlParams.get('zone');
@@ -84,9 +127,23 @@
         computed: {
             allSelected() {
                 return !this.orders.length ? false : this.orders.length == this.selected.length;
+            },
+            columns() {
+                return _.map(this.config.table_columns, col => {
+                    return col;
+                })
             }
         },
         methods: {
+            getColumn(col, order) {
+                if (typeof this.getters[col] === "function") {
+                    return this.getters[col](order, this.currencies);
+                }
+                return order[col];
+            },
+            order_total() {
+
+            },
             isSelected(id) {
                 return this.selected.contains(id);
             },
@@ -148,7 +205,9 @@
                 apiRequest.send('get', '/orders', [], this.params)
                     .then(response => {
                         this.orders = response.data;
-                        this.pagination = response.meta.pagination;
+                        this.params.total_pages = response.meta.last_page;
+                        this.params.current_page = response.meta.current_page;
+
                         apiRequest.send('GET', 'currencies').then(response => {
                             this.currencies = response.data;
                             this.loaded = true;
@@ -183,14 +242,12 @@
                 this.params.page = page;
                 this.loadOrders();
             },
-            getShippingZone(order) {
-                let shipping = _.find(order.lines.data, line => {
-                    return line.is_shipping;
-                });
-                return shipping ? shipping.variant_name : null;
-            },
-            loadOrder: function (id) {
-                location.href = route('hub.orders.edit', id);
+            loadOrder: function (id, newTab) {
+                if (newTab) {
+                    window.open(route('hub.orders.edit', id));
+                } else {
+                    location.href = route('hub.orders.edit', id);
+                }
             },
             localisedPrice(amount, currency) {
                 var currency = _.find(this.currencies, item => {
@@ -224,37 +281,6 @@
                     {{ tab.label }}
                 </a>
             </li>
-            <!-- <li role="presentation" :class="{'active' : filter == 'payment-received'}" class="live">
-                <a href="#payment-received" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'payment-received'">
-                    Payment received
-                </a>
-            </li>
-            <li role="presentation" :class="{'active' : filter == 'on-account'}" class="live">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'on-account'">
-                    On Account
-                </a>
-            </li>
-            <li role="presentation" :class="{'active' : filter == 'in-progress'}" class="pending">
-                <a href="#in-progress" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'in-progress'">
-                    In Progress
-                </a>
-            </li>
-            <li role="presentation" :class="{'active' : filter == 'dispatched'}" class="default">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'dispatched'">
-                    Dispatched
-                </a>
-            </li>
-
-            <li role="presentation" :class="{'active' : filter == 'failed'}" class="danger">
-                <a href="#all-orders" aria-controls="all-orders" role="tab" data-toggle="tab" @click="filter = 'failed'">
-                    Failed
-                </a>
-            </li>
-            <li role="presentation" :class="{'active' : filter == 'awaiting-payment'}" class="waiting">
-                <a href="#awaiting-payment" aria-controls="awaiting-payment" role="tab" data-toggle="tab" @click="filter = 'awaiting-payment'">
-                    Awaiting Payment
-                </a>
-            </li> -->
         </ul>
         <!-- Tab panes -->
         <div class="tab-content section block">
@@ -306,21 +332,8 @@
                                                 <label for="selectAll"><span class="check"></span></label>
                                             </div>
                                         </th>
-                                        <th width="10%">Status</th>
-                                        <th>Reference</th>
-                                        <th>Customer Name</th>
-                                        <th>Account No.</th>
-                                        <th>Contact Email</th>
-                                        <th>Order Type</th>
-                                        <th>Customer Type</th>
-                                        <!-- <th class="visible-lg">Sub Total</th>
-                                        <th class="visible-lg">Discount Total</th>
-                                        <th class="visible-lg">Shipping Total</th>
-                                        <th class="visible-lg">Tax Total</th> -->
-                                        <th>Total</th>
-                                        <th v-if="filter != 'awaiting-payment'">Shipping Zone</th>
-                                        <th v-if="filter != 'awaiting-payment'">Date Placed</th>
-                                        <th v-else>Date Created</th>
+                                        <th width="10%" v-html="$t('orders.table.heading.status')"></th>
+                                        <th v-for="col in columns" v-html="$t('orders.table.heading.' + col)" :key="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="loaded">
@@ -334,51 +347,7 @@
                                         <td>
                                             <span class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
                                         </td>
-                                        <td @click="loadOrder(order.id)" >
-                                            {{ order.reference }}
-                                        </td>
-                                        <td @click="loadOrder(order.id)" >
-                                            {{ order.customer_name }}
-                                        </td>
-                                        <td @click="loadOrder(order.id)">
-                                            <template v-if="has(order, 'user.data.details.data.fields.account_number') &&
-                                                  get(order, 'user.data.details.data.fields.account_number') != 0">
-                                                {{ get(order, 'user.data.details.data.fields.account_number', '-') }}
-                                            </template>
-                                        </td>
-                                        <td @click="loadOrder(order.id)">
-                                            {{ order.contact_details.email }}
-                                        </td>
-                                        <td @click="loadOrder(order.id)" >
-                                            {{ order.type }}
-                                        </td>
-                                        <td @click="loadOrder(order.id)" >
-                                            <span v-if="order.user.data">Account</span>
-                                            <span v-else>Guest</span>
-                                        </td>
-                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.sub_total, order.currency)"></span></td> -->
-                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.discount_total, order.currency)"></span></td> -->
-                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.delivery_total, order.currency)" data-toggle="tooltip" data-placement="bottom" :title="order.shipping_method"></span></td> -->
-                                        <!-- <td class="visible-lg" @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.tax_total, order.currency)"></span></td> -->
-                                        <td @click="loadOrder(order.id)" ><span v-html="localisedPrice(order.order_total, order.currency)"></span></td>
-                                        <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
-                                            <template v-if="getShippingZone(order)">
-                                                {{ getShippingZone(order) }}
-                                            </template>
-                                            <template v-else>
-                                                -
-                                            </template>
-                                        </td>
-                                        <td v-if="filter != 'awaiting-payment'" @click="loadOrder(order.id)" >
-                                            <template v-if="order.placed_at">
-                                                {{ order.placed_at.date|formatDate('D/MM/YYYY') }}
-                                            </template>
-                                            <template v-else>
-                                                -
-                                            </template>
-                                        </td>
-                                        <td v-else @click="loadOrder(order.id)" >
-                                            {{ order.created_at.date|formatDate('D/MM/YYYY') }}
+                                        <td @click.cmd="loadOrder(order.id, true)" @click.exact="loadOrder(order.id)"  v-for="col in columns" v-html="getColumn(col, order)">
                                         </td>
                                     </tr>
 
@@ -395,8 +364,8 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="text-center">
-                            <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
+                        <div class="text-center" v-if="orders.length && loaded">
+                            <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
                         </div>
                     </div>
                 </div>
