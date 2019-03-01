@@ -168,9 +168,24 @@ Vue.component('candy-product-family-delete', require('./components/catalogue-man
 
 Vue.component('candy-order-status-select', require('./components/elements/forms/inputs/OrderStatuses.vue'));
 
+import VueI18n from 'vue-i18n';
+
+
+const messages = {
+  en: require('./lang/en.json'),
+}
+
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+  locale: 'en', // set locale
+  messages, // set locale messages
+})
+
+
 const app = new Vue({
     el: '#app',
     store,
+    i18n,
     data: {
       title: ''
     },
@@ -200,6 +215,12 @@ function formatMoney (n, c,t,d) {
     i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
     j = (j = i.length) > 3 ? j % 3 : 0;
   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
+
+String.prototype.camel_case = function(str) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+    return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+  }).replace(/\s+/g, '');
 }
 
 String.prototype.money = function (c,t,d) {

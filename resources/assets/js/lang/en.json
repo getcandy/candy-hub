@@ -1,0 +1,19 @@
+{
+  "orders": {
+    "table": {
+      "heading": {
+        "status": "Status",
+        "name" : "Name",
+        "order_total": "Order Total",
+        "account_no": "Account Number",
+        "contact_email": "Email",
+        "type": "Type",
+        "account": "Account",
+        "delivery_total": "Delivery Total",
+        "zone": "Zone",
+        "date": "Date",
+        "reference": "Reference"
+      }
+    }
+  }
+}
