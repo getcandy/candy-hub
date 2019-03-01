@@ -97,7 +97,7 @@
 
         <div v-else>
             <div class="page-loading loading">
-                <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                <span><i class="fa fa-sync fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
             </div>
         </div>
 

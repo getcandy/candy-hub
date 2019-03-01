@@ -4,7 +4,7 @@
       <h4>Choose this products display template</h4>
       <hr>
       <template v-if="loading">
-          <i class="fa fa-refresh fa-spin"></i> Fetching Layouts
+          <i class="fa fa-sync fa-spin"></i> Fetching Layouts
       </template>
       <template v-else>
           <div class="layout-chooser">

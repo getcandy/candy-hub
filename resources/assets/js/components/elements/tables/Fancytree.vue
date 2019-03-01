@@ -309,7 +309,7 @@
             <tfoot v-if="loading">
                 <tr>
                     <td colspan="2">
-                        <i class="fa fa-refresh fa-spin"></i> Loading
+                        <i class="fa fa-sync fa-spin"></i> Loading
                     </td>
                 </tr>
             </tfoot>

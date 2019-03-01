@@ -186,7 +186,7 @@
                 <tr>
                     <td :colspan="params.columns.length+1" style="padding:40px;">
                         <div class="loading">
-                            <span><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                            <span><i class="fa fa-sync fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
                         </div>
                     </td>
                 </tr>

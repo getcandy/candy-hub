@@ -53,7 +53,7 @@
                         Issue Refund
                     </template>
                     <template v-else>
-                        <i class="fa fa-refresh fa-spin text-white"></i></span> Processing
+                        <i class="fa fa-sync fa-spin text-white"></i></span> Processing
                     </template>
                 </button>
             </template>
