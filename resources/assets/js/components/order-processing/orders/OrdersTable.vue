@@ -347,7 +347,7 @@
                                         <td>
                                             <span class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
                                         </td>
-                                        <td @click.cmd="loadOrder(order.id, true)" @click.exact="loadOrder(order.id)"  v-for="col in columns" v-html="getColumn(col, order)">
+                                        <td @click.cmd="loadOrder(order.id, true)" @click.ctrl="loadOrder(order.id, true)" @click.exact="loadOrder(order.id)"  v-for="col in columns" v-html="getColumn(col, order)">
                                         </td>
                                     </tr>
 
