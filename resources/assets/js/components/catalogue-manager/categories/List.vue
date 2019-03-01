@@ -33,6 +33,9 @@
         mounted() {
             this.loadCategories();
 
+            CandyEvent.$on('moved-category', event => {
+                this.loadCategories();
+            });
             CandyEvent.$on('category-added', event => {
                 this.loadCategories();
             });
@@ -94,7 +97,6 @@
                 if (newIndex > oldIndex) {
                     type = 'after';
                 }
-
                 apiRequest.send('post', 'categories/reorder', {}, {
                     node: node.id,
                     'moved-node': moved.id,
@@ -105,39 +107,6 @@
                         message: 'Successfully Moved Category'
                     });
                 });
-            },
-            createCategory() {
-                // let _this = this;
-
-                // this.request.send('post', '/categories', {
-                //     'name' : {
-                //         [this.language] : this.category.name
-                //     },
-                //     'url' : this.category.name.slugify(),
-                //     'parent' : {
-                //         'id' : this.createModalData.parent.id
-                //     }
-                // })
-                //     .then(response => {
-                //         _this.reloadTree();
-                //         _this.closeCreateModal();
-                //         CandyEvent.$emit('notification', {
-                //             level: 'success',
-                //             message: 'Category '+ _this.category.name +' Created'
-                //         });
-                //     });
-            },
-            closeCreateModal() {
-                // this.createModalOpen = false;
-                // this.category = {
-                //     name: '',
-                //     slug: '',
-                // };
-                // this.createModalData = {
-                //     'attributes': [],
-                //         'routes': [],
-                //         'parent': {}
-                // };
             },
         }
     };
@@ -189,7 +158,9 @@
                     </div>
                 </template>
                 <template v-else>
-                    Loading
+                    <div class="loading">
+                        <span><i class="fa fa-sync fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
+                    </div>
                 </template>
 
 

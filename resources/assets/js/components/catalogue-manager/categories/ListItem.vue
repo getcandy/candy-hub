@@ -27,7 +27,7 @@
                                         'fa-circle-o disabled': !this.loaded && !this.loading && !category.children_count,
                                         'fa-plus': !this.loaded && !this.loading && category.children_count,
                                         'fa-minus' : this.loaded && !this.loading && category.children_count,
-                                        'fa-spin fa-refresh' : this.loading,
+                                        'fa-spin fa-sync' : this.loading,
                                     }"></i>
                                 </button>
                                 <figure class="thumbnail">
@@ -53,14 +53,21 @@
                                 <small class="helper-label">Children</small><br>
                                 {{ category.children_count }}
                             </div>
-                            <div class="col-md-2 text-right">
-                                <button class="btn btn-default" @click.prevent="addingChild = true">Add Child</button>
+                            <div class="col-md-2 text-right node-action-btns">
+                                <button @click.prevent="addingChild = true" data-toggle="tooltip" title="Add Child" data-placement="top">
+                                    <i class="fa fa-layer-group"></i>
+                                </button>
+
+                                <button @click="showMoveModal = true" data-toggle="tooltip" title="Move category" data-placement="top">
+                                    <i class="fa fa-people-carry"></i>
+                                </button>
                             </div>
                         </div>
                     </header>
                 </div>
             </div>
         </div>
+        <move-category :name="category.name" :id="category.id" :show="showMoveModal" @close="showMoveModal = false"></move-category>
         <div class="pushed">
             <div class="node-creator" v-if="addingChild">
                 <div class="creator-input">
@@ -81,6 +88,7 @@
                     handle: '.sorter',
                     group: category.id,
                     animation: 150,
+                    onEnd: this.reorder,
                 }">
                     <list-item-row :sortable="children.length > 1" :category="child" v-for="child in children" :key="child.id"></list-item-row>
                 </div>
@@ -93,8 +101,13 @@
 </template>
 
 <script>
+    import MoveCategory from './MoveCategory';
+
     export default {
         name: 'list-item-row',
+        components: {
+            MoveCategory,
+        },
         props: {
             sortable: {
                 type: Boolean,
@@ -126,6 +139,7 @@
                 loaded: false,
                 loading: false,
                 addingChild: false,
+                showMoveModal: false,
             }
         },
         methods: {
@@ -133,6 +147,30 @@
                 this.newName = null;
                 this.newSlug = null;
                 this.addingChild = null;
+            },
+            reorder({newIndex, oldIndex}) {
+                // Get the current one
+                const moved = this.children[oldIndex];
+                const node = this.children[newIndex];
+
+                this.children.splice(oldIndex, 1)[0];
+                this.children.splice(newIndex, 0, moved);
+
+                let type = 'before';
+                if (newIndex > oldIndex) {
+                    type = 'after';
+                }
+
+                apiRequest.send('post', 'categories/reorder', {}, {
+                    node: node.id,
+                    'moved-node': moved.id,
+                    action: type,
+                }).then(response => {
+                    CandyEvent.$emit('notification', {
+                        level: 'success',
+                        message: 'Successfully Moved Category'
+                    });
+                });
             },
             slugify(text) {
                 return text.toString().toLowerCase()
@@ -184,6 +222,19 @@
 </script>
 
 <style lang="scss" scoped>
+    .node-action-btns {
+        margin-top:.75em;
+        button {
+            border:1px solid #CFCFCF;
+            padding:4px 6px;
+            border-radius:4px;
+            background:transparent;
+            &:hover {
+                background-color:#f5f5f5;
+            }
+        }
+    }
+
     .thumbnail {
         max-width:50px;
         display:inline-block;
