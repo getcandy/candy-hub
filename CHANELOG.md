@@ -1,3 +1,8 @@
+#0.2.9
+
+- [changed] Order table columns are now configurable
+- [changed] Removed "Save order" button from order edit screen in favour of more specific button
+
 #0.2.8
 
 - [added] Added actions to allow moving a category across any child/parent
