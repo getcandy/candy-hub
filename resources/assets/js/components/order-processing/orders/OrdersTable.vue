@@ -242,11 +242,14 @@
                 this.params.page = page;
                 this.loadOrders();
             },
+            getOrderUrl(id) {
+                return route('hub.orders.edit', id);
+            },
             loadOrder: function (id, newTab) {
                 if (newTab) {
-                    window.open(route('hub.orders.edit', id));
+                    window.open(this.getOrderUrl(id));
                 } else {
-                    location.href = route('hub.orders.edit', id);
+                    location.href = this.getOrderUrl(id);
                 }
             },
             localisedPrice(amount, currency) {
@@ -347,8 +350,10 @@
                                         <td>
                                             <span class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
                                         </td>
-                                        <td @click.cmd="loadOrder(order.id, true)" @click.ctrl="loadOrder(order.id, true)" @click.exact="loadOrder(order.id)"  v-for="col in columns" v-html="getColumn(col, order)">
+                                        <td>
+                                            <a :href="getOrderUrl(order.id)" title="View order">{{ order.reference }}</a>
                                         </td>
+                                        <td v-for="col in columns" v-html="getColumn(col, order)"></td>
                                     </tr>
 
 
