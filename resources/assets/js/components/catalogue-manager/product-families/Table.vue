@@ -46,7 +46,6 @@
 
 <template>
     <div>
-
         <!-- Tab panes -->
         <div class="tab-content section block">
             <div role="tabpanel" class="tab-pane active" id="all-attributes">
@@ -58,6 +57,7 @@
                             <th>No. of Products</th>
                             <th>No. of Attributes</th>
                             <th>Attribute groups</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
@@ -71,6 +71,9 @@
                             <td>{{ family.product_count }}</td>
                             <td>{{ family.attribute_count }}</td>
                             <td>{{ visibility(family.attribute_groups) }}</td>
+                            <td>
+                                <candy-product-family-delete :id="family.id"></candy-product-family-delete>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot class="text-center" v-else>
@@ -88,7 +91,6 @@
                     <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
-
         </div>
     </div>
 </template>

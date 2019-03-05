@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-default white" @click="showModal = true" :disabled="!deletable"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        <button class="btn btn-default" @click="showModal = true" :disabled="!deletable"><i class="fa fa-trash" aria-hidden="true"></i></button>
         <candy-modal title="Confirm deletion" v-show="showModal" size="modal-md" @closed="showModal = false">
             <div slot="body">
                 <template v-if="family && family.product_count">
@@ -41,9 +41,6 @@
             warning: {
                 type: String,
                 default: null
-            },
-            endpoint : {
-                type: String
             },
             element: {
                 type: String
