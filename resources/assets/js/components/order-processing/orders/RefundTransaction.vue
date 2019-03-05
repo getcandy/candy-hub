@@ -118,7 +118,7 @@
                     this.confirmation = null;
                     this.amount = this.value;
                     this.$emit('refunded', response);
-
+                    CandyEvent.$emit('log-updated');
                     CandyEvent.$emit('notification', {
                         level: 'success',
                         message: 'Refund Processed'

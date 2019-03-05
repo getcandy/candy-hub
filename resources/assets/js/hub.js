@@ -167,6 +167,7 @@ Vue.component('candy-product-family-create', require('./components/catalogue-man
 Vue.component('candy-product-family-delete', require('./components/catalogue-manager/product-families/Delete.vue'));
 
 Vue.component('candy-order-status-select', require('./components/elements/forms/inputs/OrderStatuses.vue'));
+
 Vue.component('candy-order-export', require('./components/order-processing/orders/OrderExport.vue'));
 
 import VueI18n from 'vue-i18n';
@@ -181,6 +182,9 @@ const i18n = new VueI18n({
   locale: 'en', // set locale
   messages, // set locale messages
 })
+
+
+Vue.component('candy-activity-log', require('./components/elements/ActivityLog.vue'));
 
 
 const app = new Vue({

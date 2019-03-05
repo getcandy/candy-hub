@@ -2,12 +2,14 @@
     import Orders from '../../../mixins/OrderMixin';
     import UpdateOrderStatus from './UpdateOrderStatus';
     import RefundTransaction from './RefundTransaction';
+    import OrderNote from './OrderNote';
 
     export default {
         mixins: [Orders],
         components: {
             UpdateOrderStatus,
-            RefundTransaction
+            RefundTransaction,
+            OrderNote,
         },
         data() {
             return {
@@ -218,6 +220,7 @@
                     <a :href="'/'+ hubPrefix +'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Download Invoice</a>
                     <!-- <button @click="showStatusModal = true" class="btn  btn-primary">Update Status</button> -->
                     <update-order-status :order-id="order.id" :saving="showStatusModal" :show-modal="showStatusModal" :statuses="statuses" v-model="order.status" @save="updateStatus"></update-order-status>
+                    <order-note :id="order.id"></order-note>
                 </div>
             </div>
             <hr>
@@ -555,7 +558,7 @@
                             </div>
                         </div>
                     </template>
-
+                    <candy-activity-log type="order" :id="order.id"></candy-activity-log>
         </template>
 
         <div v-else>
