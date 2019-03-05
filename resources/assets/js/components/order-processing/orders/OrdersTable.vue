@@ -31,7 +31,7 @@
                 params: {
                     per_page: 50,
                     page: 1,
-                    includes: 'user.details,shipping,lines',
+                    includes: 'user.details,user.firstOrder,shipping,lines',
                     from: null,
                     to: null
                 },
@@ -143,6 +143,13 @@
             },
             order_total() {
 
+            },
+            firstOrder(order) {
+                const user = order.user.data;
+                if (!user || !user.first_order.data) {
+                    return false;
+                }
+                return user.first_order.data.id == order.id;
             },
             isSelected(id) {
                 return this.selected.contains(id);
@@ -338,6 +345,7 @@
                                                 <label for="selectAll"><span class="check"></span></label>
                                             </div>
                                         </th>
+                                        <th></th>
                                         <th width="10%" v-html="$t('orders.table.heading.status')"></th>
                                         <th width="10%" v-html="$t('orders.table.heading.reference')"></th>
                                         <th v-for="col in columns" v-html="$t('orders.table.heading.' + col)" :key="col"></th>
@@ -350,6 +358,10 @@
                                                 <input type="checkbox" :id="'coll' + order.id" :value="order.id" v-model="selected">
                                                 <label :for="'coll' + order.id"><span class="check"></span></label>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <span class="text-opaque" data-toggle="tooltip" title="Returning Customer" v-if="!firstOrder(order)">R</span>
+                                            <span class="text-info" data-toggle="tooltip" title="New Customer" v-else>N</span>
                                         </td>
                                         <td>
                                             <span class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>

@@ -12,7 +12,9 @@
         "delivery_total": "Delivery Total",
         "zone": "Zone",
         "date": "Date",
-        "reference": "Reference"
+        "reference": "Reference",
+        "new_returning": "New / Returning",
+        "first_order": "First Order"
       }
     }
   }
