@@ -1,3 +1,8 @@
+#0.2.10
+
+- [added] Added ability for product families to be deleted and migrated in the hub
+- [added] Added New\Returning flag against orders in listing.
+
 #0.2.9
 
 - [changed] Order table columns are now configurable
