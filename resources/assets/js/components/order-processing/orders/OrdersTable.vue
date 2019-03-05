@@ -336,6 +336,7 @@
                                             </div>
                                         </th>
                                         <th width="10%" v-html="$t('orders.table.heading.status')"></th>
+                                        <th width="10%" v-html="$t('orders.table.heading.reference')"></th>
                                         <th v-for="col in columns" v-html="$t('orders.table.heading.' + col)" :key="col"></th>
                                     </tr>
                                 </thead>
