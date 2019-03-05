@@ -107,6 +107,11 @@ Route::group([
                 'as'   => 'hub.orders.index',
                 'uses' => 'OrderController@getIndex',
             ]);
+
+            $router->get('orders/export/{format}', [
+                'as'   => 'hub.orders.export',
+                'uses' => 'OrderController@getExport',
+            ]);
             $router->get('orders/{id}', [
                 'as'   => 'hub.orders.edit',
                 'uses' => 'OrderController@getEdit',

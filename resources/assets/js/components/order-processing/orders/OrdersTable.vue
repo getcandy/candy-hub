@@ -320,6 +320,9 @@
                             <div class="col-md-2">
                                 <update-order-status :statuses="statuses" :saving="bulkSaving" :show-modal="bulkSaving" @save="bulkSave"></update-order-status>
                             </div>
+                            <div class="col-md-2">
+                                <candy-order-export :statuses="statuses" :ids="selected" type="order"></candy-order-export>
+                            </div>
                         </div>
                     </div>
                 </div>
