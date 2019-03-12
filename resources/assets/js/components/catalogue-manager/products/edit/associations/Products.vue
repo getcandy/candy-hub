@@ -198,7 +198,7 @@
             <!-- <td><span class="label label-primary">{{ item.type.data.name }}</span></td> -->
             <td align="right">
               <button class="btn btn-sm btn-default btn-action" @click="showRemovalModal(index)">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                <i class="fa fa-trash-alt" aria-hidden="true"></i>
               </button>
             </td>
           </tr>

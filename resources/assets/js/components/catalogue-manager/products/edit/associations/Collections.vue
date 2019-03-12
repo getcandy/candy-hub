@@ -129,7 +129,7 @@
                         </td>
                         <td align="right">
                             <button class="btn btn-sm btn-default btn-action" @click="openDeleteModal(collection)">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
                             </button>
                         </td>
                     </tr>

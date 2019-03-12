@@ -24,7 +24,7 @@
                             <td>{{ product|attribute('name') }}</td>
                             <td align="right">
                                 <button class="btn btn-sm btn-default btn-action" @click="remove(index)">
-                                    <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                                    <i class="fa fa-trash-alt" aria-hidden="true" title="Delete"></i>
                                 </button>
                             </td>
                         </tr>

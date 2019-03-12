@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <button class="btn btn-default white" @click="showModal = true"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        <button class="btn btn-default white" @click="showModal = true"><i class="fa fa-trash-alt" aria-hidden="true"></i></button>
         <candy-modal title="Confirm deletion" v-show="showModal" size="modal-md" @closed="showModal = false">
             <div slot="body">
                 <p>Are you sure you want to delete this {{ element }}?</p>

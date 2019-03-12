@@ -308,7 +308,7 @@
                                 <td align="right">
                                     <a class="btn btn-sm btn-default btn-action" :href="asset.url" target="_blank"><i class="fa fa-download" aria-hidden="true" title="Download"></i></i>
                                     </a>
-                                    <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                                    <button class="btn btn-sm btn-default btn-action" @click="showDeleteModal(index)"><i class="fa fa-trash-alt" aria-hidden="true" title="Delete"></i>
                                     </button>
                                 </td>
                             </tr>

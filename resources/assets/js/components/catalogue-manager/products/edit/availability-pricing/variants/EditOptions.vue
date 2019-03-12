@@ -359,7 +359,7 @@
                                 </div>
                             </td>
                             <td class="text-right">
-                                <button class="btn btn-sm btn-default btn-action" @click="deleteFromArray(options, handle)"><i aria-hidden="true" class="fa fa-trash-o"></i></button>
+                                <button class="btn btn-sm btn-default btn-action" @click="deleteFromArray(options, handle)"><i aria-hidden="true" class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -414,7 +414,7 @@
                         </td>
                         <td>
                             <button class="btn btn-sm btn-default btn-action" @click="deleteFromArray(variants, index)">
-                                <i aria-hidden="true" class="fa fa-trash-o"></i>
+                                <i aria-hidden="true" class="fa fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>

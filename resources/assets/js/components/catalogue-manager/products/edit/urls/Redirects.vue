@@ -114,7 +114,7 @@
                     {{ redirect.description }}
                   </td>
                   <td align="right">
-                      <button class="btn btn-sm btn-default btn-action"  @click="showDeleteModal(index)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                      <button class="btn btn-sm btn-default btn-action"  @click="showDeleteModal(index)"><i class="fa fa-trash-alt" aria-hidden="true"></i></button>
                   </td>
                 </tr>
               </tbody>
