@@ -1,3 +1,7 @@
+#0.2.11
+
+- [fixed] Fix issue where unwanted attributes appeared while editing category
+
 #0.2.10
 
 - [added] Added ability for product families to be deleted and migrated in the hub
