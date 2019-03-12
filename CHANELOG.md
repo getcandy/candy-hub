@@ -1,3 +1,7 @@
+#0.2.12
+
+- [fixed] Fix trash icon in the hub
+
 #0.2.11
 
 - [fixed] Fix issue where unwanted attributes appeared while editing category
