@@ -1,3 +1,7 @@
+#0.2.13
+
+- [fixed] Fixed issue where save wouldn't work on a category on the initial load.
+
 #0.2.12
 
 - [fixed] Fix trash icon in the hub
