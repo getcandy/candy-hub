@@ -1,3 +1,7 @@
+#0.2.14
+
+- [improved] Improved check for user details on activity log in the hub.
+
 #0.2.13
 
 - [fixed] Fixed issue where save wouldn't work on a category on the initial load.
