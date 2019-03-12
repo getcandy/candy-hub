@@ -32,8 +32,12 @@
                     </td>
                     <td>
                         <template v-if="item.user.data">
-                            {{ item.user.data.details.data.firstname }} {{ item.user.data.details.data.lastname }}
-
+                            <template v-if="item.user.data.details.data">
+                                {{ item.user.data.details.data.firstname }} {{ item.user.data.details.data.lastname }}
+                            </template>
+                            <template v-else>
+                                {{ item.user.data.email }}
+                            </template>
                         </template>
                         <template v-else>
                             N/A
