@@ -349,6 +349,7 @@
                                         <th width="10%" v-html="$t('orders.table.heading.status')"></th>
                                         <th width="10%" v-html="$t('orders.table.heading.reference')"></th>
                                         <th v-for="col in columns" v-html="$t('orders.table.heading.' + col)" :key="col"></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="loaded">
@@ -367,9 +368,11 @@
                                             <span class="order-status" :style="getStyles(order.status)">{{ status(order.status) }}</span>
                                         </td>
                                         <td>
-                                            <a :href="getOrderUrl(order.id)" title="View order">{{ order.reference }}</a>
+                                            <a :href="getOrderUrl(order.id)" title="View order" v-if="order.reference">{{ order.reference }}</a>
+                                            <span v-else>-</span>
                                         </td>
                                         <td v-for="col in columns" v-html="getColumn(col, order)"></td>
+                                        <td><a :href="getOrderUrl(order.id)" title="View order">View</a></td>
                                     </tr>
 
 
