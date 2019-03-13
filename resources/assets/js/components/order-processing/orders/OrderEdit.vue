@@ -394,7 +394,7 @@
                                             </td>
                                             <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
                                                 <td v-html="currencySymbol(line.tax_total)"></td>
-                                                <td v-html="currencySymbol(line.line_total)"></td>
+                                                <td v-html="currencySymbol(line.line_total - line.discount_total)"></td>
                                         </tr>
                                     </tbody>
                                 </table>
