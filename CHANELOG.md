@@ -1,3 +1,10 @@
+#0.2.15
+
+- [added] Added "view" link on orders table
+- [fixed] Fixed issue where discounted line item was showing full line price on orders view
+- [improved] Improved logic to show phone number on an order
+- [added] Added handle on NavItem for catalogue manager so it can be listened to by plugins
+
 #0.2.14
 
 - [improved] Improved check for user details on activity log in the hub.
