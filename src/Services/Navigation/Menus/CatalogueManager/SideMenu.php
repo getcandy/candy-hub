@@ -25,5 +25,6 @@ class SideMenu extends Menu
         ];
 
         $this->view = 'hub::menus.side-menu';
+        $this->area = 'catalogue-manager';
     }
 }
