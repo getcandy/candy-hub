@@ -33,5 +33,6 @@ class TopMenu extends Menu
         ];
 
         $this->view = 'hub::menus.top-menu';
+        $this->area = 'top-menu';
     }
 }
