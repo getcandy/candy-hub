@@ -92,7 +92,7 @@
                     this.current = {
                         currency_id: this.defaultCurrency,
                         rate: '',
-                        fixed: '',
+                        fixed: true,
                         min_basket: 0,
                         min_weight: 0,
                         weight_unit: 'kg',
