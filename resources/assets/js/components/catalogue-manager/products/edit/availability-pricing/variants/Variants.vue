@@ -93,7 +93,7 @@
                 if (this.hasGroupPricing) {
                     data.pricing = _.map(data.pricing.data, item => {
                         return {
-                            customer_group_id: item.group.data.id,
+                            customer_group_id: item.group.id,
                             tax_id: item.tax.data.id,
                             price: item.price
                         }
@@ -103,7 +103,6 @@
                 }
 
                 data.price = data.unit_price;
-
 
                 data.group_pricing = this.hasGroupPricing;
 
@@ -134,8 +133,8 @@
                 this.currentIndex = index;
             },
             setImage(asset) {
-                this.current.thumbnail = {};
-                this.$set(this.current.thumbnail, 'data', asset);
+                this.current.image = {};
+                this.$set(this.current, 'image', asset);
                 this.save();
             },
             deleteVariant(index) {
@@ -193,6 +192,19 @@
                 }
                 return false;
             },
+            getThumbnail(variant, asset) {
+
+                if (asset) {
+                    console.log(variant);
+                    return _.first(variant.transforms.data);
+                }
+
+                if (!variant.image) {
+                    return false;
+                }
+
+                return _.first(variant.image.transforms.data);
+            },
             getChannels(channels) {
                 let arr = [];
                 channels.forEach(channel => {
@@ -220,7 +232,7 @@
             priceTiers() {
                 return _.map(this.current.tiers.data, item => {
                     if (!item.customer_group_id) {
-                        item.customer_group_id = item.group.data.id;
+                        item.customer_group_id = item.group.id;
                     }
                     return item;
                 });
@@ -318,13 +330,13 @@
 
                                     <button class="variant-option-img" @click="changeImage = true">
                                         <figure>
-                                            <img :src="current.thumbnail.data.thumbnail" :alt="current.id"
-                                                 class="placeholder" v-if="hasThumbnail(current)">
+                                            <img :src="getThumbnail(current).url" :alt="current.id"
+                                                 class="placeholder" v-if="getThumbnail(current)">
                                             <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder placeholder-empty" v-else>
                                         </figure>
                                         <span class="change-img">
-                                            <span v-if="hasThumbnail(current)">Change image</span>
+                                            <span v-if="getThumbnail(current)">Change image</span>
                                             <span v-else>Choose image</span>
                                         </span>
                                     </button>
@@ -357,13 +369,13 @@
                                                             <div class="col-md-3" v-for="(asset, index) in assets"
                                                                  :key="asset.id">
                                                                 <label class="thumbnail-select"
-                                                                       :class="{'selected': asset.id == current.thumbnail && current.thumbnail.data.id}">
-                                                                    <img :src="asset.thumbnail" :alt="asset.title"
-                                                                         v-if="asset.thumbnail" width="100px">
+                                                                        :class="{'selected': current.image && (asset.id == current.image.id)}">
+                                                                    <img :src="getThumbnail(asset, true).url" :alt="asset.title"
+                                                                            v-if="getThumbnail(asset, true)" width="100px">
                                                                     <img :src="getIcon(asset.extension)"
-                                                                         :alt="asset.title" v-else width="100px">
+                                                                            :alt="asset.title" v-else width="100px">
                                                                     <input type="radio" :id="asset.id" :value="asset.id"
-                                                                           @click="setImage(asset)">
+                                                                            @click="setImage(asset)">
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -611,7 +623,7 @@
                                    :class="{ 'active' : v.id == current.id }" title="">
                                     <div class="variant-img">
                                         <figure>
-                                            <img :src="v.thumbnail.data.thumbnail" alt="v.id" v-if="hasThumbnail(v)">
+                                            <img :src="getThumbnail(v).url" alt="v.id" v-if="getThumbnail(v)">
                                             <img src="/candy-hub/images/placeholder/no-image.svg" alt="Placeholder"
                                                  class="placeholder" v-else>
                                         </figure>
