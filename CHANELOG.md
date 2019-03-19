@@ -1,3 +1,8 @@
+#0.2.16
+
+- [fixed] Fixed some product variant editing anomolies
+- [fixed] Fixed issue that prevented shipping prices from being added
+
 #0.2.15
 
 - [added] Added "view" link on orders table
