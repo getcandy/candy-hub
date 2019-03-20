@@ -1,3 +1,7 @@
+#0.2.17
+
+- [fixed] Fixed issue that caused product families to not be editable
+
 #0.2.16
 
 - [fixed] Fixed some product variant editing anomolies
