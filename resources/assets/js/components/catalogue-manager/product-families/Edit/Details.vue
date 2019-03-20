@@ -20,7 +20,7 @@
         },
         methods: {
             save() {
-                this.request.send('put', '/products/' + this.family.id, { 'attributes' : this.family.attributes })
+                this.request.send('put', '/product-families/' + this.family.id, this.family.attribute_data)
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
@@ -62,7 +62,7 @@
             },
         },
         mounted() {
-            Dispatcher.add('product-details', this);
+            Dispatcher.add('product-family-details', this);
             this.loadLanguages();
              this.request.send('get', '/channels/')
                 .then(response => {
@@ -82,5 +82,7 @@
                               :attributes="group.attributes.data" :attributeData="family.attribute_data"
                               :request="request" v-if="channels.length">
         </candy-attribute-translatable>
+
+
     </div>
 </template>

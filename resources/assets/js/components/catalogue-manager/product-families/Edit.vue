@@ -22,7 +22,8 @@
                 fields: {},
                 attribute_groups: [],
                 params: {
-                    includes: 'attribute_groups.attributes'
+                    includes: 'attributes.group.attributes',
+                    full_response: true,
                 }
             }
         },
@@ -35,9 +36,8 @@
             load() {
                 apiRequest.send('get', '/product-families/' + this.id, [], this.params)
                     .then(response => {
-                        this.family = response.data;
-                        this.setUp(this.family.attribute_data);
-                        this.attribute_groups = this.family.attribute_groups.data;
+                        let data = this.setUp(response.data);
+                        this.family = data;
                         document.title = this.$options.filters.attribute(this.family, 'name') + ' Product Family - GetCandy';
                         CandyEvent.$emit('title-changed', {
                             title: this.family
@@ -63,8 +63,8 @@
 <template>
     <div>
         <template v-if="loaded">
-            <candy-tabs initial="familyattributes">
-                <candy-tab name="Details" :selected="true" dispatch="product-family-details">
+            <candy-tabs initial="productfamilydetails">
+                <candy-tab name="Product Family Details" :selected="true" handle="product-family-details" dispatch="product-family-details">
                     <candy-tabs nested="true">
                         <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="product-details">
                             <family-details :family="family" :group="group"></family-details>
