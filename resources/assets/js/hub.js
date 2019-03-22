@@ -167,8 +167,12 @@ Vue.component('candy-product-family-create', require('./components/catalogue-man
 Vue.component('candy-product-family-delete', require('./components/catalogue-manager/product-families/Delete.vue'));
 
 Vue.component('candy-order-status-select', require('./components/elements/forms/inputs/OrderStatuses.vue'));
+Vue.component('candy-daterange-picker', require('./components/elements/forms/inputs/DateRangePicker.vue'));
 
 Vue.component('candy-order-export', require('./components/order-processing/orders/OrderExport.vue'));
+
+Vue.component('candy-color-picker', require('./components/elements/forms/inputs/ColorPicker.vue'));
+Vue.component('candy-code-mirror', require('./components/elements/forms/inputs/CodeMirror.vue'));
 
 import VueI18n from 'vue-i18n';
 
@@ -254,6 +258,22 @@ window.axios.interceptors.response.use((response) => { // intercept the global e
   // }
   // Do something with response error
   return Promise.reject(error)
+});
+
+Vue.directive('click-outside', {
+  bind: function (el, binding, vnode) {
+    el.clickOutsideEvent = function (event) {
+      // here I check that click was outside the el and his childrens
+      if (!(el == event.target || el.contains(event.target))) {
+        // and if it did, call method provided in attribute value
+        vnode.context[binding.expression](event);
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent)
+  },
+  unbind: function (el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent)
+  },
 });
 
 /* Misc crap - need to remove!!! */
