@@ -1,3 +1,7 @@
+#0.2.18
+
+- [changed] Various changes to vue components
+
 #0.2.17
 
 - [fixed] Fixed issue that caused product families to not be editable
