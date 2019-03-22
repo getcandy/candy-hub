@@ -8,13 +8,19 @@
     export default {
         mounted() {
             const $bootstrapSwitch = $(this.$el).find('.bootstrap-switch');
-            $bootstrapSwitch.bootstrapSwitch();
+            $bootstrapSwitch.bootstrapSwitch(this.config);
 
             $bootstrapSwitch.on('switchChange.bootstrapSwitch', (event, state) =>
                 this.$emit('input', state)
             );
         },
         props: {
+            config: {
+                type: Object,
+                default() {
+                    return {};
+                }
+            },
             value: {
                 type: String|Boolean
             },
