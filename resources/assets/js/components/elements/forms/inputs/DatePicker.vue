@@ -3,7 +3,7 @@
     <div class="col-md-10">
       <input :value="value" ref="input" class="form-control" placeholder="YYYY-MM-DD">
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2" v-if="clearable">
       <a href="#" @click.prevent="clear">Clear</a>
     </div>
 
@@ -23,6 +23,7 @@ export default {
   },
   props: {
     value: { required: true },
+    clearable: { default: true },
     format: { default: "YYYY-MM-DD" },
     options: { default: () => {} }
   },
