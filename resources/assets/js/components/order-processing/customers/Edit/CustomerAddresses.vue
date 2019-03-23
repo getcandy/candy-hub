@@ -15,8 +15,8 @@
                 this.resetModel();
             },
             save() {
-                this.model.shipping = this.type == 'shipping' ? true : false;
-                this.model.billing = this.type == 'billing' ? true : false;
+                // this.model.shipping = this.type == 'shipping' ? true : false;
+                // this.model.billing = this.type == 'billing' ? true : false;
                 this.model.user_id = this.customer.id;
 
                 if (this.creating) {
@@ -46,11 +46,13 @@
                 this.creating = false;
                 var address = this.addresses[item];
                 this.model = address;
+                /* 
                 if (address.shipping) {
                     this.type = 'shipping';
                 } else {
                     this.type = 'billing';
                 }
+                */
 
                 this.editing = true;
                 this.title = "Edit Address";
@@ -80,7 +82,7 @@
                     state: '',
                     zip: '',
                     country: '',
-                    shipping: true,
+                    shipping: false, // true
                     billing: false
                 };
 
@@ -106,7 +108,8 @@
                     <th width="10%">State</th>
                     <th>Zip</th>
                     <th>Country</th>
-                    <th>Shipping / Billing</th>
+                    <!-- <th>Shipping / Billing</th> -->
+                    <th>Type</th>
                     <th width="7%"></th>
                 </tr>
             </thead>
@@ -131,7 +134,12 @@
                     <td>{{ address.country }}</td>
                     <td>
                         <span class="text-info" v-if="address.shipping">Shipping</span>
+                        <span class="black" v-if="address.shipping && address.billing">/</span>
+                        <span class="text-info" v-if="address.billing">Billing</span>
+                        <!--
+                        <span class="text-info" v-if="address.shipping">Shipping</span>
                         <span class="text-warning" v-if="address.billing">Billing</span>
+                        -->
                     </td>
                     <td>
                         <button class="btn btn-action btn-default" @click="edit(index)"><fa icon="edit"></fa></button>
@@ -221,10 +229,22 @@
                   <div class="col-md-6">
                         <div class="form-group">
                             <label>Type</label>
+                            <ul class="list-unstyled list-inline">
+                                <li class="list-inline-item">
+                                    <label>Shipping</label>
+                                    <input type="checkbox" v-model="model.shipping" id="shipping">
+                                </li>
+                                <li class="list-inline-item">
+                                    <label>Billing</label>
+                                    <input type="checkbox" v-model="model.billing" id="billing">
+                                </li>
+                            </ul>
+                            <!--
                             <select class="form-control" v-model="type">
                                 <option value="shipping">Shipping</option>
                                 <option value="billing">Billing</option>
                             </select>
+                            -->
                         </div>
                     </div>
                 </div>
