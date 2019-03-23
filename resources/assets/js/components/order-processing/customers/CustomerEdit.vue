@@ -92,7 +92,7 @@
                   });
 
                   CandyEvent.$emit('title-changed', {
-                      title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
+                      title: !this.customer.details.data.firstname && !this.customer.details.data.lastname ? '[No Name]' : this.customer.details.data.firstname?this.customer.details.data.firstname:'' + ' ' + this.customer.details.data.lastname?this.customer.details.data.lastname:''
                   });
 
                   let chunkedOrders = _.chunk(this.customer.orders.data, this.ordersPerPage);
