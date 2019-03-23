@@ -243,7 +243,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Group</th>
+                                                <th colspan="2">Group</th>
                                             </tr>
                                         </thead>
                                         <tbody>
