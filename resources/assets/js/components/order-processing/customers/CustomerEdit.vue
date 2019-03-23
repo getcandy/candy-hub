@@ -105,9 +105,7 @@
                   });
 
                   document.title = 'Editing ' +
-                    this.customer.details.data.firstname +
-                    ' ' +
-                    this.customer.details.data.lastname +
+                    this.displayName() +
                     ' - GetCandy';
 
                   apiRequest.send('GET', 'currencies').then(response => {
