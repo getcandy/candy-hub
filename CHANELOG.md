@@ -1,3 +1,7 @@
+#0.2.19
+
+- [added] Added input for `min_batch`
+
 #0.2.18
 
 - [changed] Various changes to vue components
