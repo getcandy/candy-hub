@@ -390,7 +390,7 @@
                         <h4>Pricing</h4>
                         <hr>
                         <div class="row">
-                            <div class="col-xs-12 col-md-4">
+                            <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
                                     <label>
                                         Unit Quantity
@@ -399,7 +399,7 @@
                                     <input type="number" class="form-control" v-model="current.unit_qty">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-4">
+                            <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
                                     <label>
                                         Min Purchase Quantity
@@ -408,7 +408,16 @@
                                     <input type="number" class="form-control" v-model="current.min_qty">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-4">
+                            <div class="col-xs-12 col-md-3">
+                                <div class="form-group">
+                                    <label>
+                                        Min Batch Quantity
+                                        <em class="help-txt">This product can be ordered in multiples of {{ current.min_batch }}</em>
+                                    </label>
+                                    <input type="number" class="form-control" v-model="current.min_batch">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-3">
                                 <div class="form-group">
                                     <label>
                                         Max Purchase Quantity
