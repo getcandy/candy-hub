@@ -16,7 +16,6 @@ Vue.filter('attribute', (obj, attr, lang, name) => {
     }
   });
 
-
   channels.forEach(channel => {
     // Always have this handy.
     if (channel.default) {
