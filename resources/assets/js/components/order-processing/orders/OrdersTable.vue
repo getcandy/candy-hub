@@ -64,7 +64,7 @@
                         return shipping ? shipping.option : null;
                     },
                     account_no(order) {
-                        const fields = _.get(order, 'order.user.data.details.data.fields');
+                        const fields = _.get(order, 'user.data.details.data.fields');
                         return fields ? fields.account_number : '-';
                     },
                     contact_email(order) {
