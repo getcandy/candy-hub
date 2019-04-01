@@ -63,6 +63,9 @@
 
                 return transactions;
             },
+            shippingZone() {
+                return 1;
+            },
             discountTotal() {
                 let total = 0;
                 _.each(this.order.lines.data, line => {
@@ -286,7 +289,7 @@
                                     <p>
                                         <strong style="margin-bottom:5px;display:block;">Contact Information</strong>
                                         Email: {{ order.contact_details.email }} <span class="text-muted" v-if="!order.contact_details.email">Not provided</span> <br>
-                                        Telephone: 
+                                        Telephone:
                                             <span v-if="order.contact_details.phone">{{ order.contact_details.phone }}</span>
                                             <span v-else-if="order.billing_details.phone">{{ order.billing_details.phone }}</span>
                                             <span v-else-if="order.shipping_details.phone">{{ order.shipping_details.phone }}</span>
@@ -311,11 +314,27 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="panel" v-if="order.shipping_preference">
-                                       <div class="panel-body">
-                                            <h4>Shipping Preference</h4> {{ order.shipping_preference }}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h4>Shipping Method</h4>
+                                            <strong class="text-info">
+                                                {{ order.shipping_details.method }}
+                                            </strong>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h4>Shipping Zone</h4>
+                                            <strong class="text-info">
+                                                {{ order.shipping.option }}
+                                            </strong>
+                                        </div>
+                                        <div class="col-md-4" v-if="order.shipping_preference">
+                                            <h4>Shipping Preference</h4> 
+                                            <strong class="text-info">
+                                                {{ order.shipping_preference }}
+                                            </strong>
                                         </div>
                                     </div>
+                                    <hr>
                                     <table class="table table-bordered">
                                     <thead>
                                         <tr>
