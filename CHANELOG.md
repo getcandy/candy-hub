@@ -1,3 +1,8 @@
+#0.2.20
+
+- [fixed] Account number didn't show on orders table
+- [improved] Made shipping method and zone stand out on orders
+
 #0.2.19
 
 - [added] Added input for `min_batch`
