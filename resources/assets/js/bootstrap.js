@@ -28,6 +28,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
+    'X-CANDY-HUB': true,
     'X-Requested-With': 'XMLHttpRequest'
 };
 
