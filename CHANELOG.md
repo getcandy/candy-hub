@@ -1,3 +1,8 @@
+#0.2.21
+
+- [fixed] Fixes to collection editing
+- [fixed] Fixes to product editing
+
 #0.2.20
 
 - [fixed] Account number didn't show on orders table
