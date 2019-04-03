@@ -17,7 +17,7 @@
                 params: {
                     per_page: 4,
                     current_page: 1,
-                    includes: 'channels,customer_groups,family,attribute_groups'
+                    includes: 'channels,assets,attributes.group,customerGroups'
                 },
                 pagination: {}
             }
@@ -183,7 +183,6 @@
                             <th width="25%">Collection</th>
                             <th width="19%">Display</th>
                             <th width="19%">Purchasable</th>
-                            <th width="19%">Group</th>
                         </tr>
                     </thead>
                     <tbody v-if="loaded">
@@ -197,10 +196,9 @@
                             <td @click="loadCollection(collection.id)">
                                 <img :src="thumbnail(collection)" :alt="collection.name">
                             </td>
-                            <td @click="loadCollection(collection.id)">{{ collection|attribute('name') }}</td>
+                            <td @click="loadCollection(collection.id)">{{ collection.name }}</td>
                             <td @click="loadCollection(collection.id)">{{ visibility(collection, 'customer_groups') }}</td>
                             <td @click="loadCollection(collection.id)">{{ visibility(collection, 'channels') }}</td>
-                            <td @click="loadCollection(collection.id)">{{ getAttributeGroups(collection) }}</td>
 
                         </tr>
 

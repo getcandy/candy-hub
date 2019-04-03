@@ -24,7 +24,7 @@
         },
         methods: {
             save() {
-                this.request.send('put', '/collections/' + this.collection.id, { 'attributes' : this.collection.attributes })
+                this.request.send('put', '/collections/' + this.collection.id, { 'attributes' : this.collection.attribute_data })
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
@@ -55,7 +55,7 @@
 <template>
     <div>
         <candy-attribute-translatable :languages="languages" :channels="getChannels(collection.channels.data)"
-                              :attributes="group.attributes.data" :attributeData="collection.attributes"
+                              :attributes="group.attributes.data" :attributeData="collection.attribute_data"
                               :request="request">
         </candy-attribute-translatable>
     </div>

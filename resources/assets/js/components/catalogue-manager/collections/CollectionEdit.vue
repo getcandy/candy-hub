@@ -37,9 +37,36 @@
              * @return
              */
             decorate(data) {
+                let groups = [];
+                _.each(data.attributes.data, attribute => {
+                    let exists = _.find(groups, group => {
+                        return group.handle == attribute.group.data.handle;
+                    });
+                    if (attribute.group && !exists) {
+                        // Filter out the attributes that don't apply within this group.
+
+                        let attributes = attribute.group.data.attributes.data;
+
+                        let attributables = _.map(data.attributes.data, att => {
+                            return att.handle;
+                        });
+
+                        attributes = _.filter(attributes, att => {
+                            return attributables.includes(att.handle);
+                        });
+
+                        attribute.group.data.attributes.data = attributes;
+
+                        groups.push(attribute.group.data);
+                    }
+                });
+
+                this.attribute_groups = groups;
+
                 this.collection = data;
                 this.attribute_groups = data.attribute_groups.data;
                 this.collection.attributes = this.collection.attribute_data;
+
                 this.routes = this.collection.routes.data;
             },
             /**
@@ -63,11 +90,12 @@
              */
             loadCollection(id) {
                 apiRequest.send('get', '/collections/' + id, {}, {
-                    includes: 'channels,assets,assets.tags,attribute_groups,attribute_groups.attributes,customer_groups,routes,products'
+                    full_response: true,
+                    includes: 'channels,assets,assets.tags,attributes.group.attributes,customerGroups,routes,products'
                 })
                 .then(response => {
-                    this.decorate(response.data);
                     this.loaded = true;
+                    this.decorate(response.data);
 
                     CandyEvent.$emit('title-changed', {
                         prefix: 'Editing',
@@ -91,7 +119,8 @@
                     <candy-tab name="Collection Details" handle="collection-details" :selected="true" dispatch="collection-details">
                         <candy-tabs nested="true">
                             <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="collection-details">
-                                <candy-collection-details :collection="collection" :languages="languages" :group="group">   </candy-collection-details>
+                                <candy-collection-details :collection="collection" :languages="languages" :group="group">
+                                </candy-collection-details>
                             </candy-tab>
                         </candy-tabs>
                     </candy-tab>
@@ -99,6 +128,7 @@
                     <candy-tab name="Media" dispatch="save-media">
                         <candy-media assetable="collections" :parent="collection"></candy-media>
                     </candy-tab>
+
 
                     <candy-tab name="Availability" handle="collection-availability" dispatch="collection-availability">
                         <candy-collection-availability :collection="collection" :languages="languages"></candy-collection-availability>
