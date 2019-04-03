@@ -127,7 +127,7 @@
                     full_response: true,
                     option_data: true,
                     includes: 'family.attributes.group,attributes.group.attributes,variants.customerPricing.tax,variants.customerPricing.group,variants.tiers.group,variants.tax,assets.transforms,assets.tags,' +
-                    'layout,associations,routes,channels,customerGroups,categories,categories.routes,collections,collections.routes,variants.image.transforms'
+                    'layout,associations.group,associations.association.assets.transforms,routes,channels,customerGroups,categories.assets.transforms,categories.routes,collections,collections.routes,variants.image.transforms'
                 }).then(response => {
                     this.decorate(response.data);
                     this.loaded = true;

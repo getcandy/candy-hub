@@ -7,7 +7,7 @@
                     per_page: 6,
                     current_page: 1,
                     keywords: '',
-                    includes: 'routes',
+                    includes: 'routes,assets.transforms',
                     type: 'category'
                 },
                 channel: this.$store.getters.getDefaultChannel.handle,
@@ -173,7 +173,7 @@
                 <tbody>
                     <tr v-for="category in productCategories">
                         <td width="80">
-                            <img src="/candy-hub/images/placeholder/no-image.svg" :alt="getAttribute(category, 'name')">
+                            <candy-thumbnail-loader :item="category"></candy-thumbnail-loader>
                         </td>
                         <td>
                             {{ getAttribute(category, 'name') }}
@@ -227,7 +227,9 @@
                     </tfoot>
                     <tbody class="list">
                         <tr v-for="category in results">
-                            <td width="10%"><img :src="thumbnail(category)" :alt="category|attribute('name')" class="img-sm"></td>
+                            <td width="10%">
+                                <candy-thumbnail-loader :item="category"></candy-thumbnail-loader>
+                            </td>
                             <td class="name" width="40%">{{ category|attribute('name') }}</td>
                             <td>
                                 {{ getRoute(category) }}

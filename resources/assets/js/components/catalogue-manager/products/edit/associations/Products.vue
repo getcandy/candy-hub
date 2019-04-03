@@ -16,6 +16,7 @@
               requestParams: {
                 per_page: 6,
                 current_page: 1,
+                includes: 'assets.transforms',
                 keywords: '',
                 type: 'product'
               },
@@ -29,15 +30,12 @@
         },
         mounted() {
           this.associations = this.product.associations.data;
-
           this.request.send('GET', 'associations/groups').then(response => {
             this.types = response.data;
           });
-
           _.each(this.associations, item => {
-            this.selected.push(item.association.data.id);
+            this.selected.push(item.association.id);
           });
-
           Dispatcher.add('product-associations', this);
         },
         methods: {
@@ -49,7 +47,7 @@
           getAssociations(type) {
             if (type) {
               return this.associations.filter(item => {
-                if (type == item.type.data.handle) {
+                if (type == item.group.data.handle) {
                   return true;
                 } else {
                   return false;
@@ -79,7 +77,7 @@
             let relations = _.map(this.associations, item => {
               return {
                 'association_id': item.association.data.id,
-                'type' : item.type.data.id
+                'type' : item.group.data.id
               }
             });
             this.request.send('POST', 'products/' + this.product.id + '/associations', {'relations' : relations}).then(response => {
@@ -114,19 +112,13 @@
                   this.loading = false;
             });
           },
-          productThumbnail(product) {
-              if (product.thumbnail) {
-                  return product.thumbnail.data.thumbnail;
-              }
-              return '/candy-hub/images/placeholder/no-image.svg';
-          },
           alreadyLinked(product) {
             return this.selected.contains(product.id);
           },
           assign(product) {
             this.selected.push(product.id);
             let association = {
-              type: {
+              group: {
                 data: this.types[0]
               },
               association: {
@@ -184,13 +176,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in getAssociations(filter)">
+          <tr v-for="(item, index) in associations">
             <td width="80">
-              <img :src="productThumbnail(item.association.data)">
+              <candy-thumbnail-loader :item="item.association.data"></candy-thumbnail-loader>
             </td>
             <td>{{ item.association.data|attribute('name') }}</td>
             <td>
-              <select class="form-control" v-model="item.type.data.id">
+              <select class="form-control" v-model="item.group.data.id">
                 <option value>-- Please select</option>
                 <option :value="item.id" v-for="item in types">{{ item.name }}</option>
               </select>
@@ -203,7 +195,7 @@
             </td>
           </tr>
         </tbody>
-        <tfoot v-if="!getAssociations(filter).length">
+        <tfoot v-if="!associations.length">
           <tr>
             <td colspan="2">
               <span class="text-muted">No products associated</span>
@@ -242,7 +234,7 @@
             <tbody class="list">
               <tr v-for="product in results">
                 <td width="10%">
-                  <img :src="productThumbnail(product)" :alt="product|attribute('name')" class="img-sm">
+                  <candy-thumbnail-loader :item="product"></candy-thumbnail-loader>
                 </td>
                 <td class="name" width="40%">{{ product|attribute('name') }}</td>
                 <td align="right">
