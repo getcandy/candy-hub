@@ -116,7 +116,10 @@
                 });
             },
             create() {
-                apiRequest.send('post', '/shipping/' + this.method.id + '/prices', this.current)
+                let payload = JSON.parse(JSON.stringify(this.current));
+                payload.rate = payload.rate * 100;
+                payload.min_basket = payload.min_basket * 100;
+                apiRequest.send('post', '/shipping/' + this.method.id + '/prices', payload)
                     .then(response => {
                         CandyEvent.$emit('notification', {
                             level: 'success'
@@ -131,7 +134,10 @@
                     });
             },
             update() {
-                apiRequest.send('put', 'shipping/prices/' + this.current.id, this.current).then(response => {
+                let payload = JSON.parse(JSON.stringify(this.current));
+                payload.rate = payload.rate * 100;
+                payload.min_basket = payload.min_basket * 100;
+                apiRequest.send('put', 'shipping/prices/' + this.current.id, payload).then(response => {
                     CandyEvent.$emit('shipping-prices-updated');
                 });
             }
