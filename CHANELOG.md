@@ -1,3 +1,7 @@
+#0.2.22
+
+- [fixed] Various fixes for editing and creating shipping methods.
+
 #0.2.21
 
 - [fixed] Fixes to collection editing
