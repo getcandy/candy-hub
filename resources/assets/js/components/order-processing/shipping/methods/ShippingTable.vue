@@ -74,6 +74,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Type</th>
                             <th>Prices</th>
                             <th>Zones</th>
                             <th>Customer Groups</th>
@@ -84,6 +85,7 @@
                             <td>
                                 {{ method|attribute('name') }}
                             </td>
+                            <td>{{ method.type }}</td>
                             <td>
                                 <template v-if="method.prices.data.length">
                                     <template v-for="(price, index) in method.prices.data">

@@ -61,9 +61,10 @@
                 </div>
                 <div class="form-group">
                     <label for="type">Type</label>
-                    <select class="selectpicker form-control" v-model="method.type">
+                    <select class="selectpicker" v-model="method.type">
                         <option value="standard">Standard</option>
-                        <option value="dhl" disabled>DHL</option>
+                        <option value="regional">Regional</option>
+                        <!-- <option value="dhl" disabled>DHL</option> -->
                     </select>
                 </div>
             </div>

@@ -40,8 +40,8 @@
 
                 _.each(zone.countries.data, country => {
                     if (!regions.includes(country.region)) {
-                        if (!country.name.en) {
-                            country.name.en = 'Rest of world';
+                        if (!country.name) {
+                            country.name = 'Rest of world';
                         }
                         regions.push(country.region);
                     }
@@ -81,7 +81,7 @@
                                 </template>
                                 <template v-else>
                                     <span v-for="(country, index) in row.countries.data">
-                                        {{ country.name.en }}<span v-if="index < row.countries.data.length - 1">, </span>
+                                        {{ country.name }}<span v-if="index < row.countries.data.length - 1">, </span>
                                     </span>
                                 </template>
                             </td>

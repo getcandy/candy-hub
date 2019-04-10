@@ -57,6 +57,11 @@
                     return price.currency_id == item.id;
                 })
             },
+            localisedPrice(price, field) {
+                var currency = price.currency.data;
+                // price.currency.data.format
+                return currency.format.replace('{price}', price[field].money(2, currency.thousand_point, currency.decimal_point));
+            },
             savePrice(price) {
                 if (this.current.id) {
                     this.update();
@@ -84,6 +89,8 @@
             },
             edit(price) {
                 this.current = JSON.parse(JSON.stringify(price));
+                this.current.rate = this.current.rate ? this.current.rate / 100 : 0;
+                this.current.min_basket = this.current.min_basket ? this.current.min_basket / 100 : 0;
                 this.current.currency_id = this.current.currency.data.id;
             },
             add() {
@@ -165,15 +172,11 @@
                     </thead>
                     <tbody>
                         <tr v-for="price in prices">
-                            <td>
-                                {{ currency(price.rate) }}{{ price.rate }}
-                            </td>
+                            <td v-html="localisedPrice(price, 'rate')"></td>
                             <td>
                                 {{ price.currency.data.name }}
                             </td>
-                            <td>
-                                {{ price.min_basket }}
-                            </td>
+                            <td v-html="localisedPrice(price, 'min_basket')"></td>
                             <td>
                                 {{ price.min_weight }}{{ price.weight_unit }}
                             </td>
