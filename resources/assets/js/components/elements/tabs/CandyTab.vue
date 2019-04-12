@@ -12,6 +12,13 @@
                 isNested: false
             }
         },
+        watch: {
+            isActive(val) {
+                if (val) {
+                    this.$emit('selected', true);
+                }
+            }
+        },
         props: {
             name: {
                 type: [String, Object],
