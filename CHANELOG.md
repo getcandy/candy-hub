@@ -1,3 +1,8 @@
+#0.2.23
+
+- [added] Added `selected` event for tabbed content
+- [added] Added refresh method for code mirror component
+
 #0.2.22
 
 - [fixed] Various fixes for editing and creating shipping methods.
