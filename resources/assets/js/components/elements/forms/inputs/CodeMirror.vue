@@ -5,6 +5,7 @@
         @ready="$emit('ready', $event)"
         @focus="$emit('focus', $event)"
         @input="$emit('input', $event)"
+        ref="editor"
     >
     </codemirror>
 </template>
@@ -19,6 +20,13 @@
     export default {
         components: {
             codemirror,
+        },
+        methods: {
+            refresh() {
+                Vue.nextTick(() => {
+                    this.$refs['editor'].codemirror.refresh();
+                });
+            }
         },
         props: {
             value: {
