@@ -1,3 +1,7 @@
+#0.2.25
+
+- [fixed] Fixed issue where customer group pricing didn't show properly for existing products with limited group pricing.
+
 #0.2.24
 
 - [fixed]  Fixed Customer Group Pricing not displaying on product edit
