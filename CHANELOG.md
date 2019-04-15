@@ -1,3 +1,7 @@
+#0.2.24
+
+- [fixed]  Fixed Customer Group Pricing not displaying on product edit
+
 #0.2.23
 
 - [added] Added `selected` event for tabbed content
