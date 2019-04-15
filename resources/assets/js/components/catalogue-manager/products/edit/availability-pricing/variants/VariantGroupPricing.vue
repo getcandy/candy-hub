@@ -3,14 +3,14 @@
         <div class="row" v-for="item in prices">
             <div class="col-md-4">
                 <div class="form-group" >
-                    <label>{{ item.group.data.name }}</label>
+                    <label>{{ item.group.name }}</label>
                     <price-input v-model="item.price"></price-input>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Tax</label>
-                    <candy-select :options="taxes" v-model="item.tax.data.id"></candy-select>
+                    <candy-select :options="taxes" v-model="item.tax.id"></candy-select>
                 </div>
             </div>
         </div>

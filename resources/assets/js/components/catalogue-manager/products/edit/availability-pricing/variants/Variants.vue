@@ -17,7 +17,7 @@
                 createVariant: false,
                 editOptions: false,
                 changeImage: false,
-                hasGroupPricing: false,
+
                 customerGroups: [],
                 customerGroupSelect: [],
                 pricing: [],
@@ -46,8 +46,6 @@
         },
         mounted() {
             this.assets = this.product.assets.data;
-
-            this.hasGroupPricing = this.current.group_pricing;
 
             CandyEvent.$on('asset_deleted', event => {
                 this.assets.splice(event.index, 1);
@@ -91,10 +89,10 @@
                 let data = JSON.parse(JSON.stringify(this.current));
 
                 if (this.hasGroupPricing) {
-                    data.pricing = _.map(data.pricing.data, item => {
+                    data.pricing = _.map(data.customer_pricing.data, item => {
                         return {
                             customer_group_id: item.group.id,
-                            tax_id: item.tax.data.id,
+                            tax_id: item.tax.id,
                             price: item.price
                         }
                     });
@@ -228,6 +226,9 @@
                     });
                 });
                 return options;
+            },
+            hasGroupPricing() {
+                return this.current.customer_pricing.data.length;
             },
             priceTiers() {
                 return _.map(this.current.tiers.data, item => {
@@ -436,7 +437,7 @@
                                     </label>
                                 </div>
                                     <template v-if="hasGroupPricing">
-                                        <variant-group-pricing v-model="current.pricing.data" :price="current.unit_price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
+                                        <variant-group-pricing v-model="current.customer_pricing.data" :price="current.unit_price" :groups="customerGroups" v-if="customerGroups.length"></variant-group-pricing>
                                     </template>
                                     <template v-else>
                                         <div class="row">
