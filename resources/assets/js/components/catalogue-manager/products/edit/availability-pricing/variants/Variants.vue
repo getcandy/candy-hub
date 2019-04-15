@@ -61,6 +61,7 @@
 
             this.request.send('GET', 'customers/groups').then(response => {
                 this.customerGroups = response.data;
+                this.setUpGroupPrices();
                 this.customerGroupSelect = _.map(response.data, item => {
                     return {
                         label: item.name,
@@ -120,12 +121,39 @@
                     });
                 });
             },
+            setUpGroupPrices() {
+                let pricing = this.current.customer_pricing.data;
+
+                const pricingGroups = _.map(pricing, price => {
+                    return price.group.handle;
+                });
+
+                const remaining = _.filter(this.customerGroups, (g) => {
+                    return !pricingGroups.includes(g.handle);
+                });
+
+                _.each(remaining, group => {
+                    this.current.customer_pricing.data.push({
+                        group: group,
+                        price: this.current.price,
+                        tax: this.current.tax.data,
+                    });
+                });
+                // console.log(pricing);
+            },
             selectVariant(index) {
                 this.current = this.variants[index];
                 let tax = null;
                 if (this.current.tax.data.id) {
                     tax = this.current.tax.data.id;
                 }
+
+                // Need to go through the customer group prices and
+                // see if any are missing, if so we need to add them to the array
+                if (this.hasGroupPricing) {
+                    this.setUpGroupPrices();
+                }
+
                 this.$set(this.current, 'tax_id', tax);
 
                 this.currentIndex = index;
@@ -227,8 +255,13 @@
                 });
                 return options;
             },
-            hasGroupPricing() {
-                return this.current.customer_pricing.data.length;
+            hasGroupPricing: {
+                set(val) {
+                    console.log(val);
+                },
+                get() {
+                    return this.current.customer_pricing.data.length;
+                }
             },
             priceTiers() {
                 return _.map(this.current.tiers.data, item => {
