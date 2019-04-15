@@ -17,7 +17,7 @@
                 createVariant: false,
                 editOptions: false,
                 changeImage: false,
-
+                stashedGroups: null,
                 customerGroups: [],
                 customerGroupSelect: [],
                 pricing: [],
@@ -61,7 +61,11 @@
 
             this.request.send('GET', 'customers/groups').then(response => {
                 this.customerGroups = response.data;
-                this.setUpGroupPrices();
+
+                if (this.current.customer_pricing.data.length) {
+                    this.setUpGroupPrices();
+                }
+
                 this.customerGroupSelect = _.map(response.data, item => {
                     return {
                         label: item.name,
@@ -257,7 +261,14 @@
             },
             hasGroupPricing: {
                 set(val) {
-                    console.log(val);
+                    if (!val) {
+                        this.stashedGroups = JSON.parse(JSON.stringify(this.current.customer_pricing.data));
+                        this.current.customer_pricing.data = [];
+                    } else if (!this.hasGroupPricing && !this.stashedGroups) {
+                        this.setUpGroupPrices();
+                    } else {
+                        this.current.customer_pricing.data = this.stashedGroups;
+                    }
                 },
                 get() {
                     return this.current.customer_pricing.data.length;
