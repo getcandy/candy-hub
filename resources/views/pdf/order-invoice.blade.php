@@ -72,7 +72,7 @@
                         <table width="100%">
                             <tr>
                                 <td class="title" align="left" width="50%">
-                                    <img src="{{ url('/images/logo.png') }}" width="100px">
+                                    <img src="{{ config('getcandy.invoicing.logo', config('app.name')) }}" width="100px">
                                     <h3>Order Invoice</h3>
                                 </td>
                                 <td align="right" width="50%">
@@ -177,7 +177,7 @@
                     </tr>
                 </thead>
                 <tbody class="lines-body">
-                    @foreach ($order->lines as $item)
+                    @foreach ($order->basketLines as $item)
                     <tr>
                         <td>
                             {{ $item->description }} <br>
@@ -233,12 +233,12 @@
                             <strong>Shipping</strong> <br>
                             <small>{{ $order->shipping_method }}</small>
                         </td>
-                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($order->shipping_total / 100, 2) }}</td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($order->delivery_total / 100, 2) }}</td>
                     </tr>
                     <tr>
                         <td colspan="5"></td>
                         <td colspan="2"><strong>Sub Total</strong></td>
-                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format($order->sub_total / 100, 2) }}</td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format(($order->sub_total + $order->delivery_total) / 100, 2) }}</td>
                     </tr>
                     <tr>
                         <td colspan="5"></td>
@@ -248,7 +248,7 @@
                     <tr>
                         <td colspan="5"></td>
                         <td colspan="2"><strong>Total</strong></td>
-                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format(($order->sub_total + $order->tax_total) / 100, 2) }}</td>
+                        <td>{!! $order->currency == 'GBP' ? '&pound;' : '&euro;' !!}{{ number_format(($order->order_total) / 100, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
