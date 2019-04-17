@@ -16,12 +16,25 @@ Route::group([
     'namespace'     => 'GetCandy\Hub\Http\Controllers',
     'middleware'    => ['web'],
 ], function ($router) {
+
     $router->get('/', function () {
         if (Auth::user()) {
             return redirect()->route('hub.index');
         }
         return redirect()->route('hub.login');
     });
+
+    $router->get('export/download/{hash}', function ($hash) {
+        $filename = $hash . '.csv';
+        try {
+            return response()->download(
+                storage_path('app/exports/' . $filename),
+                'candy_web_export.csv'
+            )->deleteFileAfterSend(true);
+        } catch (\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException $e) {
+            abort(404);
+        }
+    })->name('hub.export.download');
 
     // Authentication Routes...
     $router->group(['namespace' => 'Auth'], function ($router) {
@@ -65,6 +78,8 @@ Route::group([
                 'as'   => 'hub.attribute-groups.edit',
                 'uses' => 'AttributeGroupController@getShow',
             ]);
+
+            $router->post('export/product', 'ExportController@export');
 
             $router->get('products', [
                 'as'   => 'hub.products.index',
@@ -165,5 +180,7 @@ Route::group([
             $router->get('{section}/tabs', 'PluginController@tabs');
             $router->get('{handle}/resources/{type}/{filename}', 'PluginController@resource');
         });
+
+
     });
 });

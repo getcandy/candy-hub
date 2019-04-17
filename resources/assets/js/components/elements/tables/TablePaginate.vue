@@ -2,8 +2,13 @@
     export default {
 
         props: {
-            pagination:{
-                type: Object,
+            current: {
+                type: Number,
+                default: 1,
+            },
+            total: {
+                type: Number,
+                default: 1,
             },
             offset: {
                 type: Number,
@@ -12,21 +17,20 @@
         },
         computed: {
             isActived: function () {
-                return this.pagination.current_page;
+                return this.current;
             },
             pagesNumber: function () {
-
-                if (!this.pagination.total_pages) {
+                if (!this.total) {
                     return [];
                 }
-                var from = this.pagination.current_page - this.offset;
+                var from = this.current - this.offset;
 
                 if (from < 1) {
                     from = 1;
                 }
                 var to = from + (this.offset * 2);
-                if (to >= this.pagination.total_pages) {
-                    to = this.pagination.total_pages;
+                if (to >= this.total) {
+                    to = this.total;
                 }
                 var pagesArray = [];
                 while (from <= to) {
@@ -38,8 +42,6 @@
         },
         methods: {
             changePage: function (page) {
-                // Need to return page number then use watch to watch that change and fire off new ajax request
-                this.pagination.current_page = page;
                 this.$emit('change', page);
             }
         }
@@ -49,27 +51,27 @@
 <template>
     <div>
         <nav aria-label="Page navigation">
-            <ul class="pagination" v-if="pagination">
-                <li v-if="pagination.current_page !== 1">
-                    <a href="#" aria-label="First page" data-toggle="tooltip" data-placement="top" data-original-title="First page" title="First page" @click.prevent="changePage(pagination.current_page = 1)">
+            <ul class="pagination" v-if="current && total">
+                <li v-if="current !== 1">
+                    <a href="#" aria-label="First page" data-toggle="tooltip" data-placement="top" data-original-title="First page" title="First page" @click.prevent="changePage(1)">
                         <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
                     </a>
                 </li>
-                <li v-if="pagination.current_page > 1">
-                    <a href="#" aria-label="Previous" data-toggle="tooltip" data-placement="top" data-original-title="Previous page" title="Previous page" @click.prevent="changePage(pagination.current_page - 1)">
+                <li v-if="current > 1">
+                    <a href="#" aria-label="Previous" data-toggle="tooltip" data-placement="top" data-original-title="Previous page" title="Previous page" @click.prevent="changePage(current - 1)">
                         <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
                     </a>
                 </li>
                 <li v-for="page in pagesNumber" v-bind:class="[ page == isActived ? 'active' : '']">
                     <a href="#" @click.prevent="changePage(page)">{{ page }}</a>
                 </li>
-                <li v-if="pagination.current_page < pagination.total_pages">
-                    <a href="#" aria-label="Next" data-toggle="tooltip" data-placement="top" data-original-title="Next page" title="Next page" @click.prevent="changePage(pagination.current_page + 1)">
+                <li v-if="current < total">
+                    <a href="#" aria-label="Next" data-toggle="tooltip" data-placement="top" data-original-title="Next page" title="Next page" @click.prevent="changePage(current + 1)">
                         <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                     </a>
                 </li>
-                <li v-if="pagination.current_page !== pagination.total_pages">
-                    <a href="#" aria-label="Last page" data-toggle="tooltip" data-placement="top" data-original-title="Last page" title="Last page" @click.prevent="changePage(pagination.current_page = pagination.total_pages)">
+                <li v-if="current !== total">
+                    <a href="#" aria-label="Last page" data-toggle="tooltip" data-placement="top" data-original-title="Last page" title="Last page" @click.prevent="changePage(total)">
                         <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                     </a>
                 </li>

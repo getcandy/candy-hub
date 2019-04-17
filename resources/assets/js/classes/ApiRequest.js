@@ -50,7 +50,7 @@ class ApiRequest {
      * @param  {Object} data
      * @param  {Object} params
      */
-    send(method, path, data, params) {
+    send(method, path, data, params, headers) {
 
         return new Promise((resolve, reject) => {
             axios({
@@ -59,7 +59,8 @@ class ApiRequest {
                 data: data,
                 params: params,
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    ...headers
                 }
             })
             .then(response => {
