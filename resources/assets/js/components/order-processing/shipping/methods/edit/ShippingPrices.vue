@@ -10,7 +10,9 @@
                     currency_id: ''
                 },
                 prices: [],
+                zones: [],
                 current: {},
+                errors: {},
                 currencies: [],
                 defaultCurrency: '',
                 carbon: null
@@ -28,6 +30,14 @@
                 this.defaultCurrency = _.find(this.currencies, item => {
                     return item.default;
                 }).id;
+            });
+            apiRequest.send('get', 'shipping/zones').then(response => {
+                this.zones = _.map(response.data, zone => {
+                    return {
+                        label: zone.name,
+                        value: zone.id,
+                    };
+                });
             });
             this.prices = this.method.prices.data;
             _.each(this.prices, price => {
@@ -92,12 +102,14 @@
                 this.current.rate = this.current.rate ? this.current.rate / 100 : 0;
                 this.current.min_basket = this.current.min_basket ? this.current.min_basket / 100 : 0;
                 this.current.currency_id = this.current.currency.data.id;
+                this.current.zone_id = this.current.zone.data.id;
             },
             add() {
                 apiRequest.send('get', '/customers/groups').then(response => {
 
                     this.current = {
                         currency_id: this.defaultCurrency,
+                        zone_id: null,
                         rate: '',
                         fixed: true,
                         min_basket: 0,
@@ -119,6 +131,7 @@
                 let payload = JSON.parse(JSON.stringify(this.current));
                 payload.rate = payload.rate * 100;
                 payload.min_basket = payload.min_basket * 100;
+                this.errors = {};
                 apiRequest.send('post', '/shipping/' + this.method.id + '/prices', payload)
                     .then(response => {
                         CandyEvent.$emit('notification', {
@@ -126,21 +139,25 @@
                         });
                         CandyEvent.$emit('shipping-prices-updated');
                         this.current = {};
-                    }).catch(response => {
-                        CandyEvent.$emit('notification', {
-                            level: 'error',
-                            message: 'Missing / Invalid fields'
-                        });
+                    }).catch(errors => {
+                        this.errors = errors.response.data;
                     });
             },
             update() {
                 let payload = JSON.parse(JSON.stringify(this.current));
                 payload.rate = payload.rate * 100;
                 payload.min_basket = payload.min_basket * 100;
+                this.errors = {};
                 apiRequest.send('put', 'shipping/prices/' + this.current.id, payload).then(response => {
                     CandyEvent.$emit('shipping-prices-updated');
+                }).catch(errors => {
+                    this.errors = errors.response.data;
                 });
-            }
+            },
+            close() {
+                this.errors = {};
+                this.current = {};
+            },
         }
     }
 </script>
@@ -211,15 +228,24 @@
                 </table>
             </div>
         </div>
-            <candy-modal :title="modalTitle" v-show="editing" @closed="current = {}">
+            <candy-modal :title="modalTitle" v-show="editing" @closed="close">
                 <div slot="body" class="text-left">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Rate</label>
                                 <div class="input-group input-group-full">
                                     <span class="input-group-addon" v-html="symbol(current)"></span>
                                     <input type="number" class="form-control" v-model="current.rate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Min Basket Amount</label>
+                                <div class="input-group input-group-full">
+                                    <span class="input-group-addon" v-html="symbol(current)"></span>
+                                    <input type="number" class="form-control" v-model="current.min_basket">
                                 </div>
                             </div>
                         </div>
@@ -234,20 +260,20 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Min Basket Amount</label>
-                                <em class="help-txt">This is the inclusive minimum amount to get this price</em>
+                                <label>Min Width</label>
                                 <div class="input-group input-group-full">
-                                    <span class="input-group-addon" v-html="symbol(current)"></span>
-                                    <input type="number" class="form-control" v-model="current.min_basket">
+                                    <input type="number" class="form-control" v-model="current.min_width">
+                                    <candy-select :options="['cm','mm', 'in']" v-model="current.width_unit"
+                                                    :addon="true"></candy-select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Min Width</label>
+                                <label>Min Height</label>
                                 <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="current.min_width">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="current.width_unit"
+                                    <input type="number" class="form-control" v-model="current.min_height">
+                                    <candy-select :options="['cm','mm', 'in']" v-model="current.height_unit"
                                                     :addon="true"></candy-select>
                                 </div>
                             </div>
@@ -264,16 +290,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Min Height</label>
-                                <div class="input-group input-group-full">
-                                    <input type="number" class="form-control" v-model="current.min_height">
-                                    <candy-select :options="['cm','mm', 'in']" v-model="current.height_unit"
-                                                    :addon="true"></candy-select>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Min Depth</label>
@@ -291,6 +308,17 @@
                                     <input type="number" class="form-control" v-model="current.min_volume">
                                     <candy-select :options="['l', 'ml']" v-model="current.volume_unit"
                                                     :addon="true"></candy-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Shipping Zone</label>
+                                <candy-select :options="zones" v-model="current.zone_id"></candy-select>
+                                <div class="text-danger" v-if="errors['zone_id']">
+                                    You must select a shipping zone
                                 </div>
                             </div>
                         </div>

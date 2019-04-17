@@ -15,6 +15,7 @@
                     currency_id: '',
                     rate: '',
                     fixed: '',
+                    zone_id: null,
                     min_weight: 0,
                     weight_unit: 'kg',
                     min_height: 0,
@@ -49,6 +50,15 @@
                 this.price.currency_id = _.find(this.currencies, item => {
                     return item.default;
                 }).id;
+            });
+
+
+            apiRequest.send('get', 'shipping/zones').then(response => {
+                console.log(response);
+                // this.currencies = response.data;
+                // this.price.currency_id = _.find(this.currencies, item => {
+                //     return item.default;
+                // }).id;
             });
         },
         computed: {

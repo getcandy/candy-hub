@@ -50,7 +50,7 @@
              */
             loadMethod(id) {
                 apiRequest.send('get', '/shipping/' + id, {}, {
-                    includes: 'prices.customer_groups,prices.currency,zones,channels,attribute_groups.attributes,users'
+                    includes: 'prices.customer_groups,prices.currency,prices.zone,zones,channels,attribute_groups.attributes,users'
                 })
                 .then(response => {
                     this.method = response.data;
