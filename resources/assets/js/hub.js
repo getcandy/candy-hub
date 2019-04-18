@@ -56,6 +56,12 @@ import VueLazyload from 'vue-lazyload'
 import Language from './services/Locale/Language';
 import candyhub from './candyhub';
 
+Vue.mixin({
+  methods: {
+      route: route
+  }
+});
+
 Vue.use(Vuex);
 Vue.use(VueLazyload, {
   lazyComponent: true
