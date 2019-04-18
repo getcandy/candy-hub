@@ -1,3 +1,8 @@
+#0.2.26
+
+- [fixed] Fixed issue when adding new shipping method prices
+- [added] Overhaul to product listing including basic export/import functionality
+
 #0.2.25
 
 - [fixed] Fixed issue where customer group pricing didn't show properly for existing products with limited group pricing.
