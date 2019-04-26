@@ -1,3 +1,8 @@
+#0.2.27
+
+- [added] Added an initial reports page
+- [improved] Moved dashboard graphs/figures to ajax vue components
+
 #0.2.26
 
 - [fixed] Fixed issue when adding new shipping method prices

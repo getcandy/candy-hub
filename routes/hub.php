@@ -175,6 +175,13 @@ Route::group([
             ]);
         });
 
+        $router->group(['prefix' => 'reports', 'namespace' => 'Reports'], function ($router) {
+            $router->get('sales-report', [
+                'as'   => 'hub.reports.index',
+                'uses' => 'ReportController@getIndex',
+            ]);
+        });
+
         // Plugin routes
         $router->group(['prefix' => 'plugins'], function ($router) {
             $router->get('{section}/tabs', 'PluginController@tabs');

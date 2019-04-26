@@ -160,6 +160,9 @@ _.each(CandyHub.plugins, plugin => {
 });
 
 // Gradually move top level components into here, so we can use local registration per component.
+Vue.component('candy-sales-report', require('./components/reports/SalesReport.vue'));
+Vue.component('candy-dashboard-metrics', require('./components/reports/Metrics.vue'));
+Vue.component('candy-orders-report', require('./components/reports/OrdersReport.vue'));
 Vue.component('candy-attributes-table', require('./components/catalogue-manager/attributes/Table.vue'));
 Vue.component('candy-attribute-edit', require('./components/catalogue-manager/attributes/Edit.vue'));
 Vue.component('candy-attribute-create', require('./components/catalogue-manager/attributes/Create.vue'));

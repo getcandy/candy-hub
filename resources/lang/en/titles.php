@@ -13,4 +13,5 @@ return [
     'shipping'         => 'Shipping',
     'discounts'        => 'Discounts',
     'customers'        => 'Customers',
+    'sales-report'     => 'Sales Report',
 ];
