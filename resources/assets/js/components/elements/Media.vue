@@ -30,7 +30,8 @@
                 assets: [],
                 dzOptions: {
                     headers: {
-                        'X-CSRF-TOKEN': window.Laravel.csrfToken
+                        'X-CSRF-TOKEN': window.Laravel.csrfToken,
+                        'X-CANDY-HUB' : true,
                     }
                 }
             }
