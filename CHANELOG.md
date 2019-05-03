@@ -1,3 +1,7 @@
+#0.2.28
+
+- [fixed] Fixed `X-CANDY-HUB` header not set on asset uploading
+
 #0.2.27
 
 - [added] Added an initial reports page
