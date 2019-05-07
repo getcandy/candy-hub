@@ -115,7 +115,7 @@
                     </tbody>
                 </table>
                 <div class="text-center" v-if="loaded">
-                    <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
+                    <candy-table-paginate :total="params.total_pages" :current="params.current_page"  @change="changePage"></candy-table-paginate>
                 </div>
             </div>
         </div>
