@@ -1,3 +1,8 @@
+#0.2.30
+
+- [fixed] Fixed issues with discount pagiation
+- [fixed] Fixed issue with sub category creation
+
 #0.2.29
 
 - [added] Added refresh when adding a child category
