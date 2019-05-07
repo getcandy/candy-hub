@@ -198,6 +198,7 @@
                     path: this.category.slug,
                 }).then(response => {
                     CandyEvent.$emit('notification');
+                    this.$emit('child');
                     this.cancel();
                 })
             },
