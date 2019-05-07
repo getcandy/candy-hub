@@ -49,6 +49,9 @@
                     name: {
                         [locale.current()] : ''
                     },
+                    description: {
+                        [locale.current()] : ''
+                    },
                     url: '',
                 }
             }
