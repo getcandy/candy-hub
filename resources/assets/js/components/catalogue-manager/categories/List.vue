@@ -145,16 +145,7 @@
                         onEnd: this.reorder,
                         animation: 150,
                     }">
-                        <list-item :sortable="categories.length > 1" :category="category" v-for="category in categories" :key="category.id"></list-item>
-                                <!-- <div class -->
-                            <!-- <ul class="list-group" v-sortable="{
-                                handle: '.sorter',
-                                group: 'root',
-                                onEnd: this.reorder,
-                                animation: 150,
-                            }">
-                                <list-item :sortable="categories.length > 1" :category="category" v-for="category in categories" :key="category.id"></list-item>
-                            </ul> -->
+                        <list-item @child="loadCategories" :sortable="categories.length > 1" :category="category" v-for="category in categories" :key="category.id"></list-item>
                     </div>
                 </template>
                 <template v-else>
