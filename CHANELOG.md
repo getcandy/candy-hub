@@ -1,3 +1,7 @@
+#0.2.29
+
+- [added] Added refresh when adding a child category
+
 #0.2.28
 
 - [fixed] Fixed `X-CANDY-HUB` header not set on asset uploading
