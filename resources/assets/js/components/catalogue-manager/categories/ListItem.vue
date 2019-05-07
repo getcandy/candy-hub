@@ -191,6 +191,9 @@
                     name: {
                         en: this.newName,
                     },
+                    description: {
+                        en: null,
+                    },
                     parent: {
                         id: this.category.id,
                     },
