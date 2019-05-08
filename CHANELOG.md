@@ -1,3 +1,7 @@
+#0.2.31
+
+- [fixed] Make sure we can select a layout in the first instance
+
 #0.2.30
 
 - [fixed] Fixed issues with discount pagiation
