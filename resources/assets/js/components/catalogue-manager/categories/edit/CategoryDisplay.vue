@@ -14,8 +14,8 @@
             }
         },
         mounted() {
-            if (this.current) {
-                this.loaded = true;
+            this.loaded = true;
+            if (this.current.data && this.current.data) {
                 this.layout = this.current.data.id;
             }
             Dispatcher.add('category-display', this);
