@@ -36,8 +36,7 @@
                         <candy-importer />
                     </div>
                 </div>
-                <hr>
-                <candy-table>
+                <candy-table :empty="loaded && (rows.length <= 0)">
                     <template slot="cols">
                         <slot name="cols"></slot>
                     </template>
@@ -54,6 +53,9 @@
                         <slot v-bind:default="rows"></slot>
                     </template>
                 </candy-table>
+                <div class="alert alert-danger" v-if="errors.length">
+                    <p v-for="error in errors" :key="error">{{ error }}</p>
+                </div>
                 <div class="text-center" v-if="loaded && rows.length">
                     <candy-table-paginate :total="totalPages" :current="page" @change="changePage"></candy-table-paginate>
                 </div>
@@ -97,6 +99,7 @@
                 term: null,
                 page: 1,
                 totalPages: 1,
+                errors: [],
                 totalResults: 1,
                 savedSearches: [],
                 rows: [],
@@ -105,10 +108,8 @@
         },
         mounted() {
             this.search();
-
             apiRequest.send('GET', `/saved-searches/${this.type}`)
             .then(response => {
-                console.log(response.data);
                 this.savedSearches = response.data;
             });
         },
@@ -118,6 +119,7 @@
             }, 500),
             refresh() {
                 this.loaded = false;
+                this.errors = [];
                 apiRequest.send('GET', 'search', [], {
                     type: this.type,
                     page: this.page,
@@ -130,6 +132,11 @@
                     this.totalPages = response.meta.pagination.data.total_pages;
                     this.page = response.meta.pagination.data.current_page;
                     this.totalResults = response.meta.pagination.data.total;
+                    this.loaded = true;
+                }).catch(error => {
+                    if (error.response.data.error) {
+                        this.errors.push(error.response.data.error.message);
+                    }
                     this.loaded = true;
                 });
             },
