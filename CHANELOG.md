@@ -1,3 +1,8 @@
+#0.2.32
+
+- [fixed] Fixed Shipping Method edit screen
+- [added] UI/Component tweaks across hub
+
 #0.2.31
 
 - [fixed] Make sure we can select a layout in the first instance
