@@ -21,6 +21,9 @@
         },
         mounted() {
             this.load();
+            CandyEvent.$on('group-added', product => {
+                this.load();
+            });
         },
         methods: {
             load() {
