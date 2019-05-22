@@ -10,7 +10,9 @@
             return {
                 title: '',
                 loaded: false,
-                method: {}
+                method: {},
+                attribute_groups: [],
+                languages: []
             }
         },
         components: {
@@ -23,6 +25,7 @@
             }
         },
         created() {
+            this.loadLanguages();
             this.loadMethod(this.id);
         },
         mounted() {
@@ -37,6 +40,21 @@
             Dispatcher.add('save-shipping-method', this);
         },
         methods: {
+            /**
+             * Loads languages
+             * @return
+             */
+            loadLanguages() {
+                apiRequest.send('get', 'languages', [], []).then(response => {
+                    response.data.forEach(lang => {
+                        this.languages.push({
+                            label: lang.name,
+                            value: lang.lang,
+                            content: '<span class=\'flag-icon flag-icon-' + lang.iso + '\'></span> ' + lang.name
+                        });
+                    });
+                });
+            },
             save() {
                 apiRequest.send('PUT', '/shipping/' + this.method.id, this.method).then(response => {
                     CandyEvent.$emit('notification', {
@@ -44,16 +62,54 @@
                     });
                 })
             },
+            decorate(data) {
+
+                this.attribute_groups = data.attribute_groups.data;
+
+                // Get all groups associated to this product.
+                let groups = [];
+
+                _.each(data.attributes.data, attribute => {
+                    if (!data.attribute_data[attribute.handle]) {
+                        this.$set(data.attribute_data, attribute.handle, {
+                            webstore: {
+                                en: ""
+                            }
+                        });
+                    }
+
+                    let exists = _.find(groups, group => {
+                        return group.handle == attribute.group.data.handle;
+                    });
+                    if (attribute.group && !exists) {
+                        let group = attribute.group.data;
+                        let attributes = group.attributes.data;
+                        _.each(attributes, (att, index) => {
+                            if (!data.attribute_data[att.handle]) {
+                                delete attributes[index];
+                            }
+                        });
+                        group.attributes.data = _.filter(attributes);
+                        groups.push(group);
+                    }
+                });
+
+                groups = _.orderBy(groups, 'position', 'asc');
+
+                this.attribute_groups = groups;
+                this.method = data;
+            },
+
             /**
              * Loads the product by its encoded ID
              * @param  {String} id
              */
             loadMethod(id) {
                 apiRequest.send('get', '/shipping/' + id, {}, {
-                    includes: 'prices.customer_groups,prices.currency,prices.zone,zones,channels,attribute_groups.attributes,users'
+                    includes: 'attributes.group.attributes,prices.customer_groups,prices.currency,prices.zone,zones,channels,attribute_groups.attributes,users'
                 })
                 .then(response => {
-                    this.method = response.data;
+                    this.decorate(response.data);
                     this.loaded = true;
                     CandyEvent.$emit('title-changed', {
                         title: this.method
@@ -73,7 +129,11 @@
             <transition name="fade">
                 <candy-tabs initial="save-shipping-method">
                     <candy-tab name="Basic information"  dispatch="save-shipping-method" :selected="true">
-                        <candy-shipping-details :method="method"></candy-shipping-details>
+                        <candy-tabs nested="true">
+                            <candy-tab v-for="(group, index) in attribute_groups" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="shipping-details">
+                                <candy-shipping-details :method="method" :languages="languages" :group="group"></candy-shipping-details>
+                            </candy-tab>
+                        </candy-tabs>
                     </candy-tab>
                     <candy-tab name="Availability & Pricing">
                         <candy-tabs nested="true">

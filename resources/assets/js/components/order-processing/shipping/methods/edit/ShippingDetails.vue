@@ -2,36 +2,27 @@
     export default {
         data() {
             return {
-                groups: [],
-                customerGroups: [],
-                languages: [],
                 request: apiRequest
             }
         },
         props: {
             method: {
                 type: Object
+            },
+            languages: {
+                type: Array
+            },
+            channels: {
+                type: Array
+            },
+            group: {
+                type: Object,
+                default() {
+                    return [];
+                }
             }
         },
-        mounted() {
-            this.loadLanguages();
-        },
         methods: {
-            /**
-             * Loads languages
-             * @return
-             */
-            loadLanguages() {
-                apiRequest.send('get', 'languages', [], []).then(response => {
-                    response.data.forEach(lang => {
-                        this.languages.push({
-                            label: lang.name,
-                            value: lang.lang,
-                            content: '<span class=\'flag-icon flag-icon-' + lang.iso + '\'></span> ' + lang.name
-                        });
-                    });
-                });
-            },
             getChannels(channels) {
                 let arr = [];
                 channels.forEach(channel => {
@@ -65,25 +56,9 @@
 
 <template>
     <div>
-        <candy-tabs nested="true">
-            <candy-tab v-for="(group, index) in method.attribute_groups.data" :name="group.name" :handle="group.id" :key="group.id" :selected="index == 0 ? true : false" dispatch="collection-details">
-                    <candy-attribute-translatable
-                        :languages="languages"
-                        :attributes="group.attributes.data"
-                        :attributeData="method.attribute_data"
-                        :channels="getChannels(method.channels.data)"
-                        :request="request"
-                    >
-                    </candy-attribute-translatable>
-                    <div class="form-group">
-                        <label>Carrier</label>
-                        <select class="form-control selectize" v-model="method.type">
-                            <option value="">-- Please select</option>
-                            <option value="standard">Standard</option>
-                            <option value="dhl">DHL</option>
-                        </select>
-                    </div>
-            </candy-tab>
-        </candy-tabs>
+        <candy-attribute-translatable :languages="languages" :channels="getChannels(method.channels.data)"
+            :attributes="group.attributes.data" :attributeData="method.attribute_data"
+            :request="request">
+        </candy-attribute-translatable>
     </div>
 </template>
