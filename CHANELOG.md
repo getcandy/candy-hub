@@ -1,3 +1,8 @@
+#0.2.33
+
+- [fixed] Fixed pagination on orders table
+- [fixed] Fixed order error if shipping not present.
+
 #0.2.32
 
 - [fixed] Fixed Shipping Method edit screen
