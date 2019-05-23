@@ -389,7 +389,7 @@
                             </table>
                         </div>
                         <div class="text-center" v-if="orders.length && loaded">
-                            <candy-table-paginate :pagination="params" @change="changePage"></candy-table-paginate>
+                            <candy-table-paginate :total="params.total_pages" :current="params.page" @change="changePage"></candy-table-paginate>
                         </div>
                     </div>
                 </div>

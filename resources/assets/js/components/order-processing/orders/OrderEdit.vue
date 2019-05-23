@@ -314,7 +314,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="row">
+                                    <div class="row" v-if="order.shipping">
                                         <div class="col-md-4">
                                             <h4>Shipping Method</h4>
                                             <strong class="text-info">
@@ -328,7 +328,7 @@
                                             </strong>
                                         </div>
                                         <div class="col-md-4" v-if="order.shipping_preference">
-                                            <h4>Shipping Preference</h4> 
+                                            <h4>Shipping Preference</h4>
                                             <strong class="text-info">
                                                 {{ order.shipping_preference }}
                                             </strong>
@@ -369,6 +369,11 @@
                                             <td><span v-if="shipping.tax_total">VAT @ {{ shipping.tax_rate }}%</span><span v-else>-</span></td>
                                             <td v-html="currencySymbol(shipping.tax_total)"></td>
                                             <td v-html="currencySymbol(shipping.line_total)"></td>
+                                        </tr>
+                                        <tr v-else>
+                                            <td colspan="6"></td>
+                                            <td colspan="2" align="right"><strong>Delivery Total (Excl Tax)</strong></td>
+                                            <td v-html="currencySymbol(order.delivery_total)"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="6"></td>
