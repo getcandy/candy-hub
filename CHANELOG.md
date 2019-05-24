@@ -1,3 +1,8 @@
+#0.2.35
+
+- [fixed] Fixed pagination on customer table
+- [improved] Improved customer name fetching on customer table.
+
 #0.2.34
 
 - [improved] Support meta fields from order on order listing table
