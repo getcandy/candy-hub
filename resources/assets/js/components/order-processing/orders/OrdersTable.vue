@@ -139,7 +139,7 @@
                 if (typeof this.getters[col] === "function") {
                     return this.getters[col](order, this.currencies);
                 }
-                return order[col];
+                return _.get(order, col);
             },
             order_total() {
 
