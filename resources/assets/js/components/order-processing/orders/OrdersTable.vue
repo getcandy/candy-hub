@@ -141,8 +141,9 @@
                 }
                 return _.get(order, col);
             },
-            order_total() {
-
+            heading(col) {
+                let column = _.last(col.split('.'));
+                return _.startCase(column);
             },
             firstOrder(order) {
                 const user = order.user.data;
@@ -348,7 +349,7 @@
                                         <th></th>
                                         <th width="10%" v-html="$t('orders.table.heading.status')"></th>
                                         <th width="10%" v-html="$t('orders.table.heading.reference')"></th>
-                                        <th v-for="col in columns" v-html="$t('orders.table.heading.' + col)" :key="col"></th>
+                                        <th v-for="col in columns" v-html="heading(col)" :key="col"></th>
                                         <th></th>
                                     </tr>
                                 </thead>
