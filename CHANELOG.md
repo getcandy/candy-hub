@@ -1,3 +1,8 @@
+#0.2.34
+
+- [improved] Support meta fields from order on order listing table
+- [changed] Column names generated from config items
+
 #0.2.33
 
 - [fixed] Fixed pagination on orders table
