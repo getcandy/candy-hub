@@ -94,7 +94,7 @@
                                 <template v-if="details(customer).firstname">
                                     {{ details(customer).firstname }} {{ details(customer).lastname }}
                                 </template>
-                                <span v-else class="text-muted"><small>-</small></span>
+                                <span v-else>{{ customer.name }}</span>
                             </td>
                             <td @click="loadCustomer(customer.id)">
                                 <span v-if="details(customer).company_name">{{ details(customer).company_name }}</span>
@@ -120,7 +120,7 @@
                 </table>
 
                 <div class="text-center">
-                    <candy-table-paginate :pagination="pagination" @change="changePage"></candy-table-paginate>
+                    <candy-table-paginate :total="pagination.total_pages" :current="pagination.current_page" @change="changePage"></candy-table-paginate>
                 </div>
             </div>
 
