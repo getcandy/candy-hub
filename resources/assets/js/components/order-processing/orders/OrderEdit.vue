@@ -79,7 +79,7 @@
                 });
             },
             shipping() {
-                return _.find(this.order.lines.data, line => {
+                return _.filter(this.order.lines.data, line => {
                     return line.is_shipping;
                 });
             },
@@ -355,7 +355,31 @@
                                             <td colspan="2" align="right"><strong>Sub total (Excl VAT)</strong></td>
                                             <td v-html="currencySymbol(order.sub_total)"></td>
                                         </tr>
-                                        <tr v-if="shipping">
+                                        <template v-if="shipping.length">
+                                            <tr v-for="line in shipping" :key="line.id">
+                                                <td>-</td>
+                                                <td>
+                                                    {{ line.description }}
+                                                </td>
+                                                <td>
+                                                    {{ line.variant_name }}
+                                                </td>
+                                                <td>-</td>
+                                                <td>{{ line.unit_cost }}</td>
+                                                <td>{{ line.discount_total }}</td>
+                                                <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
+                                                <td v-html="currencySymbol(line.tax_total)"></td>
+                                                <td v-html="currencySymbol(line.line_total)"></td>
+                                            </tr>
+                                        </template>
+                                        <template v-else>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                                <td colspan="2" align="right"><strong>Delivery Total (Excl Tax)</strong></td>
+                                                <td v-html="currencySymbol(order.delivery_total)"></td>
+                                            </tr>
+                                        </template>
+                                        <!-- <tr v-if="shipping">
                                             <td>-</td>
                                             <td>
                                                 {{ shipping.description }}
@@ -369,12 +393,12 @@
                                             <td><span v-if="shipping.tax_total">VAT @ {{ shipping.tax_rate }}%</span><span v-else>-</span></td>
                                             <td v-html="currencySymbol(shipping.tax_total)"></td>
                                             <td v-html="currencySymbol(shipping.line_total)"></td>
-                                        </tr>
-                                        <tr v-else>
+                                        </tr> -->
+                                        <!-- <tr v-else>
                                             <td colspan="6"></td>
                                             <td colspan="2" align="right"><strong>Delivery Total (Excl Tax)</strong></td>
                                             <td v-html="currencySymbol(order.delivery_total)"></td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <td colspan="6"></td>
                                             <td colspan="2" align="right"><strong>VAT</strong></td>
