@@ -71,7 +71,6 @@
                 this.loaded = false;
                 apiRequest.send('GET', 'search', [], this.params)
                     .then(response => {
-                        console.log(response.meta);
                         this.products = response.data;
                         this.params.total_pages = response.meta.pagination.data.total_pages;
                         this.params.page = response.meta.pagination.data.current_page;

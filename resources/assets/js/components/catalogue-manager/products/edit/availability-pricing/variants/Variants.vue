@@ -143,7 +143,6 @@
                         tax: this.current.tax.data,
                     });
                 });
-                // console.log(pricing);
             },
             selectVariant(index) {
                 this.current = this.variants[index];
@@ -225,7 +224,6 @@
             getThumbnail(variant, asset) {
 
                 if (asset) {
-                    console.log(variant);
                     return _.first(variant.transforms.data);
                 }
 
