@@ -1,3 +1,7 @@
+#0.2.36
+
+- [improved] Order view can handle multiple shipping lines
+
 #0.2.35
 
 - [fixed] Fixed pagination on customer table
