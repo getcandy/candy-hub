@@ -260,7 +260,6 @@ String.prototype.trunc = String.prototype.trunc ||
 window.axios.interceptors.response.use((response) => { // intercept the global error
   return response
 }, function (error) {
-  // console.log(error);
   // if (error.response.status === 401) {
   //     window.location.href = '/login';
   //     return;
