@@ -37,7 +37,6 @@
         data() {
             return {
                 config: {
-                    removeformatPasted: true,
                     tagsToRemove: ['script', 'link', 'xml'],
                     btns: [['formatting'], ['bold', 'italic'], ['link'], ['unorderedList', 'orderedList'], ['removeformat'], ['viewHTML']]
                 }
