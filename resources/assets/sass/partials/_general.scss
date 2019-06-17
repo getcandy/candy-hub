@@ -67,6 +67,12 @@ a {
   }
 }
 
+.btn-holder {
+  display:inline-block;
+  + .btn-holder {
+    margin-left:5px;
+  }
+}
 /* SEO Preview */
 
 .seo-preview {

@@ -322,17 +322,12 @@
                     </div>
                 </div>
                 <!-- Bulk Actions -->
-                <div class="row" v-if="selected.length">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <update-order-status :statuses="statuses" :saving="bulkSaving" :show-modal="bulkSaving" @save="bulkSave"></update-order-status>
-                            </div>
-                            <div class="col-md-2">
-                                <candy-order-export :statuses="statuses" :ids="selected" type="order"></candy-order-export>
-                            </div>
-                        </div>
-                    </div>
+                <div v-if="selected.length">
+
+                    <hr>
+                    <update-order-status :statuses="statuses" :orderId="selected[0]" value="payment-received" :saving="bulkSaving" :show-modal="bulkSaving" @save="bulkSave"></update-order-status>
+                    <candy-order-export :statuses="statuses" :ids="selected" type="order"></candy-order-export>
+                    <hr>
                 </div>
                 <div class="row">
                     <div class="col-md-12">

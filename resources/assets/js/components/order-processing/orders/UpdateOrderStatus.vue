@@ -1,6 +1,6 @@
 <template>
     <div class="btn-holder">
-            <button class="btn btn-primary" @click="show = true">Update Status</button>
+        <button class="btn btn-sm btn-default" @click="show = true">Update Status</button>
             <candy-modal title="Create Attribute" v-show="show" size="modal-lg" @closed="reset">
                 <div slot="body" class="text-left">
                     <div class="row">
@@ -59,7 +59,6 @@
             },
             orderId: {
                 type: String,
-                required: true,
             },
             statuses : {
                 type: Array|Object,
@@ -89,7 +88,7 @@
                 show: false,
                 status: null,
                 loadingEmail: false,
-                sendEmails: true,
+                sendEmails: false,
                 emailTemplate: null,
                 additionalCopy: null,
             }

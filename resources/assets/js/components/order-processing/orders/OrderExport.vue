@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <button class="btn btn-primary" @click="getExport">Export Orders</button>
+    <div class="btn-holder">
+        <button class="btn btn-xs btn-default" @click="getExport">Export Orders</button>
         <candy-modal title="Export Orders" v-show="show" @closed="reset">
                 <div slot="body" class="text-left">
                     <div class="form-group">
@@ -42,7 +42,7 @@
                 }
             },
             statuses: {
-                type: Array,
+                type: Array|Object,
                 default() {
                     return [];
                 }
