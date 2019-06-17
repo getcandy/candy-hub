@@ -203,7 +203,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>New Password</label>
-                                                <input class="form-control" type="password" v-model="newPassword">
+                                                <input autocomplete="new-password" class="form-control" type="password" v-model="newPassword">
                                             </div>
                                         </div>
                                         <div class="col-md-4">

@@ -13,7 +13,6 @@
 
 @section('content')
     <candy-dashboard-metrics></candy-dashboard-metrics>
-    <hr>
     <div class="row">
         <div class="col-md-6">
             <div class="panel">

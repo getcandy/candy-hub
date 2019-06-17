@@ -7,7 +7,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Date Range</label>
-                            <candy-daterange-picker @update="update" :from="fromDate" :to="toDate" />
+                            <candy-daterange-picker @update="update" :from="fromDate.format('YYYY-MM-DD')" :to="toDate.format('YYYY-MM-DD')" />
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -70,10 +70,10 @@
                 style: 'line',
             }
         },
-        mounted() {
+        created() {
             if (!this.fromDate || !this.toDate) {
                 this.fromDate = moment().subtract(1, 'months');
-                this.toDate = moment();
+                this.toDate = moment().add(1, 'day');
             } else {
                 this.fromDate = moment(this.from).subtract(1, 'months');
                 this.toDate = moment(this.to);

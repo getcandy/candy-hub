@@ -16140,9 +16140,9 @@ textarea.bootstrap-tagsinput {
   display: none;
   content: '\F00C';
   position: absolute;
+  font-weight: 900;
   top: 0;
   left: 0;
-  font-weight: 900;
   width: 14px;
   height: 14px;
   font-family: 'Font Awesome 5 Free';
@@ -16233,11 +16233,11 @@ textarea.bootstrap-tagsinput {
   display: none;
   content: '\F00C';
   position: absolute;
+  font-weight: 900;
   top: 0;
   left: 0;
   width: 14px;
   height: 14px;
-  font-weight: 900;
   font-family: 'Font Awesome 5 Free';
   font-size: 0.85em;
   text-align: center;
@@ -16915,13 +16915,21 @@ textarea.bootstrap-tagsinput {
 }
 
 .dashboard-figure {
-  font-size: 3em;
+  font-size: 2em;
   font-weight: light;
   line-height: 1;
+  padding-top: 0;
+  overflow-y: hidden;
 }
 
 .dashboard-figure svg {
   width: 5px;
+}
+
+.metric-title {
+  color: #919191;
+  font-size: .875em;
+  margin: 0;
 }
 
 .no-mar {

@@ -1,10 +1,17 @@
 .dashboard-figure {
-    font-size:3em;
+    font-size:2em;
     font-weight:light;
     line-height: 1;
+    padding-top:0;
+    overflow-y:hidden;
     svg {
         width:5px;
     }
+}
+.metric-title {
+    color: #919191;
+    font-size:.875em;
+    margin: 0;
 }
 .no-mar {
     margin:0;
