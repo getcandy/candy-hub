@@ -3,7 +3,7 @@
         data() {
             return {
                 request : apiRequest,
-                create: true,
+                create: false,
                 fields: {},
                 customer: this.baseCustomer()
             }
