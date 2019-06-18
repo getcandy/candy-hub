@@ -4,8 +4,9 @@
             return {
                 request: apiRequest,
                 requestParams: {
+                    total_pages: 0,
                     per_page: 6,
-                    current_page: 1,
+                    page: 1,
                     keywords: '',
                     includes: 'routes,assets.transforms',
                     type: 'category'
@@ -16,7 +17,6 @@
                 selectedCategories: [],
                 deleteModalOpen: false,
                 deleteModalData: {},
-                search: '',
                 categories: [],
                 categoriesLoaded: false,
                 productCategories: [],
@@ -37,6 +37,8 @@
             this.productCategories.forEach(category => {
                 this.selectedCategories.push(category.id);
             });
+
+            this.search();
         },
         props: {
             product: {
@@ -88,8 +90,8 @@
             changePage(page) {
                 this.results = [];
                 this.loading = true;
-                this.requestParams.current_page = page;
-                this.getResults(this.keywords);
+                this.requestParams.page = page;
+                this.search(this.keywords);
             },
             save() {
                 this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': this.selectedCategories})
@@ -126,11 +128,12 @@
                 this.selectedCategories.splice(this.selectedCategories.indexOf(category.id), 1);
                 this.productCategories.splice(this.productCategories.indexOf(category), 1);
             },
-            getResults() {
+            search() {
                 this.requestParams.keywords = this.keywords;
                 let results = this.request.send('GET', 'search', {}, this.requestParams).then(response => {
                     this.results = response.data;
-                    this.requestParams.total_pages = response.meta.pagination.total_pages;
+                    this.requestParams.total_pages = response.meta.pagination.data.total_pages;
+                    this.requestParams.page = response.meta.pagination.data.current_page;
                     this.meta = response.meta;
                     this.loading = false;
                 });
@@ -171,7 +174,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="category in productCategories">
+                    <tr v-for="category in productCategories" :key="category.id">
                         <td width="80">
                             <candy-thumbnail-loader :item="category"></candy-thumbnail-loader>
                         </td>
@@ -204,7 +207,7 @@
             <div slot="body">
                 <div class="form-group">
                     <label class="sr-only">Search</label>
-                    <input type="text" class="form-control search" v-model="search" placeholder="Search Categories" v-on:input="updateKeywords">
+                    <input type="text" class="form-control search" placeholder="Search Categories" v-on:input="updateKeywords">
                 </div>
                 <hr>
                 <table class="table association-table">
@@ -254,7 +257,7 @@
                 </table>
 
                 <div class="text-center">
-                    <candy-table-paginate :pagination="requestParams" @change="changePage" v-if="!loading"></candy-table-paginate>
+                    <candy-table-paginate :total="requestParams.total_pages" :current="requestParams.page" v-if="!loading" @change="changePage"></candy-table-paginate>
                 </div>
                 <!-- <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
                                 :associations="true"
