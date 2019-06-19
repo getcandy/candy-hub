@@ -87,6 +87,9 @@
                     });
             },
             getThumbnail(asset) {
+                if (asset.thumbnail) {
+                    return asset.thumbnail;
+                }
                 if (!asset.transforms || !asset.transforms.data.length) {
                     return false;
                 }
