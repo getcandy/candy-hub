@@ -1,3 +1,27 @@
+#0.2.37
+
+- [fixed] Fixed some missing font awesome fonts
+- [changed] When associating products to categories, an initial list will show on load
+- [improved] Product name will now truncate if too long
+- [improved] Reporting updates
+- [improved] You can now have user fields set up to show on customer creation [1]
+
+[1]
+Just add this to your `config/getcandy.php` file:
+
+```
+    'users' => [
+        'fields' => [
+            'some_custom_field' => [
+                'label' => 'Some Custom Field',
+                'type' => 'text',
+            ]
+        ],
+    ],
+```
+
+Any fields here will be shown when creating a customer and will go into the `fields` JSON column on `user_details`
+
 #0.2.36
 
 - [improved] Order view can handle multiple shipping lines
