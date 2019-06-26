@@ -7,14 +7,6 @@
         data() {
             return {
                 request: apiRequest,
-                requestParams: {
-                    total_pages: 0,
-                    per_page: 6,
-                    page: 1,
-                    keywords: '',
-                    includes: 'routes,assets.transforms',
-                    type: 'category'
-                },
                 channel: this.$store.getters.getDefaultChannel.handle,
                 language: locale.current(),
                 addModalOpen: false,
@@ -24,12 +16,7 @@
                 categories: [],
                 categoriesLoaded: false,
                 productCategories: [],
-                /**
-                    Adding associations
-                 */
                 results: [],
-                loading: false,
-                meta: []
             }
         },
         mounted() {
@@ -107,7 +94,6 @@
                         CandyEvent.$emit('notification', {
                             level: 'success'
                         });
-                        this.results = [];
                         this.addModalOpen = false;
                     });
             },
@@ -134,9 +120,6 @@
             detatch(category) {
                 this.selectedCategories.splice(this.selectedCategories.indexOf(category.id), 1);
                 this.productCategories.splice(this.productCategories.indexOf(category), 1);
-            },
-            alreadyLinked(category) {
-                return this.selectedCategories.contains(category.id);
             }
         } // end
     }
