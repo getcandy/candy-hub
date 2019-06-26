@@ -1,7 +1,10 @@
 <template>
-    <div class="list-item-container">
+    <div :class="{
+            'list-item-container-compact' : theme == 'compact',
+            'list-item-container' : theme == 'default'
+        }">
         <div class="category-box">
-            <div class="sorter">
+            <div class="sorter" v-if="theme == 'default'">
                 <figure v-if="sortable">
                     <svg width="13px" viewBox="0 0 13 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -21,7 +24,10 @@
                 <div class="panel-body">
                     <header :class="{ expanded: this.loaded }">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div :class="{
+                                'col-md-11' : theme != 'default',
+                                'col-md-4' : theme == 'default',
+                            }" >
                                 <button class="load-btn" @click="toggleChildren(category.id)" :disabled="!category.children_count">
                                     <i class="fa" :class="{
                                         'fa-circle-o disabled': !this.loaded && !this.loading && !category.children_count,
@@ -33,27 +39,38 @@
                                 <figure class="thumbnail">
                                     <candy-thumbnail-loader :item="category"></candy-thumbnail-loader>
                                 </figure>
-                                <a :href="'categories/' + category.id" :title="category.name">
+                                <a :href="'categories/' + category.id" :title="category.name" v-if="theme == 'default'">
                                     <span v-if="category.name" v-html="category.name.trunc(50)">
                                     </span>
                                     <template v-else>
                                         {{ category|attribute('name') }}
                                     </template>
                                 </a>
+                                <span v-else>
+                                    <span v-if="category.name" v-html="category.name.trunc(50)">
+                                    </span>
+                                    <template v-else>
+                                        {{ category|attribute('name') }}
+                                    </template>
+                                </span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" v-if="theme == 'default'">
                                 <small class="helper-label">SLUG</small><br>
                                 <code><template v-if="getRoute(category).path">{{ getRoute(category).path }}/</template>{{ getRoute(category).slug }}</code>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1" v-if="theme == 'default'">
                                 <small class="helper-label">Products</small><br>
                                 {{ category.products_count }}
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1" v-if="theme == 'default'">
                                 <small class="helper-label">Children</small><br>
                                 {{ category.children_count }}
                             </div>
-                            <div class="col-md-2 text-right node-action-btns">
+                            <div class="col-md-1" v-if="associatable">
+                                <button @click="associate(category)" class="btn btn-sm btn-action btn-success" v-if="!selected.contains(category.id)"><fa icon="plus" /></button>
+                                <button @click="disassociate(category)" class="btn btn-sm btn-default btn-action" v-else><fa icon="trash" /></button>
+                            </div>
+                            <div class="col-md-2 text-right node-action-btns" v-if="theme == 'default'">
                                 <button @click.prevent="addingChild = true" data-toggle="tooltip" title="Add Child" data-placement="top">
                                     <i class="fa fa-layer-group"></i>
                                 </button>
@@ -67,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <move-category :name="category.name" :id="category.id" :show="showMoveModal" @close="showMoveModal = false"></move-category>
+        <move-category :name="category.name" :id="category.id" :show="showMoveModal" @close="showMoveModal = false" v-if="theme == 'default'"></move-category>
         <div class="pushed">
             <div class="node-creator" v-if="addingChild">
                 <div class="creator-input">
@@ -90,7 +107,7 @@
                     animation: 150,
                     onEnd: this.reorder,
                 }">
-                    <list-item-row :sortable="children.length > 1" :category="child" v-for="child in children" :key="child.id"></list-item-row>
+                    <list-item-row :associatable="associatable" @associate="associate" @disassociate="disassociate" :selected="selected" :theme="theme" :sortable="children.length > 1" :category="child" v-for="child in children" :key="child.id"></list-item-row>
                 </div>
                 <template v-if="loaded && !children.length">
                     No Children Associated
@@ -109,6 +126,18 @@
             MoveCategory,
         },
         props: {
+            associatable: {
+                type: Boolean,
+                default: false,
+            },
+            selected: {
+                type: Array,
+                default: [],
+            },
+            theme: {
+                type: String,
+                default: 'default',
+            },
             sortable: {
                 type: Boolean,
                 default: false,
@@ -147,6 +176,12 @@
                 this.newName = null;
                 this.newSlug = null;
                 this.addingChild = null;
+            },
+            associate(category) {
+                this.$emit('associate', category);
+            },
+            disassociate(category) {
+                this.$emit('disassociate', category);
             },
             reorder({newIndex, oldIndex}) {
                 // Get the current one
@@ -270,6 +305,16 @@
         margin-right:5px;
         color: #BBBBBB;
         text-transform:uppercase;
+    }
+    .list-item-container-compact {
+        .panel {
+            border-radius: none;
+            border:none;
+        }
+        .panel-body {
+            padding-top:0;
+            padding-bottom:0;
+        }
     }
     .list-item-container:hover {
         .category-panel {

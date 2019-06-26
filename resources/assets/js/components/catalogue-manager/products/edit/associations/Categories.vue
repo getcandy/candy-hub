@@ -1,5 +1,9 @@
 <script>
+    import ListItem from '../../../categories/ListItem';
     export default {
+        components : {
+            ListItem
+        },
         data() {
             return {
                 request: apiRequest,
@@ -37,8 +41,6 @@
             this.productCategories.forEach(category => {
                 this.selectedCategories.push(category.id);
             });
-
-            this.search();
         },
         props: {
             product: {
@@ -47,6 +49,9 @@
         },
         methods: {
             getAttribute(data, attribute) {
+                if (!data.attribute_data) {
+                    return data[attribute];
+                }
                 return data.attribute_data[attribute][this.channel][this.language];
             },
             thumbnail(product) {
@@ -66,12 +71,21 @@
                 return slug;
             },
             loadCategories() {
-                this.request.send('get', '/categories', [], this.requestParams)
-                    .then(response => {
-                        this.categories = response.data;
-                        // this.requestParams.total_pages = response.meta.last_page;
-                        this.categoriesLoaded = true;
+                this.categoriesLoaded = false;
+                this.request.send('get', '/categories',[], {
+                    tree: true,
+                    includes: ['routes', 'assets.transforms'],
+                    depth: 0,
+                })
+                .then(response => {
+                    let categories = response.data;
+                    _.each(categories, category => {
+                        category.expanded = false;
+                        category.loaded = false;
                     });
+                    this.results = categories;
+                    this.categoriesLoaded = true;
+                });
             },
             removeCategory() {
                 let productID = this.product.id;
@@ -87,12 +101,6 @@
 
                 this.request.send('delete', '/products/' + productID + '/categories/' + categoryID);
             },
-            changePage(page) {
-                this.results = [];
-                this.loading = true;
-                this.requestParams.page = page;
-                this.search(this.keywords);
-            },
             save() {
                 this.request.send('post', '/products/' + this.product.id + '/categories', {'categories': this.selectedCategories})
                     .then(response => {
@@ -104,7 +112,6 @@
                     });
             },
             closeAddModal() {
-                this.save();
                 this.addModalOpen = false;
             },
             openDeleteModal(category) {
@@ -128,25 +135,9 @@
                 this.selectedCategories.splice(this.selectedCategories.indexOf(category.id), 1);
                 this.productCategories.splice(this.productCategories.indexOf(category), 1);
             },
-            search() {
-                this.requestParams.keywords = this.keywords;
-                let results = this.request.send('GET', 'search', {}, this.requestParams).then(response => {
-                    this.results = response.data;
-                    this.requestParams.total_pages = response.meta.pagination.data.total_pages;
-                    this.requestParams.page = response.meta.pagination.data.current_page;
-                    this.meta = response.meta;
-                    this.loading = false;
-                });
-            },
             alreadyLinked(category) {
                 return this.selectedCategories.contains(category.id);
-            },
-            updateKeywords: _.debounce(function (e) {
-                this.results = [];
-                this.loading = true;
-                this.keywords = e.target.value;
-                this.getResults();
-            }, 500)
+            }
         } // end
     }
 </script>
@@ -205,66 +196,12 @@
         <candy-modal id="addModal" title="Add this product to categories" size="modal-lg" v-show="addModalOpen" @closed="closeAddModal()">
 
             <div slot="body">
-                <div class="form-group">
-                    <label class="sr-only">Search</label>
-                    <input type="text" class="form-control search" placeholder="Search Categories" v-on:input="updateKeywords">
-                </div>
-                <hr>
-                <table class="table association-table">
-                    <thead>
-                        <tr>
-                            <th width="10%"></th>
-                            <th width="40%">Name</th>
-                            <th>Route</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot v-if="loading" class="text-center">
-                        <tr>
-                            <td colspan="25" style="padding:40px;">
-                                <div class="loading">
-                                    <span><i class="fa fa-sync fa-spin fa-3x fa-fw"></i></span> <strong>Loading</strong>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                    <tbody class="list">
-                        <tr v-for="category in results">
-                            <td width="10%">
-                                <candy-thumbnail-loader :item="category"></candy-thumbnail-loader>
-                            </td>
-                            <td class="name" width="40%">{{ category|attribute('name') }}</td>
-                            <td>
-                                {{ getRoute(category) }}
-                            </td>
-                            <td align="right">
-                                <button @click="assign(category)" class="btn btn-sm btn-action btn-success" v-if="!alreadyLinked(category)">
-                                    <fa icon="plus"></fa>
-                                </button>
-                                <button @click="detatch(category)" class="btn btn-sm btn-default btn-action" v-else>
-                                    <fa icon="trash"></fa>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr v-if="!loading && !results.length">
-                            <td colspan="25">
-                                <div class="alert alert-info">
-                                    Start typing to see categories
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="text-center">
-                    <candy-table-paginate :total="requestParams.total_pages" :current="requestParams.page" v-if="!loading" @change="changePage"></candy-table-paginate>
-                </div>
-                <!-- <candy-table :items="categories" :loaded="categoriesLoaded" @selected="addSelected"
-                                :associations="true"
-                             :params="tableParams" :pagination="requestParams" @change="changePage"
-                             :checked="selectedCategories">
-                </candy-table> -->
-
+                <template v-if="categoriesLoaded">
+                    <list-item theme="compact" :selected="selectedCategories" :associatable="true" @associate="assign" @disassociate="detatch" @child="loadCategories" :sortable="categories.length > 1" :category="category" v-for="category in results" :key="category.id"></list-item>
+                </template>
+                <template v-else>
+                    <fa icon="sync" spin />
+                </template>
             </div>
 
             <div slot="footer">
