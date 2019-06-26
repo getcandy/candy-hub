@@ -1,3 +1,7 @@
+#0.2.38
+
+- [changed] Changed user experience when associating categories to products
+
 #0.2.37
 
 - [fixed] Fixed some missing font awesome fonts
