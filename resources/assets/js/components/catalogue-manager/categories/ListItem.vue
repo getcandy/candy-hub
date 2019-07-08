@@ -56,7 +56,8 @@
                             </div>
                             <div class="col-md-4" v-if="theme == 'default'">
                                 <small class="helper-label">SLUG</small><br>
-                                <code><template v-if="getRoute(category).path">{{ getRoute(category).path }}/</template>{{ getRoute(category).slug }}</code>
+                                <code v-if="getRoute(category)"><template v-if="getRoute(category).path">{{ getRoute(category).path }}/</template>{{ getRoute(category).slug }}</code>
+                                <span v-else>-</span>
                             </div>
                             <div class="col-md-1" v-if="theme == 'default'">
                                 <small class="helper-label">Products</small><br>
@@ -132,7 +133,9 @@
             },
             selected: {
                 type: Array,
-                default: [],
+                default() {
+                    return [];
+                },
             },
             theme: {
                 type: String,
