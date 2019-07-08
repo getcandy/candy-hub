@@ -13,7 +13,7 @@
                         &pound;{{ (top - bottom).money() }}
                     </template>
                     <template v-else>
-                        &pound;{{ (top - bottom) }}
+                        {{ (top - bottom) }}
                     </template>
                 </span>
             </template>
