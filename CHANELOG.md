@@ -1,3 +1,7 @@
+# 0.2.39
+
+- [improved] Setter for non existing attributes on product edit don't rely on existing check
+
 #0.2.38
 
 - [changed] Changed user experience when associating categories to products
