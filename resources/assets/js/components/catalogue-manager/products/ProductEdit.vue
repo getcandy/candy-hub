@@ -66,6 +66,14 @@
                         return group.handle == attribute.group.data.handle;
                     });
 
+                    if (!data.attribute_data[attribute.handle]) {
+                        this.$set(data.attribute_data, attribute.handle, {
+                            webstore: {
+                                en: ""
+                            }
+                        });
+                    }
+
                     if (!existing) {
                         let group = attribute.group.data;
                         this.$set(group, 'attributes', {
@@ -81,14 +89,6 @@
                         });
                         if (!existingAttribute) {
                             existing.attributes.data.push(attribute);
-                        }
-
-                        if (!data.attribute_data[attribute.handle]) {
-                            this.$set(data.attribute_data, attribute.handle, {
-                                webstore: {
-                                    en: ""
-                                }
-                            });
                         }
                     }
                 });
