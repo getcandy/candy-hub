@@ -1,3 +1,8 @@
+# 0.2.40
+
+- [improved] Updated Axios
+- [changed] Set primary value to int when setting asset attributes
+
 # 0.2.39
 
 - [improved] Setter for non existing attributes on product edit don't rely on existing check
