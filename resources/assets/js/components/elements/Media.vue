@@ -143,9 +143,9 @@
             setPrimary(newPrimary) {
                 this.assets.forEach(asset => {
                     if (asset.id == newPrimary.id) {
-                        asset.primary = true;
+                        asset.primary = 1;
                     } else {
-                        asset.primary = false;
+                        asset.primary = 0;
                     }
                 });
                 this.save();
