@@ -1,3 +1,7 @@
+# 0.2.41
+
+- [added] Added duplicate product screens
+
 # 0.2.40
 
 - [improved] Updated Axios
