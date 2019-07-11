@@ -20,6 +20,8 @@
       redirect="/{{ config('getcandy.hub_prefix', 'hub') }}/catalogue-manager/products"
       style="display: inline-block;"
     ></candy-delete>
+    <candy-product-duplicate product-id="{{ $id }}" style="display: inline-block;" />
+
 @endsection
 
 @section('content')
