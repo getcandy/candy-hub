@@ -121,11 +121,11 @@
                 this.loaded = false;
                 this.errors = [];
                 apiRequest.send('GET', 'search', [], {
-                    type: this.type,
+                    search_type: this.type,
                     page: this.page,
                     per_page: this.perPage,
                     keywords: this.term,
-                    includes: this.includes,
+                    include: this.includes,
                 }).then(response => {
                     this.rows = response.data;
                     this.meta = response.meta;
