@@ -1,6 +1,10 @@
-# 0.2.42
+# 0.2.43
 
 - [fixed] Removed deprecated `fire` method
+
+# 0.2.42
+
+[added] #20
 
 # 0.2.41
 
