@@ -150,6 +150,14 @@
                 });
                 this.save();
             },
+            getUrl(asset) {
+                if (asset.kind == 'youtube') {
+                    return 'https://youtube.com/embed/' + asset.url;
+                } else if (asset.kind == 'vimeo') {
+                    return "https://player.vimeo.com/video/" + asset.url;
+                }
+                return asset.url;
+            },
             /**
              * Gets filtered results for the assets
              * @param  {string} type
@@ -315,7 +323,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a :href="asset.url" v-if="getThumbnail(asset)" data-lity>
+                                    <a :href="getUrl(asset)" v-if="getThumbnail(asset)" data-lity>
                                         <img :src="getThumbnail(asset)" :alt="asset.title">
                                     </a>
                                     <img :src="getIcon(asset.extension)" :alt="asset.title" v-else>
