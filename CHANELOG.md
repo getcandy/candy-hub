@@ -1,3 +1,7 @@
+# 0.2.44
+
+- [fixed] Fixed video URLs on media
+
 # 0.2.43
 
 - [fixed] Removed deprecated `fire` method
