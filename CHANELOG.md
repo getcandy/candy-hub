@@ -1,3 +1,7 @@
+# 0.2.42
+
+- [fixed] Removed deprecated `fire` method
+
 # 0.2.41
 
 - [added] Added duplicate product screens
