@@ -18,6 +18,7 @@
               customer: {},
               customerGroups: [],
               selectedGroups: [],
+              config: {},
               ordersBatch: 1,
               newPassword: null,
               confirmPassword: null,
@@ -48,6 +49,9 @@
           formatLabel(value) {
               value = value.split('_').join(' ').toString();
               return value.charAt(0).toUpperCase() + value.slice(1);
+          },
+          loadConfig() {
+              return apiRequest.send('GET', '/settings/users');
           },
           save() {
 
@@ -91,6 +95,9 @@
                       return group.id;
                   });
 
+
+                this.loadConfig();
+
                   CandyEvent.$emit('title-changed', {
                       title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
                   });
@@ -107,10 +114,33 @@
                     this.customer.details.data.lastname +
                     ' - GetCandy';
 
-                  apiRequest.send('GET', 'currencies').then(response => {
-                      this.currencies = response.data;
-                      this.loaded = true;
+                  this.loadConfig().then(response => {
+                    this.config = response.data;
+
+                    if (this.config.fields) {
+                      let fields = this.customer.details ? this.customer.details.data.fields : null;
+                      if (!fields) {
+                        fields = {};
+                      }
+
+                      _.each(this.config.fields, (field, handle) => {
+                        if (!fields[handle]) {
+                          _.set(fields, handle, "");
+                        }
+                      });
+
+                      _.set(this.customer, 'details.data.fields', fields);
+                      // this.$set(.data.fields, 'data' )
+                    }
+
+                    apiRequest.send('GET', 'currencies').then(response => {
+                        this.currencies = response.data;
+                        this.loaded = true;
+                    });
+                  }).catch(error => {
                   });
+
+
 
               }).catch(error => {
               });
