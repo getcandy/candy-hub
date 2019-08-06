@@ -1,3 +1,7 @@
+# 0.2.46
+
+- [fixed] Fixed wrong reference to save dispatch on nested category tab
+
 # 0.2.45
 
 - [fixed] Fixed logic and console error on customer edit screen
