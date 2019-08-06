@@ -1,3 +1,8 @@
+# 0.2.45
+
+- [fixed] Fixed logic and console error on customer edit screen
+- [improved] Improved way customer fields are generated on customer edit screen.
+
 # 0.2.44
 
 - [fixed] Fixed video URLs on media
