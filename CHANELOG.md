@@ -1,3 +1,7 @@
+# 0.2.47
+
+- [improved] Minor misc improvements to customer edit screen.
+
 # 0.2.46
 
 - [fixed] Fixed wrong reference to save dispatch on nested category tab
