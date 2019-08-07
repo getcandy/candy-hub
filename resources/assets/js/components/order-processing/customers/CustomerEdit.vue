@@ -95,9 +95,6 @@
                       return group.id;
                   });
 
-
-                this.loadConfig();
-
                   CandyEvent.$emit('title-changed', {
                       title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
                   });
@@ -119,7 +116,7 @@
 
                     if (this.config.fields) {
                       let fields = this.customer.details ? this.customer.details.data.fields : null;
-                      if (!fields) {
+                      if (!fields || _.isArray(fields)) {
                         fields = {};
                       }
 
@@ -130,7 +127,6 @@
                       });
 
                       _.set(this.customer, 'details.data.fields', fields);
-                      // this.$set(.data.fields, 'data' )
                     }
 
                     apiRequest.send('GET', 'currencies').then(response => {
