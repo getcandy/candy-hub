@@ -1,3 +1,7 @@
+# 0.2.48
+
+- [improved] Improved slug generation when duplicating products
+
 # 0.2.47
 
 - [improved] Minor misc improvements to customer edit screen.
