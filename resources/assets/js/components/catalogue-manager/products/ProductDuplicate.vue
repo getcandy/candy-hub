@@ -27,9 +27,13 @@
             },
             routes() {
                 return this.product.routes ? this.product.routes.data : null;
-            }
+            },
         },
         methods: {
+            sanitize: _.debounce(function (index)  {
+                const slug = this.slugs[index].new;
+                this.slugs[index].new = _.kebabCase(slug);
+            }, 1000),
             fetch(showFetch) {
                 this.skus = [];
                 this.slugs = [];
@@ -107,11 +111,10 @@
                         </template>
 
                     </div>
-
                     <div class="form-group">
                         <label>URL<span v-if="routes.length > 1">'s</span></label>
                         <template v-for="(slug, index) in slugs">
-                            <input :key="slug.current" v-model="slug.new" class="form-control" :placeholder="slug.current" />
+                            <input @keyup="sanitize(index)" :key="slug.current" v-model="slug.new" class="form-control" :placeholder="slug.current" />
                             <template v-if="errors[`routes.${index}.new`]">
                                 <br><p class="text-danger" v-for="(error, index) in errors[`routes.${index}.new`]">{{ error }}</p>
                             </template>
