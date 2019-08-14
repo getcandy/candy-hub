@@ -1,3 +1,20 @@
+# 0.2.48
+
+- [improved] Improved slug generation when duplicating products
+
+# 0.2.47
+
+- [improved] Minor misc improvements to customer edit screen.
+
+# 0.2.46
+
+- [fixed] Fixed wrong reference to save dispatch on nested category tab
+
+# 0.2.45
+
+- [fixed] Fixed logic and console error on customer edit screen
+- [improved] Improved way customer fields are generated on customer edit screen.
+
 # 0.2.44
 
 - [fixed] Fixed video URLs on media
