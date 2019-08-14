@@ -509,7 +509,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <strong>Date</strong><br>
-                                        {{ t.created_at.date|formatDate }}
+                                        {{ t.created_at|formatDate }}
                                     </div>
                                     <div class="col-md-2">
                                         <strong>Merchant</strong><br>
