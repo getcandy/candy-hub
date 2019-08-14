@@ -244,11 +244,11 @@
                                 </div>
                                 <div class="col-md-2">
                                     <strong>Date Created</strong><br>
-                                    {{ order.created_at.date|formatDate }}
+                                    {{ order.created_at|formatDate }}
                                 </div>
                                 <div class="col-md-2" v-if="order.placed_at">
                                     <strong>Payment Date</strong><br>
-                                    {{ order.placed_at.date|formatDate }}
+                                    {{ order.placed_at|formatDate }}
                                 </div>
                                 <div class="col-md-2" v-if="order.placed_at">
                                     <strong>Status</strong><br>
