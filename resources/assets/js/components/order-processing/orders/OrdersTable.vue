@@ -65,7 +65,8 @@
                     },
                     account_no(order) {
                         const fields = _.get(order, 'user.data.details.data.fields');
-                        return fields ? fields.account_number : '-';
+                        const accountNo = fields ? fields.account_number : null;
+                        return accountNo && accountNo != '0' ? accountNo : '-';
                     },
                     contact_email(order) {
                         return order.contact_details.email;
