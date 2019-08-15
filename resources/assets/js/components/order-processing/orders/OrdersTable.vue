@@ -76,7 +76,7 @@
                         if (!date) {
                            date = order.created_at;
                         }
-                        return moment(date).format('D/MM/YYYY');
+                        return moment(date).format('D/MM/YYYY HH:mm');
                     }
                 }
             }
