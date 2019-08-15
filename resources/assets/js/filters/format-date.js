@@ -1,6 +1,6 @@
 Vue.filter('formatDate', function(value, passedFormat) {
   if (value) {
-    var format = 'YYYY/MM/DD hh:mma';
+    var format = 'YYYY/MM/DD HH:mm';
 
     if (passedFormat) {
       format = passedFormat;
