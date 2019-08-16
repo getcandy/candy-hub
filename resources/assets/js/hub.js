@@ -183,6 +183,7 @@ Vue.component('candy-order-export', require('./components/order-processing/order
 
 Vue.component('candy-color-picker', require('./components/elements/forms/inputs/ColorPicker.vue'));
 Vue.component('candy-code-mirror', require('./components/elements/forms/inputs/CodeMirror.vue'));
+Vue.component('candy-clipboard-copy', require('./components/elements/ClipboardCopy.vue'));
 
 import VueI18n from 'vue-i18n';
 

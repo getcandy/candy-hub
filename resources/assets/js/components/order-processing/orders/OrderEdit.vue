@@ -239,8 +239,12 @@
                                     {{ order.display_id }}</span>
                                 </div>
                                 <div class="col-md-2">
-                                    <strong>Order Reference <span v-if="order.customer_reference">/ Customer Reference</span></strong> <br>
-                                    {{ order.reference }} <span v-if="order.customer_reference">/ {{ order.customer_reference }}</span>
+                                    <strong>Order Reference</strong><br>
+                                    <span>{{ order.reference }}</span> <candy-clipboard-copy :text="order.reference" />
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Customer Reference</strong> <br>
+                                    <span ref="customerRef">{{ order.customer_reference ? order.customer_reference : '-' }}</span> <candy-clipboard-copy :text="order.customer_reference" v-if="order.customer_reference"/>
                                 </div>
                                 <div class="col-md-2">
                                     <strong>Date Created</strong><br>
