@@ -347,6 +347,7 @@
                                             <th>Variant</th>
                                             <th>QTY</th>
                                             <th>Unit Price</th>
+                                            <th>Shipping Total</th>
                                             <th>Discount</th>
                                             <th>Tax Rate</th>
                                             <th>Tax Amount</th>
@@ -369,8 +370,10 @@
                                                     {{ line.variant_name }}
                                                 </td>
                                                 <td>-</td>
-                                                <td>{{ line.unit_cost }}</td>
-                                                <td>{{ line.discount_total }}</td>
+                                                <td v-html="currencySymbol(line.unit_cost)" v-if="line.unit_cost"></td>
+                                                <td v-else>1</td>
+                                                <td>-</td>
+                                                <td v-html="currencySymbol(line.discount_total ? line.discount_total : 0)"></td>
                                                 <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
                                                 <td v-html="currencySymbol(line.tax_total)"></td>
                                                 <td v-html="currencySymbol(line.line_total)"></td>
@@ -378,7 +381,7 @@
                                         </template>
                                         <template v-else>
                                             <tr>
-                                                <td colspan="6"></td>
+                                                <td colspan="7"></td>
                                                 <td colspan="2" align="right"><strong>Delivery Total (Excl Tax)</strong></td>
                                                 <td v-html="currencySymbol(order.delivery_total)"></td>
                                             </tr>
@@ -404,12 +407,12 @@
                                             <td v-html="currencySymbol(order.delivery_total)"></td>
                                         </tr> -->
                                         <tr>
-                                            <td colspan="6"></td>
+                                            <td colspan="7"></td>
                                             <td colspan="2" align="right"><strong>VAT</strong></td>
                                             <td v-html="currencySymbol(order.tax_total)"></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6"></td>
+                                            <td colspan="7"></td>
                                             <td colspan="2" align="right"><strong>Total</strong></td>
                                             <td v-html="currencySymbol(order.order_total)"></td>
                                         </tr>
@@ -440,6 +443,10 @@
                                             <td>{{ line.variant_name ? line.variant_name : '-' }}</td>
                                             <td>{{ line.quantity }}</td>
                                             <td v-html="currencySymbol(line.unit_price)"></td>
+
+                                            <td v-html="currencySymbol(line.delivery_total)" v-if="line.delivery_total"></td>
+                                            <td v-else>-</td>
+
                                             <td>
                                                 <template v-if="line.discount_total">
                                                     <span class="text-danger" v-html="currencySymbol(-line.discount_total)"></span>
@@ -448,6 +455,7 @@
                                                     -
                                                 </template>
                                             </td>
+
                                             <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
                                                 <td v-html="currencySymbol(line.tax_total)"></td>
                                                 <td v-html="currencySymbol(line.line_total - line.discount_total)"></td>
