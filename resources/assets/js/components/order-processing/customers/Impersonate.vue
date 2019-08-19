@@ -106,7 +106,7 @@
                 </template>
             </div>
             <template slot="footer">
-                <button type="button" class="btn btn-primary" @click="process" :disabled="processing || (user && customerId != user.id)">Impersonate</button>
+                <button type="button" class="btn btn-primary" @click="process" :disabled="processing || (user && customerId == user.id)">Impersonate</button>
             </template>
         </candy-modal>
     </div>
