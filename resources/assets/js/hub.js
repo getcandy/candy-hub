@@ -243,6 +243,12 @@ String.prototype.camel_case = function(str) {
   }).replace(/\s+/g, '');
 }
 
+Number.prototype.number_format = function () {
+  var parts = this.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
 String.prototype.money = function (c,t,d) {
   return formatMoney(this, c,t,d);
 }
