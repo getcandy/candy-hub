@@ -33,7 +33,7 @@
                     page: 1,
                     includes: 'user.details,user.firstOrder,shipping,lines',
                     from: null,
-                    to: null
+                    to: null,
                 },
                 pagination: {},
                 getters: {
@@ -217,6 +217,7 @@
                         this.params.total_pages = response.meta.last_page;
                         this.params.current_page = response.meta.current_page;
 
+                        this.pagination = response.meta;
                         apiRequest.send('GET', 'currencies').then(response => {
                             this.currencies = response.data;
                             this.loaded = true;
@@ -330,6 +331,16 @@
                     <candy-order-export :statuses="statuses" :ids="selected" type="order"></candy-order-export>
                     <hr>
                 </div>
+                <template v-if="pagination.total">
+                    <div class="row">
+                        <div class="col-md-6">
+                            Viewing {{ pagination.from.number_format() }} to {{ pagination.to.number_format() }} of {{ pagination.total.number_format() }}
+                        </div>
+                        <div class="col-md-6 text-right">
+                            {{ pagination.last_page.number_format() }} pages.
+                        </div>
+                    </div>
+                </template>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
