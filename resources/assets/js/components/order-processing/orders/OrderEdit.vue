@@ -433,7 +433,7 @@
                                                 </template>
 
                                             </td>
-                                            <td>{{ line.variant_name ? line.variant_name : '-' }}</td>
+                                            <td>{{ line.option ? line.option : '-' }}</td>
                                             <td>{{ line.quantity }}</td>
                                             <td v-html="currencySymbol(line.unit_price)"></td>
                                             <td>
