@@ -1,3 +1,7 @@
+# 0.2.49
+
+- [fixed] Fixed missing option text on order line
+
 # 0.2.48
 
 - [improved] Improved slug generation when duplicating products
