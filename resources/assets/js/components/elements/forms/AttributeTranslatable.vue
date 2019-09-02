@@ -117,7 +117,7 @@
         <div class="row" v-if="defaultChannel">
             <div class="col-xs-12">
 
-                <!-- <div class="row">
+                <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6">
@@ -145,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-                <hr> -->
+                <hr>
                 <div class="row">
                     <div class="col-xs-12 form-group" :class="{ 'col-md-6': translating }">
                         <div class="form-group" v-for="attribute in attributes" :key="attribute.handle">
