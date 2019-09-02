@@ -1,6 +1,6 @@
 class Locale {
-    constructor() {
-        this.locale = document.documentElement.lang;
+    constructor(locale) {
+        this.locale = locale;
     }
     current() {
         return this.locale;
