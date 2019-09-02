@@ -1,3 +1,8 @@
+# 0.2.50
+
+- [added] Added attribute transalations back in
+- [changed] Changed the way locale is fetched in the hub
+
 # 0.2.49
 
 - [fixed] Fixed missing option text on order line
