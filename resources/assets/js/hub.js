@@ -36,6 +36,7 @@ Vue.component('fa', FontAwesomeIcon);
  * Bind some bits to the window for usage.
  */
 
+const locale = document.head.querySelector('meta[name="locale"]').content;
 
 window.CandyEvent     = new Vue();
 window.channels       = [];
@@ -43,7 +44,7 @@ window.config         = new Config();
 window.Dispatcher     = new Dispatcher();
 window.languages      = [];
 window.List           = require('list.js');
-window.locale         = new Locale();
+window.locale         = new Locale(locale);
 window.moment         = require('moment');
 window.defaultChannel = document.head.querySelector('meta[name="channel"]').content;
 // Include our custom v stuff here, so we know everything is loaded
