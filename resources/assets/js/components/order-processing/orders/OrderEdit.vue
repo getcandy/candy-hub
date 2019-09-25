@@ -220,7 +220,7 @@
             <div class="row">
                 <div class="col-md-12 text-right">
                     <a :href="customerLink(order.user.data)" class="btn   btn-primary" v-if="order.user.data">View Customer Account</a>
-                    <a :href="'/'+ hubPrefix +'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Download Invoice</a>
+                    <a :href="'/'+ hubPrefix +'/order-processing/orders/'+ order.id +'/invoice'" target="_blank" class="btn  btn-primary">Print Order</a>
                     <!-- <button @click="showStatusModal = true" class="btn  btn-primary">Update Status</button> -->
                     <update-order-status :order-id="order.id" :saving="showStatusModal" :show-modal="showStatusModal" :statuses="statuses" v-model="order.status" @save="updateStatus"></update-order-status>
                     <order-note :id="order.id"></order-note>
