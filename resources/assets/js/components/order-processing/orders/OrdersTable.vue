@@ -59,7 +59,7 @@
                     },
                     zone(order) {
                         let shipping = _.find(order.lines.data, line => {
-                            return line.is_shipping;
+                            return line.is_shipping && !line.is_manual;
                         });
                         return shipping ? shipping.option : null;
                     },

@@ -78,6 +78,11 @@
                     return !line.is_shipping;
                 });
             },
+            shippingLine() {
+                return _.find(this.order.lines.data, line => {
+                    return line.is_shipping && !line.is_manual;
+                });
+            },
             shipping() {
                 return _.filter(this.order.lines.data, line => {
                     return line.is_shipping;
@@ -322,13 +327,13 @@
                                         <div class="col-md-4">
                                             <h4>Shipping Method</h4>
                                             <strong class="text-info">
-                                                {{ order.shipping_details.method }}
+                                                {{ shippingLine.description }}
                                             </strong>
                                         </div>
                                         <div class="col-md-4">
                                             <h4>Shipping Zone</h4>
                                             <strong class="text-info">
-                                                {{ order.shipping.option }}
+                                                {{ shippingLine.option }}
                                             </strong>
                                         </div>
                                         <div class="col-md-4" v-if="order.shipping_preference">
@@ -338,6 +343,11 @@
                                             </strong>
                                         </div>
                                     </div>
+                                    <article v-if="order.notes">
+                                        <h3>Order Notes</h3>
+                                        <p>{{ order.notes }}</p>
+                                    </article>
+
                                     <hr>
                                     <table class="table table-bordered">
                                     <thead>
@@ -356,7 +366,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="6"></td>
+                                            <td colspan="7"></td>
                                             <td colspan="2" align="right"><strong>Sub total (Excl VAT)</strong></td>
                                             <td v-html="currencySymbol(order.sub_total)"></td>
                                         </tr>
@@ -367,10 +377,10 @@
                                                     {{ line.description }}
                                                 </td>
                                                 <td>
-                                                    {{ line.variant_name }}
+                                                    {{ line.variant_name ? line.variant_name : '-' }}
                                                 </td>
-                                                <td>-</td>
-                                                <td v-html="currencySymbol(line.unit_cost)" v-if="line.unit_cost"></td>
+                                                <td>{{ line.quantity }}</td>
+                                                <td v-html="currencySymbol(line.unit_price)" v-if="line.unit_price"></td>
                                                 <td v-else>1</td>
                                                 <td>-</td>
                                                 <td v-html="currencySymbol(line.discount_total ? line.discount_total : 0)"></td>
@@ -464,11 +474,6 @@
                                 </table>
                                 </div>
                             </div>
-                            <article v-if="order.notes">
-                                <h3>Order Notes</h3>
-                                <p>{{ order.notes }}</p>
-                            </article>
-
                             <div class="row" v-if="order.discounts.data && order.discounts.data.length">
                                 <div class="col-md-12">
                                     <h3>Discounts Applied</h3>
