@@ -17,10 +17,11 @@
                 keywords: '',
                 createModalOpen: false,
                 params: {
-                    type: 'category',
+                    search_type: 'category',
                     fields: 'name',
-                    includes: 'routes',
+                    include: 'routes,assets.transforms',
                     per_page: 25,
+                    keywords: null,
                     page: 1,
                 },
                 createModalData: {
