@@ -1,6 +1,7 @@
 module.exports = {
     methods: {
         visibility(collection, ref) {
+            console.log(collection);
             let groups,
                 visible = [];
 
