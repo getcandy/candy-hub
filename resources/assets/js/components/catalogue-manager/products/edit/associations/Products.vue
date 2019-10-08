@@ -16,9 +16,9 @@
               requestParams: {
                 per_page: 6,
                 current_page: 1,
-                includes: 'assets.transforms',
+                include: 'assets.transforms',
                 keywords: '',
-                type: 'product'
+                search_type: 'product'
               },
               meta: []
             }
