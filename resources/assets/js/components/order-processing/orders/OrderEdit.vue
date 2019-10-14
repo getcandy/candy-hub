@@ -282,8 +282,8 @@
                                     {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
                                     {{ order.shipping_details.country }}<br>
                                     {{ order.shipping_details.zip }} <br>
-                                    {{ order.billing_details.phone }} <br>
-                                    {{ order.billing_details.email }}
+                                    {{ order.shipping_details.phone }} <br>
+                                    {{ order.shipping_details.email }}
                                 </div>
                                 <div class="col-md-4">
                                     <p>
