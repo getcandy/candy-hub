@@ -12,7 +12,7 @@
   "devDependencies": {
     "axios": "^0.18.1",
     "bootstrap-datepicker": "^1.7.0",
-    "bootstrap-sass": "^3.3.7",
+    "bootstrap-sass": "^3.4.1",
     "bootstrap-select": "^1.12.4",
     "cross-env": "^3.2.3",
     "dropzone": "^5.3.0",
