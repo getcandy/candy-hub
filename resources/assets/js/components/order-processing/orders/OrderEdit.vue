@@ -291,8 +291,8 @@
                                     {{ order.shipping_details.state }}<br v-if="order.shipping_details.state">
                                     {{ order.shipping_details.country }}<br>
                                     {{ order.shipping_details.zip }} <br>
-                                    {{ order.billing_details.phone }} <br>
-                                    {{ order.billing_details.email }}
+                                    {{ order.shipping_details.phone }} <br>
+                                    {{ order.shipping_details.email }}
                                 </div>
                                 <div class="col-md-4">
                                     <p>
@@ -300,7 +300,7 @@
                                         Email: {{ order.contact_details.email }} <span class="text-muted" v-if="!order.contact_details.email">Not provided</span> <br>
                                         Telephone:
                                             <span v-if="order.contact_details.phone">{{ order.contact_details.phone }}</span>
-                                            <span v-else-if="order.shipping_details.phone">{{ order.shipping_details.phone }}</span>
+                                            <span v-else-if="order.billing_details.phone">{{ order.billing_details.phone }}</span>
                                             <span v-else-if="order.shipping_details.phone">{{ order.shipping_details.phone }}</span>
                                             <span class="text-muted" v-else>Not provided</span>
                                     </p>
