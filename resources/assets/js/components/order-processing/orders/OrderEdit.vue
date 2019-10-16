@@ -411,43 +411,52 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr v-for="line in productLines" :key="line.id">
-                                            <td>
-                                                <template v-if="line.sku">
-                                                <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
-                                                {{ line.sku }}
-                                                </a>
-                                                </template>
-                                                <template v-else>
-                                                    -
-                                                </template>
-                                            </td>
-                                            <td>
-                                                <template v-if="line.sku">
-                                                    <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
-                                                        {{ line.description }}
+                                        <template v-for="line in productLines" >
+                                            <tr :key="line.id">
+                                                <td>
+                                                    <template v-if="line.sku">
+                                                    <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.product">
+                                                        {{ line.sku }}
                                                     </a>
-                                                </template>
-                                                <template v-else>
-                                                    {{ line.description }}
-                                                </template>
+                                                    </template>
+                                                    <template v-else>
+                                                        -
+                                                    </template>
+                                                </td>
+                                                <td>
+                                                    <template v-if="line.sku">
+                                                        <a :href="productLink(line.sku)" target="_blank" :title="'View' + line.description">
+                                                            {{ line.description }}
+                                                        </a>
+                                                    </template>
+                                                    <template v-else>
+                                                        {{ line.description }}
+                                                    </template>
 
-                                            </td>
-                                            <td>{{ line.option ? line.option : '-' }}</td>
-                                            <td>{{ line.quantity }}</td>
-                                            <td v-html="currencySymbol(line.unit_price)"></td>
-                                            <td>
-                                                <template v-if="line.discount_total">
-                                                    <span class="text-danger" v-html="currencySymbol(-line.discount_total)"></span>
-                                                </template>
-                                                <template v-else>
-                                                    -
-                                                </template>
-                                            </td>
-                                            <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
-                                                <td v-html="currencySymbol(line.tax_total)"></td>
-                                                <td v-html="currencySymbol(line.line_total - line.discount_total)"></td>
-                                        </tr>
+                                                </td>
+                                                <td>{{ line.option ? line.option : '-' }}</td>
+                                                <td>{{ line.quantity }}</td>
+                                                <td v-html="currencySymbol(line.unit_price)"></td>
+                                                <td>
+                                                    <template v-if="line.discount_total">
+                                                        <span class="text-danger" v-html="currencySymbol(-line.discount_total)"></span>
+                                                    </template>
+                                                    <template v-else>
+                                                        -
+                                                    </template>
+                                                </td>
+                                                <td><span v-if="line.tax_total">VAT @ {{ line.tax_rate }}%</span><span v-else>-</span></td>
+                                                    <td v-html="currencySymbol(line.tax_total)"></td>
+                                                    <td v-html="currencySymbol(line.line_total - line.discount_total)"></td>
+                                            </tr>
+                                            <tr :key="`${line.id}_meta`" class="line-meta" v-if="line.meta">
+                                                <td colspan="1"></td>
+                                                <td colspan="8">
+                                                    <div class="arrow"></div>
+                                                    <span v-for="(value, key) in line.meta" :key="key"><strong>{{ key }}:</strong> {{ value }}</span>
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </tbody>
                                 </table>
                                 </div>
