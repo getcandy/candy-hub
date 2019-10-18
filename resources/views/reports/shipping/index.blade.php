@@ -1,5 +1,5 @@
 @extends('hub::layout', [
-    'title' => 'Sales Report',
+    'title' => 'Shipping Report',
 ])
 
 @section('side_menu')

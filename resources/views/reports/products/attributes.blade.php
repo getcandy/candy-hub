@@ -1,5 +1,5 @@
 @extends('hub::layout', [
-    'title' => 'Sales Report',
+    'title' => 'Product Attribute Report',
 ])
 
 @section('side_menu')
@@ -12,5 +12,5 @@
 @endsection
 
 @section('content')
-  <candy-product-attributes-report from="{{ app()->request->from }}" to="{{ app()->request->to }}" />
+  <candy-product-attributes-report />
 @endsection
