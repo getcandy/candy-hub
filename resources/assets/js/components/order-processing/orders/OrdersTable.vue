@@ -25,6 +25,7 @@
                     status: null,
                 },
                 filter: null,
+                sortBy: 'placed_at',
                 currencies: [],
                 keywords: null,
                 urlParams:  UrlHelper.params(),
@@ -93,6 +94,11 @@
             },
             filter() {
                 UrlHelper.setParam('status', this.filter);
+                if (this.filter == 'failed') {
+                    UrlHelper.setParam('sortBy', 'created_at');
+                } else {
+                    UrlHelper.setParam('sortBy', 'placed_at');
+                }
                 this.loadOrders();
                 this.params.page = 1;
             }
@@ -105,6 +111,7 @@
             this.initConfig();
 
             this.filter = this.urlParams.get('status');
+            this.sortBy = this.urlParams.get('sortBy');
             this.zone = this.urlParams.get('zone');
 
             if (this.urlParams.get('keywords')) {
@@ -200,6 +207,7 @@
                 this.params.status = this.filter;
                 this.params.zone = this.zone;
                 this.params.type = this.type;
+                this.params.sortBy = this.sortBy;
 
                 this.selected = [];
 
