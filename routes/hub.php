@@ -180,6 +180,16 @@ Route::group([
                 'as'   => 'hub.reports.index',
                 'uses' => 'ReportController@getIndex',
             ]);
+
+            $router->get('products/attributes', [
+                'as'   => 'hub.reports.products.attributes',
+                'uses' => 'ReportController@productAttributes',
+            ]);
+
+            $router->get('shipping', [
+                'as'   => 'hub.reports.shipping',
+                'uses' => 'ReportController@getShipping',
+            ]);
         });
 
         // Plugin routes
