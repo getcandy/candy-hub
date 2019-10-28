@@ -14,4 +14,6 @@ return [
     'discounts'        => 'Discounts',
     'customers'        => 'Customers',
     'sales-report'     => 'Sales Report',
+    'product-attributes-report'     => 'Product Attributes',
+    'shipping-report'     => 'Shipping Report',
 ];
