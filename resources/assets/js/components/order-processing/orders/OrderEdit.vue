@@ -326,8 +326,7 @@
                                     <div class="row" v-if="order.shipping">
                                         <div class="col-md-4">
                                             <h4>Shipping Method</h4>
-                                            <strong class="text-info">
-                                                {{ shippingLine.description }}
+                                            <strong class="text-info" v-html="shippingLine.description">
                                             </strong>
                                         </div>
                                         <div class="col-md-4">
@@ -373,8 +372,7 @@
                                         <template v-if="shipping.length">
                                             <tr v-for="line in shipping" :key="line.id">
                                                 <td>-</td>
-                                                <td>
-                                                    {{ line.description }}
+                                                <td v-html="line.description">
                                                 </td>
                                                 <td>
                                                     {{ line.variant_name ? line.variant_name : '-' }}
