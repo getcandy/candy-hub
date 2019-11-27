@@ -75,7 +75,7 @@
                         </div>
                     </td>
                     <td>
-                        {{ item.created_at.date|formatDate }}
+                        {{ item.created_at|formatDate }}
                     </td>
                 </tr>
             </tbody>
