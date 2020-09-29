@@ -229,28 +229,28 @@
                         <div class="toggle-radio">
                             <input type="radio" id="allMedia" value="" checked="checked" v-model="filter">
                             <label for="allMedia">
-                                <span class="check"></span>
+                                <span class="fa fa-check"></span>
                                 <span class="faux-label">All Media</span>
                             </label>
                         </div>
                         <div class="toggle-radio">
                             <input type="radio" id="images" value="images" v-model="filter">
                             <label for="images">
-                                <span class="check"></span>
+                                <span class="fa fa-check"></span>
                                 <span class="faux-label">Images</span>
                             </label>
                         </div>
                         <div class="toggle-radio">
                             <input type="radio" id="files" value="files" v-model="filter">
                             <label for="files">
-                                <span class="check"></span>
+                                <span class="fa fa-check"></span>
                                 <span class="faux-label">Files</span>
                             </label>
                         </div>
                         <div class="toggle-radio">
                             <input type="radio" id="videos" value="videos" v-model="filter">
                             <label for="videos">
-                                <span class="check"></span>
+                                <span class="fa fa-check"></span>
                                 <span class="faux-label">Videos</span>
                             </label>
                         </div>
@@ -288,7 +288,7 @@
                                     <div class="toggle-radio rounded small" v-if="asset.thumbnail">
                                         <input type="radio" :id="asset.id" value="true" v-model="asset.primary" @click="setPrimary(asset)">
                                         <label :for="asset.id">
-                                            <span class="check"></span>
+                                            <span class="fa fa-check"></span>
                                             <span class="faux-label">Primary</span>
                                         </label>
                                     </div>
