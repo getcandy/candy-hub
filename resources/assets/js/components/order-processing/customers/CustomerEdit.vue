@@ -45,7 +45,10 @@
       mounted() {
           Dispatcher.add('save-customer', this);
       },
-      methods: {
+      methods: { 
+          displayName() {
+             return !this.customer.details.data.firstname && !this.customer.details.data.lastname ? '[No Name]' : this.customer.details.data.firstname?this.customer.details.data.firstname:'' + ' ' + this.customer.details.data.lastname?this.customer.details.data.lastname:''
+          },
           formatLabel(value) {
               value = value.split('_').join(' ').toString();
               return value.charAt(0).toUpperCase() + value.slice(1);
@@ -96,7 +99,7 @@
                   });
 
                   CandyEvent.$emit('title-changed', {
-                      title: this.customer.details.data.firstname + ' ' + this.customer.details.data.lastname
+                      title: this.displayName()
                   });
 
                   let chunkedOrders = _.chunk(this.customer.orders.data, this.ordersPerPage);
@@ -106,9 +109,7 @@
                   });
 
                   document.title = 'Editing ' +
-                    this.customer.details.data.firstname +
-                    ' ' +
-                    this.customer.details.data.lastname +
+                    this.displayName() +
                     ' - GetCandy';
 
                   this.loadConfig().then(response => {
